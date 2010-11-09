@@ -73,7 +73,7 @@ public class ApplicationHeader extends Composite{
 
 	private KSHeader ksHeader = new KSHeader();
 
-	private StylishDropDown navDropDown = new StylishDropDown("Navigate to...");
+	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -155,6 +155,7 @@ public class ApplicationHeader extends Composite{
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
+		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
@@ -217,12 +218,11 @@ public class ApplicationHeader extends Composite{
 						docSearchDialog.show();
 					}})
     	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
     					appUrl+"/portal.do?selectedTab=main"))
     	);
 
-		navDropDown.setShowSelectedItem(true);
     	navDropDown.setItems(items);
     	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
 

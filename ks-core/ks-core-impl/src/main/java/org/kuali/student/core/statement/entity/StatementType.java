@@ -19,10 +19,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Type;
@@ -34,16 +33,13 @@ public class StatementType extends Type<StatementTypeAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StatementTypeAttribute> attributes;
     
-	@ManyToMany
-    @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
-    private List<ReqComponentType> allowedReqComponentTypes;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "statementType")
+    @OrderBy("statementType,sortOrder ASC")
+	private List<OrderedReqComponentType> allowedReqComponentTypes;
     
-    @OneToMany
-    @JoinTable(name = "KSST_STMT_TYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_TYPE_ID"))
-    private List<StatementType> allowedStatementTypes;
-    
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-//    private List<StatementTypeHeaderTemplate> statementHeaders;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "statementType")
+    @OrderBy("statementType,sortOrder ASC")
+	private List<OrderedStatementType> allowedStatementTypes;
     
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "statementTypeList") //, fetch = FetchType.EAGER)
     private List<RefStatementRelationType> refStatementRelationTypes;
@@ -56,29 +52,21 @@ public class StatementType extends Type<StatementTypeAttribute> {
         this.attributes = attributes;
     }
         
-    public List<ReqComponentType> getAllowedReqComponentTypes() {
-        return allowedReqComponentTypes;
+    public List<OrderedReqComponentType> getAllowedReqComponentTypes() {
+    	return allowedReqComponentTypes;
     }
 
-    public void setAllowedReqComponentTypes(List<ReqComponentType> allowedReqComponentTypes) {
+    public void setAllowedReqComponentTypes(List<OrderedReqComponentType> allowedReqComponentTypes) {
         this.allowedReqComponentTypes = allowedReqComponentTypes;
     }
 
-    public List<StatementType> getAllowedStatementTypes() {
+    public List<OrderedStatementType> getAllowedStatementTypes() {
         return allowedStatementTypes;
     }
 
-    public void setAllowedStatementTypes(List<StatementType> allowedStatementTypes) {
+    public void setAllowedStatementTypes(List<OrderedStatementType> allowedStatementTypes) {
         this.allowedStatementTypes = allowedStatementTypes;
     }
-
-//	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
-//		return statementHeaders;
-//	}
-//
-//	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
-//		this.statementHeaders = header;
-//	}
 
 	public List<RefStatementRelationType> getRefStatementRelationTypes() {
 		return refStatementRelationTypes;

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-M9-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -70,7 +70,7 @@
 						Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
 						which has problems finding exception beans.
 					-->
-          <groupId>org.kuali.student.core</groupId>
+          <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-cxf</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
@@ -107,27 +107,39 @@
 	      <groupId>org.kuali.student.security</groupId>
 	      <artifactId>ks-standard-sec</artifactId>
 	      <version>${project.version}</version>
-	    </dependency>         
+	    </dependency>
       </dependencies>
     </profile>
   </profiles>
   <dependencies>
     <!-- KS common & core dependencies (GWT dependencies come from ks-common-ui)-->
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>

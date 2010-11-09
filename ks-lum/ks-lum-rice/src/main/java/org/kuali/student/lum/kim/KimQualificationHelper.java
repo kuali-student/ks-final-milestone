@@ -26,16 +26,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 
 /**
@@ -48,7 +52,8 @@ public class KimQualificationHelper {
 	private static UniqueMap translationMap = new UniqueMap();
 
 	{
-		translationMap.put("referenceType.clu.proposal", "kuali.proposal.type.course.create");
+	    // below is example of how this could work
+	    // translationMap.put("referenceType.clu.proposal", "kuali.proposal.type.course.create");
 	}
 
 	protected static WorkflowUtility getWorkflowUtility() {
@@ -104,11 +109,28 @@ public class KimQualificationHelper {
         throw new KimTypeAttributeValidationException(errorMessage.toString());
     }
 
+    protected static String getProposalId(AttributeSet qualification) {
+        for (String proposalReferenceType : StudentIdentityConstants.QUALIFICATION_PROPOSAL_ID_REF_TYPES) {
+            if (qualification.containsKey(proposalReferenceType)) {
+                return qualification.get(proposalReferenceType);
+            }
+        }
+        return null;
+    }
+
     public static AttributeSet translateInputAttributeSet(AttributeSet qualification) {
 		try {
 			DocumentDetailDTO docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
 			String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+			String proposalId = getProposalId(qualification);
+			if (StringUtils.isBlank(documentNumber)) {
+			    // if document number is not in qualification try to get it using proposal id qualification
+	            if (StringUtils.isNotBlank(proposalId)) {
+	                ProposalInfo propInfo = getProposalService().getProposal(proposalId);
+	                documentNumber = propInfo.getWorkflowId();
+	            }
+			}
 			if (StringUtils.isNotBlank(documentNumber)) {
 				// document id exists so look up KEW document instance using it
 				docDetail = getWorkflowUtility().getDocumentDetail(Long.valueOf(documentNumber));
@@ -140,20 +162,24 @@ public class KimQualificationHelper {
 					LOG.warn("Could not find valid document id or application id using qualifications: " + qualification);
 				}
 			}
-			translateQualifications(docDetail, qualification);
+			translateQualifications(docDetail, proposalId, qualification);
 		    return qualification;
 	    }
-		catch (WorkflowException wex) {
-			LOG.error(wex.getLocalizedMessage(), wex);
-			throw new RuntimeException(wex);
+		catch (Exception e) {
+            LOG.error(e.getLocalizedMessage(), e);
+            throw new RuntimeException(e);
 		}
 	}
 
-	protected static void translateQualifications(DocumentDetailDTO docDetail, AttributeSet qualifications) {
+	protected static void translateQualifications(DocumentDetailDTO docDetail, String proposalId, AttributeSet qualifications) {
 		if (docDetail != null) {
 			// add document id if necessary
 			if (!qualifications.containsKey(KimAttributes.DOCUMENT_NUMBER)) {
 				qualifications.put(KimAttributes.DOCUMENT_NUMBER, docDetail.getRouteHeaderId().toString());
+			}
+			// add KS proposal id if possible
+			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID) && StringUtils.isNotBlank(proposalId)) {
+			    qualifications.put(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID, proposalId);
 			}
 			// add KS object id if necessary
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID)) {
@@ -190,6 +216,10 @@ public class KimQualificationHelper {
 			}
 		}
 	}
+
+    protected static ProposalService getProposalService() {
+        return (ProposalService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/proposal","ProposalService"));
+    }
 
 	private static class UniqueMap extends HashMap<String,String> {
 

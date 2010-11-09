@@ -58,6 +58,8 @@ public class CatalogBrowserController extends TabMenuController
 		});
 	}
 
+ private static final String METADATA_OBJECT_KEY_BROWSE = "browse";
+
 	private void init (final Callback<Boolean> onReadyCallback)
 	{
 
@@ -66,19 +68,25 @@ public class CatalogBrowserController extends TabMenuController
 		} else	{
     		KSBlockingProgressIndicator.addTask(initializingTask);
     		
-			metadataService.getOldMetadata ("BrowseCourseCatalog", "default", "default", new KSAsyncCallback<Metadata> (){
+			metadataService.getMetadata (METADATA_OBJECT_KEY_BROWSE, null, null, new KSAsyncCallback<Metadata> (){
 
 				@Override
 				public void handleFailure (Throwable caught)
 				{
 					onReadyCallback.exec (false);
 		    		KSBlockingProgressIndicator.removeTask(initializingTask);
-					throw new RuntimeException ("Failed to get model definition.", caught);
+					throw new RuntimeException ("Failed to get model definition for " + METADATA_OBJECT_KEY_BROWSE, caught);
 				}
 
 				@Override
 				public void onSuccess (Metadata result)
 				{
+     if (result == null)
+     {
+					 onReadyCallback.exec (false);
+		    KSBlockingProgressIndicator.removeTask(initializingTask);
+				 	throw new RuntimeException ("Got null metdata for " + METADATA_OBJECT_KEY_BROWSE);
+     }
 					DataModelDefinition def = new DataModelDefinition (result);
 					dataModel.setDefinition (def);
 					configure (def);

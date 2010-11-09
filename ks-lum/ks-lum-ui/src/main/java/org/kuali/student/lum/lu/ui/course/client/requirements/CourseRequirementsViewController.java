@@ -6,8 +6,7 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
-import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
-import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 
 public class CourseRequirementsViewController extends BasicLayout {
 
@@ -17,17 +16,17 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     public static final String COURSE_RULES_MODEL_ID = "courseRulesModelId";
+    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";    
+
     private CourseRequirementsSummaryView preview;
-    private boolean isReadOnly;
 
     public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
 		super(CourseRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);
-        super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
+        super.setDefaultModelId(COURSE_RULES_MODEL_ID);
         super.setParentController(controller);
-        this.isReadOnly = isReadOnly;
 
 		this.setDefaultView(CourseRequirementsViews.PREVIEW);
 
@@ -40,13 +39,13 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID,
+        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), CLU_PROPOSAL_MODEL,
                                                 new CourseRequirementsDataModel(this), isReadOnly);
         super.addView(preview);
 
         if (!isReadOnly) {
             CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViews.MANAGE,
-                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID); //, CourseRequirementsViews.PREVIEW);
+                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID);
             super.addView(manageView);
         }
     }
@@ -57,69 +56,75 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
+    public void beforeViewChange(final Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
 
         if (getCurrentView() == null) {
             okToChange.exec(true);
             return;
         }
 
-        //We do this check here because theoretically the subcontroller views
-        //will display their own messages to the user to give them a reason why the view
-        //change has been cancelled, otherwise continue to check for reasons not to change with this controller
-        super.beforeViewChange(new Callback<Boolean>(){
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
 
-                if (!result) {
-                    okToChange.exec(false);
-                    return;
-                }
-
-                if(!(getCurrentView() instanceof CourseRequirementsManageView)) {
+                //no dialog if user clicks on the 'Save' button on Manage Rule page
+                if (getCurrentView() instanceof CourseRequirementsManageView) {
                     okToChange.exec(true);
                     return;
                 }
 
-                //no dialog if user clicks on the 'Save' button
-                if (((CourseRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {                       
+                //no dialog if user is going to the Manage Rule page
+                if (viewChangingTo.name().equals(CourseRequirementsViewController.CourseRequirementsViews.MANAGE.name()))
+                {
+                    //TODO show dialog if user clicks on a menu from Manage Rules page
                     okToChange.exec(true);
-                    return;                    
+                    return;
                 }
 
-                //if user clicked on breadcrumbs, menu or cancel button of the manage screen and changes have been made to the rule on the manage screen...
-               if (((SectionView)getCurrentView()).isDirty()) {
-                    ButtonGroup<ButtonEnumerations.ContinueCancelEnum> buttonGroup = new ContinueCancelGroup();
-                    final ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum> dialog =
-                                new ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum>("Warning", "You have unsaved changes. Are you sure you want to proceed?", buttonGroup);
-                    buttonGroup.addCallback(new Callback<ButtonEnumerations.ContinueCancelEnum>(){
-                        @Override
-                        public void exec(ButtonEnumerations.ContinueCancelEnum result) {
-                            okToChange.exec(result == ButtonEnumerations.ContinueCancelEnum.CONTINUE);                            
-                            dialog.hide();
+                //user is moving to another course proposal section and no changes were made to the rules so allow it to happen
+                if (!((SectionView) getCurrentView()).isDirty()) {
+                    okToChange.exec(true);
+                    return;
+                }
+
+                //user is moving to another course proposal section and rules have been changed, user needs to either save rules or abondon changes before proceeding
+                ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog =
+                        new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+
+                    @Override
+                    public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                        switch (result) {
+                            case YES:
+                                dialog.hide();
+                                preview.storeRules(true, new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        okToChange.exec(result);
+                                    }
+                                });
+                                break;
+                            case NO:
+                                dialog.hide();
+                                preview.revertRuleChanges();                                
+                                okToChange.exec(true);
+                                break;
+                            case CANCEL:
+                                okToChange.exec(false);
+                                dialog.hide();
+                                break;
                         }
-                    });
-                    dialog.show();
-               } else {
-                    okToChange.exec(true);
-               }
+                    }
+                });
+                dialog.show();
             }
         });
     }
     
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-
-	//	init(new Callback<Boolean>() {
-	//		@Override
-	//		public void exec(Boolean result) {
-	//			if (result) {
-					showDefaultView(onReadyCallback);
-	//			} else {
-	//				onReadyCallback.exec(false);
-	//			}
-	//		}
-	//	});
+		showDefaultView(onReadyCallback);
 	}
 }

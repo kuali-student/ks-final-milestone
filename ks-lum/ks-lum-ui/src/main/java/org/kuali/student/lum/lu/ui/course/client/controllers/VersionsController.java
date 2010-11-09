@@ -1,27 +1,24 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.views.CompareVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
 
@@ -39,7 +36,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private VerticalSectionView compare;
     private String type = "course";
     private String state = "draft";
-    private String groupName = LUConstants.COURSE_GROUP_NAME;
+    private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 	CourseSummaryConfigurer summaryConfigurer;
 	CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
 	DataModelDefinition definition;
@@ -71,9 +68,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         this.getHeader().addWidget(versionHistoryButton);
         this.viewContainer.addStyleName("standard-content-padding");
         initialize();
-    }
-	
-	
+    }	
 
 	public void setVersionIndId(String versionIndId) {
 		this.versionIndId = versionIndId;
@@ -85,7 +80,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if(getViewContext().getId() != null){
+                if(getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
             		getCourseFromCluId(getViewContext().getId(), 1, callback, true);
                 }
                 else{
@@ -97,7 +92,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         super.registerModel("ComparisonModel", new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-            	if(getViewContext().getAttribute("docId2") != null){
+            	if(getViewContext().getAttribute("docId2") != null && !getViewContext().getAttribute("docId2").isEmpty()){
             		getCourseFromCluId(getViewContext().getAttribute("docId2"), 2, callback, false);	
             	}
             	else{
@@ -202,21 +197,42 @@ public class VersionsController extends BasicLayoutWithContentHeader{
                 public void onSuccess(Metadata result) {
                 	definition = new DataModelDefinition(result);
                     KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, definition, VersionsController.this, "Model");
-                    view = new ShowVersionView(Views.VERSION_VIEW, "Version", "Model", VersionsController.this);
-                    compare = summaryConfigurer.generateCourseSummarySection();
-                    compare.setLayoutController(VersionsController.this);
-                    compare.setSectionTitle("Compare Versions");
-                    compare.setName("Compare Versions");
-                    compare.setViewEnum(Views.VERSION_COMPARE);
-                    VersionsController.this.addView(view);
-                    VersionsController.this.addView(compare);
-                    initialized = true;
-                    onReadyCallback.exec(true);
+                    configureScreens(onReadyCallback);
                 }
 	          });
             
         }
+    }
+
+    private void configureScreens(final Callback<Boolean> onReadyCallback) {
+        CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
+
+            @Override
+            public void exec(List<StatementTypeInfo> stmtTypes) {
+                List<StatementTypeInfo> stmtTypesOut = new ArrayList<StatementTypeInfo>();
+                if (stmtTypes != null) {
+                    for (StatementTypeInfo stmtType : stmtTypes) {
+                        if (stmtType.getId().contains("kuali.statement.type.course.enrollmentEligibility") ||
+                            stmtType.getId().contains("kuali.statement.type.course.creditConstraints")) {
+                            continue;
+                        }
+                        stmtTypesOut.add(stmtType);
+                    }
+                }
+
+                summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, definition, stmtTypesOut, VersionsController.this, "Model");
+                view = new ShowVersionView(Views.VERSION_VIEW, "Version", "Model", VersionsController.this, stmtTypesOut);
+                compare = summaryConfigurer.generateCourseSummarySection();
+                compare.setLayoutController(VersionsController.this);
+                compare.setSectionTitle("Compare Versions");
+                compare.setName("Compare Versions");
+                compare.setViewEnum(Views.VERSION_COMPARE);
+                VersionsController.this.addView(view);
+                VersionsController.this.addView(compare);
+                initialized = true;
+                onReadyCallback.exec(true);
+            }
+        });
     }
     
     public DataModelDefinition getDefinition(){
@@ -239,12 +255,6 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	@Override
 	public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
 		if(viewType != Views.VERSION_SELECT){
-			ViewContext context = new ViewContext();
-			context.setId(select.getId1());
-			if(select.getId2() != null){
-				context.setAttribute("docId2", select.getId2());
-			}
-			this.setViewContext(context);
 			versionHistoryButton.setVisible(true);
 			this.getHeader().showPrint(true);
 		}

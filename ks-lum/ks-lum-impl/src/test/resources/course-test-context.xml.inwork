@@ -74,27 +74,27 @@
 	
 	
 	<!-- Service Clients
-	<bean id="orgClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 
-	<bean id="atpClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 	
-	<bean id="loClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="loClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
 	</bean>
 	
-	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>
 	
-	<bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>

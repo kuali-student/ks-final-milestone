@@ -21,10 +21,12 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -78,7 +80,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			CluInfo clu = this.luService.getClu(cluId);
+			VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
+			CluInfo clu = this.luService.getClu(versionInfo.getId());
 			return clu;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);

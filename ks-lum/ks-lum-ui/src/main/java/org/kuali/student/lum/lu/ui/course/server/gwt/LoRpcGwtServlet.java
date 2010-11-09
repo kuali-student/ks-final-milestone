@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -77,6 +78,9 @@ public class LoRpcGwtServlet extends
 	public LoCategoryInfo createLoCategory(String loRepositoryKey,
 			String loCategoryTypeKey, LoCategoryInfo loCategoryInfo) {
 		try {
+			if(loCategoryInfo.getEffectiveDate()==null){
+				loCategoryInfo.setEffectiveDate(new Date());
+			}
 			return service.createLoCategory(loRepositoryKey, loCategoryTypeKey,
 					loCategoryInfo);
 		} catch (Exception e) {

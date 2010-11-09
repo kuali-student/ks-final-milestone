@@ -104,6 +104,8 @@
 
     <bean id="cluInfo.defaultEnrollmentEstimate-parent" abstract="true" parent="baseInteger">
         <property name="name" value="defaultEnrollmentEstimate"/>
+      	<property name="minLength" value="1" />
+ 	 	<property name="maxLength" value="3" />  
     </bean>
     <bean id="cluInfo.defaultEnrollmentEstimate" parent="cluInfo.defaultEnrollmentEstimate-parent"/>
 

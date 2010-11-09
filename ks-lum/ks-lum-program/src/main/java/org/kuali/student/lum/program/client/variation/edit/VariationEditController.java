@@ -1,37 +1,50 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.VariationRegistry;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
-import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
+import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
  */
 public class VariationEditController extends VariationController {
 
-    private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
+    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
     private String currentId;
 
-    public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
+        super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
+        sideBar.setState(ProgramSideBar.State.EDIT);
+        if (programModel.get("id") != null) {
+            setDefaultView(ProgramSections.SUMMARY);
+        }
         initHandlers();
     }
 
@@ -50,23 +63,115 @@ public class VariationEditController extends VariationController {
                 doCancel();
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 DataModel dataModel = event.getModel();
                 Data variationMap = dataModel.get(ProgramConstants.VARIATIONS);
                 if (variationMap != null) {
+                    int row = 0;
                     for (Data.Property property : variationMap) {
                         final Data variationData = property.getValue();
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
-                            VariationRegistry.setData(variationData);
-                            setContentTitle("Specialization of " + getProgramName());
+                            ProgramRegistry.setData(variationData);
+                            ProgramRegistry.setRow(row);
+                            setContentTitle(getProgramName());
+                            row++;
                             return;
                         }
                     }
                 }
             }
+        });
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
+            @Override
+            public void onEvent(ChangeViewEvent event) {
+                showView(event.getViewToken());
+            }
+        });
+        eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEvent.Handler() {
+
+            @Override
+            public void onEvent(SpecializationCreatedEvent event) {
+                programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
+            }
+        });
+               
+        eventBus.addHandler(StoreSpecRequirementIDsEvent.TYPE, new StoreSpecRequirementIDsEvent.Handler() {
+            @Override
+            public void onEvent(StoreSpecRequirementIDsEvent event) {
+                final String programId = event.getProgramId();
+                final List<String> ids = event.getProgramRequirementIds();
+
+                requestModel(new ModelRequestCallback<DataModel>() {
+                    @Override
+                    public void onModelReady(final DataModel model) {
+                        Data programRequirements = null;
+
+                        // find the specialization that we need to update
+                        //for (Data.Property property : model.getRoot()) {
+                            Data variationData = model.getRoot();
+                            if (variationData.get(ProgramConstants.ID).equals(programId)) {
+                                variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+                                programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                               // break;
+                            }
+                       // }
+
+                        if (programRequirements == null) {
+                            Window.alert("Cannot find program requirements in data model.");
+                            GWT.log("Cannot find program requirements in data model", null);
+                            return;
+                        }
+
+                        for (String id : ids) {
+                            programRequirements.add(id);
+                        }
+                        doSave();                        
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        GWT.log("Unable to retrieve model for validation and save", cause);
+                    }
+
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void fireUpdateEvent(Callback<Boolean> okToChange) {
+        doSave(okToChange);
+    }
+
+    private void doSave(final Callback<Boolean> okToChange) {
+        requestModel(new ModelRequestCallback<DataModel>() {
+            @Override
+            public void onModelReady(final DataModel model) {
+                VariationEditController.this.updateModelFromCurrentView();
+                model.setParentPath(ProgramConstants.VARIATIONS + "/" + ProgramRegistry.getRow());
+                model.validate(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> results) {
+                        boolean isSectionValid = isValid(results, true);
+                        if (isSectionValid) {
+                            saveData(model);
+                            okToChange.exec(true);
+                        } else {
+                            okToChange.exec(false);
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve model for validation and save", cause);
+            }
+
         });
     }
 
@@ -74,8 +179,11 @@ public class VariationEditController extends VariationController {
     protected void configureView() {
         super.configureView();
         if (!initialized) {
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
+            List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+            excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+            excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -87,29 +195,25 @@ public class VariationEditController extends VariationController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_EDIT", getViewContext());
+        showView(ProgramSections.SUMMARY);
     }
 
     @Override
     protected void doSave() {
-        requestModel(new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(final DataModel model) {
-                VariationEditController.this.updateModel();
-                currentId = model.get("id");
-                if (currentId == null) {
-                    eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
-                } else {
-                    eventBus.fireEvent(new SpecializationUpdateEvent());
-                }
-                resetFieldInteractionFlag();
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for validation and save", cause);
-            }
-
-        });
+        doSave(NO_OP_CALLBACK);
     }
+
+    private void saveData(DataModel model) {
+        currentId = model.get("id");
+        eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
+        setContentTitle(getProgramName());
+        setName(getProgramName());
+        resetFieldInteractionFlag();
+    }
+
+    @Override
+    protected void navigateToParent() {
+        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+    }
+
 }

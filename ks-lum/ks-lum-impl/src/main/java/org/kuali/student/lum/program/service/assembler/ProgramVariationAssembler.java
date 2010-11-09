@@ -51,12 +51,14 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleAdminOrgIds(clu, pvInfo);
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
-        programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        programAssemblerUtils.assemblePublications(clu, pvInfo);
         
-        pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
-        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
-
+        if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
+            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        }
+        
         pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
@@ -90,8 +92,8 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.disassembleAdminOrgs(clu, variation, operation);
         programAssemblerUtils.disassembleAtps(clu, variation, operation);
         programAssemblerUtils.disassembleLuCodes(clu, variation, operation);        
-        programAssemblerUtils.disassemblePublicationInfo(clu, variation, operation);
-        
+        programAssemblerUtils.disassemblePublications(clu, variation, operation, result);
+
         if(variation.getProgramRequirements() != null && !variation.getProgramRequirements().isEmpty()) {
         	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result);
         }

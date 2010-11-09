@@ -58,10 +58,7 @@
 	<bean id="courseInfo.academicSubjectOrgs-parent" abstract="true"
 		parent="baseRequiredRepeatingString">
 		<property name="name" value="academicSubjectOrgs" />
-		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
-		<property name="customValidatorClass" value="SampCustomValidator"/>
-		<property name="serverSide" value="true"/>
-		
+		<property name="serverSide" value="true"/>		
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 

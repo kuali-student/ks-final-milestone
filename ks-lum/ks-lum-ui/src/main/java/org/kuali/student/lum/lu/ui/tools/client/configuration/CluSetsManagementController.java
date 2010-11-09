@@ -163,7 +163,7 @@ public class CluSetsManagementController extends BasicLayout {
         // callback is needed here because there is an asynchronous call to retrieve
         // metadata during the construction of ClusetView
         createClusetView = new ClusetView(ClusetView.CluSetsManagementViews.CREATE,
-                "New Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
+                "Build Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
                         if (result == true) {

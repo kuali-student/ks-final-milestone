@@ -322,12 +322,12 @@
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
-	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>
 
-	<bean id="proposalClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
@@ -338,7 +338,6 @@
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="businessServiceValidator"/>
 	</bean>
 
 	<!-- Statement Service Config -->
@@ -382,7 +381,6 @@
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="businessServiceValidator"/>
 	</bean>
 
 	<!-- Learning Objective service config -->
@@ -412,8 +410,8 @@
 		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
 		<property name="loDao" ref="loDao" />
         <property name="searchManager" ref="loSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
-        <property name="validator" ref="serviceValidator"/>
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>        
 	</bean>
 
 	<!-- Learning Result service config -->
@@ -466,7 +464,6 @@
 	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
-		<property name="validator" ref="businessServiceValidator"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
@@ -525,18 +522,9 @@
  </bean>
 	<bean id="validatorFactory"
   		class="org.kuali.student.common.validator.ValidatorFactory">
-  	 <constructor-arg index="0">
-  	 	<list>
-  	 		<ref bean="customValidator1"/>
-  	 	</list>
-  	 </constructor-arg>
   	 <property name="defaultValidator" ref="businessServiceValidator"/>
   	</bean>
 
-
-  	<bean id="customValidator1"
-		class="org.kuali.student.common.validator.SampCustomValidator">
-	</bean>
 
 	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />

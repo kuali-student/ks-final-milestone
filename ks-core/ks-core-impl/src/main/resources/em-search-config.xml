@@ -97,7 +97,7 @@
 	<search:resultColumn id="enumeration.resultColumn.sortKey-parent" abstract="true">
 		<search:name>Key used to sort the results</search:name>
 		<search:desc>A key that the enumeration results are sorted by</search:desc>
-		<search:dataType>int</search:dataType>
+		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	
 	<search:searchCriteriaTypeInfo id="enumeration.criteria.context" parent="enumeration.criteria.context-parent"/>
@@ -202,7 +202,10 @@
 				</entry>
 				<entry key="enumeration.queryParam.enumerationOptionalCode">
 					<value>enumValue.code</value>
-				</entry>				
+				</entry>	
+				<entry key="enumeration.queryParam.contextValue">
+					<value>LOWER(enumValue.value) LIKE '%' || LOWER(:enumeration_queryParam_contextValue) || '%'</value>
+				</entry>							
 			</map>
 		</property>
 	</bean>

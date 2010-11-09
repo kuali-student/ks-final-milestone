@@ -9,8 +9,12 @@ import static org.junit.Assert.fail;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +49,14 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -202,7 +208,6 @@ public class TestCourseServiceImpl {
 
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
-
             assertEquals(createdCourse.isPilotCourse(), cInfo.isPilotCourse());
             assertEquals(createdCourse.isSpecialTopicsCourse(), cInfo.isSpecialTopicsCourse());
 
@@ -455,11 +460,99 @@ public class TestCourseServiceImpl {
     }
 
     @Test
+    public void testCreditOptions() {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        try {
+            CourseInfo cInfo = generator.getCourseTestData();
+            assertNotNull(cInfo);
+            
+            // Check to see if variable credit with float increment works
+            ResultComponentInfo rc1 = new ResultComponentInfo();
+            rc1.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            HashMap<String, String> attributes = new HashMap<String,String>();
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, "0.5");
+            rc1.setAttributes(attributes);
+            
+            // Check to see if variable credit with no increments
+            ResultComponentInfo rc2 = new ResultComponentInfo();
+            rc2.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            HashMap<String, String> attributes2 = new HashMap<String,String>();
+            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
+            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
+            rc2.setAttributes(attributes2);
+            
+            // Check to see floating point multiple is accepted
+            ResultComponentInfo rc3 = new ResultComponentInfo();
+            rc3.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+            List<String> rv = new ArrayList<String>();
+            rv.add("1.0");
+            rv.add("1.5");
+            rv.add("2.0");
+            rc3.setResultValues(rv);
+            
+
+            List<ResultComponentInfo> creditOptions = new ArrayList<ResultComponentInfo>();
+            creditOptions.add(rc1);
+            creditOptions.add(rc2);
+            creditOptions.add(rc3);
+                        
+            cInfo.setCreditOptions(creditOptions);
+                        
+            try {
+                cInfo = courseService.createCourse(cInfo);
+            } catch (DataValidationErrorException e) {
+                dumpValidationErrors(cInfo);
+                fail("DataValidationError: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("failed creating course:" + e.getMessage());
+            }
+            
+            CourseInfo rcInfo = courseService.getCourse(cInfo.getId());
+            
+            List<ResultComponentInfo> co = rcInfo.getCreditOptions();
+            
+            assertEquals(3, co.size());
+            
+            // Check to see if multiple was set properly
+            for(ResultComponentInfo rc : co) {
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getType())){
+                    assertEquals(3, rc.getResultValues().size());
+                    assertTrue(rc.getResultValues().contains("1.0"));
+                    assertTrue(rc.getResultValues().contains("1.5"));
+                    assertTrue(rc.getResultValues().contains("2.0"));                    
+                }
+                
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getType())){
+                    if(3 == rc.getAttributes().size()) {
+                        assertEquals(9, rc.getResultValues().size());
+                        assertTrue(rc.getResultValues().contains("1.5"));
+                    } else {                        
+                        assertEquals(5, rc.getResultValues().size());
+                        assertTrue(rc.getResultValues().contains("3.0"));
+                    }
+                }                
+            }
+                        
+            
+        } catch (Exception e) {
+            System.out.println("caught exception: " + e.getClass().getName());
+            System.out.println("message: " + e.getMessage());
+            e.printStackTrace(System.out);
+            e.printStackTrace();
+            fail(e.getMessage());
+        }        
+    }
+    
+    @Test
     public void testDynamicAttributes() {
         System.out.println("testDynamicAttributes");
         CourseDataGenerator generator = new CourseDataGenerator();
         try {
             CourseInfo cInfo = generator.getCourseTestData();
+                        
             assertNotNull(cInfo);
 
             Map<String, String> attrMap = new HashMap<String, String>();
@@ -470,6 +563,23 @@ public class TestCourseServiceImpl {
 
             cInfo.setAttributes(attrMap);
 
+            FormatInfo fInfo = new FormatInfo();
+            fInfo.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+            ActivityInfo aInfo = new ActivityInfo();
+            aInfo.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+            Map<String, String> activityAttrs = new HashMap<String, String>();
+            activityAttrs.put("ACTIVITY_KEY", "ACTIVITY_VALUE");
+            aInfo.setAttributes(activityAttrs);
+            
+            List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
+            activities.add(aInfo);                       
+            fInfo.setActivities(activities);
+           
+            List<FormatInfo> formats = new ArrayList<FormatInfo>();
+            formats.add(fInfo);
+            
+            cInfo.setFormats(formats);
+            
             try {
                 cInfo = courseService.createCourse(cInfo);
             } catch (DataValidationErrorException e) {
@@ -486,6 +596,10 @@ public class TestCourseServiceImpl {
             assertEquals("GRD", cInfo.getAttributes().get("finalExamStatus"));
             assertEquals("Some123description", cInfo.getAttributes().get("altFinalExamStatusDescr"));
 
+            
+            // Check if the attributes are being set in the activity
+            assertEquals("ACTIVITY_VALUE", cInfo.getFormats().get(0).getActivities().get(0).getAttributes().get("ACTIVITY_KEY"));
+            
         } catch (Exception e) {
             System.out.println("caught exception: " + e.getClass().getName());
             System.out.println("message: " + e.getMessage());
@@ -540,16 +654,6 @@ public class TestCourseServiceImpl {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
-
-        try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
-            assertTrue(false);
-        } catch (Exception e) {
-            assertTrue(true);
-        }
-
-        // Make the created the current version
-        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
 
         CourseInfo newCourse = null;
         try {
@@ -855,5 +959,170 @@ public class TestCourseServiceImpl {
             assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
         }
     }
+    
+    /**
+     * 
+     * This method checks for an UnsupportedOperationException to be thrown from the methods in the created list.
+     * 
+     */
+    @Test
+    public void testExpectedUnsupported() throws Exception {
+        String[] unsupportedOperations = {"getCourseActivities", "getCourseFormats", "getCourseLos"};
+        
+        Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(unsupportedOperations.length);
+        for(String s : unsupportedOperations) {
+            ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
+            invocationData.methodName = s;
+            invocationData.parameters = new Object[1];
+            
+            // all the parameter types for these methods are the same
+            invocationData.paramterTypes = new Class<?>[] {String.class};
+            methods.add(invocationData);
+        }
+        
+        invokeForExpectedException(methods, UnsupportedOperationException.class);
+    }
+
+    private class ServiceMethodInvocationData {
+        String methodName;
+        Object[] parameters;
+        Class<?>[] paramterTypes;
+    }
+    
+    private void invokeForExpectedException(Collection<ServiceMethodInvocationData> methods, Class<? extends Exception> expectedExceptionClass) throws Exception {
+        for(ServiceMethodInvocationData methodData : methods) {
+            Method method = courseService.getClass().getMethod(methodData.methodName, methodData.paramterTypes);
+            Throwable expected = null;
+            Exception unexpected = null;
+            try {
+                method.invoke(courseService, methodData.parameters);
+            }
+            catch(InvocationTargetException ex) {
+                if(ex.getCause() != null && ex.getCause().getClass().equals(expectedExceptionClass)) {
+                    expected = ex.getCause();
+                }
+                else {
+                    unexpected = ex;
+                    unexpected.printStackTrace();
+                }
+            }
+            catch(Exception other) {
+                unexpected = other;
+            }
+            finally {
+                assertNotNull("An exception of class: " + expectedExceptionClass.toString() + " was expected, but the method: " + methodData.methodName + " threw this exception: " + unexpected, expected);
+            }
+        }
+    }
+    
+    @Test
+    public void testGetVersionMethodsForInvalidParameters() throws Exception {
+        String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
+        
+        // build an object array with the appropriate number of arguments for each version method to be called
+        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[4], new Object[2], new Object[3]};
+        
+        // build a class array with the parameter types for each method call
+        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
+                {String.class, String.class}, // for getVersions
+                {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
+                {String.class, String.class}, // for getCurrentVersion
+                {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
+        
+        String badRefObjectTypeURI = "BADBADBAD";
+        Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
+        for(int i = 0; i < getVersionMethods.length; i++) {
+            ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
+            invocationData.methodName = getVersionMethods[i];
+            
+            // set the first parameter of each invocation to the invalid data
+            getVersionParams[i][0] = badRefObjectTypeURI;
+            
+            invocationData.parameters = getVersionParams[i];
+            invocationData.paramterTypes = getVersionParamTypes[i];
+            
+            methods.add(invocationData);
+        }
+        
+        invokeForExpectedException(methods, InvalidParameterException.class);
+    }
+    
+    @Test
+    public void testGetCurrentVersion() throws Exception {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        try {
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+    }
+    
+    @Test
+    public void testGetCurrentVersionOnDate() throws Exception {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        
+        
+        // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
+        CourseInfo cInfo2 = null;
+        try {
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 1);
+        
+        // Make the created the current version one month from now
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
+        
+        // make sure when we get the current version for today, it still returns the first one created
+        versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, cInfo2.getVersionInfo().getVersionIndId(), new Date());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(), versionInfo.getSequenceNumber());
+    }
+    
+    @Test
+    public void testGetVersions() throws Exception {
+        
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertEquals(1, versions.size());
+        
+        try {
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertEquals(2, versions.size());
+    }
+    
+    
 
 }

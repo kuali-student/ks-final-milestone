@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-lum-ui</artifactId>
     <name>KS LUM UI</name>
@@ -7,7 +6,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.1.0-M9-SNAPSHOT</version>
+        <version>1.1.0-M10-SNAPSHOT</version>
     </parent>
     <build>
         <plugins>
@@ -74,7 +73,7 @@
                       Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
                       which has problems finding exception beans.
                     -->
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.common</groupId>
                     <artifactId>ks-cxf</artifactId>
                     <version>${project.version}</version>
                     <type>pom</type>
@@ -111,7 +110,7 @@
 			      <groupId>org.kuali.student.security</groupId>
 			      <artifactId>ks-standard-sec</artifactId>
 			      <version>${project.version}</version>
-			    </dependency> 
+			    </dependency>
 
             </dependencies>
         </profile>

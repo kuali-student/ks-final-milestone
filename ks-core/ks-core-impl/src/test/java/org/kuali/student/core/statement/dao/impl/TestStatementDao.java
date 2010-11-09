@@ -191,7 +191,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     @Test
     public void testGetReqComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         List<ReqComponentType> reqCompTypeList = dao.find(ReqComponentType.class);
-        
+
         assertNotNull(reqCompTypeList);
         assertEquals(9, reqCompTypeList.size());
     }

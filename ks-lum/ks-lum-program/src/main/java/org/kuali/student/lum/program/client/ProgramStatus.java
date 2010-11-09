@@ -6,9 +6,9 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  * @author Igor
  */
 public enum ProgramStatus {
-    DRAFT(ProgramProperties.get().status_draft()),
-    APPROVE(ProgramProperties.get().status_approve()),
-    ACTIVE(ProgramProperties.get().status_active());
+	DRAFT(ProgramProperties.get().status_draft()),
+	APPROVED(ProgramProperties.get().status_approved()),
+	ACTIVE(ProgramProperties.get().status_active());
 
     private final String value;
 

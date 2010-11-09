@@ -30,6 +30,8 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -44,8 +46,10 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
@@ -83,9 +87,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
+        checkForMissingParameter(courseInfo, "CourseInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
@@ -107,10 +109,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
-
+        checkForMissingParameter(courseInfo, "CourseInfo");
+        
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
         if (null != validationResults && validationResults.size() > 0) {
@@ -201,7 +201,6 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
         return validationResults;
@@ -283,11 +282,10 @@ public class CourseServiceImpl implements CourseService {
 		}
 
     	ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
         return validationResults;
-    }
+    }   
 
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
@@ -331,21 +329,6 @@ public class CourseServiceImpl implements CourseService {
 		courseServiceMethodInvoker.invokeServiceCalls(results);
 
         return results.getBusinessDTORef();
-    }
-
-    /**
-     * @param validator
-     *            the validator to set
-     */
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    /**
-     * @return the validator
-     */
-    public Validator getValidator() {
-        return validator;
     }
 
     public ValidatorFactory getValidatorFactory() {
@@ -401,6 +384,15 @@ public class CourseServiceImpl implements CourseService {
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
+			//copy statements
+			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
+			
+			clearStatementTreeViewIds(statementTreeViews);
+			
+			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
+			}
+			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
 			throw new OperationFailedException("Error creating new course version",e);
@@ -418,6 +410,38 @@ public class CourseServiceImpl implements CourseService {
 			throw new OperationFailedException("Error creating new course version",e);
 		}
 
+	}
+
+	private void clearStatementTreeViewIds(
+			List<StatementTreeViewInfo> statementTreeViews) throws OperationFailedException {
+		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+			clearStatementTreeViewIdsRecursively(statementTreeView);
+		}
+	}
+
+	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
+		statementTreeView.setId(null);
+		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
+			reqComp.setId(null);
+			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
+				field.setId(null);
+				//copy any clusets that are adhoc'd and set the field value to the new cluset
+				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.equals(field.getType())){
+					try {
+						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+						cluSet.setId(null);
+						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+						field.setValue(cluSet.getId());
+					} catch (Exception e) {
+						throw new OperationFailedException("Error copying clusets.", e);
+					}
+				}
+				
+			}
+		}
+		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
+			clearStatementTreeViewIdsRecursively(child);
+		}
 	}
 
 	private void resetIds(CourseInfo course) {

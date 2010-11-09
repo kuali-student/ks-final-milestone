@@ -23,11 +23,10 @@ import org.kuali.student.core.search.dto.SearchResultRow;
  * 
  * <pre>
  * {@code
- * <role name="Department Review">
+ * <role name="Document Organization Review">
  *   <activationType>P</activationType>
- *   <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+ *   <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
  *   <useNonDerivedRoles>true</useNonDerivedRoles>
- *   <organizationTypeCode>orgId</organizationTypeCode>
  *   <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
  *   <organizationShortNameQualifierKey>orgId</organizationShortNameQualifierKey>
  *   <organizationIdDocumentContentKey>orgId</organizationIdDocumentContentKey>
@@ -52,7 +51,6 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 public class CocOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CocOrganizationQualifierResolver.class);
 
-    protected static final String ROUTE_NODE_DOCUMENT_CONTENT_XML_ORG_TYPE_CODE = "organizationTypeCode";
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
     protected static final String ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY = "organizationShortNameQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";

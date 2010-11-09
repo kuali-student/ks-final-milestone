@@ -19,10 +19,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -108,38 +110,36 @@ public class TestMetadataServiceDictionary
     proposalDictService,
     statementDictService);
   metadataService.setUiLookupContext ("classpath:lum-ui-lookup-context.xml");
-  String outFile = "target/metadata.txt";
-  File file = new File (outFile);
-  OutputStream outputStream = null;
-  try
-  {
-   outputStream = new FileOutputStream (file, false);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
-  PrintStream out = new PrintStream (outputStream);
-  out.println ("(!) This page was automatically generated on "
-               + new Date ());
-  out.println ("DO NOT UPDATE MANUALLY!");
-  out.println ("");
-  out.println (
-    "This page represents a formatted view of the lum ui dictionary:");
+  List<String> errors = new ArrayList ();
   for (String className : startingClasses)
   {
-   out.println ("# " + className);
-  }
-  out.println ("");
-  out.println ("----");
-  out.println ("{toc}");
-  out.println ("----");
-
-  for (String className : startingClasses)
-  {
+   String outFile = "target/metadata-for-" + className + ".txt";
+   File file = new File (outFile);
+   OutputStream outputStream = null;
+   try
+   {
+    outputStream = new FileOutputStream (file, false);
+   }
+   catch (FileNotFoundException ex)
+   {
+    throw new RuntimeException (ex);
+   }
+   PrintStream out = new PrintStream (outputStream);
+   out.println ("(!) This page was automatically generated on "
+                + new Date ());
+   out.println ("DO NOT UPDATE MANUALLY!");
+   out.println ("");
+   out.println (
+     "This page represents a formatted view of the lum ui dictionary for "
+     + className);
+   out.println ("");
+   out.println ("----");
+   out.println ("{toc}");
+   out.println ("----");
 //   out.println ("getting meta data for " + className);
    Metadata metadata = metadataService.getMetadata (className);
    assertNotNull (metadata);
+   errors.addAll (this.validateMetadata (metadata, className, null));
    MetadataFormatter formatter = new MetadataFormatter (className,
                                                         metadata, null,
                                                         null, new HashSet (),
@@ -154,12 +154,51 @@ public class TestMetadataServiceDictionary
     System.out.println ("*** Generating formatted version for " + type);
     metadata = metadataService.getMetadata (className, type, (String) null);
     assertNotNull (metadata);
+    errors.addAll (this.validateMetadata (metadata, className, type));
     formatter = new MetadataFormatter (className,
                                        metadata, type,
                                        null, new HashSet (),
                                        1);
     out.println (formatter.formatForWiki ());
    }
+   out.close ();
   }
+  if (errors.size () > 0)
+  {
+   for (String error : errors)
+   {
+    System.out.println ("error: " + error);
+   }
+   System.out.println (errors.size () + " errors found when validating metadata");
+   // these first 6 are becaue the recusion stops but the final field still is flagged as DATA even though it cannot have sub fields
+   //error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.variations.*.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.orgCoreProgram.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   // TODO: figure out this last one -- it is a problem with the cross search that I think Heather wrote.
+   //error: search.findMajor has an additional lookup : kuali.lu.lookup.findMajor.advanced that has a parameter lu.resultColumn.luOptionalMajorName that does not exist in the underlying search lu.search.union.majors
+   //7 errors found when validating metadata
+   if (errors.size () != 6 && errors.size () != 7)
+   {
+    fail (errors.size () + " errors found when validating metadata");
+   }
+  }
+ }
+ private MetadataServiceDictionaryValidator validator = null;
+
+ private MetadataServiceDictionaryValidator getValidator ()
+ {
+  if (validator == null)
+  {
+   validator = new MetadataServiceDictionaryValidator ();
+  }
+  return validator;
+ }
+
+ private List<String> validateMetadata (Metadata md, String name, String type)
+ {
+  return getValidator ().validateMetadata (md, name, type);
  }
 }

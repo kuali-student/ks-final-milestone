@@ -1,29 +1,29 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.SampCustomValidator;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.course.service.impl.DictionaryTesterHelper;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-
-import static org.junit.Assert.assertEquals;
 
 public class TestProgramInfoDictionary {
 
@@ -42,8 +42,25 @@ public class TestProgramInfoDictionary {
                 contextFile
                         + ".xml",
                 true);
-        helper.doTest();
-    }
+   List<String> errors = helper.doTest ();
+  if (errors.size () > 0)
+  {
+   fail ("failed dictionary validation:\n" + formatAsString (errors));
+  }
+ }
+
+ private String formatAsString (List<String> errors)
+ {
+  int i = 0;
+  StringBuilder builder = new StringBuilder ();
+  for (String error : errors)
+  {
+   i ++;
+   builder.append (i + ". " + error + "\n");
+  }
+  return builder.toString ();
+ }
+
 
     @Test
     public void testMajorDisciplineInfoValidation() throws
@@ -52,7 +69,7 @@ public class TestProgramInfoDictionary {
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 "classpath:ks-programInfo-dictionary-context.xml");
         DefaultValidatorImpl val = new DefaultValidatorImpl();
-        val.setValidatorFactory(new ValidatorFactory(new SampCustomValidator()));
+        val.setValidatorFactory(new ValidatorFactory());
         val.setDateParser(new ServerDateParser());
         val.setSearchDispatcher(new MockSearchDispatcher());
         MajorDisciplineInfo info = new MajorDisciplineInfo();
@@ -63,7 +80,12 @@ public class TestProgramInfoDictionary {
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
-        assertEquals(11, validationResults.size());
+//      /credentialProgramId validation.required
+//      /universityClassification validation.required
+//      /longTitle validation.required
+//      /type validation.required
+//      /state validation.required
+        assertEquals(5, validationResults.size());
 
         try {
             info =

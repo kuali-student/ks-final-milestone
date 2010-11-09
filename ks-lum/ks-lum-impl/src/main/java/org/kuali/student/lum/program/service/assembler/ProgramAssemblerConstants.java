@@ -58,6 +58,7 @@ public class ProgramAssemblerConstants {
 	public static final String DRAFT = "draft";
 	public static final String ACTIVE = "Active"; // also use for identifiers
 													// and relations
+	public static final String INACTIVE = "Inactive";
 	public static final String SUPERSEDED = "superseded";
 	public static final String SUSPENDED = "suspended";
 	public static final String RETIRED = "retired";
@@ -82,7 +83,8 @@ public class ProgramAssemblerConstants {
 	public static final String SELECTIVE_ENROLLMENT = "kuali.lu.code.SelectiveEnrollment";
 
 	// publication types
-	public static final String CATALOG = "kuali,lu.publication.Catalog";
+	public static final String CATALOG = "kuali.lu.publication.Catalog";
+	public static final String CATALOG_DESCR = "cluInfo.descr";
 
     // adminorg types
 	public static final String CONTENT_OWNER_DIVISION = "kuali.adminOrg.type.ContentOwnerDivision";

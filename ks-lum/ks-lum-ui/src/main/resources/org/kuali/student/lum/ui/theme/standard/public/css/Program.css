@@ -27,6 +27,10 @@
     padding-top: 40px;
 }
 
+.KS-Program-Requirements-Preview-Rule-Type-Credits {
+    padding-bottom: 20px;
+}
+
 .KS-Program-Requirements-Preview-Rule-Type-Desc {
     padding-bottom: 15px;
     width: 650px;
@@ -69,17 +73,36 @@
 }
 
 .programController .readOnlySection {
-    background-color: #F1F1F1;
+      background-color: #f1f1f1;
+      padding: 0px 15px 15px 15px;
+      border: 1px solid #999;
 }
 
 .programController .programInformationView {
-    background-color: #F1F1F1;
+background-color:#F1F2DC;
+margin-bottom:2em;
+padding:15px 15px 0;
+}
+.programInformationView .ks-table-plain td {
+padding-top:0;
+padding-bottom:0;
+
+}
+.programInformationView h4 { 
+border-bottom:1px dotted #808080;
+font-size:1.1em;
+letter-spacing:0.03em;
+margin-right:10px;
+text-transform:uppercase;
+} 
+.programInformationView label {
+    white-space: nowrap;
 }
 
 .programController .programActionPanel {
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 240px;
+    width: 500px;
 }
 
 .programController .sideBar {
@@ -94,6 +117,26 @@
 
 .programController .sideBar .datePanel {
     border-spacing: 2px;
+}
+
+.programController .parentProgram {
+    padding-right: 3px;
+}
+
+.editableHeader {
+    height: 20px;
+}
+
+.editableHeader .sectionTitle {
+    font-size: 17px;
+    float: left;
+}
+
+.editableHeader .editButton {
+    padding-left: 4px;
+    padding-top: 2px;
+    position:relative;
+    line-height:18px;
 }
 
 .gwt-PopupPanel {

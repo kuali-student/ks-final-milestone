@@ -6,7 +6,7 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
-import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
 public class ProgramRequirementsViewController extends BasicLayout {
@@ -18,7 +18,6 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
-    private boolean isReadOnly;
 
     public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
         super(ProgramRequirementsViewController.class.getName());
@@ -27,7 +26,6 @@ public class ProgramRequirementsViewController extends BasicLayout {
         super.setViewEnum(viewType);
         super.setDefaultModelId(PROGRAM_RULES_MODEL_ID);
         super.setParentController(controller);
-        this.isReadOnly = isReadOnly;
 
         this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
@@ -40,7 +38,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, new ProgramRequirementsDataModel(this), isReadOnly);
+        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, isReadOnly);
         super.addView(preview);
 
         if (!isReadOnly) {
@@ -55,53 +53,87 @@ public class ProgramRequirementsViewController extends BasicLayout {
     }
 
     @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
+    public void beforeViewChange(final Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
 
         if (getCurrentView() == null) {
             okToChange.exec(true);
             return;
         }
 
-        //We do this check here because theoretically the subcontroller views
-        //will display their own messages to the user to give them a reason why the view
-        //change has been cancelled, otherwise continue to check for reasons not to change with this controller
-        super.beforeViewChange(new Callback<Boolean>() {
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
 
-                if (!result) {
-                    okToChange.exec(false);
-                    return;
-                }
-
-                if (!(getCurrentView() instanceof ProgramRequirementsManageView)) {
+                //moving from PREVIEW to MANAGE page
+                //no dialog if user is going to the Manage Rule page
+                if (viewChangingTo.name().equals(ProgramRequirementsViews.MANAGE.name()))
+                {
                     okToChange.exec(true);
                     return;
                 }
 
-                //no dialog if user clicks on the 'Save' button
-                if (((ProgramRequirementsManageView) getCurrentView()).isUserClickedSaveButton()) {
+                //moving from MANAGE to PREVIEW page
+                //no dialog if user clicks on the 'Save' or cancel button on the Manage Rule page
+                if (getCurrentView() instanceof ProgramRequirementsManageView) {
                     okToChange.exec(true);
                     return;
                 }
 
-                //if user clicked on breadcrumbs, menu or cancel button of the manage screen and changes have been made to the rule on the manage screen...
-                if (((SectionView) getCurrentView()).isDirty()) {
-                    ButtonGroup<ButtonEnumerations.ContinueCancelEnum> buttonGroup = new ContinueCancelGroup();
-                    final ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum> dialog =
-                            new ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum>("Warning", "You have unsaved changes. Are you sure you want to proceed?", buttonGroup);
-                    buttonGroup.addCallback(new Callback<ButtonEnumerations.ContinueCancelEnum>() {
+                //moving from MANAGE to other page
+                //TODO show dialog if user clicks on a menu from Manage Rules page                
+
+                //moving from other page to PREVIEW page
+                if (viewChangingTo.name().equals(ProgramRequirementsViews.PREVIEW.name())) {
+                    preview.getRules().setupRules(ProgramRequirementsViewController.this, new Callback<Boolean>() {
                         @Override
-                        public void exec(ButtonEnumerations.ContinueCancelEnum result) {
-                            okToChange.exec(result == ButtonEnumerations.ContinueCancelEnum.CONTINUE);
-                            dialog.hide();
+                        public void exec(Boolean result) {
+                            okToChange.exec(result);
+                            return;
                         }
                     });
-                    dialog.show();
-                } else {
-                    okToChange.exec(true);
+                    return;
                 }
+
+                //moving from PREVIEW to other page (rules have NOT changed)
+                //user is moving to another program section and no changes were made to the rules so allow it to happen
+                if (!((SectionView) getCurrentView()).isDirty()) {
+                    okToChange.exec(true);
+                    return;
+                }
+
+                //moving from PREVIEW to other page (rules have changed)
+                //user is moving to another program section and rules have been changed, user needs to either save rules or abandon changes before proceeding
+                ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog =
+                        new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+
+                    @Override
+                    public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                        switch (result) {
+                            case YES:
+                                dialog.hide();
+                                preview.storeRules(new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        okToChange.exec(true);                                        
+                                    }
+                                });
+                                break;
+                            case NO:
+                                dialog.hide();
+                                //preview.revertRuleChanges();     //TODO put back if we will NOT reset rules every time user comes to PREVIEW page above...
+                                okToChange.exec(true);
+                                break;
+                            case CANCEL:
+                                okToChange.exec(false);
+                                dialog.hide();
+                                break;
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
     }

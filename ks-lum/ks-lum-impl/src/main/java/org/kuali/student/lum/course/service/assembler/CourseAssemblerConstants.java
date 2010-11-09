@@ -70,8 +70,8 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE = "fixedCreditValue";
 	public static final String COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE = "minCreditValue";
 	public static final String COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE = "maxCreditValue";
+    public static final String COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR = "creditValueIncrement";
 	public static final String COURSE_RESULT_COMP_CREDIT_PREFIX = "kuali.creditType.credit.degree.";
-
 
 	//FIXME ask norm for these values
 	public static final String COURSE_CODE_SPECIAL_TOPICS = "kuali.lu.code.specialTopics";
@@ -84,7 +84,7 @@ public class CourseAssemblerConstants {
 
 	public static final String COURSE_LO_RELATION_INCLUDES = "kuali.lo.relation.type.includes";
 	public static final String COURSE_LO_SEQUENCE = "sequence";
-	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "cluLuType.default";
+	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "kuali.lu.lo.relation.type.includes";
 	public static final String COURSE_LO_TYPE = "kuali.lo.type.singleUse";
 	public static final String COURSE_LO_REPOSITORY_KEY = "kuali.loRepository.key.singleUse";
 	public static final String COURSE_FINANCIALS_REVENUE_TYPE = "REVENUE";

@@ -187,9 +187,7 @@
         NM="Delete Note / Attachment" NMSPC_CD="KR-SYS"
         OBJ_ID="606763510FCD96D3E0404F8189D857A2" PERM_ID="264"
         PERM_TMPL_ID="47" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows users to access the XML Ingester screen."
-        NM="Use Screen" NMSPC_CD="KR-WKFLW"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Use Screen" NMSPC_CD="KR-WKFLW"
         OBJ_ID="606763510FF296D3E0404F8189D857A2" PERM_ID="265"
         PERM_TMPL_ID="29" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y" NM="Grant Responsibility"
@@ -215,6 +213,11 @@
         OBJ_ID="5B4F0974884BEF33E0R04RX189D8AA24" PERM_ID="2910"
         PERM_TMPL_ID="63" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Authorizes users to add adhoc reviewers to documents."
+        NM="Add Adhoc Reviewer" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974884BEF33E8884RX189D8AA24" PERM_ID="2911"
+        PERM_TMPL_ID="64" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to access other users action lists via the Help Desk Action List Login."
         NM="View Other Action List" NMSPC_CD="KR-WKFLW"
         OBJ_ID="641E580969E31B49E0404F8189D86190" PERM_ID="298"
@@ -227,10 +230,6 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Comment on Document" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04RX189D8AA24" PERM_ID="3000"
         PERM_TMPL_ID="61" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Add Adhoc Reviewer" NMSPC_CD="KS-LUM"
-        DESC_TXT="Authorizes users to add adhoc reviewers to documents."
-        OBJ_ID="5B4F0974884BEF33E8884RX189D8AA24" PERM_ID="2911"
-        PERM_TMPL_ID="64" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to view the entire Tax Identification Number on the Person document and inquiry."
         NM="Full Unmask Field" NMSPC_CD="KR-SYS"
@@ -244,18 +243,34 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Edit Document" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AA24" PERM_ID="3100"
         PERM_TMPL_ID="62" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
-        NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT24"
-        PERM_ID="3105" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
-        NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT26"
-        PERM_ID="3106" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
-        NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT27"
-        PERM_ID="3107" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
-        NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF3AE0R04EX189D8AT27"
-        PERM_ID="3108" PERM_TMPL_ID="120" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Withdraw Document" NMSPC_CD="KS-SYS"
+        OBJ_ID="5B4F0974494BEF33E0R04EX189D8AAAA" PERM_ID="3101"
+        PERM_TMPL_ID="65" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Remove Reviewers" NMSPC_CD="KS-SYS"
+        OBJ_ID="5B4F0974494BCF33E0R04EX189E8AAAA" PERM_ID="3102"
+        PERM_TMPL_ID="66" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Blanket Approve" NMSPC_CD="KS-SYS"
+        OBJ_ID="5B4F0974494BCF33E0R04EX189E8AAAB" PERM_ID="3103"
+        PERM_TMPL_ID="67" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Blanket Approve" NMSPC_CD="KS-SYS"
+        OBJ_ID="5B4F0974494BCF33E0R04EX189E8AABA" PERM_ID="3104"
+        PERM_TMPL_ID="67" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Title"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT24" PERM_ID="3105"
+        PERM_TMPL_ID="120" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Unit Contents Owner"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT26" PERM_ID="3106"
+        PERM_TMPL_ID="120" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Description"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT27" PERM_ID="3107"
+        PERM_TMPL_ID="120" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Duration"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974494BEF3AE0R04EX189D8AT27" PERM_ID="3108"
+        PERM_TMPL_ID="120" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y" NM="Access Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EXQAZD8AT24" PERM_ID="3109"
         PERM_TMPL_ID="120" VER_NBR="1"/>
@@ -268,6 +283,9 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Access Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF3ARFV04EX189D8AT27" PERM_ID="3112"
         PERM_TMPL_ID="120" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Blanket Approve" NMSPC_CD="KS-LUM"
+        OBJ_ID="5B4F0974494BCF33E0R04EX189E8ABAA" PERM_ID="3113"
+        PERM_TMPL_ID="67" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send Ad Hoc Request" NMSPC_CD="KR-SYS"
@@ -388,4 +406,12 @@
         NM="Grant Responsibility" NMSPC_CD="KR-SYS"
         OBJ_ID="5B4F09744953EF33E0404F8189D84F28" PERM_ID="836"
         PERM_TMPL_ID="37" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows users to access the Configuration Viewer screen"
+        NM="Use Screen" NMSPC_CD="KR-BUS"
+        OBJ_ID="97469975-D110-9A65-5EE5-F21FD1BEB5B2" PERM_ID="840"
+        PERM_TMPL_ID="29" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Add Message to Route Log"
+        NMSPC_CD="KUALI" OBJ_ID="65677409-89e4-11df-98b1-1300c9ee50c1"
+        PERM_ID="841" PERM_TMPL_ID="51" VER_NBR="1"/>
 </dataset>

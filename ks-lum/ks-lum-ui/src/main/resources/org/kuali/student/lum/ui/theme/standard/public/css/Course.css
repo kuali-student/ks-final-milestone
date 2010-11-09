@@ -16,12 +16,13 @@
 
 /* The title for Description and Rationale section */
 .cluProposalTitleSection {
-    border-bottom: 1px solid #D8D8D8;
+border-bottom:1px dotted #D8D8D8;
 }
 
 .courseStatusLabel{
-	padding-top: 5px;
-	padding-right: 10px;
+     color: #807970;
+     padding-right: 10px; 
+     padding-top: 7px;
 }
 
 .versionHistoryLink{
@@ -64,8 +65,9 @@
 }
 
 .KS-Course-Requisites-Preview-Rule-Type-Desc {
-    padding-bottom:15px;
-    width:650px;
+                      padding-bottom: 15px;
+                      width: 650px;
+                      line-height: 1.4em;
 }
 
 .KS-Course-Requisites-Button-Spacer {

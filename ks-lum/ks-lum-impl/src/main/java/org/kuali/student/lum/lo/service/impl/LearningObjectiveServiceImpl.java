@@ -20,9 +20,10 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -44,6 +45,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
@@ -72,7 +74,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao loDao;
 	private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
-	private Validator validator;
+	private ValidatorFactory validatorFactory;
 
 	public LoDao getLoDao() {
         return loDao;
@@ -90,14 +92,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    /**
-	 * @param validator the validator to set
-	 */
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
+	public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
 
-	/*
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
+
+    /*
      * (non-Javadoc)
      * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoRepositories()
      */
@@ -575,7 +578,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			//do not checkForEmptyString
 		}
 	    
-		return validator.validateTypeStateObject(loInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoInfo"));
+	    ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName());
+	    Validator validator = validatorFactory.getValidator();
+	    return validator.validateObject(loInfo, objStructure);
 	}
 
 	/* (non-Javadoc)
@@ -595,8 +600,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    } catch (NullPointerException e){
 			//do not checkForEmptyString
 		}
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName());
+        Validator validator = validatorFactory.getValidator();
+        return validator.validateObject(loCategoryInfo, objStructure);
 	    
-		return validator.validateTypeStateObject(loCategoryInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoCategoryInfo"));
 	}
 
 	@Override
@@ -604,7 +612,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			String validationType, LoLoRelationInfo loLoRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return validator.validateTypeStateObject(loLoRelationInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoLoRelationInfo"));
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName());
+        Validator validator = validatorFactory.getValidator();
+        return validator.validateObject(loLoRelationInfo, objStructure);
 	}
 
     /**
@@ -698,21 +709,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		}
     }
     
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
-	 */
-	@Override
-	public ObjectStructure getObjectStructure(String objectTypeKey) {
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
-	 */
-	@Override
-	public List<String> getObjectTypes() {
+    @Override
+    public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
-	}
+    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)

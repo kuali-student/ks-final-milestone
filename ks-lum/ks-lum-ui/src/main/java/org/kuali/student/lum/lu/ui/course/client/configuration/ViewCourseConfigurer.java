@@ -15,30 +15,17 @@
 
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseLearningResultsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoFixedRateFeeConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
-import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.*;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseController;
-import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -79,11 +66,12 @@ CreditCourseLearningResultsConstants
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
-    private String type = "course";
+    private String type = "Course";
     private String state = "draft";
-    private String groupName = LUConstants.COURSE_GROUP_NAME;
+    private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 
     private DataModelDefinition modelDefinition;
+    private List<StatementTypeInfo> stmtTypes;
 
     public static enum ViewCourseSections{BRIEF, DETAILED, CATALOG}
 
@@ -91,24 +79,29 @@ CreditCourseLearningResultsConstants
         this.modelDefinition = modelDefinition;
     }
 
+    public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
+        this.stmtTypes = stmtTypes;
+    }
+
     public void generateLayout(ViewCourseController layoutController) {
-        groupName = LUConstants.COURSE_GROUP_NAME;
+        groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
         this.generateLayout(layoutController, CLU_PROPOSAL_MODEL);
         layoutController.addContentWidget(layoutController.getStatusLabel());
         Widget dropdown = layoutController.generateActionDropDown();
-        dropdown.addStyleName("KS-Workflow-DropDown");
         layoutController.addContentWidget(dropdown);
+        
+        //this.modelDefinition.getMetadata(path)
         layoutController.addContentWidget(layoutController.getVersionHistoryWidget());
         layoutController.showPrint(true);
     }
     
     public void generateLayout(TabMenuController layoutController, String modelId) {
-        groupName = LUConstants.COURSE_GROUP_NAME;
+        groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
-        CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, 
+        CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
         		(Controller)layoutController, modelId);
         layoutController.addTab(summaryConfigurer.generateCourseBriefSection(), "At a Glance");
         layoutController.addTab(summaryConfigurer.generateCourseSummarySection(), "Detailed View");

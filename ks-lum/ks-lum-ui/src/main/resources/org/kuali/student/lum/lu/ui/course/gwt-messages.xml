@@ -56,7 +56,8 @@
 	 <bean parent="enCourse" p:messageId="actionListDesc" p:value="" />
 	 <bean parent="enCourse" p:messageId="browseCatalog" p:value="Browse Course Catalog" />
 	 <bean parent="enCourse" p:messageId="findCourses" p:value="Find Courses" />
-	 <bean parent="enCourse" p:messageId="findMajors" p:value="Find Programs (major disciplines)" />
+	 <bean parent="enCourse" p:messageId="findCredentials" p:value="Find Programs: Credentials" />
+	 <bean parent="enCourse" p:messageId="findCores" p:value="Find Programs: Core" />
 	 <bean parent="enCourse" p:messageId="courseSets" p:value="Course Set Management" />
 	 <bean parent="enCourse" p:messageId="loCategories" p:value="Learning Objective Categories" />
 	 <bean parent="enCourse" p:messageId="depAnalysis" p:value="Dependency Analysis (coming soon)" />
@@ -93,7 +94,7 @@
 	<bean parent="enCourse" p:messageId="cluEvaluationType" p:value="Evaluation Type" />
 	<bean parent="enCourse" p:messageId="cluTermLiteral" p:value="Term" />
 	<bean parent="enCourse" p:messageId="cluDurationLiteral" p:value="Duration" />
-	<bean parent="enCourse" p:messageId="cluDurationLiteral-help" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
+	<bean parent="enCourse" p:messageId="cluDurationLiteral-instruct" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
 	<bean parent="enCourse" p:messageId="cluFinalExam" p:value="Final Exam" />
 	<bean parent="enCourse" p:messageId="cluFinalExamStatus" p:value="Final Exam Status" />
 	<bean parent="enCourse" p:messageId="cluFinalExamRationale" p:value="Final Exam Rationale" />
@@ -450,10 +451,15 @@
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetCourse"                 p:value="Course Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetProgram"                 p:value="Program Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetOrganization"                      p:value="Organization"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetTitle"                      p:value="Title"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineCourse"                      p:value="Define Course Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineProgram"                      p:value="Define Program Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleCourse"                      p:value="Course Set Name"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleProgram"                      p:value="Program Set Name"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetDescription"                      p:value="Description"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate"                      p:value="Effective Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate-watermark"                      p:value="mm/dd/yyyy"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate"                      p:value="Expiration Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate-watermark"                      p:value="mm/dd/yyyy"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetName"                      p:value="Name"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEditInformation"                      p:value="Search CLU set"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEditCluSet"                      p:value="Edit Clu Set"/>

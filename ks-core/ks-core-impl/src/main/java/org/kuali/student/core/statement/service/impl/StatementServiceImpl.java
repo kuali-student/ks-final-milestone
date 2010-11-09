@@ -81,17 +81,8 @@ public class StatementServiceImpl implements StatementService {
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
     private StatementAssembler statementAssembler;
-    private Validator validator;
     private ValidatorFactory validatorFactory;
     // private StatementTreeViewAssembler statementTreeViewAssembler;
-
-    public Validator getValidator() {
-		return validator;
-	}
-
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
 
 	public void setStatementAssembler(StatementAssembler statementAssembler) {
 		this.statementAssembler = statementAssembler;
@@ -635,7 +626,6 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ReqComponentInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
 
@@ -648,7 +638,6 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(statementInfo, "statementInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(StatementInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure);
 
@@ -751,7 +740,7 @@ public class StatementServiceImpl implements StatementService {
             throw new DoesNotExistException("Statement Type: " + statementTypeKey + " does not exist.");
         }
 
-        return StatementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
+        return StatementAssembler.toReqComponentTypeInfosOrdered( stmtType.getAllowedReqComponentTypes() );
     }
 
     @Override
@@ -835,7 +824,6 @@ public class StatementServiceImpl implements StatementService {
 	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ObjectStructureDefinition objStructure = this.getObjectStructure(RefStatementRelationInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
 

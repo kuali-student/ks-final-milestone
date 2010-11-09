@@ -106,11 +106,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_stdDuration();
 
   /**
-   * Translated "Add/View Comments".
+   * Translated "Comments".
    * 
-   * @return translated "Add/View Comments"
+   * @return translated "Comments"
    */
-  @DefaultMessage("Add/View Comments")
+  @DefaultMessage("Comments")
   @Key("comments.button")
   String comments_button();
 
@@ -140,6 +140,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Save Failed. There were validation errors: {0}")
   @Key("common.failedSave")
   String common_failedSave(String arg0);
+
+  /**
+   * Translated "Remove".
+   * 
+   * @return translated "Remove"
+   */
+  @DefaultMessage("Remove")
+  @Key("common.remove")
+  String common_remove();
 
   /**
    * Translated "Retrieving Data...".
@@ -213,6 +222,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("link.exit")
   String link_exit();
 
+  /**
+   * Translated "Return to Curriculum Management".
+   * 
+   * @return translated "Return to Curriculum Management"
+   */
+  @DefaultMessage("Return to Curriculum Management")
+  @Key("link.backCurriculum")
+  String link_back_curriculum();
+  
   /**
    * Translated "Learning Objectives".
    * 
@@ -430,13 +448,22 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
-   * Translated "Modify".
+   * Translated "Modify (no version)".
    * 
-   * @return translated "Modify"
+   * @return translated "Modify (no version)"
    */
-  @DefaultMessage("Modify")
+  @DefaultMessage("Modify (no version)")
   @Key("programAction.modify")
   String programAction_modify();
+
+  /**
+   * Translated "Modify (with new version)".
+   * 
+   * @return translated "Modify (with new version)"
+   */
+  @DefaultMessage("Modify (with new version)")
+  @Key("programAction.modifyVersion")
+  String programAction_modifyVersion();
 
   /**
    * Translated "Program Actions: Modify, Retire...".
@@ -808,6 +835,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String sideBar_history();
 
   /**
+   * Translated "View version history".
+   * 
+   * @return translated "View version histroy"
+   */
+  @DefaultMessage("View version history")
+  @Key("sideBar.viewHistory")
+  String sideBar_viewHistory();
+
+  /**
    * Translated "Last review date:".
    * 
    * @return translated "Last review date:"
@@ -853,13 +889,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String status_active();
 
   /**
-   * Translated "Approve".
+   * Translated "Approved".
    * 
-   * @return translated "Approve"
+   * @return translated "Approved"
    */
-  @DefaultMessage("Approve")
-  @Key("status.approve")
-  String status_approve();
+  @DefaultMessage("Approved")
+  @Key("status.approved")
+  String status_approved();
 
   /**
    * Translated "Draft".
@@ -887,6 +923,42 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Key Specialization Information")
   @Key("variation.menu.sections.variationInformation")
   String variation_menu_sections_variationInformation();
+
+  /**
+   * Translated "New Variation".
+   * 
+   * @return translated "New Variation"
+   */
+  @DefaultMessage("New Variation")
+  @Key("variation.new")
+  String variation_new();
+
+  /**
+   * Translated "Parent Program:".
+   * 
+   * @return translated "Parent Program:"
+   */
+  @DefaultMessage("Parent Program:")
+  @Key("variation.parentProgram")
+  String variation_parentProgram();
+
+  /**
+   * Translated "Specialization Summary".
+   * 
+   * @return translated "Specialization Summary"
+   */
+  @DefaultMessage("Specialization Summary")
+  @Key("variation.summary")
+  String variation_summary();
+
+  /**
+   * Translated "Specialization of {0}".
+   * 
+   * @return translated "Specialization of {0}"
+   */
+  @DefaultMessage("Specialization of {0}")
+  @Key("variation.title")
+  String variation_title(String arg0);
 
   /**
    * Translated "Specialization Description".

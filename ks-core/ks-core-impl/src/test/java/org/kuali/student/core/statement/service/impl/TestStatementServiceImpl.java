@@ -378,8 +378,8 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.statement.type.course");
 
 		assertEquals(2, allowedTypes.size());
-		assertTrue(allowedTypes.contains("kuali.statement.type.course.academicReadiness.prereq"));
-		assertTrue(allowedTypes.contains("kuali.statement.type.course.academicReadiness.coreq"));
+		assertEquals("kuali.statement.type.course.academicReadiness.prereq", allowedTypes.get(0));
+		assertEquals("kuali.statement.type.course.academicReadiness.coreq", allowedTypes.get(1));
     }
 
     @Test
@@ -561,14 +561,19 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetReqComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypes();
-
+                
         assertNotNull(reqCompTypeInfoList);
         assertEquals(9, reqCompTypeInfoList.size());
-
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.courseList.all");
-
-        assertNotNull(rqt);
-        assertEquals(rqt.getName(), "All of required courses");
+        // Test StatementType.allowedReqComponentTypes sort order
+        assertEquals(reqCompTypeInfoList.get(0).getId(), "kuali.reqComponent.type.courseList.none");
+        assertEquals(reqCompTypeInfoList.get(1).getId(), "kuali.reqComponent.type.courseList.all");
+        assertEquals(reqCompTypeInfoList.get(2).getId(), "kuali.reqComponent.type.courseList.1of1");
+        assertEquals(reqCompTypeInfoList.get(3).getId(), "kuali.reqComponent.type.courseList.1of2");
+        assertEquals(reqCompTypeInfoList.get(4).getId(), "kuali.reqComponent.type.courseList.nof");
+        assertEquals(reqCompTypeInfoList.get(5).getId(), "kuali.reqComponent.type.gradecheck");
+        assertEquals(reqCompTypeInfoList.get(6).getId(), "kuali.reqComponent.type.grdCondCourseList");
+        assertEquals(reqCompTypeInfoList.get(7).getId(), "kuali.reqComponent.type.courseList.coreq.all");
+        assertEquals(reqCompTypeInfoList.get(8).getId(), "kuali.reqComponent.type.courseList.coreq.oneof");
     }
 
     @Test
@@ -577,7 +582,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqComponent.type.courseList.all");
-        assertEquals(rqt.getDescr(), "Student must have completed all of <kuali.reqComponent.field.type.cluSet.id>");
+        assertEquals(rqt.getDescr(), "Student must have completed all of <courses>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));
@@ -604,16 +609,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     public void testGetReqComponentTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.statement.type.course.academicReadiness.prereq");
 
-        assertNotNull(reqCompTypeInfoList);
         assertEquals(6, reqCompTypeInfoList.size());
-
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.gradecheck");
-
-        assertNotNull(rqt);
-        assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <kuali.reqComponent.field.type.gpa>");
-        assertEquals(rqt.getName(), "Minimum overall GPA");
-        assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
-        assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
+        // Test StatementType.allowedReqComponentTypes sort order
+        assertEquals(reqCompTypeInfoList.get(0).getId(), "kuali.reqComponent.type.courseList.1of1");
+        assertEquals(reqCompTypeInfoList.get(1).getId(), "kuali.reqComponent.type.courseList.nof");
+        assertEquals(reqCompTypeInfoList.get(2).getId(), "kuali.reqComponent.type.courseList.all");
+        assertEquals(reqCompTypeInfoList.get(3).getId(), "kuali.reqComponent.type.courseList.1of2");
+        assertEquals(reqCompTypeInfoList.get(4).getId(), "kuali.reqComponent.type.grdCondCourseList");
+        assertEquals(reqCompTypeInfoList.get(5).getId(), "kuali.reqComponent.type.gradecheck");
     }
 
     @Test
@@ -1450,11 +1453,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	List<ValidationResultInfo> resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
 
 	   	assertNotNull(resultInfo);
-//     System.out.println (resultInfo.size () + " errors");
-//     for (ValidationResultInfo vri: resultInfo)
-//     {
-//      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
-//     }
     	assertEquals(4, resultInfo.size());
 
     	reqInfo = new ReqComponentInfo();
@@ -1464,13 +1462,13 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	reqInfo = createReqComponent1();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
     	assertNotNull(resultInfo);
-     System.out.println (resultInfo.size () + " errors");
-     for (ValidationResultInfo vri: resultInfo)
-     {
-      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
-     }
-    	assertEquals(0, resultInfo.size());
-    }
+		System.out.println(resultInfo.size() + " errors");
+		for (ValidationResultInfo vri : resultInfo) {
+			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
+					+ " " + vri.getMessage());
+		}
+		assertEquals(0, resultInfo.size());
+	}
 
     @Test
     public void testValidateRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -1508,7 +1506,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals("REQCOMP-NL-5", resultRow2Columns.get(0).getValue());
 		assertEquals("kuali.reqComponent.type.courseList.1of1", resultRow2Columns.get(1).getValue());
 		assertEquals("One required course", resultRow2Columns.get(2).getValue());
-		assertEquals("Student must have completed <kuali.reqComponent.field.type.clu.id>", resultRow2Columns.get(3).getValue());
+		assertEquals("Student must have completed <course>", resultRow2Columns.get(3).getValue());
 		assertEquals("kuali.statement.type.course.academicReadiness.prereq", resultRow2Columns.get(4).getValue());
 		assertEquals("Academic Readiness Pre Reqs", resultRow2Columns.get(5).getValue());
 		assertEquals("Pre req rules used in the evaluation of a person's academic readiness for enrollment in a LU.", resultRow2Columns.get(6).getValue());
