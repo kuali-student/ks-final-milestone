@@ -162,7 +162,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //display 'Program Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
             SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
-            pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
+            //pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
+            pageTitle.addStyleName("ks-layout-header");// change the header to green
+            
             layout.add(pageTitle);
         }
         
