@@ -234,8 +234,9 @@ public class MajorEditController extends MajorController {
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
 			public void onSuccess(DataSaveResult result) {                
 				super.onSuccess(result);
-				viewContext.setIdType(IdType.OBJECT_ID);
                 programModel.setRoot(result.getValue());
+				viewContext.setId((String)programModel.get(ProgramConstants.VERSION_IND_ID));
+				viewContext.setIdType(IdType.OBJECT_ID);
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);

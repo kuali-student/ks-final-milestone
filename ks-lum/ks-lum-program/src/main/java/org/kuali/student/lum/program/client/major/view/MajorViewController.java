@@ -48,6 +48,8 @@ public class MajorViewController extends MajorController {
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                 } else if (actionType == ActionType.MODIFY_VERSION){
+                	String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                	viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                 	HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);                    
                 }
