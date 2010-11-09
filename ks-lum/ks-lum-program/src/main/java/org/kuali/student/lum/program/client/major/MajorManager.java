@@ -4,11 +4,9 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.ProgramRegistry;
-import org.kuali.student.lum.program.client.bacc.edit.BaccEditController;
-import org.kuali.student.lum.program.client.bacc.view.BaccViewController;
 import org.kuali.student.lum.program.client.core.edit.CoreEditController;
 import org.kuali.student.lum.program.client.core.view.CoreViewController;
-import org.kuali.student.lum.program.client.events.MajorViewEvent;
+import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
@@ -44,7 +42,7 @@ public class MajorManager {
     public MajorViewController getProgramViewController() {
         programModel.resetRoot();
         getMajorViewController();
-        eventBus.fireEvent(new MajorViewEvent());
+        eventBus.fireEvent(new ProgramViewEvent());
         return majorViewController;
     }
 

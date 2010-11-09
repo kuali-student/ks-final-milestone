@@ -14,7 +14,7 @@ import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.events.MajorViewEvent;
+import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
@@ -46,9 +46,9 @@ public class MajorViewController extends MajorController {
                 }
             }
         });
-        eventBus.addHandler(MajorViewEvent.TYPE, new MajorViewEvent.Handler() {
+        eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {
             @Override
-            public void onEvent(MajorViewEvent event) {
+            public void onEvent(ProgramViewEvent event) {
                 actionBox.setSelectedIndex(0);
             }
         });

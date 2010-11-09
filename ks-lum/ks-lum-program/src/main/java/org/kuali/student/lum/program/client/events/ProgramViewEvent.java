@@ -6,7 +6,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * @author Igor
  */
-public class MajorViewEvent extends GwtEvent<MajorViewEvent.Handler> {
+public class ProgramViewEvent extends GwtEvent<ProgramViewEvent.Handler> {
 
     public static Type<Handler> TYPE = new Type<Handler>();
 
@@ -21,6 +21,6 @@ public class MajorViewEvent extends GwtEvent<MajorViewEvent.Handler> {
     }
 
     public static interface Handler extends EventHandler {
-        void onEvent(MajorViewEvent event);
+        void onEvent(ProgramViewEvent event);
     }
 }

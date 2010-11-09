@@ -5,6 +5,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.bacc.edit.BaccEditController;
 import org.kuali.student.lum.program.client.bacc.view.BaccViewController;
+import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 
 /**
  * @author Igor
@@ -30,6 +31,7 @@ public class CredentialManager {
         if (baccViewController == null) {
             baccViewController = new BaccViewController(model, viewContext, eventBus);
         }
+        eventBus.fireEvent(new ProgramViewEvent());
         return baccViewController;
     }
 
