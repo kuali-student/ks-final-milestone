@@ -56,9 +56,7 @@ public class MajorManager {
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        if (variationEditController == null) {
-        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);
-        }
+        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);        
         return variationEditController;
     }
 
