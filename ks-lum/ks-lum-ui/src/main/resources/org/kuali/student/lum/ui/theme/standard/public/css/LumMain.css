@@ -183,8 +183,9 @@ margin-bottom: 15px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
+    background-color: #F2F9F9;
     border: 1px solid #D2D8E3;
-    border-collapse: collapse;
+    height: 50px;
     width: 790px;
 }
 .KS-LOHNodePanel {
