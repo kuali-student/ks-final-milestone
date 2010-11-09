@@ -208,7 +208,7 @@ public class CrossSearchManager {
 						Date v2Date = df.parse(v2);
 						compareResult = v1Date.compareTo(v2Date);
 					}catch(Exception e){
-						if(v1!=null){
+						if(v1!=null && v2!=null){
 							compareResult = v1.compareTo(v2);
 						}else if(v2==null){
 							compareResult = 0;
