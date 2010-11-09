@@ -1476,50 +1476,82 @@
   <property name="desc" value="Search for courses and proposals" />
   <property name="title" value="Courses and Proposals" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
-  <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
+  <property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+  <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
   <property name="results">
    <list>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.cluId" />
-     <property name="name" value="Identifier" />
-     <property name="desc" value="Identifier for the course." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="true" />
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.cluId"/>
+     <property name="name" value="Identifier"/>
+     <property name="desc" value="Identifier for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="true"/>
     </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalLongName" />
-     <property name="name" value="Course Title" />
-     <property name="desc" value="Title for the course." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalLongName"/>
+     <property name="name" value="Name"/>
+     <property name="desc" value="Long name for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalCode" />
-     <property name="name" value="Course Number" />
-     <property name="desc" value="Course number." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalCode"/>
+     <property name="name" value="Code"/>
+     <property name="desc" value="Course code."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalStudySubjectArea" />
-     <property name="name" value="Subject Area" />
-     <property name="desc" value="Study Subject Area." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalState"/>
+     <property name="name" value="State"/>
+     <property name="desc" value="State of the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalState" />
-     <property name="name" value="State" />
-     <property name="desc" value="Course or proposal state." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalLevel"/>
+     <property name="name" value="Level"/>
+     <property name="desc" value="Course level."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="true"/>
     </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalVersionIndId"/>
+     <property name="name" value="VersionIndId"/>
+     <property name="desc" value="Version Independent Id of this course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalVersionedFromId"/>
+     <property name="name" value="VersionedFromId"/>
+     <property name="desc" value="Id of this course this was versioned from."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalVersionStartDate"/>
+     <property name="name" value="VersionStartDate"/>
+     <property name="desc" value="Version Start Date"/>
+     <property name="dataType" value="DATE"/>
+     <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalVersionEndDate"/>
+     <property name="name" value="VersionEndDate"/>
+     <property name="desc" value="Version End Date"/>
+     <property name="dataType" value="DATE"/>
+     <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalDescr"/>
+     <property name="name" value="Description"/>
+     <property name="desc" value="Description for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
+    </bean>
+
    </list>
   </property>
  </bean>
@@ -3315,7 +3347,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>Draft</value>
+       <value>draft</value>
        <value>Submitted</value>
       </list>
      </property>
@@ -3343,7 +3375,7 @@
       <list>
       <!-- Which state is Draft? Code is setting programs to lc "draft" -->
        <value>draft</value>
-       <value>Draft</value>
+       <value>draft</value>
        <value>Submitted</value>
       </list>
      </property>
@@ -3365,7 +3397,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>Draft</value>
+       <value>draft</value>
        <value>Submitted</value>
       </list>
      </property>
