@@ -25,21 +25,6 @@ import org.kuali.student.core.statement.entity.Statement;
  * natural language.
  */
 public interface NaturalLanguageTranslator {
-
-	/**
-	 * Sets the language translation.
-	 * 
-	 * @param language Language translation
-	 */
-	public void setLanguage(String language);
-	
-	/**
-	 * Gets the translation language.
-	 * 
-	 * @return Language translation
-	 */
-	public String getLanguage();
-
 	/**
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.
@@ -53,14 +38,41 @@ public interface NaturalLanguageTranslator {
 	public String translateReqComponent(ReqComponent reqComponent, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
 
 	/**
-	 * Translates a statement for a specific natural language 
-	 * usuage type (context) into natural language.
+	 * Translates a requirement component for a specific natural language 
+	 * usuage type (context) and language locale (e.g. 'en' for English, 
+	 * 'de' for German) into natural language.
 	 * 
-	 * @param statement Statement 
+	 * @param reqComponent Requirement component to be translated
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws OperationFailedException
+	 */
+	public String translateReqComponent(ReqComponent reqComponent, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
+
+	/**
+	 * Translates a statement in the default language locale for a specific 
+	 * natural language usuage type (context) into natural language.
+	 * 
+	 * @param statement Statement to be translated 
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language statement translation
 	 * @throws DoesNotExistException CLU id does not exists
-	 * @throws OperationFailedException
+	 * @throws OperationFailedException Translation fails
 	 */
 	public String translateStatement(Statement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
+
+	/**
+	 * Translates a statement for a specific natural language 
+	 * usuage type (context) and language locale into natural language.
+	 * 
+	 * @param statement Statement to be translated 
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
+	 * @return Natural language statement translation
+	 * @throws DoesNotExistException CLU id does not exists
+	 * @throws OperationFailedException Translation fails
+	 */
+	public String translateStatement(Statement statement, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
 }

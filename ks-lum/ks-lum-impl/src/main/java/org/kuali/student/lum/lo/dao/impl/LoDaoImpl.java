@@ -28,6 +28,7 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoLoCategoryJoin;
 import org.kuali.student.lum.lo.entity.LoLoRelation;
 
 /**
@@ -54,7 +55,10 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		if ( ! loRepoId.equals(loCategoryRepoId) ) {
 			throw new UnsupportedActionException("The learning objective category is not associated with the learning objective's repository");
 		}
-		lo.getCategories().add(loCategory);
+		LoLoCategoryJoin join = new LoLoCategoryJoin();
+		join.setLo(lo);
+		join.setLoCategory(loCategory);
+		create(join);
 		return true;
 	}
 
@@ -63,9 +67,11 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public boolean removeLoCategoryFromLo(String loCategoryId, String loId) throws DoesNotExistException {
-		Lo lo = fetch(Lo.class, loId);
-		LoCategory loCategory = fetch(LoCategory.class, loCategoryId);
-		lo.getCategories().remove(loCategory);
+		Query query = em.createNamedQuery("Lo.getLoCategoryJoin");
+		query.setParameter("loCategoryId", loCategoryId);
+		query.setParameter("loId", loId);
+		LoLoCategoryJoin join = (LoLoCategoryJoin) query.getSingleResult();
+		delete(join);
 		return true;
 	}
 
@@ -86,7 +92,7 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException {
-		Lo child = fetch(Lo.class, loId);
+		//Lo child = fetch(Lo.class, loId);
 		if ( ! getIncludedLos(loId).isEmpty() ) {
 			throw new DependentObjectsExistException("Lo(" +
 													 loId+
@@ -94,11 +100,11 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		}
 		// TODO - will need more general logic here when we have relationships other than "includes"
 		// hopefully dictionary-driven
-		List<Lo> parents = getIncludingLos(loId);
-		for (Lo parent : parents) {
-			parent.getRelatedLos().remove(child);
-			update(parent);
-		}
+//		List<Lo> parents = getIncludingLos(loId);
+//		for (Lo parent : parents) {
+//			parent.getRelatedLos().remove(child);
+//			update(parent);
+//		}
 		delete(Lo.class, loId);
 		return true;
 	}
@@ -177,15 +183,16 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	}
 
 	@Override
-	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException, DependentObjectsExistException {
-		// make sure we don't orphan an LO (and potentially its children)
-		LoLoRelation llRelation = fetch(LoLoRelation.class, loLoRelationId);
-		if (getIncludingLos(llRelation.getRelatedLo().getId()).size() == 1) {
-			// TODO - "&& [not a top-level LO for another CLU]" when LO's are reused
-			throw new DependentObjectsExistException("LoLoRelation(" +
-													 loLoRelationId +
-													 ") cannot be deleted without orphaning Lo(s).");
-		}
+	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException {
+
+//		// make sure we don't orphan an LO (and potentially its children)
+//		LoLoRelation llRelation = fetch(LoLoRelation.class, loLoRelationId);
+//		if (getIncludingLos(llRelation.getRelatedLo().getId()).size() == 1) {
+//			// TODO - "&& [not a top-level LO for another CLU]" when LO's are reused
+//			throw new DependentObjectsExistException("LoLoRelation(" +
+//													 loLoRelationId +
+//													 ") cannot be deleted without orphaning Lo(s).");
+//		}
 		delete(LoLoRelation.class, loLoRelationId);
 	}
 

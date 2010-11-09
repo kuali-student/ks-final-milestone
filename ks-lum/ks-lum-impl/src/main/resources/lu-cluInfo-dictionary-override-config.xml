@@ -58,7 +58,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:stateRef bean="state.cluInfo.CreditCourse.withdrawn"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourse.approved"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourse.rejected"/>
-		<dict:stateRef bean="state.cluInfo.CreditCourse.activated"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.active"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourse.retired"/>
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse" parent="type.cluInfo.CreditCourse.abstract"/>
@@ -74,7 +74,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.withdrawn"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.approved"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.rejected"/>
-		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.activated"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.active"/>
 		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.retired"/>
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell" parent="type.cluInfo.CreditCourseFormatShell.abstract"/>
@@ -90,7 +90,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:stateRef bean="state.cluInfo.Program.withdrawn"/>
 		<dict:stateRef bean="state.cluInfo.Program.approved"/>
 		<dict:stateRef bean="state.cluInfo.Program.rejected"/>
-		<dict:stateRef bean="state.cluInfo.Program.activated"/>
+		<dict:stateRef bean="state.cluInfo.Program.active"/>
 		<dict:stateRef bean="state.cluInfo.Program.retired"/>
 </dict:type>
 <dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program" parent="type.cluInfo.Program.abstract"/>
@@ -107,7 +107,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:stateRef bean="state.cluInfo.AllActivityTypes.withdrawn"/>
 		<dict:stateRef bean="state.cluInfo.AllActivityTypes.approved"/>
 		<dict:stateRef bean="state.cluInfo.AllActivityTypes.rejected"/>
-		<dict:stateRef bean="state.cluInfo.AllActivityTypes.activated"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.active"/>
 		<dict:stateRef bean="state.cluInfo.AllActivityTypes.retired"/>
 </dict:type>
 
@@ -472,12 +472,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="approved" id="state.cluInfo.CreditCourse.approved" parent="state.cluInfo.CreditCourse.approved.abstract"/>
 
 <!-- *********************************************** -->
-<!-- State for state.cluInfo.Credit Course.activated -->
+<!-- State for state.cluInfo.Credit Course.Active -->
 <!-- *********************************************** -->
 
-<dict:state key="activated" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.activated.abstract" abstract="true">
+<dict:state key="Active" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="activated" id="state.cluInfo.CreditCourse.activated" parent="state.cluInfo.CreditCourse.activated.abstract"/>
+<dict:state key="Active" id="state.cluInfo.CreditCourse.active" parent="state.cluInfo.CreditCourse.active.abstract"/>
 
 <!-- ************************************************************ -->
 <!-- State for state.cluInfo.Credit Course Format Shell.(default) -->
@@ -583,12 +583,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="rejected" id="state.cluInfo.CreditCourseFormatShell.rejected" parent="state.cluInfo.CreditCourseFormatShell.rejected.abstract"/>
 
 <!-- ************************************************************ -->
-<!-- State for state.cluInfo.Credit Course Format Shell.activated -->
+<!-- State for state.cluInfo.Credit Course Format Shell.Active -->
 <!-- ************************************************************ -->
 
-<dict:state key="activated" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.activated.abstract" abstract="true">
+<dict:state key="Active" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="activated" id="state.cluInfo.CreditCourseFormatShell.activated" parent="state.cluInfo.CreditCourseFormatShell.activated.abstract"/>
+<dict:state key="Active" id="state.cluInfo.CreditCourseFormatShell.active" parent="state.cluInfo.CreditCourseFormatShell.active.abstract"/>
 
 <!-- ********************************************************** -->
 <!-- State for state.cluInfo.Credit Course Format Shell.retired -->
@@ -904,12 +904,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="approved" id="state.cluInfo.Program.approved" parent="state.cluInfo.Program.approved.abstract"/>
 
 <!-- ***************************************** -->
-<!-- State for state.cluInfo.Program.activated -->
+<!-- State for state.cluInfo.Program.Active -->
 <!-- ***************************************** -->
 
-<dict:state key="activated" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.activated.abstract" abstract="true">
+<dict:state key="Active" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="activated" id="state.cluInfo.Program.activated" parent="state.cluInfo.Program.activated.abstract"/>
+<dict:state key="Active" id="state.cluInfo.Program.active" parent="state.cluInfo.Program.active.abstract"/>
 
 <!-- **************************************************** -->
 <!-- State for state.cluInfo.All Activity Types.(default) -->
@@ -1047,12 +1047,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="rejected" id="state.cluInfo.AllActivityTypes.rejected" parent="state.cluInfo.AllActivityTypes.rejected.abstract"/>
 
 <!-- **************************************************** -->
-<!-- State for state.cluInfo.All Activity Types.activated -->
+<!-- State for state.cluInfo.All Activity Types.Active -->
 <!-- **************************************************** -->
 
-<dict:state key="activated" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.activated.abstract" abstract="true">
+<dict:state key="Active" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="activated" id="state.cluInfo.AllActivityTypes.activated" parent="state.cluInfo.AllActivityTypes.activated.abstract"/>
+<dict:state key="Active" id="state.cluInfo.AllActivityTypes.active" parent="state.cluInfo.AllActivityTypes.active.abstract"/>
 
 <!-- ************************************************** -->
 <!-- State for state.cluInfo.All Activity Types.retired -->

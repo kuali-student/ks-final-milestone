@@ -38,6 +38,7 @@
         <ref bean="KualiStudentKimAttributes-screenComponent" />
         <ref bean="KualiStudentKimAttributes-sectionId" />
         <ref bean="KualiStudentKimAttributes-descendHierarchy" />
+        <ref bean="KualiStudentKimAttributes-ksReferenceTypeKey" />
       </list>
     </property>
   </bean>
@@ -218,6 +219,22 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-ksReferenceTypeKey" parent="KualiStudentKimAttributes-ksReferenceTypeKey-parentBean" />
+  <bean id="KualiStudentKimAttributes-ksReferenceTypeKey-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="ksReferenceTypeKey"
+        p:forceUppercase="false"
+        p:label="Reference Type"
+        p:shortLabel="Ref Type"
+        p:maxLength="200"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
   </bean>
 
 </beans>

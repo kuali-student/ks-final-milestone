@@ -20,20 +20,14 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
 @Table(name = "KSLU_CLU_CR")
-public class CluCredit {
-
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class CluCredit extends BaseEntity{
     
     @Column(name = "REPEAT_CNT")
     private String repeatCount;
@@ -85,11 +79,6 @@ public class CluCredit {
     )
     private TimeAmount maxTimeResultsRecognized;
 
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-    
     public String getRepeatCount() {
         return repeatCount;
     }
@@ -170,11 +159,4 @@ public class CluCredit {
         this.maxTimeResultsRecognized = maxTimeResultsRecognized;
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

@@ -29,8 +29,6 @@ public class ApplicationController extends LayoutController{
 		this.init(header);
 		this.setupViews();
 		this.addHandlers();
-		//add url parsing here
-		this.showDefaultView(NO_OP_CALLBACK);
 	}
 	
 	private void init(Widget header){

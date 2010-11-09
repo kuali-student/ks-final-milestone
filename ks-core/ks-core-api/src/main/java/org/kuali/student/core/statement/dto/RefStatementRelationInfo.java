@@ -36,7 +36,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 public class RefStatementRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
 	private static final long serialVersionUID = 1L;
-	
+
     @XmlElement
 	private String refObjectTypeKey;
 
@@ -69,10 +69,10 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
     private String id;
 
     /**
-     * Gets the unique identifier for an object type. 
-     * Used to identify the type of object being referred to, 
+     * Gets the unique identifier for an object type.
+     * Used to identify the type of object being referred to,
      * so that the id can be resolved.
-     * 
+     *
      * @return Reference object type key
      */
 	public String getRefObjectTypeKey() {
@@ -80,10 +80,10 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-     * Sets the unique identifier for an object type. 
-     * Used to identify the type of object being referred to, 
+     * Sets the unique identifier for an object type.
+     * Used to identify the type of object being referred to,
      * so that the id can be resolved.
-	 * 
+	 *
 	 * @param refObjectTypeKey Reference object type key
 	 */
 	public void setRefObjectTypeKey(String refObjectTypeKey) {
@@ -91,11 +91,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Sets the identifier for an object. 
-	 * This will likely require some additional context in order to be resolved, 
-	 * such as the type of object. An objectId could be a cluId, a luiId, 
+	 * Sets the identifier for an object.
+	 * This will likely require some additional context in order to be resolved,
+	 * such as the type of object. An objectId could be a cluId, a luiId,
 	 * an orgId, a documentId, etc.
-	 * 
+	 *
 	 * @return Reference object id
 	 */
 	public String getRefObjectId() {
@@ -103,11 +103,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Gets the identifier for an object. 
-	 * This will likely require some additional context in order to be resolved, 
-	 * such as the type of object. An objectId could be a cluId, a luiId, 
+	 * Gets the identifier for an object.
+	 * This will likely require some additional context in order to be resolved,
+	 * such as the type of object. An objectId could be a cluId, a luiId,
 	 * an orgId, a documentId, etc.
-	 * 
+	 *
 	 * @param refObjectId Reference object id
 	 */
 	public void setRefObjectId(String refObjectId) {
@@ -116,7 +116,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Gets the unique identifier for a single statement record.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getStatementId() {
@@ -125,7 +125,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Sets the unique identifier for a single statement record.
-	 * 
+	 *
 	 * @param statementId Statement id
 	 */
 	public void setStatementId(String statementId) {
@@ -133,11 +133,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Gets the date and time that this object to statement relationship 
-	 * became effective. This is a similar concept to the effective date on 
-	 * enumerated values. When an expiration date has been specified, 
+	 * Gets the date and time that this object to statement relationship
+	 * became effective. This is a similar concept to the effective date on
+	 * enumerated values. When an expiration date has been specified,
 	 * this field must be less than or equal to the expiration date.
-	 * 
+	 *
 	 * @return Object to statement relationship effective date
 	 */
 	public Date getEffectiveDate() {
@@ -145,11 +145,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Sets the date and time that this object to statement relationship 
-	 * became effective. This is a similar concept to the effective date on 
-	 * enumerated values. When an expiration date has been specified, 
+	 * Sets the date and time that this object to statement relationship
+	 * became effective. This is a similar concept to the effective date on
+	 * enumerated values. When an expiration date has been specified,
 	 * this field must be less than or equal to the expiration date.
-	 * 
+	 *
 	 * @param effectiveDate Object to statement relationship effective date
 	 */
 	public void setEffectiveDate(Date effectiveDate) {
@@ -157,13 +157,13 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Gets the date and time that this object to statement relationship expires. 
-	 * This is a similar concept to the expiration date on enumerated values. 
-	 * If specified, this should be greater than or equal to the effective date. 
-	 * If this field is not specified, then no expiration date has been 
-	 * currently defined and should automatically be considered greater 
+	 * Gets the date and time that this object to statement relationship expires.
+	 * This is a similar concept to the expiration date on enumerated values.
+	 * If specified, this should be greater than or equal to the effective date.
+	 * If this field is not specified, then no expiration date has been
+	 * currently defined and should automatically be considered greater
 	 * than the effective date.
-	 * 
+	 *
 	 * @return Object to statement relationship expiration date
 	 */
 	public Date getExpirationDate() {
@@ -171,13 +171,13 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Sets the date and time that this object to statement relationship expires. 
-	 * This is a similar concept to the expiration date on enumerated values. 
-	 * If specified, this should be greater than or equal to the effective date. 
-	 * If this field is not specified, then no expiration date has been 
-	 * currently defined and should automatically be considered greater 
+	 * Sets the date and time that this object to statement relationship expires.
+	 * This is a similar concept to the expiration date on enumerated values.
+	 * If specified, this should be greater than or equal to the effective date.
+	 * If this field is not specified, then no expiration date has been
+	 * currently defined and should automatically be considered greater
 	 * than the effective date.
-	 * 
+	 *
 	 * @param expirationDate Object to statement relationship expiration date
 	 */
 	public void setExpirationDate(Date expirationDate) {
@@ -186,7 +186,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Gets the list of key/value pairs, typically used for dynamic attributes.
-	 * 
+	 *
 	 * @return Map of attributes
 	 */
 	public Map<String, String> getAttributes() {
@@ -195,7 +195,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Sets the list of key/value pairs, typically used for dynamic attributes.
-	 * 
+	 *
 	 * @param attributes Map of attributes
 	 */
 	public void setAttributes(Map<String, String> attributes) {
@@ -203,10 +203,10 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Gets the create and last update info for the structure. 
-	 * This is optional and treated as read only since the data is set by 
+	 * Gets the create and last update info for the structure.
+	 * This is optional and treated as read only since the data is set by
 	 * the internals of the service during maintenance operations.
-	 * 
+	 *
 	 * @return Meta data information
 	 */
 	public MetaInfo getMetaInfo() {
@@ -214,10 +214,10 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Sets the create and last update info for the structure. 
-	 * This is optional and treated as read only since the data is set by 
+	 * Sets the create and last update info for the structure.
+	 * This is optional and treated as read only since the data is set by
 	 * the internals of the service during maintenance operations.
-	 * 
+	 *
 	 * @param metaInfo Meta data information
 	 */
 	public void setMetaInfo(MetaInfo metaInfo) {
@@ -226,7 +226,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Gets the object to statement relation type.
-	 * 
+	 *
 	 * @return Object to statement relation type
 	 */
 	public String getType() {
@@ -235,7 +235,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Sets the object to statement relation type.
-	 * 
+	 *
 	 * @param type Object to statement relation type
 	 */
 	public void setType(String type) {
@@ -243,11 +243,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Gets the identifier for the current status of the object to statement 
-	 * relationship. The values for this field are constrained to those in 
-	 * the refStatementRelationState enumeration. A separate setup operation 
+	 * Gets the identifier for the current status of the object to statement
+	 * relationship. The values for this field are constrained to those in
+	 * the refStatementRelationState enumeration. A separate setup operation
 	 * does not exist for retrieval of the meta data around this value.
-	 * 
+	 *
 	 * @return Object to statement relation state
 	 */
 	public String getState() {
@@ -255,11 +255,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	}
 
 	/**
-	 * Sets the identifier for the current status of the object to statement 
-	 * relationship. The values for this field are constrained to those in 
-	 * the refStatementRelationState enumeration. A separate setup operation 
+	 * Sets the identifier for the current status of the object to statement
+	 * relationship. The values for this field are constrained to those in
+	 * the refStatementRelationState enumeration. A separate setup operation
 	 * does not exist for retrieval of the meta data around this value.
-	 * 
+	 *
 	 * @param state Object to statement relation state
 	 */
 	public void setState(String state) {
@@ -268,7 +268,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Gets the unique identifier for a single Object Statement Relationship record.
-	 * 
+	 *
 	 * @return Object to Statement Relation Identifier
 	 */
 	public String getId() {
@@ -277,7 +277,7 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 
 	/**
 	 * Sets the unique identifier for a single Object Statement Relationship record.
-	 * 
+	 *
 	 * @param id Object to statement relation identifier
 	 */
 	public void setId(String id) {
@@ -288,6 +288,6 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	public String toString() {
 		return "RefStatementRelationInfo[id=" + id + ", type=" + type
 				+ ", statementId=" + statementId + ", refObjectId="
-				+ refObjectId + "]";
+				+ refObjectId + ", refObjectTypeKey=" + refObjectTypeKey + "]";
 	}
 }

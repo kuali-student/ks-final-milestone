@@ -3,15 +3,11 @@
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.1.0-M7-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <artifactId>ks-standard-sec</artifactId>
   <name>KS Standard Security</name>
-  <description>KS Standard Security - out of the box</description>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</developerConnection>
-  </scm>
+  <description>KS Standard Security</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -33,10 +29,7 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
     </dependency>
-
-    <!--
-			This jar is only needed if you are using CAS with Spring Security
-		-->
+    <!-- This jar is only needed if you are using CAS with Spring Security -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-cas-client</artifactId>
@@ -52,8 +45,18 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-databinding-aegis</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+       <groupId>org.kuali.student.common</groupId>
+       <artifactId>ks-common-util</artifactId>
+       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -68,7 +71,7 @@
         <executions>
           <execution>
             <id>SamlIssuerService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.security.saml.service.SamlIssuerService</className>
               <serviceName>SamlIssuerService</serviceName>

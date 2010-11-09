@@ -51,12 +51,12 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 		MessageEntity message = messageManagementDAO.getMessage("US", "Address", "State");
 		assertEquals(message.getLocale(), "US");
 		assertEquals(message.getGroupName(), "Address");
-		assertEquals(message.getId(), "State");
+		assertEquals(message.getMessageId(), "State");
 		assertEquals(message.getValue(), "State:");
 		message = messageManagementDAO.getMessage("CA", "Address", "State");
 		assertEquals(message.getLocale(), "CA");
 		assertEquals(message.getGroupName(), "Address");
-		assertEquals(message.getId(), "State");
+		assertEquals(message.getMessageId(), "State");
 		assertEquals(message.getValue(), "Province:");
 	}
 	
@@ -107,13 +107,13 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 		MessageEntity me = new MessageEntity();
 		me.setGroupName("Course");
 		me.setLocale("US");
-		me.setId("Grading");
+		me.setMessageId("Grading");
 		me.setValue("Grading Scale");
 		
 		messageManagementDAO.updateMessage("US", "Name", "Last", me);
 		MessageEntity result = messageManagementDAO.getMessage("US", "Course", "Grading");
 		assertEquals(result.getLocale(), me.getLocale());
-		assertEquals(result.getId(), me.getId());
+		assertEquals(result.getMessageId(), me.getMessageId());
 		assertEquals(result.getValue(), me.getValue());
 		assertEquals(result.getGroupName(), me.getGroupName());
 		result = messageManagementDAO.getMessage("US", "Name", "Last");

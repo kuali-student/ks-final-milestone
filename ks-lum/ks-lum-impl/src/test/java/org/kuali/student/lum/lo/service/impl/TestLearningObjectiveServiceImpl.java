@@ -162,20 +162,20 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // now make sure we can't orphan "included" LO's
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	
-		llrInfo = client.createLoLoRelation("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "91A91860-D796-4A17-976B-A6165B1A0B05", "kuali.lo.relation.type.includes", llrInfo);
+		llrInfo = client.createLoLoRelation("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", "91a91860-d796-4a17-976b-a6165b1a0b05", "kuali.lo.relation.type.includes", llrInfo);
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId());
     	try {
-    		client.deleteLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
+    		client.deleteLo("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
     		fail("Deleted an LO which orphaned included LO(s)");
     	} catch (DependentObjectsExistException doee) {}
     }
     
     @Test
     public void testGetLoByIdList() throws DoesNotExistException, InvalidParameterException, OperationFailedException, MissingParameterException {
-    	List<LoInfo> loInfos = client.getLoByIdList(Arrays.asList("81ABEA67-3BCC-4088-8348-E265F3670145",
-    																"DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", 
-    																"91A91860-D796-4A17-976B-A6165B1A0B05"));
+    	List<LoInfo> loInfos = client.getLoByIdList(Arrays.asList("81abea67-3bcc-4088-8348-e265f3670145",
+    																"dd0658d2-fdc9-48fa-9578-67a2ce53bf8a",
+    																"91a91860-d796-4a17-976b-a6165b1a0b05"));
     	assertEquals(3, loInfos.size());
     }
     
@@ -391,13 +391,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void testGetRelatedLosByLoId() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
     	List<LoInfo> relatedLos = null;
     	try {
-    		relatedLos = client.getRelatedLosByLoId("81ABEA67-3BCC-4088-8348-E265F3670145", "kuali.lo.relation.type.includes");
+    		relatedLos = client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", "kuali.lo.relation.type.includes");
     	} catch (Exception e) {
             fail("Exception caught when calling LearningObjectiveService.getRelatedLosByLoId(): " + e.getMessage());
     	}
     	assertNotNull(relatedLos);
     	assertEquals(2, relatedLos.size());
-		assertTrue(relatedLos.get(0).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF") || relatedLos.get(1).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
+		assertTrue(relatedLos.get(0).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf") || relatedLos.get(1).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"));
 
         // Detecting expected errors
         try {
@@ -405,7 +405,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("MissingParameterException expected for loId");
         } catch (MissingParameterException e) {}
         try {
-    		relatedLos = client.getRelatedLosByLoId("81ABEA67-3BCC-4088-8348-E265F3670145", null);
+    		relatedLos = client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", null);
             fail("MissingParameterException expected for loLoRelationTypeKey");
         } catch (MissingParameterException e) {}
     }
@@ -518,13 +518,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void testGetLoLoRelation() throws OperationFailedException, DoesNotExistException, InvalidParameterException  {
     	LoLoRelationInfo llrInfo = null;
     	try {
-    		llrInfo = client.getLoLoRelation("61FF5B2C-5D2F-464B-B6D8-082FBF671FCB");
+    		llrInfo = client.getLoLoRelation("61ff5b2c-5d2f-464b-b6d8-082fbf671fcb");
     	} catch (Exception e) {
             fail("Exception caught when calling LearningObjectiveService.getLoLoRelation(): " + e.getMessage());
     	}
     	assertNotNull(llrInfo);
-    	assertEquals("81ABEA67-3BCC-4088-8348-E265F3670145", llrInfo.getLoId());
-    	assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", llrInfo.getRelatedLoId());
+    	assertEquals("81abea67-3bcc-4088-8348-e265f3670145", llrInfo.getLoId());
+    	assertEquals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
     	assertEquals("draft", llrInfo.getState());
         // Detecting expected errors
@@ -544,27 +544,27 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	
 	@Test
 	public void testGetLoCategoriesForLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
 		assertNotNull(categories);
 		assertEquals(2, categories.size());
-		categories = client.getLoCategoriesForLo("E0619A90-66D6-4AF4-B357-E73AE44F7E88");
+		categories = client.getLoCategoriesForLo("e0619a90-66d6-4af4-b357-e73ae44f7e88");
 		assertEquals(1, categories.size());
 		assertEquals("Test Category 3", categories.get(0).getName());
-		categories = client.getLoCategoriesForLo("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF");
+		categories = client.getLoCategoriesForLo("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf");
 		assertTrue(null == categories || categories.size() == 0);
 	}
     
 	@Test
 	public void testAddRemoveLoCategoryToFromLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException, UnsupportedActionException {
-		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
 		assertEquals(2, categories.size());
-		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114D2A4-F66D-4D3A-9D41-A7AA4299C797")));
-		client.addLoCategoryToLo("F2F02922-4E77-4144-AA07-8C2C956370DC", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
-		categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114d2a4-f66d-4d3a-9d41-a7aa4299c797")));
+		client.addLoCategoryToLo("f2f02922-4e77-4144-aa07-8c2c956370dc", "dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
+		categories = client.getLoCategoriesForLo("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
 		assertEquals(3, categories.size());
-		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114D2A4-F66D-4D3A-9D41-A7AA4299C797", "F2F02922-4E77-4144-AA07-8C2C956370DC")));
-		client.removeLoCategoryFromLo("F2F02922-4E77-4144-AA07-8C2C956370DC", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
-		categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114d2a4-f66d-4d3a-9d41-a7aa4299c797", "f2f02922-4e77-4144-aa07-8c2c956370dc")));
+		client.removeLoCategoryFromLo("f2f02922-4e77-4144-aa07-8c2c956370dc", "dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
+		categories = client.getLoCategoriesForLo("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a");
 		assertEquals(2, categories.size());
 	}
 
@@ -582,14 +582,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	
     	try {
-    		llrInfo = client.createLoLoRelation("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "91A91860-D796-4A17-976B-A6165B1A0B05", "kuali.lo.relation.type.includes", llrInfo);
+    		llrInfo = client.createLoLoRelation("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", "91a91860-d796-4a17-976b-a6165b1a0b05", "kuali.lo.relation.type.includes", llrInfo);
     	} catch (Exception e) {
            fail("Exception caught when calling LearningObjectiveService.createLoLoRelation(): " + e.getMessage());
     	}
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId());
-    	assertEquals("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", llrInfo.getLoId());
-    	assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", llrInfo.getRelatedLoId());
+    	assertEquals("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", llrInfo.getLoId());
+    	assertEquals("91a91860-d796-4a17-976b-a6165b1a0b05", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
     	assertEquals("draft", llrInfo.getState());
         // Detecting expected errors
@@ -705,10 +705,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         List<LoInfo> twoLos = client.getLosByLoCategory(categoryId);
         assertTrue(null != twoLos);
         assertEquals(2, twoLos.size());
-        assertTrue(twoLos.get(0).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
-        			twoLos.get(0).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
-        assertTrue(twoLos.get(1).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
-        			twoLos.get(1).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        assertTrue(twoLos.get(0).getId().equals("81abea67-3bcc-4088-8348-e265f3670145") ||
+        			twoLos.get(0).getId().equals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));
+        assertTrue(twoLos.get(1).getId().equals("81abea67-3bcc-4088-8348-e265f3670145") ||
+        			twoLos.get(1).getId().equals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));
         
         LoCategoryInfo updated = client.updateLoCategory(categoryId, category);
         assertNotNull(updated);
@@ -734,24 +734,24 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // make sure the LoCategories were cloned
         List<LoInfo> los = client.getLosByLoCategory(newCategoryId);
         assertEquals(2, los.size());
-        assertTrue(los.get(0).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
-        			los.get(0).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
-        assertTrue(los.get(1).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
-        			los.get(1).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        assertTrue(los.get(0).getId().equals("81abea67-3bcc-4088-8348-e265f3670145") ||
+        			los.get(0).getId().equals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));
+        assertTrue(los.get(1).getId().equals("81abea67-3bcc-4088-8348-e265f3670145") ||
+        			los.get(1).getId().equals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));
         
         los = client.getLosByLoCategory(categoryId);
         assertTrue(null == los || los.isEmpty());
         
         // add one to an LO that didn't have one
-        categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
-        StatusInfo statusInfo = client.addLoCategoryToLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
+        categoryId = "054caa88-c21d-4496-8287-36a311a11d68";
+        StatusInfo statusInfo = client.addLoCategoryToLo(categoryId, "91a91860-d796-4a17-976b-a6165b1a0b05");
         assertTrue(statusInfo.getSuccess());
         
         los = client.getLosByLoCategory(categoryId);
         assertEquals(1, los.size());
-        assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", los.get(0).getId()); 
+        assertEquals("91a91860-d796-4a17-976b-a6165b1a0b05", los.get(0).getId());
         
-        categories = client.getLoCategoriesForLo("91A91860-D796-4A17-976B-A6165B1A0B05");
+        categories = client.getLoCategoriesForLo("91a91860-d796-4a17-976b-a6165b1a0b05");
         assertEquals(1, categories.size());
         
         try {
@@ -759,7 +759,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("DependentObjectsExistException expected"); 
         } catch(DependentObjectsExistException e) {}
         
-        statusInfo = client.removeLoCategoryFromLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
+        statusInfo = client.removeLoCategoryFromLo(categoryId, "91a91860-d796-4a17-976b-a6165b1a0b05");
         assertTrue(statusInfo.getSuccess());
         
         los = client.getLosByLoCategory(categoryId);
@@ -786,7 +786,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals(2, resultCells.size());
         SearchResultCell cell = resultCells.get(0);
         assertEquals("lo.resultColumn.loId", cell.getKey());
-        assertEquals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", cell.getValue());
+        assertEquals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf", cell.getValue());
         cell = resultCells.get(1);
         assertEquals("lo.resultColumn.loName", cell.getKey());
         assertEquals(testLoName, cell.getValue());

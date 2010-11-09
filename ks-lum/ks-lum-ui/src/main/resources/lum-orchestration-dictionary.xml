@@ -15,20 +15,34 @@
     permissions and limitations under the License.
 
 -->
+<!--
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 
+Please do not update this anymore it is obsolete and should no longer be used
+to configure searches please update lum-ui-lookup-context.xml instead
+
+
+Questions please contact Norm Wright.
+
+
+
+
+
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<import resource="workflow-dictionary.xml"	/>
 
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor">
+		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -57,7 +71,7 @@
 	</bean>
 	<bean id="constraint.atp.in.future" parent="constraint">
 		<property name="id" value="atp.in.future" />
-		<property name="messageId" value="kuali.msg.validation.atp.not.in.future" />
+		<!--<property name="messageId" value="kuali.msg.validation.atp.not.in.future" />-->
 		<property name="desc" value="The ATP must start in the future" />
 		<property name="serverSide" value="true" />
 		<property name="specialValidator"
@@ -65,7 +79,7 @@
 	</bean>
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured  time period types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -73,7 +87,7 @@
 	</bean>
 	<bean id="constraint.available.course.numbers" parent="constraint">
 		<property name="id" value="available.course.numbers" />
-		<property name="messageId" value="kuali.msg.validation.not.an.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.an.enumerated.list" />-->
 		<property name="desc"
 			value="In list of configured available course numbers" />
 		<property name="serverSide" value="false" />
@@ -132,7 +146,7 @@
 	</bean>
 	<bean id="constraint.code" parent="constraint">
 		<property name="id" value="code" />
-		<property name="messageId" value="kuali.msg.validation.code" />
+		<!--<property name="messageId" value="kuali.msg.validation.code" />-->
 		<property name="desc" value="Alphanumeric code, hypen and period." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -141,7 +155,7 @@
 	</bean>
 	<bean id="constraint.code.uppercase" parent="constraint">
 		<property name="id" value="code.uppercase" />
-		<property name="messageId" value="kuali.msg.validation.uppercase" />
+		<!--<property name="messageId" value="kuali.msg.validation.uppercase" />-->
 		<property name="desc"
 			value="uppercase alphanumeric code, hypen and period." />
 		<property name="serverSide" value="false" />
@@ -151,7 +165,7 @@
 	</bean>
 	<bean id="constraint.course.proposal.types" parent="constraint">
 		<property name="id" value="course.proposal.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of configured course proposal types" />
 		<property name="serverSide" value="false" />
@@ -161,7 +175,7 @@
 	</bean>
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
-		<property name="messageId" value="kuali.msg.validation.date.time" />
+		<!--<property name="messageId" value="kuali.msg.validation.date.time" />-->
 		<property name="desc" value="Date-Time" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="19" />
@@ -171,7 +185,7 @@
 	</bean>
 	<bean id="constraint.decimal" parent="constraint">
 		<property name="id" value="decimal" />
-		<property name="messageId" value="kuali.msg.validation.decimal" />
+		<!--<property name="messageId" value="kuali.msg.validation.decimal" />-->
 		<property name="desc" value="decimal number" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -202,7 +216,7 @@
 	</bean>
 	<bean id="constraint.duration.types" parent="constraint">
 		<property name="id" value="duration.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured duration types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -210,7 +224,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.co-located" parent="constraint">
 		<property name="id" value="hard.coded.co-located" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.relation.type.co-located&#34;" />
 		<property name="serverSide" value="true" />
@@ -220,7 +234,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.cross-listed" parent="constraint">
 		<property name="id" value="hard.coded.cross-listed" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.type.CreditCourse.identifier.cross-listed&#34;" />
 		<property name="serverSide" value="true" />
@@ -231,7 +245,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.feeType.Revenue" parent="constraint">
 		<property name="id" value="hard.coded.feeType.Revenue" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;Per Credit Rate&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Revenue" />
@@ -240,7 +254,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.lolorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lolorealtion.includes" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lo.lo.relation.type.includes&#34;" />
 		<property name="serverSide" value="true" />
@@ -251,7 +265,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.lulorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lulorealtion.includes" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.lo.relation.type.includes&#34;" />
 		<property name="serverSide" value="true" />
@@ -262,7 +276,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.one" parent="constraint">
 		<property name="id" value="hard.coded.one" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be 1" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:1" />
@@ -271,7 +285,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.rateType.fixedRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.fixedRate" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;Fixed Rate&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Fixed Rate" />
@@ -280,7 +294,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.rateType.multipleRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.multipleRate" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;Multiple Rate&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Multiple Rate" />
@@ -289,7 +303,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.rateType.perCreditRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.perCreditRate" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;Per Credit Rate&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Per Credit Rate" />
@@ -298,7 +312,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.rateType.variableRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.variableRate" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;Variable Rate&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Variable Rate" />
@@ -307,7 +321,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.referenceType.CLU" parent="constraint">
 		<property name="id" value="hard.coded.referenceType.CLU" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;kuali.referenceType.CLU&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.referenceType\.CLU" />
@@ -316,7 +330,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="must be &#34;kuali.lo.type.singleUse&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.lo\.type\.singleUse" />
@@ -325,7 +339,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo.repository" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo.repository" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.loRepository.key.single.use&#34;" />
 		<property name="serverSide" value="true" />
@@ -335,7 +349,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.version" parent="constraint">
 		<property name="id" value="hard.coded.version" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.type.CreditCourse.identifier.version&#34;" />
 		<property name="serverSide" value="true" />
@@ -353,7 +367,7 @@
 	</bean>
 	<bean id="constraint.integer" parent="constraint">
 		<property name="id" value="integer" />
-		<property name="messageId" value="kuali.msg.validation.integer" />
+		<!--<property name="messageId" value="kuali.msg.validation.integer" />-->
 		<property name="desc" value="Integer" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -364,7 +378,7 @@
 	</bean>
 	<bean id="constraint.kuali.id" parent="constraint">
 		<property name="id" value="kuali.id" />
-		<property name="messageId" value="kuali.msg.validation.kuali.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.id" />-->
 		<property name="desc"
 			value="Kuali ID; calculated by service on add, then read-only." />
 		<property name="serverSide" value="true" />
@@ -379,7 +393,7 @@
 	</bean>
 	<bean id="constraint.kuali.meta.data" parent="constraint">
 		<property name="id" value="kuali.meta.data" />
-		<property name="messageId" value="kuali.msg.validation.kuali.meta.data" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.meta.data" />-->
 		<property name="desc"
 			value="Kuali Meta Data: calculated by service, read-only" />
 		<property name="serverSide" value="true" />
@@ -392,7 +406,7 @@
 	</bean>
 	<bean id="constraint.kuali.state" parent="constraint">
 		<property name="id" value="kuali.state" />
-		<property name="messageId" value="kuali.msg.validation.kuali.state" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.state" />-->
 		<property name="desc" value="Kuali STATE" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -403,7 +417,7 @@
 	</bean>
 	<bean id="constraint.kuali.type" parent="constraint">
 		<property name="id" value="kuali.type" />
-		<property name="messageId" value="kuali.msg.validation.kuali.type" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.type" />-->
 		<property name="desc" value="Kuali TYPE: required on add, then read-only" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -414,14 +428,14 @@
 	</bean>
 	<bean id="constraint.letter" parent="constraint">
 		<property name="id" value="letter" />
-		<property name="messageId" value="kuali.msg.validation.letter" />
+		<!--<property name="messageId" value="kuali.msg.validation.letter" />-->
 		<property name="desc" value="letters only" />
 		<property name="serverSide" value="false" />
 		<property name="validChars" value="regex:[A-Za-z]*" />
 	</bean>
 	<bean id="constraint.lo.category.types" parent="constraint">
 		<property name="id" value="lo.category.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of lo category types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -429,7 +443,7 @@
 	</bean>
 	<bean id="constraint.lo.hierarchy.types" parent="constraint">
 		<property name="id" value="lo.hierarchy.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of configured program lo hierarchy types" />
 		<property name="serverSide" value="false" />
@@ -438,7 +452,7 @@
 	</bean>
 	<bean id="constraint.lo.lo.relation.types" parent="constraint">
 		<property name="id" value="lo.lo.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In list of configured lo-lo relationship types" />
 		<property name="serverSide" value="false" />
@@ -447,7 +461,7 @@
 	</bean>
 	<bean id="constraint.lo.repositories" parent="constraint">
 		<property name="id" value="lo.repositories" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lo repositories" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -456,7 +470,7 @@
 	</bean>
 	<bean id="constraint.lo.types" parent="constraint">
 		<property name="id" value="lo.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of confured lo types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -465,7 +479,7 @@
 	</bean>
 	<bean id="constraint.lu.activity.types" parent="constraint">
 		<property name="id" value="lu.activity.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured activity LuTypes" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -473,7 +487,7 @@
 	</bean>
 	<bean id="constraint.lu.identifier.types" parent="constraint">
 		<property name="id" value="lu.identifier.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured clu identifier types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -481,7 +495,7 @@
 	</bean>
 	<bean id="constraint.lu.lo.relation.types" parent="constraint">
 		<property name="id" value="lu.lo.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lu-lo relation types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -489,7 +503,7 @@
 	</bean>
 	<bean id="constraint.lu.lu.relation.types" parent="constraint">
 		<property name="id" value="lu.lu.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lul-lu relation types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -497,7 +511,7 @@
 	</bean>
 	<bean id="constraint.lu.states" parent="constraint">
 		<property name="id" value="lu.states" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured learning unit states" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -505,7 +519,7 @@
 	</bean>
 	<bean id="constraint.lu.types" parent="constraint">
 		<property name="id" value="lu.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured learning unit types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -513,7 +527,7 @@
 	</bean>
 	<bean id="constraint.multi.line.text" parent="constraint">
 		<property name="id" value="multi.line.text" />
-		<property name="messageId" value="kuali.msg.validation.printable" />
+		<!--<property name="messageId" value="kuali.msg.validation.printable" />-->
 		<property name="desc"
 			value="Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed." />
 		<property name="serverSide" value="false" />
@@ -525,7 +539,7 @@
 	</bean>
 	<bean id="constraint.non-negative.integer" parent="constraint">
 		<property name="id" value="non-negative.integer" />
-		<property name="messageId" value="kuali.msg.validation.non-negative.integer" />
+		<!--<property name="messageId" value="kuali.msg.validation.non-negative.integer" />-->
 		<property name="desc" value="Non-Negative Integer" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -537,7 +551,7 @@
 	</bean>
 	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
 		<property name="id" value="cross.greaterthan.effective.date"/>
-		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<!--<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>-->
 		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
 		
 		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->
@@ -545,7 +559,7 @@
 	</bean>
 	<bean id="constraint.not.used" parent="constraint">
 		<property name="id" value="not.used" />
-		<property name="messageId" value="kuali.msg.validation.not.used" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.used" />-->
 		<property name="desc" value="Not Used" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="0" />
@@ -561,7 +575,7 @@
 	</bean>
 	<bean id="constraint.proposal.types" parent="constraint">
 		<property name="id" value="proposal.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured proposal types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -570,7 +584,7 @@
 	</bean>
 	<bean id="constraint.rate.types" parent="constraint">
 		<property name="id" value="rate.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured rate types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -585,7 +599,7 @@
 	</bean>
 	<bean id="constraint.reference.types" parent="constraint">
 		<property name="id" value="reference.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured reference types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -594,7 +608,7 @@
 	</bean>
 	<bean id="constraint.related.cluId" parent="constraint">
 		<property name="id" value="related.cluId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing CLU" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -606,7 +620,7 @@
 	</bean>
 	<bean id="constraint.related.orgId" parent="constraint">
 		<property name="id" value="related.orgId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing ORG" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -618,7 +632,7 @@
 	</bean>
 	<bean id="constraint.related.personId" parent="constraint">
 		<property name="id" value="related.personId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing PERSON" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -630,7 +644,7 @@
 	</bean>
 	<bean id="constraint.related.principalId" parent="constraint">
 		<property name="id" value="related.principalId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing PRINCIPAL" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -642,7 +656,7 @@
 	</bean>
     <bean id="constraint.related.proposalId" parent="constraint">
         <property name="id" value="related.proposalId" />
-        <property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+        <!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
         <property name="desc" value="Id of an existing PROPOSAL" />
         <property name="serverSide" value="true" />
         <property name="minLength" value="1" />
@@ -665,14 +679,14 @@
 	</bean>
 	<bean id="constraint.required" parent="constraint">
 		<property name="id" value="required" />
-		<property name="messageId" value="kuali.msg.validation.required" />
+		<!--<property name="messageId" value="kuali.msg.validation.required" />-->
 		<property name="desc" value="Required" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
 	</bean>
 	<bean id="constraint.rich.text" parent="constraint">
 		<property name="id" value="rich.text" />
-		<property name="messageId" value="kuali.msg.validation.printable" />
+		<!--<property name="messageId" value="kuali.msg.validation.printable" />-->
 		<property name="desc"
 			value="Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc." />
 		<property name="serverSide" value="false" />
@@ -684,7 +698,7 @@
 	</bean>
 	<bean id="constraint.single" parent="constraint">
 		<property name="id" value="single" />
-		<property name="messageId" value="kuali.msg.validation.single" />
+		<!--<property name="messageId" value="kuali.msg.validation.single" />-->
 		<property name="desc" value="Single valued (non-repeating)" />
 		<property name="serverSide" value="false" />
 		<property name="maxOccurs" value="1" />
@@ -692,7 +706,7 @@
 	</bean>
 	<bean id="constraint.single.line.text" parent="constraint">
 		<property name="id" value="single.line.text" />
-		<property name="messageId" value="kuali.msg.validation.single.line.text" />
+		<!--<property name="messageId" value="kuali.msg.validation.single.line.text" />-->
 		<property name="desc"
 			value="A basic single line of text, no embedded carraige returns or tabs limited to 255" />
 		<property name="serverSide" value="false" />
@@ -704,7 +718,7 @@
 	</bean>
 	<bean id="constraint.size.one" parent="constraint">
 		<property name="id" value="size.one" />
-		<property name="messageId" value="kuali.msg.validation.size.one" />
+		<!--<property name="messageId" value="kuali.msg.validation.size.one" />-->
 		<property name="desc" value="Only one character" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -712,7 +726,7 @@
 	</bean>
 	<bean id="constraint.subject.areas" parent="constraint">
 		<property name="id" value="subject.areas" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured subject areas" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="4" />
@@ -721,7 +735,7 @@
 	</bean>
 	<bean id="constraint.unit.types" parent="constraint">
 		<property name="id" value="unit.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured unit types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -731,7 +745,7 @@
 	</bean>
 	<bean id="constraint.valid.duration.types" parent="constraint">
 		<property name="id" value="valid.duration.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of duration types configured by LuType" />
 		<property name="serverSide" value="false" />
@@ -1713,7 +1727,7 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.courseproposal"/>
-					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Courses and Proposals"/>
 					<property name="desc" value="Search for courses and proposals"/>
 					<property name="title" value="Course or Proposal"/>
@@ -1750,9 +1764,9 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalOrgLongName"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Admin department"/>
+								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
@@ -1779,7 +1793,7 @@
 										<value>submitted</value>
 										<value>withdrawn</value>
 										<value>approved</value>
-										<value>activated</value>
+										<value>Active</value>
 										<!-- do not show rejected or retired <value>rejected</value> -->
 									</list>
 								</property>	
@@ -1814,9 +1828,9 @@
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Department."/>
+								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -1832,7 +1846,7 @@
 				</bean>
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.coursesonly"/>
-					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Courses Only"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Course or Proposal"/>
@@ -1869,9 +1883,9 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalOrgLongName"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Admin department"/>
+								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
@@ -1894,7 +1908,7 @@
 								<property name="writeAccess" value="NEVER" />
 								<property name="defaultValueList">
 									<list>
-										<value>activated</value>
+										<value>Active</value>
 										<!-- do not show retired: <value>retired</value> -->
 									</list>
 								</property>
@@ -1929,9 +1943,9 @@
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Department."/>
+								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -1947,7 +1961,7 @@
 				</bean>
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.proposalsonly"/>
-					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Proposals Only"/>
 					<property name="desc" value="Search for proposals"/>
 					<property name="title" value="Course or Proposal"/>
@@ -1984,9 +1998,9 @@
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalOrgLongName"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Admin department"/>
+								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
@@ -2047,9 +2061,9 @@
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Department."/>
+								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
+								<property name="name" value="Subject Area"/>
+								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -5727,15 +5741,18 @@
 		</property>
 	</bean>
 	<bean id="revenueInfo" parent="revenueInfo-parent" />
-	<bean id="serach-parent" abstract="true" parent="dataObjectStructure">
+	<bean id="search-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="search" />
 		<property name="fields">
 			<list>
 				<ref bean="search.findCourse" />
 				<ref bean="search.findProposal" />
 				<ref bean="search.findCluSet" />
+				<ref bean="search.findClusInCluset" />
+				<ref bean="search.findClusetRangeParams" />
 				<ref bean="search.findCourseTmp" />
 				<ref bean="search.findProgram" />
+				<ref bean="search.findMajor" />
 			</list>
 		</property>
 	</bean>	
@@ -5818,8 +5835,10 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+<!-- 				
 				<ref bean="constraint.required" />
 				<ref bean="constraint.related.orgId" />
+ -->
 			</list>
 		</property>
 		<property name="initialLookup">
@@ -6076,14 +6095,17 @@
 							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="caseSensitive" value="true" />
 						</bean>
-						<bean parent="param"><!-- limit search to only return activated clus -->
-							<property name="key"
-								value="lu.queryParam.luOptionalFreeFormState" />
+						<bean parent="param"><!-- limit search to only return active clus -->
+							<property name="key" value="lu.queryParam.luOptionalState" />
 							<property name="name" value="State" />
-							<property name="desc" value="State" />
+							<property name="desc" value="CLU State" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString"
-								value="clu.state = 'activated'" />
+							<property name="defaultValueList">
+								<list>
+									<value>approved</value>
+									<value>Active</value>
+								</list>
+							</property>
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6119,7 +6141,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6171,14 +6193,17 @@
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
-							<bean parent="param"><!-- limit search to only return activated clus -->
-								<property name="key"
-									value="lu.queryParam.luOptionalFreeFormState" />
+							<bean parent="param"><!-- limit search to only return active clus -->
+								<property name="key" value="lu.queryParam.luOptionalState" />
 								<property name="name" value="State" />
-								<property name="desc" value="State" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString" value="clu.state = 'activated'" />
+								<property name="desc" value="CLU State" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>approved</value>
+										<value>Active</value>
+									</list>
+								</property>
 								<property name="caseSensitive"
 									value="true" />
 							</bean>
@@ -6260,14 +6285,16 @@
 							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="caseSensitive" value="true" />
 						</bean>
-						<bean parent="param"><!-- limit search to only return activated clus -->
-							<property name="key"
-								value="lu.queryParam.luOptionalFreeFormState" />
+						<bean parent="param"><!-- limit search to only return active clus -->
+							<property name="key" value="lu.queryParam.luOptionalState" />
 							<property name="name" value="State" />
 							<property name="desc" value="State" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString"
-								value="clu.state NOT IN ('activated')" />
+							<property name="defaultValueList">
+								<list>
+									<value>draft</value>
+								</list>
+							</property>
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6303,7 +6330,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6355,17 +6382,17 @@
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
-							<bean parent="param"><!-- limit search to only return activated clus -->
-								<property name="key"
-									value="lu.queryParam.luOptionalFreeFormState" />
+							<bean parent="param"><!-- limit search to only return active clus -->
+								<property name="key" value="lu.queryParam.luOptionalState" />
 								<property name="name" value="State" />
 								<property name="desc" value="State" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString"
-									value="clu.state NOT IN ('activated')" />
-								<property name="caseSensitive"
-									value="true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>draft</value>
+									</list>
+								</property>
+								<property name="caseSensitive" value="true" />
 							</bean>
 						</list>
 					</property>
@@ -6501,12 +6528,11 @@
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key"
-								value="cluset.queryParam.optionalReusable" />
+							<property name="key" value="cluset.queryParam.optionalReusable" />
 							<property name="name" value="Reusable" />
 							<property name="desc" value="Reusable" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="defaultValueString" value="true" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6601,13 +6627,11 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return reusable clusets -->
-								<property name="key"
-									value="cluset.queryParam.optionalReusable" />
+								<property name="key" value="cluset.queryParam.optionalReusable" />
 								<property name="name" value="Reusable" />
 								<property name="desc" value="Reusable" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString" value="cluset.isReusable = true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
 								<property name="caseSensitive"
 									value="true" />
 							</bean>
@@ -6685,7 +6709,7 @@
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDivision"/>
 								<property name="name" value="Department"/>
-								<property name="desc" value="Department of a course."/>
+								<property name="desc" value="Department"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
@@ -6843,6 +6867,166 @@
 		</property>
 	</bean>
 	<bean id="cluset.clusetRangeEdit" parent="clusetRangeEditFieldParent"/>
+
+	<bean id="search.findClusetRangeParams" parent="dataFieldDescriptor">
+		<property name="name" value="findClusetRangeParams" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="name" value="set search parameters" />
+				<property name="desc" value="set search parameters" />
+				<property name="widget" value="NO_WIDGET"/>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<!-- lu.search.generic -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="courseNumberRangeParameters"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="name" value="Course Number"/>
+					<property name="desc" value="Search used to define course range by Course Number"/>
+					<property name="title" value="Add Course Range"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="widgetOptions">
+						<map>
+							<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+							<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+						</map>
+					</property>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalDivision"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course Number"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalCrsNoRange"/>
+								<property name="name" value="Course Number Range"/>
+								<property name="desc" value="Course Number Range"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalEffectiveDate1"/>
+								<property name="name" value="Effective From"/>
+								<property name="desc" value="Effective Date a course."/>
+								<property name="dataType" value="TRUNCATED_DATE"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalEffectiveDate2"/>
+								<property name="name" value="Effective To"/>
+								<property name="desc" value="Effective Date a course."/>
+								<property name="dataType" value="TRUNCATED_DATE"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Code of the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+								<property name="name" value="Long Name of the course"/>
+								<property name="desc" value="Long Name of the course"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<!-- lo.search.loByDescCrossSearch -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>
+					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
+					<property name="name" value="Learning Objective"/>
+					<property name="desc" value="Search for descriptions in existing learning objectives."/>
+					<property name="title" value="Learning Objective"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="widgetOptions">
+						<map>
+							<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+							<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+						</map>
+					</property>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lo.queryParam.loDescPlain"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Description of learning objective."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="REQUIRED"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="TEXT_BOX"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lo.resultColumn.loId"/>
+					<property name="resultDisplayKey" value="lo.resultColumn.loDescPlain"/>
+					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lo.resultColumn.loId"/>
+								<property name="name" value="LO Identifier"/>
+								<property name="desc" value="Identifier for the organization"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lo.resultColumn.loCluCode"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course code"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
+								<property name="name" value="Title"/>
+								<property name="desc" value="Title of Clu."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
 	<bean id="cluset.clusetRange" parent="dataFieldDescriptor">
 		<property name="name" value="clusetRange" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -7116,7 +7300,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7275,7 +7459,7 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing course" />
+				<property name="name" value="Find Courses" />
 				<property name="desc" value="Search for courses" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
@@ -7285,16 +7469,16 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
-					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="searchTypeId" value="lu.search.mostCurrent.union"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
-								<property name="name" value="Title"/>
+								<property name="name" value="Name"/>
 								<property name="desc" value="Course title."/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
@@ -7313,8 +7497,18 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
+								<property name="name" value="Department Code"/>
+								<property name="desc" value="Department Code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
-								<property name="name" value="Description"/>
+								<property name="name" value="Phrase in Description"/>
 								<property name="desc" value="Course description"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
@@ -7324,6 +7518,15 @@
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
+								<property name="desc" value="Course level."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="CUSTOM"/>
+							</bean>							
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalStatus"/>
+								<property name="name" value="Status"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
@@ -7339,12 +7542,30 @@
 								<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
+                                <property name="usage" value="CUSTOM"/>                                
+							</bean>
+							<bean parent="param"><!-- limit search to only return approved clus -->
+								<property name="key" value="lu.queryParam.luOptionalState" />
+								<property name="name" value="CLU State" />
+								<property name="desc" value="CLU State" />
+                                <property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER" />
+                                <property name="optional" value="true"/>
+                                <property name="caseSensitive" value="true" />
+								<property name="defaultValueList">
+									<list>
+										<value>Approved</value>
+										<value>Active</value>
+										<value>Retired</value>
+										<!--  need to add more states here (not draft or withdrawn) -->
+									</list>
+								</property>
 							</bean>
 						</list>
 					</property>
 					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
 					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
-					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
+					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -7355,6 +7576,13 @@
 								<property name="hidden" value="true"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Long name for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
@@ -7362,19 +7590,55 @@
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalState"/>
+								<property name="name" value="State"/>
+								<property name="desc" value="State of the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>			
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
-								<property name="name" value="Long Name"/>
-								<property name="desc" value="Long name for the course."/>
+								<property name="key" value="lu.resultColumn.luOptionalVersionIndId"/>
+								<property name="name" value="VersionIndId"/>
+								<property name="desc" value="Version Independent Id of this course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionedFromId"/>
+								<property name="name" value="VersionedFromId"/>
+								<property name="desc" value="Id of this course this was versioned from."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionStartDate"/>
+								<property name="name" value="VersionStartDate"/>
+								<property name="desc" value="Version Start Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionEndDate"/>
+								<property name="name" value="VersionEndDate"/>
+								<property name="desc" value="Version End Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="true"/>
+							</bean>												
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalDescr"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Description for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
-							</bean>
+							</bean>			
+							
 						</list>
 					</property>
 				</bean>
@@ -7397,8 +7661,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing proposal" />
-				<property name="desc" value="Search for proposals" />
+				<property name="name" value="Find Course Proposals" />
+				<property name="desc" value="Search for Course Proposals" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
 		</property>
@@ -7495,12 +7759,11 @@
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key"
-								value="cluset.queryParam.optionalReusable" />
+							<property name="key" value="cluset.queryParam.optionalReusable" />
 							<property name="name" value="Reusable" />
 							<property name="desc" value="Reusable" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="defaultValueString" value="true" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -7595,15 +7858,12 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return reusable clusets -->
-								<property name="key"
-									value="cluset.queryParam.optionalReusable" />
+								<property name="key" value="cluset.queryParam.optionalReusable" />
 								<property name="name" value="Reusable" />
 								<property name="desc" value="Reusable" />
-								<property name="writeAccess"
-									value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
-								<property name="caseSensitive"
-									value="true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
+								<property name="caseSensitive" value="true" />
 							</bean>
 						</list>
 					</property>
@@ -7623,6 +7883,68 @@
 								<property name="key" value="cluset.resultColumn.name"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Clu Set Name."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="search.findClusInCluset" parent="dataFieldDescriptor">
+		<property name="name" value="findClusInCluset" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="initialLookup">
+			<!--  no widget here, just link to advanced search lightbox -->
+			<bean parent="lookup">
+				<property name="name" value="Search for Clus In a Cluset" />
+				<property name="desc" value="Search for Clus In a Cluset" />
+				<property name="widget" value="NO_WIDGET"/>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
+					<property name="searchTypeId" value="lu.search.clusInCluset"/>
+					<property name="name" value="Clu in Clu Set"/>
+					<property name="desc" value="Search for Clus in a Clu Set"/>
+					<property name="title" value="Advanced CLUs in CluSet Search"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.queryParam.optionalId"/>
+								<property name="name" value="Clu Set Id"/>
+								<property name="desc" value="Id of the Clu Set."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.cluOfficialIdentifier.longName"/>
+					<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.longName"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.cluId"/>
+								<property name="name" value="Identifier"/>
+								<property name="desc" value="Identifier for Clu."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.cluOfficialIdentifier.longName"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Clu Name."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -7797,8 +8119,142 @@
 			</list>
 		</property>
 	</bean>	
-	<bean id="search" parent="serach-parent" />
+	<bean id="search" parent="search-parent" />
 
+
+	<bean id="search.findMajor" parent="dataFieldDescriptor">  <!-- what the bean id should be so it loads for CourseConfigurer? -->
+		<property name="name" value="findMajor" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.related.cluId" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="name" value="Find Programs (major disciplines)" />
+				<property name="desc" value="Search for Major Disciplines" />
+				<property name="widget" value="NO_WIDGET"/>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lu.lookup.findMajor.advanced"/>
+					<property name="searchTypeId" value="lu.search.union.majors"/>
+					<property name="name" value="Majors"/>
+					<property name="desc" value="Search for Major Disciplines"/>
+					<property name="title" value="Find Major"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalCode"/>
+								<property name="name" value="Code"/>
+								<property name="desc" value="Major Code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>	
+                            <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLongName" />
+								<property name="name" value="Title" />
+								<property name="desc" value="Long title" />
+								<property name="writeAccess" value="ALWAYS" />
+								<property name="dataType" value="STRING"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>					
+							<bean parent="param">
+								<property name="key" value="lu.queryParam.luOptionalState" />
+								<property name="name" value="Program Status" />
+								<property name="desc" value="CLU State" />
+                                <property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER" />
+                                <property name="optional" value="true"/>
+                                <property name="caseSensitive" value="false" />
+                                <property name="widget" value="DROPDOWN_LIST"/>
+								<property name="defaultValueList">
+									<list>
+									<!-- 
+										<value>draft</value>
+										<value>submitted</value>
+										<value>withdrawn</value>
+										<value>approved</value>
+									-->
+										<value>draft</value>
+										<value>active</value>
+										<value>Draft</value>
+										<value>Active</value>
+									</list>
+								</property>	
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName"/>
+					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.cluId"/>
+								<property name="name" value="Identifier"/>
+								<property name="desc" value="Identifier for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Code"/>
+								<property name="desc" value="Course code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalState"/>
+								<property name="name" value="Program Status"/>
+								<property name="desc" value="State of the Major Discipline"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalMajorName"/>
+								<property name="name" value="Major"/>
+								<property name="desc" value="Long Major name"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVariationName"/>
+								<property name="name" value="Specialization"/>
+								<property name="desc" value="Long name of Variation"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+	                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalType"/>
+								<property name="name" value="Clu Type"/>
+								<property name="desc" value="Type of this CLU"/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+                        </list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>	
+	
 	<!--  common lookups -->
 	<bean id="kuali.lookup.durations" parent="lookup">
 		<property name="id" value="kuali.lookup.durations" />
@@ -8743,7 +9199,7 @@
        <property name="writeAccess" value="NEVER" />
        <property name="dataType" value="STRING" />
        <property name="optional" value="true" />
-       <property name="defaultValueString" value="activated" />
+       <property name="defaultValueString" value="Active" />
        <property name="name" value="State" />
        <property name="desc" value="Lu State" />
        <property name="caseSensitive" value="true" />
@@ -8923,7 +9379,7 @@
        <property name="writeAccess" value="NEVER" />
        <property name="dataType" value="STRING" />
        <property name="optional" value="true" />
-       <property name="defaultValueString" value="activated" />
+       <property name="defaultValueString" value="Active" />
        <property name="name" value="State" />
        <property name="desc" value="Lu State" />
        <property name="caseSensitive" value="true" />

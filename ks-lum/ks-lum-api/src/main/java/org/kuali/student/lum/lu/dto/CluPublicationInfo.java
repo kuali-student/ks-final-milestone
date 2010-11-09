@@ -208,4 +208,9 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+    	return "CluPublicationInfo[id=" + id + ", cluId=" + cluId + ", type=" + type + "]";
+    }
 }

@@ -25,7 +25,7 @@ public class OrgPersonHelper {
 
     public enum Properties implements PropertyEnum {
         ID("id"),PERSON_ID("personId"),PERSON_RELATION_TYPE("type"),ORG_ID("orgId"),PERSON_NAME("personName"),
-                EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate");
+                EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"), STATE("state");
 
         private final String key;
 
@@ -113,5 +113,11 @@ public class OrgPersonHelper {
     public void setPersonName(String personName){
         data.set(Properties.PERSON_NAME.getKey(), personName);
     }
-    
+    public void setState(String state){
+        data.set(Properties.STATE.getKey(), state);
+    }
+
+    public String getState() {
+        return data.get(Properties.STATE.getKey());
+    }    
 }

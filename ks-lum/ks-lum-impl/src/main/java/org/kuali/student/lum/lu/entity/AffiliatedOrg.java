@@ -19,16 +19,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -38,22 +33,14 @@ import org.kuali.student.core.entity.MetaEntity;
  */
 @Entity
 @Table(name = "KSLU_CLU_AFFIL_ORG")
-public class AffiliatedOrg extends MetaEntity{
-
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class AffiliatedOrg extends BaseEntity{
 
     @Column(name = "ORG_ID")
     private String orgId; //External service key
 
     @Column(name = "PERCT")
-    private long percentage;
+    private Long percentage;
     
-    @ManyToOne
-    @JoinColumn(name = "CLU_FEE_RCRD_ID")
-    private CluFeeRecord cluFeeRecord;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -62,19 +49,6 @@ public class AffiliatedOrg extends MetaEntity{
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     
-    @PrePersist
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getOrgId() {
         return orgId;
     }
@@ -83,20 +57,12 @@ public class AffiliatedOrg extends MetaEntity{
         this.orgId = orgId;
     }
 
-	public long getPercentage() {
+	public Long getPercentage() {
 		return percentage;
 	}
 
-	public void setPercentage(long percentage) {
+	public void setPercentage(Long percentage) {
 		this.percentage = percentage;
-	}
-
-	public CluFeeRecord getCluFeeRecord() {
-		return cluFeeRecord;
-	}
-
-	public void setCluFeeRecord(CluFeeRecord cluFeeRecord) {
-		this.cluFeeRecord = cluFeeRecord;
 	}
 
 	public Date getEffectiveDate() {

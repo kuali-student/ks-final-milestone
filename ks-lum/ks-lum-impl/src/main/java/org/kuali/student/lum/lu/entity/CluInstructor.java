@@ -15,27 +15,20 @@
 
 package org.kuali.student.lum.lu.entity;
  
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_INSTR")
-public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
-    
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class CluInstructor extends BaseEntity implements AttributeOwner<CluInstructorAttribute> {
     
     @Column(name = "ORG_ID")
     private String orgId;
@@ -46,11 +39,6 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluInstructorAttribute> attributes;
 
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-	
     public String getOrgId() {
         return orgId;
     }
@@ -68,21 +56,11 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     }
     
     public List<CluInstructorAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluInstructorAttribute>();
-        }
         return attributes;
     }
 
     public void setAttributes(List<CluInstructorAttribute> attributes) {
         this.attributes = attributes;
     }
-    
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }

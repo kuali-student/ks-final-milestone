@@ -30,10 +30,6 @@
 
         <class>org.kuali.student.core.proposal.entity.Proposal</class>
         <class>org.kuali.student.core.proposal.entity.ProposalAttribute</class>
-        <class>org.kuali.student.core.proposal.entity.ProposalDocRelation</class>
-        <class>org.kuali.student.core.proposal.entity.ProposalDocRelationAttribute</class>
-        <class>org.kuali.student.core.proposal.entity.ProposalDocRelationType</class>
-        <class>org.kuali.student.core.proposal.entity.ProposalDocRelationTypeAttribute</class>
         <class>org.kuali.student.core.proposal.entity.ProposalOrg</class>
         <class>org.kuali.student.core.proposal.entity.ProposalPerson</class>
         <class>org.kuali.student.core.proposal.entity.ProposalReference</class>

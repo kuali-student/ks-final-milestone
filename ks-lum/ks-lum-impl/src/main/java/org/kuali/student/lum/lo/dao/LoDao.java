@@ -36,7 +36,7 @@ public interface LoDao extends CrudDao, SearchableDao  {
     public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException;
     public List<Lo> getRelatedLosByLoId(String loId, String loLoRelationTypeId) throws DoesNotExistException;
     public List<Lo> getLosByRelatedLoId(String relatedLoId, String loLoRelationTypeId) throws DoesNotExistException;
-	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException, DependentObjectsExistException;
+	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException;
 	public List<LoCategory> getLoCategoriesForLo(String loId);
 	public List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey);
 	public List<Lo> getLosByRepository(String loRepositoryId);

@@ -42,12 +42,14 @@
 		<class>org.kuali.student.core.statement.entity.StatementAttribute</class>
         <class>org.kuali.student.core.statement.entity.StatementRichText</class>
 		<class>org.kuali.student.core.statement.entity.StatementType</class>
+        <class>org.kuali.student.core.statement.entity.OrderedStatementType</class>
 		<class>org.kuali.student.core.statement.entity.StatementTypeAttribute</class>
         <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
 		<class>org.kuali.student.core.statement.entity.ReqComponent</class>
 		<class>org.kuali.student.core.statement.entity.ReqComponentField</class>
 		<class>org.kuali.student.core.statement.entity.ReqComponentFieldType</class>
 		<class>org.kuali.student.core.statement.entity.ReqComponentType</class>
+        <class>org.kuali.student.core.statement.entity.OrderedReqComponentType</class>
 		<class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
 		<class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
 

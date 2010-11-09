@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -39,11 +38,7 @@ public class LuType extends Type<LuTypeAttribute> {
 	@Column(name = "DLVR_MTHD")
     private String deliveryMethod;
 	
-	
 	public List<LuTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuTypeAttribute>();
-		}
 		return attributes;
 	}
 

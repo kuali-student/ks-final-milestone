@@ -40,6 +40,4 @@ public class CluAdminOrgAttribute extends Attribute<CluAdminOrg> {
 		this.owner = owner;
 	}
 	
-	
-
 }

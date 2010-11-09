@@ -17,13 +17,11 @@ package org.kuali.student.lum.lu.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -33,23 +31,14 @@ import org.kuali.student.common.util.UUIDHelper;
  */
 @Entity
 @Table(name = "KSLU_CLU_ATP_TYPE_KEY")
-public class CluAtpTypeKey {
+public class CluAtpTypeKey extends BaseEntity{
 
-    @Id
-    @Column(name = "ID")
-    private String id;
-    
     @ManyToOne
     @JoinColumn(name = "CLU_ID")
     private Clu clu;
     
     @Column(name = "ATP_TYPE_KEY")
     private String atpTypeKey;
-    
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
     
     public String getAtpTypeKey() {
         return atpTypeKey;
@@ -59,14 +48,6 @@ public class CluAtpTypeKey {
         this.atpTypeKey = atpTypeKey;
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 	public Clu getClu() {
 		return clu;
 	}

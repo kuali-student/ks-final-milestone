@@ -190,4 +190,9 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+    	return "LoInfo[id=" + id + "]";
+    }
 }

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -37,7 +37,6 @@ import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -93,14 +92,7 @@ public class SearchBackedTable extends Composite
 		}
 
 		//  Window.alert ("About to invoke asynch search...");
-		searchRpcServiceAsync.search (searchRequest, new AsyncCallback<SearchResult> ()
-				{
-
-			@Override
-			public void onFailure (Throwable cause)
-			{
-				KSErrorDialog.show(cause);
-			}
+		searchRpcServiceAsync.search (searchRequest, new KSAsyncCallback<SearchResult> (){
 
 			@Override
 			public void onSuccess (SearchResult searchResults)

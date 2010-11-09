@@ -33,13 +33,14 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 public class BrowsePanel extends Composite
 {
 	//Layout configuration
 
-	private VerticalFlowPanel layout;
-	private VerticalFlowPanel tablePanel;
+	private FlowPanel layout;
+	private FlowPanel tablePanel;
 	private LookupMetadata lookupMetadata = null;
 	private SearchBackedTable searchBackedTable = null;
 	private boolean multiSelect = false;
@@ -55,10 +56,10 @@ public class BrowsePanel extends Composite
 	public BrowsePanel (LookupMetadata lookupMetadata)
 	{
 		this.lookupMetadata = lookupMetadata;
-		layout = new VerticalFlowPanel ();
+		layout = new FlowPanel ();
 		layout.addStyleName ("KS-Picker-Border");
 		layout.addStyleName ("KS-Advanced-Search-Panel");
-		tablePanel = new VerticalFlowPanel ();
+		tablePanel = new FlowPanel ();
 		this.initWidget (layout);
 	}
 

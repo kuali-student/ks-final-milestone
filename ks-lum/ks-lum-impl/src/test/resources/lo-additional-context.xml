@@ -29,16 +29,28 @@
 	<import resource="nl-additional-context.xml"/>
 	-->
 	
+    <bean id="validatorFactory"
+          class="org.kuali.student.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="validator"/>
+    </bean>
+
+    <bean id="validator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    </bean>
+	
 	<bean id="searchManager"
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 	</bean>
 
-	<bean id="dictionaryServiceDelegate" 
-	   class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:lo-dictionary-config.xml" />
-	</bean>
+    <bean id="dictionaryServiceDelegate"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg>
+            <list>
+                <value>classpath:ks-loInfo-dictionary-context.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
 
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
@@ -48,10 +60,6 @@
 		</property>
 	</bean>
 	
-	<bean id="validator" class="org.kuali.student.common.validator.Validator">
- 		<property name="messageService" ref="ks.messageServiceMock"/> 		
-	</bean>
-
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
