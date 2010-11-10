@@ -8,8 +8,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
@@ -22,7 +22,7 @@ public class BaccCatalogDetailsViewConfiguration extends AbstractSectionConfigur
 
     public static BaccCatalogDetailsViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_catalogInfo();
-        return new BaccCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
+        return new BaccCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
     }
 
     private BaccCatalogDetailsViewConfiguration(SectionView sectionView) {

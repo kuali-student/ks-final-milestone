@@ -8,6 +8,7 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.core.CoreEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
@@ -22,7 +23,7 @@ public class CoreLearningObjectivesViewConfiguration extends AbstractSectionConf
 
     public static CoreLearningObjectivesViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_learningObjectives();
-        return new CoreLearningObjectivesViewConfiguration(new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.LEARNING_OBJECTIVES_EDIT)));
+        return new CoreLearningObjectivesViewConfiguration(new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new CoreEditableHeader(title, ProgramSections.LEARNING_OBJECTIVES_EDIT)));
     }
 
     private CoreLearningObjectivesViewConfiguration(SectionView sectionView) {

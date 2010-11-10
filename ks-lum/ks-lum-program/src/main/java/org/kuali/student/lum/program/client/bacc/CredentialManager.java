@@ -42,4 +42,8 @@ public class CredentialManager {
         }
         return baccEditController;
     }
+
+    public static HandlerManager getEventBus() {
+        return eventBus;
+    }
 }

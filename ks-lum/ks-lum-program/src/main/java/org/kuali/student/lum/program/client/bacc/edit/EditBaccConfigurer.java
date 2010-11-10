@@ -16,6 +16,7 @@ public class EditBaccConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(new BaccCatalogDetailsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccRequirementsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccLearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccDocsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccSummaryConfiguration());
     }
 }

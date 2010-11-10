@@ -14,6 +14,8 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
+import org.kuali.student.lum.program.client.bacc.CredentialManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
@@ -28,7 +30,7 @@ public class BaccInformationViewConfiguration extends AbstractSectionConfigurati
     }
 
     public static BaccInformationViewConfiguration createSpecial() {
-        BaccInformationViewConfiguration instance = new BaccInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
+        BaccInformationViewConfiguration instance = new BaccInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
         return instance;
     }
 

@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
@@ -21,7 +22,7 @@ public class BaccManagingBodiesViewConfiguration extends AbstractSectionConfigur
 
     public static BaccManagingBodiesViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_managingBodies();
-        return new BaccManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT)));
+        return new BaccManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT)));
     }
 
     private BaccManagingBodiesViewConfiguration(SectionView sectionView) {

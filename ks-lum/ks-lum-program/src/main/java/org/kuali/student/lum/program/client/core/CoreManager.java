@@ -42,4 +42,8 @@ public class CoreManager {
         }
         return editController;
     }
+
+    public static HandlerManager getEventBus() {
+        return eventBus;
+    }
 }

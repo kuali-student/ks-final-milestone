@@ -8,8 +8,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
@@ -23,7 +23,7 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
 
     public static CatalogInformationViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_catalogInfo();
-        return new CatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
+        return new CatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
     }
 
     private CatalogInformationViewConfiguration(SectionView sectionView) {
