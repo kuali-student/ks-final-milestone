@@ -2674,13 +2674,22 @@
  <bean id="majorDisciplineInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsContentOwner" />
  </bean>
+ <bean id="credentialProgramInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.divisionsContentOwner" />
+ </bean>
 
  <bean id="majorDisciplineInfo.unitsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsContentOwner" />
  </bean>
+ <bean id="credentialProgramInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.unitsContentOwner" />
+ </bean>
 
  <bean id="majorDisciplineInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsStudentOversight" />
+ </bean>
+ <bean id="credentialProgramInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.unitsStudentOversight" />
  </bean>
 
  <bean id="majorDisciplineInfo.divisionsDeployment" parent="department-lookup-binding-parent">
@@ -2761,6 +2770,9 @@
 
 	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
+	</bean>
+     <bean id="credentialProgramInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+		<property name="path" value="credentialProgramInfo.divisionsStudentOversight" />
 	</bean>
 
 	<bean id="majorDisciplineInfo.cip2000Code" parent="uilookupconfig-parent">
