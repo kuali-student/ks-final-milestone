@@ -1,26 +1,25 @@
-package org.kuali.student.lum.program.client.core.view;
+package org.kuali.student.lum.program.client.core.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
-import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.CoreCatalogInformationViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.CoreInformationViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.CoreLearningObjectivesViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.CoreManagingBodiesViewConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class CoreViewAllConfiguration extends AbstractSectionConfiguration {
+public class CoreSummaryConfiguration extends AbstractControllerConfiguration {
 
-    private ProgramController viewController;
-
-    public CoreViewAllConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, ProgramProperties.get().program_menu_sections_viewAll(), ProgramConstants.PROGRAM_MODEL_ID, false);
+    public CoreSummaryConfiguration() {
+        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
     }
 
     @Override
@@ -29,11 +28,11 @@ public class CoreViewAllConfiguration extends AbstractSectionConfiguration {
         configurationManager.registerConfiguration(CoreInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.createSpecial());
-        //configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
+        //configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
         configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
-                ((AbstractControllerConfiguration) configuration).setController(viewController);
+                ((AbstractControllerConfiguration) configuration).setController(controller);
             }
             rootSection.addSection((Section) configuration.getView());
         }

@@ -18,6 +18,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreController;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
 import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -72,6 +73,12 @@ public class CoreEditController extends CoreController {
             @Override
             public void onClick(ClickEvent event) {
                 doCancel();
+            }
+        });
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
+            @Override
+            public void onEvent(ChangeViewEvent event) {
+                showView(event.getViewToken());
             }
         });
     }
