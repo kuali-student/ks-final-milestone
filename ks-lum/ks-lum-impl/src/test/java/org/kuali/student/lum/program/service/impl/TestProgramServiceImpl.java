@@ -610,6 +610,9 @@ public class TestProgramServiceImpl {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo mdInfo = mdGenerator.getMajorDisciplineInfoTestData();
         mdInfo.getProgramRequirements().clear();
+        for(ProgramVariationInfo variation :mdInfo.getVariations()){
+        	variation.getProgramRequirements().clear();
+        }
         MajorDisciplineInfo createdMajor = programService.createMajorDiscipline(mdInfo);
 
         MajorDisciplineInfo newMajorDiscipline = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
