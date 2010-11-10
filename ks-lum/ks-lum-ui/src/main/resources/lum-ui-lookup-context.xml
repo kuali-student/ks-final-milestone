@@ -2728,6 +2728,12 @@
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
   </bean>
 
+      <bean id="coreProgramInfo.endProgramEntryTerm" parent="uilookupconfig-parent">
+          <property name="path" value="coreProgramInfo.endProgramEntryTerm" />
+          <property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  </bean>
+
 	  <bean id="endInstAdmitTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endInstAdmitTerm" />
           <property name="initialLookup"
@@ -2738,11 +2744,16 @@
           <property name="path" value="majorDisciplineInfo.startTerm" />
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
-
    </bean>
 
      <bean id="credentialProgramInfo.startTerm" parent="uilookupconfig-parent">
           <property name="path" value="credentialProgramInfo.startTerm" />
+          <property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+   </bean>
+
+    <bean id="coreProgramInfo.startTerm" parent="uilookupconfig-parent">
+          <property name="path" value="coreProgramInfo.startTerm" />
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
 
@@ -2755,18 +2766,23 @@
 
    </bean>
 
- <bean id="majorDisciplineInfo.endTerm" parent="uilookupconfig-parent">
+  <bean id="majorDisciplineInfo.endTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endTerm" />
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
   </bean>
 
-<bean id="credentialProgramInfo.endTerm" parent="uilookupconfig-parent">
+  <bean id="credentialProgramInfo.endTerm" parent="uilookupconfig-parent">
           <property name="path" value="credentialProgramInfo.endTerm" />
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
   </bean>
 
+  <bean id="coreProgramInfo.endTerm" parent="uilookupconfig-parent">
+          <property name="path" value="coreProgramInfo.endTerm" />
+          <property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  </bean>
 
 	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
