@@ -562,5 +562,17 @@
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <!--property name="statementService" ref="statementService"/-->
         <property name="atpService" ref="atpServiceImpl"/>
+        <property name="documentService" ref="mockDocumentService"/>
     </bean>
+    
+  	<bean id="mockDocumentService" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
+		<property name="interfaceClass" value="org.kuali.student.core.document.service.DocumentService" />
+		<property name="methodReturnMap">
+			<map>
+				<entry key="getRefDocRelation"><null/></entry>
+				<entry key="getRefDocRelationsByDoc"><null/></entry>
+				<entry key="getRefDocRelationsByRef"><null/></entry>
+			</map>
+		</property>
+	</bean>
 </beans>

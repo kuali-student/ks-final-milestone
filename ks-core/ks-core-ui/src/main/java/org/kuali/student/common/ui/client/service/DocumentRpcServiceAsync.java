@@ -45,5 +45,7 @@ public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
 
 	public void deleteRefDocRelation(String docRelationId, AsyncCallback<StatusInfo> callback);
 
+	public void deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId, AsyncCallback<StatusInfo> callback) throws Exception;
+	
 	public void getRefDocIdsForRef(String refObjectTypeKey, String refObjectId, AsyncCallback<List<RefDocRelationInfo>> callback);
 }

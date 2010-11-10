@@ -20,6 +20,8 @@ import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dictionary.dto.DataType;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -82,6 +84,8 @@ public class ProgramServiceImpl implements ProgramService {
     private CoreProgramAssembler coreProgramAssembler;
 //    private StatementService statementService;
     private AtpService atpService;
+    private DocumentService documentService;
+    
     
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -185,7 +189,7 @@ public class ProgramServiceImpl implements ProgramService {
 			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDicipline, true);
 
 			//Clear Ids from the original so it will make a copy and do other processing
-			processCopy(originalMajorDicipline);
+			processCopy(originalMajorDicipline, currentVersion.getId());
 
 			//Disassemble the new
 			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
@@ -258,7 +262,7 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws DataValidationErrorException 
 	 * @throws AlreadyExistsException 
      */
-    private void processCopy(MajorDisciplineInfo majorDicipline) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    private void processCopy(MajorDisciplineInfo majorDicipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 		//Clear Los
 		for(LoDisplayInfo lo:majorDicipline.getLearningObjectives()){
 			resetLoRecursively(lo);
@@ -290,6 +294,15 @@ public class ProgramServiceImpl implements ProgramService {
 		//Copy requirements for majorDicipline
 		copyProgramRequirements(majorDicipline.getProgramRequirements(),majorDicipline.getState());
 
+		//Copy documents(create new relations to the new version)
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		if(docRelations!=null){
+			for(RefDocRelationInfo docRelation:docRelations){
+				docRelation.setId(null);
+				docRelation.setRefObjectId(majorDicipline.getId());
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDicipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+			}
+		}
 	}
     
     /**
@@ -1198,5 +1211,13 @@ public class ProgramServiceImpl implements ProgramService {
 	
 	private boolean isEmpty(String value){
 		return value == null || (value != null && "".equals(value));
+	}
+
+	public void setDocumentService(DocumentService documentService) {
+		this.documentService = documentService;
+	}
+
+	public DocumentService getDocumentService() {
+		return documentService;
 	}
 }

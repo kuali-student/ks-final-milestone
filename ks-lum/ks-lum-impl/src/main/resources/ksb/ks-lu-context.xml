@@ -410,6 +410,11 @@
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
+    
+    <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
+    </bean>
 
     <bean id="statementServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -571,6 +576,7 @@
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="atpService" ref="atpClient"/>
+        <property name="documentService" ref="documentClient"/>
     </bean>
 
     <bean id="ks.exp.programService" class="org.kuali.rice.ksb.messaging.KSBExporter">

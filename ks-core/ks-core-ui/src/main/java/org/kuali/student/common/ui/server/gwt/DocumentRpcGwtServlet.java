@@ -23,6 +23,7 @@ import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
@@ -75,5 +76,23 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	@Override
 	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception{
 		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
+	}
+
+	@Override
+	public StatusInfo deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId) throws Exception {
+		
+		//Delete the relation
+		service.deleteRefDocRelation(docRelationId);
+		
+		//Also delete the document if there are no more relations to it
+		try{
+			List<RefDocRelationInfo> allRelations = service.getRefDocRelationsByDoc(documentId);
+			if(allRelations == null || allRelations.isEmpty()){
+				service.deleteDocument(documentId);
+			}
+		}catch(DoesNotExistException e){
+			service.deleteDocument(documentId);
+		}
+		return new StatusInfo();
 	}
 }

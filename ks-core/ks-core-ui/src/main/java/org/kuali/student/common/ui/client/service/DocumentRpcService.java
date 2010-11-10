@@ -46,6 +46,8 @@ public interface DocumentRpcService extends BaseRpcService {
     
 	public StatusInfo deleteRefDocRelation(String docRelationId) throws Exception;
 	
+	public StatusInfo deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId) throws Exception;
+	
 	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception;
 
 }
