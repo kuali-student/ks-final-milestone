@@ -9,7 +9,6 @@ public class ProgramConstants {
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String CREDENTIAL_PROGRAM_TYPE = "credentialProgramType";
     public static final String ID = "id";
-    public static final String VERSION_IND_ID = "versionInfo/versionIndId";
     public static final String STATE = "state";
     public static final String TYPE = "type";
     public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
@@ -85,7 +84,15 @@ public class ProgramConstants {
     //History
     public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
     public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
+    
+    //Versioning
     public static final String VERSION = "versionInfo/sequenceNumber";
+    public static final String VERSION_IND_ID = "versionInfo/versionIndId";
+    public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
+
+    public static final String PREV_END_PROGRAM_ENTRY_TERM = "previousVersionInfo/endProgramEntryTerm";
+    public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";    
+    public static final String PREV_STATE = "previousVersionInfo/state";
 
     //Compound constants
     public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID;

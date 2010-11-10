@@ -8,7 +8,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 public enum ProgramStatus {
 	DRAFT(ProgramProperties.get().status_draft()),
 	APPROVED(ProgramProperties.get().status_approved()),
-	ACTIVE(ProgramProperties.get().status_active());
+	ACTIVE(ProgramProperties.get().status_active()),
+	SUPERCEDED(ProgramProperties.get().status_superceded());
 
     private final String value;
 

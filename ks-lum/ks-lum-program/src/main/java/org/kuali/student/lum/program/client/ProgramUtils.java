@@ -46,7 +46,12 @@ public class ProgramUtils {
         dataModel.set(statePath, status);
         setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
     }
-
+    
+    public static void setPreviousStatus(DataModel dataModel, String status) {
+        QueryPath statePath = QueryPath.parse(ProgramConstants.PREV_STATE);
+        dataModel.set(statePath, status);
+    }
+    
     private static void setStatus(Data inputData, String status) {
         for (Data.Property property : inputData) {
             Data data = property.getValue();

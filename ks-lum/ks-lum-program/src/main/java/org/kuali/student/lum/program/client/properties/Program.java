@@ -691,6 +691,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_titleDiploma();
 
   /**
+   * Translated "Activate Program".
+   * 
+   * @return translated "Activate Program"
+   */
+  @DefaultMessage("Activate Program")
+  @Key("programInformation.activateProgram")
+  String programInformation_activateProgram();
+
+  /**
+   * Translated activate instructions
+   * 
+   * @return translated activate instructions
+   */
+  @DefaultMessage("You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.")
+  @Key("programInformation.activateInstructions")
+  String programInformation_activateInstructions();
+
+  /**
    * Translated "Title Full".
    * 
    * @return translated "Title Full"
@@ -896,6 +914,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Approved")
   @Key("status.approved")
   String status_approved();
+
+  /**
+   * Translated "Superceded".
+   * 
+   * @return translated "Superceded"
+   */
+  @DefaultMessage("Superceded")
+  @Key("status.superceded")
+  String status_superceded();
 
   /**
    * Translated "Draft".

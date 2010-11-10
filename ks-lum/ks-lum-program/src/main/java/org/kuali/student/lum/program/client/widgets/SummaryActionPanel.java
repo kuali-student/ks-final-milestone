@@ -1,27 +1,37 @@
 package org.kuali.student.lum.program.client.widgets;
 
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.event.ActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
+import org.kuali.student.lum.program.client.major.MajorManager;
+import org.kuali.student.lum.program.client.major.edit.MajorInformationEditConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -38,12 +48,16 @@ public class SummaryActionPanel extends Composite {
 
     private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_back_curriculum());
 
+    private final KSLightBox activateDialog = new KSLightBox();
+    private Section activateSection;
+    
     private DataModel dataModel;
 
     private ProgramStatus previousStatus;
 
-    public SummaryActionPanel() {
+    public SummaryActionPanel(Section activateSection) {
         initWidget(content);
+        this.activateSection = activateSection; 
         buildLayout();
         setStyles();
         bind();
@@ -90,7 +104,7 @@ public class SummaryActionPanel extends Composite {
         activateButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                processButtonClick(ProgramStatus.ACTIVE);
+                processActivateClick();
             }
         });
         exitAnchor.addClickHandler(new ClickHandler() {
@@ -109,6 +123,16 @@ public class SummaryActionPanel extends Composite {
         initiatedEvent = true;
         setStatus(status);
         MajorManager.getEventBus().fireEvent(new UpdateEvent());
+    }
+    
+    private void processActivateClick(){    	
+        String versionFromId = dataModel.get(ProgramConstants.VERSION_FROM_ID);
+        if (versionFromId != null){
+        	activateSection.updateWidgetData(dataModel);
+        	activateDialog.show();
+        } else {
+        	processButtonClick(ProgramStatus.ACTIVE);
+        }
     }
 
     private void processStatus(ProgramStatus programStatus) {
@@ -130,8 +154,35 @@ public class SummaryActionPanel extends Composite {
         content.add(approveButton);
         content.add(activateButton);
         content.add(exitAnchor);
+
+    	buildActivateDialog();
     }
 
+    private void buildActivateDialog(){
+	    FlowPanel panel = new FlowPanel();
+
+	    panel.add((Widget)activateSection);
+	    
+	    KSButton activate = new KSButton("Activate",new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                activateSection.updateModel(dataModel);
+                ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERCEDED.toString());
+                processButtonClick(ProgramStatus.ACTIVE);
+                activateDialog.hide();
+            }
+	    });
+	    activateDialog.addButton(activate);
+	    
+	    KSButton cancel = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                activateDialog.hide();
+            }
+	    });
+	    activateDialog.addButton(cancel);
+
+	    activateDialog.setWidget(panel);
+    }
+    
     private void enableButtons(boolean enableApprove, boolean enableActivate) {
         approveButton.setEnabled(enableApprove);
         activateButton.setEnabled(enableActivate);
@@ -139,5 +190,5 @@ public class SummaryActionPanel extends Composite {
 
     private ProgramStatus getStatus() {
         return ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE));
-    }
+    }    
 }

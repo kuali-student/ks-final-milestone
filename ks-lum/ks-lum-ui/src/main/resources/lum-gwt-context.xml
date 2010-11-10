@@ -369,8 +369,8 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="credentialProgramFilter"/>
+                <ref bean="versionProgramFilter"/>                
                 <ref bean="idTranslatorFilter"/>
-
             </list>
         </property>
     </bean>
@@ -449,6 +449,10 @@
 
     <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="versionProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionProgramFilter">
         <property name="programService" ref="programClient"/>
     </bean>
 
