@@ -426,7 +426,9 @@ public class CourseServiceImpl implements CourseService {
 			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 				field.setId(null);
 				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.equals(field.getType())){
+				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
+				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
+				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
 						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 						cluSet.setId(null);

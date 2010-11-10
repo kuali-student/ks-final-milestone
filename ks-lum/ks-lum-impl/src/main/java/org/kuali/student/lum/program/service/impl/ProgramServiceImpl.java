@@ -46,8 +46,6 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -186,8 +184,8 @@ public class ProgramServiceImpl implements ProgramService {
 	        //Integrate changes into the original. (should this just be just the id?)
 			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDicipline, true);
 
-			//Clear Ids from the original so it will make a copy
-			resetIds(originalMajorDicipline);
+			//Clear Ids from the original so it will make a copy and do other processing
+			processCopy(originalMajorDicipline);
 
 			//Disassemble the new
 			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
@@ -227,7 +225,9 @@ public class ProgramServiceImpl implements ProgramService {
 				for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 					field.setId(null);
 					//copy any clusets that are adhoc'd and set the field value to the new cluset
-					if(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.equals(field.getType())){
+					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
+					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
+					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 						try {
 							CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 							cluSet.setId(null);
@@ -258,7 +258,7 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws DataValidationErrorException 
 	 * @throws AlreadyExistsException 
      */
-    private void resetIds(MajorDisciplineInfo majorDicipline) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    private void processCopy(MajorDisciplineInfo majorDicipline) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 		//Clear Los
 		for(LoDisplayInfo lo:majorDicipline.getLearningObjectives()){
 			resetLoRecursively(lo);
@@ -275,24 +275,47 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		//Clear Variations
 		for(ProgramVariationInfo variation:majorDicipline.getVariations()){
+			//Clear Id
 			variation.setId(null);
+			//Set state to parent program's state
+			variation.setState(majorDicipline.getState());
 			//Clear Los
 			for(LoDisplayInfo lo:variation.getLearningObjectives()){
 				resetLoRecursively(lo);
 			}
+			//Copy Requirements for variation
+			copyProgramRequirements(variation.getProgramRequirements(),majorDicipline.getState());
 		}
 		
-		//Copy requirements (these exist external to the majorDicipline save process and are referenced by id)
-		
+		//Copy requirements for majorDicipline
+		copyProgramRequirements(majorDicipline.getProgramRequirements(),majorDicipline.getState());
+
+	}
+    
+    /**
+     * Copy requirements (these exist external to the program save process and are referenced by id)
+     * @param originalProgramRequirementIds
+     * @param state
+     * @throws OperationFailedException
+     * @throws AlreadyExistsException
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     */
+    private void copyProgramRequirements(List<String> originalProgramRequirementIds,String state) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException{
 		//Pull out the current requirement ids to be replaced by the ids of the new copies 
-		List<String> programRequirementIds = majorDicipline.getProgramRequirements();
-		majorDicipline.setProgramRequirements(new ArrayList<String>(programRequirementIds.size()));
+		List<String> programRequirementIds = new ArrayList<String>(originalProgramRequirementIds);
+		originalProgramRequirementIds.clear();
 		
 		for(String programRequirementId:programRequirementIds){
 			//Grab the original 
 			ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null);
 			//Clear the id
 			programRequirementInfo.setId(null);
+			
+			programRequirementInfo.setState(state);
 			//Clear statement tree ids
 			clearStatementTreeViewIdsRecursively(programRequirementInfo.getStatement());
 			//Clear learning objectives
@@ -302,9 +325,9 @@ public class ProgramServiceImpl implements ProgramService {
 			//Create the new copy
 			ProgramRequirementInfo createdProgramRequirement = createProgramRequirement(programRequirementInfo);
 			//add the copy's id back to the majorDicipline's list of requirements
-			majorDicipline.getProgramRequirements().add(createdProgramRequirement.getId());
+			originalProgramRequirementIds.add(createdProgramRequirement.getId());
 		}
-	}
+    }
     
 	/**
 	 * Recursively clears out the ids in a Lo and in its child Los
