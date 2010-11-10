@@ -17,7 +17,10 @@
 
 // Type Configuration
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.test', 'None of required courses', 'Must completed all courses from <org>', null, null, 0)
+
+// 'kuali.reqComponent.field.type.org.id' is used in class 'org.kuali.student.lum.statement.config.context.OrganizationContextImpl'
 INSERT INTO KSST_REQ_COM_FIELD_TYPE (ID, NAME, DESCR, DATA_TYPE, MIN_VALUE, MAX_VALUE, MIN_LENGTH, MAX_LENGTH, VALID_CHARS, INVALID_CHARS, MIN_OCCURS, MAX_OCCURS, READ_ONLY, VER_NBR) VALUES ('kuali.reqComponent.field.type.org.id', 'Organization Id', 'Organization identifier', 'string', null,null,null,null,null,null,null,null, 0, 0)
+
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.test', 'kuali.reqComponent.field.type.org.id')
 
 INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('KUALI.RULE', 'Kuali Rule Edit', 'Rule Edit', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 0)
