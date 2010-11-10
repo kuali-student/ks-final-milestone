@@ -60,14 +60,15 @@
    clear:both;
 }
 .bottomLine{
-    border-bottom:1px dotted #c9c9c9;
-    clear:both;
-    color:#777777;
-    font-family:Georgia,"Times New Roman",Times,serif;
-    font-size:1.1em;
-    letter-spacing:0.04em;
-    padding:4px 0 7px 15px;
-    width:100%;
+border-bottom:1px dotted #c9c9c9;
+border-top:1px dotted #c9c9c9;
+clear:both;
+color:#777777;
+font-family:Georgia,"Times New Roman",Times,serif;
+font-size:0.9em;
+letter-spacing:0.04em;
+padding:3px 0 3px 15px;
+width:100%;    
 }
 
 .bottomLine a{
