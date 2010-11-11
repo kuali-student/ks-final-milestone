@@ -166,7 +166,7 @@ public class SummaryActionPanel extends Composite {
 	    KSButton activate = new KSButton("Activate",new ClickHandler(){
             public void onClick(ClickEvent event) {
                 activateSection.updateModel(dataModel);
-                ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERCEDED.toString());
+                ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERSEDED.getValue());
                 processButtonClick(ProgramStatus.ACTIVE);
                 activateDialog.hide();
             }

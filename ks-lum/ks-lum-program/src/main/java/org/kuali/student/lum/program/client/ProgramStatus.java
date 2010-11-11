@@ -9,7 +9,7 @@ public enum ProgramStatus {
 	DRAFT(ProgramProperties.get().status_draft()),
 	APPROVED(ProgramProperties.get().status_approved()),
 	ACTIVE(ProgramProperties.get().status_active()),
-	SUPERCEDED(ProgramProperties.get().status_superceded());
+	SUPERSEDED(ProgramProperties.get().status_superseded());
 
     private final String value;
 

@@ -916,13 +916,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String status_approved();
 
   /**
-   * Translated "Superceded".
+   * Translated "Superseded".
    * 
-   * @return translated "Superceded"
+   * @return translated "Superseded"
    */
-  @DefaultMessage("Superceded")
-  @Key("status.superceded")
-  String status_superceded();
+  @DefaultMessage("Superseded")
+  @Key("status.superseded")
+  String status_superseded();
 
   /**
    * Translated "Draft".
