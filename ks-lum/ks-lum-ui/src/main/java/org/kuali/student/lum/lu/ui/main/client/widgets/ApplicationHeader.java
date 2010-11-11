@@ -34,8 +34,8 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
@@ -158,6 +158,7 @@ public class ApplicationHeader extends Composite{
 		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		//FIXME the following code gets overridden
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
 
@@ -220,7 +221,7 @@ public class ApplicationHeader extends Composite{
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
-    					appUrl+"/portal.do?selectedTab=main"))
+    					riceURL+"/portal.do?selectedTab=main"))
     	);
 
     	navDropDown.setItems(items);
