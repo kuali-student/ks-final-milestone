@@ -501,7 +501,7 @@ public class ProgramAssemblerUtils {
             if (clu.getAdminOrgs() != null) {
             	clearProgramAdminOrgs(o);
                 for (AdminOrgInfo cluOrg : clu.getAdminOrgs()) {
-                    if (cluOrg.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)) {
+                    if (cluOrg.getType().equals(ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION)) {
                         addOrgIdToProgram(o, cluOrg, "getDivisionsContentOwner", "setDivisionsContentOwner");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)) {
@@ -516,7 +516,7 @@ public class ProgramAssemblerUtils {
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)) {
                         addOrgIdToProgram(o, cluOrg, "getDivisionsFinancialControl", "setDivisionsFinancialControl");
                     }
-                    else if (cluOrg.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)) {
+                    else if (cluOrg.getType().equals(ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT)) {
                         addOrgIdToProgram(o, cluOrg, "getUnitsContentOwner", "setUnitsContentOwner");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)) {
@@ -589,12 +589,12 @@ public class ProgramAssemblerUtils {
         // clear out all old admin orgs
         clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
-        addAdminOrgs(clu, o, "getDivisionsContentOwner", ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
+        addAdminOrgs(clu, o, "getDivisionsContentOwner", ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION);
         addAdminOrgs(clu, o, "getDivisionsStudentOversight", ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION);
         addAdminOrgs(clu, o, "getDivisionsDeployment", ProgramAssemblerConstants.DEPLOYMENT_DIVISION);
         addAdminOrgs(clu, o, "getDivisionsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION);
         addAdminOrgs(clu, o, "getDivisionsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION);
-        addAdminOrgs(clu, o, "getUnitsContentOwner", ProgramAssemblerConstants.CONTENT_OWNER_UNIT);
+        addAdminOrgs(clu, o, "getUnitsContentOwner", ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT);
         addAdminOrgs(clu, o, "getUnitsStudentOversight", ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT);
         addAdminOrgs(clu, o, "getUnitsDeployment", ProgramAssemblerConstants.DEPLOYMENT_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);

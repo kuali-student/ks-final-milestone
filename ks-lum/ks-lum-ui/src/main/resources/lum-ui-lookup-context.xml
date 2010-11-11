@@ -2680,6 +2680,9 @@
  <bean id="coreProgramInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.divisionsContentOwner" />
  </bean>
+ <bean id="programVariationInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.divisionsContentOwner" />
+ </bean>
 
  <bean id="majorDisciplineInfo.unitsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsContentOwner" />
@@ -2689,6 +2692,9 @@
  </bean>
  <bean id="coreProgramInfo.unitsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.unitsContentOwner" />
+ </bean>
+ <bean id="programVariationInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.unitsContentOwner" />
  </bean>
 
  <bean id="majorDisciplineInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
@@ -2700,29 +2706,50 @@
  <bean id="coreProgramInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.unitsStudentOversight" />
  </bean>
+ <bean id="programVariationInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.unitsStudentOversight" />
+ </bean>
 
  <bean id="majorDisciplineInfo.divisionsDeployment" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsDeployment" />
  </bean>
-   
+ <bean id="programVariationInfo.divisionsDeployment" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.divisionsDeployment" />
+ </bean>
+
  <bean id="majorDisciplineInfo.unitsDeployment" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsDeployment" />
+ </bean>
+ <bean id="programVariationInfo.unitsDeployment" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.unitsDeployment" />
  </bean>
 
  <bean id="majorDisciplineInfo.divisionsFinancialResources" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsFinancialResources" />
  </bean>
+ <bean id="programVariationInfo.divisionsFinancialResources" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.divisionsFinancialResources" />
+ </bean>
 
  <bean id="majorDisciplineInfo.unitsFinancialResources" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsFinancialResources" />
+ </bean>
+ <bean id="programVariationInfo.unitsFinancialResources" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.unitsFinancialResources" />
  </bean>
 
  <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsFinancialControl" />
  </bean>
+ <bean id="programVariationInfo.divisionsFinancialControl" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.divisionsFinancialControl" />
+ </bean>
 
  <bean id="majorDisciplineInfo.unitsFinancialControl" parent="department-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsFinancialControl" />
+ </bean>
+ <bean id="programVariationInfo.unitsFinancialControl" parent="department-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.unitsFinancialControl" />
  </bean>
 
  <bean id="endProgramEntryTerm" parent="uilookupconfig-parent">
@@ -2801,6 +2828,9 @@
 	</bean>
     <bean id="coreProgramInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="coreProgramInfo.divisionsStudentOversight" />
+	</bean>
+    <bean id="programVariationInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.variations.divisionsStudentOversight" />
 	</bean>
 
 	<bean id="majorDisciplineInfo.cip2000Code" parent="uilookupconfig-parent">

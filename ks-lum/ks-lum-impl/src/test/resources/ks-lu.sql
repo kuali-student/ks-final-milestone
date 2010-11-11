@@ -578,19 +578,19 @@ update KSLU_CLU set PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_F
 // End of test data for View Course
 
 // Test data for MajorDiscipline
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-1','31',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-1','31',0, 'kuali.adminOrg.type.CurriculumOversightDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-2','32',0, 'kuali.adminOrg.type.StudentOversightDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-3','33',0, 'kuali.adminOrg.type.DeploymentDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-4','34',0, 'kuali.adminOrg.type.FinancialResourcesDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-5','36',0, 'kuali.adminOrg.type.FinancialControlDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-6','41',0, 'kuali.adminOrg.type.ContentOwnerUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-6','41',0, 'kuali.adminOrg.type.CurriculumOversightUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-7','42',0, 'kuali.adminOrg.type.StudentOversightUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-8','43',0, 'kuali.adminOrg.type.DeploymentUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-9','44',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-10','46',0, 'kuali.adminOrg.type.FinancialControlUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('MAJOR-11','47',0, 'kuali.adminOrg.type.FinancialControlUnit', 'd4ea77dd-b492-4554-b104-863e42c5f8b7',0);
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-COD','48',0, 'kuali.adminOrg.type.ContentOwnerDivision', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-COU','49',0, 'kuali.adminOrg.type.ContentOwnerUnit', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-COD','48',0, 'kuali.adminOrg.type.CurriculumOversightDivision', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-COU','49',0, 'kuali.adminOrg.type.CurriculumOversightUnit', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-SOD','50',0, 'kuali.adminOrg.type.StudentOversightDivision', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('CORE-SOU','51',0, 'kuali.adminOrg.type.StudentOversightUnit', '00f5f8c5-fff1-4c8b-92fc-789b891e0849',0);
 // for CredentialProgram
@@ -647,12 +647,12 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, C
 update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term',  EXP_FIRST_ATP='start_term', LAST_ATP = 'end_term', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'VAR-200';
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, VER_NBR, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('VAR-201', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'VAR-200' );
 
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-201','11',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'VAR-200',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-201','11',0, 'kuali.adminOrg.type.CurriculumOversightDivision', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-202','12',0, 'kuali.adminOrg.type.StudentOversightDivision', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-203','13',0, 'kuali.adminOrg.type.DeploymentDivision', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-204','14',0, 'kuali.adminOrg.type.FinancialResourcesDivision', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-205','16',0, 'kuali.adminOrg.type.FinancialControlDivision', 'VAR-200',0);
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-206','21',0, 'kuali.adminOrg.type.ContentOwnerUnit', 'VAR-200',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-206','21',0, 'kuali.adminOrg.type.CurriculumOversightUnit', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-207','22',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-208','23',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-200',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-209','24',0, 'kuali.adminOrg.type.DeploymentUnit', 'VAR-200',0);
@@ -690,12 +690,12 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, C
 update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term',  EXP_FIRST_ATP='start_term', LAST_ATP = 'end_term', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'VAR-300';
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, VER_NBR, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('VAR-301', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'VAR-300' );
 
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-301','31',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'VAR-300',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-301','31',0, 'kuali.adminOrg.type.CurriculumOversightDivision', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-302','32',0, 'kuali.adminOrg.type.StudentOversightDivision', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-303','33',0, 'kuali.adminOrg.type.DeploymentDivision', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-304','34',0, 'kuali.adminOrg.type.FinancialResourcesDivision', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-305','36',0, 'kuali.adminOrg.type.FinancialControlDivision', 'VAR-300',0);
-INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-306','41',0, 'kuali.adminOrg.type.ContentOwnerUnit', 'VAR-300',0);
+INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-306','41',0, 'kuali.adminOrg.type.CurriculumOversightUnit', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-307','42',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-308','43',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-300',0);
 INSERT into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id,VER_NBR) VALUES ('VAR-309','44',0, 'kuali.adminOrg.type.DeploymentUnit', 'VAR-300',0);

@@ -148,7 +148,7 @@ public class ProgramDataGeneratorUtils {
 			}
 
 			if("divisionsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION;
 			}
 			
 			if("divisionsStudentOversight".equals(parentPropertyName)){
@@ -156,7 +156,7 @@ public class ProgramDataGeneratorUtils {
 			}
 			
 			if("unitsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT;
 			}
 			
 			if("unitsStudentOversight".equals(parentPropertyName)){
