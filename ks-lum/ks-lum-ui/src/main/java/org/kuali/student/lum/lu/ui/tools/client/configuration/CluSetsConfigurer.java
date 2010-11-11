@@ -52,7 +52,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
@@ -385,36 +385,36 @@ public class CluSetsConfigurer {
         addField(sectionView, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
 
         VerticalSection nameSection = initSection(null, !WITH_DIVIDER);
-        nameSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        nameSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.CLU_SET_NAME), new KSLabel());
         sectionView.addSection(nameSection);
 
         VerticalSection descriptionSection = initSection(null, !WITH_DIVIDER);
-        descriptionSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        descriptionSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(descriptionSection, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo("Description"), new KSLabel());
         sectionView.addSection(descriptionSection);
         
         VerticalSection expirationDateSection = initSection(null, !WITH_DIVIDER);
-        expirationDateSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        expirationDateSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
         sectionView.addSection(expirationDateSection);
         
         VerticalSection clusSection = initSection(null, !WITH_DIVIDER);
-        clusSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        clusSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(clusSection, ToolsConstants.CLU_SET_ALL_CLUS_FIELD, 
                 generateMessageInfo("Individual Courses"),
                 new TranslatedStringList(ToolsConstants.CLU_SET_ALL_CLUS_FIELD));
         sectionView.addSection(clusSection);
         
         VerticalSection cluSetsSection = initSection(null, !WITH_DIVIDER);
-        cluSetsSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        cluSetsSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(cluSetsSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, 
                 generateMessageInfo("CLU Sets"),
                 new TranslatedStringList(ToolsConstants.CLU_SET_CLU_SETS_FIELD));
         sectionView.addSection(cluSetsSection);
         
         VerticalSection cluRangeDetailsSection = initSection(null, !WITH_DIVIDER);
-        cluRangeDetailsSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        cluRangeDetailsSection.addStyleName(LUUIConstants.STYLE_BOTTOM_DIVIDER);
         addField(cluRangeDetailsSection, ToolsConstants.CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD, 
                 generateMessageInfo("Course Range"),
                 new TranslatedStringList(ToolsConstants.CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD));
@@ -440,7 +440,7 @@ public class CluSetsConfigurer {
 
     private VerticalSectionView initVerticalSectionView(Enum<?> viewEnum, String labelKey, String modelId) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
-        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.addStyleName(LUUIConstants.STYLE_SECTION);
         //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
@@ -448,7 +448,7 @@ public class CluSetsConfigurer {
 
     private VerticalSectionView initNestedSectionView (Enum<?> viewEnum, String labelKey, String modelId) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
-        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.addStyleName(LUUIConstants.STYLE_SECTION);
         //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
@@ -456,9 +456,9 @@ public class CluSetsConfigurer {
 
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection(title);
-        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.addStyleName(LUUIConstants.STYLE_SECTION);
         if (withDivider)
-            section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+            section.addStyleName(LUUIConstants.STYLE_SECTION_DIVIDER);
         return section;
     }
 

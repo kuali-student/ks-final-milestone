@@ -106,11 +106,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_stdDuration();
 
   /**
-   * Translated "Add/View Comments".
+   * Translated "Comments".
    * 
-   * @return translated "Add/View Comments"
+   * @return translated "Comments"
    */
-  @DefaultMessage("Add/View Comments")
+  @DefaultMessage("Comments")
   @Key("comments.button")
   String comments_button();
 
@@ -222,6 +222,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("link.exit")
   String link_exit();
 
+  /**
+   * Translated "Return to Curriculum Management".
+   * 
+   * @return translated "Return to Curriculum Management"
+   */
+  @DefaultMessage("Return to Curriculum Management")
+  @Key("link.backCurriculum")
+  String link_back_curriculum();
+  
   /**
    * Translated "Learning Objectives".
    * 
@@ -439,13 +448,22 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
-   * Translated "Modify".
+   * Translated "Modify (no version)".
    * 
-   * @return translated "Modify"
+   * @return translated "Modify (no version)"
    */
-  @DefaultMessage("Modify")
+  @DefaultMessage("Modify (no version)")
   @Key("programAction.modify")
   String programAction_modify();
+
+  /**
+   * Translated "Modify (with new version)".
+   * 
+   * @return translated "Modify (with new version)"
+   */
+  @DefaultMessage("Modify (with new version)")
+  @Key("programAction.modifyVersion")
+  String programAction_modifyVersion();
 
   /**
    * Translated "Program Actions: Modify, Retire...".
@@ -673,6 +691,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_titleDiploma();
 
   /**
+   * Translated "Activate Program".
+   * 
+   * @return translated "Activate Program"
+   */
+  @DefaultMessage("Activate Program")
+  @Key("programInformation.activateProgram")
+  String programInformation_activateProgram();
+
+  /**
+   * Translated activate instructions
+   * 
+   * @return translated activate instructions
+   */
+  @DefaultMessage("You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.")
+  @Key("programInformation.activateInstructions")
+  String programInformation_activateInstructions();
+
+  /**
    * Translated "Title Full".
    * 
    * @return translated "Title Full"
@@ -817,6 +853,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String sideBar_history();
 
   /**
+   * Translated "View version history".
+   * 
+   * @return translated "View version histroy"
+   */
+  @DefaultMessage("View version history")
+  @Key("sideBar.viewHistory")
+  String sideBar_viewHistory();
+
+  /**
    * Translated "Last review date:".
    * 
    * @return translated "Last review date:"
@@ -862,13 +907,22 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String status_active();
 
   /**
-   * Translated "Approve".
+   * Translated "Approved".
    * 
-   * @return translated "Approve"
+   * @return translated "Approved"
    */
-  @DefaultMessage("Approve")
-  @Key("status.approve")
-  String status_approve();
+  @DefaultMessage("Approved")
+  @Key("status.approved")
+  String status_approved();
+
+  /**
+   * Translated "Superseded".
+   * 
+   * @return translated "Superseded"
+   */
+  @DefaultMessage("Superseded")
+  @Key("status.superseded")
+  String status_superseded();
 
   /**
    * Translated "Draft".

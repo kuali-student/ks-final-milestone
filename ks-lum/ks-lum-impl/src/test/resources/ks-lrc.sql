@@ -101,8 +101,12 @@ INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_N
 INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.resultComponentType.credit.degree.fixed', 'This records a single fixed number of credits that are awarded if the student passes the course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Fixed Number',0);
 INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.resultComponentType.credit.degree.range', 'This records a range of number of credits that can be awarded for this course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Range of Numbers',0);
 
-INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-1' ,'<p>Pass or Fail</p>'                                        , 'Pass or Fail',0);                                        
-INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-2' ,'<p>A Letter used as a grade (e.g. A, B, C, D, F)</p>'       , 'A Letter used as a grade (e.g. A, B, C, D, F)',0);        
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-1'  ,'<p>Pass or Fail</p>'                                        , 'Pass or Fail',0);                                        
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-2'  ,'<p>A Letter used as a grade (e.g. A, B, C, D, F)</p>'       , 'A Letter used as a grade (e.g. A, B, C, D, F)',0);        
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-2a' ,'<p>Completed notation (e.g. Completed, In Progress, Not Completed)</p>', 'Completed notation (e.g. Completed, In Progress, Not Completed)',0);        
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-2b' ,'<p>Satisfactory/Not Satisfactory</p>'                        , 'Satisfactory/Not Satisfactory',0);        
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-2c' ,'<p>Percentage (e.g. 0-59%, 60-69%, 70-79%, 80-84%, 85-89%, 90-94%, >95%)</p>', 'A Percentage used as a grade (e.g. 0-59%, 60-69%, 70-79%, 80-84%, 85-89%, 90-94%, >95%)',0);        
+
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-3' ,'<p>0 units of academic credit</p>'                          , '0 units of academic credit',0);                          
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-4' ,'<p>1 unit of academic credit</p>'                           , '1 unit of academic credit',0);                            
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-5' ,'<p>2 units of academic credit</p>'                          , '2 units of academic credit',0);                          
@@ -135,8 +139,12 @@ INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LR
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-32','<p>A range of 10 through 15 academic credits, inclusive</p>', 'A range of 10 through 15 academic credits, inclusive',0);
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RC-33','<p>A range of 1 through 20 academic credits, inclusive</p>' , 'A range of 1 through 20 academic credits, inclusive',0);  
 
-INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.passFail'                             , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Pass-Fail'    , NULL, 'RICHTEXT-LRC-RC-1' , 'kuali.resultComponentType.grade.finalGrade');
-INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.letter'                               , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Letter'       , NULL, 'RICHTEXT-LRC-RC-2' , 'kuali.resultComponentType.grade.finalGrade');
+INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.passFail'                             , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Pass-Fail',                   NULL, 'RICHTEXT-LRC-RC-1' , 'kuali.resultComponentType.grade.finalGrade');
+INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.letter'                               , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Letter',                      NULL, 'RICHTEXT-LRC-RC-2' , 'kuali.resultComponentType.grade.finalGrade');
+INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.completedNotation'                    , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Completed Notation',          NULL, 'RICHTEXT-LRC-RC-2a' , 'kuali.resultComponentType.grade.finalGrade');
+INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.satisfactory'                         , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Satisfactory/Not Satisfactory', NULL, 'RICHTEXT-LRC-RC-2b' , 'kuali.resultComponentType.grade.finalGrade');
+INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.resultComponent.grade.percentage'                           , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Percentage',                  NULL, 'RICHTEXT-LRC-RC-2c' , 'kuali.resultComponentType.grade.finalGrade');
+
 INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.creditType.credit.degree.0'                                 , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, '0 Credit'     , NULL, 'RICHTEXT-LRC-RC-3' , 'kuali.resultComponentType.credit.degree.fixed');    
 INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.creditType.credit.degree.1'                                 , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, '1 Credit'     , NULL, 'RICHTEXT-LRC-RC-4' , 'kuali.resultComponentType.credit.degree.fixed');    
 INSERT INTO KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE) VALUES ('kuali.creditType.credit.degree.2'                                 , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, '2 Credits'    , NULL, 'RICHTEXT-LRC-RC-5' , 'kuali.resultComponentType.credit.degree.fixed');    
@@ -178,9 +186,26 @@ INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LR
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-LRC-RV-7', '<p>Final Grade of F</p>', 'Final Grade of F',0);
 
 // KSLR_RESULT_VALUE.id and KSLR_RESULT_VALUE.value MUST be the same since id is also used as the value
-INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID,VER_NBR) VALUES ('A', 'A', 'kuali.resultComponent.grade.letter',0)
-INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID,VER_NBR) VALUES ('B', 'B', 'kuali.resultComponent.grade.letter',0)
-INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID,VER_NBR) VALUES ('C', 'C', 'kuali.resultComponent.grade.letter',0)
-INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID,VER_NBR) VALUES ('D', 'D', 'kuali.resultComponent.grade.letter',0)
-INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID,VER_NBR) VALUES ('F', 'F', 'kuali.resultComponent.grade.letter',0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('A', 'A', 'kuali.resultComponent.grade.letter', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('B', 'B', 'kuali.resultComponent.grade.letter', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('C', 'C', 'kuali.resultComponent.grade.letter', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('D', 'D', 'kuali.resultComponent.grade.letter', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('F', 'F', 'kuali.resultComponent.grade.letter', 0)
 
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Pass', 'Pass', 'kuali.resultComponent.grade.passFail', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Fail', 'Fail', 'kuali.resultComponent.grade.passFail', 0)
+
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Completed',     'Completed',     'kuali.resultComponent.grade.completedNotation', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('In-Progress',   'In-Progress',   'kuali.resultComponent.grade.completedNotation', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Not-Completed', 'Not-Completed', 'kuali.resultComponent.grade.completedNotation', 0)
+
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Satisfactory',     'Satisfactory',     'kuali.resultComponent.grade.satisfactory', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('Not-Satisfactory', 'Not-Satisfactory', 'kuali.resultComponent.grade.satisfactory', 0)
+
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('0-59%', '0-59%',   'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('60-69%', '60-69%', 'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('70-79%', '70-79%', 'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('80-84%', '80-84%', 'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('85-89%', '85-89%', 'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('90-94%', '90-94%', 'kuali.resultComponent.grade.percentage', 0)
+INSERT INTO KSLR_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID, VER_NBR) VALUES ('>95%', '>95%',     'kuali.resultComponent.grade.percentage', 0)

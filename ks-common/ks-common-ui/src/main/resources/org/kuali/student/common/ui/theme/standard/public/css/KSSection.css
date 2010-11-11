@@ -263,25 +263,22 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
                     margin-bottom:1em;
 }
 .ks-form-bordered-header {
-border-bottom:1px dotted #BBBBBB;
-color:#000000;
-font-size:1.3em;
-font-weight:normal;
-letter-spacing:0.05em;
-margin-bottom:9px;
+background-color:#E4E6F2;
+margin:0;
+padding:4px 6px;
 
 }
 
 .ks-form-bordered-header-title {
-color:#424242;
-display:table;
-float:left;
-font-size:1em;
-height:1%;
-letter-spacing:0.06em;
-line-height:1.6em;
-padding:0 0 0 5px;
-text-transform:uppercase;  
+    color:#424242;
+    display:table;
+    float:left;
+    font-size:1em;
+    height:1%;
+    letter-spacing:0.06em;
+    line-height:1.6em;
+    padding:0 0 0 5px;
+    text-transform:uppercase;  
 }
 .ks-form-bordered-header-title h4 {
 	margin: 0;
@@ -423,7 +420,13 @@ position:relative;
     margin-right: 20px;
     line-height: 1.4em;
 }
-
+.ks-form-required-for-submit {
+color:#999999;
+font-size:0.9em;
+font-style:italic;
+font-weight:normal;
+margin-left:4px;
+}
 .ks-form-module-elements-required {
 	color:red;
 }
@@ -439,7 +442,6 @@ position:relative;
     color: #000; 
     display: block; 
     line-height: 1.4em;
-    padding: 4px 0 4px;
 
 }
 
@@ -472,13 +474,13 @@ position:relative;
 }
 
 .ks-form-module-elements-delete a{
--moz-border-radius:0 4px 0 4px;
-border:1px solid #CCCCCC;
-color:#AAAAAA;
-font-size:12px;
-padding:1px 3px 0;
-text-decoration:none;
-text-transform:lowercase;
+   border:1px solid #CCCCCC;
+   color:#AAAAAA;
+   font-size:12px;
+   font-weight:bold;
+   padding:0 3px 1px;
+   text-decoration:none;
+   text-transform:lowercase;
 }
 
 .ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
@@ -573,10 +575,11 @@ text-transform:lowercase;
 .ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 .ks-form-module label span a { font-weight: normal; margin-left: .3em; }
 .ks-form-module-elements label { 
-                    color:#000000;
-                    display:block;
-                    font-weight:bold;
-                    line-height:1.9em;
+    color: #000000;
+    display:block;
+    font-weight: bold;
+    line-height: 1.9em;
+    white-space: nowrap;
 }
 
 .ks-form-module-triple-line-margin{margin-top: 3.6em;}
@@ -592,7 +595,11 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 /*** Basic Form Styling ***/
 
-.ks-form-module-elements input[type="checkbox"] + label { display: inline; white-space: nowrap; } /* for label fields that follow a checkbox */
+.ks-form-module-elements input[type="checkbox"] + label { 
+    display:inline;
+    font-weight:normal;
+    white-space:nowrap;
+} /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
 
 .ks-form-module-elements input[type="text"] { 
@@ -846,7 +853,7 @@ a.ks-button-primary-small {
 	background-color: #E4EBFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#E4EBFF), to(#BFD1FF));
 	background-image: \-moz-linear-gradient(-90deg,#E4EBFF,#BFD1FF);
-	\-moz-border-radius: 3px;
+	\-moz-border-radius: 4px 4px 4px 4px;
 	\-webkit-border-radius: 3px;
 	border: 1px solid #A1BAF7;
 	padding: 3px 8px 2px 8px;
@@ -870,7 +877,7 @@ a.ks-button-primary-small:hover {
 }
 
 .ks-button-primary-small-disabled {
-          -moz-border-radius:0 4px 0 4px;
+          -moz-border-radius:3px 3px 3px 3px;
           background-color:#F8F8F8;
           background-image:-moz-linear-gradient(-90deg, #FFFFFF, #CCCCCC);
           border:1px solid #999999;
@@ -982,4 +989,11 @@ a.ks-button-secondary-small:hover {
 	width:1px;
 	height:1px;
 	overflow:hidden;
+}
+
+.ks-multiplicity-section-label{ 
+	margin-top: 0em;
+	margin-bottom: 0; 
+	font-weight: bold; 
+	color: #000;
 }

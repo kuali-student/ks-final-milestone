@@ -15,6 +15,7 @@
  */
 package org.kuali.student.lum.program.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -26,6 +27,7 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -33,7 +35,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-
+import org.kuali.student.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -51,9 +53,9 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Program+Service">ProgramService</>
  *
  */
-@WebService(name = "ProgramService", targetNamespace = "http://student.kuali.org/wsdl/program") // TODO CHECK THESE VALUES
+@WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE) // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends DictionaryService, SearchService{ 
+public interface ProgramService extends DictionaryService, SearchService, VersionManagementService{ 
     /** 
      * Retrieves the list of credential program types
      * @return list of credential program type information
@@ -291,6 +293,36 @@ public interface ProgramService extends DictionaryService, SearchService{
 	 */
     public List<ValidationResultInfo> validateMajorDiscipline(@WebParam(name="validationType")String validationType, @WebParam(name="majorDisciplineInfo")MajorDisciplineInfo majorDisciplineInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+
+    /**
+     * Creates a new Major Discipline version based on the current Major
+     * @param majorDisciplineId identifier for the Major Discipline to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Major Discipline information
+     * @throws DoesNotExistException Major does not exist
+     * @throws InvalidParameterException invalid majorDisciplineId
+     * @throws MissingParameterException invalid majorDisciplineId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException 
+     */    
+    public MajorDisciplineInfo createNewMajorDisciplineVersion(@WebParam(name="majorDisciplineId")String majorDisciplineId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException; 
+
+    /**
+	 * Sets a specific version of the Major as current. The sequence number must be greater than the existing current Major version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param majorDisciplineId Version Specific Id of the Major Discipline
+     * @param currentVersionStart Date when this Major becomes current. Must be in the future and be after the most current major's start date.
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Major for majorVersionId does not exist
+     * @throws InvalidParameterException invalid majorVersionId, currentVersionStart
+     * @throws MissingParameterException invalid majorVersionId 
+     * @throws IllegalVersionSequencingException a Major with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentMajorDisciplineVersion(@WebParam(name="majorDisciplineId")String majorDisciplineId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+    
     /** 
      * Creates a Minor Discipline Program
      * @param minorDisciplineInfo minorDisciplineInfo
@@ -492,4 +524,5 @@ public interface ProgramService extends DictionaryService, SearchService{
 	 */
     public List<ValidationResultInfo> validateProgramRequirement(@WebParam(name="validationType")String validationType, @WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    
 }

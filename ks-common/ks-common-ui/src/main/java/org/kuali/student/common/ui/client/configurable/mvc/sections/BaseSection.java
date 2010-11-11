@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
@@ -28,6 +29,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -84,7 +86,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         			@Override
                         			public void onModelReady(DataModel model) {
                         				validateField(fieldDescriptor, model, parent);
-                        				
+
                         			}
 
                         			@Override
@@ -132,7 +134,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			controller.fireApplicationEvent(e);
 		}
 	}
-	
+
 	private void dirtyCheckField(FieldDescriptor fieldDescriptor, DataModel model){
         QueryPath fieldPath = QueryPath.parse(fieldDescriptor.getFieldKey());
 		QueryPath qPathDirty = fieldPath.subPath(0, fieldPath.size() - 1);
@@ -140,16 +142,16 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	    qPathDirty.add(ModelWidgetBindingSupport.DIRTY_PATH);
 	    qPathDirty.add(fieldPath.get(fieldPath.size()-1));
 	    Boolean dirty = false;
-	    
+
 	    if(ensureDirtyFlagPath(model.getRoot(), qPathDirty)){
 	    	dirty = model.get(qPathDirty);
 	    }
 	    if(dirty){
-	    	isDirty = true;
+	    	setIsDirty(true);
 	    	fieldDescriptor.setDirty(true);
 	    }
 	}
-	
+
     protected boolean ensureDirtyFlagPath(Data root, QueryPath path) {
         Data current = root;
         boolean containsFlag = false;
@@ -172,7 +174,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	@Override
 	public String addSection(Section section) {
 
-        sections.add(section);
+        section.setLayoutController(layoutController);
+		sections.add(section);
         String key = layout.addLayout(section.getLayout());
         return key;
 	}
@@ -208,7 +211,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public List<Section> getSections() {
 		return sections;
 	}
-	
+
 	@Override
 	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation){
 		if(clearAllValidation){
@@ -221,18 +224,16 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			for(FieldDescriptor f: this.fields){
 
 				if(f.hasHadFocus()){
-					//System.out.println("Processing field " + f.getFieldKey());
 					for(ValidationResultInfo vr: results){
-						if(vr.getElement().equals(f.getFieldKey())){
+                        String vrElement = vr.getElement();
+                        if(vrElement.startsWith("/")){
+                            vrElement = vrElement.substring(1);
+                        }
+						if(vrElement.equals(f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
-							//System.out.println("Checking validation on field " + f.getFieldKey());
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
-								if(fieldStatus == ErrorLevel.ERROR){
-									System.out.println("Error: " + f.getFieldKey());
-								}
 								if(fieldStatus.getLevel() > status.getLevel()){
-
 									status = fieldStatus;
 								}
 							}
@@ -267,7 +268,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            		}
 	            	}
 				}
-			
+
 			}
 
 	        for(Section s: sections){
@@ -305,7 +306,6 @@ public abstract class BaseSection extends SpanPanel implements Section{
     public void setFieldHasHadFocusFlags(boolean hadFocus) {
         for(FieldDescriptor f: fields){
             f.setHasHadFocus(hadFocus);
-            System.out.println(f.getFieldKey() + " has had focus");
             if(f.getFieldWidget() instanceof MultiplicityComposite){
 				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
 
@@ -356,7 +356,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
 
     }
-    
+
     @Override
     public void resetDirtyFlags() {
     	this.isDirty = false;
@@ -464,7 +464,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			//Check child sections for dirtyness
 			for(Section s: sections){
 				if(s.isDirty()){
-					isDirty = true;
+					setIsDirty(true);
 					break;
 				}
 			}
@@ -473,9 +473,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	}
 
     public void setIsDirty(boolean state) {
-        isDirty = state;
+		//Should this trust layoutController to be already set?
+    	if (layoutController == null){
+    		layoutController = LayoutController.findParentLayout(layout);
+    	}
+    	if (isDirty != state){
+        	isDirty = state;
+	    	if (layoutController != null && isDirty){
+	    		layoutController.fireApplicationEvent(new ContentDirtyEvent());
+	    	}
+    	}
     }
-	
+
 	/**
 	 * Do not use this method for adding sections, fields, or widgets to sections
 	 */
@@ -483,21 +492,21 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public void add(Widget w) {
 		super.add(w);
 	}
-	
+
 	@Override
 	public void addStyleName(String style) {
 		layout.addStyleName(style);
 	}
-	
+
 	@Override
 	public void setStyleName(String style) {
 		layout.setStyleName(style);
 	}
-	
+
 	public void setInstructions(String html){
 		layout.setInstructions(html);
 	}
-	
+
 	public void setHelp(String html){
 		layout.setHelp(html);
 	}

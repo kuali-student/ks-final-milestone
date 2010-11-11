@@ -128,18 +128,20 @@ public class CourseRequirementsDataModel {
             @Override
             public void onSuccess(List<StatementTreeViewInfo> foundRules) {
                 //update rules list with new course requirements
-                for (StatementTreeViewInfo foundRule : foundRules) {
+            	if (foundRules != null) {
+            		for (StatementTreeViewInfo foundRule : foundRules) {
 
-                    if (getStmtTypeInfo(foundRule.getType()) == null) {
-                       // Window.alert("Did not find corresponding statement type for course requirement of type: " + foundRule.getType());
-                        GWT.log("Did not find corresponding statement type for course requirement of type: " + foundRule.getType(), null);
-                    }
-                    
-                    origCourseReqInfos.put(courseReqIDs, RulesUtil.clone(foundRule));
-                    origCourseReqState.put(courseReqIDs, requirementState.STORED);
-                    courseReqInfos.put(courseReqIDs, foundRule);
-                    courseReqState.put(courseReqIDs++, requirementState.STORED);
-                }
+            			if (getStmtTypeInfo(foundRule.getType()) == null) {
+            				// Window.alert("Did not find corresponding statement type for course requirement of type: " + foundRule.getType());
+            				GWT.log("Did not find corresponding statement type for course requirement of type: " + foundRule.getType(), null);
+            			}
+
+            			origCourseReqInfos.put(courseReqIDs, RulesUtil.clone(foundRule));
+            			origCourseReqState.put(courseReqIDs, requirementState.STORED);
+            			courseReqInfos.put(courseReqIDs, foundRule);
+            			courseReqState.put(courseReqIDs++, requirementState.STORED);
+            		}
+            	}
 
                 isInitialized = true;
                 onReadyCallback.exec(true);
@@ -225,7 +227,7 @@ public class CourseRequirementsDataModel {
                 }
 
                 KSNotifier.add(new KSNotification("Save Successful", false, 4000));
-                //ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
+                //MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
         });        
@@ -415,7 +417,6 @@ public class CourseRequirementsDataModel {
             }
         });
     }
-
 
     public static boolean isEmpty(StatementTreeViewInfo rule) {
         return (((rule.getStatements() == null) || rule.getStatements().isEmpty()) && ((rule.getReqComponents() == null) || rule.getReqComponents().isEmpty()));

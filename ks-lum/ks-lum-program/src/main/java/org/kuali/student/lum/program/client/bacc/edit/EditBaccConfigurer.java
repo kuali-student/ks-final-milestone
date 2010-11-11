@@ -1,7 +1,5 @@
 package org.kuali.student.lum.program.client.bacc.edit;
 
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.major.edit.SupportingDocsEditConfiguration;
@@ -18,6 +16,7 @@ public class EditBaccConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(new BaccCatalogDetailsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccRequirementsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccLearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccDocsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccSummaryConfiguration());
     }
 }

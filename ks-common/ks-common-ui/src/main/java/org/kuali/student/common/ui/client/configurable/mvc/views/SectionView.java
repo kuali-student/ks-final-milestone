@@ -200,4 +200,8 @@ public abstract class SectionView extends BaseSection implements View {
         views.add(view);
         addWidget(view.asWidget());
     }
+
+    public DataModel getModel() {
+        return model;
+    }
 }

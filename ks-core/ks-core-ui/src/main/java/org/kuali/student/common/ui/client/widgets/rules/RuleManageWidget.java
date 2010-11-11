@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -15,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class RuleManageWidget extends FlowPanel {
 
     private RuleTableWidget manageRule = new RuleTableWidget();
-    private KSLabel logicalExpression = new KSLabel();
+    private RuleExpressionEditor logicalExpression = new RuleExpressionEditor();
     private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true, null);
     private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
@@ -68,15 +67,7 @@ public class RuleManageWidget extends FlowPanel {
     }
 
     private void updateLogicView() {
-        logicalExpression.setText(getLogicExpression().trim().isEmpty() ? "No rules have been added" : getLogicExpression());
-
-       //rule.populateExpression();
-       //rule.setPreviewedExpression(rule.getExpression());
-       //TODO add a link to RuleExpressionEditor
-    }
-
-    public String getLogicExpression() {
-        return (manageRule.getRule().getStatementVO() == null ? "" : manageRule.getRule().getStatementVO().convertToExpression());
+        logicalExpression.setRule(manageRule.getRule());
     }
 
     private void updatePreview() {
@@ -95,7 +86,8 @@ public class RuleManageWidget extends FlowPanel {
         return manageRule.getRule().getStatementVO().getStatementTreeViewInfo();
     }
 
-    public void setEanbled(boolean enabled) {
-        manageRule.setEnabledView(enabled);    
+    public void setEnabled(boolean enabled) {
+        manageRule.setEnabledView(enabled);
+        logicalExpression.setEnabledView(enabled);
     }
 }

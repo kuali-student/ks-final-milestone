@@ -55,6 +55,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	private boolean justPicked = false;
 	private final FocusGroup focus = new FocusGroup(this);
 	private boolean allowedKeyPress = true;
+    private boolean hasWatermark = false;
+    private boolean watermarkShowing = false;
+    private String watermarkText;
 
 	public KSDatePickerImpl(){
 		this.initWidget(dateField);
@@ -79,7 +82,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 				dateField.addStyleName("KS-Datefield-Focus");
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
 				if(justPicked){
-					dateField.selectAll();
+				    if (dateField.getText() != null) {
+					    dateField.selectAll();
+				    }
 					justPicked = false;
 				}
 				else{
@@ -219,6 +224,10 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 		}
 
 	}
+	
+	public KSTextBox getDateTextField() {
+	    return dateField;
+	}
 
 /*	public void setValue(String date){
 		if(date == null || date.equals("")){
@@ -252,5 +261,20 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
 	}
+
+    @Override
+    public boolean hasWatermark() {
+        return dateField.hasWatermark();
+    }
+
+    @Override
+    public void setWatermarkText(String text) {
+        dateField.setWatermarkText(text);
+    }
+
+    @Override
+    public boolean watermarkShowing() {
+        return dateField.watermarkShowing();
+    }
 
 }

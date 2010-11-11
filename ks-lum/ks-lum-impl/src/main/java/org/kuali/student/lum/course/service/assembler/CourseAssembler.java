@@ -580,7 +580,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						Collections.sort(creditOption.getResultValues());
 						StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
 						for(Iterator<String> iter = creditOption.getResultValues().iterator();iter.hasNext();){
-							sb.append(Integer.parseInt(iter.next()));
+							sb.append(iter.next());
 							if(iter.hasNext()){
 								sb.append(",");
 							}
@@ -589,19 +589,29 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
 						resultValues = creditOption.getResultValues();
 					}else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getType())){
-						String minCreditValue = creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE);
+					    /*
+					     * For variable credits create a Result values that goes from min to max with the specified increment. 
+					     * If no increment is specified, use 1.0 as the increment. The increment can be specified as a float.
+					     */
+					  					   
+					    String minCreditValue = creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE);
 						String maxCreditValue = creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE);
-						int minCredits = Integer.parseInt(minCreditValue);
-						int maxCredits = Integer.parseInt(maxCreditValue);
+						String creditValueIncr = creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR);
+						float minCredits = Float.parseFloat(minCreditValue);
+						float maxCredits = Float.parseFloat(maxCreditValue);
+												
+						float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : 1.0f ;
+												
 						id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + minCreditValue + "-" + maxCreditValue;
 						type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
 						resultValues = new ArrayList<String>();
-						for(int i = minCredits; i <= maxCredits; i++){
+						for(float i = minCredits; i <= maxCredits; i+=increment){
 							resultValues.add(String.valueOf(i));
 						}
 						attributes = new HashMap<String,String>();
 						attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, minCreditValue);
 						attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, maxCreditValue);
+                        attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, creditValueIncr);
 					}
 	
 					//Set the id

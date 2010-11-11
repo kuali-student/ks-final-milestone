@@ -211,6 +211,13 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	required.setText(requiredText);
     	required.setVisible(true);
     }
+    
+    public void setRequiredString(String requiredKey, String style){
+    	String requiredText = Application.getApplicationContext().getMessage(requiredKey);
+    	required.setText(requiredText);
+    	required.setStyleName(style);
+    	required.setVisible(true);
+    }
 
     public Widget getFieldWidget(){
     	return fieldWidget;
@@ -317,8 +324,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		ErrorLevel status = ErrorLevel.OK;
 
 		if(vr.getLevel() == ErrorLevel.ERROR){
-			this.addValidationErrorMessage(vr.getMessage());
-
+			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
+			this.addValidationErrorMessage(message);
+			
 			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
 				status = vr.getLevel();
 			}

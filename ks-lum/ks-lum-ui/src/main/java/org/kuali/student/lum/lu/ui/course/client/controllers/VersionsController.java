@@ -14,7 +14,7 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -36,7 +36,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private VerticalSectionView compare;
     private String type = "course";
     private String state = "draft";
-    private String groupName = LUConstants.COURSE_GROUP_NAME;
+    private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 	CourseSummaryConfigurer summaryConfigurer;
 	CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
 	DataModelDefinition definition;

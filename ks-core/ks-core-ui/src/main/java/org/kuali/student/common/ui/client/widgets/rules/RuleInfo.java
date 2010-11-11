@@ -23,10 +23,10 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 public class RuleInfo {
 
-    private StatementVO statementVO;       //top-level statement (tree ROOT)
+    private StatementVO statementVO;        //top-level statement (tree ROOT)
     private String rationale;
-    private String expression; // current state of rule expression
-    private String previewedExpression; // the state of the expression when it was previewed
+    private String expression;              // current state of rule expression
+    private String previewedExpression;     // the state of the expression when it was previewed
     private EditHistory editHistory;
     private boolean simplifying;
 
@@ -364,25 +364,13 @@ public class RuleInfo {
     public void setStatementVO(StatementVO statementVO) {
         this.statementVO = statementVO;
     }
-
-    public void populateExpression() {
-        expression = (statementVO == null)? null : statementVO.convertToExpression();
-    }
     
     public String getExpression() {
-        return expression;
+        return (statementVO == null)? null : statementVO.convertToExpression();
     }
 
     public void setExpression(String expression) {
         this.expression = expression;
-    }
-
-    public String getPreviewedExpression() {
-        return previewedExpression;
-    }
-
-    public void setPreviewedExpression(String previewedExpression) {
-        this.previewedExpression = previewedExpression;
     }
 
     public boolean isSimplifying() {

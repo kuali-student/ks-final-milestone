@@ -95,12 +95,14 @@ letter-spacing:0.03em;
 margin-right:10px;
 text-transform:uppercase;
 } 
-
+.programInformationView label {
+    white-space: nowrap;
+}
 
 .programController .programActionPanel {
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 240px;
+    width: 500px;
 }
 
 .programController .sideBar {
@@ -131,9 +133,10 @@ text-transform:uppercase;
 }
 
 .editableHeader .editButton {
-    padding-left: 2px;
+    padding-left: 4px;
     padding-top: 2px;
     position:relative;
+    line-height:18px;
 }
 
 .gwt-PopupPanel {

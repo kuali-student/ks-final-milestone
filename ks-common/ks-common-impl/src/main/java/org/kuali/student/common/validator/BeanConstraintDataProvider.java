@@ -35,9 +35,10 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 	 * The only place where the dataprovider should get initialized is
 	 * BeanConstraintSetupFactory
 	 */
-	protected BeanConstraintDataProvider() {
+	public BeanConstraintDataProvider() {
 
 	}
+	
 	//TODO fix it later. 
     public String getPath(){
         return "";

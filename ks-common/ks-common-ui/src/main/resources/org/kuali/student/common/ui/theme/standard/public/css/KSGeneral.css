@@ -49,16 +49,15 @@ html, body {
 }
 
 .ks-lightbox {
--moz-border-radius:10px 10px 10px 10px;
 background-color:#FFFFFF;
 border:3px solid #54565C;
 color:#333333;
 overflow:visible;
 z-index:2;
+    -moz-border-radius:10px 10px 10px 10px;
 }
 
 .ks-lightbox .Caption {
--moz-border-radius:8px 8px 0px 0px;
 background-color:#DFE2E9;
 color:#000000;
 cursor:move;
@@ -68,6 +67,7 @@ padding:10px 0 10px 16px;
 position:relative;
 text-align:left;
 text-shadow:0 2px 2px #FFFFFF;
+-moz-border-radius:8px 8px 0px 0px;
 }
 
 .ks-lightbox-mainPanel {
@@ -181,10 +181,10 @@ text-shadow:0 2px 2px #FFFFFF;
 }
 
 .ks-notification-container {
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
+    top: 45px;
     overflow: visible;
+    position: absolute;
+    left: 400px;
 }
 
 .ks-notification-message {
@@ -261,6 +261,11 @@ ul.ks-selected-list {
     padding: 0;
 
 }
+.ks-selected-list-value abbr {
+    position:absolute;
+    right:3px;
+    top:12px;
+}
 
 .ks-selected-list ul li {
     border: 1px solid #CDCDCD;
@@ -270,10 +275,10 @@ ul.ks-selected-list {
 }
 
 .ks-selected-list-value {
-               display:block;
-              min-height:25px;
-              position:relative;
-                    padding: 9px 0 0 6px;
+display:block;
+min-height:25px;
+padding:9px 7px 0 6px;
+position:relative;
 
 }
 
@@ -347,4 +352,8 @@ ul.ks-selected-list {
     font-weight:bold;
     margin-bottom:4px;
     padding:15px 0 5px 14px;
+}
+
+.bold{
+	font-weight: bold;
 }

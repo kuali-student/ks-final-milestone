@@ -23,10 +23,11 @@ import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.authorization.PermissionType;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
-
 	private static final long serialVersionUID = 1L;
 	
 	public DocumentInfo getDocument(String documentId) throws Exception{
@@ -54,15 +55,15 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
     }
 
 	@Override
-    public Boolean isAuthorizedUploadDocuments(String proposalId) {
-		if (proposalId != null && (!"".equals(proposalId.trim()))) {
-			String namespaceCode = "KS-SYS";
-			String permissionTemplateName = "Upload to Document";
+    public Boolean isAuthorizedUploadDocuments(String id, String referenceTypeKey) {
+		if (id != null && (!"".equals(id.trim()))) {
 			String user = getCurrentUser();
-			AttributeSet permissionDetails = new AttributeSet();
-			AttributeSet roleQuals = new AttributeSet();
-			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID, proposalId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, permissionDetails, roleQuals));
+            AttributeSet permissionDetails = new AttributeSet(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
+	        if (getPermissionService().isPermissionDefinedForTemplateName(PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails)) {
+	            AttributeSet roleQuals = new AttributeSet();
+	            roleQuals.put(referenceTypeKey, id);
+	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails, roleQuals));
+	        }
 		}
 		return Boolean.TRUE;
     }
@@ -75,5 +76,23 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	@Override
 	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception{
 		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
+	}
+
+	@Override
+	public StatusInfo deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId) throws Exception {
+		
+		//Delete the relation
+		service.deleteRefDocRelation(docRelationId);
+		
+		//Also delete the document if there are no more relations to it
+		try{
+			List<RefDocRelationInfo> allRelations = service.getRefDocRelationsByDoc(documentId);
+			if(allRelations == null || allRelations.isEmpty()){
+				service.deleteDocument(documentId);
+			}
+		}catch(DoesNotExistException e){
+			service.deleteDocument(documentId);
+		}
+		return new StatusInfo();
 	}
 }

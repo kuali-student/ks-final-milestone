@@ -30,8 +30,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -66,7 +64,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleAdminOrgIds(clu, mdInfo);
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
 
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
@@ -75,6 +72,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setAccreditingAgencies(clu.getAccreditations());
         mdInfo.setEffectiveDate(clu.getEffectiveDate());
         mdInfo.setDescr(clu.getDescr());
+        mdInfo.setVersionInfo(clu.getVersionInfo());
 
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(clu, mdInfo);
@@ -83,6 +81,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+            programAssemblerUtils.assemblePublications(clu, mdInfo);
         }
         
        return mdInfo;
@@ -149,7 +148,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassembleAdminOrgs(clu, major, operation);
         programAssemblerUtils.disassembleAtps(clu, major, operation);
         programAssemblerUtils.disassembleIdentifiers(clu, major, operation);
-        programAssemblerUtils.disassemblePublicationInfo(clu, major, operation);
+        programAssemblerUtils.disassemblePublications(clu, major, operation, result);
         
         if(major.getProgramRequirements() != null && !major.getProgramRequirements().isEmpty()) {
         	programAssemblerUtils.disassembleRequirements(clu, major, operation, result);

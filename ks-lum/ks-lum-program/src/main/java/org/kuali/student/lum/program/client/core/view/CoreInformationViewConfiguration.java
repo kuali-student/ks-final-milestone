@@ -3,20 +3,33 @@ package org.kuali.student.lum.program.client.core.view;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.core.CoreEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
  */
 public class CoreInformationViewConfiguration extends AbstractSectionConfiguration {
 
-    public CoreInformationViewConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+     public static CoreInformationViewConfiguration create() {
+        CoreInformationViewConfiguration instance = new CoreInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+        return instance;
+    }
+
+    public static CoreInformationViewConfiguration createSpecial() {
+        CoreInformationViewConfiguration instance = new CoreInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new CoreEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
+        return instance;
+    }
+
+    private CoreInformationViewConfiguration(SectionView sectionView) {
+        rootSection = sectionView;
         rootSection.addStyleName("programInformationView");
     }
 

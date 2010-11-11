@@ -176,15 +176,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 
             }
         });
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-            @Override
-            public void onValidateRequest(final ValidateRequestEvent event) {
-            	if(event.getFieldDescriptor().isDirty()){
-            		//TODO: When field descriptor dirty flag set, it should fire content dirty event
-            		setContentWarning("You have unsaved changes");
-            	}
-            }
-        });
         super.addApplicationEventHandler(ContentDirtyEvent.TYPE, new ContentDirtyEventHandler(){
 			public void onContentDirty(ContentDirtyEvent event) {
         		setContentWarning("You have unsaved changes");				

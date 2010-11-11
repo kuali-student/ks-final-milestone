@@ -85,10 +85,26 @@ public class FieldDescriptor {
     protected void setupField() {
     	if(metadata != null){
     		if(MetadataInterrogator.isRequired(metadata)){
-    			fieldElement.setRequiredString("requiredMarker");
+    			fieldElement.setRequiredString("requiredMarker", "ks-form-module-elements-required");
     		}
     		else if(MetadataInterrogator.isRequiredForNextState(metadata)){
-    			fieldElement.setRequiredString("requiredOnSubmit");
+    			String nextState = MetadataInterrogator.getNextState(metadata);
+    			if(nextState != null){
+    				if(nextState.equalsIgnoreCase("SUBMITTED")){
+    					fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
+    				}
+    				else if(nextState.equalsIgnoreCase("APPROVED")){
+    					fieldElement.setRequiredString("reqApproval", "ks-form-required-for-submit");
+    				}
+					else if(nextState.equalsIgnoreCase("ACTIVE")){
+						fieldElement.setRequiredString("reqActivate", "ks-form-required-for-submit");
+    				}
+					else if(nextState.equalsIgnoreCase("INACTIVE") ||
+							nextState.equalsIgnoreCase("RETIRED")){
+						fieldElement.setRequiredString("reqDeactivate", "ks-form-required-for-submit");
+					}
+    				
+    			}
     		}
     	}
     }

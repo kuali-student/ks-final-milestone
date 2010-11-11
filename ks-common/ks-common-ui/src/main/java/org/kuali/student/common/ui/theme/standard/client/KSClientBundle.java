@@ -149,6 +149,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/PrintPage.css")
     @CssResource.NotStrict
     public CssResource printPageCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleLogicView.css")
+    @CssResource.NotStrict
+    public CssResource ruleLogicViewCss();    
 
 	//Reset Css
 	@Source("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")

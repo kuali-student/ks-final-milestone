@@ -31,6 +31,7 @@ public class BaccInformationEditConfiguration extends AbstractSectionConfigurati
         section.addSection(createKeyProgramInformationSection());
         section.addSection(createProgramTitleSection());
         section.addSection(createDatesSection());
+        section.addSection(createOtherInformationSection());
         return section;
     }
 
@@ -54,6 +55,12 @@ public class BaccInformationEditConfiguration extends AbstractSectionConfigurati
         configurer.addField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
         configurer.addField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        return section;
+    }
+
+    private VerticalSection createOtherInformationSection() {
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_otherInformation()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
         return section;
     }
 }

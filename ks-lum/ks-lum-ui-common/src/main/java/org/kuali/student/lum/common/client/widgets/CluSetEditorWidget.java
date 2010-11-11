@@ -49,6 +49,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -161,6 +162,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             clusetRangeLabel = new KSItemLabel(true, true, clusetRangeModelHelper);
             final KSItemLabel theClusetRangeLabel = clusetRangeLabel;
             clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
+            clusetRangeLabel.getElement().getStyle().setProperty("width", "354px");
             final FieldDescriptor cluRangeFieldDescriptor = addField(
                     cluRangeSection, 
                     CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
@@ -287,6 +289,8 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
+        choosingSection.addWidget(
+                new HTML("<b>Add a course, course set, or course range</b>"));
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -301,6 +305,9 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
+        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+            "add any combination of courses, dynamic course ranges, or Course sets. ");
+        this.addWidget(html);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }

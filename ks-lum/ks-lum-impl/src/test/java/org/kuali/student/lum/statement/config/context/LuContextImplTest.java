@@ -1381,8 +1381,9 @@ public class LuContextImplTest {
 				String refObjectId) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
-			return null;
+			VersionDisplayInfo versionInfo = new VersionDisplayInfo();
+			versionInfo.setId(refObjectId);
+			return versionInfo;
 		}
 
 		@Override

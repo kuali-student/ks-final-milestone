@@ -28,8 +28,8 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public abstract class ProgramController extends MenuSectionController {
 
-    protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
+    protected MajorDisciplineRpcServiceAsync programRemoteService;
 
     protected boolean initialized = false;
 
@@ -63,13 +63,20 @@ public abstract class ProgramController extends MenuSectionController {
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name);
+        programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
-        sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
     }
 
+
+    /**
+     * Create a ProgramRpcServiceAsync appropriate for this Controller
+     */
+    protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
+        return GWT.create(MajorDisciplineRpcService.class);
+    }
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
@@ -88,8 +95,7 @@ public abstract class ProgramController extends MenuSectionController {
                                 switch (result) {
                                     case YES:
                                         dialog.hide();
-                                        eventBus.fireEvent(new UpdateEvent(okToChange));
-                                        resetFieldInteractionFlag();
+                                        fireUpdateEvent(okToChange);
                                         break;
                                     case NO:
                                         dialog.hide();
@@ -114,6 +120,10 @@ public abstract class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
+        eventBus.fireEvent(new UpdateEvent(okToChange));
     }
 
     protected void resetModel() {
@@ -307,5 +317,9 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void doSave() {
+    }
+
+    public DataModel getProgramModel() {
+        return programModel;
     }
 }

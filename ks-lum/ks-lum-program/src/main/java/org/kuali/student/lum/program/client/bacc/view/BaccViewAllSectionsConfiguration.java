@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.bacc.view;
 
-import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
@@ -11,7 +10,6 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.major.view.*;
 
 /**
  * @author Igor
@@ -27,11 +25,11 @@ public class BaccViewAllSectionsConfiguration extends AbstractSectionConfigurati
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(BaccInformationViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(BaccManagingBodiesViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(BaccCatalogDetailsViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(BaccRequirementsViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(BaccLearningObjectivesViewConfiguration.class));
+        configurationManager.registerConfiguration(BaccInformationViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(BaccManagingBodiesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(BaccCatalogDetailsViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(new BaccRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(BaccLearningObjectivesViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(viewController);

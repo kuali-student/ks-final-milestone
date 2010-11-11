@@ -1,10 +1,7 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-
-import com.google.gwt.core.client.GWT;
 
 /**
  * This class represents configuration for  {@link MajorViewController}.
@@ -21,7 +18,7 @@ public class MajorViewConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
         programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new ViewAllSectionConfiguration());
     }
 }

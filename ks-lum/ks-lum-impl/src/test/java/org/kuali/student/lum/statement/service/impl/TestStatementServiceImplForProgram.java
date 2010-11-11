@@ -233,12 +233,32 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqComponent.type.program.minor.admitted.classstanding
+     * Requirement component type: kuali.reqComponent.type.course.courseset.completed.max
      */
     @Test
     public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_courseset_completed_max() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         //req. type: 'kuali.reqComponent.type.course.courseset.completed.max'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-121", "KUALI.RULE", "en");
         assertEquals("Must have successfully completed no more than 2 courses from (MATH152, MATH180)", nl);
+    }
+
+    /**
+     * Requirement component type: kuali.reqComponent.type.program.cumulative.gpa.min
+     */
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_program_cumulative_gpa_min() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.program.cumulative.gpa.min'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-122", "KUALI.RULE", "en");
+        assertEquals("Must have earned a minimum cumulative GPA of 2.5", nl);
+    }
+
+    /**
+     * Requirement component type: kuali.reqComponent.type.program.duration.gpa.min
+     */
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_program_duration_gpa_min() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.program.duration.gpa.min'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-123", "KUALI.RULE", "en");
+        assertEquals("Must have earned a minimum semester GPA of 3.0", nl);
     }
 }

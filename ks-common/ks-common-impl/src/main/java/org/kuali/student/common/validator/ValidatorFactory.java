@@ -1,54 +1,68 @@
 package org.kuali.student.common.validator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-
-
+/**
+ * ValidatorFactory provides a mechanism to 
+ *  
+ * 
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ *
+ */
 
 public class ValidatorFactory {
 
-	private Map<String,Validator> customValidators = new HashMap<String,Validator>();
+	private Map<String,Validator> customValidators = null; 
 	private DefaultValidatorImpl defaultValidator;
-	private ObjectStructureDefinition objStructure;
+	
+	private List<Validator> validatorList = new ArrayList<Validator>();
 	
 	public ValidatorFactory(){
 	}
 	
-	public ValidatorFactory(Validator...validators ){
-		for(Validator validator:validators){
-			String validatorName = validator.getClass().getSimpleName();
-			customValidators.put(validatorName, validator);
-		}
+	public synchronized void initializeMap(){
+	    
+	    if(null == customValidators) {
+	        customValidators = new HashMap<String, Validator>();
+	        for(Validator validator: validatorList){
+	            String validatorName = validator.getClass().getName();
+	            customValidators.put(validatorName, validator);
+	        }
+	        
+	    }
 	}
 	
 	
 	public Validator getValidator(String customValidator) {
-		if(customValidators!=null){
-			return customValidators.get(customValidator);
-		}
-		else{
-			return null;
-		}
+	
+	    System.out.println("Retrieving validatior:" + customValidator);
+	    if(null == customValidators) {
+	        initializeMap();
+	    }
+	    
+	    Validator v = customValidators.get(customValidator); 
+	    
+	    if(v != null && v instanceof BaseAbstractValidator) {
+	        BaseAbstractValidator bv = (BaseAbstractValidator)v;
+	        bv.setValidatorFactory(this);
+	        return bv;
+	    } else {
+	       return v;
+	    }
 	}
 	
 	public Validator getValidator(){
 		if(defaultValidator==null){
-		defaultValidator = new DefaultValidatorImpl();
+		    defaultValidator = new DefaultValidatorImpl();
 		}
+		
 		defaultValidator.setValidatorFactory(this);
-		defaultValidator.setObjStructure(objStructure);
 		return defaultValidator;
 	}
-	public void setObjectStructureDefinition(ObjectStructureDefinition objStructure){
-		this.objStructure=objStructure;
-	}
 	
-	public ObjectStructureDefinition getObjectStructureDefinition(){
-		return this.objStructure;
-	}
-
 	public DefaultValidatorImpl getDefaultValidator() {
 		return defaultValidator;
 	}
@@ -56,4 +70,12 @@ public class ValidatorFactory {
 	public void setDefaultValidator(DefaultValidatorImpl defaultValidator) {
 		this.defaultValidator = defaultValidator;
 	}
+
+    public List<Validator> getValidatorList() {
+        return validatorList;
+    }
+
+    public void setValidatorList(List<Validator> validatorList) {
+        this.validatorList = validatorList;
+    }
 }

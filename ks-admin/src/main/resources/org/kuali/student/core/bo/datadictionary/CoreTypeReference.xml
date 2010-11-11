@@ -7,7 +7,7 @@
 
     <bean id="CoreTypeReference" abstract="true" parent="CoreTypeReference-parentBean" />
     <bean id="CoreTypeReference-parentBean" abstract="true" parent="BusinessObjectEntry">
-    	<property name="businessObjectClass" value="org.kuali.student.core.bo.TypeBusinessObjectBase" />
+    	<property name="businessObjectClass" value="org.kuali.student.core.bo.KsTypeBusinessObjectBase" />
     	<property name="objectLabel" value="Type" />
         <property name="titleAttribute" value="id" />
         <property name="lookupDefinition">
@@ -28,29 +28,17 @@
         </property>
     </bean>
 
-    <bean id="CoreTypeReference-id" parent="CoreTypeReference-id-parentBean" />
-    <bean id="CoreTypeReference-id-parentBean" abstract="true" parent="CoreAttributeReference-id">
-    </bean>
+    <alias alias="CoreTypeReference-id" name="CoreAttributeReference-id" />
 
     <bean id="CoreTypeReference-name" parent="CoreTypeReference-name-parentBean" />
     <bean id="CoreTypeReference-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
     </bean>
 
-    <bean id="CoreTypeReference-description" parent="CoreTypeReference-description-parentBean" />
-    <bean id="CoreTypeReference-description-parentBean" abstract="true" parent="CoreAttributeReference-description">
-    </bean>
+    <alias alias="CoreTypeReference-description" name="CoreAttributeReference-description" />
 
-    <bean id="CoreTypeReference-activeFromDate" parent="CoreTypeReference-activeFromDate-parentBean" />
-    <bean id="CoreTypeReference-activeFromDate-parentBean" abstract="true" parent="CoreAttributeReference-activeFromDate">
-    </bean>
-
-    <bean id="CoreTypeReference-activeToDate" parent="CoreTypeReference-activeToDate-parentBean" />
-    <bean id="CoreTypeReference-activeToDate-parentBean" abstract="true" parent="CoreAttributeReference-activeToDate">
-    </bean>
-
-    <bean id="CoreTypeReference-active" parent="CoreTypeReference-active-parentBean" />
-    <bean id="CoreTypeReference-active-parentBean" abstract="true" parent="CoreAttributeReference-active">
-    </bean>
+    <alias alias="CoreTypeReference-activeFromDate" name="CoreAttributeReference-activeFromDate" />
+    <alias alias="CoreTypeReference-activeToDate" name="CoreAttributeReference-activeToDate" />
+    <alias alias="CoreTypeReference-active" name="CoreAttributeReference-active" />
 
 
     <bean id="CoreTypeReference-lookupDefinition" abstract="true" parent="CoreTypeReference-lookupDefinition-parentBean" />

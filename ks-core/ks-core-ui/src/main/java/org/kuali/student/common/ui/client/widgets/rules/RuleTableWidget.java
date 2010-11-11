@@ -51,7 +51,7 @@ public class RuleTableWidget extends FlowPanel {
     private KSProgressIndicator twiddler = new KSProgressIndicator();
 
     //rule table
-    private RuleTable  ruleTable = new RuleTable();
+    private RuleTable  ruleTable = new RuleTable(true);
     private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
     private HandlerRegistration textClickHandler = null;
@@ -347,7 +347,6 @@ public class RuleTableWidget extends FlowPanel {
         setEnableButtons(enabled);
         ruleTable.setEnabled(enabled);
         isEnabled = enabled;
-        //TODO enable/disable buttons in Edit With Logic view
     }
 
     public void setEnableButtons(boolean enabled) {

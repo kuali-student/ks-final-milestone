@@ -9,9 +9,6 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsView
 
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- *
- */
 public class ProgramRequirementsEditConfiguration extends AbstractControllerConfiguration {
 
     private ProgramRequirementsViewController progReqcontroller;

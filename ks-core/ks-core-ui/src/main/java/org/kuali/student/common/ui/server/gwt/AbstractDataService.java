@@ -18,6 +18,7 @@ import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.assembly.transform.TransformFilter;
 import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.core.dto.DtoConstants;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -77,6 +78,8 @@ public abstract class AbstractDataService implements DataService{
 		//Place id attributes into filter properties
 		String idType = (attributes != null? attributes.get(IdAttributes.ID_TYPE):null);
 		String docType = (attributes != null ? attributes.get(StudentIdentityConstants.DOCUMENT_TYPE_NAME):null);
+		String dtoState = (attributes != null ? attributes.get(DtoConstants.DTO_STATE):null);
+		String dtoNextState = (attributes != null ? attributes.get(DtoConstants.DTO_NEXT_STATE):null);
 				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
@@ -88,6 +91,14 @@ public abstract class AbstractDataService implements DataService{
 			filterProperties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
 		} else {
 			filterProperties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, docType);
+		}
+
+		if (dtoState != null){
+			filterProperties.put(DtoConstants.DTO_STATE, dtoState);			
+		}
+		
+		if (dtoNextState != null){
+			filterProperties.put(DtoConstants.DTO_NEXT_STATE, dtoNextState);			
 		}
 
 		if (checkDocumentLevelPermissions()){

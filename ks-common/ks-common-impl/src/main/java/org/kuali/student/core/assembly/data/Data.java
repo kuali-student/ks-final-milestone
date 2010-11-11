@@ -1040,6 +1040,14 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
     }
 
     public String toString() {
+    	return _toXmlString("");
+    }
+        
+    /**
+     * Converts the data map to a bracketed string representation
+     * @return
+     */
+    private String _toString(){
         StringBuffer dataString = new StringBuffer();
 
         dataString.append("{");
@@ -1051,6 +1059,36 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
             }
         }
         dataString.append("}");
+
+        return dataString.toString();
+    }
+    
+    /**
+     * Converts the data map to an xml representation
+     * 
+     */
+    private String _toXmlString(String indent){
+        StringBuffer dataString = new StringBuffer();
+                
+    	for (Iterator itr = this.iterator(); itr.hasNext();) {
+            Property p = (Property) itr.next();
+            Object value = p.getValue();
+            if (value instanceof Data){            	
+            	if (p.getKey() instanceof Integer){
+            		dataString.append(indent + "<listitem index=\"" + p.getKey() + "\">\n");
+            		dataString.append(((Data)value)._toXmlString(indent + "  "));
+                	dataString.append(indent + "</listitem>\n");            		
+            	} else {
+	            	dataString.append(indent + "<" + p.getKey() + ">\n");
+	        		dataString.append(((Data)value)._toXmlString(indent + "  "));
+	            	dataString.append(indent + "</" + p.getKey() + ">\n");
+            	}
+            } else if (p.getKey() instanceof Integer){
+            	dataString.append(indent + "<listitem index=\"" + p.getKey() + "\" value=\""+ value + "\"/>\n");
+            } else {
+            	dataString.append(indent + "<" + p.getKey() + " value=\""+ value + "\"/>\n");            	
+            }
+        }
 
         return dataString.toString();
     }

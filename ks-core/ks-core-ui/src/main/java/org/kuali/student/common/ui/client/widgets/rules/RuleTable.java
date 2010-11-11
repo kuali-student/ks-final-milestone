@@ -34,8 +34,8 @@ public class RuleTable extends Composite {
     private SimplePanel simplePanel;   //TODO do we need simple panel?
     private boolean showControls;
     
-    public RuleTable() {
-        showControls = true;
+    public RuleTable(Boolean showCheckbox) {
+        showControls = showCheckbox;
         treeTable = new TreeTable();
         treeTable.setStyleName("KS-Rules-Table");
         simplePanel = new SimplePanel();

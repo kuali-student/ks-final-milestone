@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.client.major.view;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -11,6 +10,7 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
@@ -27,7 +27,7 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
 
     public static SpecializationsViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_specializations();
-        return new SpecializationsViewConfiguration(new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.SPECIALIZATIONS_EDIT)));
+        return new SpecializationsViewConfiguration(new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.SPECIALIZATIONS_EDIT)));
     }
 
     private SpecializationsViewConfiguration(SectionView sectionView) {

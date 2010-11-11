@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_MLSTN")
@@ -35,7 +35,7 @@ import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 		@NamedQuery(name = "Milestone.findMilestonesByAtp", query = "SELECT milestone FROM Milestone milestone WHERE milestone.atp.id = :atpId"),
 		@NamedQuery(name = "Milestone.findMilestonesByDates", query = "SELECT milestone FROM Milestone milestone WHERE milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate"),
 		@NamedQuery(name = "Milestone.findMilestonesByDatesAndType", query = "SELECT milestone FROM Milestone milestone WHERE milestone.type.id = :milestoneTypeId AND milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate") })
-public class Milestone extends TypeStateBusinessObjectBase {
+public class Milestone extends KsTypeStateBusinessObjectBase {
 	private static final long serialVersionUID = 423410094436352921L;
 
 	@Column(name = "ATP_ID")

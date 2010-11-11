@@ -25,18 +25,24 @@
   	These aliases are to provide an abstraction point from Rice definitions in case of
   	a need in the future
   -->
-  <alias alias="CoreAttributeReference-activeFromDate" name="AttributeReferenceDummy-activeFromDate" />
-  <alias alias="CoreAttributeReference-activeToDate" name="AttributeReferenceDummy-activeToDate" />
   <alias alias="CoreAttributeReference-genericDate" name="AttributeReferenceDummy-genericDate" />
-   
-   
-  <bean id="CoreAttributeReference-active" abstract="true" parent="CoreAttributeReference-active-parentBean" />
+  <alias alias="CoreAttributeReference-genericBoolean" name="AttributeReferenceDummy-genericBoolean" />
+  
+  
+  <!-- 
+    These beans are concrete so they can be aliased
+  -->
+  <bean id="CoreAttributeReference-active" parent="CoreAttributeReference-active-parentBean" />
   <bean id="CoreAttributeReference-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
     <property name="name" value="active" />
   </bean>
   
-  <bean id="CoreAttributeReference-createDate" abstract="true" parent="CoreAttributeReference-createDate-parentBean"/>
-  <bean id="CoreAttributeReference-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="CoreAttributeReference-activeFromDate" parent="AttributeReferenceDummy-activeFromDate" />
+  
+  <bean id="CoreAttributeReference-activeToDate" parent="AttributeReferenceDummy-activeToDate" />
+  
+  <bean id="CoreAttributeReference-createDate" parent="CoreAttributeReference-createDate-parentBean"/>
+  <bean id="CoreAttributeReference-createDate-parentBean" abstract="true" parent="CoreAttributeReference-genericDate">
     <property name="shortLabel" value="Create Dt"/>
     <property name="summary" value="Date the record was created"/>
     <property name="name" value="createDate"/>
@@ -44,35 +50,57 @@
     <property name="description" value="Date the record was created"/>
   </bean>   
   
-  <bean id="CoreAttributeReference-createId" abstract="true" parent="CoreAttributeReference-createId-parentBean"/>
+  <bean id="CoreAttributeReference-createId" parent="CoreAttributeReference-createId-parentBean"/>
   <bean id="CoreAttributeReference-createId-parentBean" abstract="true" parent="CoreAttributeReference-principalId">
+    <property name="name" value="createId"/>
     <property name="shortLabel" value="Create Id"/>
     <property name="summary" value="Id for the entity that created the record"/>
-    <property name="name" value="createId"/>
     <property name="label" value="Create Id"/>
     <property name="description" value="Id for the entity that created the record"/>
-  </bean>  
+  </bean> 
   
-  <bean id="CoreAttributeReference-description" abstract="true" parent="CoreAttributeReference-description-parentBean"/>
+  <bean id="CoreAttributeReference-currentVersionEnd" parent="CoreAttributeReference-currentVersionEnd-parentBean"/>
+  <bean id="CoreAttributeReference-currentVersionEnd-parentBean" abstract="true" parent="CoreAttributeReference-genericDate">
+    <property name="name" value="currentVersionEnd"/>
+    <property name="shortLabel" value="Curr Ver End Dt"/>
+    <property name="summary" value="Current version end date"/>
+    <property name="label" value="Current Version End Date"/>
+    <property name="description" value="Current version end date"/>
+  </bean>
+  
+  <bean id="CoreAttributeReference-currentVersionStart" parent="CoreAttributeReference-currentVersionStart-parentBean"/>
+  <bean id="CoreAttributeReference-currentVersionStart-parentBean" abstract="true" parent="CoreAttributeReference-genericDate">
+    <property name="name" value="currentVersionStart"/>
+    <property name="shortLabel" value="Curr Ver Start Dt"/>
+    <property name="summary" value="Current version start date"/>
+    <property name="label" value="Current Version Start Date"/>
+    <property name="description" value="Current version start date"/>
+  </bean> 
+  
+  <bean id="CoreAttributeReference-description" parent="CoreAttributeReference-description-parentBean"/>
   <bean id="CoreAttributeReference-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false"/>
+    <property name="name" value="description"/>
     <property name="shortLabel" value="Desc"/>
+    <property name="summary" value="Description for the type"/>
+    <property name="label" value="Description"/>
+    <property name="description" value="Description for the type"/>
     <property name="maxLength" value="255"/>
+    <property name="forceUppercase" value="false"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="80"/>
     </property>
-    <property name="summary" value="Description for the type"/>
-    <property name="name" value="description"/>
-    <property name="label" value="Description"/>
-    <property name="description" value="Description for the type"/>
   </bean>
   
-  <bean id="CoreAttributeReference-id" abstract="true" parent="CoreAttributeReference-id-parentBean"/>
+  <bean id="CoreAttributeReference-id" parent="CoreAttributeReference-id-parentBean"/>
   <bean id="CoreAttributeReference-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
     <property name="shortLabel" value="Id"/>
+    <property name="summary" value="Unique id"/>
+    <property name="label" value="Id"/>
+    <property name="description" value="Unique identifer assigned by the system"/>
     <property name="maxLength" value="255"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -80,10 +108,110 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="40"/>
     </property>
-    <property name="summary" value="Unique id"/>
-    <property name="name" value="id"/>
-    <property name="label" value="Id"/>
-    <property name="description" value="Unique identifer assigned by the system"/>
+  </bean>
+  
+  <bean id="CoreAttributeReference-orgId" parent="CoreAttributeReference-orgId-parentBean" />
+  <bean id="CoreAttributeReference-orgId-parentBean" abstract="true" parent="CoreAttributeReference-id">
+    <property name="name" value="orgId" />
+    <property name="shortLabel" value="Org"/>
+    <property name="summary" value="Organization"/>
+    <property name="label" value="Organization"/>
+    <property name="description" value="Organization"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.lum.bo.options.RemoteOrganizationValuesFinder"/>
+    </property>
+  </bean>
+  
+  <bean id="CoreAttributeReference-sequenceNumber" parent="CoreAttributeReference-sequenceNumber-parentBean"/>
+  <bean id="CoreAttributeReference-sequenceNumber-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="sequenceNumber"/>
+    <property name="shortLabel" value="Seq Num"/>
+    <property name="summary" value="Sequence number the record"/>
+    <property name="label" value="Sequence Number"/>
+    <property name="description" value="Sequence number the record"/>
+  </bean> 
+  
+  <bean id="CoreAttributeReference-updateDate" parent="CoreAttributeReference-updateDate-parentBean"/>
+  <bean id="CoreAttributeReference-updateDate-parentBean" abstract="true" parent="CoreAttributeReference-genericDate">
+    <property name="shortLabel" value="Update Dt"/>
+    <property name="summary" value="Date the record was last updated"/>
+    <property name="name" value="updateDate"/>
+    <property name="label" value="Update Date"/>
+    <property name="description" value="Date the record was last updated"/>
+  </bean>
+  
+  <bean id="CoreAttributeReference-updateId" parent="CoreAttributeReference-updateId-parentBean"/>
+  <bean id="CoreAttributeReference-updateId-parentBean" abstract="true" parent="CoreAttributeReference-principalId">
+    <property name="shortLabel" value="Update Id"/>
+    <property name="summary" value="Id of the entity that last updated the record"/>
+    <property name="name" value="updateId"/>
+    <property name="label" value="Update Id"/>
+    <property name="description" value="Id of the entity that last updated the record"/>
+  </bean>
+  
+  <bean id="CoreAttributeReference-versionComment" parent="CoreAttributeReference-versionComment-parentBean"/>
+  <bean id="CoreAttributeReference-versionComment-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="name" value="versionComment"/>
+    <property name="shortLabel" value="Ver Comment"/>
+    <property name="summary" value="Version comment"/>
+    <property name="label" value="Version Comment"/>
+    <property name="description" value="Version comment"/>
+  </bean> 
+  
+  <bean id="CoreAttributeReference-versionedFromId" parent="CoreAttributeReference-versionedFromId-parentBean"/>
+  <bean id="CoreAttributeReference-versionedFromId-parentBean" abstract="true" parent="CoreAttributeReference-principalId">
+    <property name="name" value="versionedFromId"/>
+    <property name="shortLabel" value="Ver From ID"/>
+    <property name="summary" value="Versioned from ID"/>
+    <property name="label" value="Versioned From ID"/>
+    <property name="description" value="Versioned from ID"/>
+  </bean> 
+  
+  <bean id="CoreAttributeReference-versionIndId" parent="CoreAttributeReference-versionIndId-parentBean"/>
+  <bean id="CoreAttributeReference-versionIndId-parentBean" abstract="true" parent="CoreAttributeReference-id">
+    <property name="name" value="versionIndId"/>
+    <property name="shortLabel" value="Ver Ind ID"/>
+    <property name="summary" value="Version independent ID"/>
+    <property name="label" value="Version Independent ID"/>
+    <property name="description" value="Version independent ID"/>
+  </bean> 
+  
+  
+  <!--
+    Abstract reference beans 
+  -->
+  <bean id="CoreAttributeReference-genericInteger" abstract="true" parent="CoreAttributeReference-genericInteger-parentBean"/>
+  <bean id="CoreAttributeReference-genericInteger-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="intensityQuantity"/>
+    <property name="shortLabel" value="Intensity Quantity"/>
+    <property name="summary" value="Intensity Quantity"/>
+    <property name="label" value="Intensity Quantity"/>
+    <property name="description" value="Intensity Quantity"/>
+    <property name="maxLength" value="8"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="CoreAttributeReference-genericString" abstract="true" parent="CoreAttributeReference-genericString-parentBean"/>
+  <bean id="CoreAttributeReference-genericString-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="shortLabel"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="summary" value="summary"/>
+    <property name="name" value="name"/>
+    <property name="label" value="label"/>
+    <property name="description" value="description" />
   </bean>
   
   <bean id="CoreAttributeReference-name" abstract="true" parent="CoreAttributeReference-name-parentBean"/>
@@ -159,27 +287,10 @@
     <property name="description" value="Id of the Type"/>
   </bean>
   
-  <bean id="CoreAttributeReference-updateDate" abstract="true" parent="CoreAttributeReference-updateDate-parentBean"/>
-  <bean id="CoreAttributeReference-updateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-    <property name="shortLabel" value="Update Dt"/>
-    <property name="summary" value="Date the record was last updated"/>
-    <property name="name" value="updateDate"/>
-    <property name="label" value="Update Date"/>
-    <property name="description" value="Date the record was last updated"/>
-  </bean>
-  
-  <bean id="CoreAttributeReference-updateId" abstract="true" parent="CoreAttributeReference-updateId-parentBean"/>
-  <bean id="CoreAttributeReference-updateId-parentBean" abstract="true" parent="CoreAttributeReference-principalId">
-    <property name="shortLabel" value="Update Id"/>
-    <property name="summary" value="Id of the entity that last updated the record"/>
-    <property name="name" value="updateId"/>
-    <property name="label" value="Update Id"/>
-    <property name="description" value="Id of the entity that last updated the record"/>
-  </bean>
   
   <!-- Inquiry Sections -->
   
-  <bean id="CoreAttributeReference-inquirySection-metaInformation" abstract="true" parent="CoreAttributeReference-inquirySection-metaInformation-parentBean"/>
+  <bean id="CoreAttributeReference-inquirySection-metaInformation" parent="CoreAttributeReference-inquirySection-metaInformation-parentBean"/>
   <bean name="CoreAttributeReference-inquirySection-metaInformation-parentBean" abstract="true" parent="InquirySectionDefinition">
     <property name="title" value="Meta information" />
     <property name="numberOfColumns" value="2" />

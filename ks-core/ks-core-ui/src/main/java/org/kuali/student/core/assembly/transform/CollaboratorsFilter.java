@@ -111,10 +111,10 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {
-		Metadata proposalMetadata = metadataService.getMetadata(CollaboratorInfo.class.getName());
+		Metadata collabMetadata = metadataService.getMetadata(CollaboratorInfo.class.getName());
 		
 		Map<String, Metadata> properties = metadata.getProperties();
-		properties.put("collaboratorInfo", proposalMetadata);				
+		properties.put("collaboratorInfo", collabMetadata);				
 	}
 
 	/**
