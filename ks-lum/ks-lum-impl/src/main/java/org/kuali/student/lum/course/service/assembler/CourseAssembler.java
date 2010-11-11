@@ -299,7 +299,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		if (null == course.getId()) {
 			course.setId(clu.getId());
 		}
-		clu.setType(course.getType());
+		clu.setType(CourseAssemblerConstants.COURSE_TYPE);
 		clu.setState(course.getState());
 
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
