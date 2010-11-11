@@ -1447,6 +1447,7 @@
                          FROM Clu clu, CluIdentifier ident1
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'
+                          AND clu.version.currentVersionEnd IS NULL
                      </value>
                  </entry>
                 <entry key="lu.search.luVariationsByName">
@@ -1458,6 +1459,7 @@
                          and  clu2.officialIdentifier.id = ident2.id
                          AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
                          AND clu.luType.id = 'kuali.lu.type.Variation'
+                         AND clu.version.currentVersionEnd IS NULL
                      </value>
                  </entry>
             </map>
