@@ -140,7 +140,7 @@ public class ProgramSideBar extends Composite {
         datePanel.addStyleName("datePanel");
         datePanel.add(widget);
         if (state == State.EDIT && showEdit) {
-            Anchor edit = new Anchor("Edit");
+            Anchor edit = new Anchor(ProgramProperties.get().common_edit());
             edit.addClickHandler(new ClickHandler() {
 
                 @Override
