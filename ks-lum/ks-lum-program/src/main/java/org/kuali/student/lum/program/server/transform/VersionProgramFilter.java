@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.server.transform;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -12,6 +13,7 @@ import org.kuali.student.core.assembly.transform.AbstractDataFilter;
 import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -67,18 +69,25 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 				//which requires updating previous program with new states and end terms and setting activated program
 				//to be the current version.
 				
-				String previousVersionState = previousVersionData.get(ProgramConstants.STATE);
-				if (previousVersionState!= null && !previousVersionState.equals(previousVersionMajorInfo.getState())){
+				String state = previousVersionData.get(ProgramConstants.STATE);
+				if (state!= null && !state.equals(previousVersionMajorInfo.getState())){
 					//Update previous program version with new state and terms
 					String endEntryTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
 					String endEnrollTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
 
-					previousVersionMajorInfo.setState(previousVersionState);
+					previousVersionMajorInfo.setState(state);
 					previousVersionMajorInfo.setEndProgramEntryTerm(endEntryTerm);
 					previousVersionMajorInfo.setEndTerm(endEnrollTerm);
 					
+					//Update states on all variations for this program
+			        List<ProgramVariationInfo> variationList = previousVersionMajorInfo.getVariations();
+			        for (ProgramVariationInfo variation:variationList){
+			        	variation.setState(state);			        	
+			        }
+
 					programService.updateMajorDiscipline(previousVersionMajorInfo);
-					
+				
+			        
 					//Set "activated" program to be the current version
 					String activatedMajorId = data.get(ProgramConstants.ID);
 					programService.setCurrentMajorDisciplineVersion(activatedMajorId, null);
