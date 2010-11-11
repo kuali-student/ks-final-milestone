@@ -3096,6 +3096,10 @@ public class LuServiceImpl implements LuService {
 	    }
 	}
 
+	/**
+	 * @param currentVersionStart if set to null, will default the current version start to the time when this method is called.
+	 * You can set this to a future date as well. 
+	 */
 	@Override
     public StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
         //Check params
