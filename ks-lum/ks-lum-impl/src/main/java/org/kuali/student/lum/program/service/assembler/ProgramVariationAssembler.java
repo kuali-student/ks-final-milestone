@@ -24,6 +24,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
@@ -63,6 +64,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
         pvInfo.setDescr(clu.getDescr());
+        pvInfo.setVersionInfo(clu.getVersionInfo());
 
         return pvInfo;
     }
@@ -113,6 +115,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         clu.setCampusLocations(variation.getCampusLocations());
         clu.setEffectiveDate(variation.getEffectiveDate());
         clu.setDescr(variation.getDescr());
+        clu.setVersionInfo(variation.getVersionInfo());        
         
 		// Add the Clu to the result
 		result.setNodeData(clu);

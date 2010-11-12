@@ -33,6 +33,7 @@ import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 
@@ -155,6 +156,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
 
     @XmlElement
     private MetaInfo metaInfo;
+
+    @XmlElement
+    private VersionInfo versionInfo;    
 
     @XmlAttribute
     private String type;
@@ -531,8 +535,17 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
     }
+    
+    
+    public VersionInfo getVersionInfo() {
+		return versionInfo;
+	}
 
-    /**
+	public void setVersionInfo(VersionInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}
+
+	/**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
     @Override

@@ -12,8 +12,8 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
@@ -47,6 +47,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
@@ -252,8 +253,10 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	/**
-     * Clears out any ids so that a subsequent call to create will copy complex structures
-     * @param majorDicipline
+     * Clears out any ids so that a subsequent call to create will copy complex structures. 
+     * Also updates VersionInfo on variations to match VersionInfo on parent.
+     * 
+     * @param majorDiscipline
 	 * @throws PermissionDeniedException 
 	 * @throws OperationFailedException 
 	 * @throws MissingParameterException 
@@ -262,45 +265,57 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws DataValidationErrorException 
 	 * @throws AlreadyExistsException 
      */
-    private void processCopy(MajorDisciplineInfo majorDicipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 		//Clear Los
-		for(LoDisplayInfo lo:majorDicipline.getLearningObjectives()){
+		for(LoDisplayInfo lo:majorDiscipline.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
 		//Clear OrgCoreProgram
-		if(majorDicipline.getOrgCoreProgram()!=null){
-			majorDicipline.getOrgCoreProgram().setId(null);
+		if(majorDiscipline.getOrgCoreProgram()!=null){
+			majorDiscipline.getOrgCoreProgram().setId(null);
 		
-			if(majorDicipline.getOrgCoreProgram().getLearningObjectives()!=null){
-				for(LoDisplayInfo lo:majorDicipline.getOrgCoreProgram().getLearningObjectives()){
+			if(majorDiscipline.getOrgCoreProgram().getLearningObjectives()!=null){
+				for(LoDisplayInfo lo:majorDiscipline.getOrgCoreProgram().getLearningObjectives()){
 					resetLoRecursively(lo);
 				}
 			}
 		}
 		//Clear Variations
-		for(ProgramVariationInfo variation:majorDicipline.getVariations()){
+		for(ProgramVariationInfo variation:majorDiscipline.getVariations()){
+			//Setup variation version
+			VersionInfo variationVersionInfo = variation.getVersionInfo();
+			if (variationVersionInfo == null){
+				variationVersionInfo = new VersionInfo();
+				variation.setVersionInfo(variationVersionInfo);
+			}
+			variationVersionInfo.setVersionedFromId(variation.getId());
+			variationVersionInfo.setCurrentVersionEnd(null);
+			variationVersionInfo.setCurrentVersionStart(null);
+			variationVersionInfo.setSequenceNumber(majorDiscipline.getVersionInfo().getSequenceNumber());
+			variationVersionInfo.setVersionComment("Variation versionened with major discipline version.");			
+			
 			//Clear Id
 			variation.setId(null);
 			//Set state to parent program's state
-			variation.setState(majorDicipline.getState());
+			variation.setState(majorDiscipline.getState());
 			//Clear Los
 			for(LoDisplayInfo lo:variation.getLearningObjectives()){
 				resetLoRecursively(lo);
 			}
 			//Copy Requirements for variation
-			copyProgramRequirements(variation.getProgramRequirements(),majorDicipline.getState());
+			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getState());
 		}
 		
 		//Copy requirements for majorDicipline
-		copyProgramRequirements(majorDicipline.getProgramRequirements(),majorDicipline.getState());
+		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getState());
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
-				docRelation.setRefObjectId(majorDicipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDicipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				docRelation.setRefObjectId(majorDiscipline.getId());
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
 			}
 		}
 	}
@@ -359,7 +374,16 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, IllegalVersionSequencingException,
 			OperationFailedException, PermissionDeniedException {
-		return luService.setCurrentCluVersion(majorDisciplineId, currentVersionStart);
+		StatusInfo status = luService.setCurrentCluVersion(majorDisciplineId, currentVersionStart);
+		
+		//Update the variations to be current as well
+		List<ProgramVariationInfo> variationList = getVariationsByMajorDisciplineId(majorDisciplineId);
+		for (ProgramVariationInfo variationInfo:variationList){
+			String variationId = variationInfo.getId();
+			luService.setCurrentCluVersion(variationId, currentVersionStart);
+		}
+		
+		return status;
 	}
 
 	@Override

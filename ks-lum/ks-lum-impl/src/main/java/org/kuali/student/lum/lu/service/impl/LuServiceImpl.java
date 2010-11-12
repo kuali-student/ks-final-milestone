@@ -990,8 +990,8 @@ public class LuServiceImpl implements LuService {
 		//Set current (since this is brand new and every verIndId needs one current)
 		if(clu.getVersion() == null){
 			clu.setVersion(new Version());
+			clu.getVersion().setCurrentVersionStart(new Date());
 		}
-		clu.getVersion().setCurrentVersionStart(new Date());
 		luDao.create(clu);
 		return LuServiceAssembler.toCluInfo(clu);
 	}
@@ -1156,6 +1156,12 @@ public class LuServiceImpl implements LuService {
 			accreditations.add(accreditation);
 		}
 		
+		if (cluInfo.getVersionInfo() != null){
+			Version version = new Version();
+			BeanUtils.copyProperties(cluInfo.getVersionInfo(), version);
+			clu.setVersion(version);
+		}
+		
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
 				"officialIdentifier", "alternateIdentifiers", "descr",
@@ -1164,7 +1170,7 @@ public class LuServiceImpl implements LuService {
 				"metaInfo", "versionInfo", "intensity",
 				"campusLocations", "accreditations",
 				"adminOrgs" });
-
+		
 		return clu;
 	}
 
