@@ -324,6 +324,46 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 	}
+
+	private void processCopy(CredentialProgramInfo originaCredentialProgram,
+			String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+		//Clear Los
+		for(LoDisplayInfo lo:originaCredentialProgram.getLearningObjectives()){
+			resetLoRecursively(lo);
+		}
+
+		//Copy requirements for majorDicipline
+		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getState());
+
+		//Copy documents(create new relations to the new version)
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		if(docRelations!=null){
+			for(RefDocRelationInfo docRelation:docRelations){
+				docRelation.setId(null);
+				docRelation.setRefObjectId(originaCredentialProgram.getId());
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+			}
+		}
+	}
+    
+    private void processCopy(CoreProgramInfo originalCoreProgram, String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+		//Clear Los
+		for(LoDisplayInfo lo:originalCoreProgram.getLearningObjectives()){
+			resetLoRecursively(lo);
+		}
+		//Copy requirements for majorDicipline
+		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getState());
+
+		//Copy documents(create new relations to the new version)
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		if(docRelations!=null){
+			for(RefDocRelationInfo docRelation:docRelations){
+				docRelation.setId(null);
+				docRelation.setRefObjectId(originalCoreProgram.getId());
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+			}
+		}
+	}
     
     /**
      * Copy requirements (these exist external to the program save process and are referenced by id)
@@ -1053,11 +1093,47 @@ public class ProgramServiceImpl implements ProgramService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
 			DataValidationErrorException {
-		// TODO Auto-generated method stub
-		return null;
+		//step one, get the original
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, coreProgramId);
+		CoreProgramInfo originalCoreProgram = getCoreProgram(currentVersion.getId());
+
+		//Version the Clu
+		CluInfo newVersionClu = luService.createNewCluVersion(coreProgramId, versionComment);
+
+		try {
+	        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results;
+
+	        //Integrate changes into the original. (should this just be just the id?)
+			coreProgramAssembler.assemble(newVersionClu, originalCoreProgram, true);
+
+			//Clear Ids from the original so it will make a copy and do other processing
+			processCopy(originalCoreProgram, currentVersion.getId());
+
+			//Disassemble the new
+			results = coreProgramAssembler.disassemble(originalCoreProgram, NodeOperation.UPDATE);
+
+			// Use the results to make the appropriate service calls here
+			programServiceMethodInvoker.invokeServiceCalls(results);
+
+			return results.getBusinessDTORef();
+		} catch(AssemblyException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (AlreadyExistsException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularRelationshipException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (UnsupportedActionException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularReferenceException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		}
 	}
     
-    @Override
+
+
+	@Override
     public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 //        try {
 //        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
@@ -1132,15 +1208,50 @@ public class ProgramServiceImpl implements ProgramService {
         
         
 	@Override
-	public CoreProgramInfo createNewCredentialProgramVersion(
+	public CredentialProgramInfo createNewCredentialProgramVersion(
 			String credentialProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
 			DataValidationErrorException {
-		// TODO Auto-generated method stub
-		return null;
+		//step one, get the original
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, credentialProgramId);
+		CredentialProgramInfo originaCredentialProgram = getCredentialProgram(currentVersion.getId());
+
+		//Version the Clu
+		CluInfo newVersionClu = luService.createNewCluVersion(credentialProgramId, versionComment);
+
+		try {
+	        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results;
+
+	        //Integrate changes into the original. (should this just be just the id?)
+			credentialProgramAssembler.assemble(newVersionClu, originaCredentialProgram, true);
+
+			//Clear Ids from the original so it will make a copy and do other processing
+			processCopy(originaCredentialProgram, currentVersion.getId());
+
+			//Disassemble the new
+			results = credentialProgramAssembler.disassemble(originaCredentialProgram, NodeOperation.UPDATE);
+
+			// Use the results to make the appropriate service calls here
+			programServiceMethodInvoker.invokeServiceCalls(results);
+
+			return results.getBusinessDTORef();
+		} catch(AssemblyException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (AlreadyExistsException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularRelationshipException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (UnsupportedActionException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularReferenceException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		}
 	}
+
 
 	@Override
 	public StatusInfo setCurrentCoreProgramVersion(String coreProgramId,
@@ -1148,8 +1259,9 @@ public class ProgramServiceImpl implements ProgramService {
 			InvalidParameterException, MissingParameterException,
 			IllegalVersionSequencingException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		StatusInfo status = luService.setCurrentCluVersion(coreProgramId, currentVersionStart);
+		
+		return status;
 	}
 
 	@Override
@@ -1158,8 +1270,9 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, IllegalVersionSequencingException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		StatusInfo status = luService.setCurrentCluVersion(credentialProgramId, currentVersionStart);
+		
+		return status;
 	}
 
 	@Override

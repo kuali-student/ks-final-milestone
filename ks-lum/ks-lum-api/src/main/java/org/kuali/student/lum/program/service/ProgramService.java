@@ -219,7 +219,7 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
      * @throws VersionMismatchException The action was attempted on an out of date version
      * @throws DataValidationErrorException 
      */    
-    public CoreProgramInfo createNewCredentialProgramVersion(@WebParam(name="credentialProgramId")String credentialProgramId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+    public CredentialProgramInfo createNewCredentialProgramVersion(@WebParam(name="credentialProgramId")String credentialProgramId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
 
     /**
 	 * Sets a specific version of the Credential Program as current. The sequence number must be greater than the existing current Credential Program version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
