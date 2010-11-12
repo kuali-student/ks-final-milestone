@@ -52,8 +52,10 @@ public class CurriculumHomeController extends LayoutController {
         LO_CATEGORIES,
         BACC_PROGRAM_VIEW,
         BACC_PROGRAM_EDIT,
+        BACC_PROGRAM_VERSIONS,
         CORE_PROGRAM_VIEW,
-        CORE_PROGRAM_EDIT
+        CORE_PROGRAM_EDIT,
+        CORE_PROGRAM_VERSIONS
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -171,6 +173,14 @@ public class CurriculumHomeController extends LayoutController {
                     @Override
                     public void onSuccess() {
                         callback.exec(coreManager.getEditController());
+                    }
+                });
+                break;
+            case CORE_PROGRAM_VERSIONS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(coreManager.getProgramVersionsController());
                     }
                 });
                 break;

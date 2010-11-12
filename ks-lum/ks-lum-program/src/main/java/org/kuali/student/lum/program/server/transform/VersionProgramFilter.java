@@ -24,11 +24,11 @@ import org.kuali.student.lum.program.service.ProgramService;
  *
  */
 public class VersionProgramFilter extends AbstractDataFilter implements MetadataFilter{
-	private static final String PREVIOUS_VERSION_DATA = "VersionProgramFilter.PreviousVersionData";
-	private static final String PREVIOUS_VERSION_INFO = "previousVersionInfo";
+	public static final String PREVIOUS_VERSION_DATA = "VersionProgramFilter.PreviousVersionData";
+	public static final String PREVIOUS_VERSION_INFO = "previousVersionInfo";
 	
 	private Metadata previousVersionMetadata;
-	private ProgramService programService; 
+	protected ProgramService programService; 
 	
 	/**
 	 * Save previousVersionInfo from incoming data to be used by outbound filter

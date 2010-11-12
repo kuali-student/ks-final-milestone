@@ -1270,6 +1270,8 @@
     <ref bean="coreProgramInfo.unitsContentOwner"/>
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
+    
+    <ref bean="coreProgramInfo.searchProgramVersions"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1277,6 +1279,8 @@
  <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo"
        parent="org.kuali.student.lum.program.dto.CoreProgramInfo-parent"/>
 
+ <bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
+	
  <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>

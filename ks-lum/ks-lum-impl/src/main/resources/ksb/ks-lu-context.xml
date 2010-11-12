@@ -51,10 +51,6 @@
         </property>
     </bean>
 
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
-        <property name="messageService" ref="ks.messageServiceMock"/>
-    </bean>
-
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 

@@ -162,7 +162,13 @@ public class ProgramSideBar extends Composite {
     	viewVersion.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM_VERSIONS.getLocation());			
+				switch (type){
+					case MAJOR: HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM_VERSIONS.getLocation()); break;
+					case CORE: HistoryManager.navigate(AppLocations.Locations.VIEW_CORE_VERSIONS.getLocation()); break;
+					case CREDENTIAL: HistoryManager.navigate(AppLocations.Locations.VIEW_BACC_VERSIONS.getLocation()); break;
+				}
+					
+
 			}
     		
     	});

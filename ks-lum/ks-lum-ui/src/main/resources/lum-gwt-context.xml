@@ -382,7 +382,7 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
-
+                <ref bean="versionCoreProgramFilter"/>		
             </list>
         </property>
     </bean>
@@ -453,6 +453,10 @@
     </bean>
 
     <bean id="versionProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionProgramFilter">
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="versionCoreProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCoreProgramFilter">
         <property name="programService" ref="programClient"/>
     </bean>
 

@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.core.edit.CoreEditController;
 import org.kuali.student.lum.program.client.core.view.CoreViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
+import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
 
 /**
  * @author Igor
@@ -15,6 +16,8 @@ public class CoreManager {
     private CoreViewController viewController;
 
     private CoreEditController editController;
+    
+    private ProgramVersionsController programVersionsController;
 
     protected DataModel model;
 
@@ -43,6 +46,13 @@ public class CoreManager {
         return editController;
     }
 
+    public ProgramVersionsController getProgramVersionsController() {
+    	if (programVersionsController == null){
+    		programVersionsController = new ProgramVersionsController(model, viewContext, eventBus);
+    	}
+		return programVersionsController;
+	}
+    
     public static HandlerManager getEventBus() {
         return eventBus;
     }

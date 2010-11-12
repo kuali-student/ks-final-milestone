@@ -7,8 +7,10 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreController;
@@ -38,10 +40,17 @@ public class CoreViewController extends CoreController {
             @Override
             public void onChange(ChangeEvent event) {
                 ActionType actionType = ActionType.of(actionBox.getSelectedValue());
+            	ViewContext viewContext = getViewContext();                
                 if (actionType == ActionType.MODIFY) {
                     HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), getViewContext());
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                } else if (actionType == ActionType.MODIFY_VERSION){
+                	String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                	viewContext.setId(versionIndId);
+                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+                	HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), viewContext);                    
                 }
+                
             }
         });
         eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {
