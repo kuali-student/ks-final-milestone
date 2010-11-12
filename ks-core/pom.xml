@@ -3,13 +3,13 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-M7-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.core</groupId>
   <artifactId>ks-core</artifactId>
   <packaging>pom</packaging>
   <name>KS Core</name>
-  <description>Kuali Student Parent POM</description>
+  <description>Kuali Student Core</description>
   <issueManagement>
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
@@ -21,19 +21,10 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
         <module>ks-core-web</module>
       </modules>
@@ -41,95 +32,50 @@
     <profile>
       <id>skip-core-war</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
     <profile>
       <id>skip-developer-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
     <profile>
       <id>embedded-only-war</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
     <profile>
       <id>standalone-only-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>

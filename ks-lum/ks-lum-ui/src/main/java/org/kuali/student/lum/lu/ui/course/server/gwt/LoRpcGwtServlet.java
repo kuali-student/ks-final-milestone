@@ -15,16 +15,17 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 
 /**
  *
@@ -33,14 +34,14 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
  */
 public class LoRpcGwtServlet extends
 		BaseRpcGwtServletAbstract<LearningObjectiveService> implements
-		LoRpcService {
+        LoRpcService {
 	final static Logger LOG = Logger.getLogger(LoRpcGwtServlet.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * This overridden method ...
 	 *
-	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoByIdList(java.util.List)
+	 * @see org.kuali.student.lum.common.client.lo.rpc.LoRpcService#getLoByIdList(java.util.List)
 	 */
 	@Override
 	public List<LoInfo> getLoByIdList(List<String> loIds) {
@@ -55,7 +56,7 @@ public class LoRpcGwtServlet extends
 	/**
 	 * This overridden method ...
 	 *
-	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryTypes()
+	 * @see org.kuali.student.lum.common.client.lo.rpc.LoRpcService#getLoCategoryTypes()
 	 */
 	@Override
 	public List<LoCategoryTypeInfo> getLoCategoryTypes() {
@@ -70,13 +71,16 @@ public class LoRpcGwtServlet extends
 	/**
 	 * This overridden method ...
 	 *
-	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#createLoCategory(java.lang.String,
+	 * @see org.kuali.student.lum.common.client.lo.rpc.LoRpcService#createLoCategory(java.lang.String,
 	 *      java.lang.String, org.kuali.student.lum.lo.dto.LoCategoryInfo)
 	 */
 	@Override
 	public LoCategoryInfo createLoCategory(String loRepositoryKey,
 			String loCategoryTypeKey, LoCategoryInfo loCategoryInfo) {
 		try {
+			if(loCategoryInfo.getEffectiveDate()==null){
+				loCategoryInfo.setEffectiveDate(new Date());
+			}
 			return service.createLoCategory(loRepositoryKey, loCategoryTypeKey,
 					loCategoryInfo);
 		} catch (Exception e) {
@@ -88,7 +92,7 @@ public class LoRpcGwtServlet extends
 	/**
 	 * This overridden method ...
 	 *
-	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategory(java.lang.String)
+	 * @see org.kuali.student.lum.common.client.lo.rpc.LoRpcService#getLoCategory(java.lang.String)
 	 */
 	@Override
 	public LoCategoryInfo getLoCategory(String loCategoryId) {
@@ -103,7 +107,7 @@ public class LoRpcGwtServlet extends
 	/**
 	 * This overridden method ...
 	 *
-	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryType(java.lang.String)
+	 * @see org.kuali.student.lum.common.client.lo.rpc.LoRpcService#getLoCategoryType(java.lang.String)
 	 */
 	@Override
 	public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey) {

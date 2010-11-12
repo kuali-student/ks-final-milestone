@@ -15,24 +15,25 @@
 
 package org.kuali.student.lum.ui.theme.standard.client;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumImages;
+
+import com.google.gwt.user.client.ui.Image;
 
 public class LumImagesImpl implements LumImages{
 
 	@Override
-	public KSImage getAddProposalImage() {
-		return new KSImage(LumClientBundle.INSTANCE.proposeCurriculumImage());
+	public Image getAddProposalImage() {
+		return new Image(LumClientBundle.INSTANCE.proposeCurriculumImage());
 	}
 
 	@Override
-	public KSImage getAnalyzeCurriculumImage() {
-		return new KSImage(LumClientBundle.INSTANCE.analyzeCurriculumImage());
+	public Image getAnalyzeCurriculumImage() {
+		return new Image(LumClientBundle.INSTANCE.analyzeCurriculumImage());
 	}
 
 	@Override
-	public KSImage getCurriculumManagementImage() {
-		return new KSImage(LumClientBundle.INSTANCE.curriculumManagementImage());
+	public Image getCurriculumManagementImage() {
+		return new Image(LumClientBundle.INSTANCE.curriculumManagementImage());
 	}
 
 }

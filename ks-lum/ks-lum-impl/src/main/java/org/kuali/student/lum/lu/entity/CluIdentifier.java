@@ -17,15 +17,13 @@ package org.kuali.student.lum.lu.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_IDENT")
-public class CluIdentifier {
+public class CluIdentifier extends BaseEntity{
 
     @Column(name = "CD")
     private String code;
@@ -56,15 +54,6 @@ public class CluIdentifier {
 
     @Column(name = "ST")
     private String state;
-
-    @Id
-    @Column(name = "ID")
-    private String id;
-
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
     
     public String getCode() {
         return code;
@@ -128,14 +117,6 @@ public class CluIdentifier {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getSuffixCode() {

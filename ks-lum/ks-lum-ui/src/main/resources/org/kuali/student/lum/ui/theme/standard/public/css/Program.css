@@ -1,0 +1,164 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/* Program Requirements */
+.KS-Program-Requirements-Section-header {
+    color: #940B07;
+}
+
+/* Program Summary View */
+.KS-Program-Requirements-Preview-Rule-Type-First-Header {
+    padding-top: 20px;
+}
+
+.KS-Program-Requirements-Preview-Rule-Type-Header {
+    padding-top: 40px;
+}
+
+.KS-Program-Requirements-Preview-Rule-Type-Credits {
+    padding-bottom: 20px;
+}
+
+.KS-Program-Requirements-Preview-Rule-Type-Desc {
+    padding-bottom: 15px;
+    width: 650px;
+}
+
+.KS-Program-Requirements-Preview-No-Rule-Text {
+    padding-top: 20px;
+}
+
+.KS-Program-Requirements-Preview-SaveContinue {
+    padding-top: 40px;
+}
+
+/* Program Manage View */
+.KS-Program-Requirements-Manage-Step-header1 {
+    width: 650px;
+    margin-top: 20px;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.KS-Program-Requirements-Manage-Step-header2 {
+    width: 650px;
+    margin-top: 50px;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.KS-Program-Requirements-Save-Button {
+    margin-top: 40px;
+}
+
+.KS-Program-Rule-ObjectView-RulePanel label {
+    display: inline
+}
+
+.programController {
+}
+
+.programController .ks-table-plain td {
+    border-bottom: none;
+}
+
+.programController .readOnlySection {
+      background-color: #f1f1f1;
+      padding: 0px 15px 15px 15px;
+      border: 1px solid #999;
+}
+
+.programController .programInformationView {
+background-color:#F1F2DC;
+margin-bottom:2em;
+padding:15px 15px 0;
+}
+.programInformationView .ks-table-plain td {
+padding-top:0;
+padding-bottom:0;
+
+}
+.programInformationView h4 { 
+border-bottom:1px dotted #808080;
+font-size:1.1em;
+letter-spacing:0.03em;
+margin-right:10px;
+text-transform:uppercase;
+} 
+.programInformationView label {
+    white-space: nowrap;
+}
+
+.programController .programActionPanel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 500px;
+}
+
+.programController .sideBar {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-spacing: 6px;
+}
+
+.programController .sideBar .history {
+    font-weight: bold;
+}
+
+.programController .sideBar .datePanel {
+    border-spacing: 2px;
+}
+
+.programController .parentProgram {
+    padding-right: 3px;
+}
+
+.editableHeader {
+    height: 20px;
+}
+
+.editableHeader .sectionTitle {
+    font-size: 17px;
+    float: left;
+}
+
+.editableHeader .editButton {
+    padding-left: 4px;
+    padding-top: 2px;
+    position:relative;
+    line-height:18px;
+}
+
+.gwt-PopupPanel {
+    z-index: 3;
+}
+
+.longTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.diplomaTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.transcriptTitle {
+    width: 27.5em;
+}

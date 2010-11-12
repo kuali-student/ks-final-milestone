@@ -33,7 +33,6 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -44,8 +43,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -104,85 +101,6 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
-        }
-    }
-
-    @Test
-    public void getProposalDocRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ProposalDocRelationInfo docRelationInfo = client.getProposalDocRelation("DOCREL-1");
-        assertNotNull(docRelationInfo);
-        assertEquals("PROPOSAL-1", docRelationInfo.getProposalId());
-        assertEquals("DOC-ID-1", docRelationInfo.getDocumentId());
-
-        try {
-            client.getProposalDocRelation("DOCREL-XXX");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            client.getProposalDocRelation(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void getProposalDocRelationsByDocument() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
-    {
-        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByDocument("DOC-ID-1");
-        assertNotNull(docRelationInfos);
-
-        try {
-            client.getProposalDocRelation("DOC-ID-XXX");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void getProposalDocRelationsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
-    {
-        ArrayList<String> ids =  new ArrayList<String>();
-        ids.add("DOCREL-1");
-        ids.add("DOCREL-2");
-        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByIdList(ids);
-        assertNotNull(docRelationInfos);
-
-        try {
-            ArrayList<String> idsMock =  new ArrayList<String>();
-            idsMock.add("DOCREL-XX");
-            idsMock.add("DOCREL-XX");
-            List<ProposalDocRelationInfo> result = client.getProposalDocRelationsByIdList(idsMock);
-            assertTrue(result==null);
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
-    }
-
-    @Test
-    public void getProposalDocRelationsByProposal() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
-    {
-        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
-        assertNotNull(docRelationInfos);
-
-        List<ProposalDocRelationInfo> infos = client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
-        assertTrue(infos == null || infos.size() == 0);
-    }
-
-    @Test
-    public void getProposalDocRelationsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
-    {
-        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByType("PROP-DOCREL-TYPE1");
-        assertNotNull(docRelationInfos);
-
-        try {
-            assertEquals(null,client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX"));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
         }
     }
 
@@ -429,6 +347,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             proposalInfo.setProposalReferenceType("REFTYPE-1");
             proposalInfo.setRationale("rationale");
             proposalInfo.setDetailDesc("detail desc");
+            proposalInfo.setWorkflowId("kewDocumentId");
             Date effectiveDate = new Date();
             proposalInfo.setEffectiveDate(effectiveDate);
             Date expirationDate = new Date();
@@ -445,6 +364,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
          if (master.getId() != null) {
              assertEquals(master.getId(), validate.getId());
          }
+         assertEquals(master.getWorkflowId(), validate.getWorkflowId());
          assertEquals(master.getName(), validate.getName());
          assertEquals(master.getProposerPerson(), validate.getProposerPerson());
          assertEquals(master.getProposerOrg(), validate.getProposerOrg());
@@ -460,121 +380,4 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
          assertEquals(master.getState(), validate.getState());
      }
 
-    @Test
-    public void proposalDocCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProposalDocRelationInfo docInfo = new ProposalDocRelationInfo();
-        ProposalInfo proposalInfo = setupProposalInfo();
-        docInfo.setTitle("doc title");
-        RichTextInfo desc = new RichTextInfo();
-        desc.setFormatted("<p>doc rel desc</p");
-        desc.setPlain("doc rel desc");
-        docInfo.setDesc(desc);
-        docInfo.setEffectiveDate(new Date());
-        docInfo.setExpirationDate(new Date());
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("key", "value");
-        docInfo.setAttributes(attributes);
-        docInfo.setType("PROP-DOCREL-TYPE1");
-        docInfo.setState("active");
-
-        String proposalId = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
-
-        String id = client.createProposalDocRelation("PROP-DOCREL-TYPE1", "DOC-1", proposalId, docInfo).getId();
-
-        ProposalDocRelationInfo createdDocRelInfo = client.getProposalDocRelation(id);
-        assertEquals(id, createdDocRelInfo.getId());
-        checkProposalDocRelationCrud(docInfo, createdDocRelInfo);
-        createdDocRelInfo.setState("inactive");
-        try {
-            client.updateProposalDocRelation(id, createdDocRelInfo);
-            assertTrue(true);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
-        }
-        try {
-            client.updateProposalDocRelation("xxx", createdDocRelInfo);
-            assertTrue(false);
-        } catch (DoesNotExistException e1) {
-            assertTrue(true);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
-        }
-        ProposalDocRelationInfo createdDocRelInfo2 = client.getProposalDocRelation(id);
-        checkProposalDocRelationCrud(createdDocRelInfo, createdDocRelInfo2);
-
-        StatusInfo status = client.deleteProposalDocRelation(id);
-        assertTrue(status.getSuccess());
-
-        status = client.deleteProposalDocRelation(id);
-        assertFalse(status.getSuccess());
-
-        try {
-           client.getProposalDocRelation(id);
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-    }
-
-    private void checkProposalDocRelationCrud(ProposalDocRelationInfo master, ProposalDocRelationInfo validate) {
-        if (master.getId() != null) {
-            assertEquals(master.getId(), validate.getId());
-        }
-        if (master.getProposalId() != null) {
-            assertEquals(master.getProposalId(), validate.getProposalId());
-        }
-        if (master.getDocumentId() != null) {
-            assertEquals(master.getDocumentId(), validate.getDocumentId());
-        }
-        assertEquals(master.getTitle(), validate.getTitle());
-        RichTextInfo masterDesc = master.getDesc();
-        RichTextInfo validateDesc = validate.getDesc();
-        assertEquals(masterDesc.getPlain(), validateDesc.getPlain());
-        assertEquals(masterDesc.getFormatted(), validateDesc.getFormatted());
-        assertEquals(master.getEffectiveDate(), validate.getEffectiveDate());
-        assertEquals(master.getExpirationDate(), validate.getExpirationDate());
-        assertEquals(master.getAttributes(), validate.getAttributes());
-        assertEquals(master.getType(), validate.getType());
-        assertEquals(master.getState(), validate.getState());
-    }
-
-    @Test
-    public void getProposalDocRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ProposalDocRelationTypeInfo docRelInfo = client.getProposalDocRelationType("PROP-DOCREL-TYPE1");
-        assertNotNull(docRelInfo);
-
-        try {
-            client.getProposalDocRelationType("PROP-DOCREL-TYPEXXX");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            client.getProposalDocRelationType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void getProposalDocRelationTypes() throws OperationFailedException {
-        List<ProposalDocRelationTypeInfo> types = client.getProposalDocRelationTypes();
-        assertNotNull(types);
-        assertEquals(1, types.size());
-    }
-
-    @Test
-    public void getAllowedProposalDocRelationTypesForProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.courseCorrection");
-        assertNotNull(proposalDocRelationTypeKeyList);
-        assertEquals(1,proposalDocRelationTypeKeyList.size());
-        try {
-            proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.newCourse");
-            assertEquals(null, proposalDocRelationTypeKeyList);
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
-    }
 }

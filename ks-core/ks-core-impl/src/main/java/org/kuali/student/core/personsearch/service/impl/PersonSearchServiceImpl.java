@@ -52,14 +52,15 @@ public class PersonSearchServiceImpl implements SearchService {
     static final public Map<String,String> PERSON_CRITERIA = new HashMap<String,String>();
 
     static final public Map<String, SearchOperation> searchOperations = new HashMap<String, SearchOperation>();
-
+    
     static {
         PERSON_CRITERIA.put("entityTypes.active", "Y");
         PERSON_CRITERIA.put("principals.active", "Y");
         PERSON_CRITERIA.put("active", "Y");
         PERSON_CRITERIA.put("entityTypes.entityTypeCode", "PERSON|SYSTEM");
-        searchOperations.put("person.search.personQuickViewByGivenName", new QuickViewByGivenName());
+        searchOperations.put(QuickViewByGivenName.SEARCH_TYPE, new QuickViewByGivenName());
     }
+
 
     public PersonSearchServiceImpl() {
     }
@@ -73,9 +74,8 @@ public class PersonSearchServiceImpl implements SearchService {
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         final List<SearchTypeInfo> searchTypes =  new ArrayList<SearchTypeInfo>(searchOperations.size());
         for (String searchKey : searchOperations.keySet()) {
-            final SearchTypeInfo searchType = new SearchTypeInfo();
-            searchType.setKey(searchKey);
-            searchTypes.add(searchType);
+            SearchOperation so = searchOperations.get (searchKey);
+            searchTypes.add(so.getType ());
         }
         return searchTypes;
     }

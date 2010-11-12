@@ -24,7 +24,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
 
-<dict:type key="kuali.luStatementType.req.*" id="type.StatementInfo.RequisiteRules.abstract" abstract="true">
+<dict:type key="kuali.statement.type.req.*" id="type.StatementInfo.RequisiteRules.abstract" abstract="true">
 	<dict:name>Requisite Rules</dict:name>
 	<dict:desc>Group that includes all the &quot;requisite&quot; rules, pre,co,anti and enrollment restrictions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -33,35 +33,35 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 
 <!-- How to indicate the advisory nature of the prerequisite, whether the rule is hard or soft has not been clarified. I.e. whether this rule will be enforced or not. This may be indicated as a new type "Advisories" or as a flag on the statement or requirement component's themselves. -->
-<dict:type key="kuali.luStatementType.prereqAcademicReadiness" id="type.StatementInfo.PrerequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
+<dict:type key="kuali.statement.type.course.academicReadiness.prereq" id="type.StatementInfo.PrerequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Prerequisite Rule</dict:name>
 	<dict:desc>Rules that describe the academic readiness or preparedness required to be able to enroll in a course and effectively master the material. Also called
 
 Should not include rules that restrict enrollment for other purposes other than academic preparedness, these should be captured as enrollment restrictions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.luStatementType.prereqAcademicReadiness" id="type.StatementInfo.PrerequisiteRule" parent="type.StatementInfo.PrerequisiteRule.abstract"/>
+<dict:type key="kuali.statement.type.course.academicReadiness.prereq" id="type.StatementInfo.PrerequisiteRule" parent="type.StatementInfo.PrerequisiteRule.abstract"/>
 
-<dict:type key="kuali.luStatementType.coreqAcademicReadiness" id="type.StatementInfo.CorequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
+<dict:type key="kuali.statement.type.course.academicReadiness.coreq" id="type.StatementInfo.CorequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Corequisite Rule</dict:name>
 	<dict:desc>Rules that describe the need for concurrent enrollment in two courses.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.luStatementType.coreqAcademicReadiness" id="type.StatementInfo.CorequisiteRule" parent="type.StatementInfo.CorequisiteRule.abstract"/>
+<dict:type key="kuali.statement.type.course.academicReadiness.coreq" id="type.StatementInfo.CorequisiteRule" parent="type.StatementInfo.CorequisiteRule.abstract"/>
 
-<dict:type key="kuali.luStatementType.enrollAcademicReadiness" id="type.StatementInfo.EnrollmentRestriction.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
+<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" id="type.StatementInfo.EnrollmentRestriction.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Enrollment Restriction</dict:name>
 	<dict:desc>Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student&apos;s academic ability to handle the material.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.luStatementType.enrollAcademicReadiness" id="type.StatementInfo.EnrollmentRestriction" parent="type.StatementInfo.EnrollmentRestriction.abstract"/>
+<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" id="type.StatementInfo.EnrollmentRestriction" parent="type.StatementInfo.EnrollmentRestriction.abstract"/>
 
-<dict:type key="kuali.luStatementType.antireqAcademicReadiness" id="type.StatementInfo.AntirequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
+<dict:type key="kuali.statement.type.course.academicReadiness.antireq" id="type.StatementInfo.AntirequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Antirequisite Rule</dict:name>
 	<dict:desc>Rules identifying a specific course or level of attainment which, if already successfully completed, does not permit registration for credit in another desired course, or which may not be taken for credit concurrently with another course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.luStatementType.antireqAcademicReadiness" id="type.StatementInfo.AntirequisiteRule" parent="type.StatementInfo.AntirequisiteRule.abstract"/>
+<dict:type key="kuali.statement.type.course.academicReadiness.antireq" id="type.StatementInfo.AntirequisiteRule" parent="type.StatementInfo.AntirequisiteRule.abstract"/>
 
 <!-- ******************************************************* -->
 <!-- State for state.StatementInfo.Requisite Rules.(default) -->

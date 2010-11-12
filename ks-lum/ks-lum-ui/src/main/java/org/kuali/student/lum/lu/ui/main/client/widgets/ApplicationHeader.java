@@ -21,8 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -32,8 +34,9 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,7 +46,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -71,7 +73,7 @@ public class ApplicationHeader extends Composite{
 
 	private KSHeader ksHeader = new KSHeader();
 
-	private StylishDropDown navDropDown = new StylishDropDown("Navigate to...");
+	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -109,8 +111,8 @@ public class ApplicationHeader extends Composite{
 		if (!loaded){
 			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION, CODE_SERVER);
 
-	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
-	            public void onFailure(Throwable caught) {
+	        serverPropertiesRpcService.get(serverPropertyList, new KSAsyncCallback<Map<String,String>>() {
+	            public void handleFailure(Throwable caught) {
 	            	//ignoring, we'll use the default
 	            	init();
 	            }
@@ -153,8 +155,10 @@ public class ApplicationHeader extends Composite{
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
+		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		//FIXME the following code gets overridden
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
 
@@ -191,11 +195,18 @@ public class ApplicationHeader extends Composite{
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleHome"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
-    			new WrapperNavigationHandler("#/HOME"))
-    	);
+    			new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						HistoryManager.navigate(AppLocations.Locations.HOME.getLocation());
+					}}));
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
-    			new WrapperNavigationHandler("#/HOME/CURRICULUM_HOME"))
-    	);
+    			new ClickHandler(){
+					@Override
+					public void onClick(ClickEvent event) {
+						HistoryManager.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+					}}));
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
     	);
@@ -208,12 +219,11 @@ public class ApplicationHeader extends Composite{
 						docSearchDialog.show();
 					}})
     	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
-    					appUrl+"/portal.do?selectedTab=main"))
+    					riceURL+"/portal.do?selectedTab=main"))
     	);
 
-		navDropDown.setShowSelectedItem(true);
     	navDropDown.setItems(items);
     	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
 

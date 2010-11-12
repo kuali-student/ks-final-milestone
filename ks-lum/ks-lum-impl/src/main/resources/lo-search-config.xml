@@ -49,7 +49,8 @@
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
-		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="clu" resultParam="lo.resultColumn.loCluOptionalLongName"/>
+  <!--long name is not a result column on the lu.search.allLoQuickView search-->
+	<!--	<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="clu" resultParam="lo.resultColumn.loCluOptionalLongName"/>-->
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 	</search:crossSearchType>
 	
@@ -449,7 +450,7 @@ JOIN
     ON 
     jn.CLU_ID = clu.ID 
 JOIN 
-    KSLU_LO lo 
+    KSLO_LO lo 
     ON 
     jn.LO_ID = lo.ID 
 JOIN 
@@ -476,7 +477,7 @@ JOIN
     ON 
     jn.CLU_ID = clu.ID 
 JOIN 
-    KSLU_LO lo 
+    KSLO_LO lo 
     ON 
     jn.LO_ID = lo.ID 
 JOIN 
@@ -488,11 +489,11 @@ JOIN
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 JOIN 
-    KSLU_LO_JN_LOCATEGORY jncat
+    KSLO_LO_JN_LOCATEGORY jncat
     ON
     lo.id = jncat.lo_id
 JOIN
-    KSLU_LO_CATEGORY cat
+    KSLO_LO_CATEGORY cat
     ON
     cat.id = jncat.locategory_id
 					</value>
@@ -514,7 +515,7 @@ JOIN
     ON 
     jn.CLU_ID = clu.ID 
 JOIN 
-    KSLU_LO lo 
+    KSLO_LO lo 
     ON 
     jn.LO_ID = lo.ID 
 JOIN 
@@ -526,11 +527,11 @@ JOIN
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 JOIN 
-    KSLU_LO_JN_LOCATEGORY jncat
+    KSLO_LO_JN_LOCATEGORY jncat
     ON
     lo.id = jncat.lo_id
 JOIN
-    KSLU_LO_CATEGORY cat
+    KSLO_LO_CATEGORY cat
     ON
     cat.id = jncat.locategory_id
 					</value>

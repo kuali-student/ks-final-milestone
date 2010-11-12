@@ -15,32 +15,19 @@
 
 package org.kuali.student.core.statement.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.FieldDescriptorEntity;
 
 @Entity
 @Table(name="KSST_REQ_COM_FIELD_TYPE")
-public class ReqComponentFieldType {
+public class ReqComponentFieldType extends BaseEntity{
 
-    @Id
-    @Column(name = "ID")
-    private String id;
-	    
     @Embedded
     private FieldDescriptorEntity fieldDescriptor;
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
     /**
      * @return the fieldDescriptor
@@ -58,6 +45,6 @@ public class ReqComponentFieldType {
 
 	@Override
 	public String toString() {
-		return "ReqComponentFieldType[id=" + id + "]";
+		return "ReqComponentFieldType[id=" + getId() + "]";
 	}        
 }
