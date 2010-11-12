@@ -7,6 +7,7 @@ import org.kuali.student.lum.program.client.core.edit.CoreEditController;
 import org.kuali.student.lum.program.client.core.view.CoreViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 /**
  * @author Igor
@@ -48,7 +49,7 @@ public class CoreManager {
 
     public ProgramVersionsController getProgramVersionsController() {
     	if (programVersionsController == null){
-    		programVersionsController = new ProgramVersionsController(model, viewContext, eventBus);
+    		programVersionsController = new ProgramVersionsController(model, ProgramSideBar.Type.CORE, viewContext, eventBus);
     	}
 		return programVersionsController;
 	}

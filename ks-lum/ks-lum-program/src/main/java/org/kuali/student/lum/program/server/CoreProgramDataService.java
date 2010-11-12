@@ -33,11 +33,16 @@ public class CoreProgramDataService extends AbstractDataService {
 
     @Override
     protected Object get(String id) throws Exception {
-        List<String> coreIds = luService.getCluIdsByLuType(ProgramClientConstants.CORE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
-        if (null == coreIds || coreIds.size() != 1) {
-            throw new OperationFailedException("A single core program is required; database contains " + (null == coreIds ? "0" : coreIds.size() + "."));
-        }
-        return programService.getCoreProgram(coreIds.get(0));
+    	if (id==null || id.isEmpty()){
+	        List<String> coreIds = luService.getCluIdsByLuType(ProgramClientConstants.CORE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
+	        if (null == coreIds || coreIds.size() != 1) {
+	            throw new OperationFailedException("A single core program is required; database contains " + (null == coreIds ? "0" : coreIds.size() + "."));
+	        }
+	        return programService.getCoreProgram(coreIds.get(0));
+    	} else {
+    		return programService.getCoreProgram(id);
+    	}
+
     }
 
     @Override

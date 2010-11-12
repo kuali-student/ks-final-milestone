@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar.Type;
 
 import com.google.gwt.event.shared.HandlerManager;
 
@@ -19,12 +20,15 @@ public class ProgramVersionsController extends BasicLayoutWithContentHeader{
     protected HandlerManager eventBus;
 	private boolean initialized = false;
 
-	public ProgramVersionsController(DataModel dataModel, ViewContext viewContext, HandlerManager eventBus) {
+	private Type type;
+	
+	public ProgramVersionsController(DataModel dataModel, Type type, ViewContext viewContext, HandlerManager eventBus) {
 		super(ProgramVersionsController.class.toString());
         this.setDefaultView(Views.VERSION_SELECT);
         this.viewContainer.addStyleName("standard-content-padding");
         this.eventBus = eventBus;
         this.programModel = dataModel;
+        this.type = type;
         setViewContext(viewContext);
         initialize();
     }	
@@ -72,4 +76,13 @@ public class ProgramVersionsController extends BasicLayoutWithContentHeader{
 	public void setCurrentTitle(String currentTitle) {
     	this.getHeader().setTitle(currentTitle);
 	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+		
 }

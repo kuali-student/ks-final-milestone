@@ -9,6 +9,7 @@ import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
 import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import com.google.gwt.event.shared.HandlerManager;
 
@@ -67,7 +68,7 @@ public class MajorManager {
     
     public ProgramVersionsController getProgramVersionsController() {
     	if (programVersionsController == null){
-    		programVersionsController = new ProgramVersionsController(programModel, viewContext, eventBus);
+    		programVersionsController = new ProgramVersionsController(programModel, ProgramSideBar.Type.MAJOR, viewContext, eventBus);
     	}
 		return programVersionsController;
 	}

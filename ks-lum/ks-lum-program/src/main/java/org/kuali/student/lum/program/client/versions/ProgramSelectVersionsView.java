@@ -59,7 +59,7 @@ public class ProgramSelectVersionsView extends ViewComposite{
 					String id = table.getSelectedIds().get(0);
 			    	ViewContext viewContext = parent.getViewContext();
 			    	viewContext.setId(id);				
-					HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
+			    	navigateToProgramView(viewContext);
 				}
 			}
 		}));
@@ -69,12 +69,20 @@ public class ProgramSelectVersionsView extends ViewComposite{
 			@Override
 			public void onClick(ClickEvent event) {
 		    	ViewContext viewContext = parent.getViewContext();
-		    	viewContext.setId((String)programModel.get(ProgramConstants.ID));				
-				HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
+		    	viewContext.setId((String)programModel.get(ProgramConstants.ID));
+		    	navigateToProgramView(viewContext);		    	
 			}
 		}));
 	}
 
+	private void navigateToProgramView(ViewContext viewContext){
+    	switch (parent.getType()){
+			case MAJOR: HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext); break;
+			case CORE: HistoryManager.navigate(AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation(), viewContext); break;
+			case CREDENTIAL: HistoryManager.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), viewContext); break;
+    	}		
+	}
+	
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	Metadata searchMetadata = programModel.getDefinition().getMetadata(QueryPath.concat("searchProgramVersions"));
