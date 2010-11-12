@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.service.assembler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,13 +11,9 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 public class CredentialProgramAssembler implements BOAssembler<CredentialProgramInfo, CluInfo>{
@@ -54,6 +49,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
                 cpInfo.setInstitution(org);
             }
         }
+        programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
         try {
