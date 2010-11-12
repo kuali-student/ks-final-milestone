@@ -166,7 +166,7 @@
         LVL="400" OBJ_ID="ED7AF7EA9A134CC1BE7B5FEF155D246A"
         SHRT_NAME="INTL AG EXT &amp; DEV" ST="Active" SUFX_CD="400"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
-    <KSLU_CLU_IDENT ID="4ab05feb-b550-4db6-9f65-97a74372a137"
+    <KSLU_CLU_IDENT CD="BACC" ID="4ab05feb-b550-4db6-9f65-97a74372a137"
         LNG_NAME="Baccalaureate" LVL="Undergraduate"
         OBJ_ID="3058840155094285931D5690ACC87944" SHRT_NAME="BACC"
         ST="Active"

@@ -76,4 +76,8 @@
         ID="VAR-305" OBJ_ID="FE7C5797B5E74B82BA6DCB6D677C9ABB"
         TYPE="kuali.lu.code.SelectiveEnrollment"
         VALUE="SELECTIVEENROLLMENTCODE" VER_NBR="0"/>
+    <KSLU_LU_CODE CLU_ID="d02dbbd3-20e2-410d-ab52-1bd6d362748b"
+        DESCR="Classification code"
+        ID="dbbeb3c0-139c-4f7d-936e-8efbdccfd84e"
+        TYPE="kuali.lu.code.UniversityClassification" VALUE="UDCP" VER_NBR="0"/>
 </dataset>
