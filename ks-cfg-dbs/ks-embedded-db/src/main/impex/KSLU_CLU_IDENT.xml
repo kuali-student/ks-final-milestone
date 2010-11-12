@@ -281,7 +281,7 @@
         OBJ_ID="85750F309C8E4EEF8182837F05126E39"
         SHRT_NAME="CURRENT APPROACHES AMST" ST="Active" SUFX_CD="603"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
-    <KSLU_CLU_IDENT ID="82388fd5-6ee3-4936-9497-413Dea7e8098"
+    <KSLU_CLU_IDENT CD="CORE" ID="82388fd5-6ee3-4936-9497-413Dea7e8098"
         LNG_NAME="Core Program" LVL="Undergraduate"
         OBJ_ID="643035B45C224BF698E8F32C2D5938C0" SHRT_NAME="CORE"
         ST="Active"
