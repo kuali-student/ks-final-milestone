@@ -293,10 +293,12 @@ public class MajorEditController extends MajorController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
-                    isValid(result.getValidationResults(), false, true);
+                List<ValidationResultInfo> validationResults = result.getValidationResults();
+                if (validationResults != null && !validationResults.isEmpty()) {
+                    ProgramUtils.retrofitValidationResults(validationResults);
+                    isValid(validationResults, false, true);
                     StringBuilder msg = new StringBuilder();
-                    for (ValidationResultInfo vri : result.getValidationResults()) {
+                    for (ValidationResultInfo vri : validationResults) {
                         msg.append(vri.getMessage());
                     }
                     eventBus.fireEvent(new ValidationFailedEvent());

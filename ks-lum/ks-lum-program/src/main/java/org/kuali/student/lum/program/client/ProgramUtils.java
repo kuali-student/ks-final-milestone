@@ -4,6 +4,9 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+
+import java.util.List;
 
 /**
  * @author Igor
@@ -46,16 +49,26 @@ public class ProgramUtils {
         dataModel.set(statePath, status);
         setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
     }
-    
+
     public static void setPreviousStatus(DataModel dataModel, String status) {
         QueryPath statePath = QueryPath.parse(ProgramConstants.PREV_STATE);
         dataModel.set(statePath, status);
     }
-    
+
     private static void setStatus(Data inputData, String status) {
         for (Data.Property property : inputData) {
             Data data = property.getValue();
             data.set(new Data.StringKey(ProgramConstants.STATE), status);
+        }
+    }
+
+    public static void retrofitValidationResults(List<ValidationResultInfo> validationResults) {
+        for (ValidationResultInfo validationResult : validationResults) {
+            String key = validationResult.getElement();
+            if (ProgramConstants.RICH_TEXT_KEYS.contains(key)) {
+                key = key + "/plain";
+                validationResult.setElement(key);
+            }
         }
     }
 }

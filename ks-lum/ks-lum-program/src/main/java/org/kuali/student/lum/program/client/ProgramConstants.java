@@ -1,5 +1,8 @@
 package org.kuali.student.lum.program.client;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * @author Igor
@@ -84,18 +87,21 @@ public class ProgramConstants {
     //History
     public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
     public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
-    
+
     //Versioning
     public static final String VERSION = "versionInfo/sequenceNumber";
     public static final String VERSION_IND_ID = "versionInfo/versionIndId";
     public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
 
     public static final String PREV_END_PROGRAM_ENTRY_TERM = "previousVersionInfo/endProgramEntryTerm";
-    public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";    
+    public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";
     public static final String PREV_STATE = "previousVersionInfo/state";
 
     //Compound constants
     public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID;
     public static final String CREDENTIAL_PROGRAM_TYPE_NAME = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.RUNTIME_DATA + "/" + ProgramConstants.CREDENTIAL_PROGRAM_TYPE + "/" + ProgramConstants.ID_TRANSLATION;
     public static final String CREDENTIAL_PROGRAM_LEVEL = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL;
+
+
+    public static final List<String> RICH_TEXT_KEYS = Arrays.asList("/" + DESCRIPTION, "/" + CATALOG_DESCRIPTION);
 }
