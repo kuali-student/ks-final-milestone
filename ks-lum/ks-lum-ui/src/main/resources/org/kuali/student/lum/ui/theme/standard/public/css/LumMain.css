@@ -411,6 +411,10 @@ padding:10px
 
 }
 
+.browseCatalog .KS-TabPanel-Small .KS-TabPanel-Content{
+	width: 940px;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}

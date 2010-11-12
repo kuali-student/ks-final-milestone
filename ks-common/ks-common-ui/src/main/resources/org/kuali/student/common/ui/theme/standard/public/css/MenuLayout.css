@@ -96,7 +96,11 @@ padding:3px 10px 3px 5px;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Hover{
-    background-color: #708992;
+    background-color: #636D05;
+}
+
+.ks-menu-layout-menu .KS-Basic-Menu-Item-Label-Hover{
+	color: white;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected a:hover{
