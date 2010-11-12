@@ -1048,7 +1048,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 	@Override
 	public CoreProgramInfo createNewCoreProgramVersion(
-			String majorDisciplineId, String versionComment)
+			String coreProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
@@ -1130,6 +1130,38 @@ public class ProgramServiceImpl implements ProgramService {
         return validationResults;
     }
         
+        
+	@Override
+	public CoreProgramInfo createNewCredentialProgramVersion(
+			String credentialProgramId, String versionComment)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException,
+			DataValidationErrorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo setCurrentCoreProgramVersion(String coreProgramId,
+			Date currentVersionStart) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			IllegalVersionSequencingException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo setCurrentCredentialProgramVersion(
+			String credentialProgramId, Date currentVersionStart)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, IllegalVersionSequencingException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,

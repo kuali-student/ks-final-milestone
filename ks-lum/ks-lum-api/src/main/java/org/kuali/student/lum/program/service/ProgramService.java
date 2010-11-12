@@ -206,6 +206,35 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
 	 */
     public CredentialProgramInfo createCredentialProgram(@WebParam(name="credentialProgramInfo")CredentialProgramInfo credentialProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Creates a new Credential Program version based on the current Credential Program
+     * @param credentialProgramId identifier for the Credential Program to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Credential Program information
+     * @throws DoesNotExistException Credential Program does not exist
+     * @throws InvalidParameterException invalid credentialProgramId
+     * @throws MissingParameterException invalid credentialProgramId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException 
+     */    
+    public CoreProgramInfo createNewCredentialProgramVersion(@WebParam(name="credentialProgramId")String credentialProgramId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+
+    /**
+	 * Sets a specific version of the Credential Program as current. The sequence number must be greater than the existing current Credential Program version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param coreProgramId Version Specific Id of the Credential Program
+     * @param currentVersionStart Date when this Credential Program becomes current. Must be in the future and be after the most current Credential Program's start date.
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Credential Program for credentialProgramId does not exist
+     * @throws InvalidParameterException invalid credentialProgramId, currentVersionStart
+     * @throws MissingParameterException invalid credentialProgramId 
+     * @throws IllegalVersionSequencingException a Credential Program with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCredentialProgramVersion(@WebParam(name="credentialProgramId")String credentialProgramId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+
     /** 
      * Updates a Credential Program
      * @param credentialProgramInfo credentialProgramInfo
@@ -437,8 +466,8 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
     public CoreProgramInfo createCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new Core Program version based on the current Major
-     * @param coreProgramId identifier for the Major Discipline to be versioned
+     * Creates a new Core Program version based on the current Core Program
+     * @param coreProgramId identifier for the Core Program to be versioned
      * @param versionComment comment for the current version
      * @return the new versioned Core Program information
      * @throws DoesNotExistException Core Program does not exist
@@ -449,8 +478,23 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
      * @throws VersionMismatchException The action was attempted on an out of date version
      * @throws DataValidationErrorException 
      */    
-    public CoreProgramInfo createNewCoreProgramVersion(@WebParam(name="coreProgramId")String majorDisciplineId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+    public CoreProgramInfo createNewCoreProgramVersion(@WebParam(name="coreProgramId")String coreProgramId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
 
+    
+    /**
+	 * Sets a specific version of the Core Program as current. The sequence number must be greater than the existing current Core Program version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param coreProgramId Version Specific Id of the Core Program
+     * @param currentVersionStart Date when this Core Program becomes current. Must be in the future and be after the most current major's start date.
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Core Program for coreProgramId does not exist
+     * @throws InvalidParameterException invalid coreProgramId, currentVersionStart
+     * @throws MissingParameterException invalid coreProgramId 
+     * @throws IllegalVersionSequencingException a CoreProgram with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCoreProgramVersion(@WebParam(name="coreProgramId")String coreProgramId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+    
     /** 
      * Updates a Core Program
      * @param coreProgramInfo coreProgramInfo
