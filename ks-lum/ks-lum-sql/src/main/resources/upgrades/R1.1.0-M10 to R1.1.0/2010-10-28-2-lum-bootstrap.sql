@@ -1,6 +1,6 @@
-INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.cumulative.gpa.min',              'Minimum cumulative GPA', 'Must have earned a minimum cumulative GPA of <GPA>', to_date('2000-01-01', 'yyyy-mm-dd'), to_date('2100-12-31', 'yyyy-mm-dd'), 0)
+INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.cumulative.gpa.min',              'Minimum cumulative GPA', 'Must have earned a minimum cumulative GPA of <GPA>', to_date('2000-01-01', 'yyyy-mm-dd'), to_date('2037-12-31', 'yyyy-mm-dd'), 0)
 /
-INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.duration.gpa.min',                'Minimum duration GPA', 'Must have earned a minimum <duration> GPA of <GPA>', to_date('2000-01-01', 'yyyy-mm-dd'), to_date('2100-12-31', 'yyyy-mm-dd'), 0)
+INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.duration.gpa.min',                'Minimum duration GPA', 'Must have earned a minimum <duration> GPA of <GPA>', to_date('2000-01-01', 'yyyy-mm-dd'), to_date('2037-12-31', 'yyyy-mm-dd'), 0)
 /
 
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.program.cumulative.gpa.min','kuali.reqComponent.field.type.gpa')
