@@ -49,6 +49,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -264,8 +265,10 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws DoesNotExistException 
 	 * @throws DataValidationErrorException 
 	 * @throws AlreadyExistsException 
+	 * @throws VersionMismatchException 
+	 * @throws CircularRelationshipException 
      */
-    private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException {
 		//Clear Los
 		for(LoDisplayInfo lo:majorDiscipline.getLearningObjectives()){
 			resetLoRecursively(lo);
@@ -282,20 +285,22 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		//Clear Variations
 		for(ProgramVariationInfo variation:majorDiscipline.getVariations()){
-			//Setup variation version
-			VersionInfo variationVersionInfo = variation.getVersionInfo();
-			if (variationVersionInfo == null){
-				variationVersionInfo = new VersionInfo();
-				variation.setVersionInfo(variationVersionInfo);
-			}
-			variationVersionInfo.setVersionedFromId(variation.getId());
-			variationVersionInfo.setCurrentVersionEnd(null);
-			variationVersionInfo.setCurrentVersionStart(null);
-			variationVersionInfo.setSequenceNumber(majorDiscipline.getVersionInfo().getSequenceNumber());
-			variationVersionInfo.setVersionComment("Variation versionened with major discipline version.");			
+			//Create new variation version
+			String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
+			CluInfo newVariationClu = luService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber());	
 			
-			//Clear Id
-			variation.setId(null);
+			//Create relation b/w new major discipline and new variation
+			CluCluRelationInfo relation = new CluCluRelationInfo();
+	        relation.setCluId(majorDiscipline.getId());
+	        relation.setRelatedCluId(newVariationClu.getId());
+	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+	        relation.setState(ProgramAssemblerConstants.ACTIVE);
+			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
+	        
+			//Set variation id & versionInfo to new variation clu
+			variation.setId(newVariationClu.getId());
+			variation.setMetaInfo(newVariationClu.getMetaInfo());
+						
 			//Set state to parent program's state
 			variation.setState(majorDiscipline.getState());
 			//Clear Los
@@ -380,7 +385,10 @@ public class ProgramServiceImpl implements ProgramService {
 		List<ProgramVariationInfo> variationList = getVariationsByMajorDisciplineId(majorDisciplineId);
 		for (ProgramVariationInfo variationInfo:variationList){
 			String variationId = variationInfo.getId();
-			luService.setCurrentCluVersion(variationId, currentVersionStart);
+			//If null set to current (non-null value means version is first and is already current)
+			if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
+				luService.setCurrentCluVersion(variationId, currentVersionStart);
+			}
 		}
 		
 		return status;
