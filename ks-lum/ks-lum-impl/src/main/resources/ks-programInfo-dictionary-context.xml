@@ -1172,6 +1172,7 @@
   <property name="defaultValue" value="true"/>
   <property name="name" value="isVariationRequired"/>
   <property name="dynamic" value="true"/>
+  <!--
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1188,7 +1189,7 @@
         </list>
        </property>
        <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
+        <!- -Copy all the properties from above adding minOccurs = 1 - ->
         <bean parent="baseKualiOrgIdRepeating">
          <property name="minOccurs" value="1" />
          <property name="defaultValue" value="true"/>
@@ -1199,6 +1200,7 @@
     </property>
    </bean>
   </property>
+  -->
  </bean>
  <bean id="majorDisciplineInfo.isVariationRequired" parent="majorDisciplineInfo.isVariationRequired-parent"/>
 
@@ -1284,6 +1286,7 @@
  <bean id="coreProgramInfo.catalogPublicationTargets-parent" abstract="true"
        parent="majorDisciplineInfo.catalogPublicationTargets-parent">
   <property name="name" value="catalogPublicationTargets"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="coreProgramInfo.catalogPublicationTargets" parent="coreProgramInfo.catalogPublicationTargets-parent"/>
 
@@ -1307,6 +1310,7 @@
  <bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="coreProgramInfo.divisionsStudentOversight" parent="coreProgramInfo.divisionsStudentOversight-parent"/>
 
@@ -1366,6 +1370,8 @@
  <bean id="coreProgramInfo.transcriptTitle-parent" abstract="true"
        parent="majorDisciplineInfo.transcriptTitle-parent">
   <property name="name" value="transcriptTitle"/>
+  <property name="caseConstraint"><null/></property>
+  <property name="maxLength" value="34"/>
  </bean>
  <bean id="coreProgramInfo.transcriptTitle" parent="coreProgramInfo.transcriptTitle-parent"/>
 
@@ -1383,6 +1389,7 @@
  <bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="coreProgramInfo.unitsStudentOversight" parent="coreProgramInfo.unitsStudentOversight-parent"/>
 
@@ -1459,6 +1466,7 @@
  <bean id="credentialProgramInfo.divisionsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="credentialProgramInfo.divisionsStudentOversight"
        parent="credentialProgramInfo.divisionsStudentOversight-parent"/>
@@ -1490,6 +1498,7 @@
        parent="majorDisciplineInfo.learningObjectives-parent">
   <property name="name" value="learningObjectives"/>
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="credentialProgramInfo.learningObjectives" parent="credentialProgramInfo.learningObjectives-parent"/>
 
@@ -1533,6 +1542,8 @@
  <bean id="credentialProgramInfo.transcriptTitle-parent" abstract="true"
        parent="majorDisciplineInfo.transcriptTitle-parent">
   <property name="name" value="transcriptTitle"/>
+  <property name="caseConstraint"><null/></property>
+  <property name="maxLength" value="34"/>
  </bean>
  <bean id="credentialProgramInfo.transcriptTitle" parent="credentialProgramInfo.transcriptTitle-parent"/>
 
@@ -1545,6 +1556,7 @@
  <bean id="credentialProgramInfo.unitsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="credentialProgramInfo.unitsStudentOversight" parent="credentialProgramInfo.unitsStudentOversight-parent"/>
 
@@ -1637,6 +1649,7 @@
        parent="majorDisciplineInfo.learningObjectives-parent">
   <property name="name" value="learningObjectives"/>
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+  <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="programRequirementInfo.learningObjectives" parent="programRequirementInfo.learningObjectives-parent"/>
 
