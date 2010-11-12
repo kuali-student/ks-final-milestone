@@ -436,6 +436,21 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
      */
     public CoreProgramInfo createCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Creates a new Core Program version based on the current Major
+     * @param coreProgramId identifier for the Major Discipline to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Core Program information
+     * @throws DoesNotExistException Core Program does not exist
+     * @throws InvalidParameterException invalid coreProgramId
+     * @throws MissingParameterException invalid coreProgramId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException 
+     */    
+    public CoreProgramInfo createNewCoreProgramVersion(@WebParam(name="coreProgramId")String majorDisciplineId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+
     /** 
      * Updates a Core Program
      * @param coreProgramInfo coreProgramInfo

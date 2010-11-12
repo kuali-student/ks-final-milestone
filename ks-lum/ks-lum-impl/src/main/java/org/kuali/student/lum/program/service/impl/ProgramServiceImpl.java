@@ -1046,6 +1046,17 @@ public class ProgramServiceImpl implements ProgramService {
         }
     }
 
+	@Override
+	public CoreProgramInfo createNewCoreProgramVersion(
+			String majorDisciplineId, String versionComment)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException,
+			DataValidationErrorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
     @Override
     public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 //        try {
@@ -1252,4 +1263,5 @@ public class ProgramServiceImpl implements ProgramService {
 	public DocumentService getDocumentService() {
 		return documentService;
 	}
+
 }
