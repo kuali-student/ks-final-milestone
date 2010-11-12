@@ -110,6 +110,9 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     @XmlElement
     private MetaInfo metaInfo;
 
+    @XmlElement
+    private MetaInfo versionInfo;
+
     @XmlAttribute
     private String type;
 
@@ -158,7 +161,16 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
         this.metaInfo = metaInfo;
     }
 
-    /**
+        
+    public MetaInfo getVersionInfo() {
+		return versionInfo;
+	}
+
+	public void setVersionInfo(MetaInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}
+
+	/**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
     public String getType() {
