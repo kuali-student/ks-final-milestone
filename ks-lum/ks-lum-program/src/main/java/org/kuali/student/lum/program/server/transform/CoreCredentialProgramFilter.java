@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.server.transform;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,12 +47,11 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
                                         Map<String, Object> properties) throws Exception {
 
         String coreProgramId = data.get(ProgramConstants.ID);
-        // TODO - This is heinous. It has to be a custom search for CredPgm titles
-        // <jira>
+        // TODO - This is heinously inefficient. It has to be a custom search for CredPgm longTitles
+        // https://jira.kuali.org/browse/KSLUM-616
 
         // get all Clu's related to this core program
         List<String> credPgmIds = luService.getCluIdsByRelation(coreProgramId, ProgramConstants.HAS_CORE_PROGRAM);
-        List<String> credPgmTitles = new ArrayList<String>();
         Data credPgmData = new Data();
             
         // Get the long titles 
