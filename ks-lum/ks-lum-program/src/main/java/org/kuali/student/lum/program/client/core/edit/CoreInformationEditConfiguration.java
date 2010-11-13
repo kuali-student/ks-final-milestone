@@ -45,7 +45,6 @@ public class CoreInformationEditConfiguration  extends AbstractSectionConfigurat
     private VerticalSection createKeyProgramInformationSection() {
         VerticalSection section = new VerticalSection();
         configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
         return section;
     }
 
