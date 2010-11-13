@@ -37,7 +37,7 @@ public class CluIdentifier extends BaseEntity{
     @Column(name = "LVL")
     private String level;
 
-    @Column(name = "DIVISION")
+    @Column(name = "DIV")
     private String division;
 
     @Column(name = "VARTN")
