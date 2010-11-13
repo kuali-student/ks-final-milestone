@@ -324,14 +324,14 @@
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
-        <property name="transformationManager" ref="credAndCoreProgramTransformationManager"/>
+        <property name="transformationManager" ref="credentialProgramTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
     </bean>
 
     <bean id="coreProgramDataService" class="org.kuali.student.lum.program.server.CoreProgramDataService">
-        <property name="transformationManager" ref="credAndCoreProgramTransformationManager"/>
+        <property name="transformationManager" ref="coreProgramTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
@@ -368,14 +368,14 @@
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
-                <ref bean="credentialProgramFilter"/>
+                <ref bean="majorCredentialProgramFilter"/>
                 <ref bean="versionProgramFilter"/>                
                 <ref bean="idTranslatorFilter"/>
             </list>
         </property>
     </bean>
     
-    <bean id="credAndCoreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="filters">
             <list>
@@ -383,6 +383,19 @@
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
                 <ref bean="versionCoreProgramFilter"/>		
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="coreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="coreCredentialProgramFilter"/>
+                <ref bean="idTranslatorFilter"/>
+
             </list>
         </property>
     </bean>
@@ -447,9 +460,14 @@
 		</property>			
     </bean>
 
-    <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
+    <bean id="majorCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.MajorCredentialProgramFilter">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="coreCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CoreCredentialProgramFilter">
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
     </bean>
 
     <bean id="versionProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionProgramFilter">

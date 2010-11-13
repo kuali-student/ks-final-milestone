@@ -19,7 +19,7 @@ import org.kuali.student.lum.program.service.ProgramService;
  *
  * @author Jim
  */
-public class CredentialProgramFilter extends AbstractDataFilter {
+public class MajorCredentialProgramFilter extends AbstractDataFilter {
 
     private MetadataServiceImpl metadataService;
     private ProgramService programService;

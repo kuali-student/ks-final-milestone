@@ -19,11 +19,13 @@ public class ProgramConstants {
     public static final String MAJOR_TYPE_ID = "referenceType.clu";
     public static final String RUNTIME_DATA = "_runtimeData";
     public static final String ID_TRANSLATION = "id-translation";
+    public static final String HAS_CORE_PROGRAM = "kuali.lu.lu.relation.type.hasCoreProgram";
 
     //Identifying Details
     public static final String CODE = "code";
     public static final String PROGRAM_LEVEL = "programLevel";
     public static final String CREDENTIAL_PROGRAM = "credentialProgramInfo";
+    public static final String CREDENTIAL_PROGRAMS = "credentialPrograms";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
     public static final String DEGREE_TYPE = "resultOptions";
 
