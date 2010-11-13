@@ -4464,7 +4464,7 @@
     <table name="KSLU_CLU_IDENT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CD" size="255" type="VARCHAR"/>
-        <column name="DIVISION" size="255" type="VARCHAR"/>
+        <column name="DIV" size="255" type="VARCHAR"/>
         <column name="LVL" size="255" type="VARCHAR"/>
         <column name="LNG_NAME" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
