@@ -48,7 +48,7 @@ public class EditableHeader extends Composite {
     private void setStyles() {
         sectionTitle.addStyleName("sectionTitle");
         content.addStyleName("editableHeader");
-        editButton.addStyleName("editButton");
+        editButton.addStyleName("sectionEditLink");
     }
 
     private void buildLayout() {
