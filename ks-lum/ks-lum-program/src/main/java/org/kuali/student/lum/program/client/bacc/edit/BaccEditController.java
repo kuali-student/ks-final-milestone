@@ -17,10 +17,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.bacc.CredentialController;
-import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
@@ -79,6 +76,12 @@ public class BaccEditController extends CredentialController {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());
+            }
+        });
+        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEvent.Handler() {
+            @Override
+            public void onEvent(UpdateEvent event) {
+                doSave(event.getOkCallback());
             }
         });
     }

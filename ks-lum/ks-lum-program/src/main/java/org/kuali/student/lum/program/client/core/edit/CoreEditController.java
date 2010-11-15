@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.core.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,11 +25,8 @@ import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -103,6 +102,12 @@ public class CoreEditController extends CoreController {
                 showView(event.getViewToken());
             }
         });
+        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEvent.Handler() {
+            @Override
+            public void onEvent(UpdateEvent event) {
+                doSave(event.getOkCallback());
+            }
+        });
     }
 
     private void doCancel() {
@@ -115,41 +120,41 @@ public class CoreEditController extends CoreController {
     }
 
     @Override
-	protected void loadModel(ModelRequestCallback<DataModel> callback) {
-    	ViewContext viewContext = getViewContext();
-    	if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID){
-    		createNewVersionAndLoadModel(callback, viewContext);
-    	} else {
-    		super.loadModel(callback);
-    	}
-	}
-    
-    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext){        
+    protected void loadModel(ModelRequestCallback<DataModel> callback) {
+        ViewContext viewContext = getViewContext();
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
+            createNewVersionAndLoadModel(callback, viewContext);
+        } else {
+            super.loadModel(callback);
+        }
+    }
+
+    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
         Data data = new Data();
-    	Data versionData = new Data();
+        Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Core Program Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
-    	
+
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
-			public void onSuccess(DataSaveResult result) {                
-				super.onSuccess(result);
-				viewContext.setIdType(IdType.OBJECT_ID);
+            public void onSuccess(DataSaveResult result) {
+                super.onSuccess(result);
+                viewContext.setIdType(IdType.OBJECT_ID);
                 programModel.setRoot(result.getValue());
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
-                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
-			}
-			
-			public void onFailure(Throwable caught) {
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+            }
+
+            public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 callback.onRequestFail(caught);
-			}
-		});
-        
+            }
+        });
+
     }
-    
+
     private void doSave(final Callback<Boolean> okCallback) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
