@@ -82,6 +82,8 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
+        boolean stateChanged = credential.getState() != null && !credential.getState().equals(clu.getState());
+        
         programAssemblerUtils.disassembleBasics(clu, credential, operation);
         if (credential.getId() == null)
         	credential.setId(clu.getId());
@@ -91,7 +93,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         programAssemblerUtils.disassembleLuCodes(clu, credential, operation);
         
         if(credential.getProgramRequirements() != null && !credential.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, credential, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, credential, operation, result, stateChanged);
         }
  
         if (credential.getResultOptions() != null) {

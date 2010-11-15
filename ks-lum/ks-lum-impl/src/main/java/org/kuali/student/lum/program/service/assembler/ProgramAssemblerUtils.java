@@ -205,12 +205,16 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO  maybe this should be in CluAssemblerUtils??
-    public CluInfo disassembleRequirements(CluInfo clu, Object o, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
+    public CluInfo disassembleRequirements(CluInfo clu, Object o, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result, boolean stateChanged) throws AssemblyException {
         try {
             Method method = o.getClass().getMethod("getProgramRequirements", null);
             List<String> requirements = (List<String>)method.invoke(o, null);
 
             if (requirements != null && !requirements.isEmpty()) {
+            	if (stateChanged){
+            		addUpdateRequirementStateNodes(requirements, clu.getState(), result);
+            	}
+            	
                	Map<String, String> currentRelations = null;
 
                 if (!NodeOperation.CREATE.equals(operation)) {
@@ -252,8 +256,31 @@ public class ProgramAssemblerUtils {
 
     }
 
-
+        
     /**
+     * This adds nodes to update the state for the requirement clu
+     * @param state
+     * @param result
+     * @throws OperationFailedException 
+     * @throws MissingParameterException 
+     * @throws InvalidParameterException 
+     */
+    private void addUpdateRequirementStateNodes(List<String> requirements, String state, BaseDTOAssemblyNode<?, ?> result) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    	for (String requirementId:requirements){
+    		try {
+	    		CluInfo requirementClu = luService.getClu(requirementId);
+	            requirementClu.setState(state);
+	            BaseDTOAssemblyNode<Object, CluInfo> reqCluNode = new BaseDTOAssemblyNode<Object, CluInfo>(null);
+	            reqCluNode.setNodeData(requirementClu);
+	            reqCluNode.setOperation(NodeOperation.UPDATE);
+	            result.getChildNodes().add(reqCluNode);
+    		} catch (DoesNotExistException e){
+    			//Don't need to update what doesn't exist
+    		}
+    	}
+	}
+
+	/**
      * Copy identifier values from clu to program
      *
      * @param clu

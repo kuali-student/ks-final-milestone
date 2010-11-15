@@ -73,7 +73,6 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             programRequirementInfo.setId(null);
         }
 
-        programRequirementInfo.setState("Active");
         ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
         setProgReqNL(rule);
@@ -86,7 +85,6 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
-        programRequirementInfo.setState("Active");
         ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
 
         //TODO temporary fix - see KSLUM 1421

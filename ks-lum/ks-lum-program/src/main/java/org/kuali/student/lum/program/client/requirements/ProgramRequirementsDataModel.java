@@ -360,15 +360,27 @@ public class ProgramRequirementsDataModel {
         }
     }
 
-    public void addRule(ProgramRequirementInfo programReqInfo) {
+    public void addRule(ProgramRequirementInfo programReqInfo) { 
+    	setRuleState(programReqInfo);
         progReqInfos.put(progReqIDs, programReqInfo);
         progReqState.put(progReqIDs++, requirementState.ADDED);
     }
 
     public void updateRule(Integer internalProgReqID, ProgramRequirementInfo programReqInfo) {
+    	setRuleState(programReqInfo);    	
         progReqInfos.put(internalProgReqID, programReqInfo);
         markRuleAsEdited(internalProgReqID);
-    }    
+    }
+    
+    /**
+     * Set the state of the program requirement to state of the program.
+     * 
+     * @param programReqInfo
+     */
+    protected void setRuleState(ProgramRequirementInfo programReqInfo){
+    	String programState = ((DataModel)model).get(ProgramConstants.STATE);
+    	programReqInfo.setState(programState);    	
+    }
 
     public void markRuleAsDeleted(Integer internalProgReqID) {
         if ((progReqState.get(internalProgReqID) == ProgramRequirementsDataModel.requirementState.STORED) ||

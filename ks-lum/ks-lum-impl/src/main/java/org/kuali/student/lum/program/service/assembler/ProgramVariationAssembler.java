@@ -87,6 +87,8 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
         
+        boolean stateChanged = variation.getState() != null && !variation.getState().equals(clu.getState());
+        
         programAssemblerUtils.disassembleBasics(clu, variation, operation);
         if (variation.getId() == null)
         	variation.setId(clu.getId());
@@ -97,7 +99,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.disassemblePublications(clu, variation, operation, result);
 
         if(variation.getProgramRequirements() != null && !variation.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result, stateChanged);
         }
         
         if (variation.getResultOptions() != null) {

@@ -141,6 +141,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
+        boolean stateChanged = major.getState() != null && !major.getState().equals(clu.getState());
+        
         programAssemblerUtils.disassembleBasics(clu, major, operation);
         if (major.getId() == null)
             major.setId(clu.getId());
@@ -151,7 +153,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassemblePublications(clu, major, operation, result);
         
         if(major.getProgramRequirements() != null && !major.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, major, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, major, operation, result, stateChanged);        	
         }
 
         if (major.getVariations() != null && !major.getVariations().isEmpty()) {
