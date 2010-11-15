@@ -474,8 +474,32 @@
 
  <bean id="majorDisciplineInfo.catalogDescr-parent" abstract="true" parent="cluInfo.descr-parent">
   <property name="name" value="catalogDescr"/>
+  <property name="dataObjectStructure" ref="majorDisciplineInfo.catalogDescr.RichTextInfo" />
+
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr" parent="majorDisciplineInfo.catalogDescr-parent"/>
+
+ <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="majorDisciplineInfo.catalogDescr.formatted" />
+    <ref bean="majorDisciplineInfo.catalogDescr.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo" parent="majorDisciplineInfo.catalogDescr.RichTextInfo-parent" />
+
+ <bean id="majorDisciplineInfo.catalogDescr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+  <property name="maxLength" value="1000" />
+ </bean>
+ <bean id="majorDisciplineInfo.catalogDescr.formatted" parent="majorDisciplineInfo.catalogDescr.formatted-parent" />
+
+ <bean id="majorDisciplineInfo.catalogDescr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="plain" />
+  <property name="maxLength" value="1000" />
+ </bean>
+ <bean id="majorDisciplineInfo.catalogDescr.plain" parent="majorDisciplineInfo.catalogDescr.plain-parent" />
 
  <bean id="majorDisciplineInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="catalogPublicationTargets"/>
@@ -962,9 +986,8 @@
  </bean>
  <bean id="programVariationInfo.campusLocations" parent="programVariationInfo.campusLocations-parent"/>
 
- <bean id="programVariationInfo.catalogDescr-parent" abstract="true" parent="baseComplex">
+ <bean id="programVariationInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
  </bean>
  <bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
 
@@ -1283,7 +1306,6 @@
 	
  <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
  </bean>
  <bean id="coreProgramInfo.catalogDescr" parent="coreProgramInfo.catalogDescr-parent"/>
 
