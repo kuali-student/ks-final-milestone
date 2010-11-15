@@ -1357,23 +1357,23 @@ public class ProgramServiceImpl implements ProgramService {
 		String startTerm = majorDisciplineInfo.getStartTerm();
 		
 		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
-			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term");
+			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm");
 		}
 		
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
-			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term");
+			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm");
 		}
 		
 		if(!isEmpty(majorDisciplineInfo.getEndTerm())){
-			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Enroll Term");
-		}
+			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Enroll Term", "endTerm");
+		}		
 	}
 	
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		return atpService.getAtp(atpKey);
 	}
 	
-	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		AtpInfo atpInfo1 = null;
 		AtpInfo atpInfo2 = null;
 		
@@ -1389,6 +1389,7 @@ public class ProgramServiceImpl implements ProgramService {
 				//boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getEffectiveDate(), atpInfo2.getEffectiveDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
+					vri.setElement("/" + path);
 					vri.setError(field + " should be equal or greater than Start Term");
 					validationResults.add(vri);
 				}
