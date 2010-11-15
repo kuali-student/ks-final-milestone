@@ -214,6 +214,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String confirmDialog_title();
 
   /**
+   * Translated "Return to Curriculum Management".
+   * 
+   * @return translated "Return to Curriculum Management"
+   */
+  @DefaultMessage("Return to Curriculum Management")
+  @Key("link.backCurriculum")
+  String link_backCurriculum();
+
+  /**
    * Translated "Exit".
    * 
    * @return translated "Exit"
@@ -223,15 +232,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String link_exit();
 
   /**
-   * Translated "Return to Curriculum Management".
-   * 
-   * @return translated "Return to Curriculum Management"
-   */
-  @DefaultMessage("Return to Curriculum Management")
-  @Key("link.backCurriculum")
-  String link_back_curriculum();
-  
-  /**
    * Translated "Learning Objectives".
    * 
    * @return translated "Learning Objectives"
@@ -239,6 +239,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Learning Objectives")
   @Key("lo.title")
   String lo_title();
+
+  /**
+   * Translated "Validation failed for {0} specialization".
+   * 
+   * @return translated "Validation failed for {0} specialization"
+   */
+  @DefaultMessage("Validation failed for {0} specialization")
+  @Key("major.variationFailed")
+  String major_variationFailed(String arg0);
+
+  /**
+   * Translated "Validation failed for following specializations: {0}".
+   * 
+   * @return translated "Validation failed for following specializations: {0}"
+   */
+  @DefaultMessage("Validation failed for following specializations: {0}")
+  @Key("major.variationsFailed")
+  String major_variationsFailed(String arg0);
 
   /**
    * Translated "Curriculum Oversight Division".
@@ -493,6 +511,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_accreditations();
 
   /**
+   * Translated "You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.".
+   * 
+   * @return translated "You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program."
+   */
+  @DefaultMessage("You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.")
+  @Key("programInformation.activateInstructions")
+  String programInformation_activateInstructions();
+
+  /**
+   * Translated "Activate Program".
+   * 
+   * @return translated "Activate Program"
+   */
+  @DefaultMessage("Activate Program")
+  @Key("programInformation.activateProgram")
+  String programInformation_activateProgram();
+
+  /**
    * Translated "Add Accreditation".
    * 
    * @return translated "Add Accreditation"
@@ -691,24 +727,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_titleDiploma();
 
   /**
-   * Translated "Activate Program".
-   * 
-   * @return translated "Activate Program"
-   */
-  @DefaultMessage("Activate Program")
-  @Key("programInformation.activateProgram")
-  String programInformation_activateProgram();
-
-  /**
-   * Translated activate instructions
-   * 
-   * @return translated activate instructions
-   */
-  @DefaultMessage("You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.")
-  @Key("programInformation.activateInstructions")
-  String programInformation_activateInstructions();
-
-  /**
    * Translated "Title Full".
    * 
    * @return translated "Title Full"
@@ -853,15 +871,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String sideBar_history();
 
   /**
-   * Translated "View version history".
-   * 
-   * @return translated "View version histroy"
-   */
-  @DefaultMessage("View version history")
-  @Key("sideBar.viewHistory")
-  String sideBar_viewHistory();
-
-  /**
    * Translated "Last review date:".
    * 
    * @return translated "Last review date:"
@@ -898,6 +907,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String sideBar_version(String arg0);
 
   /**
+   * Translated "View version history".
+   * 
+   * @return translated "View version history"
+   */
+  @DefaultMessage("View version history")
+  @Key("sideBar.viewHistory")
+  String sideBar_viewHistory();
+
+  /**
    * Translated "Active".
    * 
    * @return translated "Active"
@@ -916,15 +934,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String status_approved();
 
   /**
-   * Translated "Superseded".
-   * 
-   * @return translated "Superseded"
-   */
-  @DefaultMessage("Superseded")
-  @Key("status.superseded")
-  String status_superseded();
-
-  /**
    * Translated "Draft".
    * 
    * @return translated "Draft"
@@ -932,6 +941,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Draft")
   @Key("status.draft")
   String status_draft();
+
+  /**
+   * Translated "Superseded".
+   * 
+   * @return translated "Superseded"
+   */
+  @DefaultMessage("Superseded")
+  @Key("status.superseded")
+  String status_superseded();
 
   /**
    * Translated "Variation Sections".

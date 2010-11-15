@@ -297,11 +297,8 @@ public class MajorEditController extends MajorController {
                 if (validationResults != null && !validationResults.isEmpty()) {
                     ProgramUtils.retrofitValidationResults(validationResults);
                     isValid(validationResults, false, true);
-                    StringBuilder msg = new StringBuilder();
-                    for (ValidationResultInfo vri : validationResults) {
-                        msg.append(vri.getMessage());
-                    }
                     eventBus.fireEvent(new ValidationFailedEvent());
+                    ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
                     okCallback.exec(false);
                 } else {
                     programModel.setRoot(result.getValue());

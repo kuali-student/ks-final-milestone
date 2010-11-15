@@ -1,12 +1,16 @@
 package org.kuali.student.lum.program.client;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Igor
@@ -68,6 +72,33 @@ public class ProgramUtils {
             if (ProgramConstants.RICH_TEXT_KEYS.contains(key)) {
                 key = key + "/plain";
                 validationResult.setElement(key);
+            }
+        }
+    }
+
+    public static void handleValidationErrorsForSpecializations(List<ValidationResultInfo> validationResults, DataModel programModel) {
+        Set<Integer> failedSpecializations = new TreeSet<Integer>();
+        for (ValidationResultInfo validationResult : validationResults) {
+            String element = validationResult.getElement();
+            if (element.contains(ProgramConstants.VARIATIONS)) {
+                int specializationIndex = Integer.parseInt(element.split("/")[1]);
+                failedSpecializations.add(specializationIndex);
+            }
+        }
+        if (!failedSpecializations.isEmpty()) {
+            final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
+            StringBuilder validationMessage = new StringBuilder();
+            for (Integer failedSpecialization : failedSpecializations) {
+                Data data = variationMap.get(failedSpecialization);
+                validationMessage.append(data.get(ProgramConstants.LONG_TITLE)).append(", ");
+            }
+            String resultMessage = validationMessage.toString();
+            //Cutoff ', ' from the result
+            resultMessage = resultMessage.substring(0, resultMessage.length() - 2);
+            if (failedSpecializations.size() == 1) {
+                Window.alert(ProgramProperties.get().major_variationFailed(resultMessage));
+            } else {
+                Window.alert(ProgramProperties.get().major_variationsFailed(resultMessage));
             }
         }
     }
