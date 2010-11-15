@@ -1123,6 +1123,83 @@ public class TestCourseServiceImpl {
         assertEquals(2, versions.size());
     }
     
+    @Test
+    public void testGetFirstVersion() throws Exception {
+        
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        try {
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        VersionDisplayInfo firstVersion = courseService.getFirstVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertEquals(firstVersion.getSequenceNumber(), createdCourse.getVersionInfo().getSequenceNumber());
+    }
     
+    @Test
+    public void testGetVersionBySequenceNumber() throws Exception {
+        
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        CourseInfo version2 = null;
+        try {
+            version2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        VersionDisplayInfo secondVersion = courseService.getVersionBySequenceNumber(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), version2.getVersionInfo().getSequenceNumber());
+        
+        assertEquals(secondVersion.getSequenceNumber(), version2.getVersionInfo().getSequenceNumber());
+    }
+    
+    @Test
+    public void testGetVersionsInDateRange() throws Exception {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        
+        
+        // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
+        CourseInfo cInfo2 = null;
+        try {
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 1);
+        
+        // Make the created the current version one month from now
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
+        
+        // ensure that when retrieving versions from yesterday to tomorrow, we get only the first created version
+        Calendar rangeInstance = Calendar.getInstance();
+        rangeInstance.add(Calendar.DATE, -1);
+        Date yesterday = rangeInstance.getTime();
+        
+        rangeInstance.add(Calendar.DATE, 2);
+        Date tomorrow = rangeInstance.getTime();
+        
+        List<VersionDisplayInfo> versions = courseService.getVersionsInDateRange(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), yesterday, tomorrow);
+        
+        assertEquals(1, versions.size());
+    }
 
 }
