@@ -7,9 +7,9 @@ import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfigu
 /**
  * @author Igor
  */
-public class ViewBaccConfigurer extends AbstractProgramConfigurer {
+public class BaccViewConfigurer extends AbstractProgramConfigurer {
 
-    public ViewBaccConfigurer() {
+    public BaccViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(BaccInformationViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(BaccManagingBodiesViewConfiguration.create());

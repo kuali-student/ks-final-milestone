@@ -29,7 +29,7 @@ public class BaccViewController extends CredentialController {
      */
     public BaccViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        configurer = GWT.create(ViewBaccConfigurer.class);
+        configurer = GWT.create(BaccViewConfigurer.class);
         bind();
     }
 

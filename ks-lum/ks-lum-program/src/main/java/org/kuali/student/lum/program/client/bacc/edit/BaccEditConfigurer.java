@@ -7,9 +7,9 @@ import org.kuali.student.lum.program.client.major.edit.SupportingDocsEditConfigu
 /**
  * @author Igor
  */
-public class EditBaccConfigurer extends AbstractProgramConfigurer {
+public class BaccEditConfigurer extends AbstractProgramConfigurer {
 
-    public EditBaccConfigurer() {
+    public BaccEditConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(new BaccInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccManagingBodiesEditConfiguration());
