@@ -241,20 +241,20 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String lo_title();
 
   /**
-   * Translated "Validation failed for {0} specialization".
+   * Translated "Validation has failed for {0} specialization".
    * 
-   * @return translated "Validation failed for {0} specialization"
+   * @return translated "Validation has failed for {0} specialization"
    */
-  @DefaultMessage("Validation failed for {0} specialization")
+  @DefaultMessage("Validation has failed for {0} specialization")
   @Key("major.variationFailed")
   String major_variationFailed(String arg0);
 
   /**
-   * Translated "Validation failed for following specializations: {0}".
+   * Translated "Validation has failed for following specializations: {0}".
    * 
-   * @return translated "Validation failed for following specializations: {0}"
+   * @return translated "Validation has failed for following specializations: {0}"
    */
-  @DefaultMessage("Validation failed for following specializations: {0}")
+  @DefaultMessage("Validation has failed for following specializations: {0}")
   @Key("major.variationsFailed")
   String major_variationsFailed(String arg0);
 
