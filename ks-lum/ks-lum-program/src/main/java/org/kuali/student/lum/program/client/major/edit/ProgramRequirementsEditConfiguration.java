@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 
@@ -15,8 +16,8 @@ public class ProgramRequirementsEditConfiguration extends AbstractControllerConf
 
     @Override
     public View getView() {
-        progReqcontroller = new ProgramRequirementsViewController(controller, ProgramProperties.get().program_menu_sections_requirements(),
-                                    ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+        progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(), 
+                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
         return progReqcontroller;
     }
 

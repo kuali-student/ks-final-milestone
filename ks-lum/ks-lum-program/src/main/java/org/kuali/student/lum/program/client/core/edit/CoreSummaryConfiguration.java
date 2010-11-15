@@ -7,10 +7,7 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.core.view.CoreCatalogInformationViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreInformationViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreLearningObjectivesViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreManagingBodiesViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -28,7 +25,7 @@ public class CoreSummaryConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(CoreInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.createSpecial());
-        //configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
         configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {

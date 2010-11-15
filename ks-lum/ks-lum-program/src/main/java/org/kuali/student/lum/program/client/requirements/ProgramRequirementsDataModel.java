@@ -27,7 +27,6 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
-import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
@@ -35,6 +34,7 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 
 public class ProgramRequirementsDataModel {
@@ -42,6 +42,7 @@ public class ProgramRequirementsDataModel {
     private final MajorDisciplineRpcServiceAsync programRemoteService = GWT.create(MajorDisciplineRpcService.class);
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
     private Model model = null;
+    private HandlerManager eventBus;
 
     //keeping track of rules and rule state
     public enum requirementState {STORED, ADDED, EDITED, DELETED;}
@@ -51,7 +52,11 @@ public class ProgramRequirementsDataModel {
     private Map<Integer, requirementState> origProgReqState = new HashMap<Integer, requirementState>();
     private List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();
     private boolean isInitialized = false;
-    private static Integer progReqIDs = 111111;   
+    private static Integer progReqIDs = 111111;
+
+    public ProgramRequirementsDataModel(HandlerManager eventBus) {
+        this.eventBus = eventBus;
+    }
 
     //find out whether we need to reset rules based on whether we have a new program ID or not
     public void setupRules(Controller parentController, final Callback<Boolean> onReadyCallback) {
@@ -276,9 +281,9 @@ public class ProgramRequirementsDataModel {
 
         //specializations will be handled differently from Major
         if (programType.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
-            MajorManager.getEventBus().fireEvent(new StoreSpecRequirementIDsEvent(programId, programType, referencedProgReqIds));
+            eventBus.fireEvent(new StoreSpecRequirementIDsEvent(programId, programType, referencedProgReqIds));
         } else {
-            MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
+            eventBus.fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
         }
 
         callback.exec(new ArrayList(storedRules.values()));  //update display widgets

@@ -14,14 +14,12 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreController;
-import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
@@ -77,6 +75,26 @@ public class CoreEditController extends CoreController {
             @Override
             public void onClick(ClickEvent event) {
                 doCancel();
+            }
+        });
+        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
+            @Override
+            public void onEvent(StoreRequirementIDsEvent event) {
+                List<String> ids = event.getProgramRequirementIds();                
+
+                programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
+                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+
+                if (programRequirements == null) {
+                    Window.alert("Cannot find program requirements in data model.");
+                    GWT.log("Cannot find program requirements in data model", null);
+                    return;
+                }
+
+                for (String id : ids) {
+                    programRequirements.add(id);
+                }
+                doSave();
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {

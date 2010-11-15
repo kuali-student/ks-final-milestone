@@ -40,6 +40,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,7 +49,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
     private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
-    private static ProgramRequirementsDataModel instance = new ProgramRequirementsDataModel();
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -59,7 +59,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     //view's data
     private ProgramRequirementsViewController parentController;
-    private ProgramRequirementsDataModel rules = new ProgramRequirementsDataModel();
+    private ProgramRequirementsDataModel rules;
     private boolean isReadOnly;
     public static int tempStmtTreeID = 9999;
     public static final String NEW_PROG_REQ_ID = "NEWPROGREQ";
@@ -74,11 +74,12 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private Map<String, SpanPanel> perProgramRequirementTypePanel = new LinkedHashMap<String, SpanPanel>();
     private Map<String, KSLabel> perProgramRequirementTypeTotalCredits = new LinkedHashMap<String, KSLabel>();
 
-    public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name,
+    public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, HandlerManager eventBus, Enum<?> viewEnum, String name,
                                                             String modelId, boolean isReadOnly) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         this.isReadOnly = isReadOnly;
+        rules = new ProgramRequirementsDataModel(eventBus);
 
         if (!isReadOnly) {        
             setupSaveCancelButtons();

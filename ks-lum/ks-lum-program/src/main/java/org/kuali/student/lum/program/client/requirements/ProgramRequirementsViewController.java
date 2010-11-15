@@ -9,6 +9,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
+import com.google.gwt.event.shared.HandlerManager;
+
 public class ProgramRequirementsViewController extends BasicLayout {
 
     public enum ProgramRequirementsViews {
@@ -19,7 +21,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
 
-    public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
+    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly) {
         super(ProgramRequirementsViewController.class.getName());
         super.setController(controller);
         super.setName(name);
@@ -38,7 +40,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, isReadOnly);
+        preview = new ProgramRequirementsSummaryView(this, eventBus, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, isReadOnly);
         super.addView(preview);
 
         if (!isReadOnly) {
