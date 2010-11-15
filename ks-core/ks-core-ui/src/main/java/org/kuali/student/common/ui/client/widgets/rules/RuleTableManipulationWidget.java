@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
-public class RuleTableWidget extends FlowPanel {
+public class RuleTableManipulationWidget extends FlowPanel {
 
      //rule table manipulation buttons
     private KSButton btnMakeOR = new KSButton("OR");
@@ -63,7 +63,7 @@ public class RuleTableWidget extends FlowPanel {
     private boolean isEnabled = true;
     private boolean isOperatorChecked = false;
 
-    public RuleTableWidget() {
+    public RuleTableManipulationWidget() {
         createButtonsPanel();
 
         twiddler.setVisible(false);
@@ -132,7 +132,6 @@ public class RuleTableWidget extends FlowPanel {
             }
         };
 
-
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 StatementVO statementVO = rule.getStatementVO();
@@ -143,7 +142,7 @@ public class RuleTableWidget extends FlowPanel {
                         StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
-                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
                     }
                 }
             }
@@ -159,7 +158,7 @@ public class RuleTableWidget extends FlowPanel {
                         StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
-                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
                     }
                 }
             }
@@ -188,7 +187,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
                 }
             }
         });
@@ -216,7 +215,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
                 }
             }
         });
@@ -238,7 +237,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw((rule.getStatementVO() == null ? null : rule.getStatementVO().getStatementTreeViewInfo()), false);
+                    redraw((rule.getStatementVO() == null ? null : rule.getStatementVO().getStatementTreeViewInfo()), false, true);
                 }
             }
         });
@@ -259,7 +258,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
                 }
             }
         });
@@ -270,7 +269,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (previousState != null) {
                     rule.setStatementVO(previousState);
                 }
-                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
             }
         });
         
@@ -280,13 +279,18 @@ public class RuleTableWidget extends FlowPanel {
                 if (nextState != null) {
                     rule.setStatementVO(nextState);
                 }
-                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
             }
         });        
     }
 
+    //called when user switches between Logic/Preview/Object view
+    public void redraw() {
+        updateTable();
+    }
+
     // called by requirement display widget when user wants to edit a specific piece of rule
-    public void redraw(StatementTreeViewInfo stmtTreeInfo, boolean newRule) {
+    public void redraw(StatementTreeViewInfo stmtTreeInfo, boolean newRule, Boolean ruleChanged) {
         rule.getStatementVO().clearStatementAndReqComponents();
         rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);    //TODO remove req. compon.t
         if (newRule) {
@@ -295,9 +299,13 @@ public class RuleTableWidget extends FlowPanel {
 
         rule.getStatementVO().clearSelections();
         updateTable();
+
+        if (ruleChanged != null) {
+            ruleChangedCallback.exec(ruleChanged);
+        }
     }
-    
-    private void updateTable() {        
+
+    private void updateTable() {
         setEnableButtons(true);        
         ruleTable.clear();
         Node tree = rule.getStatementTree();
@@ -320,24 +328,22 @@ public class RuleTableWidget extends FlowPanel {
             textClickHandler.removeHandler();
             ruleTable.addTextClickHandler(ruleTableSelectionHandler);
             ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);
-            ruleChangedCallback.exec(false);
         } else { //no rule exist so don't show rule table and show a message instead
             ruleTablePanel.clear();
             ruleTablePanel.add(new KSLabel("No rules have been added"));
-            ruleChangedCallback.exec(true);
         }
     }
     
     private void showRuleBeforeSimplify(StatementVO unsimplified) {
         rule.setStatementVO(unsimplified);
         rule.setSimplifying(true);
-        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, false);
         // sleep for a while to show the user how the rule looks like before simplification
         Timer simplifyingTimer = new Timer() {
             public void run() {
                 rule.setSimplifying(false);
                 rule.setStatementVO(rule.getEditHistory().getLastHistoricStmtVO());
-                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, false);
             }
         };
         simplifyingTimer.schedule(1000);
@@ -421,6 +427,10 @@ public class RuleTableWidget extends FlowPanel {
 
     public RuleInfo getRule() {
         return rule;
+    }
+
+    public void setRule(RuleInfo rule) {
+        this.rule = rule;
     }
 
     public void addReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {

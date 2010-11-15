@@ -22,13 +22,12 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.*;
 
 public class RuleExpressionEditor extends FlowPanel {
@@ -39,32 +38,34 @@ public class RuleExpressionEditor extends FlowPanel {
     private KSButton btnUpdate = new KSButton("Update");
     private KSButton btnUndo = new KSButton("Undo");
     private FlowPanel ruleTablePanel = new FlowPanel();
+    private KSLabel noRuleText = new KSLabel("");
     private Panel pnlMissingExpressions = new VerticalPanel();
 
     //rule table
     private RuleTable  ruleTable = new RuleTable(false);
-    private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
-    private HandlerRegistration textClickHandler = null;
 
     //view's data
     private RuleInfo rule;
     private String previewExpression;
     private Callback reqCompEditCallback;
     private Callback ruleChangedCallback;
-    private boolean isEnabled = true;
-    private boolean isOperatorChecked = false;
+    private RuleManageWidget parent;
+    private boolean ruleChanged = false;
 
     // helper object
     private RuleExpressionParser ruleExpressionParser = new RuleExpressionParser();
        
-    public RuleExpressionEditor() {
+    public RuleExpressionEditor(RuleManageWidget parent) {
+        this.parent = parent;
 
         FlowPanel expressionBox = new FlowPanel();
+        HorizontalPanel expressionAndMsg = new HorizontalPanel();
         expressionBox.setStyleName("KS-Program-Rule-LogicView-ExpressionPanel");
         expressionTextBox.addStyleName("KS-Program-Rule-LogicView-ExpressionText");
-        expressionBox.add(expressionTextBox);
-        expressionBox.add(htmlErrorMessage);
+        expressionAndMsg.add(expressionTextBox);
+        expressionAndMsg.add(htmlErrorMessage);
+        expressionBox.add(expressionAndMsg);
         btnUpdate.addStyleName("KS-Program-Rule-LogicView-Update-Button");
         FlowPanel buttonsPanel = new FlowPanel();
         buttonsPanel.add(btnUpdate);
@@ -76,6 +77,7 @@ public class RuleExpressionEditor extends FlowPanel {
 
         ruleTablePanel.setStyleName("KS-Program-Rule-LogicView-RulePanel");
         ruleTablePanel.add(ruleTable);
+        ruleTablePanel.add(noRuleText);
         ruleTablePanel.add(pnlMissingExpressions);
         add(ruleTablePanel);
 
@@ -90,6 +92,23 @@ public class RuleExpressionEditor extends FlowPanel {
     }
 
     private void setupHandlers() {
+        ruleTableEditClauseHandler = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                HTMLTable.Cell cell = ruleTable.getCellForEvent(event);
+                if (cell == null) {
+                    return;
+                }
+
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
+                Object userObject = widget.getNode().getUserObject();
+                if (userObject instanceof ReqComponentVO) {
+                    widget.setEditMode(true);
+                    final ReqComponentVO tempRule = (ReqComponentVO) userObject;
+                    reqCompEditCallback.exec(tempRule.getReqComponentInfo());
+                }
+            }
+        };                        
         expressionTextBox.addKeyUpHandler(new KeyUpHandler() {
             public void onKeyUp(KeyUpEvent event) {
                 // escape error keys
@@ -99,85 +118,83 @@ public class RuleExpressionEditor extends FlowPanel {
                         ||event.getNativeKeyCode() == 40){
                         return;
                 }
-                String expression = expressionTextBox.getText();
+                btnUpdate.setEnabled(true);
             }
         });
         btnUpdate.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                /*
-                expression = prereqInfo.getExpression();
-                prereqInfo.setPreviewedExpression(expression);
-                redraw(); */
+
+                //get and format logic expression of the rule
+                previewExpression = expressionTextBox.getText();
+                previewExpression = previewExpression.replaceAll("\n", " ");
+                previewExpression = previewExpression.replaceAll("\r", " ");
+                ruleExpressionParser.setExpression(previewExpression);
+
+                //validate the expression
+                List<ReqComponentVO> rcs = (rule.getStatementVO() == null || rule.getStatementVO().getAllReqComponentVOs() == null) ?
+                                                new ArrayList<ReqComponentVO>() : rule.getStatementVO().getAllReqComponentVOs();
+                List<String> errorMessages = new ArrayList<String>();
+                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
+
+                //show errors and don't change anything else
+                if (!validExpression) {
+
+                    //show missing 'subrules' that were removed from the expression box by the user
+                    List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
+                    rcs = (rule.getStatementVO() == null || rule.getStatementVO().getAllReqComponentVOs() == null) ?
+                                                    new ArrayList<ReqComponentVO>() : rule.getStatementVO().getAllReqComponentVOs();
+                    ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
+                    showMissingRCs(missingRCs);
+
+                    showErrors(errorMessages);
+                    return;
+                }
+
+                //update the rule based on the updated logic expression
+                StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(previewExpression, rule.getStatementVO(), rule.getStatementTypeKey());
+                rule.setStatementVO(newStatementVO);
+                rule.getEditHistory().save(newStatementVO);
+
+                //display rule table for updated rule
+                redraw();
+
+                parent.updateObjectRule(rule);
+                ruleChanged = true;
+                ruleChangedCallback.exec(true);
             }
         });
         
         btnUndo.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                /*
-                RuleInfo prereqInfo = model.getValue();
-                List<String> errorMessages = new ArrayList<String>();
-                List<ReqComponentVO> rcs = (prereqInfo.getStatementVO() == null ||
-                            				prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
-                            						new ArrayList<ReqComponentVO>() :
-                            								prereqInfo.getStatementVO().getAllReqComponentVOs();
-                ruleExpressionParser.setExpression(prereqInfo.getExpression());
-                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
-                List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
-                ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
-                
-                if (validExpression && missingRCs.isEmpty()) {
-                    StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(
-                            prereqInfo.getExpression(), prereqInfo.getStatementVO(), prereqInfo.getSelectedStatementType());
-                    prereqInfo.setStatementVO(newStatementVO);
-                    prereqInfo.setPreviewedExpression(null);
-                    prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                    getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-                } else {
-                    String expression = prereqInfo.getExpression();
-                    prereqInfo.setPreviewedExpression(expression);
-                    redraw();
-                } */
+                StatementVO previousState = rule.getEditHistory().undo();
+                if (previousState != null) {
+                    rule.setStatementVO(previousState);
+                }
+                redraw();
+                parent.updateObjectRule(rule);
+                ruleChanged = true;
+                ruleChangedCallback.exec(true);
             }
         });
     }
-    
+
     private void redraw() {
-
-        String ruleExpression = rule.getExpression().trim();
-        expressionTextBox.setText(ruleExpression.isEmpty() ? "" : ruleExpression);
-
         htmlErrorMessage.setHTML("");
         ruleTable.clear();
+        noRuleText.setText("");
+        ruleChanged = false;
+        setEnabledView(true);
+        expressionTextBox.setText(rule.getExpression().trim().isEmpty() ? "" : rule.getExpression().trim());        
 
-        if (ruleExpression.isEmpty()) {
-            ruleTablePanel.add(new KSLabel("No rules have been added"));
-            setEnabledView(false);
+        if (rule.getExpression().trim().isEmpty()) {
+            noRuleText.setText("No rules have been added");
+            btnUpdate.setEnabled(false);
             return;
         }
 
-        setEnableButtons(false);
-        btnUndo.setEnabled(rule.getEditHistory().isUndoable());           
-        previewExpression = expressionTextBox.getText();
-        previewExpression = previewExpression.replaceAll("\n", " ");
-        previewExpression = previewExpression.replaceAll("\r", " ");
-        ruleExpressionParser.setExpression(previewExpression);
-
-        List<ReqComponentVO> rcs = (rule.getStatementVO() == null || rule.getStatementVO().getAllReqComponentVOs() == null) ?
-                                        new ArrayList<ReqComponentVO>() : rule.getStatementVO().getAllReqComponentVOs();
-        List<String> errorMessages = new ArrayList<String>();
-        boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
-        if (!validExpression) {
-            showErrors(errorMessages);
-        } else {
-            Node tree = ruleExpressionParser.parseExpressionIntoTree(previewExpression, rule.getStatementVO(), rule.getStatementTypeKey());
-            if (tree != null) {
-                ruleTable.buildTable(tree);
-            }
-        }
-
-        List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
-        ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
-        showMissingRCs(missingRCs);
+        btnUpdate.setEnabled(false);    //redraw rule means no outstanding change to the expression    
+        ruleTable.buildTable(rule.getStatementTree());
+        ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);
     }
 
     private void showMissingRCs(List<ReqComponentVO> missingRCs) {
@@ -206,22 +223,39 @@ public class RuleExpressionEditor extends FlowPanel {
     
     private void showErrors(List<String> errorMessages) {
         StringBuilder sb = new StringBuilder("");
+        boolean firstRow = true;
         for (String errorMessage : errorMessages) {
-            sb.append(errorMessage).append(",<BR>");
+            if (!firstRow) {
+                sb.append(",<BR>");
+            }
+            firstRow = false;
+            sb.append(errorMessage);
         }
         htmlErrorMessage.getElement().getStyle().setProperty("color", "red");
         htmlErrorMessage.setHTML(sb.toString());
     }
 
     private void setEnableButtons(boolean enabled) {
-        btnUpdate.setEnabled(enabled);
-        btnUndo.setEnabled(enabled);
+        if (enabled) {
+            btnUpdate.setEnabled(enabled);
+            btnUndo.setEnabled(rule.getEditHistory().isUndoable()); 
+        } else {
+            btnUpdate.setEnabled(false);
+            btnUndo.setEnabled(false);
+        }
     }
 
     public void setEnabledView(boolean enabled) {
         setEnableButtons(enabled);
         ruleTable.setEnabled(enabled);
         expressionTextBox.setEnabled(enabled);
-        isEnabled = enabled;
+    }
+
+    public void addReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
+        reqCompEditCallback = callback;
+    }
+
+    public void addRuleChangedButtonClickCallback(Callback<Boolean> callback) {
+        ruleChangedCallback = callback;
     }
 }

@@ -75,7 +75,7 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(checkBoxAndToggle);
             this.addStyleName(userObject.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");            
             if (showCheckbox) {
-                checkBoxAndToggle.add(checkBox);
+                checkBoxAndToggle.add(checkBox); 
             }
             toggle.setText(userObject.getType() == Token.Or ? Token.createOrToken().value.toUpperCase() : Token.createAndToken().value.toUpperCase());
             toggle.addStyleName("KS-Rules-Table-Cell-ANDOR");
@@ -90,17 +90,17 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(tableCell);
             this.setStyleName(userObject.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");
             if (userObject.getTokenID() != null) {
-                Node parent = node.getParent();
-                if (parent != null) {
-                    KSLabel rcLabel = new KSLabel(userObject.getTokenID());
-                    rcLabel.setStyleName("KS-Rules-Table-Cell-ID");
-                    tableCell.add(rcLabel);
-                }
+                KSLabel rcLabel = new KSLabel(userObject.getTokenID());
+                rcLabel.setStyleName("KS-Rules-Table-Cell-ID");
+                tableCell.add(rcLabel);
             }            
             tableCell.add(checkBoxAndEdit);
             
             if (showCheckbox) {
                 checkBoxAndEdit.add(checkBox);
+                checkBox.setHTML(node.getUserObject().toString());
+            } else {
+                checkBoxAndEdit.add(new KSLabel(node.getUserObject().toString()));
             }
             edit.addStyleName("KS-Rules-URL-Link");
             checkBoxAndEdit.add(edit);
@@ -109,7 +109,6 @@ public class RuleNodeWidget extends FocusPanel {
             }
             
             html.addStyleName("KS-ReqComp-Panel");
-            checkBox.setHTML(node.getUserObject().toString());
         }
 
         checkBox.setValue(userObject.isCheckBoxOn());

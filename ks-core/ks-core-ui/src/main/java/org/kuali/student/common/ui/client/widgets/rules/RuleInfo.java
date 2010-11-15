@@ -24,9 +24,6 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 public class RuleInfo {
 
     private StatementVO statementVO;        //top-level statement (tree ROOT)
-    private String rationale;
-    private String expression;              // current state of rule expression
-    private String previewedExpression;     // the state of the expression when it was previewed
     private EditHistory editHistory;
     private boolean simplifying;
 
@@ -340,23 +337,6 @@ public class RuleInfo {
         return (statementVO == null)? null : statementVO.getSelectedReqComponentVOs();
     }
 
-    public boolean isCellSelected() {
-
-        if (statementVO == null) {
-            return false;
-        }
-
-        return (!statementVO.getSelectedStatementVOs().isEmpty() || !statementVO.getSelectedReqComponentVOs().isEmpty());
-    }
-
-    public String getRationale() {
-        return rationale;
-    }
-
-    public void setRationale(String rationale) {
-        this.rationale = rationale;
-    }
-
     public StatementVO getStatementVO() {
         return statementVO;
     }
@@ -367,10 +347,6 @@ public class RuleInfo {
     
     public String getExpression() {
         return (statementVO == null)? null : statementVO.convertToExpression();
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
     }
 
     public boolean isSimplifying() {

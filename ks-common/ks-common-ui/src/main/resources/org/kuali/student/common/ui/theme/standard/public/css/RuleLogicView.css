@@ -20,21 +20,16 @@
     margin-bottom:13px;    
 }
 
-.KS-Program-Rule-LogicView-RulePanel{
-    background: #999999;
-    padding: 30px 5px 30px 10px;
-    border: 1px solid #000000;
-}
-
 .KS-Program-Rule-LogicView-ExpressionText {
     height:100px;
     width:580px;
     padding:15px;
     font-size: 20px;
+    max-width:500px;
 }
 
 .KS-Program-Rule-LogicView-ButtonPanel{
-    padding-top:10px;    
+    padding-top:10px;
 }
 
 .KS-Program-Rule-LogicView-Update-Button {
@@ -43,6 +38,12 @@
 
 .KS-Program-Rule-LogicView-Undo-Button {
     margin-left: 10px;
+}
+
+.KS-Program-Rule-LogicView-RulePanel{
+    background: #999999;
+    padding: 30px 5px 30px 10px;
+    border: 1px solid #000000;
 }
 
 .KS-Program-Rule-LogicView-Missing-Rules {

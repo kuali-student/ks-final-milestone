@@ -13,14 +13,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RuleManageWidget extends FlowPanel {
 
-    private RuleTableWidget manageRule = new RuleTableWidget();
-    private RuleExpressionEditor logicalExpression = new RuleExpressionEditor();
+    private RuleTableManipulationWidget editObject = new RuleTableManipulationWidget();
+    private RuleExpressionEditor editLogic = new RuleExpressionEditor(this);
     private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true, null);
     private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
     //widget's data
     private StatementTreeViewInfo rule = null;
     private static final String objectView = "Edit with Object";
+    private static final String logicView = "Edit with Logic";
+    private static final String previewView = "Preview";
 
     //TODO use application context for all labels
    
@@ -29,12 +31,18 @@ public class RuleManageWidget extends FlowPanel {
 
         Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
 
-        tabLayoutMap.put(objectView, manageRule);
-        panel.addTab(objectView, objectView, manageRule);
+        tabLayoutMap.put(objectView, editObject);
+        panel.addTab(objectView, objectView, editObject);
+        panel.addTabCustomCallback(objectView, new Callback<String>() {
+            @Override
+            public void exec(String result) {
+                //updateObjectView(false, null);
+                editObject.redraw();
+            }
+        });
 
-        String logicView = "Edit with Logic";
-        tabLayoutMap.put(logicView, logicalExpression);
-        panel.addTab(logicView, logicView, logicalExpression);
+        tabLayoutMap.put(logicView, editLogic);
+        panel.addTab(logicView, logicView, editLogic);
         panel.addTabCustomCallback(logicView, new Callback<String>() {
             @Override
             public void exec(String result) {
@@ -42,9 +50,9 @@ public class RuleManageWidget extends FlowPanel {
             }
         });
         
-        tabLayoutMap.put("Preview", preview);
-        panel.addTab("Preview", "Preview", preview);
-        panel.addTabCustomCallback("Preview", new Callback<String>() {
+        tabLayoutMap.put(previewView, preview);
+        panel.addTab(previewView, previewView, preview);
+        panel.addTabCustomCallback(previewView, new Callback<String>() {
             @Override
             public void exec(String result) {
                 updatePreview();
@@ -55,39 +63,54 @@ public class RuleManageWidget extends FlowPanel {
         add(panel);
     }
 
-    public void redraw(StatementTreeViewInfo rule) {
+    public void redraw(StatementTreeViewInfo rule, Boolean ruleChanged) {
         this.rule = rule;
-        panel.selectTab(objectView);        
-        updateObjectView();
+        updateObjectView(ruleChanged);    //update object view first as other views depend on it
+        updateLogicView();
+        //if we are coming from summary view then make sure object view is the default view
+        if (!ruleChanged) {
+            panel.selectTab(objectView);        
+        }
     }
 
-    //show rule in a table
-    private void updateObjectView() {
-        manageRule.redraw(rule, true);
+    private void updateObjectView(Boolean ruleChanged) {
+        if (rule != null) {
+            editObject.redraw(rule, true, ruleChanged);
+        }
     }
 
     private void updateLogicView() {
-        logicalExpression.setRule(manageRule.getRule());
+        if (rule != null) {
+            editLogic.setRule(editObject.getRule());
+        }
     }
 
     private void updatePreview() {
-        preview.showSubrule(manageRule.getRule().getStatementVO().getStatementTreeViewInfo());
+        preview.showSubrule(getStatementTreeViewInfo());
+    }
+
+    //called when user clicks 'update' or 'undo' on rule in rule expression editor
+    protected void updateObjectRule(RuleInfo rule) {
+        //this.rule = rule.getStatementVO().getStatementTreeViewInfo();
+        editObject.setRule(rule);
     }
 
     public void setReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
-        manageRule.addReqCompEditButtonClickCallback(callback);
+        editObject.addReqCompEditButtonClickCallback(callback);
+        editLogic.addReqCompEditButtonClickCallback(callback);
     }
 
     public void setRuleChangedButtonClickCallback(Callback<Boolean> callback) {
-        manageRule.addRuleChangedButtonClickCallback(callback);
+        editObject.addRuleChangedButtonClickCallback(callback);
+        editLogic.addRuleChangedButtonClickCallback(callback);
     }
 
     public StatementTreeViewInfo getStatementTreeViewInfo() {
-        return manageRule.getRule().getStatementVO().getStatementTreeViewInfo();
+        return editObject.getRule().getStatementVO().getStatementTreeViewInfo();
     }
 
     public void setEnabled(boolean enabled) {
-        manageRule.setEnabledView(enabled);
-        logicalExpression.setEnabledView(enabled);
+        editObject.setEnabledView(enabled);
+        editLogic.setEnabledView(enabled);
     }
 }

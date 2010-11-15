@@ -88,9 +88,7 @@ public class RuleTable extends Composite {
     public HandlerRegistration addTextClickHandler(ClickHandler textClickHandler) {
         return addDomHandler(textClickHandler, ClickEvent.getType());
     }    
-    
-    static int test = 0;
-    
+       
     public void addEditClauseHandler(ClickHandler editClauseHandler) {
         for (int i = 0; i < treeTable.getRowCount(); i++) {
             for (int j = 0; j < treeTable.getCellCount(i); j++) {

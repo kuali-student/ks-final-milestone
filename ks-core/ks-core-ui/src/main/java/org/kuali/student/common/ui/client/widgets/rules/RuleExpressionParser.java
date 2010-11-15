@@ -113,12 +113,12 @@ public class RuleExpressionParser {
             } else if (token.type == Token.Condition) {
                 if (seenConditonValues.contains(token.value)) {
                     errorMessages.add("Condition " + token.value + " is duplicated.");
-                    return false;
+                    continue; //return false;
                 } else {
                     seenConditonValues.add(token.value);
                 }
                 if (!checkCondition(errorMessages, tokens, i, validRCs)) {
-                    return false;
+                    continue; //return false;
                 }
             }
         }
@@ -250,6 +250,11 @@ public class RuleExpressionParser {
     public StatementVO parseExpressionIntoStatementVO(String expression, StatementVO statementVO, String statementType) {
         StatementVO parsedS = null;
 
+        if (expression.trim().isEmpty()) {
+            statementVO.clearStatementAndReqComponents();
+            return statementVO;
+        }
+
         List<ReqComponentVO> rcs = statementVO.getAllReqComponentVOs();
         try {
             List<String> tokenValueList = getTokenValue(expression);
@@ -264,7 +269,6 @@ public class RuleExpressionParser {
             }
         } catch (Exception error) {
             GWT.log("Exception parsing",error);
-            parsedS = null;
         }
         return parsedS;
     }
@@ -285,7 +289,12 @@ public class RuleExpressionParser {
     /** Build the binary tree from list of tokens*/
     private StatementVO statementVOFromRPN(List<Node<Token>> rpnList, List<ReqComponentVO> rcs, String statementType) {
         StatementVO statementVO;        
-        
+
+        //if rule is empty
+        if (rpnList.size() == 0) {
+            return new StatementVO();
+        }
+
         Stack<Node<? extends Token>> conditionStack = new Stack<Node<? extends Token>>();
         for (Node<Token> node : rpnList) {
             if (node.getUserObject().type == Token.Condition) {
@@ -299,6 +308,7 @@ public class RuleExpressionParser {
                 conditionStack.push(rcNode);
             } else if (node.getUserObject().type == Token.And || node.getUserObject().type == Token.Or) {
                 StatementVO subS = new StatementVO();
+                subS.setTokenOperator(true);
                 StatementOperatorTypeKey op = null;
                 if (node.getUserObject().type == Token.And) {
                     op = StatementOperatorTypeKey.AND;

@@ -167,7 +167,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
         //update screen elements
         editReqCompWidget.setupNewReqComp();
-        ruleManageWidget.redraw(rule);
+        ruleManageWidget.redraw(rule, false);
        // originalLogicExpression = ruleManageWidget.getLogicExpression();
     }
 
@@ -284,7 +284,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
 
-                    ruleManageWidget.redraw(rule);
+                    ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
             });
