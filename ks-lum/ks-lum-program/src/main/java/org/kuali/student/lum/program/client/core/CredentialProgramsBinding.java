@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.widgets;
+package org.kuali.student.lum.program.client.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;

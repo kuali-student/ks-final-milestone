@@ -14,7 +14,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.CredentialProgramsBinding;
+import org.kuali.student.lum.program.client.core.CredentialProgramsBinding;
 
 /**
  * @author Igor

@@ -5,15 +5,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.core.CredentialProgramsBinding;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.CredentialProgramsBinding;
 
 /**
  * @author Igor
@@ -76,8 +75,7 @@ public class CoreInformationEditConfiguration extends AbstractSectionConfigurati
     }
 
     private void addCredentialPrograms(BaseSection section) {
-        FieldDescriptor fieldDescriptor = configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAMS, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
-        fieldDescriptor.setFieldWidget(new VerticalPanel());
+        FieldDescriptor fieldDescriptor = configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAMS, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()), new VerticalPanel());
         fieldDescriptor.setWidgetBinding(new CredentialProgramsBinding());
     }
 }
