@@ -37,6 +37,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
         cpInfo.setCredentialProgramType(clu.getType());
         cpInfo.setDescr(clu.getDescr());
+        cpInfo.setVersionInfo(clu.getVersionInfo());        
 
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);

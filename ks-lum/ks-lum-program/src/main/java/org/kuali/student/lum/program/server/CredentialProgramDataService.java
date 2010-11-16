@@ -33,9 +33,7 @@ public class CredentialProgramDataService extends AbstractDataService {
 
     @Override
     protected Object get(String id) throws Exception {
-        if (null == id || id.length() == 0 || ! ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(id)) {
-            throw new InvalidParameterException("No valid id for retrieving CredentialProgram");
-        } else {
+    	if (ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(id)){
             List<String> credIds = luService.getCluIdsByLuType(id, ProgramClientConstants.STATE_ACTIVE);
             if (null == credIds || credIds.size() != 1) {
                 throw new OperationFailedException("A single credential program of type " + id + " is required; database contains " +
@@ -43,6 +41,8 @@ public class CredentialProgramDataService extends AbstractDataService {
                                                     "."));
             }
             return programService.getCredentialProgram(credIds.get(0));
+        } else {
+        	return programService.getCredentialProgram(id);
         }
     }
 
@@ -50,7 +50,10 @@ public class CredentialProgramDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties) throws Exception {
         if (dto instanceof CredentialProgramInfo) {
             CredentialProgramInfo cpInfo = (CredentialProgramInfo) dto;
-            if (cpInfo.getId() == null) {
+            if (cpInfo.getId() == null && cpInfo.getVersionInfo() != null) {
+            	String credentialVersionIndId = cpInfo.getVersionInfo().getVersionIndId();
+            	cpInfo = programService.createNewCredentialProgramVersion(credentialVersionIndId, "New credential program version");
+            } else if (cpInfo.getId() == null) {
                 cpInfo = programService.createCredentialProgram(cpInfo);
             } else {
                 cpInfo = programService.updateCredentialProgram(cpInfo);

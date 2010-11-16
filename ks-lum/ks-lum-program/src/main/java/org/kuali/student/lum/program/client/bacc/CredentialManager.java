@@ -6,6 +6,8 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.bacc.edit.BaccEditController;
 import org.kuali.student.lum.program.client.bacc.view.BaccViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
+import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 /**
  * @author Igor
@@ -16,6 +18,8 @@ public class CredentialManager {
 
     private BaccEditController baccEditController;
 
+    private ProgramVersionsController programVersionsController;
+    
     protected DataModel model;
 
     private ViewContext viewContext = new ViewContext();
@@ -43,6 +47,13 @@ public class CredentialManager {
         return baccEditController;
     }
 
+    public ProgramVersionsController getProgramVersionsController() {
+    	if (programVersionsController == null){
+    		programVersionsController = new ProgramVersionsController(model, ProgramSideBar.Type.CREDENTIAL, viewContext, eventBus);
+    	}
+		return programVersionsController;
+	}
+    
     public static HandlerManager getEventBus() {
         return eventBus;
     }

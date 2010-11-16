@@ -1,10 +1,6 @@
 package org.kuali.student.lum.program.client.widgets;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -20,12 +16,11 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.major.MajorManager;
-import org.kuali.student.lum.program.client.major.edit.MajorInformationEditConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -54,17 +49,20 @@ public class SummaryActionPanel extends Composite {
     private DataModel dataModel;
 
     private ProgramStatus previousStatus;
+    
+    private HandlerManager eventBus;
 
-    public SummaryActionPanel(Section activateSection) {
+    public SummaryActionPanel(Section activateSection, HandlerManager eventBus) {
         initWidget(content);
         this.activateSection = activateSection; 
+        this.eventBus = eventBus;
         buildLayout();
         setStyles();
         bind();
     }
 
     private void bind() {
-        MajorManager.getEventBus().addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
+        eventBus.addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
             @Override
             public void onEvent(AfterSaveEvent event) {
                 if (initiatedEvent) {
@@ -75,7 +73,7 @@ public class SummaryActionPanel extends Composite {
                 }
             }
         });
-        MajorManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 dataModel = event.getModel();
@@ -83,7 +81,7 @@ public class SummaryActionPanel extends Composite {
                 processStatus(previousStatus);
             }
         });
-        MajorManager.getEventBus().addHandler(ValidationFailedEvent.TYPE, new ValidationFailedEvent.Handler() {
+        eventBus.addHandler(ValidationFailedEvent.TYPE, new ValidationFailedEvent.Handler() {
             @Override
             public void onEvent(ValidationFailedEvent event) {
                 if (initiatedEvent) {
@@ -122,7 +120,7 @@ public class SummaryActionPanel extends Composite {
     private void processButtonClick(ProgramStatus status) {
         initiatedEvent = true;
         setStatus(status);
-        MajorManager.getEventBus().fireEvent(new UpdateEvent());
+        eventBus.fireEvent(new UpdateEvent());
     }
     
     private void processActivateClick(){    	

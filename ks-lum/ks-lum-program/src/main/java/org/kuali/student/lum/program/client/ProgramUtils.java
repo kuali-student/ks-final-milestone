@@ -60,10 +60,12 @@ public class ProgramUtils {
     }
 
     private static void setStatus(Data inputData, String status) {
-        for (Data.Property property : inputData) {
-            Data data = property.getValue();
-            data.set(new Data.StringKey(ProgramConstants.STATE), status);
-        }
+    	if (inputData != null){
+	        for (Data.Property property : inputData) {
+	            Data data = property.getValue();
+	            data.set(new Data.StringKey(ProgramConstants.STATE), status);
+	        }
+    	}
     }
 
     public static void retrofitValidationResults(List<ValidationResultInfo> validationResults) {

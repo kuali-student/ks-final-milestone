@@ -328,8 +328,10 @@ public class ProgramServiceImpl implements ProgramService {
 	private void processCopy(CredentialProgramInfo originaCredentialProgram,
 			String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
 		//Clear Los
-		for(LoDisplayInfo lo:originaCredentialProgram.getLearningObjectives()){
-			resetLoRecursively(lo);
+		if (originaCredentialProgram.getLearningObjectives() != null){
+			for(LoDisplayInfo lo:originaCredentialProgram.getLearningObjectives()){
+				resetLoRecursively(lo);
+			}
 		}
 
 		//Copy requirements for majorDicipline

@@ -1454,6 +1454,8 @@
     <ref bean="credentialProgramInfo.unitsContentOwner"/>
     <ref bean="credentialProgramInfo.unitsStudentOversight"/>
     <ref bean="credentialProgramInfo.universityClassification"/>
+    
+    <ref bean="credentialProgramInfo.searchProgramVersions"/>    
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1593,6 +1595,8 @@
  <bean id="credentialProgramInfo.universityClassification"
        parent="credentialProgramInfo.universityClassification-parent"/>
 
+ <bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
+ 
  <!-- MinorDisciplineInfo-->
  <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent" abstract="true"
        parent="objectStructureDefinition">

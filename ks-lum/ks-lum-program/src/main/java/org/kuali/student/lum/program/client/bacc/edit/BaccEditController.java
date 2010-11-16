@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -174,6 +175,42 @@ public class BaccEditController extends CredentialController {
         });
     }
 
+    @Override
+    protected void loadModel(ModelRequestCallback<DataModel> callback) {
+        ViewContext viewContext = getViewContext();
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
+            createNewVersionAndLoadModel(callback, viewContext);
+        } else {
+            super.loadModel(callback);
+        }
+    }
+
+    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
+        Data data = new Data();
+        Data versionData = new Data();
+        versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
+        versionData.set(new Data.StringKey("versionComment"), "Credential Program Version");
+        data.set(new Data.StringKey("versionInfo"), versionData);
+
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+            public void onSuccess(DataSaveResult result) {
+                super.onSuccess(result);
+                viewContext.setIdType(IdType.OBJECT_ID);
+                programModel.setRoot(result.getValue());
+                setHeaderTitle();
+                setStatus();
+                callback.onModelReady(programModel);
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+            }
+
+            public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                callback.onRequestFail(caught);
+            }
+        });
+
+    }
+    
     private void throwAfterSaveEvent() {
         eventBus.fireEvent(new AfterSaveEvent(programModel, this));
     }

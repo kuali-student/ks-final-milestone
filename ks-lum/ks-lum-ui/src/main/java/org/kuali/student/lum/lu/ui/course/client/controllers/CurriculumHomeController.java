@@ -200,6 +200,14 @@ public class CurriculumHomeController extends LayoutController {
                     }
                 });
                 break;
+            case BACC_PROGRAM_VERSIONS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(credentialManager.getProgramVersionsController());
+                    }
+                });
+                break;
             case LO_CATEGORIES:
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
