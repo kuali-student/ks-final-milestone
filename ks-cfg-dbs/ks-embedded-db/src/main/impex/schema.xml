@@ -4736,7 +4736,7 @@
     <table name="KSLU_CLU_PUBL_VARI">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="VARI_KEY" size="255" type="VARCHAR"/>
-        <column name="VARI_VALUE" size="255" type="VARCHAR"/>
+        <column name="VARI_VALUE" size="1000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
