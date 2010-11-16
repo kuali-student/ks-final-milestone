@@ -381,8 +381,7 @@
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
-                <ref bean="idTranslatorFilter"/>
-                <ref bean="versionCoreProgramFilter"/>		
+                <ref bean="idTranslatorFilter"/>		
             </list>
         </property>
     </bean>
@@ -395,7 +394,7 @@
                 <ref bean="authzFilter"/>
                 <ref bean="coreCredentialProgramFilter"/>
                 <ref bean="idTranslatorFilter"/>
-
+                <ref bean="versionCoreProgramFilter"/>
             </list>
         </property>
     </bean>
