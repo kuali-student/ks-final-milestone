@@ -265,7 +265,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 
 		//Remove special cases for grading options
-		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
 		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
 		
 		return course;
@@ -426,12 +425,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		result.getChildNodes().addAll(courseJointResults);
 
 		//Disassemble the CluResults (grading and credit options)
-		//Special code to take audit/passfail from attributes and put into options
-		if(course.getAttributes().containsKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)&&"true".equals(course.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL))){
-			if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL)){
-				course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
-			}
-		}
+		//Special code to take audit from attributes and put into options
 		if(course.getAttributes().containsKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
 			if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
 				course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
