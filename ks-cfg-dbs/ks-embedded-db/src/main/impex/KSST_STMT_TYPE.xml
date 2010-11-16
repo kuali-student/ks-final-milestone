@@ -17,7 +17,7 @@
     <KSST_STMT_TYPE EFF_DT="20000101000000" NAME="Student Eligibility"
         TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000"
-        NAME="Student Eligibilities + Prerequisite"
+        NAME="Student Eligibility + Prerequisite"
         TYPE_DESC="Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll."
         TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" NAME="Repeatable for Credit"
@@ -30,7 +30,7 @@
     <KSST_STMT_TYPE EFF_DT="20000101000000" NAME="Credit Constraints"
         TYPE_KEY="kuali.statement.type.course.creditConstraints" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000"
-        NAME="Enrollment Elligibility"
+        NAME="Enrollment Eligibility"
         TYPE_KEY="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000"
         NAME="Recommended Preparation"
