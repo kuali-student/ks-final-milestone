@@ -7,10 +7,7 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.view.BaccCatalogDetailsViewConfiguration;
-import org.kuali.student.lum.program.client.bacc.view.BaccDocsViewConfiguration;
-import org.kuali.student.lum.program.client.bacc.view.BaccInformationViewConfiguration;
-import org.kuali.student.lum.program.client.bacc.view.BaccLearningObjectivesViewConfiguration;
+import org.kuali.student.lum.program.client.bacc.view.*;
 import org.kuali.student.lum.program.client.major.view.ManagingBodiesViewConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -29,7 +26,7 @@ public class BaccSummaryConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(BaccInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(BaccCatalogDetailsViewConfiguration.createSpecial());
-        //configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new BaccRequirementsViewConfiguration());
         configurationManager.registerConfiguration(BaccLearningObjectivesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(BaccDocsViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {

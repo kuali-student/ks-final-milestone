@@ -160,7 +160,8 @@ public class ProgramRequirementsDataModel {
                         Window.alert("Did not find corresponding statement type for program requirement of type: " + programReqInfo.getStatement().getType());
                         GWT.log("Did not find corresponding statement type for program requirement of type: " + programReqInfo.getStatement().getType(), null);
                     }
-                    
+
+                    setRuleState(programReqInfo);
                     origProgReqInfos.put(progReqIDs, cloneProgReq(programReqInfo));
                     origProgReqState.put(progReqIDs, requirementState.STORED);
                     progReqInfos.put(progReqIDs, programReqInfo);
@@ -278,6 +279,11 @@ public class ProgramRequirementsDataModel {
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
         String programId = ((DataModel)model).getRoot().get("id");
         String programType = ((DataModel)model).getRoot().get("type");
+
+        //for some reason, credential program has type stored in 'credentialProgramType'
+        if (programType == null) {
+            programType = ((DataModel)model).getRoot().get("credentialProgramType");    
+        }
 
         //specializations will be handled differently from Major
         if (programType.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
