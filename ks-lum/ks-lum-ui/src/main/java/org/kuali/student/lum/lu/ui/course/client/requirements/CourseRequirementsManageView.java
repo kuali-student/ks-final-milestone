@@ -191,8 +191,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     protected Callback<Boolean> ruleChangedCallback = new Callback<Boolean>(){
-        public void exec(Boolean isEmpty) {
-            actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(!isEmpty);
+        public void exec(Boolean ruleChanged) {
+            actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(ruleChanged);
         }
     };
 
