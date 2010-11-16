@@ -13,7 +13,9 @@ import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.bacc.CredentialController;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 
@@ -58,6 +60,12 @@ public class BaccViewController extends CredentialController {
                 actionBox.setSelectedIndex(0);
             }
         });
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+            @Override
+            public void onEvent(ModelLoadedEvent event) {
+            	resetActionList();            	
+            }
+        });        
     }
 
     @Override
@@ -66,4 +74,10 @@ public class BaccViewController extends CredentialController {
         addContentWidget(actionBox);
         initialized = true;
     }
+    
+    protected void resetActionList(){
+    	actionBox.clear();
+    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)); 
+    	actionBox.setList(ActionType.getValues(status));    	
+    }    
 }

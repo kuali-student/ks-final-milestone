@@ -13,7 +13,9 @@ import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.core.CoreController;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 
@@ -59,7 +61,13 @@ public class CoreViewController extends CoreController {
                 actionBox.setSelectedIndex(0);
             }
         });
-    }
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+            @Override
+            public void onEvent(ModelLoadedEvent event) {
+            	resetActionList();            	
+            }
+        });                
+    }    
 
     @Override
     protected void configureView() {
@@ -67,4 +75,10 @@ public class CoreViewController extends CoreController {
         addContentWidget(actionBox);
         initialized = true;
     }
+    
+    protected void resetActionList(){
+    	actionBox.clear();
+    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)); 
+    	actionBox.setList(ActionType.getValues(status));    	
+    }        
 }
