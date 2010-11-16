@@ -664,6 +664,25 @@ public class TestCourseServiceImpl {
         }
 
         assertNotNull(newCourse);
+        
+        
+        // test that creating a new course version copies over statements
+        StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+        StatementTreeViewInfo createdTree = courseService.createCourseStatement(createdCourse.getId(), statementTreeViewInfo);
+        assertNotNull(createdTree);
+        
+        CourseInfo newVersion = null;
+        
+        try {
+            newVersion = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version for statements");
+            assertTrue(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+
+        assertNotNull(newVersion);
+        
 
     }
 
@@ -675,6 +694,18 @@ public class TestCourseServiceImpl {
         assertEquals(2, courseStatements.size());
         for (StatementTreeViewInfo tree : courseStatements) {
             checkTreeView(tree, false);
+        }
+        
+        // test that the proper error message occurs if an invalid Clu id is attempted
+        String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+        
+        try {
+            courseService.getCourseStatements(credentialProgramId, null, null);
+            assertTrue(false);
+        }
+        catch(DoesNotExistException e) {
+            // we should reach here, since the exception should trigger
+            assertTrue(true);
         }
     }
 
@@ -1017,14 +1048,15 @@ public class TestCourseServiceImpl {
     
     @Test
     public void testGetVersionMethodsForInvalidParameters() throws Exception {
-        String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
+        String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getFirstVersion", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
         
         // build an object array with the appropriate number of arguments for each version method to be called
-        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[4], new Object[2], new Object[3]};
+        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[2], new Object[4], new Object[2], new Object[3]};
         
         // build a class array with the parameter types for each method call
         Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
                 {String.class, String.class}, // for getVersions
+                {String.class, String.class}, // for getFirstVersion
                 {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
                 {String.class, String.class}, // for getCurrentVersion
                 {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
@@ -1201,5 +1233,5 @@ public class TestCourseServiceImpl {
         
         assertEquals(1, versions.size());
     }
-
+    
 }
