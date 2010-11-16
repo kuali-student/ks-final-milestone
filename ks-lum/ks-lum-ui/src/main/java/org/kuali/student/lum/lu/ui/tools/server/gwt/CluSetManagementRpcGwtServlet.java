@@ -173,11 +173,26 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
                                 String cluType = cluResultInfo.getType();
-                                if (cluType == null) {
+
+                                //ignore non-credit results
+                                if ((cluType == null) || (!cluType.equals("kuali.resultType.creditCourseResult"))) {
                                     continue;
                                 }
 
-                                List<String> resultValues = getResultValues(cluResultInfo.getResultOptions());
+                                //retrieve credit type and credit values
+                                ResultComponentInfo resultComponentInfo = null;
+                                List<String> resultValues = null;
+                                String creditType = "";
+                                if (cluResultInfo.getResultOptions() != null) {
+                                    for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
+                                        if (resultOption.getResultComponentId() != null) {
+                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
+                                            resultValues = resultComponentInfo.getResultValues();
+                                            creditType = resultComponentInfo.getType();
+                                            break;
+                                        }
+                                    }
+                                }
                                 if (resultValues == null) {
                                     continue;
                                 }
@@ -186,23 +201,20 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                     credits = credits + "; ";
                                 }
 
-                                if (cluType.equals("kuali.resultComponentType.credit.degree.fixed")) {
+                                if (creditType.equals("kuali.resultComponentType.credit.degree.fixed")) {
                                     credits = credits + resultValues.get(0);
-                                } else if (cluType.equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                } else if (creditType.equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                    boolean firstValue = true;
                                     for (String resultValue : resultValues) {
-                                        credits = credits + ", " + resultValue;   
+                                        credits = credits + (firstValue ? "" :", ")  + resultValue;
+                                        firstValue = false;
                                     }
-                                } else if (cluType.equals("kuali.resultComponentType.credit.degree.range")) {
-                                    for (String resultValue : resultValues) {
-                                        if (credits.isEmpty()) {
-                                            credits = credits + resultValue;
-                                        } else {
-                                            credits = credits + "-" + resultValue;
-                                        }
-                                    }
+                                } else if (creditType.equals("kuali.resultComponentType.credit.degree.range")) {
+                                    credits = credits + resultComponentInfo.getAttributes().get("minCreditValue") + " - " + resultComponentInfo.getAttributes().get("maxCreditValue");
                                 }
                             }
                         }
+                        
 
                         CluInformation cluInformation = new CluInformation();
                         if (cluInfo.getOfficialIdentifier() != null) {
@@ -219,20 +231,6 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             }
         }
         return result;
-    }
-
-    private List<String> getResultValues(List<ResultOptionInfo> resultOptions) throws Exception {
-        List<String> resultValues = null;
-        if (resultOptions != null) {
-            for (ResultOptionInfo resultOption : resultOptions) {
-                if (resultOption.getResultComponentId() != null) {
-                    ResultComponentInfo resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
-                    resultValues = resultComponentInfo.getResultValues();
-                    break;
-                }
-            }
-        }
-        return resultValues;
     }
 
     @Override

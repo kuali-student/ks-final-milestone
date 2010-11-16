@@ -277,7 +277,7 @@ public class CluSetDetailsWidget extends Composite {
         columnIndex++;
         
         if (clu.getCredits() != null && !clu.getCredits().trim().isEmpty()) {
-            KSLabel cluCreditsLabel = new KSLabel(clu.getCredits());
+            KSLabel cluCreditsLabel = new KSLabel(clu.getCredits() + " credits");
             detailsTable.setWidget(rowIndex, columnIndex, cluCreditsLabel);
             detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 1);
             columnIndex++;
