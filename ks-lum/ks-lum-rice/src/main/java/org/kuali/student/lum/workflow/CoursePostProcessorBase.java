@@ -69,7 +69,9 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
+            return getCluStateFromNewState(currentCluState, LUConstants.CLU_STATE_DRAFT);
+        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
+            return getCluStateFromNewState(currentCluState, LUConstants.CLU_STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
             return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
