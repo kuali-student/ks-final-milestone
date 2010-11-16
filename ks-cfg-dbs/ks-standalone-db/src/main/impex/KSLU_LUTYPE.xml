@@ -39,6 +39,10 @@
         OBJ_ID="2C116DCB4BE147E58E22946268DAF7F3"
         TYPE_DESC="The exchange of opinions or questions on course material."
         TYPE_KEY="kuali.lu.type.activity.Discussion" VER_NBR="0"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Homework"
+        OBJ_ID="95351577403A697AE040C60AF05B7C85"
+        TYPE_DESC="Student's doing homework, problem sets and reading assignments and writing"
+        TYPE_KEY="kuali.lu.type.activity.Homework" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Lab"
         OBJ_ID="528734054E4A44E4AAE2789490A0D463"
         TYPE_DESC="Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance."
@@ -51,7 +55,11 @@
         OBJ_ID="CF0872C0047A4809A3A77E813EEABDBF"
         TYPE_DESC="Instructor or assistant walking through a learning practice."
         TYPE_KEY="kuali.lu.type.activity.Tutorial" VER_NBR="0"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Lecture"
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Discuss"
+        OBJ_ID="953515774039697AE040C60AF05B7C85"
+        TYPE_DESC="Web-based or technologically-mediated activities replacing standard discussion sections"
+        TYPE_KEY="kuali.lu.type.activity.WebDiscussion" VER_NBR="0"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Lecture"
         OBJ_ID="55AE1CB7FDEE43DDAE8E4DA47767CE21"
         TYPE_DESC="Instructor presentation of course materials via the web"
         TYPE_KEY="kuali.lu.type.activity.WebLecture" VER_NBR="0"/>
