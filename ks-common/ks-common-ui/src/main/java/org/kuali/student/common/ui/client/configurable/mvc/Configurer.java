@@ -96,7 +96,7 @@ public abstract class Configurer {
         Metadata meta = modelDefinition.getMetadata(path);
 
         FieldDescriptor fd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
-        if (widget != null) {
+        if (widget != null) {                                               
             fd.setFieldWidget(widget);
         }
         section.addField(fd);
