@@ -141,7 +141,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
-        boolean stateChanged = major.getState() != null && !major.getState().equals(clu.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && major.getState() != null && !major.getState().equals(clu.getState());
         
         programAssemblerUtils.disassembleBasics(clu, major, operation);
         if (major.getId() == null)

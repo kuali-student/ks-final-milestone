@@ -82,7 +82,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
-        boolean stateChanged = core.getState() != null && !core.getState().equals(core.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && core.getState() != null && !core.getState().equals(core.getState());
         
         programAssemblerUtils.disassembleBasics(clu, core, operation);
         if (core.getId() == null)
