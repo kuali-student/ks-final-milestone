@@ -32,7 +32,7 @@ public class ShowVersionView extends VerticalSectionView{
 		parent = controller;
 		final ViewContext context = new ViewContext();
 		context.setId(parent.getCurrentVersionId());
-		context.setIdType(IdType.OBJECT_ID);
+		context.setIdType(IdType.OBJECT_ID);		
 		this.layout.setMessage("Note: This is not the current version of this course. ", false);
 		Anchor link = new Anchor("View current version.");
 		link.addClickHandler(new ClickHandler(){
@@ -44,7 +44,6 @@ public class ShowVersionView extends VerticalSectionView{
 			}
 		});
 		
-		this.layout.getMessageWarnContainer().addWarnWidget(controller.generateActionDropDown());
 		this.layout.getMessageWarnContainer().addWarnWidget(link);
 	}
 	

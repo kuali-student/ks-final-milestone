@@ -7,9 +7,16 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -55,13 +62,8 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	
 	private String lastId1 = "";
 	private String lastId2 = "";
-	private KSButton versionHistoryButton = new KSButton("Version History", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
-
-		@Override
-		public void onClick(ClickEvent event) {
-			VersionsController.this.showDefaultView(Controller.NO_OP_CALLBACK);
-		}
-	});
+	private HorizontalSection workflowVersionInfoSection = new HorizontalSection();
+	
 	
 	private boolean initialized = false;
 	private String versionIndId = "";
@@ -69,6 +71,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
 	
 	private List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+	private KSLabel statusLabel = new KSLabel("");
 	
 	public VersionsController(Enum<?> viewType) {
 		super(VersionsController.class.toString());
@@ -76,7 +79,20 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         this.setDefaultView(Views.VERSION_SELECT);
         this.setName("Versions");
         this.setViewEnum(viewType);
-        this.getHeader().addWidget(versionHistoryButton);
+        KSButton versionHistoryButton = new KSButton("Version History", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+
+    		@Override
+    		public void onClick(ClickEvent event) {
+    			VersionsController.this.showDefaultView(Controller.NO_OP_CALLBACK);
+    		}
+    	});
+        versionHistoryButton.addStyleName("versionHistoryLink");
+        
+        workflowVersionInfoSection.addWidget(this.getStatusLabel());
+        workflowVersionInfoSection.addWidget(this.generateActionDropDown());
+        workflowVersionInfoSection.addWidget(versionHistoryButton);
+		
+        this.getHeader().addWidget(workflowVersionInfoSection);
         this.viewContainer.addStyleName("standard-content-padding");
         initialize();
     }	
@@ -144,7 +160,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        			view.setName(name);
 	        			view.showWarningMessage(true);
 	        		}
-	        		updateCourseActionItems(cluModel1);
+	        		updateState(cluModel1);
 	 	            callback.onModelReady(cluModel1);
 	 	            lastId1 = courseId;
 	        	}
@@ -185,7 +201,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
-    	versionHistoryButton.setVisible(false);
+    	workflowVersionInfoSection.setVisible(false);
     	this.getHeader().showPrint(false);
     	showDefaultView(onReadyCallback);
     }
@@ -255,29 +271,37 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     	return actionList;
     }
     
-    private void updateCourseActionItems(DataModel cluModel) {
-    	ViewContext viewContext = new ViewContext();
-		
-    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-			viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
-            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
-        }
-    	
-    	String cluState = cluModel.get("state").toString();    	
-    	
-		for(CourseWorkflowActionList widget: actionDropDownWidgets){
-			widget.init(viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));    	
-			widget.updateCourseActionItems(cluState);
-			widget.setEnabled(true);
-			if(widget.isEmpty()) {
-				setVisible(false);
+    private void updateState(DataModel cluModel) {
+    	if(cluModel.get("state") != null){
+	    	statusLabel.setText("Status: " + cluModel.get("state"));
+	    	ViewContext viewContext = new ViewContext();
+			
+	    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+				viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
+	            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+	            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+	        }
+	    	
+	    	String cluState = cluModel.get("state").toString();    	
+	    	
+			for(CourseWorkflowActionList widget: actionDropDownWidgets){
+				widget.init(viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));    	
+				widget.updateCourseActionItems(cluState);
+				widget.setEnabled(true);
+				if(widget.isEmpty()) {
+					widget.setVisible(false);
+				}
+				else{
+					widget.setVisible(true);
+				}
 			}
-			else{
-				setVisible(true);
-			}
-		}
+    	}
     }
+    
+	public Widget getStatusLabel() {
+		statusLabel.setStyleName("courseStatusLabel");
+		return statusLabel;
+	}
     
     public DataModelDefinition getDefinition(){
     	return definition;
@@ -307,11 +331,11 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	@Override
 	public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
 		if(viewType != Views.VERSION_SELECT){
-			versionHistoryButton.setVisible(true);
+			workflowVersionInfoSection.setVisible(true);
 			this.getHeader().showPrint(true);
 		}
 		else{
-			versionHistoryButton.setVisible(false);
+			workflowVersionInfoSection.setVisible(false);
 			this.getHeader().showPrint(false);
 		}
 		super.showView(viewType, onReadyCallback);
