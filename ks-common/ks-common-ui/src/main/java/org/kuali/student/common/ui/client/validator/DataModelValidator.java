@@ -242,40 +242,58 @@ public class DataModelValidator {
 			QueryPath element = (QueryPath)keys[keyIndex];
 
 			String s = (values.get(element) == null) ? "" : values.get(element).toString();
+			doValidateString(s,element,meta,results);
+								
+		}
+	}
+	
+	
+	public void doValidateString(String s, QueryPath element, Metadata meta,
+			List<ValidationResultInfo> results) {
+		if (s.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, element, REQUIRED);
+		} else if(!s.isEmpty()) {
+			int len = s.length();
+			Integer minLength = getLargestMinLength(meta);
+			Integer maxLength = getSmallestMaxLength(meta);
 			
-			if (s.isEmpty() && isRequiredCheck(meta)) {
-				addError(results, element, REQUIRED);
-			} else if(!s.isEmpty()) {
-				int len = s.length();
-				Integer minLength = getLargestMinLength(meta);
-				Integer maxLength = getSmallestMaxLength(meta);
-				
-				if (minLength != null && maxLength != null) {
-					if (len < minLength || len > maxLength) {
-						addRangeError(results, element, LENGTH_OUT_OF_RANGE, minLength, maxLength);
-					}
-				} else if (minLength != null && len < minLength) {
-					addError(results, element, MIN_LENGTH, minLength);
-				} else if (maxLength != null && len > maxLength) {
-					addError(results, element, MAX_LENGTH, maxLength);
+			if (minLength != null && maxLength != null) {
+				if (len < minLength || len > maxLength) {
+					addRangeError(results, element, LENGTH_OUT_OF_RANGE, minLength, maxLength);
 				}
+			} else if (minLength != null && len < minLength) {
+				addError(results, element, MIN_LENGTH, minLength);
+			} else if (maxLength != null && len > maxLength) {
+				addError(results, element, MAX_LENGTH, maxLength);
+			}
+			
+			// process valid chars constraint
+			if (meta.getConstraints() != null) {
+				boolean failed = false;
+				List<ConstraintMetadata> constraints = meta.getConstraints();
 				
-				// process valid chars constraint
-				if (meta.getConstraints() != null) {
-					boolean failed = false;
-					List<ConstraintMetadata> constraints = meta.getConstraints();
-					
-					for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
-						ConstraintMetadata cons = constraints.get(consIdx);
-						if (failed) {
-							break;
-						}
-						String validChars = cons.getValidChars();
-						validChars = (validChars == null) ? "" : validChars.trim();
-						if (!validChars.isEmpty()) {
-							if (validChars.startsWith("regex:")) {
-								validChars = validChars.substring(6);
-								if (!s.matches(validChars)) {
+				for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
+					ConstraintMetadata cons = constraints.get(consIdx);
+					if (failed) {
+						break;
+					}
+					String validChars = cons.getValidChars();
+					validChars = (validChars == null) ? "" : validChars.trim();
+					if (!validChars.isEmpty()) {
+						if (validChars.startsWith("regex:")) {
+							validChars = validChars.substring(6);
+							if (!s.matches(validChars)) {
+								if(cons.getValidCharsMessageId() != null ){
+									addError(results, element, cons.getValidCharsMessageId());
+								}else{
+									addError(results, element, VALID_CHARS);	
+								}
+								failed = true;
+								break;
+							}
+						} else {
+							for (char c : s.toCharArray()) {
+								if (!validChars.contains(String.valueOf(c))) {
 									if(cons.getValidCharsMessageId() != null ){
 										addError(results, element, cons.getValidCharsMessageId());
 									}else{
@@ -284,27 +302,14 @@ public class DataModelValidator {
 									failed = true;
 									break;
 								}
-							} else {
-								for (char c : s.toCharArray()) {
-									if (!validChars.contains(String.valueOf(c))) {
-										if(cons.getValidCharsMessageId() != null ){
-											addError(results, element, cons.getValidCharsMessageId());
-										}else{
-											addError(results, element, VALID_CHARS);	
-										}
-										failed = true;
-										break;
-									}
-								}
 							}
 						}
 					}
 				}
-			}					
+			}
 		}
 	}
-	
-	
+
 	private void doValidateInteger(DataModel model, Metadata meta,
 			QueryPath path, List<ValidationResultInfo> results) {
 		

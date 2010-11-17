@@ -1,12 +1,9 @@
-package org.kuali.student.lum.lu.ui.course.client.helpers;
+package org.kuali.student.lum.common.client.helpers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-
-import com.google.gwt.event.dom.client.HasChangeHandlers;
-import com.google.gwt.user.client.History;
 
 public class RecentlyViewedHelper{
 	

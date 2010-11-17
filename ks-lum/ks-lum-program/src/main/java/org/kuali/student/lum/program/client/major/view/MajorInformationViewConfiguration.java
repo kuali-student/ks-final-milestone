@@ -57,7 +57,7 @@ public class MajorInformationViewConfiguration extends AbstractSectionConfigurat
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
         configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
-        section.addSection(createDegreeTypeSection());
+        configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
         return section;
     }
 
@@ -83,29 +83,13 @@ public class MajorInformationViewConfiguration extends AbstractSectionConfigurat
     private TableSection createOtherInformationSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_otherInformation()));
         configurer.addReadOnlyField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
-        section.addSection(createAccreditingAgenciesSection());
-//        configurer.addReadOnlyField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditation()));
         configurer.addReadOnlyField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
         configurer.addReadOnlyField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
         configurer.addReadOnlyField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        section.addSection(createAccreditingAgenciesSection());
         return section;
     }
-
-    private Section createDegreeTypeSection() {
-
-        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.DEGREE_TYPE));
-        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
-        config.setShowHeaders(false);
-        config.setUpdateable(false);
-
-        config.setParent(ProgramConstants.DEGREE_TYPE, ProgramProperties.get().programInformation_degreeType(), null, metadata);
-
-        MultiplicitySection section = new MultiplicitySection(config);
-
-        return section;
-    }
-
 
     private Section createAccreditingAgenciesSection() {
 

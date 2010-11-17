@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,6 +43,8 @@ public class ShowVersionView extends VerticalSectionView{
 				getController().showView(VersionsController.Views.VERSION_VIEW);
 			}
 		});
+		
+		this.layout.getMessageWarnContainer().addWarnWidget(controller.generateActionDropDown());
 		this.layout.getMessageWarnContainer().addWarnWidget(link);
 	}
 	

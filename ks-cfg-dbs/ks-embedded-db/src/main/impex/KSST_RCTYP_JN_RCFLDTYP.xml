@@ -41,21 +41,15 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
-    <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
-    <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
-    <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.credits.repeat.max"/>
     <KSST_RCTYP_JN_RCFLDTYP

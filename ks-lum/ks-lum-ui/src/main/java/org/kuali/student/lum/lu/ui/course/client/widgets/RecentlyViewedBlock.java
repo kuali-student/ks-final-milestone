@@ -5,9 +5,9 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
-import org.kuali.student.lum.lu.ui.course.client.helpers.HasRecentlyViewedData;
-import org.kuali.student.lum.lu.ui.course.client.helpers.RecentDocInfo;
-import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.helpers.HasRecentlyViewedData;
+import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
+import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 
 public class RecentlyViewedBlock extends LinkContentBlock implements HasRecentlyViewedData{
 
