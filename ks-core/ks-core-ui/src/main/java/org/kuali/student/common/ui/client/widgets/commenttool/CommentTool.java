@@ -390,7 +390,7 @@ public class CommentTool implements HasReferenceId {
                 deleteButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                            ConfirmationDialog confirmDeletion = 
+                            final ConfirmationDialog confirmDeletion =
                                 new ConfirmationDialog("Delete Comment",  
                                     "You are about to delete a comment.  Are you sure?");
                             confirmDeletion.getConfirmButton().addClickHandler(new ClickHandler(){
@@ -408,9 +408,7 @@ public class CommentTool implements HasReferenceId {
 
                                             @Override
                                             public void onSuccess(StatusInfo result) {
-                                                if(result.getSuccess()){
-                                                    Window.alert("Your comment was deleted successfully");
-                                                }
+                                                confirmDeletion.hide();
                                                 refreshComments();
                                             }
 
