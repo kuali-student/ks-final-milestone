@@ -31,7 +31,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -44,19 +43,20 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
-import org.kuali.student.lum.program.client.major.edit.MajorEditController;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -91,16 +91,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private BlockingTask initTask = new BlockingTask("Initializing....");
 	private KSLabel statusLabel = new KSLabel("");
 	
-	private KSMenuItemData modifyCourseActionItem;
-	private KSMenuItemData activateCourseActionItem;
-	private KSMenuItemData inactivateCourseActionItem;
-	private KSMenuItemData retireCourseActionItem;
-	
-	private List<KSMenuItemData> actionItems = new ArrayList<KSMenuItemData>();
-	
-	private List<StylishDropDown> actionDropDownWidgets = new ArrayList<StylishDropDown>();
-    
-            
+	private List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+	            
     public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
         initialize();
@@ -149,93 +141,23 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             
         });
         
-        initCourseActionItems();
-        
-        
-
-    }
-    
-    private void initCourseActionItems() {
-    	// TODO: use messages
-    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-					ViewContext viewContext = new ViewContext();
-					viewContext.setId((String)cluModel.get("versionInfo/versionIndId"));
-                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
-					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
-				}
-			}
-		});
-    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem") + " (Not Yet Implemented)", new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-					// TODO: activate
-				}
-			}
-		});
-    	inactivateCourseActionItem = new KSMenuItemData(this.getMessage("cluInactivateItem") + " (Not Yet Implemented)", new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-					// TODO: Inactivate
-				}
-			}
-		});
-    	retireCourseActionItem = new KSMenuItemData(this.getMessage("cluRetireItem") + " (Not Yet Implemented)", new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-					// TODO: Retire
-				}
-			}
-		});
-    }
-    
-    private void updateCourseActionItems() {
-    	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();       
-    	String cluState = cluModel.get("state").toString();
-    	
-    	if (cluState.equals(LUUIConstants.LU_STATE_APPROVED)) {
-    		items.add(modifyCourseActionItem);
-    		items.add(activateCourseActionItem);
-    		items.add(retireCourseActionItem);
-    	} else if (cluState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
-    		items.add(modifyCourseActionItem);
-    		items.add(inactivateCourseActionItem);
-    		items.add(retireCourseActionItem);
-    	} else if (cluState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
-    		items.add(activateCourseActionItem);
-    	}
-    	
-		for(StylishDropDown widget: actionDropDownWidgets){
-			
-			widget.setItems(items);
-			widget.setEnabled(true);
-			if(items.isEmpty()){
-				widget.setVisible(false);
-			}
-			else{
-				widget.setVisible(true);
-			}
-		}		
     	
     }
     
+     
     public Widget generateActionDropDown(){
-    	StylishDropDown actions = new StylishDropDown(this.getMessage("cluActionsLabel"));
-         
-        actionDropDownWidgets.add(actions);
-        actions.setVisible(false);
-        actions.addStyleName("KS-Workflow-DropDown");
-        return actions;
+    	ViewContext viewContext = new ViewContext();
+		
+    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+			viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
+            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+        }
+    	
+    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));
+        actionDropDownWidgets.add(actionList);
+        
+    	return actionList;
     }
    
     private void init(final Callback<Boolean> onReadyCallback) {
@@ -277,7 +199,22 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             
         }
     }
-    
+
+    private void updateCourseActionItems() {
+    	String cluState = cluModel.get("state").toString();    	
+    	
+		for(CourseWorkflowActionList widget: actionDropDownWidgets){
+			widget.updateCourseActionItems(cluState);
+			widget.setEnabled(true);
+			if(widget.isEmpty()) {
+				setVisible(false);
+			}
+			else{
+				setVisible(true);
+			}
+		}
+    }
+
     private void init(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
         final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 
@@ -346,6 +283,31 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	KSBlockingProgressIndicator.addTask(loadDataTask);
 
         rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
+
+            @Override
+            public void handleFailure(Throwable caught) {
+                Window.alert("Error loading Course: "+caught.getMessage());
+                createNewCluModel(callback, workCompleteCallback);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+            }
+
+            @Override
+            public void onSuccess(Data result) {
+                cluModel.setRoot(result);
+                //getContainer().setTitle(getSectionTitle());
+                setHeaderTitle();
+                updateCourseActionItems();
+                callback.onModelReady(cluModel);
+                workCompleteCallback.exec(true);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+            }
+
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void getCurrentVersion(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback) {
+    	rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -494,6 +456,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 		return cluModel.get("courseTitle");
 	}
 
+	// this is misleading given the current version concept.  This just gets the id of the course
 	public String getCurrentId() {
 		return cluModel.get("id");
 	}

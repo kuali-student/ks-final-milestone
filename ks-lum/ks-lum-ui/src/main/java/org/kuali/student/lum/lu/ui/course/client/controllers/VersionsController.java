@@ -3,7 +3,9 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.*;
@@ -11,21 +13,27 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VersionsController extends BasicLayoutWithContentHeader{
 	
@@ -34,6 +42,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private SelectVersionsView select = new SelectVersionsView(this, "", Views.VERSION_SELECT);
 	private ShowVersionView view;
 	private VerticalSectionView compare;
+    private static final String MSG_GROUP = "course";
     private String type = "course";
     private String state = "draft";
     private String groupName = LUUIConstants.COURSE_GROUP_NAME;
@@ -58,7 +67,9 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private String versionIndId = "";
 	private String currentVersionId = "";
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
-
+	
+	private List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+	
 	public VersionsController(Enum<?> viewType) {
 		super(VersionsController.class.toString());
 		this.addView(select);
@@ -133,6 +144,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        			view.setName(name);
 	        			view.showWarningMessage(true);
 	        		}
+	        		updateCourseActionItems(cluModel1);
 	 	            callback.onModelReady(cluModel1);
 	 	            lastId1 = courseId;
 	        	}
@@ -235,6 +247,38 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         });
     }
     
+    public Widget generateActionDropDown(){
+    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"));
+
+    	actionDropDownWidgets.add(actionList);
+        
+    	return actionList;
+    }
+    
+    private void updateCourseActionItems(DataModel cluModel) {
+    	ViewContext viewContext = new ViewContext();
+		
+    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+			viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
+            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+        }
+    	
+    	String cluState = cluModel.get("state").toString();    	
+    	
+		for(CourseWorkflowActionList widget: actionDropDownWidgets){
+			widget.init(viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));    	
+			widget.updateCourseActionItems(cluState);
+			widget.setEnabled(true);
+			if(widget.isEmpty()) {
+				setVisible(false);
+			}
+			else{
+				setVisible(true);
+			}
+		}
+    }
+    
     public DataModelDefinition getDefinition(){
     	return definition;
     }
@@ -250,6 +294,14 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	public String getVersionIndId() {
 		return versionIndId;
 	}
+	
+    public String getMessage(String courseMessageKey) {
+    	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    	if (msg == null) {
+    		msg = courseMessageKey;
+    	}
+    	return msg;
+    }
 	
 	
 	@Override
