@@ -1411,14 +1411,12 @@ public class ProgramServiceImpl implements ProgramService {
 		}catch(DoesNotExistException e){}
 		
 		if(atpInfo1 != null && atpInfo1 != null){
-			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){
-				//TODO: when data is right in db, use "greater_than"
-				boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getStartDate(), atpInfo2.getStartDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
-				//boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getEffectiveDate(), atpInfo2.getEffectiveDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
+			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){			
+				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
 					vri.setElement(path);
-					vri.setError(field + " should be equal or greater than Start Term");
+					vri.setError(field + " should be greater than Start Term");
 					validationResults.add(vri);
 				}
 			}
