@@ -76,7 +76,7 @@ public class BaccInformationViewConfiguration extends AbstractSectionConfigurati
 
     private TableSection createOtherInformationSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_otherInformation()));
-        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
         return section;
     }
 

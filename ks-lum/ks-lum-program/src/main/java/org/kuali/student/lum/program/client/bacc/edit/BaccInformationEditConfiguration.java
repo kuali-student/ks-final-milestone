@@ -59,7 +59,7 @@ public class BaccInformationEditConfiguration extends AbstractSectionConfigurati
 
     private VerticalSection createOtherInformationSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_otherInformation()));
-        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addField(section, ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
         return section;
     }
 }
