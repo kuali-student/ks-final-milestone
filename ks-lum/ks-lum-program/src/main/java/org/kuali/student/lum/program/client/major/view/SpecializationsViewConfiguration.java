@@ -13,7 +13,6 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
@@ -37,10 +36,8 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
     @Override
     protected void buildLayout() {
         VerticalSection section = new VerticalSection();
-
         KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
         isVariationRequiredCheckBox.setEnabled(false);
-        //isVariationRequiredCheckBox.setStyleName(style);
         configurer.addReadOnlyField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
         configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new FlexTable()).setWidgetBinding(new VariationsBinding(AppLocations.Locations.VIEW_VARIATION.getLocation(), false));
         rootSection.addSection(section);

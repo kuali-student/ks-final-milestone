@@ -193,6 +193,7 @@ public abstract class ProgramController extends MenuSectionController {
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
+                configurer.applyPermissions();
                 //We don't want to throw ModelLoadedEvent when we just want to rollback the model
                 if (needToLoadOldModel) {
                     needToLoadOldModel = false;

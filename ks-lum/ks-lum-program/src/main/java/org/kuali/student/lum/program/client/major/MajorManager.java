@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.major;
 
+import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.ProgramRegistry;
@@ -10,8 +11,6 @@ import org.kuali.student.lum.program.client.variation.edit.VariationEditControll
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
 import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
-
-import com.google.gwt.event.shared.HandlerManager;
 
 /**
  * @author Igor
@@ -25,7 +24,7 @@ public class MajorManager {
     private VariationViewController variationViewController;
 
     private VariationEditController variationEditController;
-    
+
     private ProgramVersionsController programVersionsController;
 
     protected DataModel programModel;
@@ -57,7 +56,7 @@ public class MajorManager {
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);        
+        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);
         return variationEditController;
     }
 
@@ -65,15 +64,15 @@ public class MajorManager {
         programModel.resetRoot();
         return getMajorEditController();
     }
-    
-    public ProgramVersionsController getProgramVersionsController() {
-    	if (programVersionsController == null){
-    		programVersionsController = new ProgramVersionsController(programModel, ProgramSideBar.Type.MAJOR, viewContext, eventBus);
-    	}
-		return programVersionsController;
-	}
 
-	public static HandlerManager getEventBus() {
+    public ProgramVersionsController getProgramVersionsController() {
+        if (programVersionsController == null) {
+            programVersionsController = new ProgramVersionsController(programModel, ProgramSideBar.Type.MAJOR, viewContext, eventBus);
+        }
+        return programVersionsController;
+    }
+
+    public static HandlerManager getEventBus() {
         return eventBus;
     }
 

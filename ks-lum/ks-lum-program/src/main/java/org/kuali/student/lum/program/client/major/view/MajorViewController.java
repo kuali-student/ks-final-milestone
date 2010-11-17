@@ -1,5 +1,9 @@
 package org.kuali.student.lum.program.client.major.view;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -12,15 +16,10 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
-import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
 
 
 public class MajorViewController extends MajorController {
@@ -43,28 +42,28 @@ public class MajorViewController extends MajorController {
             @Override
             public void onChange(ChangeEvent event) {
                 ActionType actionType = ActionType.of(actionBox.getSelectedValue());
-            	ViewContext viewContext = getViewContext();
+                ViewContext viewContext = getViewContext();
                 if (actionType == ActionType.MODIFY) {
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
-                } else if (actionType == ActionType.MODIFY_VERSION){
-                	String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
-                	viewContext.setId(versionIndId);
+                } else if (actionType == ActionType.MODIFY_VERSION) {
+                    String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                    viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                	HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);                    
+                    HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                 }
             }
         });
         eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {
             @Override
-            public void onEvent(ProgramViewEvent event) {            	            	
-            	actionBox.setSelectedIndex(0);                
+            public void onEvent(ProgramViewEvent event) {
+                actionBox.setSelectedIndex(0);
             }
         });
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-            	resetActionList();            	
+                resetActionList();
                 String type = context.getAttributes().get(ProgramConstants.TYPE);
                 if (type != null) {
                     context.getAttributes().remove(ProgramConstants.TYPE);
@@ -79,13 +78,13 @@ public class MajorViewController extends MajorController {
             }
         });
     }
-	
-    protected void resetActionList(){
-    	actionBox.clear();
-    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)); 
-    	actionBox.setList(ActionType.getValues(status));    	
+
+    protected void resetActionList() {
+        actionBox.clear();
+        ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+        actionBox.setList(ActionType.getValues(status));
     }
-    
+
     private void showVariationView() {
         String variationId = context.getAttributes().get(ProgramConstants.VARIATION_ID);
         if (variationId != null) {
@@ -100,7 +99,7 @@ public class MajorViewController extends MajorController {
                             //FIXME: Find a better way to do this.
                             // We shouldn't be maintaining two separate datamodels for progs and variations
                             Data credData = programModel.get(ProgramConstants.CREDENTIAL_PROGRAM);
-                            variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credData );
+                            variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credData);
                             ProgramRegistry.setData(variationData);
                             ProgramRegistry.setRow(row);
                         }
@@ -114,7 +113,7 @@ public class MajorViewController extends MajorController {
 
     @Override
     protected void configureView() {
-        super.configureView();        
+        super.configureView();
         addContentWidget(actionBox);
         initialized = true;
     }

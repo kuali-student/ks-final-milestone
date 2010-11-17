@@ -1,10 +1,10 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -24,26 +24,16 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
-import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
-import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
-import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
-import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Igor
@@ -125,22 +115,21 @@ public class MajorEditController extends MajorController {
                     for (Data.Property prop : currentVariations) {
                         String id = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
                         if (updatedId.equals(id)) {
-                            updatedKey = prop.getKey(); 
-                            Data currentMetaInfo =  ((Data)prop.getValue()).get("metaInfo");
+                            updatedKey = prop.getKey();
+                            Data currentMetaInfo = ((Data) prop.getValue()).get("metaInfo");
                             String latestVersionInd = currentMetaInfo.get("versionInd");
                             Data newMetaInfo = event.getData().get("metaInfo");
                             if (newMetaInfo == null) {
                                 newMetaInfo = new Data();
                                 event.getData().set("metaInfo", newMetaInfo);
-                            }                  
-                            newMetaInfo.set("versionInd", latestVersionInd); 
+                            }
+                            newMetaInfo.set("versionInd", latestVersionInd);
                             break;
                         }
                     }
-                  
+
                     currentVariations.set(updatedKey, event.getData());
-                }
-                else {
+                } else {
                     currentVariations.add(event.getData());
 
                 }
@@ -181,7 +170,7 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
-                List<String> ids = event.getProgramRequirementIds();                
+                List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                 Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
@@ -206,52 +195,45 @@ public class MajorEditController extends MajorController {
         });
     }
 
-    private void updateExistingVariationIds(Data variations) {
-        existingVariationIds.clear();
-        for (Data.Property prop : variations) {
-            existingVariationIds.add((String) ((Data) prop.getValue()).get(ProgramConstants.ID));
+
+    @Override
+    protected void loadModel(ModelRequestCallback<DataModel> callback) {
+        ViewContext viewContext = getViewContext();
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
+            createNewVersionAndLoadModel(callback, viewContext);
+        } else {
+            super.loadModel(callback);
         }
     }
 
-    
-    @Override
-	protected void loadModel(ModelRequestCallback<DataModel> callback) {
-    	ViewContext viewContext = getViewContext();
-    	if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID){
-    		createNewVersionAndLoadModel(callback, viewContext);
-    	} else {
-    		super.loadModel(callback);
-    	}
-	}
-    
-    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext){        
+    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
         Data data = new Data();
-    	Data versionData = new Data();
+        Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
-    	
+
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
-			public void onSuccess(DataSaveResult result) {                
-				super.onSuccess(result);
+            public void onSuccess(DataSaveResult result) {
+                super.onSuccess(result);
                 programModel.setRoot(result.getValue());
-				viewContext.setId((String)programModel.get(ProgramConstants.VERSION_IND_ID));
-				viewContext.setIdType(IdType.OBJECT_ID);
+                viewContext.setId((String) programModel.get(ProgramConstants.VERSION_IND_ID));
+                viewContext.setIdType(IdType.OBJECT_ID);
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
-                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
-			}
-			
-			public void onFailure(Throwable caught) {
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+            }
+
+            public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 callback.onRequestFail(caught);
-			}
-		});
-        
+            }
+        });
+
     }
 
-	private void doSave(final Callback<Boolean> okCallback) {
+    private void doSave(final Callback<Boolean> okCallback) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
@@ -305,7 +287,7 @@ public class MajorEditController extends MajorController {
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();
-
+                    configurer.applyPermissions();
                     handleSpecializations();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();

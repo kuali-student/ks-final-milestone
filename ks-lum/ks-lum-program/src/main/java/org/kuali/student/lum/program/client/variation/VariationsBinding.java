@@ -13,11 +13,12 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -29,9 +30,16 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
 
     private boolean editable;
 
+    private Configuration configuration;
+
     public VariationsBinding(String url, boolean editable) {
         this.url = url;
         this.editable = editable;
+    }
+
+    public VariationsBinding(String url, boolean editable, Configuration configuration) {
+        this(url, editable);
+        this.configuration = configuration;
     }
 
     @Override
@@ -76,6 +84,9 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                             }
                         }
                     });
+                    if (configuration != null && configuration.checkPermission(model)) {
+                        removeButton.setEnabled(false);
+                    }
 
                 }
                 row++;

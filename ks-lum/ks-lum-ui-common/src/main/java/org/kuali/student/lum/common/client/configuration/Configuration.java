@@ -2,6 +2,7 @@ package org.kuali.student.lum.common.client.configuration;
 
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.View;
 
 /**
@@ -17,4 +18,8 @@ public interface Configuration {
     Widget asWidget();
 
     Enum<?> getName();
+
+    void applyRestrictions();
+
+    boolean checkPermission(DataModel model);
 }

@@ -1,6 +1,7 @@
 package org.kuali.student.lum.program.client;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
@@ -44,5 +45,14 @@ public abstract class AbstractProgramConfigurer extends Configurer {
 
     public ProgramController getProgramController() {
         return programController;
+    }
+
+    public void applyPermissions() {
+        DataModel dataModel = programController.getProgramModel();
+        for (Configuration configuration : programSectionConfigManager.getConfigurations()) {
+            if (configuration.checkPermission(dataModel)) {
+                configuration.applyRestrictions();
+            }
+        }
     }
 }
