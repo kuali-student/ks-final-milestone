@@ -11,9 +11,9 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.major.MajorManager;
+import org.kuali.student.lum.program.client.permissions.ModelPermissionType;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
 
@@ -54,9 +54,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
 
     @Override
     public boolean checkPermission(DataModel model) {
-        // return ModelPermissionType.DRAFT_STATUS.check(model);
-        ProgramStatus programStatus = ProgramStatus.of((String) model.get(ProgramConstants.STATE));
-        return programStatus != ProgramStatus.DRAFT;
+        return ModelPermissionType.DRAFT_STATUS.check(model);
     }
 
     @Override

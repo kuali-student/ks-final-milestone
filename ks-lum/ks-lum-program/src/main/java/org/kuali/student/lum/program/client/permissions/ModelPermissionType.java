@@ -14,5 +14,7 @@ public enum ModelPermissionType implements IModelPermission {
             ProgramStatus programStatus = ProgramStatus.of((String) dataModel.get(ProgramConstants.STATE));
             return programStatus != ProgramStatus.DRAFT;
         }
-    }
+    };
+
+    public abstract boolean check(DataModel dataModel);
 }
