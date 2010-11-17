@@ -1369,6 +1369,32 @@ public class ProgramServiceImpl implements ProgramService {
 		if(!isEmpty(majorDisciplineInfo.getEndTerm())){
 			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Enroll Term", "endTerm");
 		}		
+		
+		List<ProgramVariationInfo> variations = majorDisciplineInfo.getVariations();
+		if(variations != null && !variations.isEmpty()){
+			int idx = 0;
+			for(ProgramVariationInfo variation : variations){
+				validateVariationAtps(variation, validationResults, idx);
+				idx ++;
+			}
+		}
+	}
+
+	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+		
+		String startTerm = programVariationInfo.getStartTerm();
+		
+		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
+			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm");
+		}
+	
+		if(!isEmpty(programVariationInfo.getEndProgramEntryTerm())){
+			compareAtps(startTerm, programVariationInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term", "variations/" + idx + "/endProgramEntryTerm");
+		}
+		
+		if(!isEmpty(programVariationInfo.getEndTerm())){
+			compareAtps(startTerm, programVariationInfo.getEndTerm(), validationResults, "End Program Enroll Term", "variations/" + idx + "/endTerm");
+		}
 	}
 	
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
@@ -1391,7 +1417,7 @@ public class ProgramServiceImpl implements ProgramService {
 				//boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getEffectiveDate(), atpInfo2.getEffectiveDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
-					vri.setElement("/" + path);
+					vri.setElement(path);
 					vri.setError(field + " should be equal or greater than Start Term");
 					validationResults.add(vri);
 				}
