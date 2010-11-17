@@ -41,14 +41,14 @@ cp_txn = sesh.add_transaction("create_proposal")
 cp_req = cp_txn.add_requests
 config.log.info_msg("#{test}: Creating proposal")
 Curriculum.new(cp_req).create_proposal(
-  "Debug Performance Proposal",  
+  "KC3 Debug Performance Proposal",  
   # COC dep isn't in my DB right now for some reason
   #config.directory["department_coc"]["name"],
   #config.directory["department"]["name"],
   #config.directory["department"]["name"],,
-  'Psychology Department',
-  'Psychology Department',
-  username
+  'Psychology Dept',
+  'The College of Arts and Humanities',
+  username, {:submit => true}
 )
 
 # Logout

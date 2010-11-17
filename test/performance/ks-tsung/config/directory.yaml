@@ -44,3 +44,6 @@ atp:
     name: "Class of 2012 Year 1"
 lo:
     name: "Performance LO"
+users:
+    collaborator:
+        username: "fran"

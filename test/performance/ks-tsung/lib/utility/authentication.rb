@@ -60,27 +60,11 @@ class Authentication
         }
       )
       
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService',
         {
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|526F889935910B01B2508B535A13901E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.Map|java.util.HashMap/962170901|1|2|3|4|2|5|6|5|8|7|0|"
-        }
-      )
-      # DUPE
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|526F889935910B01B2508B535A13901E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.Map|java.util.HashMap/962170901|1|2|3|4|2|5|6|5|8|7|0|"
-        }
-      )
-      # DUPE
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|526F889935910B01B2508B535A13901E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.Map|java.util.HashMap/962170901|1|2|3|4|2|5|6|5|8|7|0|"
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|063131BF3C7CD9299BE6BC86D4D8C72F|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search|1|2|3|4|3|5|5|5|6|0|0|"
         }
       )
       
@@ -100,29 +84,7 @@ class Authentication
         }
       )
       
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|E3E810FC4D0AA74BB833248A752C7ADB|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search||1|2|3|4|3|5|5|5|6|7|7|"
-        }
-      )
-      # DUPE
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|E3E810FC4D0AA74BB833248A752C7ADB|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search||1|2|3|4|3|5|5|5|6|7|7|"
-        }
-      )
-      # DUPE
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|7|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|E3E810FC4D0AA74BB833248A752C7ADB|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search||1|2|3|4|3|5|5|5|6|7|7|"
-        }
-      )
+      
       
       # Rice
       @request.add('/kew/ActionList.do', {}, {:rice_req => true, :external => true})
