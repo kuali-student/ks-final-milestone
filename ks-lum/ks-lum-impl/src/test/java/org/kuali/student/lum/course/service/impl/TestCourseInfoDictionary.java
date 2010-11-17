@@ -24,6 +24,7 @@ import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
 import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
 import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -71,6 +72,7 @@ public class TestCourseInfoDictionary {
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
+		vList.add(new ActiveDatesValidator());
 		vf.setValidatorList(vList);
 		
 		val.setValidatorFactory(vf);
