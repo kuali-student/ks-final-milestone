@@ -20,6 +20,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -232,7 +233,8 @@ public class MajorEditController extends MajorController {
         data.set(new Data.StringKey("versionInfo"), versionData);
     	
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
-			public void onSuccess(DataSaveResult result) {                
+			@Override
+            public void onSuccess(DataSaveResult result) {                
 				super.onSuccess(result);
                 programModel.setRoot(result.getValue());
 				viewContext.setId((String)programModel.get(ProgramConstants.VERSION_IND_ID));
@@ -240,10 +242,11 @@ public class MajorEditController extends MajorController {
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
-                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
 			}
 			
-			public void onFailure(Throwable caught) {
+			@Override
+            public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 callback.onRequestFail(caught);
 			}
@@ -308,7 +311,10 @@ public class MajorEditController extends MajorController {
 
                     handleSpecializations();
                     throwAfterSaveEvent();
+
                     HistoryManager.logHistoryChange();
+                    RecentlyViewedHelper.addCurrentDocument(getProgramName());
+
                     if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
                         showView(getCurrentViewEnum());
                     }
