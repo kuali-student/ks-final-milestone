@@ -97,7 +97,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         if (config.canEdit) {
             pickerPanel = new HorizontalPanel();
             pickerPanel.addStyleName("ks-selected-list-picker");
-            addItemButton = new KSButton("Add to list", ButtonStyle.PRIMARY_SMALL);
+            addItemButton = new KSButton("Add to list", ButtonStyle.SECONDARY_SMALL);
             addItemButton.setEnabled(false);
             picker = new KSPicker(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());

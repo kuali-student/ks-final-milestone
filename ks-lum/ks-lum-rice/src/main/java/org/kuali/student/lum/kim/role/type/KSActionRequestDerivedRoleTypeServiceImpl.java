@@ -77,20 +77,26 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 
 	{
 		checkRequiredAttributes = true;
+        // add document number as one required attribute set
 		List<String> listOne = new ArrayList<String>();
 		listOne.add( KimAttributes.DOCUMENT_NUMBER );
 		newRequiredAttributes.add(listOne);
+        // add document type name and KEW application id as one required attribute set
 		List<String> listTwo = new ArrayList<String>();
 		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		listTwo.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		newRequiredAttributes.add(listTwo);
+        // add object id and object type as one required attribute set
 		List<String> listThree = new ArrayList<String>();
 		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
 		newRequiredAttributes.add(listThree);
-        List<String> listFour = new ArrayList<String>();
-        listFour.add( StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID );
-        newRequiredAttributes.add(listFour);
+        // add each proposal reference type as a required attribute set
+        for (String proposalReferenceType : StudentIdentityConstants.QUALIFICATION_PROPOSAL_ID_REF_TYPES) {
+            List<String> tempList = new ArrayList<String>();
+            tempList.add( proposalReferenceType );
+            newRequiredAttributes.add(tempList);
+        }
 	}
 
 	/** 

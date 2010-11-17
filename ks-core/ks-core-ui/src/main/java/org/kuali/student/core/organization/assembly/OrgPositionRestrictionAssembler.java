@@ -23,6 +23,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -35,6 +36,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -118,7 +120,8 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         QueryPath metaPath = QueryPath.concat(null, POSITION_PATH);
         Metadata orgPersonMeta =orgPositionModel.getMetadata(metaPath);
         
-        for (Property p : (Data)input.get(POSITION_PATH)) {
+        for (Iterator<Property> propIter=((Data)input.get(POSITION_PATH)).iterator();propIter.hasNext();) {
+        	Property p = propIter.next(); 
             OrgPositionHelper orgPositionHelper=  OrgPositionHelper.wrap((Data)p.getValue());
             if (isUpdated(orgPositionHelper.getData())) {
                 if (orgPersonMeta.isCanEdit()) {
@@ -130,12 +133,15 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     } catch (Exception e) {
                         throw new AssemblyException();
                     }
+                    //Clear flag to avoid multiple updates
+                    AssemblerUtils.setUpdated(orgPositionHelper.getData(),false);
                 }
             }
-            else if(isDeleted(orgPositionHelper.getData())){
+            else if(isDeleted(orgPositionHelper.getData())&&orgPositionHelper.getId()!=null){
                 try{
                     if(orgPositionHelper.getId()!=null){
                         StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                        propIter.remove();
                     }
                 }
                 catch(Exception e ){
@@ -156,6 +162,8 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     LOG.error(e);
                     throw new AssemblyException();
                 }
+                //Clear flag to avoid multiple creates
+                AssemblerUtils.setCreated(orgPositionHelper.getData(),false);
             }
            
           

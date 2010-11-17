@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -52,12 +53,6 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
         List<StatementTypeInfo> statementTypesSorted = new ArrayList<StatementTypeInfo>();
 
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
-
-        //ensure the correct sequence of statement types; hard-coded for now
-        if (statementTypeNames.contains("kuali.statement.type.course.enrollmentEligibility")) {
-            statementTypeNames.remove("kuali.statement.type.course.enrollmentEligibility");
-            statementTypeNames.add(0, "kuali.statement.type.course.enrollmentEligibility");
-        }
 
         for (String statementTypeName : statementTypeNames) {
             StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
@@ -113,8 +108,8 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {
-                
-        List<ReqComponentTypeInfo> reqComponentTypeInfoList = null;
+
+        List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
             reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
         } catch (Exception ex) {
@@ -133,6 +128,15 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     @Override
     public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language) throws Exception {
         return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language);
+    }
+
+    @Override
+    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
+    	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
+    	for (String typeKey : nlUsageTypeKeys) {
+    		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language));
+    	}
+    	return nls;
     }
 
     public void setStatementService(StatementService statementService) {

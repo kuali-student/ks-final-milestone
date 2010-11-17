@@ -15,10 +15,13 @@
 
 .KS-Checkbox{
 	margin: 2px;
-	font-weight: bold;
-	font-size: 80%;
+/*	font-weight: bold;
+	font-size: 80%;*/
 }
-
+.KS-Checkbox label {
+    font-size: 1em;
+    font-weight: normal;
+}
 .KS-Checkbox-Checked{
 	color: #9B251C;
 }
@@ -26,3 +29,7 @@
 .KS-Checkbox-Focus{
 	color: #9B251C;
 }
+.KS-Checkbox-Table td {
+    vertical-align: middle;
+}
+                      

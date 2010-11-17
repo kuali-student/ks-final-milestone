@@ -38,7 +38,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.SearchDispatcher;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-public class DefaultValidatorImpl implements Validator{
+public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
 
     private MessageService messageService = null;
@@ -52,10 +52,7 @@ public class DefaultValidatorImpl implements Validator{
     private DateParser dateParser = new ServerDateParser();
 
     private boolean serverSide = true;
-    
-    private ValidatorFactory validatorFactory;
-    private ObjectStructureDefinition objStructure;
-
+        
     public MessageService getMessageService() {
         return messageService;
     }
@@ -83,17 +80,6 @@ public class DefaultValidatorImpl implements Validator{
     public void setDateParser(DateParser dateParser) {
         this.dateParser = dateParser;
     }
-
-    public void setValidatorFactory(ValidatorFactory validatorFactory){
-    	this.validatorFactory=validatorFactory;
-    }
-    public ObjectStructureDefinition getObjStructure() {
-		return objStructure;
-	}
-
-	public void setObjStructure(ObjectStructureDefinition objStructure) {
-		this.objStructure = objStructure;
-	}
 
 	/**
      * @return the serverSide
@@ -152,7 +138,6 @@ public class DefaultValidatorImpl implements Validator{
             return results;
         }
 
-        // Validate with the matching Type/State
         for (FieldDefinition f : objStructure.getAttributes()) {
             List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack);
             
@@ -277,7 +262,7 @@ public class DefaultValidatorImpl implements Validator{
         return results;
     }
 
-    private Integer tryParse(String s) {
+    protected Integer tryParse(String s) {
         Integer result = null;
         if (s != null) {
             try {
@@ -289,13 +274,13 @@ public class DefaultValidatorImpl implements Validator{
         return result;
     }
 
-    private void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack) {
+    protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack) {
 
         results.addAll(validateObject(value, nestedObjStruct, elementStack, false));
 
     }
 
-    private void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
+    protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
 
         // Process Case Constraint
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
@@ -348,7 +333,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private ValidationResultInfo processRequireConstraint(String element, RequiredConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
+    protected ValidationResultInfo processRequireConstraint(String element, RequiredConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
 
         ValidationResultInfo val = null;
 
@@ -383,7 +368,7 @@ public class DefaultValidatorImpl implements Validator{
      * @param caseConstraint
      * @param field
      */
-    private Constraint processCaseConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
+    protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
 
         CaseConstraint constraint = field.getCaseConstraint();
 
@@ -418,7 +403,7 @@ public class DefaultValidatorImpl implements Validator{
         return null;
     }
 
-    private ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value) {
+    protected ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value) {
 
         ValidationResultInfo val = null;
 
@@ -462,7 +447,7 @@ public class DefaultValidatorImpl implements Validator{
      * @param dataProvider
      * @return
      */
-    private ValidationResultInfo processOccursConstraint(String element, MustOccurConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
+    protected ValidationResultInfo processOccursConstraint(String element, MustOccurConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
 
         boolean result = false;
         int trueCount = 0;
@@ -488,7 +473,7 @@ public class DefaultValidatorImpl implements Validator{
     }
 
     // TODO: Implement lookup constraint
-    private void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider) {
+    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider) {
         if (lookupConstraint == null) {
             return;
         }
@@ -536,7 +521,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack) {
+    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack) {
 
         if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
@@ -566,7 +551,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         if (!(value instanceof Boolean)) {
             try {
                 Boolean.valueOf(value.toString());
@@ -578,7 +563,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateDouble(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateDouble(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Double v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element);
@@ -618,7 +603,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Float v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element);
@@ -657,7 +642,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Long v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element);
@@ -697,7 +682,7 @@ public class DefaultValidatorImpl implements Validator{
 
     }
 
-    private void validateInteger(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateInteger(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Integer v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element);
@@ -737,7 +722,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateDate(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, DateParser dateParser) {
+    protected void validateDate(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, DateParser dateParser) {
         ValidationResultInfo val = new ValidationResultInfo(element);
 
         Date v = null;
@@ -777,7 +762,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private void validateString(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateString(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
 
         if (value == null) {
             value = "";
@@ -806,7 +791,7 @@ public class DefaultValidatorImpl implements Validator{
         }
     }
 
-    private String getMessage(String messageId) {
+    protected String getMessage(String messageId) {
         if (null == messageService) {
             return messageId;
         }
@@ -816,7 +801,7 @@ public class DefaultValidatorImpl implements Validator{
         return msg.getValue();
     }
 
-    private String getElementXpath(Stack<String> elementStack) {
+    protected String getElementXpath(Stack<String> elementStack) {
         StringBuilder xPath = new StringBuilder();
         Iterator<String> itr = elementStack.iterator();
         while (itr.hasNext()) {
@@ -832,7 +817,7 @@ public class DefaultValidatorImpl implements Validator{
     /*
      * Homemade has text so we dont need outside libs.
      */
-    private boolean hasText(String string) {
+    protected boolean hasText(String string) {
 
         if (string == null || string.length() < 1) {
             return false;
@@ -849,7 +834,7 @@ public class DefaultValidatorImpl implements Validator{
         return false;
     }
 
-    private Map<String, Object> toMap(Constraint c) {
+    protected Map<String, Object> toMap(Constraint c) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("minOccurs", c.getMinOccurs());
         result.put("maxOccurs", c.getMaxOccurs());

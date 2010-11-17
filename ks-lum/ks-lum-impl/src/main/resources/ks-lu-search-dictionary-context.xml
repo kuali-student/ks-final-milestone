@@ -72,6 +72,12 @@
  </bean>
  <bean id="freestanding.search.courseVersions" parent="freestanding.search.courseVersions-parent" />
 
+<bean id="freestanding.search.programVersions-parent" parent="baseKualiId">
+  <property name="name" value="searchProgramVersions" />
+ </bean>
+ <bean id="freestanding.search.programVersions" parent="freestanding.search.programVersions-parent" />
+
+
  <bean id="freestanding.search.reusableCluSets-parent" abstract="true" parent="baseKualiCluSetId">
   <property name="name" value="reusableCluSets" />
  </bean>

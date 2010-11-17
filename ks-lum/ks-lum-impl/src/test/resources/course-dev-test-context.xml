@@ -105,17 +105,11 @@
 	
 	<bean id="validatorFactory"
   		class="org.kuali.student.common.validator.ValidatorFactory">
-  		  	 <constructor-arg index="0">
-  	 	<list>
-  	 		<ref bean="customValidator1"/>
-  	 	</list>
-  	 </constructor-arg>
   	 <property name="defaultValidator" ref="serviceValidator"/>
   	</bean>
 	
-	<bean id="customValidator1"
-		class="org.kuali.student.common.validator.SampCustomValidator">	
-	</bean>
+
+	
 	<bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>

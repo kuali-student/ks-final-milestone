@@ -50,14 +50,16 @@ margin-right:20px;
 }
 
 .contentBlock-titlePanel{
-border-bottom:1px dotted gray;
-height:5em;
-overflow:hidden;
+	padding-top: 20px;
+	border-bottom:1px dotted gray;
+	height:5em;
+	overflow:hidden;
 }
 
 .contentBlock-title{
-	margin-bottom: 5px;
-	font-weight: bold;
+    font-size:1.5em;
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
 .contentBlock-desc{
@@ -98,6 +100,27 @@ font-size:1.3em;
 }
 
 .contentBlock-navLink-disabled{
-	font-size: 1.6em;
+	font-size:1.3em;
 	color: gray;
+}
+
+.recentlyViewed-block{
+	background-color: #e8e8e8;
+}
+
+.recentlyViewed-block .contentBlock-list{
+	padding-left: 20px;
+	margin-right: 20px;
+	padding-bottom: 20px;
+}
+
+.recentlyViewed-block .contentBlock-titlePanel{
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.titleWidget-separator{
+	padding-left: 1em;
+	padding-right: 1em;
+	font-size: 1.3em;
 }

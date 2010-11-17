@@ -1,23 +1,22 @@
 package org.kuali.student.lum.program.client.variation.view;
 
-import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
+import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
-import org.kuali.student.lum.common.client.configuration.Configuration;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.major.view.CatalogInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.LearningObjectivesViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.ManagingBodiesViewConfiguration;
-import org.kuali.student.lum.program.client.major.view.MajorInformationViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class VariationViewAllConfiguration extends AbstractSectionConfiguration {
+public class VariationViewAllConfiguration extends AbstractControllerConfiguration {
 
     public VariationViewAllConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, ProgramProperties.get().program_menu_sections_viewAll(), ProgramConstants.PROGRAM_MODEL_ID, false);
@@ -29,9 +28,12 @@ public class VariationViewAllConfiguration extends AbstractSectionConfiguration 
         configurationManager.registerConfiguration(VariationInformationViewConfiguration.create());
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        //configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
+            if (configuration instanceof AbstractControllerConfiguration) {
+                ((AbstractControllerConfiguration) configuration).setController(controller);
+            }
             rootSection.addSection((Section) configuration.getView());
         }
     }

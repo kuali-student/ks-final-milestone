@@ -14,7 +14,9 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.bacc.CredentialManager;
+import org.kuali.student.lum.program.client.core.CoreManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 
 public class CurriculumHomeController extends LayoutController {
 
@@ -25,7 +27,9 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
-    private final ProgramManager programManager = new ProgramManager();
+    private final MajorManager majorManager = new MajorManager();
+    private final CredentialManager credentialManager = new CredentialManager();
+    private final CoreManager coreManager = new CoreManager();
 
     private abstract class RunAsyncGetView implements RunAsyncCallback {
         public void onFailure(Throwable reason) {
@@ -40,11 +44,18 @@ public class CurriculumHomeController extends LayoutController {
         PROGRAM_VIEW,
         PROGRAM_EDIT,
         PROGRAM_CREATE,
+        PROGRAM_VERSIONS,
         CLU_SETS,
         VARIATION_VIEW,
         VARIATION_EDIT,
         COURSE_CATALOG,
-        LO_CATEGORIES
+        LO_CATEGORIES,
+        BACC_PROGRAM_VIEW,
+        BACC_PROGRAM_EDIT,
+        BACC_PROGRAM_VERSIONS,
+        CORE_PROGRAM_VIEW,
+        CORE_PROGRAM_EDIT,
+        CORE_PROGRAM_VERSIONS
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -89,7 +100,7 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
-                        callback.exec(programManager.getProgramViewController());
+                        callback.exec(majorManager.getProgramViewController());
                     }
                 });
                 break;
@@ -97,7 +108,7 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
-                        callback.exec(programManager.getProgramEditController());
+                        callback.exec(majorManager.getProgramEditController());
                     }
                 });
                 break;
@@ -105,7 +116,15 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
-                        callback.exec(programManager.getProgramEditController());
+                        callback.exec(majorManager.getProgramEditController());
+                    }
+                });
+                break;
+            case PROGRAM_VERSIONS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(majorManager.getProgramVersionsController());
                     }
                 });
                 break;
@@ -129,7 +148,7 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
-                        callback.exec(programManager.getVariationViewController());
+                        callback.exec(majorManager.getVariationViewController());
                     }
                 });
                 break;
@@ -137,7 +156,55 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
-                        callback.exec(programManager.getVariationEditController());
+                        callback.exec(majorManager.getVariationEditController());
+                    }
+                });
+                break;
+            case CORE_PROGRAM_VIEW:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(coreManager.getViewController());
+                    }
+                });
+                break;
+            case CORE_PROGRAM_EDIT:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(coreManager.getEditController());
+                    }
+                });
+                break;
+            case CORE_PROGRAM_VERSIONS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(coreManager.getProgramVersionsController());
+                    }
+                });
+                break;
+            case BACC_PROGRAM_VIEW:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(credentialManager.getBaccViewController());
+                    }
+                });
+                break;
+            case BACC_PROGRAM_EDIT:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(credentialManager.getBaccEditController());
+                    }
+                });
+                break;
+            case BACC_PROGRAM_VERSIONS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(credentialManager.getProgramVersionsController());
                     }
                 });
                 break;
@@ -205,12 +272,11 @@ public class CurriculumHomeController extends LayoutController {
     public void updateModel() {
         // No model needed here
     }
-    
-    public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
-    	if(viewType == LUMViews.DEFAULT){
-    		WindowTitleUtils.setContextTitle(name);
-    	}
-    	super.showView(viewType, onReadyCallback);
-    };
 
+    public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
+        if (viewType == LUMViews.DEFAULT) {
+            WindowTitleUtils.setContextTitle(name);
+        }
+        super.showView(viewType, onReadyCallback);
+    }
 }

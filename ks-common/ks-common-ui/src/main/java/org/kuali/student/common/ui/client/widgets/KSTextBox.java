@@ -179,6 +179,7 @@ public class KSTextBox extends TextBox implements HasWatermark{
 			else{
 				super.setValue(value);
 				removeStyleName("watermark-text");
+				watermarkShowing = false;
 			}
 		}
 		else{
@@ -197,6 +198,7 @@ public class KSTextBox extends TextBox implements HasWatermark{
 			else{
 				super.setText(text);
 				removeStyleName("watermark-text");
+                watermarkShowing = false;
 			}
 		}
 		else{

@@ -1,6 +1,7 @@
 package org.kuali.student.lum.common.client.configuration;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 
 /**
  * Skeletal implementation of {@link Configuration}.
@@ -13,5 +14,14 @@ public abstract class AbstractConfiguration implements Configuration {
 
     public void setConfigurer(Configurer configurer) {
         this.configurer = configurer;
+    }
+
+    @Override
+    public void applyRestrictions() {
+    }
+
+    @Override
+    public boolean checkPermission(DataModel model) {
+        return false;
     }
 }

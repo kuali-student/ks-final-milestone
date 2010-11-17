@@ -1,6 +1,9 @@
 package org.kuali.student.lum.program.client.core.edit;
 
+import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -8,12 +11,13 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.core.CredentialProgramsBinding;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class CoreInformationEditConfiguration  extends AbstractSectionConfiguration {
+public class CoreInformationEditConfiguration extends AbstractSectionConfiguration {
 
     public CoreInformationEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
@@ -45,7 +49,6 @@ public class CoreInformationEditConfiguration  extends AbstractSectionConfigurat
     private VerticalSection createKeyProgramInformationSection() {
         VerticalSection section = new VerticalSection();
         configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
         return section;
     }
 
@@ -67,8 +70,12 @@ public class CoreInformationEditConfiguration  extends AbstractSectionConfigurat
 
     private VerticalSection createReadOnlySection() {
         VerticalSection section = new VerticalSection();
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        addCredentialPrograms(section);
         return section;
+    }
+
+    private void addCredentialPrograms(BaseSection section) {
+        FieldDescriptor fieldDescriptor = configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAMS, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()), new VerticalPanel());
+        fieldDescriptor.setWidgetBinding(new CredentialProgramsBinding());
     }
 }

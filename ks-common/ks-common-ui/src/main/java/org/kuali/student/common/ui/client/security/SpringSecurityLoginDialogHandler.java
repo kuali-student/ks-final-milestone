@@ -60,6 +60,7 @@ public class SpringSecurityLoginDialogHandler implements SessionTimeoutHandler{
     	} else {
     		resetLoginPanel();
     	}
+    	lightbox.setSize(460, 220);
         lightbox.show();		
 	}
 

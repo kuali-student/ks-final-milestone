@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -33,16 +35,18 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-    private StatementService statementService;    
+    private StatementService statementService;
 
     @Override
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
         List<StatementTreeViewInfo> rules = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
-        for (StatementTreeViewInfo rule : rules) {
-            setReqCompNL(rule);
+        if (rules != null) {
+        	for (StatementTreeViewInfo rule : rules) {
+        		setReqCompNL(rule);
+        	}
         }
         return rules;
-    }    
+    }
 
     public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                                                         Map<Integer, StatementTreeViewInfo> rules) throws Exception {
@@ -85,11 +89,11 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     @Override
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
         return courseService.deleteCourse(courseId);
-    }    
+    }
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        statementTreeViewInfo.setState("Active");        
+        statementTreeViewInfo.setState("Active");
         CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
@@ -107,9 +111,12 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
             }
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
-            for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                reqComponent.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqComponent, "KUALI.RULE", "en"));
-            }
+        	for (int i = 0; i < reqComponentInfos.size(); i++) {
+        		ReqComponentInfoUi reqUi = RulesUtil.clone(reqComponentInfos.get(i));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqComponentInfos.set(i, reqUi);
+        	}
         }
     }
 
@@ -119,5 +126,5 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
-    }    
+    }
 }

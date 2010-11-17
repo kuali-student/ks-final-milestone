@@ -36,6 +36,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
@@ -133,9 +134,10 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     } catch (Exception e) {
                         throw new AssemblyException();
                     }
+                    AssemblerUtils.setUpdated(orgPersonHelper.getData(), false);
                 }
             }
-            else if(isDeleted(orgPersonHelper.getData())){
+            else if(isDeleted(orgPersonHelper.getData())&&orgPersonHelper.getId()!=null){
                 try{
                     orgService.removeOrgPersonRelation(orgPersonHelper.getId());
                     propertyIter.remove();
@@ -157,6 +159,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                 	LOG.error(e);
                     throw new AssemblyException();
                 }
+                AssemblerUtils.setCreated(orgPersonHelper.getData(), false);
             }
            
           

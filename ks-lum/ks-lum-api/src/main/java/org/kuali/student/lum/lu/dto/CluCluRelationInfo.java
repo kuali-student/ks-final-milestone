@@ -34,7 +34,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Detailed information about a CLU to CLU relationship.
- */ 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluCluRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -183,5 +183,10 @@ public class CluCluRelationInfo implements Serializable, Idable, HasTypeState, H
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+    	return "CluCluRelationInfo[id=" + id + ", cluId=" + cluId + ", relatedCluId=" + relatedCluId + ", type=" + type + ", cluRelationRequired=" + isCluRelationRequired + "]";
     }
 }

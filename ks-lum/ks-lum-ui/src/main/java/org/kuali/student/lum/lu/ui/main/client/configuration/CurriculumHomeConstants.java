@@ -17,6 +17,8 @@ public interface CurriculumHomeConstants {
 	public static final String BROWSE_CATALOG = "browseCatalog";
 	public static final String FIND_COURSES = "findCourses";
 	public static final String FIND_MAJORS = "findMajors";
+	public static final String FIND_CORES = "findCores";
+	public static final String FIND_CREDENTIALS = "findCredentials";
 	public static final String COURSE_SETS = "courseSets";
 	public static final String LO_CATEGORIES = "loCategories";
 	public static final String DEP_ANALYSIS = "depAnalysis";

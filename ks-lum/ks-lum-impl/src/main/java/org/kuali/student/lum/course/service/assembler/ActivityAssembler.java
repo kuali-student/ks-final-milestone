@@ -41,6 +41,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		}
 		
 		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
+	    
 		activityInfo.setId(clu.getId());
 		activityInfo.setActivityType(clu.getType());
 		activityInfo.setState(clu.getState());
@@ -48,7 +49,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		activityInfo.setDuration(clu.getStdDuration());
 		activityInfo.setContactHours(clu.getIntensity());
 		activityInfo.setMetaInfo(clu.getMetaInfo());
-		
+        activityInfo.setAttributes(clu.getAttributes());
 		return activityInfo;
 	}
 
@@ -80,6 +81,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setStdDuration(activity.getDuration());
 		clu.setIntensity(activity.getContactHours());
 		clu.setMetaInfo(activity.getMetaInfo());
+		clu.setAttributes(activity.getAttributes());
 				
 		//Add the Clu to the result 
 		result.setNodeData(clu);

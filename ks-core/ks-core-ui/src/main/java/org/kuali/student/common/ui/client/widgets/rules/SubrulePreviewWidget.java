@@ -55,7 +55,7 @@ public class SubrulePreviewWidget extends FlowPanel {
             header.setHTML("Must meet <b>all of the following:</b>");
         } else {
             header.setHTML("Must meet <b>1 of the following:</b>");
-        }      
+        }
         header.setStyleName("KS-Rule-Preview-Subrule-header");
         header.getElement().setAttribute("style", "font-weight: normal");
 
@@ -63,7 +63,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         if (!isReadOnly) {
             buildEditActionsWidget(header);
         }
-        this.add(header);        
+        this.add(header);
     }
 
     private void buildEditActionsWidget(SectionTitle header) {
@@ -98,12 +98,12 @@ public class SubrulePreviewWidget extends FlowPanel {
                 if (foundOpennigBracket) {
                     this.add(new HTML(beforeTagString));
                 } else {
-                    this.add(clusetWidgets.get(beforeTagString));                    
+                    this.add(clusetWidgets.get(beforeTagString));
                 }
                 html = html.substring(ix + CLU_SET_WIDGET_TAG.length());
-                continue;                
+                continue;
             }
-        }       
+        }
     }
 
     private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo, StatementOperatorTypeKey upperLevelOperator, boolean firstLevel, boolean firstRequirement) {
@@ -138,7 +138,7 @@ public class SubrulePreviewWidget extends FlowPanel {
 
         } else if ((stmtTreeInfo.getReqComponents() != null) && !stmtTreeInfo.getReqComponents().isEmpty()) {
             List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
-            StringBuffer htmlListText = new StringBuffer();
+            StringBuilder htmlListText = new StringBuilder();
 
             //build a bullet list of requirements
             boolean firstListRequirement = firstRequirement;
@@ -147,12 +147,20 @@ public class SubrulePreviewWidget extends FlowPanel {
             }
             for (ReqComponentInfo reqComp : reqComponents) {
                 StatementOperatorTypeKey operator = (reqComponents.size() > 1 ? stmtTreeInfo.getOperator() : upperLevelOperator);
-                htmlListText.append(addRequirementToList(reqComp, operator, reqComp.getNaturalLanguageTranslation(), firstListRequirement));
+                String nl = null;
+                if (reqComp instanceof ReqComponentInfoUi) {
+                    ReqComponentInfoUi reqUi = (ReqComponentInfoUi)reqComp;
+                	nl = reqUi.getPreviewNaturalLanguageTranslation();
+            	}
+                if ( nl == null) {
+                	nl = reqComp.getNaturalLanguageTranslation();
+                }
+                htmlListText.append(addRequirementToList(reqComp, operator, nl, firstListRequirement));
                 firstListRequirement = false;
             }
 
             //indent if we have more than one requirement on second or lower levels
-            if (firstLevel || reqComponents.size() == 1) {               
+            if (firstLevel || reqComponents.size() == 1) {
                 htmlText.append(htmlListText);
             } else {
                 String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
@@ -160,11 +168,11 @@ public class SubrulePreviewWidget extends FlowPanel {
                 htmlText.append(addRequirementToList(null, upperLevelOperator, operatorText, firstRequirement));
               //  firstRequirement = false;
                 htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
-                htmlText.append(htmlListText);                
+                htmlText.append(htmlListText);
                 htmlText.append("</ul>");
             }
         } else {
-            return new StringBuffer("No rules have been added");    
+            return new StringBuffer("No rules have been added");
         }
 
         return htmlText;
@@ -172,7 +180,7 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     private StringBuffer addRequirementToList(ReqComponentInfo reqComp, StatementOperatorTypeKey operator, String requirement, boolean firstRequirement) {
         StringBuffer html = new StringBuffer();
-        html.append("<li style=\"padding-top: 5px;\">");        
+        html.append("<li style=\"padding-top: 5px;\">");
         if (!firstRequirement) {
             html.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">");
             html.append(operator == StatementOperatorTypeKey.AND ? "AND " : "OR ");
@@ -186,14 +194,14 @@ public class SubrulePreviewWidget extends FlowPanel {
             for (ReqCompFieldInfo fieldInfo : fieldInfos) {
                 if (RulesUtil.isCluSetWidget(fieldInfo.getType())) {
                     if (clusetWidgets.get(fieldInfo.getValue()) != null) {
-                        html.append(CLU_SET_WIDGET_TAG + fieldInfo.getValue() + CLU_SET_WIDGET_TAG); 
+                        html.append(CLU_SET_WIDGET_TAG + fieldInfo.getValue() + CLU_SET_WIDGET_TAG);
                         break;
                     }
                 }
             }
         }
 
-        html.append("</li>");        
+        html.append("</li>");
         return html;
     }
 
@@ -202,7 +210,7 @@ public class SubrulePreviewWidget extends FlowPanel {
     }
 
     public void addDeleteButtonClickHandler(ClickHandler handler) {
-        deleteButton.addClickHandler(handler);    
+        deleteButton.addClickHandler(handler);
     }
 
     public void setRetrieveClusetWidgetCallback(Callback<String> callback) {

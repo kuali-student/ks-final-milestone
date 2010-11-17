@@ -24,6 +24,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
@@ -51,7 +52,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleAdminOrgIds(clu, pvInfo);
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
+        programAssemblerUtils.assemblePublications(clu, pvInfo);
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(clu, pvInfo);
@@ -63,6 +64,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
         pvInfo.setDescr(clu.getDescr());
+        pvInfo.setVersionInfo(clu.getVersionInfo());
 
         return pvInfo;
     }
@@ -85,6 +87,8 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
         
+        boolean stateChanged = NodeOperation.UPDATE == operation && variation.getState() != null && !variation.getState().equals(clu.getState());
+        
         programAssemblerUtils.disassembleBasics(clu, variation, operation);
         if (variation.getId() == null)
         	variation.setId(clu.getId());
@@ -92,10 +96,10 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.disassembleAdminOrgs(clu, variation, operation);
         programAssemblerUtils.disassembleAtps(clu, variation, operation);
         programAssemblerUtils.disassembleLuCodes(clu, variation, operation);        
-        programAssemblerUtils.disassemblePublicationInfo(clu, variation, operation);
-        
+        programAssemblerUtils.disassemblePublications(clu, variation, operation, result);
+
         if(variation.getProgramRequirements() != null && !variation.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result, stateChanged);
         }
         
         if (variation.getResultOptions() != null) {
@@ -113,6 +117,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         clu.setCampusLocations(variation.getCampusLocations());
         clu.setEffectiveDate(variation.getEffectiveDate());
         clu.setDescr(variation.getDescr());
+        clu.setVersionInfo(variation.getVersionInfo());        
         
 		// Add the Clu to the result
 		result.setNodeData(clu);

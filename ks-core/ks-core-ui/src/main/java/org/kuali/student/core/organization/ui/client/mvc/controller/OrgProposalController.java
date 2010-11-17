@@ -473,7 +473,16 @@ public class OrgProposalController extends TabbedSectionLayout{
                  if (saveActionEvent.isAcknowledgeRequired()){
                      saveMessage.setText(getLabel("orgSaveOk"));
                      buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-
+                     if( viewMap.get(CommonConfigurer.SectionsEnum.POSITIONS) instanceof SectionView){
+                    	 SectionView view = (SectionView)  viewMap.get(CommonConfigurer.SectionsEnum.POSITIONS);
+                    	 orgProposalModel.setRoot(result.getValue());
+                    	 view.updateView(orgProposalModel);
+                     }
+                     if( viewMap.get(CommonConfigurer.SectionsEnum.ORG_INFO) instanceof SectionView){
+                    	 SectionView view = (SectionView)  viewMap.get(CommonConfigurer.SectionsEnum.ORG_INFO);
+                    	 orgProposalModel.setRoot(result.getValue());
+                    	 view.updateView(orgProposalModel);
+                     }
                  } else {
                      saveWindow.hide();
                      saveActionEvent.doActionComplete();

@@ -2,12 +2,12 @@ package org.kuali.student.lum.program.client.widgets;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.events.ChangeViewEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -24,8 +24,11 @@ public class EditableHeader extends Composite {
 
     private Enum<?> viewToken;
 
-    public EditableHeader(String title, Enum<?> viewToken) {
+    private HandlerManager eventBus;
+
+    public EditableHeader(String title, Enum<?> viewToken, HandlerManager eventBus) {
         initWidget(content);
+        this.eventBus = eventBus;
         this.viewToken = viewToken;
         sectionTitle = new KSLabel(title);
         buildLayout();
@@ -37,7 +40,7 @@ public class EditableHeader extends Composite {
         editButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ProgramManager.getEventBus().fireEvent(new ChangeViewEvent(viewToken));
+                eventBus.fireEvent(new ChangeViewEvent(viewToken));
             }
         });
     }
@@ -45,7 +48,7 @@ public class EditableHeader extends Composite {
     private void setStyles() {
         sectionTitle.addStyleName("sectionTitle");
         content.addStyleName("editableHeader");
-        editButton.addStyleName("editButton");
+        editButton.addStyleName("sectionEditLink");
     }
 
     private void buildLayout() {

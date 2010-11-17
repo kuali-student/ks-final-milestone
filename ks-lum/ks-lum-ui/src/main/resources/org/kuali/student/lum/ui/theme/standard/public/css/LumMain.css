@@ -120,7 +120,8 @@
 }
 
 .KS-LOBuilder-LO-Panel {
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .KS-LOWindow {
@@ -156,10 +157,11 @@
 }
 
 .KS-LOCategoryPicker {
-               border-style:dashed; 
-               font-size:1em; 
-               padding:2px 5px 5px;
-               width:20em; 
+    border-style: dashed;
+    font-size: 1em;
+    margin: 0 5px 0 70px;
+    padding: 2px 5px 5px;
+    width: 100%;
 
 }
 
@@ -177,14 +179,14 @@ margin-bottom: 15px;
 	width:50px;
 }
 .KS-LONodeIndentToolbar {
-    width:50px;
+    width:47px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
-                    background-color:#F2F9F9;
-                    border:1px solid #D2D8E3;
-                    height:50px;
-                    width:400px;
+    background-color: #F2F9F9;
+    border: 1px solid #D2D8E3;
+    height: 50px;
+    width: 790px;
 }
 .KS-LOHNodePanel {
 }
@@ -193,12 +195,11 @@ margin-bottom: 15px;
 	height: 32px;
 }
 .KS-LOButtonPanel {
-    border-bottom: medium none;
-    border-left: #D2D8E3 1px solid;
-    width: 100%;
     border-collapse: collapse;
-    border-top: #D2D8E3 1px solid;
-    border-right: #D2D8E3 1px solid;
+    border-color: #D2D8E3;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    width: 100%;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
@@ -257,11 +258,12 @@ margin-bottom: 15px;
     margin: 4px 0 0;
 }
 .KS-LODeleteButton{
-                    background:none repeat scroll 0 0 transparent;
-                    border:medium none;
-                    color:blue;
-                    font-size :0.916em;
-                    margin:8px 4px 1px 457px;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: blue;
+    float: right;
+    font-size: 0.916em;
+    margin: 8px 4px 1px 320px;  /* not ideal but the quickest fix */
 
 }
 .KS-LODeleteButtonDisabled{
@@ -277,12 +279,17 @@ margin-bottom: 15px;
 	cursor: pointer;
 }
 .KS-LOTextArea {
-                    border:1px solid #888888;
-                    height:2.95em;
-                    margin:8px;
-                    width:28em;
+    border: 1px solid #888888;
+    height: 62px;
+    margin: 8px;
+    width: 35em;
 
 }
+
+.loText-count-label{
+	margin-left: 8px;
+}
+
 .KS-LOSelectedCategories {
     margin-left: 0px;	
 }
@@ -402,6 +409,10 @@ padding:10px
     height:100px;
     padding:10px;
 
+}
+
+.browseCatalog .KS-TabPanel-Small .KS-TabPanel-Content{
+	width: 940px;
 }
 
 .cluInfo-officialIdentifier-longName{}

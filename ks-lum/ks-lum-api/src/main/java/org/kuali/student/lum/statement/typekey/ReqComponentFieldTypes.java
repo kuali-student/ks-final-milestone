@@ -51,7 +51,7 @@ public enum ReqComponentFieldTypes {
 	COURSE_CLUSET_KEY("kuali.reqComponent.field.type.course.cluSet.id"),
 	PROGRAM_CLU_KEY("kuali.reqComponent.field.type.program.clu.id"),
 	PROGRAM_CLUSET_KEY("kuali.reqComponent.field.type.program.cluSet.id"),
-	TEST_CLU_KEY("kuali.reqComponent.field.type.test.clu.id"),
+	TEST_CLU_KEY("kuali.reqComponent.field.type.test.clu.id"),//FIXME Why do we have test data in our code?
 	TEST_CLUSET_KEY("kuali.reqComponent.field.type.test.cluSet.id");
 
 	private String id;

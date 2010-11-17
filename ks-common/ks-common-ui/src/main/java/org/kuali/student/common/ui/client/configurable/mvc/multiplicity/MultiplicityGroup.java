@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -68,6 +69,7 @@ public class MultiplicityGroup extends Composite {
     private boolean loaded = false;
     private int itemCount = 0;
     private String parentPath;
+    private boolean isDirty = false;
 
     private Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition;
     private List<String> deletionParentKeys;
@@ -438,6 +440,37 @@ public class MultiplicityGroup extends Composite {
 	public void setConfig(MultiplicityConfiguration config) {
 		this.config = config;
 	}   
+	
+    public void resetDirtyFlags() {
+    	isDirty = false;
+		for (MultiplicityGroupItem item:items){
+			item.resetDirtyFlags();
+			Widget itemWidget = item.getItemWidget();
+			if (itemWidget instanceof BaseSection){
+				((BaseSection)itemWidget).resetDirtyFlags();
+			}
+		}
+    }
+	
+	public boolean isDirty(){
+		for (MultiplicityGroupItem item:items){
+			if (item.isDirty()){
+				isDirty = true;
+				break;
+			} else {
+				Widget itemWidget = item.getItemWidget();
+				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+					isDirty = true;
+					break;
+				}
+			}
+		}
+		return isDirty;
+	}
+	
+	public void setIsDirty(boolean dirty){
+		isDirty = dirty;
+	}
 	
     public class ConditionChoices extends KSRadioButtonList{
         private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);

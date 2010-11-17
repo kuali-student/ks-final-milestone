@@ -28,7 +28,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
-import org.kuali.student.common.validator.old.DateParser;
+import org.kuali.student.common.validator.DateParser;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.ModelDefinition;
@@ -60,7 +60,7 @@ public class DataModel implements Model {
      *
      */
     private static final long serialVersionUID = 1L;
-    
+
     private String modelName = "";
     private ModelDefinition definition;
     private DataModelValidator validator = new DataModelValidator();
@@ -70,10 +70,12 @@ public class DataModel implements Model {
 
     private Data root;
 
+    private String parentPath;    //Set this if DataModel's root element is nested in another data element.
+
     public DataModel() {
         // do nothing
     }
-    
+
     public DataModel(String name) {
         this.modelName = name;
     }
@@ -85,14 +87,14 @@ public class DataModel implements Model {
     }
 
     public String getModelName() {
-		return modelName;
-	}
+        return modelName;
+    }
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
 
-	public <T> T get(final QueryPath path) {
+    public <T> T get(final QueryPath path) {
         return (T) root.query(path);
     }
 
@@ -184,8 +186,20 @@ public class DataModel implements Model {
             } else {
                 final QueryPath resultPath = d.getQueryPath();
                 resultPath.add(key);
+
                 Object resultValue = d.get(key);
-                result.put(resultPath, resultValue);
+
+                //If query is against DataModel whose root element is child of another data object, 
+                //need to strip of the parent path so result path is relative to root of child element
+                if (parentPath != null) {
+                    String relativePath = resultPath.toString();
+                    if (relativePath.contains("/")) {
+                        relativePath = relativePath.substring(parentPath.length());
+                        result.put(QueryPath.parse(relativePath), resultValue);
+                    }
+                } else {
+                    result.put(resultPath, resultValue);
+                }
             }
         }
     }
@@ -281,6 +295,22 @@ public class DataModel implements Model {
 
     public void setDefinition(ModelDefinition definition) {
         this.definition = definition;
+    }
+
+
+    public String getParentPath() {
+        return parentPath;
+    }
+
+
+    /**
+     * If the root element for this is a child of another data object, then the parent
+     * path must be set to the path where this child data object can be found.
+     *
+     * @param parentPath
+     */
+    public void setParentPath(String parentPath) {
+        this.parentPath = parentPath;
     }
 
     public void validate(final Callback<List<ValidationResultInfo>> callback) {

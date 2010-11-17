@@ -61,6 +61,16 @@
     <param name="datasource.username">KSRICE</param>
     <param name="datasource.password">KSRICE</param>
 
+	<!-- core datasource needed for admin screens -->
+	<param name="ks.core.datasource.driver.name">${datasource.driver.name}</param>
+	<param name="ks.core.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+	<param name="ks.core.datasource.pool.minSize">${datasource.pool.minSize}</param>
+	<param name="ks.core.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+	<param name="ks.core.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
+	<param name="ks.core.datasource.url">${datasource.url}</param>
+	<param name="ks.core.datasource.username">KSSTANDALONE</param>
+	<param name="ks.core.datasource.password">KSSTANDALONE</param>
+
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
     <param name="keystore.alias">rice</param>
@@ -73,7 +83,7 @@
 -->
     <!-- additional config files -->
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml,classpath:ks-rice-admin-context.xml</param>
     
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>

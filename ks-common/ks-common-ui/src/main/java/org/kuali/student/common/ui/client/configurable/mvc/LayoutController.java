@@ -295,7 +295,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	
 	public void updateModelFromCurrentView(){
         if(this.getCurrentView() != null){
-		this.getCurrentView().updateModel();
+		    this.getCurrentView().updateModel();
         }
 	}
 

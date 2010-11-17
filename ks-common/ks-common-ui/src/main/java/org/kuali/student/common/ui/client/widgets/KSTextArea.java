@@ -20,10 +20,15 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 
 /**
@@ -37,6 +42,7 @@ public class KSTextArea extends TextArea implements HasWatermark{
 	private boolean hasWatermark = false;
 	private boolean watermarkShowing = false;
 	private String watermarkText;
+	private int left = 0;
 
     /**
      * Creates a new empty text area.
@@ -55,6 +61,32 @@ public class KSTextArea extends TextArea implements HasWatermark{
     public KSTextArea(Element element) {
         super(element);
         setupDefaultStyle();
+    }
+    
+    public KSTextArea(final Label countLabel, final int maximumChar){
+    	super();
+        setupDefaultStyle();
+    	left = maximumChar;
+    	countLabel.setText(left + " characters left" );
+    	this.addKeyUpHandler(new KeyUpHandler(){
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if(KSTextArea.this.getText().length() > maximumChar){
+					KSTextArea.this.setText(KSTextArea.this.getText().substring(0, maximumChar));
+					left = 0;
+				}
+				else{
+					left = maximumChar - KSTextArea.this.getText().length();
+				}
+				if(left <= 10){
+					countLabel.getElement().setAttribute("style", "color: red;");
+				}
+				else{
+					countLabel.getElement().removeAttribute("style");
+				}
+				countLabel.setText(left + " characters left" );
+		}});
     }
 
     /**

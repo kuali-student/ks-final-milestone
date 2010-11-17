@@ -22,6 +22,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityGroupBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityTableBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
@@ -156,5 +157,31 @@ import com.google.gwt.user.client.ui.Widget;
     	}
     	
     }
+
+    @Override
+    public void resetFieldInteractionFlags() {
+    	super.resetFieldInteractionFlags();
+		if (widget instanceof MultiplicityGroup){
+			((MultiplicityGroup)widget).resetDirtyFlags();
+		}		
+    }
+
+    @Override
+	public void resetDirtyFlags() {
+		super.resetDirtyFlags();
+		if (widget instanceof MultiplicityGroup){
+			((MultiplicityGroup)widget).resetDirtyFlags();
+		}		
+	}
+
+	@Override
+	public boolean isDirty() {
+		boolean isDirty = super.isDirty();
+		if (!isDirty && widget instanceof MultiplicityGroup){
+			isDirty = ((MultiplicityGroup)widget).isDirty();
+		}
+		
+		return isDirty;
+	}
 
 }

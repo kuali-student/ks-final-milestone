@@ -50,7 +50,7 @@
 .KS-Basic-Menu-Item-Panel-Hover{
 }
 
-div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
+.KS-Basic-Menu-Item-Panel.KS-Basic-Menu-Toplevel-Item-Panel {
   border-top:1px solid #333;
 }
 
@@ -94,7 +94,9 @@ div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
 .KS-CustomDropDown-Arrow{
 	float: right;
 }
-
+.KS-CustomDropDown-Arrow .KS-Image {
+   margin:2px;
+}
 .KS-CustomDropDown-Layout{
 	width: 100%;
 }
@@ -120,6 +122,7 @@ div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
 }
 
 .KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel{
+color:#2C61E6;
 cursor:pointer;
 float:left;
 margin-bottom:1px;
@@ -159,7 +162,7 @@ padding-left:6px;
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a{
-	color: #333333;
+	color: #2C61E6;
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a:hover{

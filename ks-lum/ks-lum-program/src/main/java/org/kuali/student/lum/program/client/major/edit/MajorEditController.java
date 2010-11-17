@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -30,22 +32,25 @@ import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Igor
  */
 public class MajorEditController extends MajorController {
 
-    private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final Set<String> existingVariationIds = new TreeSet<String>();
 
     /**
      * Constructor.
      *
      * @param programModel
      */
-    public MajorEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public MajorEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(MajorEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
@@ -80,24 +85,63 @@ public class MajorEditController extends MajorController {
                 doCancel();
             }
         });
-        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEventHandler() {
+        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEvent.Handler() {
             @Override
             public void onEvent(UpdateEvent event) {
                 doSave(event.getOkCallback());
             }
         });
 
-        eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEventHandler() {
+        eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEvent.Handler() {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
-                ((Data) programModel.get(ProgramConstants.VARIATIONS)).add(event.getData());
+
+                Data currentVariations = (Data) programModel.get(ProgramConstants.VARIATIONS);
+
+                existingVariationIds.clear();
+
+                for (Data.Property prop : currentVariations) {
+                    String existingId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                    existingVariationIds.add(existingId);
+                }
+                String updatedId = event.getData().get(ProgramConstants.ID);
+                Integer updatedKey = null;
+
+                //FIXME: This is ugly but gets us past a  blocker issue. 
+                // Theres something wrong with the way the models are
+                // handled in the major and variation controllers  so they get out of sync.
+                // This is a temporary workaround
+                if (updatedId != null) { // this is an update of an existing variation
+                    for (Data.Property prop : currentVariations) {
+                        String id = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                        if (updatedId.equals(id)) {
+                            updatedKey = prop.getKey();
+                            Data currentMetaInfo = ((Data) prop.getValue()).get("metaInfo");
+                            String latestVersionInd = currentMetaInfo.get("versionInd");
+                            Data newMetaInfo = event.getData().get("metaInfo");
+                            if (newMetaInfo == null) {
+                                newMetaInfo = new Data();
+                                event.getData().set("metaInfo", newMetaInfo);
+                            }
+                            newMetaInfo.set("versionInd", latestVersionInd);
+                            break;
+                        }
+                    }
+
+                    currentVariations.set(updatedKey, event.getData());
+                } else {
+                    currentVariations.add(event.getData());
+
+                }
                 doSave();
             }
         });
-        eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEventHandler() {
+        eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEvent.Handler() {
             @Override
             public void onEvent(AddSpecializationEvent event) {
                 String id = (String) programModel.get(ProgramConstants.ID);
+                ProgramRegistry.setRow(programModel.<Data>get(ProgramConstants.VARIATIONS).size());
+                ProgramRegistry.setData(ProgramUtils.createNewSpecializationBasedOnMajor(programModel));
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
@@ -105,13 +149,8 @@ public class MajorEditController extends MajorController {
 
             }
         });
-        eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
-            @Override
-            public void onEvent(SpecializationUpdateEvent event) {
-                doSave();
-            }
-        });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 Enum<?> changeSection = ProgramRegistry.getSection();
@@ -128,24 +167,70 @@ public class MajorEditController extends MajorController {
                 }
             }
         });
-        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
                 List<String> ids = event.getProgramRequirementIds();
+
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                 Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+
+                if (programRequirements == null) {
+                    Window.alert("Cannot find program requirements in data model.");
+                    GWT.log("Cannot find program requirements in data model", null);
+                    return;
+                }
+
                 for (String id : ids) {
                     programRequirements.add(id);
                 }
                 doSave();
             }
         });
-        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEventHandler() {
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());
             }
         });
+    }
+
+
+    @Override
+    protected void loadModel(ModelRequestCallback<DataModel> callback) {
+        ViewContext viewContext = getViewContext();
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
+            createNewVersionAndLoadModel(callback, viewContext);
+        } else {
+            super.loadModel(callback);
+        }
+    }
+
+    protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
+        Data data = new Data();
+        Data versionData = new Data();
+        versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
+        versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
+        data.set(new Data.StringKey("versionInfo"), versionData);
+
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+            public void onSuccess(DataSaveResult result) {
+                super.onSuccess(result);
+                programModel.setRoot(result.getValue());
+                viewContext.setId((String) programModel.get(ProgramConstants.VERSION_IND_ID));
+                viewContext.setIdType(IdType.OBJECT_ID);
+                setHeaderTitle();
+                setStatus();
+                callback.onModelReady(programModel);
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+            }
+
+            public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                callback.onRequestFail(caught);
+            }
+        });
+
     }
 
     private void doSave(final Callback<Boolean> okCallback) {
@@ -161,6 +246,7 @@ public class MajorEditController extends MajorController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
+                            eventBus.fireEvent(new ValidationFailedEvent());
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -176,9 +262,10 @@ public class MajorEditController extends MajorController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
+        showView(ProgramSections.SUMMARY);
     }
 
+    @Override
     protected void doSave() {
         doSave(NO_OP_CALLBACK);
     }
@@ -187,27 +274,53 @@ public class MajorEditController extends MajorController {
         programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
             @Override
             public void onSuccess(DataSaveResult result) {
-                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
-                    isValid(result.getValidationResults(), false, true);
-                    StringBuilder msg = new StringBuilder();
-                    for (ValidationResultInfo vri : result.getValidationResults()) {
-                        msg.append(vri.getMessage());
-                    }
-                    KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
+                super.onSuccess(result);
+                List<ValidationResultInfo> validationResults = result.getValidationResults();
+                if (validationResults != null && !validationResults.isEmpty()) {
+                    ProgramUtils.retrofitValidationResults(validationResults);
+                    isValid(validationResults, false, true);
+                    eventBus.fireEvent(new ValidationFailedEvent());
+                    ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
                     okCallback.exec(false);
                 } else {
-                    super.onSuccess(result);
                     programModel.setRoot(result.getValue());
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();
-                    eventBus.fireEvent(new AfterSaveEvent(programModel));
+                    configurer.applyPermissions();
+                    handleSpecializations();
+                    throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
-                    showView(getCurrentViewEnum());
+                    if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
+                        showView(getCurrentViewEnum());
+                    }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
                 }
             }
         });
+    }
+
+    /**
+     * Handles after save work for specializations.
+     */
+    private void handleSpecializations() {
+        String newVariationId = null;
+        Data variations = programModel.get(ProgramConstants.VARIATIONS);
+        for (Data.Property prop : variations) {
+            String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+            if (!existingVariationIds.contains(varId)) {
+                newVariationId = varId;
+                existingVariationIds.add(newVariationId);
+                break;
+            }
+        }
+        if (newVariationId != null) {
+            eventBus.fireEvent(new SpecializationCreatedEvent(newVariationId));
+        }
+    }
+
+    private void throwAfterSaveEvent() {
+        eventBus.fireEvent(new AfterSaveEvent(programModel, this));
     }
 }

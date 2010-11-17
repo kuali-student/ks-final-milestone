@@ -389,7 +389,11 @@
  </bean>
  <bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
 
- <bean id="reqCompFieldInfo.value.grade.id-parent" abstract="true" parent="baseKualiType" >
+<!--
+ Note: the grade.id is really a key so it should coform to the baseKualiType BUT in R1.1 we are displaying the value
+ and the client wants to see percent sign in it so changed this to baseKualiName
+ -->
+ <bean id="reqCompFieldInfo.value.grade.id-parent" abstract="true" parent="baseKualiName" >
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.grade.id" parent="reqCompFieldInfo.value.grade.id-parent"/>

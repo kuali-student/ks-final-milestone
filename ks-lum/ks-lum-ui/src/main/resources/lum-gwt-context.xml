@@ -80,8 +80,12 @@
                         value-ref="LogRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService"
                        value-ref="metadataGwtController"/>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/programRpcService"
-                       value-ref="programRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineRpcService"
+                       value-ref="majorDisciplineRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credentialProgramRpcService"
+                       value-ref="credentialProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
+                       value-ref="coreProgramRpcServletController"/>
             </map>
         </property>
     </bean>
@@ -104,10 +108,22 @@
         <property name="servletInstance" ref="CourseProposalRpcGwtServlet"/>
     </bean>
 
-    <bean id="programRpcServletController"
+    <bean id="majorDisciplineRpcServletController"
           class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="ProgramRpcServlet"/>
-        <property name="servletInstance" ref="programRpcServlet"/>
+        <property name="servletName" value="majorDisciplineRpcServlet"/>
+        <property name="servletInstance" ref="majorDisciplineRpcServlet"/>
+    </bean>
+
+    <bean id="credentialProgramRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="CredentialProgramRpcServlet"/>
+        <property name="servletInstance" ref="credentialProgramRpcServlet"/>
+    </bean>
+
+    <bean id="coreProgramRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="CoreProgramRpcServlet"/>
+        <property name="servletInstance" ref="coreProgramRpcServlet"/>
     </bean>
 
     <bean id="ServerPropertiesServletController"
@@ -282,16 +298,43 @@
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
-    <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
-		<property name="dataService" ref="programDataService"/>
+    <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
+		<property name="dataService" ref="majorDisciplineDataService"/>
 		<property name="programService" ref="programClient"/>
         <property name="statementService" ref="statementServiceClient"/>        
     </bean>
 
-    <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">
-        <property name="transformationManager" ref="programTransformationManager"/>
+    <bean id="credentialProgramRpcServlet" class="org.kuali.student.lum.program.server.CredentialProgramRpcServlet">
+		<property name="dataService" ref="credentialProgramDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>        
+    </bean>
+
+    <bean id="coreProgramRpcServlet" class="org.kuali.student.lum.program.server.CoreProgramRpcServlet">
+		<property name="dataService" ref="coreProgramDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>        
+    </bean>
+
+    <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">
+        <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
+        <property name="transformationManager" ref="credentialProgramTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="coreProgramDataService" class="org.kuali.student.lum.program.server.CoreProgramDataService">
+        <property name="transformationManager" ref="coreProgramTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
     </bean>
 
 	<!--  Transformation Managers -->
@@ -319,14 +362,40 @@
         </property>
     </bean>
 
-    <bean id="programTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="majorDisciplineTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
+                <ref bean="majorCredentialProgramFilter"/>
+                <ref bean="versionProgramFilter"/>                
                 <ref bean="idTranslatorFilter"/>
-                <ref bean="credentialProgramFilter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="idTranslatorFilter"/>		
+                <ref bean="versionCredentialProgramFilter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="coreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="coreCredentialProgramFilter"/>
+                <ref bean="idTranslatorFilter"/>
+                <ref bean="versionCoreProgramFilter"/>
             </list>
         </property>
     </bean>
@@ -391,7 +460,25 @@
 		</property>			
     </bean>
 
-    <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
+    <bean id="majorCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.MajorCredentialProgramFilter">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="coreCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CoreCredentialProgramFilter">
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="versionProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionProgramFilter">
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="versionCoreProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCoreProgramFilter">
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="versionCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCredentialProgramFilter">
         <property name="programService" ref="programClient"/>
     </bean>
 

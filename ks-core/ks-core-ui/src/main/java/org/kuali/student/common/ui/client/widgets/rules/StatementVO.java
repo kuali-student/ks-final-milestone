@@ -369,7 +369,6 @@ public class StatementVO extends Token implements Serializable {
     private String getNextGuiRCId(List<ReqComponentVO> rcs) {
         int charCode = 65; // ASCII code for capitalized A
         int newCharCode = -1;
-        String guiRCId = null;
 
         while (newCharCode == -1) {
             boolean charUsed = false;
@@ -389,12 +388,12 @@ public class StatementVO extends Token implements Serializable {
         }
 
         // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
+        String guiRCId;
         if (newCharCode < 65 + 26) {
             guiRCId = Character.toString((char)newCharCode);
         } else {
             guiRCId = Character.toString((char)(65 + 26));
-            guiRCId = guiRCId + Integer.toString(
-                    newCharCode - 65 + 26 - 1);
+            guiRCId = guiRCId + Integer.toString(newCharCode - 65 + 26 - 1);
         }
         return guiRCId;
     }
@@ -408,9 +407,7 @@ public class StatementVO extends Token implements Serializable {
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
 
         if (statementVOs != null) {
-//            node.setUserObject(statementVO);
-            for (int i = 0; i < statementVOs.size(); i++) {
-                StatementVO childStatementVO = statementVOs.get(i);
+            for (StatementVO childStatementVO : statementVOs) {
                 doAssignGuiRCId(childStatementVO, rcs);
             }
         }
@@ -420,8 +417,7 @@ public class StatementVO extends Token implements Serializable {
                 ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
                 if (childReqComponentVO.getGuiReferenceLabelId() == null ||
                         childReqComponentVO.getGuiReferenceLabelId().trim().length() == 0) {
-                    String guiRCId = null;
-                    guiRCId = getNextGuiRCId(rcs);
+                    String guiRCId = getNextGuiRCId(rcs);
                     childReqComponentVO.setGuiReferenceLabelId(guiRCId);
                 }
                 rcs.add(childReqComponentVO);
@@ -433,7 +429,6 @@ public class StatementVO extends Token implements Serializable {
         Node node = new Node();
         assignGuiRCId();
         addChildrenNodes(node, this);
-        //printTree(node);
         return node;
     }
 

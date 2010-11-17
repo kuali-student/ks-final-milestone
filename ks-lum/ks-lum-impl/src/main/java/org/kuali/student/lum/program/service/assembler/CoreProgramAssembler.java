@@ -54,11 +54,12 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
+        programAssemblerUtils.assemblePublications(clu, cpInfo);
 
         cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 
         cpInfo.setDescr(clu.getDescr());
+        cpInfo.setVersionInfo(clu.getVersionInfo());
         
         return cpInfo;
     }
@@ -81,6 +82,8 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
+        boolean stateChanged = NodeOperation.UPDATE == operation && core.getState() != null && !core.getState().equals(core.getState());
+        
         programAssemblerUtils.disassembleBasics(clu, core, operation);
         if (core.getId() == null)
         	core.setId(clu.getId());
@@ -88,10 +91,10 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.disassembleAdminOrgs(clu, core, operation);
         programAssemblerUtils.disassembleAtps(clu, core, operation);    
         programAssemblerUtils.disassembleLuCodes(clu, core, operation);
-        programAssemblerUtils.disassemblePublicationInfo(clu, core, operation);
+        programAssemblerUtils.disassemblePublications(clu, core, operation, result);
         
         if(core.getProgramRequirements() != null && !core.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, core, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, core, operation, result, stateChanged);
         }
         
         if (core.getLearningObjectives() != null) {
