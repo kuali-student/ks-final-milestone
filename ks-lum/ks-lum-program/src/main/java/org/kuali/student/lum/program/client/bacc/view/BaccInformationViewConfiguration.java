@@ -55,7 +55,7 @@ public class BaccInformationViewConfiguration extends AbstractSectionConfigurati
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_identifyingDetails()));
         configurer.addReadOnlyField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
-        section.addSection(createDegreeTypeSection());
+        configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
         return section;
     }
 
@@ -80,20 +80,6 @@ public class BaccInformationViewConfiguration extends AbstractSectionConfigurati
         return section;
     }
 
-    private Section createDegreeTypeSection() {
-
-        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.DEGREE_TYPE));
-        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
-        config.setShowHeaders(false);
-        config.setUpdateable(false);
-
-        config.setParent(ProgramConstants.DEGREE_TYPE, ProgramProperties.get().programInformation_degreeType(), null, metadata);
-
-        MultiplicitySection section = new MultiplicitySection(config);
-
-        return section;
-    }
-    
     public VerticalSection createActivateProgramSection(){
         VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(ProgramProperties.get().programInformation_activateProgram()));
         section.setInstructions("<br>" + ProgramProperties.get().programInformation_activateInstructions() + "<br><br>");
