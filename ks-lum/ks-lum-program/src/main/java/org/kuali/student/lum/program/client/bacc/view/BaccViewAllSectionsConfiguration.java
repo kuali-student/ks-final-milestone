@@ -21,11 +21,11 @@ public class BaccViewAllSectionsConfiguration extends AbstractControllerConfigur
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(BaccInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(BaccManagingBodiesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(BaccCatalogDetailsViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(BaccInformationViewConfiguration.create());
+        configurationManager.registerConfiguration(BaccManagingBodiesViewConfiguration.create());
+        configurationManager.registerConfiguration(BaccCatalogDetailsViewConfiguration.create());
         configurationManager.registerConfiguration(new BaccRequirementsViewConfiguration());
-        configurationManager.registerConfiguration(BaccLearningObjectivesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(BaccLearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);

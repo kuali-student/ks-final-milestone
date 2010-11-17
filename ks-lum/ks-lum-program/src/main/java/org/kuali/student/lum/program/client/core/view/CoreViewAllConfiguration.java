@@ -21,11 +21,11 @@ public class CoreViewAllConfiguration extends AbstractControllerConfiguration {
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(CoreInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(CoreInformationViewConfiguration.create());
+        configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create());
+        configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create());
         configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
-        configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);
