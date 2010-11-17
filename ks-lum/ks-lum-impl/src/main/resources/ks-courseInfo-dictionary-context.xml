@@ -1289,6 +1289,14 @@
        parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
   <property name="attributes">
    <list merge="true">
+	<ref bean="resultComponentInfo.desc" />
+	<ref bean="resultComponentInfo.effectiveDate" />
+	<ref bean="resultComponentInfo.expirationDate" />
+	<ref bean="resultComponentInfo.id" />
+	<ref bean="resultComponentInfo.name" />
+	<ref bean="resultComponentInfo.resultValuesNumeric" />
+	<ref bean="resultComponentInfo.state" />
+	<ref bean="resultComponentInfo.type" />
     <ref bean="resultComponentInfo.minCreditValue"/>
     <ref bean="resultComponentInfo.maxCreditValue"/>
     <ref bean="resultComponentInfo.fixedCreditValue"/>
@@ -1296,6 +1304,12 @@
   </property>
  </bean>
  <bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+
+ <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
+  <property name="name" value="resultValues" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
 
  <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>

@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -292,6 +293,10 @@ public class MultiplicityGroup extends Composite {
                                     ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
                                         .getModelWidgetBindingInstance();
                                     concreteFieldDescriptor.setFieldWidget(fieldWidget);
+                                    if(fieldWidget instanceof ListOfStringWidget){
+                                    	((ListOfStringWidget)fieldWidget).setFd(concreteFieldDescriptor);
+                                    }
+                                    
                                     concreteFieldDescriptor.setWidgetBinding(mwb);
                                 }
                                 conditionSection.addField(concreteFieldDescriptor);
