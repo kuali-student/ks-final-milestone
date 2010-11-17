@@ -8,10 +8,11 @@ import org.kuali.student.lum.program.client.ProgramStatus;
  * @author Igor
  */
 public enum ModelPermissionType implements IModelPermission {
-    DRAFT_STATUS{
+    DRAFT_STATUS {
         @Override
         public boolean check(DataModel dataModel) {
-            ProgramStatus programStatus = ProgramStatus.of((String)dataModel.get(ProgramConstants.STATE));
-             return programStatus != ProgramStatus.DRAFT;
+            ProgramStatus programStatus = ProgramStatus.of((String) dataModel.get(ProgramConstants.STATE));
+            return programStatus != ProgramStatus.DRAFT;
         }
+    }
 }
