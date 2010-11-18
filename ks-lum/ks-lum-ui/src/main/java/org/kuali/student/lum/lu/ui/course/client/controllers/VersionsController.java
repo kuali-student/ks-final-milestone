@@ -285,18 +285,11 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     private void updateState(DataModel cluModel) {
     	if(cluModel.get("state") != null){
 	    	statusLabel.setText("Status: " + cluModel.get("state"));
-	    	ViewContext viewContext = new ViewContext();
-			
-	    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-				viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
-	            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-	            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
-	        }
 	    	
 	    	String cluState = cluModel.get("state").toString();    	
 	    	
 			for(CourseWorkflowActionList widget: actionDropDownWidgets){
-				widget.init(viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));    	
+				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);    	
 				widget.updateCourseActionItems(cluState);
 				widget.setEnabled(true);
 				if(widget.isEmpty()) {

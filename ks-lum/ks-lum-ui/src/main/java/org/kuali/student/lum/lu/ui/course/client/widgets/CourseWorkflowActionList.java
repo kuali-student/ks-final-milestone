@@ -15,7 +15,9 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 
@@ -49,27 +51,33 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     }
 
-	public CourseWorkflowActionList(String label, final ViewContext viewContext, final String modifyPath, boolean isCurrentVersion) {
+	public CourseWorkflowActionList(String label, final ViewContext viewContext, final String modifyPath, DataModel model) {
     	super(label);
         
     	this.setVisible(false);
         this.addStyleName("KS-Workflow-DropDown");
         
-        init(viewContext, modifyPath, isCurrentVersion);
+        init(viewContext, modifyPath, model);
 	}
 	
-	public void init (final ViewContext viewContext, final String modifyPath, boolean isCurrentVersion) {
+	public void init (final ViewContext viewContext, final String modifyPath, final DataModel model) {
 		
 		if (!this.isInitialized) {
 	    	buildActivateDialog();
 	    	
-	    	this.isCurrentVersion = isCurrentVersion;
+	    	this.isCurrentVersion = CourseWorkflowActionList.isCurrentVersion(model);
 	    	
 	    	// TODO: use messages
 	    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
 	
 				@Override
 				public void onClick(ClickEvent event) {
+			    	if(viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty()){
+						viewContext.setId((String)model.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
+			            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+			            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+			        }
+
 					HistoryManager.navigate(modifyPath, viewContext);
 				}
 			});

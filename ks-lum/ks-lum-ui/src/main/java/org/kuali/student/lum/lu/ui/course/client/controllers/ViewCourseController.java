@@ -143,16 +143,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
     
      
-    public Widget generateActionDropDown(){
-    	ViewContext viewContext = new ViewContext();
-		
-    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-			viewContext.setId((String)cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
-            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
-        }
-    	
-    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", CourseWorkflowActionList.isCurrentVersion(cluModel));
+    public Widget generateActionDropDown(){		    	
+    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);
         actionDropDownWidgets.add(actionList);
         
     	return actionList;
