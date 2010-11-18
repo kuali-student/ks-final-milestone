@@ -72,8 +72,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     private List<KSItemLabel> removedItems = new ArrayList<KSItemLabel>();
     public static ItemDataHelper itemDataHelper = new ItemDataHelper();
 
-    private List<SelectionChangeHandler> selectionChangeHandlers = new ArrayList<SelectionChangeHandler>();
-    private List<Callback<Widget>> widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
+    private final List<SelectionChangeHandler> selectionChangeHandlers = new ArrayList<SelectionChangeHandler>();
+    private final List<Callback<Widget>> widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
     private boolean hasDetails = false;
 
     private WidgetConfigInfo config;
@@ -331,6 +331,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                 selectedItems.remove(itemToBeDeleted);
                 removedItems.add(itemToBeDeleted);
                 valuesPanel.remove(itemToBeDeleted);
+                selectionChanged();
             }
         });
         return item;
