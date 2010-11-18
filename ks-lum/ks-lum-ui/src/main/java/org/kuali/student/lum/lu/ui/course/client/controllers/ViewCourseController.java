@@ -206,10 +206,10 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 			widget.updateCourseActionItems(cluState);
 			widget.setEnabled(true);
 			if(widget.isEmpty()) {
-				setVisible(false);
+				widget.setVisible(false);
 			}
 			else{
-				setVisible(true);
+				widget.setVisible(true);
 			}
 		}
     }
