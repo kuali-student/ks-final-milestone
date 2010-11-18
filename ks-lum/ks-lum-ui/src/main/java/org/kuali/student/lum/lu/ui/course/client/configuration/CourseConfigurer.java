@@ -137,7 +137,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected DataModelDefinition modelDefinition;
-    private List<StatementTypeInfo> stmtTypes;
+    protected List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
