@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -27,6 +28,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -167,8 +169,8 @@ public abstract class ProgramController extends MenuSectionController {
         if (modelType == ReferenceModel.class) {
             ReferenceModel referenceModel = new ReferenceModel();
             referenceModel.setReferenceId((String) programModel.get("id"));
-            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_TYPE_ID);
-            referenceModel.setReferenceType(ProgramConstants.MAJOR_OBJECT_ID);
+            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("name", (String) programModel.get("name"));
             referenceModel.setReferenceAttributes(attributes);
@@ -206,12 +208,30 @@ public abstract class ProgramController extends MenuSectionController {
                     needToLoadOldModel = false;
                 } else {
                     if (null != programModel.get(ProgramConstants.ID)) {
-                        RecentlyViewedHelper.addCurrentDocument((String) programModel.get(ProgramConstants.LONG_TITLE));
+                        // add to recently viewed
+                        ViewContext docContext = new ViewContext();
+                        docContext.setId((String) programModel.get(ProgramConstants.ID));
+                        docContext.setIdType(IdType.OBJECT_ID);
+                        String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                        docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
+                        RecentlyViewedHelper.addDocument(getProgramName(), 
+                                HistoryManager.appendContext(getProgramViewLocation(pgmType) , docContext));
                     }
                     eventBus.fireEvent(new ModelLoadedEvent(programModel));
                 }
             }
         });
+    }
+
+    private String getProgramViewLocation(String pgmType) {
+        if (ProgramClientConstants.MAJOR_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CORE_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(pgmType)) {
+            return AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation();
+        }
+        return null;
     }
 
     protected void setStatus() {

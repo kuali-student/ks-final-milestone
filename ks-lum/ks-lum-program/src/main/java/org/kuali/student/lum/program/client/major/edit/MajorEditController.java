@@ -309,7 +309,7 @@ public class MajorEditController extends MajorController {
                     ViewContext docContext = new ViewContext();
                     docContext.setId((String) programModel.get(ProgramConstants.ID));
                     docContext.setIdType(IdType.OBJECT_ID);
-                    docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_OBJECT_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
+                    docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(), 
                             HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
 
