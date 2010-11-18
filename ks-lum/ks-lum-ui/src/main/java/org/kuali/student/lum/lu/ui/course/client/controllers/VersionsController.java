@@ -68,7 +68,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private boolean initialized = false;
 	private String versionIndId = "";
 	private String currentVersionId = "";
-	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
+	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
 	
 	private List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
 	private KSLabel statusLabel = new KSLabel("");
@@ -186,15 +186,26 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	
     @Override
     public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+    	
         init(new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
                 if (result) {
-                	VersionsController.super.showDefaultView(onReadyCallback);
+                	VersionsController.super.showDefaultView(new Callback<Boolean>() {
+                		
+                		@Override
+                		public void exec(Boolean result) {
+                			onReadyCallback.exec(result);
+                			KSBlockingProgressIndicator.removeTask(loadDataTask);
+                		}
+                	});
                 } else {
                     onReadyCallback.exec(false);
+                    KSBlockingProgressIndicator.removeTask(loadDataTask);
                 }
+                
             }
         });
     }
