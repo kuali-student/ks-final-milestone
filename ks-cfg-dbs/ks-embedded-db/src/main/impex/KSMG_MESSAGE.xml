@@ -1409,6 +1409,11 @@
         ID="aff388f1-f079-40f8-a111-b9efc8148567" LOCALE="es"
         MSG_ID="cluActiveDates" MSG_VALUE="Fechas activas"
         OBJ_ID="da294c03-4375-49e8-bb32-70e694c46910" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="b0101d5a-01f5-4586-ba83-5935b7d4c162" LOCALE="en"
+        MSG_ID="validation.endDateAfterStartDate"
+        MSG_VALUE="End Date must be after Start Date"
+        OBJ_ID="F3CE669D-D99A-9F22-1E81-049E668B9EFE" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="b07aa879-1323-4e4b-8ef6-d50b7cc5cf47" LOCALE="en"
         MSG_ID="cluCrosslistedItem" MSG_VALUE="Course Listing"
