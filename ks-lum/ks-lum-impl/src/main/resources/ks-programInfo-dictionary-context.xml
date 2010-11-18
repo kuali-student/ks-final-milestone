@@ -969,6 +969,7 @@
     <ref bean="programVariationInfo.unitsFinancialResources"/>
     <ref bean="programVariationInfo.unitsStudentOversight"/>
     <ref bean="programVariationInfo.universityClassification"/>
+    <ref bean="programVariationInfo.stdDuration"/>
 
     <!--Dynamic Attributes-->
     <ref bean="programVariationInfo.durationNotes"/>
