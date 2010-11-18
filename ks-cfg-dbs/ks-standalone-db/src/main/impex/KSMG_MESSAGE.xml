@@ -407,7 +407,8 @@
         OBJ_ID="2e5ae29a-e7fb-4f57-a96b-34768c13a896" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="38977e81-b8e0-44f6-a1c3-44171764e7a8" LOCALE="en"
-        MSG_ID="validation.mustBeInteger" MSG_VALUE="Must be numeric"
+        MSG_ID="validation.mustBeInteger"
+        MSG_VALUE="Must be whole number"
         OBJ_ID="cc1b2445-77eb-4d1f-867f-2ddc071d51f3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="392704f2-202d-4aff-810c-53c26635f71b" LOCALE="es"
