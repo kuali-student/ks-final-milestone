@@ -33,6 +33,7 @@ import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
@@ -87,6 +88,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     @XmlElement
     private List<String> resultOptions;
 
+    @XmlElement
+    private TimeAmountInfo stdDuration;
+    
     @XmlElement
     private String startTerm;
 
@@ -275,6 +279,14 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.resultOptions = resultOptions;
     }
 
+    public TimeAmountInfo getStdDuration() {
+        return stdDuration;
+    }
+
+    public void setStdDuration(TimeAmountInfo stdDuration) {
+        this.stdDuration = stdDuration;
+    }
+    
     /**
      * The first academic time period that this Variation would be effective. This may not reflect the first "real" academic time period for this Variation.
      */

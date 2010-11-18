@@ -1127,6 +1127,11 @@
  </bean>
  <bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
 
+ <bean id="programVariationInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
+  <property name="name" value="stdDuration"/>
+ </bean>
+ <bean id="programVariationInfo.stdDuration" parent="programVariationInfo.stdDuration-parent"/>
+
  <bean id="programVariationInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
   <property name="name" value="state"/>
  </bean>

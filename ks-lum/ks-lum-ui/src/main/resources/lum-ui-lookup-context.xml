@@ -3176,7 +3176,13 @@
   <property name="initialLookup"
             ref="kuali.lookup.durations" />
  </bean>
-
+ 
+ <bean id="programVariationInfo.stdDuration" parent="uilookupconfig-parent">
+  <property name="path" value="majorDisciplineInfo.variations.stdDuration.atpDurationTypeKey" />
+  <property name="initialLookup"
+            ref="kuali.lookup.durations" />
+ </bean>
+ 
  <bean id="majorDisciplineInfo.resultOptions" parent="uilookupconfig-parent">
   <property name="path" value="majorDisciplineInfo.resultOptions" />
   <property name="initialLookup" ref="kuali.lu.lookup.degree.types" />

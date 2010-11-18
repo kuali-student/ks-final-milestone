@@ -61,6 +61,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
         
         pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
+        pvInfo.setStdDuration(clu.getStdDuration());
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
         pvInfo.setDescr(clu.getDescr());
@@ -113,7 +114,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		AmountInfo intensity = new AmountInfo();
 		intensity.setUnitType(variation.getIntensity());
 		clu.setIntensity(intensity);
-		
+		clu.setStdDuration(variation.getStdDuration());
         clu.setCampusLocations(variation.getCampusLocations());
         clu.setEffectiveDate(variation.getEffectiveDate());
         clu.setDescr(variation.getDescr());
