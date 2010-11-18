@@ -153,7 +153,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         cluResult.setOperation(operation);
         result.getChildNodes().add(cluResult);
 
-        programAssemblerUtils.disassembleBasics(clu, progReq, operation);
+        programAssemblerUtils.disassembleBasics(clu, progReq);
 
 		//disassembling minCredits & maxCredits
         disassembleCredits(clu, progReq);

@@ -24,7 +24,6 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
@@ -49,7 +48,8 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         // Copy all the data from the clu to the programvariation
         programAssemblerUtils.assembleBasics(clu, pvInfo);
         programAssemblerUtils.assembleIdentifiers(clu, pvInfo);
-        programAssemblerUtils.assembleAdminOrgIds(clu, pvInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, pvInfo);
+        programAssemblerUtils.assembleFullOrgs(clu, pvInfo);
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
         programAssemblerUtils.assemblePublications(clu, pvInfo);
@@ -89,7 +89,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         
         boolean stateChanged = NodeOperation.UPDATE == operation && variation.getState() != null && !variation.getState().equals(clu.getState());
         
-        programAssemblerUtils.disassembleBasics(clu, variation, operation);
+        programAssemblerUtils.disassembleBasics(clu, variation);
         if (variation.getId() == null)
         	variation.setId(clu.getId());
         programAssemblerUtils.disassembleIdentifiers(clu, variation, operation);

@@ -44,7 +44,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         if (null != clu.getOfficialIdentifier().getLevel()) {
             cpInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
         }
-        programAssemblerUtils.assembleAdminOrgIds(clu, cpInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, cpInfo);
         for (AdminOrgInfo org : clu.getAdminOrgs()) {
             if (ProgramAssemblerConstants.INSTITUTION.equals(org.getType())) {
                 cpInfo.setInstitution(org);
@@ -81,16 +81,16 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         try {
             clu = (NodeOperation.UPDATE == operation) ? luService.getClu(credential.getId()) : new CluInfo();
         } catch (Exception e) {
-            throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
-        }
-
+			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
+        } 
+        
         boolean stateChanged = NodeOperation.UPDATE == operation && credential.getState() != null && !credential.getState().equals(clu.getState());
-
-        programAssemblerUtils.disassembleBasics(clu, credential, operation);
+        
+        programAssemblerUtils.disassembleBasics(clu, credential);
         if (credential.getId() == null)
             credential.setId(clu.getId());
         programAssemblerUtils.disassembleIdentifiers(clu, credential, operation);
-        programAssemblerUtils.disassembleAdminOrgs(clu, credential, operation);
+        programAssemblerUtils.disassembleAdminOrgs(clu, credential, operation);     
         programAssemblerUtils.disassembleAtps(clu, credential, operation);
         programAssemblerUtils.disassembleLuCodes(clu, credential, operation);
 
@@ -108,6 +108,8 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 
         clu.setDescr(credential.getDescr());
         clu.setType(credential.getCredentialProgramType());
+
+
 
         if (credential.getCoreProgramIds() != null && credential.getCoreProgramIds().size() > 0) {
             disassembleCorePrograms(credential, operation, result);

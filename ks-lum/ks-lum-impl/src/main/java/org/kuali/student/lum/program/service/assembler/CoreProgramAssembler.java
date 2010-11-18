@@ -50,7 +50,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         // Copy all the data from the clu to the coreprogram
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
-        programAssemblerUtils.assembleAdminOrgIds(clu, cpInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, cpInfo);
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
@@ -84,7 +84,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         
         boolean stateChanged = NodeOperation.UPDATE == operation && core.getState() != null && !core.getState().equals(core.getState());
         
-        programAssemblerUtils.disassembleBasics(clu, core, operation);
+        programAssemblerUtils.disassembleBasics(clu, core);
         if (core.getId() == null)
         	core.setId(clu.getId());
         programAssemblerUtils.disassembleIdentifiers(clu, core, operation);

@@ -39,6 +39,14 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCredentialAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
 
 /**
  * Detailed information about a single major discipline program
@@ -50,7 +58,9 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes,
+        ProgramCommonAssembly, ProgramIdentifierAssembly, ProgramFullOrgAssembly, ProgramAtpAssembly,
+        ProgramCodeAssembly, ProgramPublicationAssembly, ProgramCredentialAssembly, ProgramRequirementAssembly {
 
     private static final long serialVersionUID = 1L;
 

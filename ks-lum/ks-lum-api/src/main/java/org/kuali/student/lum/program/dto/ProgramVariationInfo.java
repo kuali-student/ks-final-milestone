@@ -36,6 +36,13 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
 
 /**
  * Detailed information about major program variations
@@ -47,7 +54,9 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramVariationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class ProgramVariationInfo implements Serializable, Idable, HasTypeState, HasAttributes , ProgramCommonAssembly,
+        ProgramIdentifierAssembly, ProgramFullOrgAssembly, ProgramAtpAssembly,
+        ProgramCodeAssembly, ProgramPublicationAssembly, ProgramRequirementAssembly {
 
     private static final long serialVersionUID = 1L;
 

@@ -61,7 +61,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         // Copy all the data from the clu to the majordiscipline
         programAssemblerUtils.assembleBasics(clu, mdInfo);
         programAssemblerUtils.assembleIdentifiers(clu, mdInfo);
-        programAssemblerUtils.assembleAdminOrgIds(clu, mdInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, mdInfo);
+        programAssemblerUtils.assembleFullOrgs(clu, mdInfo);
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
 
@@ -73,6 +74,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setEffectiveDate(clu.getEffectiveDate());
         mdInfo.setDescr(clu.getDescr());
         mdInfo.setVersionInfo(clu.getVersionInfo());
+        mdInfo.setNextReviewPeriod(clu.getNextReviewPeriod());
 
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(clu, mdInfo);
@@ -143,7 +145,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         
         boolean stateChanged = NodeOperation.UPDATE == operation && major.getState() != null && !major.getState().equals(clu.getState());
         
-        programAssemblerUtils.disassembleBasics(clu, major, operation);
+        programAssemblerUtils.disassembleBasics(clu, major);
         if (major.getId() == null)
             major.setId(clu.getId());
         programAssemblerUtils.disassembleLuCodes(clu, major, operation);
@@ -189,6 +191,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setDescr(major.getDescr());
 
         clu.setAccreditations(major.getAccreditingAgencies());
+        clu.setNextReviewPeriod(major.getNextReviewPeriod());
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
