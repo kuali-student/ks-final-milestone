@@ -716,16 +716,22 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         GroupSection finalExamRationale_group2 = new GroupSection();
 
         FieldDescriptor field = addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM, generateMessageInfo(LUUIConstants.FINAL_EXAM_STATUS_LABEL_KEY));
-        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
-        addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
-        addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
-        SwapSection swapSection = new SwapSection(picker);
-        swapSection.addSection(finalExamRationale_group, "ALT");
-        swapSection.addSection(finalExamRationale_group2, "None");
-        finalExam.addSection(finalExam_group);
 
-        finalExam.addSection(swapSection);
-        return finalExam;
+        if (field.isVisible()){
+	        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
+	        addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        SwapSection swapSection = new SwapSection(picker);
+	        swapSection.addSection(finalExamRationale_group, "ALT");
+	        swapSection.addSection(finalExamRationale_group2, "None");
+	        finalExam.addSection(finalExam_group);
+	
+	        finalExam.addSection(swapSection);
+	        return finalExam;
+        } else {
+        	return new VerticalSection();
+        }
+
     }
 
     protected VerticalSection generateInstructorsSection() {

@@ -250,4 +250,15 @@ public class FieldDescriptor {
 		return optional;
 	}
 
+	/** 
+	 * @return true if this field is visible to the user
+	 */
+	public boolean isVisible() {
+		if (metadata != null){
+			return metadata.isCanView();
+		} else {
+			return true;
+		}
+	}
+
 }

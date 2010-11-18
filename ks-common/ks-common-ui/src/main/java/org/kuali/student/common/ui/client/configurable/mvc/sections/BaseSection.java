@@ -60,64 +60,67 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 	@Override
 	public String addField(final FieldDescriptor fieldDescriptor) {
-
-        fields.add(fieldDescriptor);
-        String key = layout.addField(fieldDescriptor.getFieldElement());
-
-        ValidationEventBinding binding = new ValidationEventBindingImpl();
-        if(fieldDescriptor.getValidationRequestCallback()== null){
-            fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
-                @Override
-                public void exec(Boolean result) {
-            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
-            	    if (mwb != null) {
-            	        final Widget w = fieldDescriptor.getFieldWidget();
-            	        final String modelId = fieldDescriptor.getModelId();
-            	        final Controller parent;
-                        Controller findResult = LayoutController.findParentLayout(w);
-                        if(BaseSection.this instanceof View){
-                        	findResult = ((View)BaseSection.this).getController();
-                        }
-                        parent = findResult;
-                        if(parent != null){
-                        	if (modelId == null) {
-                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
-
-                        			@Override
-                        			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model, parent);
-
-                        			}
-
-                        			@Override
-                        			public void onRequestFail(Throwable cause) {
-                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                        			}
-
-                        		});
-                        	} else {
-                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-
-                        			@Override
-                        			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model, parent);
-                        			}
-
-                        			@Override
-                        			public void onRequestFail(Throwable cause) {
-                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                        			}
-
-                        		});                        	}
-            	    	}
-                    } else {
-                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                    }
-                }
-            });
-        }
-        binding.bind(fieldDescriptor);
-
+		String key = null;
+		
+		if (fieldDescriptor.isVisible()){
+			fields.add(fieldDescriptor);
+	        key = layout.addField(fieldDescriptor.getFieldElement());
+	
+	        ValidationEventBinding binding = new ValidationEventBindingImpl();
+	        if(fieldDescriptor.getValidationRequestCallback()== null){
+	            fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
+	                @Override
+	                public void exec(Boolean result) {
+	            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+	            	    if (mwb != null) {
+	            	        final Widget w = fieldDescriptor.getFieldWidget();
+	            	        final String modelId = fieldDescriptor.getModelId();
+	            	        final Controller parent;
+	                        Controller findResult = LayoutController.findParentLayout(w);
+	                        if(BaseSection.this instanceof View){
+	                        	findResult = ((View)BaseSection.this).getController();
+	                        }
+	                        parent = findResult;
+	                        if(parent != null){
+	                        	if (modelId == null) {
+	                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
+	
+	                        			@Override
+	                        			public void onModelReady(DataModel model) {
+	                        				validateField(fieldDescriptor, model, parent);
+	
+	                        			}
+	
+	                        			@Override
+	                        			public void onRequestFail(Throwable cause) {
+	                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+	                        			}
+	
+	                        		});
+	                        	} else {
+	                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+	
+	                        			@Override
+	                        			public void onModelReady(DataModel model) {
+	                        				validateField(fieldDescriptor, model, parent);
+	                        			}
+	
+	                        			@Override
+	                        			public void onRequestFail(Throwable cause) {
+	                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+	                        			}
+	
+	                        		});                        	}
+	            	    	}
+	                    } else {
+	                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
+	                    }
+	                }
+	            });
+	        }
+	        binding.bind(fieldDescriptor);
+		}	       
+	        
         return key;
 	}
 
