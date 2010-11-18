@@ -273,7 +273,7 @@
     
     <bean id="CluSetDataService"
           class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetDataService">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="assembler" ref="CluSetManagementFilterManager"/>
     </bean>
     
@@ -286,10 +286,10 @@
         </property>
     </bean>
 
-    <bean id="cluSetManagementAssembler" class="org.kuali.student.lum.lu.assembly.CluSetManagementAssembler"
-          parent="baseAssembler">
+    <bean id="cluSetManagementAssembler" class="org.kuali.student.lum.lu.assembly.CluSetManagementAssembler">
+        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="luService" ref="luClient"/>
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>        
     </bean>
     
     <!--Program Servlet Declaration-->
@@ -339,7 +339,7 @@
 
 	<!--  Transformation Managers -->
     <bean id="courseTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -350,7 +350,7 @@
     </bean>
 
     <bean id="courseProposalTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -363,7 +363,7 @@
     </bean>
 
     <bean id="majorDisciplineTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -376,7 +376,7 @@
     </bean>
     
     <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -388,7 +388,7 @@
     </bean>
     
     <bean id="coreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -419,7 +419,7 @@
 	</bean>
 	
 	<bean id="collaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
-		<property name="metadataService" ref="metadataServiceImplPOC"/>
+		<property name="metadataService" ref="metadataServiceImpl"/>
 		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
 		<property name="proposalService" ref="proposalClient"/>
 	</bean>
@@ -428,7 +428,7 @@
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="proposalService" ref="proposalClient"/>
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
     </bean>
 
     <bean id="courseProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
@@ -461,7 +461,7 @@
     </bean>
 
     <bean id="majorCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.MajorCredentialProgramFilter">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="programService" ref="programClient"/>
     </bean>
 
@@ -482,22 +482,7 @@
         <property name="programService" ref="programClient"/>
     </bean>
 
-    <bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
-        <property name="permissionService" ref="permissionServiceClient"/>
-        <property name="metadataService" ref="metadataServiceImpl"/>
-    </bean>
-
-    <!-- Metadata lookup service -->
-    <bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
-        <constructor-arg value="${ks.lum.orchestration.dictionaryContextLocations}"/>
-        <constructor-arg>
-            <list>
-                <ref bean="commentClient"/>
-            </list>
-        </constructor-arg>
-    </bean>
-
-    <bean id="metadataServiceImplPOC" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+    <bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
         <constructor-arg>
             <list>
                 <ref bean="courseClient"/>
@@ -513,7 +498,7 @@
 
     <bean id="cluSetManagementIdTranslatorAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CluSetManagementIdTranslatorAssemblerFilter">
         <constructor-arg ref="idTranslator"/>
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
     </bean>
 
     <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
@@ -597,7 +582,7 @@
     <bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
-         <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
+         <property name="serviceImpl" ref="metadataServiceImpl"/>        
     </bean>
 
     <!-- Service clients -->
