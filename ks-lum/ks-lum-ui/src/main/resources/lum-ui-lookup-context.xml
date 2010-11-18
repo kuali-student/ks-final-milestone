@@ -2544,6 +2544,11 @@
   <property name="path" value="majorDisciplineInfo.accreditingAgencies.orgId" />
  </bean>
 
+
+ <bean id="credentialProgramInfo.institution.orgId" parent="credentialInstitution-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.institution.orgId" />
+ </bean>
+
  <bean id="accreditingAgencies-lookup-binding-parent" parent="uilookupconfig-parent"
        abstract="true">
   <property name="name" value="department.lookup" />
@@ -2554,6 +2559,12 @@
     <ref bean="kuali.lu.lookup.accreditingAgencies.advanced" />
    </list>
   </property>
+ </bean>
+
+ <bean id="credentialInstitution-lookup-binding-parent" parent="uilookupconfig-parent"
+       abstract="true">
+  <property name="name" value="department.lookup" />
+  <property name="initialLookup" ref="kuali.lu.lookup.institution.dropdown" />
  </bean>
 
  <bean id="kuali.lu.lookup.accreditingAgencies.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
@@ -2601,6 +2612,59 @@
      <property name="defaultValueList">
       <list>
        <value>kuali.org.AccreditingBody</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+<bean id="kuali.lu.lookup.institution.dropdown" class="org.kuali.student.core.assembly.data.UILookupData"
+       parent="kuali.common.lookup.admin.departments.suggest">
+  <property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
+  <property name="name" value="Organization search" />
+  <property name="desc"  value="Search for accreditation agencies" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+  <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgId" />
+     <property name="name" value="Organization Identifier" />
+     <property name="desc" value="Identifier for the organization" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="true" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgOptionalLongName" />
+     <property name="name" value="Name" />
+     <property name="desc"
+               value="Long name for the organization, recorded as the default listing." />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+  <property name="params">
+   <list>
+    <bean parent="param">
+     <property name="key" value="org.queryParam.orgOptionalLongName" />
+     <property name="name" value="Organization Name" />
+     <property name="desc" value="Long organization name." />
+     <property name="writeAccess" value="ALWAYS" />
+     <property name="usage" value="DEFAULT" />
+    </bean>
+    <bean parent="param">   <!--   limit search to accrediting body orgs for this UI context-->
+     <property name="key" value="org.queryParam.orgOptionalType" />
+     <property name="name" value="Org Type" />
+     <property name="desc" value="Type of an organization." />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>kuali.org.CorporateEntity</value>
       </list>
      </property>
      <property name="caseSensitive" value="false" />
