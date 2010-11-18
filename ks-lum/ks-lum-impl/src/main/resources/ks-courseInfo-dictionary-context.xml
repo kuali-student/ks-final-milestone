@@ -566,6 +566,7 @@
 
  <bean id="courseInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endTerm" />
+  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActiveDatesValidator"/>
  </bean>
  <bean id="courseInfo.endTerm" parent="courseInfo.endTerm-parent" />
 

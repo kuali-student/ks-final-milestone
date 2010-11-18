@@ -6,15 +6,21 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.kuali.student.common.test.mock.MockProxyFactoryBean;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -72,7 +78,7 @@ public class TestCourseInfoDictionary {
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
-		vList.add(new ActiveDatesValidator());
+		vList.add(getActiveDatesValidator());
 		vf.setValidatorList(vList);
 		
 		val.setValidatorFactory(vf);
@@ -102,13 +108,13 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(0, validationResults.size());
+		assertEquals(1, validationResults.size());
 
 		System.out.println("testCourseDescrRequiredBasedOnState");
 		info.setState("DRAFT");
 		info.setDescr(null);
 		validationResults = val.validateObject(info, os);
-		assertEquals(0, validationResults.size());
+		assertEquals(1, validationResults.size());
 
 		info.setState("ACTIVE");
 		info.setDescr(null);
@@ -116,7 +122,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(2, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
 		info.getAttributes().put("finalExamStatus", "123");
@@ -124,7 +130,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(3, validationResults.size());
+		assertEquals(4, validationResults.size());
 
 		LoDisplayInfo loInfo = new LoDisplayInfo();
 		LoCategoryInfo loCatInfo = new LoCategoryInfo();
@@ -140,7 +146,7 @@ public class TestCourseInfoDictionary {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
 		assertTrue(rtInfo.getPlain().matches("[A-Za-z0-9.\\\\\\-;:&#34;,'&amp;%$#@!\t\n\r ]*"));
-		assertEquals(3, validationResults.size());
+		assertEquals(4, validationResults.size());
 
 		
 		// Test custom validation 
@@ -196,13 +202,33 @@ public class TestCourseInfoDictionary {
         List<ValidationResultInfo> validationResults1 = val.validateObject(info, os);
         System.out.println("h3. With just a custom validations");
 
-        assertEquals(2, validationResults1.size());
+        assertEquals(3, validationResults1.size());
         
         for(ValidationResultInfo vr : validationResults1) {
             System.out.println(vr.getElement());
-            assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
+            assertTrue("endTerm".equals(vr.getElement()) || "/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
         }
 
+	}
+
+	private Validator getActiveDatesValidator() {
+		ActiveDatesValidator adv = new ActiveDatesValidator();
+		MockProxyFactoryBean b = new MockProxyFactoryBean();
+		Map<String,Object> methodReturnMap = new HashMap<String,Object>(); 
+		AtpInfo atpInfo = new AtpInfo();
+		atpInfo.setStartDate(new Date());
+		atpInfo.setEndDate(new Date());
+		methodReturnMap.put("getAtp", atpInfo);
+		b.setMethodReturnMap(methodReturnMap);
+		
+		b.setInterfaceClass(AtpService.class);
+		try {
+			adv.setAtpService((AtpService) b.getObject());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		return adv;
 	}
 	
 }

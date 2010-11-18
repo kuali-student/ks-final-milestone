@@ -20,7 +20,7 @@ import java.util.Map;
 import org.springframework.beans.factory.FactoryBean;
 
 public class MockProxyFactoryBean implements FactoryBean {
-	private Class<Object> interfaceClass;
+	private Class<?> interfaceClass;
 	private Map<String,Object> methodReturnMap;
 
 	@Override
@@ -29,7 +29,7 @@ public class MockProxyFactoryBean implements FactoryBean {
 	}
 
 	@Override
-	public Class<Object> getObjectType() {
+	public Class<?> getObjectType() {
 		return interfaceClass;
 	}
 
@@ -41,14 +41,14 @@ public class MockProxyFactoryBean implements FactoryBean {
 	/**
 	 * @return the interfaceClass
 	 */
-	public Class<Object> getInterfaceClass() {
+	public Class<?> getInterfaceClass() {
 		return interfaceClass;
 	}
 
 	/**
 	 * @param interfaceClass the interfaceClass to set
 	 */
-	public void setInterfaceClass(Class<Object> interfaceClass) {
+	public void setInterfaceClass(Class<?> interfaceClass) {
 		this.interfaceClass = interfaceClass;
 	}
 
