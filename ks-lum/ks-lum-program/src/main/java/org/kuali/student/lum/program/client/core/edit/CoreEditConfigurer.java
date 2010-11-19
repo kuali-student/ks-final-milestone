@@ -15,6 +15,7 @@ public class CoreEditConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(new CoreCatalogInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new CoreRequirementsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new CoreLeaningObjectivesEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CoreDocsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new CoreSummaryConfiguration());
     }
 }

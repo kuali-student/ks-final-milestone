@@ -8,11 +8,7 @@ import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreManager;
-import org.kuali.student.lum.program.client.core.view.CoreCatalogInformationViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreInformationViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreLearningObjectivesViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreManagingBodiesViewConfiguration;
-import org.kuali.student.lum.program.client.core.view.CoreRequirementsViewConfiguration;
+import org.kuali.student.lum.program.client.core.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 
@@ -34,6 +30,7 @@ public class CoreSummaryConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
         configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(CoreDocsViewConfiguration.createSpecial());
 
         rootSection.addWidget(new SummaryActionPanel(coreInfoViewConfig.createActivateProgramSection(), CoreManager.getEventBus()));        
         for (Configuration configuration : configurationManager.getConfigurations()) {
