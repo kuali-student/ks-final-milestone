@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -15,14 +16,22 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,6 +48,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     private boolean isCurrentVersion;
     private boolean isInitialized = false;
+    private String courseId;
+    
+    private final BlockingTask processingTask = new BlockingTask("Processing State Change....");
+    
+    CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
     
     // storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
     private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
@@ -61,7 +75,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	}
 	
 	public void init (final ViewContext viewContext, final String modifyPath, final DataModel model) {
-		
+
 		if (!this.isInitialized) {
 	    	buildActivateDialog();
 	    	
@@ -74,14 +88,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				public void onClick(ClickEvent event) {
 			    	if(viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty()){
 						viewContext.setId((String)model.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
-			            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 			            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
 			        }
 
 					HistoryManager.navigate(modifyPath, viewContext);
 				}
 			});
-	    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem") + " (Not Yet Implemented)", new ClickHandler(){
+	    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem"), new ClickHandler(){
 	
 				@Override
 				public void onClick(ClickEvent event) {
@@ -169,54 +183,45 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	    activateDialog.setWidget(panel);
     }
     
+    // TODO: add Retire and Inactivate Dialogs
+    
     
     // This depends heavily on updateCourseActionItems().  Changes there will 
     // affect assumptions made here
-    private void setCourseState(String newState) {    	
+    private void setCourseState(String newState) {
+    	KSBlockingProgressIndicator.addTask(processingTask);
     	
-    	if (newState.equals(LUUIConstants.LU_STATE_APPROVED)) {
+    	rpcServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
     		
-    	} else if (newState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
-/*    		
-			String oldState = cluModel.get(CreditCourseConstants.STATE);
-			QueryPath statePath = QueryPath.concat(CreditCourseConstants.STATE);
-			cluModel.set(statePath, LUUIConstants.LU_STATE_ACTIVE);
-	*/		
-			// assumption A: since we are activating we can assume the current 
-			//				state is approved or inactive
-			// basis for A: only approved or inactive courses can be activated
-			// assumption B: if this is the current version it is a new course
-			//				(no previously active versions)
-			// basis for B: modifications approved for active courses are not
-			//				set to current until they are activated
-			//				(we're about to do this)
-			// assumption C: if this is not the current version it is a 
-			//				modified or inactivated version of a previously 
-			//              active course if there is a current, active version
-			//				we need to supersede that and set it's end date
-			// basis for C: assuming A we can narrow our scope of change to the
-			//				version we're modifying and the current version
-			if (!isCurrentVersion) {
-				// set previously active version to superseded
-				
-			}
-
-    		// set state to active
-    		// set current version
-    	} else if (newState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
-    		
-    	}
+    		@Override
+ 	        public void handleFailure(Throwable caught) {
+ 	            Window.alert("Error Updating State: "+caught.getMessage());
+ 	            KSBlockingProgressIndicator.removeTask(processingTask);
+ 	        }
+ 	
+ 	        @Override
+ 	        public void onSuccess(StatusInfo result) {
+ 	        	
+ 	        	KSBlockingProgressIndicator.removeTask(processingTask); 	        
+ 	        }
+    	});
+    	
     }
     
     // This depends heavily on setCourseState().  Changes here will 
     // affect assumptions made there
-    public void updateCourseActionItems(String cluState) {
+    public void updateCourseActionItems(DataModel cluModel) {
+    	String cluState = cluModel.get("state");
+    	courseId = cluModel.get(CreditCourseConstants.ID);
+    	
     	items.clear();      
     	
     	if (cluState.equals(LUUIConstants.LU_STATE_APPROVED)) {
     		items.add(modifyCourseActionItem);
     		items.add(activateCourseActionItem);
-    		items.add(retireCourseActionItem);
+    		if (isCurrentVersion) {
+    			items.add(retireCourseActionItem);
+    		}
     	} else if (cluState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
     		items.add(modifyCourseActionItem);
     		items.add(inactivateCourseActionItem);

@@ -286,11 +286,9 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     	if(cluModel.get("state") != null){
 	    	statusLabel.setText("Status: " + cluModel.get("state"));
 	    	
-	    	String cluState = cluModel.get("state").toString();    	
-	    	
-			for(CourseWorkflowActionList widget: actionDropDownWidgets){
-				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);    	
-				widget.updateCourseActionItems(cluState);
+	    	for(CourseWorkflowActionList widget: actionDropDownWidgets){
+				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);
+				widget.updateCourseActionItems(cluModel);
 				widget.setEnabled(true);
 				if(widget.isEmpty()) {
 					widget.setVisible(false);

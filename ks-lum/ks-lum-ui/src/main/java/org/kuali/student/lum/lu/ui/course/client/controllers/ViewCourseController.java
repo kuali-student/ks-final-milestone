@@ -188,10 +188,9 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
 
     private void updateCourseActionItems() {
-    	String cluState = cluModel.get("state").toString();    	
     	
 		for(CourseWorkflowActionList widget: actionDropDownWidgets){
-			widget.updateCourseActionItems(cluState);
+			widget.updateCourseActionItems(cluModel);
 			widget.setEnabled(true);
 			if(widget.isEmpty()) {
 				widget.setVisible(false);

@@ -26,7 +26,7 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
 
-    
+    // TODO: switch to courseService so validation is correct
     private LuService luService;
 
     @Override

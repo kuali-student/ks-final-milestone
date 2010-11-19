@@ -3097,6 +3097,8 @@ public class LuServiceImpl implements LuService {
 	}
 
 	/**
+	 * This method sets the CLU with ID of cluVersionId as the current version and will set the version end date of the previously current version to currentVersionStart or now() if null.  This will NOT update state of the current or previously current CLU.  All state changes must be handled either by the business service or from the client application. 
+	 * 
 	 * @param currentVersionStart if set to null, will default the current version start to the time when this method is called.
 	 * You can set this to a future date as well. 
 	 */

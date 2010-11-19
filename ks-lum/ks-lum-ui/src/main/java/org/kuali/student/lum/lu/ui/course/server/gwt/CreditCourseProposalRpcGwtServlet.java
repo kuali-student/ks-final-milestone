@@ -15,16 +15,16 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
-
-import org.apache.log4j.Logger;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
         CreditCourseProposalRpcService {
@@ -56,5 +56,14 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
         return null;
+    }
+    
+    @Override
+    public StatusInfo changeState(String courseId, String newState) throws Exception {
+    	return null;
+    }
+    
+    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
+    	return null;
     }
 }

@@ -428,7 +428,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluInfo.stdDuration-parent">
-         <property name="minOccurs" value="1" />
+         <property name="minOccurs" value="0" />
         </bean>
        </property>
       </bean>
