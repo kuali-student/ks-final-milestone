@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.annotation.XmlElement;
-
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
