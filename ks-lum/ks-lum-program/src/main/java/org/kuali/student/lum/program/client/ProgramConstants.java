@@ -96,6 +96,7 @@ public class ProgramConstants {
     public static final String VERSION = "versionInfo/sequenceNumber";
     public static final String VERSION_IND_ID = "versionInfo/versionIndId";
     public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
+    public static final String VERSION_SEQUENCE_NUMBER = "versionInfo/sequenceNumber";
 
     public static final String PREV_END_PROGRAM_ENTRY_TERM = "previousVersionInfo/endProgramEntryTerm";
     public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";

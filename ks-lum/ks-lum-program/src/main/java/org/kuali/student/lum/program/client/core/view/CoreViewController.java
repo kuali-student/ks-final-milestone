@@ -4,6 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
+
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -76,9 +78,21 @@ public class CoreViewController extends CoreController {
         initialized = true;
     }
     
-    protected void resetActionList(){
-    	actionBox.clear();
-    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)); 
-    	actionBox.setList(ActionType.getValues(status));    	
-    }        
+    protected void resetActionList() {
+    	//Only allow modify with version option for an active course that id also the latest version
+    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+        String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+        Long sequenceNumber = programModel.get(ProgramConstants.VERSION_SEQUENCE_NUMBER);
+                       
+        actionBox.clear();
+        if (status == ProgramStatus.ACTIVE){
+        	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>(){
+				public void onSuccess(Boolean isLatest) {
+			        actionBox.setList(ActionType.getValues(isLatest));				
+				}        	
+	        });
+        } else {
+        	actionBox.setList(ActionType.getValues(false));
+        }
+    }
 }

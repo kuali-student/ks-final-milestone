@@ -13,11 +13,13 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
@@ -120,8 +122,17 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         	}
         }
     }
+    
+    @Override
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+    	VersionDisplayInfo versionDisplayInfo = programService.getLatestVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, versionIndId);
+    	Long latestSequenceNumber = versionDisplayInfo.getSequenceNumber();
+    	boolean isLatest = latestSequenceNumber.equals(versionSequenceNumber); 
+    	
+    	return isLatest;
+	}
 
-    public void setProgramService(ProgramService programService) {
+	public void setProgramService(ProgramService programService) {
         this.programService = programService;
     }
 

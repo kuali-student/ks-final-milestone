@@ -36,8 +36,8 @@ public enum ActionType {
         return values;
     }
 
-    public static List<String> getValues(ProgramStatus status){
-    	if (status == ProgramStatus.ACTIVE){
+    public static List<String> getValues(boolean showAllActions){
+    	if (showAllActions){
     		return getValues();
     	} else {
     		List<String> values = new ArrayList<String>();

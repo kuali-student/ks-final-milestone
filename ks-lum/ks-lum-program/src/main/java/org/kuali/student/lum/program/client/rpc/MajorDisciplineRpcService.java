@@ -17,4 +17,14 @@ public interface MajorDisciplineRpcService extends BaseDataOrchestrationRpcServi
     public ProgramRequirementInfo createProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception;
     public StatusInfo deleteProgramRequirement(String programRequirementId) throws Exception;
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception;
+
+    /**
+     * Is the current version sequence number the latest version.
+     *  
+     * @param versionIndId The version independent id of program
+     * @param versionSequenceNumber The sequence number to check.
+     * @return
+     * @throws Exception
+     */
+    public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception;
 }

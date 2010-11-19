@@ -15,4 +15,5 @@ public interface MajorDisciplineRpcServiceAsync extends BaseDataOrchestrationRpc
     public void createProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
     public void deleteProgramRequirement(String programRequirementId, AsyncCallback<StatusInfo> callback);
     public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
+    public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
 }
