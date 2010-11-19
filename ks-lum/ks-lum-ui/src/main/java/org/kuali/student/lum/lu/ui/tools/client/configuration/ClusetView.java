@@ -193,6 +193,7 @@ public class ClusetView extends VerticalSectionView {
 //        this.addSection(generalClusInfoSection);
         this.addWidget(new KSLabel("Items in this Course Set"));
         this.addWidget(cluSetDisplay);
+        this.setStyleName("standard-content-padding");
     }
     
     private SummaryTableSection setupGeneralClusInfoSection() {
@@ -346,7 +347,7 @@ public class ClusetView extends VerticalSectionView {
         this.addSection(cluSetEditor);
         this.addWidget(spacer);
         this.addSection(defineCluSet);
-        this.addStyleName("standard-content-padding");
+        this.setStyleName("standard-content-padding");
     }
     
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
