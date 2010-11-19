@@ -346,6 +346,7 @@ public class ClusetView extends VerticalSectionView {
         this.addSection(cluSetEditor);
         this.addWidget(spacer);
         this.addSection(defineCluSet);
+        this.addStyleName("standard-content-padding");
     }
     
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
