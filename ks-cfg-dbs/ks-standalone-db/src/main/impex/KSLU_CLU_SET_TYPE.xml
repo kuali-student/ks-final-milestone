@@ -8,4 +8,6 @@
     <KSLU_CLU_SET_TYPE EFF_DT="20000101000000" NAME="Program Clu Set"
         TYPE_DESC="Clu set for programs"
         TYPE_KEY="kuali.cluSet.type.Program" VER_NBR="0"/>
+    <KSLU_CLU_SET_TYPE EFF_DT="20100101000000" NAME="Test Clu Set"
+        TYPE_DESC="Clu set for Tests" TYPE_KEY="kuali.cluSet.type.Test" VER_NBR="0"/>
 </dataset>
