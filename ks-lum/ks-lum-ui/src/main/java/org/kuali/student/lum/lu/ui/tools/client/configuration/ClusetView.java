@@ -290,7 +290,7 @@ public class ClusetView extends VerticalSectionView {
         header.setTitle("Course Set Management");
         this.addWidget(header);
         
-        Anchor createCluSet = new Anchor("<h2>Create Course Set</h2>", true);
+        Anchor createCluSet = new Anchor("<h2 class=\"contentBlock-title\">Create Course Set</h2>", true);
         createCluSet.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -313,6 +313,7 @@ public class ClusetView extends VerticalSectionView {
             }
         });
         SectionTitle modifyCluSetTitle = SectionTitle.generateH2Title("View or Modify Course Sets");
+        modifyCluSetTitle.addStyleName("contentBlock-title");
         modifyCluSetTitle.getElement().getStyle().setPaddingTop(40, Style.Unit.PX);
         this.addWidget(modifyCluSetTitle);
         this.addWidget(cluSetPicker);
