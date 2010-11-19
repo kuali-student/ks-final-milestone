@@ -1,41 +1,34 @@
-package org.kuali.student.lum.program.client.bacc.view;
+package org.kuali.student.lum.program.client.credential.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
-import org.kuali.student.lum.program.client.bacc.CredentialManager;
+import org.kuali.student.lum.program.client.credential.CredentialEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
  */
-public class BaccInformationViewConfiguration extends AbstractSectionConfiguration {
+public class CredentialInformationViewConfiguration extends AbstractSectionConfiguration {
 
-    public static BaccInformationViewConfiguration create() {
-        BaccInformationViewConfiguration instance = new BaccInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static CredentialInformationViewConfiguration create() {
+        CredentialInformationViewConfiguration instance = new CredentialInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
         return instance;
     }
 
-    public static BaccInformationViewConfiguration createSpecial() {
-        BaccInformationViewConfiguration instance = new BaccInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
+    public static CredentialInformationViewConfiguration createSpecial() {
+        CredentialInformationViewConfiguration instance = new CredentialInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new CredentialEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
         return instance;
     }
 
-    private BaccInformationViewConfiguration(SectionView sectionView) {
+    private CredentialInformationViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
         rootSection.addStyleName("programInformationView");
     }

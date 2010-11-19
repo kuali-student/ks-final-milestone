@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.bacc.CredentialManager;
+import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 

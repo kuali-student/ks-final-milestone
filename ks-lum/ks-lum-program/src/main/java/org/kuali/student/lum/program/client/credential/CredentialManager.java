@@ -1,10 +1,10 @@
-package org.kuali.student.lum.program.client.bacc;
+package org.kuali.student.lum.program.client.credential;
 
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.lum.program.client.bacc.edit.BaccEditController;
-import org.kuali.student.lum.program.client.bacc.view.BaccViewController;
+import org.kuali.student.lum.program.client.credential.edit.CredentialEditController;
+import org.kuali.student.lum.program.client.credential.view.CredentialViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -14,9 +14,9 @@ import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
  */
 public class CredentialManager {
 
-    private BaccViewController baccViewController;
+    private CredentialViewController credentialViewController;
 
-    private BaccEditController baccEditController;
+    private CredentialEditController credentialEditController;
 
     private ProgramVersionsController programVersionsController;
     
@@ -30,21 +30,21 @@ public class CredentialManager {
         model = new DataModel();
     }
 
-    public BaccViewController getBaccViewController() {
+    public CredentialViewController getBaccViewController() {
         model.resetRoot();
-        if (baccViewController == null) {
-            baccViewController = new BaccViewController(model, viewContext, eventBus);
+        if (credentialViewController == null) {
+            credentialViewController = new CredentialViewController(model, viewContext, eventBus);
         }
         eventBus.fireEvent(new ProgramViewEvent());
-        return baccViewController;
+        return credentialViewController;
     }
 
-    public BaccEditController getBaccEditController() {
+    public CredentialEditController getBaccEditController() {
         model.resetRoot();
-        if (baccEditController == null) {
-            baccEditController = new BaccEditController(model, viewContext, eventBus);
+        if (credentialEditController == null) {
+            credentialEditController = new CredentialEditController(model, viewContext, eventBus);
         }
-        return baccEditController;
+        return credentialEditController;
     }
 
     public ProgramVersionsController getProgramVersionsController() {

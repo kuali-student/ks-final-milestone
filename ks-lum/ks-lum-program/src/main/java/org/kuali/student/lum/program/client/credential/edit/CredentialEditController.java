@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.edit;
+package org.kuali.student.lum.program.client.credential.edit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.CredentialController;
+import org.kuali.student.lum.program.client.credential.CredentialController;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
@@ -31,7 +31,7 @@ import com.google.gwt.user.client.Window;
 /**
  * @author Igor
  */
-public class BaccEditController extends CredentialController {
+public class CredentialEditController extends CredentialController {
 
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
@@ -41,9 +41,9 @@ public class BaccEditController extends CredentialController {
      *
      * @param programModel
      */
-    public BaccEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public CredentialEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        configurer = GWT.create(BaccEditConfigurer.class);
+        configurer = GWT.create(CredentialEditConfigurer.class);
         bind();
     }
 
@@ -123,7 +123,7 @@ public class BaccEditController extends CredentialController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                BaccEditController.this.updateModelFromCurrentView();
+                CredentialEditController.this.updateModelFromCurrentView();
                 model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
                     public void exec(List<ValidationResultInfo> result) {

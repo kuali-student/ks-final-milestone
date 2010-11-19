@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.view;
+package org.kuali.student.lum.program.client.credential.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
@@ -8,24 +8,24 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
+import org.kuali.student.lum.program.client.credential.CredentialEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class BaccCatalogDetailsViewConfiguration extends AbstractSectionConfiguration {
+public class CredentialCatalogDetailsViewConfiguration extends AbstractSectionConfiguration {
 
-    public static BaccCatalogDetailsViewConfiguration create() {
-        return new BaccCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static CredentialCatalogDetailsViewConfiguration create() {
+        return new CredentialCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID));
     }
 
-    public static BaccCatalogDetailsViewConfiguration createSpecial() {
+    public static CredentialCatalogDetailsViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_catalogInfo();
-        return new BaccCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
+        return new CredentialCatalogDetailsViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new CredentialEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
     }
 
-    private BaccCatalogDetailsViewConfiguration(SectionView sectionView) {
+    private CredentialCatalogDetailsViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
     }
 

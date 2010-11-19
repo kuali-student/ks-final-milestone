@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.edit;
+package org.kuali.student.lum.program.client.credential.edit;
 
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -18,9 +18,9 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class BaccLearningObjectivesEditConfiguration extends AbstractSectionConfiguration {
+public class CredentialLearningObjectivesEditConfiguration extends AbstractSectionConfiguration {
 
-    public BaccLearningObjectivesEditConfiguration() {
+    public CredentialLearningObjectivesEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_EDIT, ProgramProperties.get().program_menu_sections_learningObjectives(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 

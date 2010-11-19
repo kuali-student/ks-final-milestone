@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.edit;
+package org.kuali.student.lum.program.client.credential.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -12,9 +12,9 @@ import org.kuali.student.lum.program.client.widgets.ProgramDocumentTool;
 /**
  * @author Igor
  */
-public class BaccDocsEditConfiguration extends AbstractSectionConfiguration {
+public class CredentialDocsEditConfiguration extends AbstractSectionConfiguration {
 
-    public BaccDocsEditConfiguration() {
+    public CredentialDocsEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_EDIT, ProgramProperties.get().program_menu_sections_supportingDocuments(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 

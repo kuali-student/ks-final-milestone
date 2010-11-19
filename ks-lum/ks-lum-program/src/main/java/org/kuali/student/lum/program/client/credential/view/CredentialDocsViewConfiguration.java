@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.view;
+package org.kuali.student.lum.program.client.credential.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -9,15 +9,15 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
+import org.kuali.student.lum.program.client.credential.CredentialEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class BaccDocsViewConfiguration extends AbstractSectionConfiguration {
+public class CredentialDocsViewConfiguration extends AbstractSectionConfiguration {
 
-    private BaccDocsViewConfiguration(SectionView sectionView) {
+    private CredentialDocsViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
     }
 
@@ -26,12 +26,12 @@ public class BaccDocsViewConfiguration extends AbstractSectionConfiguration {
        configurer.addReadOnlyField(rootSection, "id", new MessageKeyInfo(""), new DocumentList(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,false, false)).setWidgetBinding(new DocumentListBinding("id"));
     }
 
-    public static BaccDocsViewConfiguration createSpecial() {
+    public static CredentialDocsViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_supportingDocuments();
-        return new BaccDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title,ProgramSections.SUPPORTING_DOCUMENTS_EDIT)));
+        return new CredentialDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new CredentialEditableHeader(title,ProgramSections.SUPPORTING_DOCUMENTS_EDIT)));
     }
 
-    public static BaccDocsViewConfiguration create(){
-        return new BaccDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, ProgramProperties.get().program_menu_sections_supportingDocuments(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static CredentialDocsViewConfiguration create(){
+        return new CredentialDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, ProgramProperties.get().program_menu_sections_supportingDocuments(), ProgramConstants.PROGRAM_MODEL_ID));
     }
 }

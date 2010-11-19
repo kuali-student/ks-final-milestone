@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.view;
+package org.kuali.student.lum.program.client.credential.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -7,25 +7,24 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
+import org.kuali.student.lum.program.client.credential.CredentialEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
  */
-public class BaccManagingBodiesViewConfiguration extends AbstractSectionConfiguration {
+public class CredentialManagingBodiesViewConfiguration extends AbstractSectionConfiguration {
 
-    public static BaccManagingBodiesViewConfiguration create() {
-        return new BaccManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static CredentialManagingBodiesViewConfiguration create() {
+        return new CredentialManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID));
     }
 
-    public static BaccManagingBodiesViewConfiguration createSpecial() {
+    public static CredentialManagingBodiesViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_managingBodies();
-        return new BaccManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT)));
+        return new CredentialManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new CredentialEditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT)));
     }
 
-    private BaccManagingBodiesViewConfiguration(SectionView sectionView) {
+    private CredentialManagingBodiesViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
     }
 

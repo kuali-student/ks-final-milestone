@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc;
+package org.kuali.student.lum.program.client.credential;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;

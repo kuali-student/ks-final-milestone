@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.view;
+package org.kuali.student.lum.program.client.credential.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -14,7 +14,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
-import org.kuali.student.lum.program.client.bacc.CredentialController;
+import org.kuali.student.lum.program.client.credential.CredentialController;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
@@ -22,7 +22,7 @@ import org.kuali.student.lum.program.client.major.ActionType;
 /**
  * @author Igor
  */
-public class BaccViewController extends CredentialController {
+public class CredentialViewController extends CredentialController {
 
     private DropdownList actionBox = new DropdownList(ActionType.getValues());
 
@@ -31,9 +31,9 @@ public class BaccViewController extends CredentialController {
      *
      * @param programModel
      */
-    public BaccViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public CredentialViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        configurer = GWT.create(BaccViewConfigurer.class);
+        configurer = GWT.create(CredentialViewConfigurer.class);
         bind();
     }
 

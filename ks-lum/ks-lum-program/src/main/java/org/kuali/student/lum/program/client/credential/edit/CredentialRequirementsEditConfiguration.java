@@ -1,16 +1,16 @@
-package org.kuali.student.lum.program.client.bacc.edit;
+package org.kuali.student.lum.program.client.credential.edit;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.CredentialManager;
+import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class BaccRequirementsEditConfiguration extends AbstractControllerConfiguration {
+public class CredentialRequirementsEditConfiguration extends AbstractControllerConfiguration {
 
     private ProgramRequirementsViewController progReqcontroller;
 

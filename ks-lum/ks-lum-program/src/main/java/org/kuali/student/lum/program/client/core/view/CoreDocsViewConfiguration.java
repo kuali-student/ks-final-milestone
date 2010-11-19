@@ -9,7 +9,7 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.bacc.BaccEditableHeader;
+import org.kuali.student.lum.program.client.credential.CredentialEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -28,7 +28,7 @@ public class CoreDocsViewConfiguration extends AbstractSectionConfiguration {
 
     public static CoreDocsViewConfiguration createSpecial() {
         String title = ProgramProperties.get().program_menu_sections_supportingDocuments();
-        return new CoreDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new BaccEditableHeader(title,ProgramSections.SUPPORTING_DOCUMENTS_EDIT)));
+        return new CoreDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new CredentialEditableHeader(title,ProgramSections.SUPPORTING_DOCUMENTS_EDIT)));
     }
 
     public static CoreDocsViewConfiguration create(){
