@@ -218,6 +218,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         return currentViewEnum;
     }
 
+    public void setCurrentViewEnum(Enum<?> currentViewEnum) {
+        this.currentViewEnum = currentViewEnum;
+    }
+
     /**
      * Sets the controller's parent controller. In most cases, this can be omitted as the controller will be automatically
      * detected via the DOM in cases where it is not specified. The only time that the controller needs to be manually set is

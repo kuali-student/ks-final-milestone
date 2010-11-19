@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
@@ -120,7 +121,7 @@ public class SummaryActionPanel extends Composite {
     private void processButtonClick(ProgramStatus status) {
         initiatedEvent = true;
         setStatus(status);
-        eventBus.fireEvent(new UpdateEvent());
+        eventBus.fireEvent(new UpdateEvent(ProgramSections.VIEW_ALL));
     }
     
     private void processActivateClick(){    	

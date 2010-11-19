@@ -89,7 +89,12 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(UpdateEvent.TYPE, new UpdateEvent.Handler() {
             @Override
             public void onEvent(UpdateEvent event) {
+                Enum<?> view = event.getCurrentView();
+                if (view != null) {
+                    setCurrentViewEnum(view);
+                }
                 doSave(event.getOkCallback());
+
             }
         });
 
@@ -302,14 +307,21 @@ public class MajorEditController extends MajorController {
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
                             HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-                    if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
-                        showView(getCurrentViewEnum());
-                    }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
+                    processCurrentView();
                 }
             }
         });
+    }
+
+    private void processCurrentView() {
+        Enum<?> currentView = getCurrentViewEnum();
+        if (currentView.name().equals(ProgramSections.VIEW_ALL.name())) {
+            HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
+        } else {
+            showView(currentView);
+        }
     }
 
     /**

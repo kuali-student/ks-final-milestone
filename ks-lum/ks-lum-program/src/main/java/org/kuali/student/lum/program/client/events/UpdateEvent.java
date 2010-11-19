@@ -14,8 +14,15 @@ public class UpdateEvent extends GwtEvent<UpdateEvent.Handler> {
 
     private Callback<Boolean> okCallback;
 
+    private Enum<?> currentView;
+
     public UpdateEvent() {
-        okCallback = Controller.NO_OP_CALLBACK;
+        this(Controller.NO_OP_CALLBACK);
+    }
+
+    public UpdateEvent(Enum<?> currentView) {
+        this();
+        this.currentView = currentView;
     }
 
     public UpdateEvent(Callback<Boolean> okCallback) {
@@ -34,6 +41,10 @@ public class UpdateEvent extends GwtEvent<UpdateEvent.Handler> {
 
     public Callback<Boolean> getOkCallback() {
         return okCallback;
+    }
+
+    public Enum<?> getCurrentView() {
+        return currentView;
     }
 
     public static interface Handler extends EventHandler {
