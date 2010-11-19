@@ -1,16 +1,12 @@
 package org.kuali.student.lum.lu.ui.main.client.controllers;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.common.ui.client.widgets.KSFooter;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -34,6 +30,7 @@ public class ApplicationController extends LayoutController{
 	private void init(Widget header){
 		container.add(header);
 		container.add(contentPanel);
+		//container.add(new KSFooter());// uncomment to show the footer
 		this.initWidget(container);
 	}
 	
