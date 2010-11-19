@@ -53,13 +53,15 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assembleBasicAdminOrgs(clu, cpInfo);
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
-        programAssemblerUtils.assembleRequirements(clu, cpInfo);
         programAssemblerUtils.assemblePublications(clu, cpInfo);
-
-        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 
         cpInfo.setDescr(clu.getDescr());
         cpInfo.setVersionInfo(clu.getVersionInfo());
+        
+        if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, cpInfo);
+        	cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        }
         
         return cpInfo;
     }
