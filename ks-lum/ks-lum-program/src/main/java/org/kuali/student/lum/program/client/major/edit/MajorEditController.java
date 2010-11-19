@@ -302,8 +302,9 @@ public class MajorEditController extends MajorController {
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
                             HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-
-                    showView(getCurrentViewEnum());
+                    if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        showView(getCurrentViewEnum());
+                    }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
                 }

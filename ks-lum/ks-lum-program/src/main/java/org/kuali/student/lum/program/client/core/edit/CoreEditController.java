@@ -200,7 +200,9 @@ public class CoreEditController extends CoreController {
                     programModel.setRoot(result.getValue());
                     setHeaderTitle();
                     setStatus();
-                    showView(getCurrentViewEnum());
+                    if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        showView(getCurrentViewEnum());
+                    }
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();

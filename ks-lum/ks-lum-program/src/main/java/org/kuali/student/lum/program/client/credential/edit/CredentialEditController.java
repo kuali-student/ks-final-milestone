@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.credential.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -22,11 +24,8 @@ import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -79,7 +78,7 @@ public class CredentialEditController extends CredentialController {
         eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
-                List<String> ids = event.getProgramRequirementIds();                
+                List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                 Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
@@ -166,7 +165,9 @@ public class CredentialEditController extends CredentialController {
                     setStatus();
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
-                    showView(getCurrentViewEnum());
+                    if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        showView(getCurrentViewEnum());
+                    }
                     HistoryManager.logHistoryChange();
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);

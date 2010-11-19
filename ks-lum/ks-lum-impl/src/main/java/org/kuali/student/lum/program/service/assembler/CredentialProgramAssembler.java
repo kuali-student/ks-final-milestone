@@ -53,6 +53,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
+        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
         cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
         try {
             cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM));

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
@@ -31,6 +32,13 @@ public enum ProgramSections {
 
     private static HashMap<Enum<?>, Enum<?>> sectionMap = new HashMap<Enum<?>, Enum<?>>();
 
+    private static ArrayList<String> viewForUpdate = new ArrayList<String>();
+
+    static{
+        viewForUpdate.add(SPECIALIZATIONS_EDIT.name());
+        viewForUpdate.add(MANAGE_BODIES_EDIT.name());
+    }
+
     static {
         sectionMap.put(PROGRAM_DETAILS_VIEW, PROGRAM_DETAILS_EDIT);
         sectionMap.put(SPECIALIZATIONS_VIEW, SPECIALIZATIONS_EDIT);
@@ -45,4 +53,7 @@ public enum ProgramSections {
         return sectionMap.get(viewSection);
     }
 
+    public static ArrayList<String> getViewForUpdate() {
+        return viewForUpdate;
+    }
 }
