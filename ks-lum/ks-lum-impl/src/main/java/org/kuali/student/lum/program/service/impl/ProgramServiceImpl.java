@@ -12,8 +12,8 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
@@ -47,7 +47,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -96,9 +95,7 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        if (credentialProgramInfo == null) {
-            throw new MissingParameterException("CredentialProgramInfo can not be null");
-        }
+        checkForMissingParameter(credentialProgramInfo, "CredentialProgramInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
@@ -153,9 +150,7 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        if (majorDisciplineInfo == null) {
-            throw new MissingParameterException("MajorDisciplineInfo can not be null");
-        }
+        checkForMissingParameter(majorDisciplineInfo, "MajorDisciplineInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
@@ -698,9 +693,7 @@ public class ProgramServiceImpl implements ProgramService {
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
 
-        if (credentialProgramInfo == null) {
-            throw new MissingParameterException("CredentialProgramInfo can not be null");
-        }
+        checkForMissingParameter(credentialProgramInfo, "CredentialProgramInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
@@ -737,9 +730,7 @@ public class ProgramServiceImpl implements ProgramService {
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
 
-        if (majorDisciplineInfo == null) {
-            throw new MissingParameterException("MajorDisciplineInfo can not be null");
-        }
+        checkForMissingParameter(majorDisciplineInfo, "MajorDisciplineInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
@@ -1070,10 +1061,8 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (coreProgramInfo == null) {
-            throw new MissingParameterException("CoreProgramInfo can not be null");
-        }
-
+        checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
+        
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
         if (null != validationResults && validationResults.size() > 0) {
@@ -1177,10 +1166,8 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public CoreProgramInfo updateCoreProgram(CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
-        if (coreProgramInfo == null) {
-            throw new MissingParameterException("CoreProgramInfo can not be null");
-        }
-
+        checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
+        
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
         if (null != validationResults && validationResults.size() > 0) {
