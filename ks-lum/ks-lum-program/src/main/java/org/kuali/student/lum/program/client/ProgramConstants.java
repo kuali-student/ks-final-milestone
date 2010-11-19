@@ -102,9 +102,9 @@ public class ProgramConstants {
     public static final String PREV_STATE = "previousVersionInfo/state";
 
     //Compound constants
-    public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID;
-    public static final String CREDENTIAL_PROGRAM_TYPE_NAME = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.RUNTIME_DATA + "/" + ProgramConstants.CREDENTIAL_PROGRAM_TYPE + "/" + ProgramConstants.ID_TRANSLATION;
-    public static final String CREDENTIAL_PROGRAM_LEVEL = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL;
+    public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = CREDENTIAL_PROGRAM + "/" + INSTITUTION + "/" + RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;
+    public static final String CREDENTIAL_PROGRAM_TYPE_NAME = CREDENTIAL_PROGRAM + "/" + RUNTIME_DATA + "/" + CREDENTIAL_PROGRAM_TYPE + "/" + ID_TRANSLATION;
+    public static final String CREDENTIAL_PROGRAM_LEVEL = CREDENTIAL_PROGRAM + "/" + PROGRAM_LEVEL;
 
 
     public static final List<String> RICH_TEXT_KEYS = Arrays.asList("/" + DESCRIPTION, "/" + CATALOG_DESCRIPTION);
