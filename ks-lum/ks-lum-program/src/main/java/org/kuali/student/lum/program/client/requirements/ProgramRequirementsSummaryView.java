@@ -488,10 +488,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //initialize fields with values if user is editing an existing rule
         if (internalProgReqID != null) {
             ProgramRequirementInfo progReq = rules.getProgReqByInternalId(internalProgReqID);
-            progReqData.set(QueryPath.parse("shortTitle"), progReq.getShortTitle());         
+            progReqData.set(QueryPath.parse("shortTitle"), progReq.getShortTitle());
             progReqData.set(QueryPath.parse("minCredits"), progReq.getMinCredits());
-            progReqData.set(QueryPath.parse("maxCredits"), progReq.getMaxCredits()); 
-            progReqData.set(QueryPath.parse("descr"), progReq.getDescr().getPlain());
+            progReqData.set(QueryPath.parse("maxCredits"), progReq.getMaxCredits());    
+            progReqData.set(QueryPath.parse("descr"), (progReq.getDescr() == null ? "" : progReq.getDescr().getPlain()));
         }
 
         //setup controller
