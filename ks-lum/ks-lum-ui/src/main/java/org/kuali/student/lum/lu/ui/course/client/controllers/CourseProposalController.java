@@ -72,7 +72,6 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavCont
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -368,7 +367,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         		callback.onModelReady(ref);
         	}
-        } else if (modelType == LuData.class){
+        } else if (modelType == Data.class){
         	requestModel(cfg.getModelId(), callback);
         } else {
             super.requestModel(modelType, callback);
@@ -450,7 +449,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        cluProposalModel.setRoot(new LuData());
+        cluProposalModel.setRoot(new Data());
         isNew = true;
         setProposalHeaderTitle();
         setLastUpdated();
@@ -460,7 +459,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createModifyCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        LuData data = new LuData();
+        Data data = new Data();
         
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), MODIFY_TYPE);

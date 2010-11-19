@@ -41,14 +41,10 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -262,7 +258,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 
                 callback.onModelReady(ref);
             }
-        }else if (modelType == LuData.class){
+        }else if (modelType == Data.class){
             requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else {
             super.requestModel(modelType, callback);
@@ -323,7 +319,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @SuppressWarnings("unchecked")
     private void createNewCluModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        cluModel.setRoot(new LuData());
+        cluModel.setRoot(new Data());
         callback.onModelReady(cluModel);
         workCompleteCallback.exec(true);
     }
@@ -338,14 +334,14 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
-        this.cluModel.setRoot(new LuData());        
+        this.cluModel.setRoot(new Data());        
     }
        
     public void clear(String cluType){
         super.clear();
         this.cluType = cluType;
         if (cluModel != null){
-            this.cluModel.setRoot(new LuData());            
+            this.cluModel.setRoot(new Data());            
         }
         this.courseId = null;
     }    
