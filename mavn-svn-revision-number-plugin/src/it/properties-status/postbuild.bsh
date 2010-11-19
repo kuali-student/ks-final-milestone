@@ -1,0 +1,44 @@
+import java.util.Properties;
+import oe.maven.plugins.revision.ItUtils;
+
+try {
+    return ItUtils.checkProperties( new File( basedir, "target/classes/properties.txt" ), new String[][] {
+            { "normal", "p=.*/src/it/properties-status/src/test/resources/normal/normal.txt r=\\d+ cr=\\d+ m=false s= ss=" },
+            { "normalParent", "p=.*/src/it/properties-status/src/test/resources/normal r=\\d+ cr=\\d+ m=false s= ss=" },
+
+            { "added", "p=.*/src/it/properties-status/src/test/resources/added/added.txt r=0 cr=-1 m=false s=A ss=A" },
+            { "addedParent", "p=.*/src/it/properties-status/src/test/resources/added r=\\d+ cr=\\d+ m=false s=A ss=A" },
+
+            { "deleted", "p=.*/src/it/properties-status/src/test/resources/deleted/deleted.txt r=\\d+ cr=\\d+ m=false s=D ss=D" },
+            { "deletedParent", "p=.*/src/it/properties-status/src/test/resources/deleted r=\\d+ cr=\\d+ m=false s=D ss=D" },
+
+            { "ignored", "p= r=-1 cr=-1 m=false s=I ss=I" },
+            { "ignoredParent", "p=.*/src/it/properties-status/src/test/resources/ignored r=\\d+ cr=\\d+ m=false s=I ss=I" },
+
+            { "missing", "p=.*/src/it/properties-status/src/test/resources/missing/missing.txt r=\\d+ cr=\\d+ m=false s=! ss=m" },
+            { "missingParent", "p=.*/src/it/properties-status/src/test/resources/missing r=\\d+ cr=\\d+ m=false s=! ss=m" },
+
+            { "modifiedContent", "p=.*/src/it/properties-status/src/test/resources/modified/modifiedContent.txt r=\\d+ cr=\\d+ m=false s=M ss=M" },
+            { "modifiedProperties", "p=.*/src/it/properties-status/src/test/resources/modified/modifiedProperties.txt r=\\d+ cr=\\d+ m=false s=M ss=M" },
+            { "modifiedParent", "p=.*/src/it/properties-status/src/test/resources/modified r=\\d+ cr=\\d+ m=false s=M ss=M" },
+
+            { "obstructedFile", "p=.*/src/it/properties-status/src/test/resources/obstructed/obstructed.txt r=\\d+ cr=\\d+ m=false s=~ ss=o" },
+            { "obstructedDirectory", "p=(.*/src/it/properties-status/src/test/resources/obstructed/obstructed)? r=-?\\d+ cr=-?\\d+ m=false s=~ ss=o" },
+            { "obstructedParent", "p=.*/src/it/properties-status/src/test/resources/obstructed r=\\d+ cr=\\d+ m=false s=~ ss=o" },
+
+            { "replaced", "p=.*/src/it/properties-status/src/test/resources/replaced/replaced.txt r=\\d+ cr=\\d+ m=false s=R ss=R" },
+            { "replacedParent", "p=.*/src/it/properties-status/src/test/resources/replaced r=\\d+ cr=\\d+ m=false s=R ss=R" },
+
+            { "unversionedFile", "p= r=-1 cr=-1 m=false s=\\? ss=u" },
+            { "unversionedDirectory", "p= r=-1 cr=-1 m=false s=\\? ss=u" },
+            { "unversionedParent", "p=.*/src/it/properties-status/src/test/resources/unversioned r=\\d+ cr=\\d+ m=false s=\\? ss=u" },
+
+            { "notWCFile", "p= r=-1 cr=-1 m=false s=\\? ss=u" },
+            { "notWCDirectory", "p= r=-1 cr=-1 m=false s=\\? ss=u" },
+
+            { "all", "p=.*/src/it/properties-status/src/test/resources r=\\d+ cr=\\d+ m=false s=ADMR\\?!~ ss=ADMRumo" },
+    } );
+} catch ( Throwable t ) {
+    t.printStackTrace();
+    return false;
+}

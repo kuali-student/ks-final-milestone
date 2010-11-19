@@ -1,0 +1,4 @@
+empty = p=${empty.path} r=${empty.revision} cr=${empty.committedRevision} m=${empty.mixedRevisions} s=${empty.status} ss=${empty.specialStatus}
+files = p=${files.path} r=${files.revision} cr=${files.committedRevision} m=${files.mixedRevisions} s=${files.status} ss=${files.specialStatus}
+immediates = p=${immediates.path} r=${immediates.revision} cr=${immediates.committedRevision} m=${immediates.mixedRevisions} s=${immediates.status} ss=${immediates.specialStatus}
+infinity = p=${infinity.path} r=${infinity.revision} cr=${infinity.committedRevision} m=${infinity.mixedRevisions} s=${infinity.status} ss=${infinity.specialStatus}
