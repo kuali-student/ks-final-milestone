@@ -1312,6 +1312,18 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
+	}
+
+	@Override
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,

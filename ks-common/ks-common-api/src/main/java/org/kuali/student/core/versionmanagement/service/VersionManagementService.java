@@ -61,6 +61,29 @@ public interface VersionManagementService {
      *             authorization failure
      */
     public VersionDisplayInfo getFirstVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+	 * Retrieves latest version associated with the objectId. This is not always the current version. 
+	 * A current version is what is being used by the system right now, but there could be draft version 
+	 * created after the current version.
+     * 
+     * @param refObjectTypeURI
+     *            reference object type URI 
+     * @param refObjectId
+     *            reference object Id
+     * @return current version
+     * @throws DoesNotExistException
+     *             specified refObjectId, refObjectTypeURI not found
+     * @throws InvalidParameterException
+     *             invalid refObjectId, refObjectTypeURI
+     * @throws MissingParameterException
+     *            refObjectId, refObjectTypeURI not specified
+     * @throws OperationFailedException
+     *             unable to complete request
+     * @throws PermissionDeniedException
+     *             authorization failure
+     */
+    public VersionDisplayInfo getLatestVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     
     /**

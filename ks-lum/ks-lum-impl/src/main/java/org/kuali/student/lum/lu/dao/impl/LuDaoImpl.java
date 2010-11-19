@@ -421,6 +421,16 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
+	public VersionDisplayInfo getLatestVersion(String versionIndId,
+			String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findLatestVersion");
+        query.setParameter("versionIndId", versionIndId);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
 	public VersionDisplayInfo getVersionBySequenceNumber(String versionIndId,
 			String objectTypeURI, Long sequenceNumber) {
         Query query = em.createNamedQuery("Clu.findVersionBySequence");

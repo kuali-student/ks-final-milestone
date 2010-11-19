@@ -3160,6 +3160,21 @@ public class LuServiceImpl implements LuService {
     }   
 	
     @Override
+    public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		VersionDisplayInfo versionInfo = null;
+		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+        	try{
+        		versionInfo = luDao.getLatestVersion(refObjectId, refObjectTypeURI);
+        	}catch(NoResultException e){
+        		throw new DoesNotExistException();
+        	}
+        }else{
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        }
+		return versionInfo;
+	}
+
+	@Override
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){

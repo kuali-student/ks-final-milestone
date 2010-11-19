@@ -61,7 +61,12 @@ import org.kuali.student.core.entity.VersionEntity;
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.sequenceNumber IN (SELECT MIN(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
-	@NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
+    @NamedQuery(name = "Clu.findLatestVersion", query = "SELECT " +
+ 	    	"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    	    "FROM Clu c " +
+    	    "WHERE c.version.versionIndId = :versionIndId " +
+    	    "AND c.version.sequenceNumber IN (SELECT MAX(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+    @NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
     		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +

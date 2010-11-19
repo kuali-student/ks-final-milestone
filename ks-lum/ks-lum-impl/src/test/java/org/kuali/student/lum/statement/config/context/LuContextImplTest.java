@@ -1406,6 +1406,15 @@ public class LuContextImplTest {
 		}
 
 		@Override
+		public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+				String refObjectId) throws DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				OperationFailedException, PermissionDeniedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
 		public VersionDisplayInfo getVersionBySequenceNumber(
 				String refObjectTypeURI, String refObjectId, Long sequence)
 				throws DoesNotExistException, InvalidParameterException,

@@ -83,6 +83,8 @@ public interface LuDao extends CrudDao, SearchableDao  {
 			String refObjectTypeURI, Long sequence);
 	public VersionDisplayInfo getFirstVersion(String refObjectId,
 			String refObjectTypeURI);
+	public VersionDisplayInfo getLatestVersion(String refObjectId,
+			String refObjectTypeURI);
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectId,
 			String refObjectTypeURI, Date date);
 	public List<CluPublication> getCluPublicationsByType(

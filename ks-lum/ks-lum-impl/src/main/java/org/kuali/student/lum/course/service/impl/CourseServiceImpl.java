@@ -515,6 +515,18 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
+	}
+
+	@Override
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,
