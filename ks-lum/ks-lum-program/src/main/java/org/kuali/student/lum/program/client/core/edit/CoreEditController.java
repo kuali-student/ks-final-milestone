@@ -79,7 +79,7 @@ public class CoreEditController extends CoreController {
         eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
-                List<String> ids = event.getProgramRequirementIds();                
+                List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                 Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
@@ -200,6 +200,7 @@ public class CoreEditController extends CoreController {
                     programModel.setRoot(result.getValue());
                     setHeaderTitle();
                     setStatus();
+                    showView(getCurrentViewEnum());
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();

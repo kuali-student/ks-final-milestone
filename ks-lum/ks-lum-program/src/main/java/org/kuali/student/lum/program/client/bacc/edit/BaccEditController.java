@@ -142,6 +142,7 @@ public class BaccEditController extends CredentialController {
                     setStatus();
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
+                    showView(getCurrentViewEnum());
                     HistoryManager.logHistoryChange();
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
