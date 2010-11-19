@@ -15,16 +15,16 @@
 
 package org.kuali.student.core.statement.config.context.lu;
 
-public class CluInfo {
+public class MockCluInfo {
 	private String id;
 	private String code;
 	private String shortName;
 	private String longName;
 	
-	public CluInfo() {
+	public MockCluInfo() {
 	}
 
-	public CluInfo(String id, String code, String shortName, String longName) {
+	public MockCluInfo(String id, String code, String shortName, String longName) {
 		this.id = id;
 		this.code = code;
 		this.shortName = shortName;

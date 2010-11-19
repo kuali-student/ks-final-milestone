@@ -33,7 +33,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * <code>"Student must have completed $intValue of $cluSet.getCluSetAsShortName()"</code>
  * </p>
  * 
- * {@link CluSetInfo} wrapper class.
+ * {@link MockCluSetInfo} wrapper class.
  */
 public class NLCluSet {
 

@@ -19,21 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link CluSetInfo} wrapper class.
+ * {@link MockCluSetInfo} wrapper class.
  */
-public class CluSetInfo {
+public class MockCluSetInfo {
 
 	private String id;
-	private List<CluInfo> cluList;
+	private List<MockCluInfo> cluList;
     private List<String> cluIds = new ArrayList<String>();
 
-	public CluSetInfo() {
+	public MockCluSetInfo() {
 	}
 	
-	public CluSetInfo(String cluSetId, List<CluInfo> cluList) {
+	public MockCluSetInfo(String cluSetId, List<MockCluInfo> cluList) {
 		this.id = cluSetId;
 		this.cluList = cluList;
-		for(CluInfo clu : cluList) {
+		for(MockCluInfo clu : cluList) {
 			cluIds.add(clu.getId());
 		}
 	}
@@ -46,11 +46,11 @@ public class CluSetInfo {
 		this.id = id;
 	}
 
-	public List<CluInfo> getCluList() {
+	public List<MockCluInfo> getCluList() {
 		return this.cluList;
 	}
 
-	public void setCluList(List<CluInfo> cluList) {
+	public void setCluList(List<MockCluInfo> cluList) {
 		this.cluList = cluList;
 	}
 	
@@ -75,7 +75,7 @@ public class CluSetInfo {
 	
 	public String getCluSetAsShortName() {
 		StringBuilder sb = new StringBuilder();
-		for(CluInfo clu : this.cluList) {
+		for(MockCluInfo clu : this.cluList) {
 			sb.append(clu.getShortName());
 			sb.append(", ");
 		}
@@ -84,7 +84,7 @@ public class CluSetInfo {
 
 	public String getCluSetAsLongName() {
 		StringBuilder sb = new StringBuilder();
-		for(CluInfo clu : this.cluList) {
+		for(MockCluInfo clu : this.cluList) {
 			sb.append(clu.getShortName());
 			sb.append(", ");
 		}
@@ -93,7 +93,7 @@ public class CluSetInfo {
 
 	public String getCluSetAsCode() {
 		StringBuilder sb = new StringBuilder();
-		for(CluInfo clu : this.cluList) {
+		for(MockCluInfo clu : this.cluList) {
 			sb.append(clu.getCode());
 			sb.append(", ");
 		}

@@ -28,8 +28,8 @@ import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
-	private final static Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
-	private final static Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
+	private final static Map<String, MockCluInfo> cluMap = new HashMap<String, MockCluInfo>();
+	private final static Map<String, MockCluSetInfo> cluSetMap = new HashMap<String, MockCluSetInfo>();
 
 	/**
 	 * Template tokens (keys).
@@ -43,14 +43,14 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	public AbstractLuContext() {
 	}
 
-	public final static void setCluInfo(List<CluInfo> list) {
-		for(CluInfo clu : list) {
+	public final static void setCluInfo(List<MockCluInfo> list) {
+		for(MockCluInfo clu : list) {
 			cluMap.put(clu.getId(), clu);
 		}
 	}
 
-	public final static void setCluSetInfo(List<CluSetInfo> list) {
-		for(CluSetInfo cluSet : list) {
+	public final static void setCluSetInfo(List<MockCluSetInfo> list) {
+		for(MockCluSetInfo cluSet : list) {
 			cluSetMap.put(cluSet.getId(), cluSet);
 		}
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return CLU
      * @throws OperationFailedException If retrieving CLU fails
      */
-    public CluInfo getCluInfo(String cluId) throws OperationFailedException {
+    public MockCluInfo getCluInfo(String cluId) throws OperationFailedException {
 		try {
 			//CluInfo clu = this.luService.getClu(cluId);
 			//return clu;
@@ -79,7 +79,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return CLU set
      * @throws OperationFailedException If retrieving CLU set fails
      */
-    public CluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
+    public MockCluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
 		try {
 	    	//CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
 	    	//return cluSet;
@@ -96,14 +96,14 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CluSetInfo getCluSet(String cluSetId) throws OperationFailedException {
-    	CluSetInfo cluSet = getCluSetInfo(cluSetId);
-        List<CluInfo> list = new ArrayList<CluInfo>(cluSet.getCluIds().size());
+    public MockCluSetInfo getCluSet(String cluSetId) throws OperationFailedException {
+    	MockCluSetInfo cluSet = getCluSetInfo(cluSetId);
+        List<MockCluInfo> list = new ArrayList<MockCluInfo>(cluSet.getCluIds().size());
 		for(String cluId : cluSet.getCluIds()) {
-        	CluInfo clu = getCluInfo(cluId);
+        	MockCluInfo clu = getCluInfo(cluId);
         	list.add(clu);
         }
-    	return new CluSetInfo(cluSet.getId(), list);
+    	return new MockCluSetInfo(cluSet.getId(), list);
     }
 
     /**
@@ -129,11 +129,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return A new CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CluSetInfo getCluAsCluSet(String cluId) throws OperationFailedException {
-    	List<CluInfo> list = new ArrayList<CluInfo>();
-		CluInfo clu = getCluInfo(cluId);
+    public MockCluSetInfo getCluAsCluSet(String cluId) throws OperationFailedException {
+    	List<MockCluInfo> list = new ArrayList<MockCluInfo>();
+		MockCluInfo clu = getCluInfo(cluId);
 		list.add(clu);
-    	return new CluSetInfo(null, list);
+    	return new MockCluSetInfo(null, list);
     }
 
     /**
@@ -143,9 +143,9 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CluSetInfo getCluSet(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public MockCluSetInfo getCluSet(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
-    	CluSetInfo cluSet = null;
+    	MockCluSetInfo cluSet = null;
     	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getType())) {
         	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getType());
 //        	cluSet = getClusAsCluSet(cluIds);

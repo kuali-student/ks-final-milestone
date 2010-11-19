@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.student.core.statement.config.context.lu.CluInfo;
-import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
+import org.kuali.student.core.statement.config.context.lu.MockCluInfo;
+import org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
 import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
@@ -39,47 +39,47 @@ import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
  */
 public class NaturalLanguageUtil {
 
-	private final static List<CluInfo> cluList = new ArrayList<CluInfo>();
-	private final static List<CluSetInfo> cluSetList = new ArrayList<CluSetInfo>();
+	private final static List<MockCluInfo> cluList = new ArrayList<MockCluInfo>();
+	private final static List<MockCluSetInfo> cluSetList = new ArrayList<MockCluSetInfo>();
 
     public static void createData() {
-    	CluInfo clu1 = new CluInfo();
+    	MockCluInfo clu1 = new MockCluInfo();
     	clu1.setId("CLU-NL-1");
     	clu1.setCode("MATH152");
     	clu1.setShortName("MATH 152");
     	clu1.setLongName("MATH 152 Linear Systems");
     	cluList.add(clu1);
 
-    	CluInfo clu2 = new CluInfo();
+    	MockCluInfo clu2 = new MockCluInfo();
     	clu2.setId("CLU-NL-2");
     	clu2.setCode("MATH221");
     	clu2.setShortName("MATH 221");
     	clu2.setLongName("MATH 221 Matrix Algebra");
     	cluList.add(clu2);
 
-    	CluInfo clu3 = new CluInfo();
+    	MockCluInfo clu3 = new MockCluInfo();
     	clu3.setId("CLU-NL-3");
     	clu3.setCode("MATH180");
     	clu3.setShortName("MATH 180");
     	clu3.setLongName("MATH 180 Differential Calculus with Physical Applications");
     	cluList.add(clu3);
     	
-    	CluSetInfo cluSet1 = new CluSetInfo();
+    	MockCluSetInfo cluSet1 = new MockCluSetInfo();
     	cluSet1.setId("CLUSET-NL-1");
     	cluSet1.setCluIds(Arrays.asList(new String[] {clu1.getId(), clu3.getId()}));
-    	cluSet1.setCluList(Arrays.asList(new CluInfo[] {clu1, clu3}));
+    	cluSet1.setCluList(Arrays.asList(new MockCluInfo[] {clu1, clu3}));
     	cluSetList.add(cluSet1);
 
-    	CluSetInfo cluSet2 = new CluSetInfo();
+    	MockCluSetInfo cluSet2 = new MockCluSetInfo();
     	cluSet2.setId("CLUSET-NL-2");
     	cluSet2.setCluIds(Arrays.asList(new String[] {clu1.getId(), clu2.getId(), clu3.getId()}));
-    	cluSet2.setCluList(Arrays.asList(new CluInfo[] {clu1, clu2, clu3}));
+    	cluSet2.setCluList(Arrays.asList(new MockCluInfo[] {clu1, clu2, clu3}));
     	cluSetList.add(cluSet2);
     	
-    	CluSetInfo cluSet3 = new CluSetInfo();
+    	MockCluSetInfo cluSet3 = new MockCluSetInfo();
     	cluSet3.setId("CLUSET-NL-3");
     	cluSet3.setCluIds(Arrays.asList(new String[] {clu1.getId(), clu2.getId()}));
-    	cluSet3.setCluList(Arrays.asList(new CluInfo[] {clu1, clu2}));
+    	cluSet3.setCluList(Arrays.asList(new MockCluInfo[] {clu1, clu2}));
     	cluSetList.add(cluSet3);
     }
 	
