@@ -37,7 +37,7 @@ public class ActiveDatesValidator extends DefaultValidatorImpl {
 					AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
 					AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
 					if (startAtp.getStartDate()
-							.compareTo(endAtp.getStartDate()) >= 0) {
+							.compareTo(endAtp.getStartDate()) > 0) {
 						ValidationResultInfo vr = new ValidationResultInfo();
 						vr.setElement(field.getName());
 						vr.setError("validation.endDateAfterStartDate");

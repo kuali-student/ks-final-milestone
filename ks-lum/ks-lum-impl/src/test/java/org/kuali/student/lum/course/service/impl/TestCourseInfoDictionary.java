@@ -108,13 +108,13 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(1, validationResults.size());
+		assertEquals(0, validationResults.size());
 
 		System.out.println("testCourseDescrRequiredBasedOnState");
 		info.setState("DRAFT");
 		info.setDescr(null);
 		validationResults = val.validateObject(info, os);
-		assertEquals(1, validationResults.size());
+		assertEquals(0, validationResults.size());
 
 		info.setState("ACTIVE");
 		info.setDescr(null);
@@ -122,7 +122,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(3, validationResults.size());
+		assertEquals(2, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
 		info.getAttributes().put("finalExamStatus", "123");
@@ -130,7 +130,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(4, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		LoDisplayInfo loInfo = new LoDisplayInfo();
 		LoCategoryInfo loCatInfo = new LoCategoryInfo();
@@ -146,7 +146,7 @@ public class TestCourseInfoDictionary {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
 		assertTrue(rtInfo.getPlain().matches("[A-Za-z0-9.\\\\\\-;:&#34;,'&amp;%$#@!\t\n\r ]*"));
-		assertEquals(4, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		
 		// Test custom validation 
@@ -202,11 +202,11 @@ public class TestCourseInfoDictionary {
         List<ValidationResultInfo> validationResults1 = val.validateObject(info, os);
         System.out.println("h3. With just a custom validations");
 
-        assertEquals(3, validationResults1.size());
+        assertEquals(2, validationResults1.size());
         
         for(ValidationResultInfo vr : validationResults1) {
             System.out.println(vr.getElement());
-            assertTrue("endTerm".equals(vr.getElement()) || "/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
+            assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
         }
 
 	}
