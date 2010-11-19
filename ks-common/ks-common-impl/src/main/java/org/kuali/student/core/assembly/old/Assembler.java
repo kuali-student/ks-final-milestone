@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.assembly;
+package org.kuali.student.core.assembly.old;
 
 import java.util.List;
 
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 /*
  *	ASSEMBLERREVIEW

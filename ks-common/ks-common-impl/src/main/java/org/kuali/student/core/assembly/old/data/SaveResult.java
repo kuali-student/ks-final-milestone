@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.assembly.data;
+package org.kuali.student.core.assembly.old.data;
 
 import java.io.Serializable;
 import java.util.List;

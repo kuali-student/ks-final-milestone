@@ -193,7 +193,7 @@
 	<bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
 		<constructor-arg ref="searchDispatcher" />
 	</bean>
-	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.old.IdTranslatorAssemblerFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
@@ -211,7 +211,7 @@
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
-	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.old.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
 	</bean>
@@ -222,7 +222,7 @@
         <!--<constructor-arg index="1" ref="coreDictionaryServiceClient"/>-->
 	</bean>
 
-	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
 		<property name="filters">
   		<list>

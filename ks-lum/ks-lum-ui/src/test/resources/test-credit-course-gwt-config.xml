@@ -49,7 +49,7 @@
 		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 	
-	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.old.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
 		<property name="namespace" value="KS-SYS" />
@@ -88,7 +88,7 @@
 	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
-	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="creditCourseProposalAssembler"/>
 		<property name="filters">
 			<list>
@@ -111,7 +111,7 @@
 		<property name="assembler" ref="courseAssemblerFilterManager"/>
 	</bean>
 
-	<bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="courseAssembler"/>
 	</bean>
 

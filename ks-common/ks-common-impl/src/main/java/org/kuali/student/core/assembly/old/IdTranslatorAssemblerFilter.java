@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.assembly;
+package org.kuali.student.core.assembly.old;
 
 import java.util.Iterator;
 
@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
 

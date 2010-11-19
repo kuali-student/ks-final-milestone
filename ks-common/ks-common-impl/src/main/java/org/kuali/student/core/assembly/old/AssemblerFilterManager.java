@@ -13,23 +13,23 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.assembly;
+package org.kuali.student.core.assembly.old;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.core.assembly.AssemblerFilter.AssembleFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.DisassembleFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper;
-import org.kuali.student.core.assembly.AssemblerFilter.GetFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.GetMetadataFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.TypeStateFilterParamWrapper;
-import org.kuali.student.core.assembly.AssemblerFilter.ValidateFilterChain;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.old.AssemblerFilter.AssembleFilterChain;
+import org.kuali.student.core.assembly.old.AssemblerFilter.DisassembleFilterChain;
+import org.kuali.student.core.assembly.old.AssemblerFilter.FilterParamWrapper;
+import org.kuali.student.core.assembly.old.AssemblerFilter.GetFilterChain;
+import org.kuali.student.core.assembly.old.AssemblerFilter.GetMetadataFilterChain;
+import org.kuali.student.core.assembly.old.AssemblerFilter.SaveFilterChain;
+import org.kuali.student.core.assembly.old.AssemblerFilter.TypeStateFilterParamWrapper;
+import org.kuali.student.core.assembly.old.AssemblerFilter.ValidateFilterChain;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 @Deprecated

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.IdTranslatorAssemblerFilter;
-import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.DataType;
@@ -15,7 +13,7 @@ import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
 
 public class IdTranslatorFilter extends AbstractDataFilter {
-    final Logger LOG = Logger.getLogger(IdTranslatorAssemblerFilter.class);
+    final Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
 
 	private IdTranslator idTranslator;
 
