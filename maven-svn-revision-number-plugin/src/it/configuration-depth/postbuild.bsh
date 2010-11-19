@@ -1,0 +1,14 @@
+import java.util.Properties;
+import oe.maven.plugins.revision.ItUtils;
+
+try {
+    return ItUtils.checkProperties( new File( basedir, "target/classes/properties.txt" ), new String[][] {
+            { "empty", "p=.*/src/it/configuration-depth/src/test/resources r=\\d+ cr=\\d+ m=false s= ss=" },
+            { "files", "p=.*/src/it/configuration-depth/src/test/resources r=\\d+ cr=\\d+ m=false s=M ss=M" },
+            { "immediates", "p=.*/src/it/configuration-depth/src/test/resources r=\\d+ cr=\\d+ m=false s=AM ss=AM" },
+            { "infinity", "p=.*/src/it/configuration-depth/src/test/resources r=\\d+ cr=\\d+ m=false s=ADM ss=ADM" },
+    } );
+} catch ( Throwable t ) {
+    t.printStackTrace();
+    return false;
+}

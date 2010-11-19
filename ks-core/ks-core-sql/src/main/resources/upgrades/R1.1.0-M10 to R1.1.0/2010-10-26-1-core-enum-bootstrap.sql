@@ -1,1 +1,0 @@
-insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT, OBJ_ID, VER_NBR ) values ('kuali.atptype.intensity', 'ATP Intensity', 'ATP Intensity' , to_date('2000-01-01', 'yyyy-mm-dd'), null, SYS_GUID(),0)/

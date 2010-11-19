@@ -1,0 +1,79 @@
+ ---
+ Storing output properties in the resource file
+ ---
+ Oleg Estekhin
+ ---
+ 2010-06-18
+ ---
+
+Storing output properties in the resource file
+
+  The status properties can be stored to the file using the resource filtering mechanism.
+
+  Create the resource file <<<src/main/resources/revision.txt>>> containing references to the revision properties:
+
++---
+repository = ${prefix.repository}
+path = ${prefix.path}
+revision = ${prefix.revision}
+mixedRevisions = ${prefix.mixedRevisions}
+committedRevision = ${prefix.committedRevision}
+status = ${prefix.status}
+specialStatus = ${prefix.specialStatus}
++---
+
+  Enable resource filtering:
+
++---
+<project>
+    ...
+    <build>
+        ...
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        ...
+    </build>
+    ...
+</project>
++---
+
+  Configure the plugin to generate output properties with the required prefix:
+
++---
+<project>
+    ...
+    <build>
+        ...
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <entries>
+                        <entry>
+                            <prefix>prefix</prefix>
+                        </entry>
+                    </entries>
+                </configuration>
+            </plugin>
+        </plugins>
+        ...
+    </build>
+    ...
+</project>
++---
+
+  More information on resource filtering can be found in the
+  {{{http://maven.apache.org/plugins/maven-resources-plugin/index.html}Maven Resources Plugin}} documentation.

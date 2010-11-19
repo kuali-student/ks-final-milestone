@@ -1,0 +1,53 @@
+import org.codehaus.plexus.util.FileUtils;
+
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.wc.*;
+
+try {
+    SVNWCClient svnClient = SVNClientManager.newInstance().getWCClient();
+
+    // added
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/added/added.txt" ).getAbsolutePath(), "UTF-8", "new file, added to svn" );
+    svnClient.doAdd( new File( basedir, "src/test/resources/added/added.txt" ), false, false, false, SVNDepth.INFINITY, false, false, false );
+
+    // deleted
+    svnClient.doDelete( new File( basedir, "src/test/resources/deleted/deleted.txt" ), false, true, false );
+
+    // ignored
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/ignored/ignored.txt" ).getAbsolutePath(), "UTF-8", "new file, ignored by svn" );
+
+    // missing
+    FileUtils.fileDelete( new File( basedir, "src/test/resources/missing/missing.txt" ).getAbsolutePath() );
+
+    // modified content
+    FileUtils.fileAppend( new File( basedir, "src/test/resources/modified/modifiedContent.txt" ).getAbsolutePath(), "UTF-8", "modified content\n" );
+
+    // modified properties
+    svnClient.doSetProperty( new File( basedir, "src/test/resources/modified/modifiedProperties.txt" ), "x:property", SVNPropertyValue.create( "value" ), false, SVNDepth.IMMEDIATES, null, null );
+
+    // obstructed
+    FileUtils.fileDelete( new File( basedir, "src/test/resources/obstructed/obstructed.txt" ).getAbsolutePath() );
+    FileUtils.mkdir( new File( basedir, "src/test/resources/obstructed/obstructed.txt" ).getAbsolutePath() );
+
+    FileUtils.deleteDirectory( new File( basedir, "src/test/resources/obstructed/obstructed" ).getAbsolutePath() );
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/obstructed/obstructed" ).getAbsolutePath(), "UTF-8", "new file, obstructs a directory" );
+
+    // replaced
+    svnClient.doDelete( new File( basedir, "src/test/resources/replaced/replaced.txt" ), false, true, false );
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/replaced/replaced.txt" ).getAbsolutePath(), "UTF-8", "new file, replaces deleted file" );
+    svnClient.doAdd( new File( basedir, "src/test/resources/replaced/replaced.txt" ), false, false, false, SVNDepth.INFINITY, false, false, false );
+
+    // unversioned
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/unversioned/unversioned.txt" ).getAbsolutePath(), "UTF-8", "new file, unversioned" );
+    FileUtils.mkdir( new File( basedir, "src/test/resources/unversioned/unversioned" ).getAbsolutePath() );
+
+    // not a working copy
+    FileUtils.mkdir( new File( basedir, "src/test/resources/notWC" ).getAbsolutePath() );
+    FileUtils.mkdir( new File( basedir, "src/test/resources/notWC/notWC" ).getAbsolutePath() );
+    FileUtils.fileWrite( new File( basedir, "src/test/resources/notWC/notWC.txt" ).getAbsolutePath(), "UTF-8", "new file, unversioned" );
+
+    return true;
+} catch ( Throwable t ) {
+    t.printStackTrace();
+    return false;
+}

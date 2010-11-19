@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CluCreditCourseProposal</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Proposal</description>
+      <label>Credit Course Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Curriculum Committee Review" />
+          <role name="Department Curriculum Committee Review" nextNode="Department Review" />
+          <role name="Department Review" nextNode="PilotCourseSplit" />
+          <split name="PilotCourseSplit" nextNode="Publication Review">
+            <branch name="PilotCourse">
+              <simple name="PilotNoOp" nextNode="PilotJoin" />
+            </branch>
+            <branch name="RegularCourse">
+		          <role name="Faculty Curriculum Committee Review" nextNode="Faculty Review" />
+		          <role name="Faculty Review" nextNode="CourseTypeSplit" />
+		          <split name="CourseTypeSplit" nextNode="Senate Review">
+		            <branch name="UnderGraduate">
+		              <role name="SCC - Science Subcommittee" nextNode="CourseTypeJoin" />                            
+		            </branch>
+		            <branch name="Graduate">
+		              <role name="SCC - Graduate Subcommittee" nextNode="CourseTypeJoin" />
+		            </branch>
+		            <branch name="Cat2">
+		              <simple name="Cat2NoOp" nextNode="CourseTypeJoin" />
+		            </branch>
+		            <join name="CourseTypeJoin" />
+		          </split>
+		          <role name="Senate Review" nextNode="PilotJoin" />
+            </branch>
+            <join name="PilotJoin" />
+          </split>
+          <role name="Publication Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>      
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Curriculum Committee Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.AdminOrganizationQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="PilotCourseSplit">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>        
+          <type>ca.ubc.student.kuali.lum.workflow.actions.PilotCourseLogicSplitNode</type>
+        </split>
+        <simple name="PilotNoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>        
+        <simple name="Cat2NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="PilotJoin" />
+        <split name="CourseTypeSplit">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>        
+          <type>ca.ubc.student.kuali.lum.workflow.actions.CourseTypeLogicSplitNode</type>
+        </split>        
+        <join name="CourseTypeJoin" />        
+        <role name="Faculty Curriculum Committee Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.FacultyCurriculumCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Faculty Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.FacultyQualifierResolver</qualifierResolverClass>
+        </role>        
+        <role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.SenateCurriculumCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Publication Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.SenateCurriculumServicesQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SCC - Science Subcommittee">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.OrganizationQualifierResolver</qualifierResolverClass>
+          <orgId>1033</orgId>
+          <orgName>ScienceSubcommittee</orgName>        
+        </role>        
+        <role name="SCC - Graduate Subcommittee">
+          <activationType>P</activationType>
+          <qualifierResolverClass>ca.ubc.student.kuali.lum.workflow.qualifierresolver.OrganizationQualifierResolver</qualifierResolverClass>
+          <orgId>1032</orgId>
+          <orgName>GraduateSubcommittee</orgName>
+        </role>        
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

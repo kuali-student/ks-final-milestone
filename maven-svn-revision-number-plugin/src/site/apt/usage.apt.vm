@@ -1,0 +1,198 @@
+ ---
+ Usage
+ ---
+ Oleg Estekhin
+ ---
+ 2010-08-18
+ ---
+
+Usage
+
+  The ${project.name} retrieves the status and revision number of a file or a directory under the Subversion version
+  control and exposes this information in the form of the project properties which can be used in the subsequent phases
+  of the build lifecycle.
+
+* Running the plugin automatically during the build
+
+  By default, the <<<revision>>> goal is bound to the <<<initialize>>> phase. Below is a sample <<<pom.xml>>> for
+  running the <<<revision>>> goal every time the project is built:
+
++---
+<project>
+    ...
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    ...
+</project>
++---
+
+* Entries configuration
+
+  Without explicit configuration the plugin will inspect the project's <<<basedir>>> directory, collecting the
+  status information recursively for all files and folders below it. The resulting properties with the aggregated status
+  information will be prefixed with the project's <<<artifactId>>>.
+
+  Explicit configuration allows to obtain the status of more than one directory or a file. Below is a sample
+  configuration that contains a single entry with the default parameter values:
+
++---
+<configuration>
+    <entries>
+        <entry>
+            <path>\${project.basedir}</path>
+            <prefix>\${project.artifactId}</prefix>
+            <depth>infinity</depth>
+            <reportUnversioned>true</reportUnversioned>
+            <reportIgnored>false</reportIgnored>
+            <reportOutOfDate>false</reportOutOfDate>
+        <entry>
+    </entries>
+</configuration>
++---
+
+  Each entry can specify its own parameters:
+
+  * <<<path>>> is the local path to a file or a directory whose status will be inspected.\
+  The default value is the project's <<<basedir>>>.
+
+  * <<<prefix>>> is the prefix for the properties that will contain the entry status.\
+  If two or more entries use the same prefix then the plugin will emit a warning and the values of the output properties
+  with that prefix will be determined by the last checked entry.\
+  The default value is the project's <<<artifactId>>>.
+
+  * <<<depth>>> specifies the depth of the entries whose status information should be collected. The possible values
+  are:
+
+    * <<<empty>>> - checks the status of the target entry only.
+
+    * <<<files>>> - checks the status of the target entry and, if it is a directory, files immediately below it.
+
+    * <<<immediates>>> - checks the status of the target entry and, if it is a directory, files and subdirectories
+    immediately below it. The contents of subdirectories will not be checked.
+
+    * <<<infinity>>> - checks the status of the target entry and, if it is a directory, all files and directories
+    below it.
+
+    []
+
+  The default value is <<<infinity>>>. The semantics of the <<<depth>>> parameter are consistent with the Subversion
+  {{{http://svnbook.red-bean.com/nightly/en/svn.advanced.sparsedirs.html}depth}} option.
+
+  * <<<reportUnversioned>>> specifies whether to report items that are not under version control.\
+  The default value is <<<true>>>.
+
+  * <<<reportIgnored>>> specifies whether to report items that were set to be
+  {{{http://svnbook.red-bean.com/nightly/en/svn.advanced.props.special.ignore.html}ignored}} either in the global
+  Subversion configuration or by the <<<svn:ignore>>> property.\
+  The default value is <<<false>>>.
+
+  * <<<reportOutOfDate>>> specifies whether to report items that are out of date. If this option is enabled then
+  the plugin will check the repository for modifications.\
+  The default value is <<<false>>>.
+
+  []
+
+* Output properties
+
+  For each configured entry the plugin will set a number of project properties:
+
+  * <<<prefix.repository>>> will contain the remote repository root.
+
+  * <<<prefix.path>>> will contain the entry path relative to the root of the remote repository.
+
+  * <<<prefix.revision>>> will contain the current revision number of the entry in the working copy.\
+    The value of this property can be safely used as an argument for <<<java.lang.Long.parseLong(String)>>> method.
+
+  * <<<prefix.mixedRevisions>>> will indicate whether the working copy below the entry path contains
+    {{{http://svnbook.red-bean.com/nightly/en/svn.basic.in-action.html#svn.basic.in-action.mixedrevs}mixed revisions}}.\
+    The value of this property can be safely used as an argument for <<<java.lang.Boolean.parseBoolean(String)>>> method.
+
+  * <<<prefix.committedRevision>>> will contain the revision number when the entry was last changed (committed).\
+    The value of this property can be safely used as an argument for <<<java.lang.Long.parseLong(String)>>> method.
+
+  * <<<prefix.status>>> will contain a set of characters describing the status of the entry:
+
+    * <<<'A'>>> - some item in the working copy is scheduled for addition to the repository.
+
+    * <<<'C'>>> - the contents or properties of some item conflict with updates received from the repository.
+
+    * <<<'D'>>> - some item in the working copy is scheduled for deletion from the repository.
+
+    * <<<'I'>>> - the reporting of ignored items is enabled and the working copy contains ignored items.\
+      The reporting of ignored items is disabled by default.
+
+    * <<<'M'>>> - some item in the working copy has local modifications.
+
+    * <<<'R'>>> - some item in the working copy was replaced (it was scheduled for deletion, and then a new item with
+      the same name was scheduled for addition).
+
+    * <<<'X'>>> - some item in the working copy is present because of an externals definition.
+
+    * <<<'?'>>> - the working copy contains unversioned items.\
+      The reporting of unversioned items is enabled by default.
+
+    * <<<'!'>>> - some items in the working copy are missing (the most common case is deleting the file or
+      directory without using svn) or some directory in the working copy is incomplete (a checkout or update operation
+      was interrupted).
+
+    * <<<'~'>>> - some item in the working copy is obstructed (it is versioned as a file or a directory but has been
+      replaced by a directory or a file respectively).
+
+    * <<<'*'>>> - a newer revision of some local item exists in the remote repository.\
+      The reporting of out-of-date items is disabled by default.
+
+    []
+
+    The status characters for <<<prefix.status>>> property are consistent with the output of the
+    {{{http://svnbook.red-bean.com/nightly/en/svn.ref.svn.c.status.html}svn status}} command.
+
+    The <<<prefix.status>>> will be empty if the entry has no local modifications.
+
+  * <<<prefix.specialStatus>>> will contain the same information as <<<prefix.status>>> except that it uses lower-case
+    letters instead of the characters that can not be used in the file names:
+
+    * Unversioned items are reported using the <<<'u'>>> instead of the <<<'?'>>>.
+
+    * Missing items are reported using the <<<'m'>>> and incomplete items are reported using the <<<'i'>>> instead of
+      the <<<'!'>>>.
+
+    * Obstructed items are reported using the <<<'o'>>> instead of the <<<'~'>>>.
+
+    * Out-of-date items are reported using the <<<'d'>>> instead of the <<<'*'>>>.
+
+    []
+
+    The <<<prefix.specialStatus>>> will be empty if the entry has no local modifications.
+  
+  []
+
+  If the entry is not under version control then <<<prefix.repository>>> and <<<prefix.path>>> will be empty strings,
+  <<<prefix.revision>>> and <<<prefix.committedRevision>>> will be set to <<<"-1">>>, <<<prefix.mixedRevisions>>> to
+  <<<"false">>>, <<<prefix.status>>> to <<<"?">>> and <<<prefix.specialStatus>>> to <<<"u">>>.
+
+  If the entry path denotes a file or if the <<<depth>>> parameter is equal to <<<empty>>> then the output properties
+  will represent the status of the entry itself and <<<prefix.status>>> and <<<prefix.specialStatus>>> will contain at
+  most one character.
+
+  If the entry path denotes a directory and the <<<depth>>> parameter is one of <<<files>>>, <<<immediates>>> or
+  <<<infinity>>> then <<<prefix.revision>>> will be set to the maximum revision number found inside the entry directory,
+  the <<<prefix.committedRevision>>> will be set to the maximum last committed revision number found inside the entry
+  directory, and <<<prefix.status>>> and <<<prefix.specialStatus>>> will contain a set of characters that describe all
+  statuses encountered inside the entry directory.

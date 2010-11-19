@@ -1,0 +1,34 @@
+normal = p=${normal.path} r=${normal.revision} cr=${normal.committedRevision} m=${normal.mixedRevisions} s=${normal.status} ss=${normal.specialStatus}
+normalParent = p=${normalParent.path} r=${normalParent.revision} cr=${normalParent.committedRevision} m=${normalParent.mixedRevisions} s=${normalParent.status} ss=${normalParent.specialStatus}
+
+added = p=${added.path} r=${added.revision} cr=${added.committedRevision} m=${added.mixedRevisions} s=${added.status} ss=${added.specialStatus}
+addedParent = p=${addedParent.path} r=${addedParent.revision} cr=${addedParent.committedRevision} m=${addedParent.mixedRevisions} s=${addedParent.status} ss=${addedParent.specialStatus}
+
+deleted = p=${deleted.path} r=${deleted.revision} cr=${deleted.committedRevision} m=${deleted.mixedRevisions} s=${deleted.status} ss=${deleted.specialStatus}
+deletedParent = p=${deletedParent.path} r=${deletedParent.revision} cr=${deletedParent.committedRevision} m=${deletedParent.mixedRevisions} s=${deletedParent.status} ss=${deletedParent.specialStatus}
+
+ignored = p=${ignored.path} r=${ignored.revision} cr=${ignored.committedRevision} m=${ignored.mixedRevisions} s=${ignored.status} ss=${ignored.specialStatus}
+ignoredParent = p=${ignoredParent.path} r=${ignoredParent.revision} cr=${ignoredParent.committedRevision} m=${ignoredParent.mixedRevisions} s=${ignoredParent.status} ss=${ignoredParent.specialStatus}
+
+missing = p=${missing.path} r=${missing.revision} cr=${missing.committedRevision} m=${missing.mixedRevisions} s=${missing.status} ss=${missing.specialStatus}
+missingParent = p=${missingParent.path} r=${missingParent.revision} cr=${missingParent.committedRevision} m=${missingParent.mixedRevisions} s=${missingParent.status} ss=${missingParent.specialStatus}
+
+modifiedContent = p=${modifiedContent.path} r=${modifiedContent.revision} cr=${modifiedContent.committedRevision} m=${modifiedContent.mixedRevisions} s=${modifiedContent.status} ss=${modifiedContent.specialStatus}
+modifiedProperties = p=${modifiedProperties.path} r=${modifiedProperties.revision} cr=${modifiedProperties.committedRevision} m=${modifiedProperties.mixedRevisions} s=${modifiedProperties.status} ss=${modifiedProperties.specialStatus}
+modifiedParent = p=${modifiedParent.path} r=${modifiedParent.revision} cr=${modifiedParent.committedRevision} m=${modifiedParent.mixedRevisions} s=${modifiedParent.status} ss=${modifiedParent.specialStatus}
+
+obstructedFile = p=${obstructedFile.path} r=${obstructedFile.revision} cr=${obstructedFile.committedRevision} m=${obstructedFile.mixedRevisions} s=${obstructedFile.status} ss=${obstructedFile.specialStatus}
+obstructedDirectory = p=${obstructedDirectory.path} r=${obstructedDirectory.revision} cr=${obstructedDirectory.committedRevision} m=${obstructedDirectory.mixedRevisions} s=${obstructedDirectory.status} ss=${obstructedDirectory.specialStatus}
+obstructedParent = p=${obstructedParent.path} r=${obstructedParent.revision} cr=${obstructedParent.committedRevision} m=${obstructedParent.mixedRevisions} s=${obstructedParent.status} ss=${obstructedParent.specialStatus}
+
+replaced = p=${replaced.path} r=${replaced.revision} cr=${replaced.committedRevision} m=${replaced.mixedRevisions} s=${replaced.status} ss=${replaced.specialStatus}
+replacedParent = p=${replacedParent.path} r=${replacedParent.revision} cr=${replacedParent.committedRevision} m=${replacedParent.mixedRevisions} s=${replacedParent.status} ss=${replacedParent.specialStatus}
+
+unversionedFile = p=${unversionedFile.path} r=${unversionedFile.revision} cr=${unversionedFile.committedRevision} m=${unversionedFile.mixedRevisions} s=${unversionedFile.status} ss=${unversionedFile.specialStatus}
+unversionedDirectory = p=${unversionedDirectory.path} r=${unversionedDirectory.revision} cr=${unversionedDirectory.committedRevision} m=${unversionedDirectory.mixedRevisions} s=${unversionedDirectory.status} ss=${unversionedDirectory.specialStatus}
+unversionedParent = p=${unversionedParent.path} r=${unversionedParent.revision} cr=${unversionedParent.committedRevision} m=${unversionedParent.mixedRevisions} s=${unversionedParent.status} ss=${unversionedParent.specialStatus}
+
+notWCFile = p=${notWCFile.path} r=${notWCFile.revision} cr=${notWCFile.committedRevision} m=${notWCFile.mixedRevisions} s=${notWCFile.status} ss=${notWCFile.specialStatus}
+notWCDirectory = p=${notWCDirectory.path} r=${notWCDirectory.revision} cr=${notWCDirectory.committedRevision} m=${notWCDirectory.mixedRevisions} s=${notWCDirectory.status} ss=${notWCDirectory.specialStatus}
+
+all = p=${all.path} r=${all.revision} cr=${all.committedRevision} m=${all.mixedRevisions} s=${all.status} ss=${all.specialStatus}
