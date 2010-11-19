@@ -109,7 +109,7 @@
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
     <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
-	<ks.gwt.compile.style>OBF</ks.gwt.compile.style>
+    <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
     <ks.java2ws.phase>none</ks.java2ws.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
