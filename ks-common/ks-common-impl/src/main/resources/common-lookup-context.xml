@@ -1645,12 +1645,7 @@
 					<property name="name" value="Assessment Scale Id"/>
 					<property name="desc" value="Scale used to assess, i.e. Letter or P/F"/>
 					<property name="dataType" value="STRING"/>
-					<property name="writeAccess" value="ALWAYS"/>
-    	<property name="defaultValueList">
-						<list>
-							<value>kuali.resultComponent.grade.letter</value>
-						</list>
-					</property>
+					<property name="writeAccess" value="NEVER"/>
 				</bean>
 			</list>
 		</property>

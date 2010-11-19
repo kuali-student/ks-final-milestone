@@ -117,6 +117,10 @@ public class BuildCluSetWidget extends FlowPanel implements AccessWidgetValue {
     }
 
     @Override
+    public void initWidget(List<Metadata> fieldsMetadata) {
+    }
+
+    @Override
     public void getValue(final Callback<String> doneSaveCallback) {
         GWT.log("CluSetManagementController received save action request.", null);
         reqCompController.getCurrentView().updateModel();

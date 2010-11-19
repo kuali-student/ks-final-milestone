@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -33,12 +34,10 @@ import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.common.client.widgets.GradeWidget;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
@@ -46,6 +45,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequirementsManageView extends VerticalSectionView {
 
@@ -313,8 +313,22 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     return;
                 }
                 editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
+                editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
             }
         });
+    }
+
+    private List<Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
+        List<Widget> customWidgets = new ArrayList<Widget>();
+
+        for (ReqComponentTypeInfo reqCompTypeInfo : reqComponentTypeInfoList) {
+            for (ReqCompFieldTypeInfo fieldTypeInfo : reqCompTypeInfo.getReqCompFieldTypeInfos()) {
+                if (RulesUtil.isGradeWidget(fieldTypeInfo.getId())) {
+                    customWidgets.add(new GradeWidget());
+                }
+            }
+        }
+        return customWidgets;
     }
 
     //called when user selects a rule type in the rule editor
@@ -335,6 +349,11 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     protected Callback<List<String>> retrieveFieldsMetadataCallback = new Callback<List<String>>(){
         public void exec(final List<String> fieldTypes) {
+
+            if (fieldTypes.contains("kuali.reqComponent.field.type.grade.id")) {
+                fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
+            }            
+
             metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -355,15 +374,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
-                editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, false));
+                editReqCompWidget.displayCustomWidget(fieldType, new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, false));
             } else if (RulesUtil.isCluWidget(fieldType)) {
                 String clusetType = "kuali.cluSet.type.Course";
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
-                editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
+                editReqCompWidget.displayCustomWidget(fieldType, new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
+            } else if (RulesUtil.isGradeWidget(fieldType)) {
             }
         }
     };

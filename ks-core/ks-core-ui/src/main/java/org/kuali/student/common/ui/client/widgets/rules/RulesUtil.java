@@ -220,6 +220,7 @@ public class RulesUtil {
         return clonedStatementTreeViewInfoInfo;
     }
 
+    //TODO move to ks-lum and use constants in ReqComponentFieldTypes.java
     public static boolean isCluSetWidget(String fieldType) {
         return ((fieldType.toLowerCase().indexOf("course.cluSet".toLowerCase()) > 0) ||
                 (fieldType.toLowerCase().indexOf("program.cluSet".toLowerCase()) > 0));
@@ -229,4 +230,9 @@ public class RulesUtil {
         return ((fieldType.toLowerCase().indexOf("course.clu".toLowerCase()) > 0) ||
                 (fieldType.toLowerCase().indexOf("program.clu".toLowerCase()) > 0));
     }
+
+    public static boolean isGradeWidget(String fieldType) {
+        return ((fieldType.toLowerCase().equals("kuali.reqComponent.field.type.grade.id".toLowerCase())) ||
+                (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())));
+    }    
 }

@@ -3425,6 +3425,7 @@
     </bean>
    </list>
   </property>
+  <property name="resultReturnKey" value="lrc.resultColumn.resultValue.id" />
   <property name="resultDisplayKey" value="lrc.resultColumn.resultValue.value" />
   <property name="resultSortKey" value="lrc.resultColumn.resultValue.id" />
   <property name="usage" value="DEFAULT" />
