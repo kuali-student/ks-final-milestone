@@ -58,6 +58,10 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	protected boolean isValidationEnabled = true;
 	protected boolean isDirty = false;
 
+	/**
+	 * Note if a field has been marked as hidden in the dictionary, this method will not add this field to the layout.
+	 * If it is not visible the key returned by making call to addField is null.
+	 */
 	@Override
 	public String addField(final FieldDescriptor fieldDescriptor) {
 		String key = null;
