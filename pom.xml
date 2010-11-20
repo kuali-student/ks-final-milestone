@@ -111,6 +111,8 @@
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
     <ks.java2ws.phase>none</ks.java2ws.phase>
+    <ks.svn.info.phase>none</ks.svn.info.phase>
+    <ks.attach.sources.phase>verify</ks.attach.sources.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
@@ -180,6 +182,49 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Bundle-Version>${project.version}</Bundle-Version>
+              <Bundle-Name>${project.name}</Bundle-Name>
+              <Bundle-Description>${project.description}</Bundle-Description>
+              <Bundle-License>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</Bundle-License>
+              <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+              <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
+              <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
+              <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+              <Bundle-BuildNumber>${env.BUILD_NUMBER}</Bundle-BuildNumber>
+              <SVN-Repository>${svn.repository}</SVN-Repository>
+              <SVN-Path>${svn.path}</SVN-Path>
+              <SVN-Revision>${svn.revision}</SVN-Revision>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
+        <artifactId>maven-svn-revision-number-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>svn-info</id>
+            <phase>${ks.svn.info.phase}</phase>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <entries>
+            <entry>
+              <prefix>svn</prefix>
+            </entry>
+          </entries>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
         <version>3.0.2</version>
@@ -205,9 +250,9 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <executions>
           <execution>
             <id>attach-sources</id>
-            <phase>verify</phase>
+            <phase>${ks.attach.sources.phase}</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>jar-no-fork</goal>
             </goals>
           </execution>
         </executions>
@@ -286,6 +331,9 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
                 <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                 <Bundle-BuildNumber>${env.BUILD_NUMBER}</Bundle-BuildNumber>
+                <SVN-Revision>${svn.revision}</SVN-Revision>
+                <SVN-Path>${svn.path}</SVN-Path>
+                <SVN-Repository>${svn.repository}</SVN-Repository>
               </manifestEntries>
             </archive>
           </configuration>
