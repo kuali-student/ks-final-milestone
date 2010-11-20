@@ -464,8 +464,9 @@
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-    <bean id="lumValidatorFactory"
-          class="org.kuali.student.common.validator.ValidatorFactory">
+
+    <bean id="lumValidatorFactory-parent"
+          abstract="true" class="org.kuali.student.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="lumServiceValidator"/>
         <property name="validatorList">
         	<list>
@@ -481,6 +482,7 @@
         </property>
     </bean>
 
+    <bean id="lumValidatorFactory" parent="lumValidatorFactory-parent"/>
 	
     
 
