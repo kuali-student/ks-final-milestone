@@ -8,6 +8,8 @@ import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 import com.google.gwt.event.shared.HandlerManager;
 
@@ -21,7 +23,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
 
-    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly) {
+    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header) {
         super(ProgramRequirementsViewController.class.getName());
         super.setController(controller);
         super.setName(name);
@@ -40,7 +42,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new ProgramRequirementsSummaryView(this, eventBus, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, isReadOnly);
+        String previewTitle = ProgramProperties.get().program_menu_sections_requirements();
+        if (isReadOnly && (header != null)) {
+            preview = new ProgramRequirementsSummaryView(this, eventBus, ProgramRequirementsViews.PREVIEW, "", ProgramConstants.PROGRAM_MODEL_ID, isReadOnly, header);                                                            
+        } else {
+            preview = new ProgramRequirementsSummaryView(this, eventBus, ProgramRequirementsViews.PREVIEW, (isReadOnly ? previewTitle : ""), ProgramConstants.PROGRAM_MODEL_ID, isReadOnly);
+        }
         super.addView(preview);
 
         if (!isReadOnly) {

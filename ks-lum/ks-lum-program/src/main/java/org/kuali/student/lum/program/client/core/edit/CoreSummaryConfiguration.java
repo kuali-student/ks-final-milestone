@@ -28,7 +28,7 @@ public class CoreSummaryConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(coreInfoViewConfig);
         configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration(true));
         configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CoreDocsViewConfiguration.createSpecial());
 

@@ -24,7 +24,7 @@ public class CredentialViewAllSectionsConfiguration extends AbstractControllerCo
         configurationManager.registerConfiguration(CredentialInformationViewConfiguration.create());
         configurationManager.registerConfiguration(CredentialManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(CredentialCatalogDetailsViewConfiguration.create());
-        configurationManager.registerConfiguration(new CredentialRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new CredentialRequirementsViewConfiguration(false));
         configurationManager.registerConfiguration(CredentialLearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {

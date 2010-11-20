@@ -14,7 +14,7 @@ public class CredentialViewConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(CredentialInformationViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(CredentialManagingBodiesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(CredentialCatalogDetailsViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new CredentialRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new CredentialRequirementsViewConfiguration(false));
         programSectionConfigManager.registerConfiguration(CredentialLearningObjectivesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new CredentialViewAllSectionsConfiguration());

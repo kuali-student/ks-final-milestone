@@ -28,7 +28,7 @@ public class VariationViewAllConfiguration extends AbstractControllerConfigurati
         configurationManager.registerConfiguration(VariationInformationViewConfiguration.create());
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(false));
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {

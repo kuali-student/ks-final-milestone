@@ -16,7 +16,7 @@ public class MajorViewConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(SpecializationsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration(false));
         programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new ViewAllSectionConfiguration());

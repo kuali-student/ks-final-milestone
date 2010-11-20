@@ -25,7 +25,7 @@ public class ViewAllSectionConfiguration extends AbstractControllerConfiguration
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.create());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(false));
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {

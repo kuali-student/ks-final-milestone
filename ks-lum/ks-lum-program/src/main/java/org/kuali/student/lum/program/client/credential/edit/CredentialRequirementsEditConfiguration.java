@@ -17,7 +17,7 @@ public class CredentialRequirementsEditConfiguration extends AbstractControllerC
     @Override
     public View getView() {
         progReqcontroller = new ProgramRequirementsViewController(controller, CredentialManager.getEventBus(), 
-                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false, null);
         return progReqcontroller;
     }
 

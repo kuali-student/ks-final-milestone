@@ -35,6 +35,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -65,6 +66,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     public static final String NEW_PROG_REQ_ID = "NEWPROGREQ";
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";
+
+
+
     private enum ProgramReqDialogView {VIEW}
     private static final String PROG_REQ_MODEL_ID = "progReqModelId";
     private DataModel progReqData;
@@ -77,6 +81,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, HandlerManager eventBus, Enum<?> viewEnum, String name,
                                                             String modelId, boolean isReadOnly) {
         super(viewEnum, name, modelId);
+        init(parentController, eventBus, isReadOnly);
+    }
+
+    public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, HandlerManager eventBus, Enum<?> viewEnum, String name,
+                                                            String modelId, boolean isReadOnly, EditableHeader header) {
+        super(viewEnum, name, modelId, header);
+        init(parentController, eventBus, isReadOnly);
+    }
+
+    private void init(ProgramRequirementsViewController parentController, HandlerManager eventBus, boolean isReadOnly) {
         this.parentController = parentController;
         this.isReadOnly = isReadOnly;
         rules = new ProgramRequirementsDataModel(eventBus);
@@ -199,8 +213,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, boolean firstRequirement) {
 
         //display header for this Program Requirement type e.g. Entrance Requirements; make the header plural
-        SectionTitle title = SectionTitle.generateH3Title(stmtTypeInfo.getName());
-        title.setStyleName((firstRequirement ? "KS-Program-Requirements-Preview-Rule-Type-First-Header" : "KS-Program-Requirements-Preview-Rule-Type-Header"));  //make the header orange
+        SectionTitle title = SectionTitle.generateH4Title(stmtTypeInfo.getName());
+        title.setStyleName((firstRequirement ? "KS-Program-Requirements-Preview-Rule-Type-First-Header" : "KS-Program-Requirements-Preview-Rule-Type-Header"));
         layout.add(title);
 
         //add Total Credits
@@ -210,9 +224,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         layout.add(totalCredits);
 
         //add rule description
-        KSLabel ruleTypeDesc = new KSLabel(stmtTypeInfo.getDescr());
-        ruleTypeDesc.addStyleName("KS-Program-Requirements-Preview-Rule-Type-Desc");        
-        layout.add(ruleTypeDesc);
+        if (!isReadOnly) {
+            KSLabel ruleTypeDesc = new KSLabel(stmtTypeInfo.getDescr());
+            ruleTypeDesc.addStyleName("KS-Program-Requirements-Preview-Rule-Type-Desc");
+            layout.add(ruleTypeDesc);
+        }
 
         //display "Add Rule" button if user is in 'edit' mode
         if (!isReadOnly) {
@@ -231,7 +247,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //add widget for displaying "No entrance requirement currently exist for this program"
         String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule(stmtTypeInfo.getName().toLowerCase());
         KSLabel ruleDesc = new KSLabel(noRuleText);
-        ruleDesc.addStyleName("KS-Program-Requirements-Preview-No-Rule-Text");
+        if (!isReadOnly) {    //TODO we need 2 different styles
+            ruleDesc.addStyleName("KS-Program-Requirements-Preview-No-Rule-Text");
+        }
         noRuleTextMap.put(stmtTypeInfo.getId(), ruleDesc);
         setupNoRuleText(stmtTypeInfo.getId());
         layout.add(ruleDesc);

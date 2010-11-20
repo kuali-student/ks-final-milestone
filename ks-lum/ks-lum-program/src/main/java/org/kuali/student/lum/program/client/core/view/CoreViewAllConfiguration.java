@@ -24,7 +24,7 @@ public class CoreViewAllConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(CoreInformationViewConfiguration.create());
         configurationManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create());
-        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new CoreRequirementsViewConfiguration(false));
         configurationManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {

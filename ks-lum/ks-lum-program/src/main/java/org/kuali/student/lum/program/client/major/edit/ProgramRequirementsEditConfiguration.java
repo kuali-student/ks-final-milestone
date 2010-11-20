@@ -17,7 +17,7 @@ public class ProgramRequirementsEditConfiguration extends AbstractControllerConf
     @Override
     public View getView() {
         progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(), 
-                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false, null);
         return progReqcontroller;
     }
 

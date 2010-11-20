@@ -21,10 +21,12 @@
 /* Program Summary View */
 .KS-Program-Requirements-Preview-Rule-Type-First-Header {
     padding-top: 20px;
+    font-weight: bold;
 }
 
 .KS-Program-Requirements-Preview-Rule-Type-Header {
     padding-top: 40px;
+    font-weight: bold;
 }
 
 .KS-Program-Requirements-Preview-Rule-Type-Credits {

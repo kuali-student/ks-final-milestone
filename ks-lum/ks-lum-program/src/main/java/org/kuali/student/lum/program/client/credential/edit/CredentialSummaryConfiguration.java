@@ -28,7 +28,7 @@ public class CredentialSummaryConfiguration extends AbstractControllerConfigurat
         configurationManager.registerConfiguration(credentialInfoViewConfig);
         configurationManager.registerConfiguration(CredentialManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CredentialCatalogDetailsViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new CredentialRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new CredentialRequirementsViewConfiguration(true));
         configurationManager.registerConfiguration(CredentialLearningObjectivesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CredentialDocsViewConfiguration.createSpecial());
         
