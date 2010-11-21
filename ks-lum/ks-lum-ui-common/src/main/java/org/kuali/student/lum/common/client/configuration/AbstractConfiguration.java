@@ -24,4 +24,9 @@ public abstract class AbstractConfiguration implements Configuration {
     public boolean checkPermission(DataModel model) {
         return false;
     }
+
+    @Override
+    public void removeRestrictions() {
+
+    }
 }

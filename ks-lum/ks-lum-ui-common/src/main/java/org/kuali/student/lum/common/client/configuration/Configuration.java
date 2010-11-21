@@ -22,4 +22,6 @@ public interface Configuration {
     void applyRestrictions();
 
     boolean checkPermission(DataModel model);
+
+    void removeRestrictions();
 }

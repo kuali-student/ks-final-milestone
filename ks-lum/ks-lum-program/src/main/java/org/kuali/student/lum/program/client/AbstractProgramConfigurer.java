@@ -52,6 +52,8 @@ public abstract class AbstractProgramConfigurer extends Configurer {
         for (Configuration configuration : programSectionConfigManager.getConfigurations()) {
             if (configuration.checkPermission(dataModel)) {
                 configuration.applyRestrictions();
+            }else{
+                configuration.removeRestrictions();
             }
         }
     }

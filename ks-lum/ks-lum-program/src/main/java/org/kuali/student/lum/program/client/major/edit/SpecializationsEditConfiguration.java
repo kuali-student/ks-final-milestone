@@ -1,11 +1,14 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlexTable;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -16,10 +19,6 @@ import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.permissions.ModelPermissionType;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlexTable;
 
 /**
  * @author Igor
@@ -60,5 +59,10 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
     @Override
     public void applyRestrictions() {
         addSpecializationButton.setEnabled(false);
+    }
+
+    @Override
+    public void removeRestrictions() {
+        addSpecializationButton.setEnabled(true);
     }
 }
