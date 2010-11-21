@@ -350,6 +350,10 @@ public abstract class ProgramController extends MenuSectionController {
     protected void doSave() {
     }
 
+   private void updateViewContext(){
+
+   }
+
     public DataModel getProgramModel() {
         return programModel;
     }

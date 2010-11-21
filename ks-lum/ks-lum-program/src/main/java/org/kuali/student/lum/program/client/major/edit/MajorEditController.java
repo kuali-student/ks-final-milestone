@@ -299,6 +299,9 @@ public class MajorEditController extends MajorController {
                     handleSpecializations();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
+                    ViewContext viewContext = getViewContext();
+                    viewContext.setId((String) programModel.get(ProgramConstants.ID));
+                    viewContext.setIdType(IdType.OBJECT_ID);
 
                     // add to recently viewed now that we're sure to know the program's id
                     ViewContext docContext = new ViewContext();
