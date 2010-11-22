@@ -374,6 +374,11 @@
         MSG_ID="cluCourseNumber-watermark" MSG_VALUE="111"
         OBJ_ID="f7d72bab-4f14-4b96-a892-d04dd469889e" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="333842a3-d5bf-45ce-b450-493f57d7388a" LOCALE="en"
+        MSG_ID="cluVersionCode-constraints"
+        MSG_VALUE="Code must be a capital letter"
+        OBJ_ID="B921E443-2BEA-B898-CDCA-0ED605D727B8" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="347ec3cc-e08c-4d67-af08-596c0f0c1956" LOCALE="en"
         MSG_ID="cluLearningResultAuditText"
         MSG_VALUE="This course can be audited"
@@ -656,6 +661,11 @@
         MSG_ID="cluSetContent" MSG_VALUE="Content"
         OBJ_ID="8a9b55da-2b6d-48fc-bc86-8a93989a487c" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="517c4f1f-2eb7-40b9-b72f-cf940c4643a3" LOCALE="en"
+        MSG_ID="cluCourseNumber-help"
+        MSG_VALUE="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."
+        OBJ_ID="A3D12683-7371-D6A6-B26E-CDC8B92C6CB2" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="51932d88-11c6-4b4e-ac1d-acfd665ce9d1" LOCALE="es"
         MSG_ID="cluInstructors" MSG_VALUE="Instructores"
         OBJ_ID="c22e4b11-d01d-41e6-bb9e-50e65e61d09e" VER_NBR="1"/>
@@ -663,6 +673,10 @@
         ID="5243f43f-4b78-4aa2-b410-486270369141" LOCALE="en"
         MSG_ID="recentlyViewed" MSG_VALUE="Recently Viewed"
         OBJ_ID="2f4d3379-9dc3-46d7-978b-a31bafb37c9b" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="529bca17-7ced-4543-a500-e0534549bd4b" LOCALE="en"
+        MSG_ID="cluVersionCode-watermark" MSG_VALUE="A"
+        OBJ_ID="BFC3BFA4-3347-B7F3-338E-0228FD671919" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="org"
         ID="52c0d320-5087-4613-b9cd-ab048640e756" LOCALE="en"
         MSG_ID="orgOrgRelationExpDate" MSG_VALUE="Expiration date"
