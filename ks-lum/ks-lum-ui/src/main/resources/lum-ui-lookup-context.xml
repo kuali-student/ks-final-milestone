@@ -3642,7 +3642,7 @@
      <property name="defaultValueList">
       <list>
       <!-- Which state is Draft? Code is setting programs to lc "draft" -->
-       <value>draft</value>
+       <value>Draft</value>
        <value>draft</value>
        <value>Submitted</value>
       </list>
