@@ -16,7 +16,7 @@ class DatabaseUtils
 		end
 		
 		# build the svn command to call
-		commandLine = svnCommand + ' co ' + @config.dbConfigUrl + ' ' + @configPath + svnCommandSuffix
+		commandLine = svnCommand + ' --non-interactive --trust-server-cert co ' + @config.dbConfigUrl + ' ' + @configPath + svnCommandSuffix
 		
 		# call svn to download current config
 		@config.log 'Retrieving current database configuration via this command: ' + commandLine
