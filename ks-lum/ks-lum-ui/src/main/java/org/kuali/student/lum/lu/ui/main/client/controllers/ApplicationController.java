@@ -30,7 +30,8 @@ public class ApplicationController extends LayoutController{
 	private void init(Widget header){
 		container.add(header);
 		container.add(contentPanel);
-		//container.add(new KSFooter());// uncomment to show the footer
+		contentPanel.addStyleName("app-content");
+		container.addStyleName("app-wrap");
 		this.initWidget(container);
 	}
 	

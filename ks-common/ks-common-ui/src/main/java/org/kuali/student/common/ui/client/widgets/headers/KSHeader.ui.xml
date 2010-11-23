@@ -67,8 +67,7 @@ color:#777777;
 font-family:Georgia,"Times New Roman",Times,serif;
 font-size:0.9em;
 letter-spacing:0.04em;
-padding:3px 0 3px 15px;
-width:100%;    
+padding:3px 0 3px 15px;  
 }
 
 .bottomLine a{
