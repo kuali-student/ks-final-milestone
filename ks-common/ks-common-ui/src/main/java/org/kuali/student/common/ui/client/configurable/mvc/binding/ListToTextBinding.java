@@ -42,7 +42,9 @@ public class ListToTextBinding implements ModelWidgetBinding<HasText> {
                 	Integer number = (Integer)prop.getKey();
                 	Object value = data.get(number);
                 	if(value instanceof Data){
-                		Object innerObject = ((Data)value).get(innerObjectKey);
+                		DataModel m = new DataModel();
+                		m.setRoot((Data)value);
+                		Object innerObject = m.get(innerObjectKey);
                 		resultString = resultString + innerObject.toString() + ", ";
                 	}
                 	else{
