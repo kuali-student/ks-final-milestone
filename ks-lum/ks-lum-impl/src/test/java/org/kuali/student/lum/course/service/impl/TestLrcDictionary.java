@@ -5,21 +5,26 @@ import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.lum.lrc.dto.CreditInfo;
+import org.kuali.student.lum.lrc.dto.GradeInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import static org.junit.Assert.*;
 
-public class TestLoDictionary
+public class TestLrcDictionary
 {
 
  @Test
- public void testLoadCluInfoDictionary ()
+ public void testLoadLrcDictionary ()
  {
   Set<String> startingClasses = new LinkedHashSet ();
-  startingClasses.add (LoInfo.class.getName ());
-  startingClasses.add (LoLoRelationInfo.class.getName ());
-//  startingClasses.add (CluCluRelationInfo.class.getName ());
-  String contextFile = "ks-loInfo-dictionary-context";
+  startingClasses.add (ResultComponentInfo.class.getName ());
+  startingClasses.add (CreditInfo.class.getName ());
+  startingClasses.add (CredentialInfo.class.getName ());
+  startingClasses.add (ScaleInfo.class.getName ());
+  startingClasses.add (GradeInfo.class.getName ());
+  String contextFile = "ks-lrc-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
                                                               startingClasses,

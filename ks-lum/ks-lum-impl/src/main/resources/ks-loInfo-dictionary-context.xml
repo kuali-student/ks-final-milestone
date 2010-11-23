@@ -30,7 +30,7 @@
  <bean id="loDisplayInfo.loDisplayInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loDisplayInfoList" />
   <property name="dataObjectStructure"
-   ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+            ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
  </bean>
  <bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent" />
 
@@ -127,7 +127,7 @@
     <ref bean="loInfo.name" />
     <ref bean="loInfo.state" />
     <ref bean="loInfo.type" />
-     <!-- dynamic attributes -->
+    <!-- dynamic attributes -->
     <ref bean="loInfo.sequence" />
    </list>
   </property>
@@ -140,29 +140,29 @@
   <property name="dataObjectStructure" ref="loInfo.desc.RichTextInfo" />
  </bean>
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
- 
+
  <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
-   <property name="attributes">
-    <list>
-     <ref bean="loInfo.desc.formatted" />
-     <ref bean="loInfo.desc.plain" />
-    </list>
-   </property>
+  <property name="attributes">
+   <list>
+    <ref bean="loInfo.desc.formatted" />
+    <ref bean="loInfo.desc.plain" />
+   </list>
+  </property>
  </bean>
  <bean id="loInfo.desc.RichTextInfo" parent="loInfo.desc.RichTextInfo-parent" />
- 
-  <bean id="loInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
-   <property name="name" value="formatted" />
-   <property name="maxLength" value="250" />
-  </bean>
-  <bean id="loInfo.desc.formatted" parent="loInfo.desc.formatted-parent" />
- 
-  <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
-   <property name="name" value="plain" />
-   <property name="maxLength" value="250" />
-  </bean>
+
+ <bean id="loInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+  <property name="maxLength" value="250" />
+ </bean>
+ <bean id="loInfo.desc.formatted" parent="loInfo.desc.formatted-parent" />
+
+ <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="plain" />
+  <property name="maxLength" value="250" />
+ </bean>
  <bean id="loInfo.desc.plain" parent="loInfo.desc.plain-parent" />
- 
+
 
  <bean id="loInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate" />
@@ -205,4 +205,58 @@
   <!--<property name="minOccurs" value="1" />-->
   <property name="dynamic" value="true"/>
  </bean>
+
+ <!-- LoLoRelationInfo-->
+ <bean id="org.kuali.student.lum.lo.dto.LoLoRelationInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.lum.lo.dto.LoLoRelationInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="loLoRelationInfo.effectiveDate"/>
+    <ref bean="loLoRelationInfo.expirationDate"/>
+    <ref bean="loLoRelationInfo.id"/>
+    <ref bean="loLoRelationInfo.loId"/>
+    <ref bean="loLoRelationInfo.relatedLoId"/>
+    <ref bean="loLoRelationInfo.state"/>
+    <ref bean="loLoRelationInfo.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.lum.lo.dto.LoLoRelationInfo" parent="org.kuali.student.lum.lo.dto.LoLoRelationInfo-parent"/>
+
+ <bean id="loLoRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+  <property name="name" value="effectiveDate"/>
+ </bean>
+ <bean id="loLoRelationInfo.effectiveDate" parent="loLoRelationInfo.effectiveDate-parent"/>
+
+ <bean id="loLoRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+  <property name="name" value="expirationDate"/>
+ </bean>
+ <bean id="loLoRelationInfo.expirationDate" parent="loLoRelationInfo.expirationDate-parent"/>
+
+ <bean id="loLoRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="loLoRelationInfo.id" parent="loLoRelationInfo.id-parent"/>
+
+ <bean id="loLoRelationInfo.loId-parent" abstract="true" parent="baseKualiLoId">
+  <property name="name" value="loId"/>
+ </bean>
+ <bean id="loLoRelationInfo.loId" parent="loLoRelationInfo.loId-parent"/>
+
+ <bean id="loLoRelationInfo.relatedLoId-parent" abstract="true" parent="baseKualiLoId">
+  <property name="name" value="relatedLoId"/>
+ </bean>
+ <bean id="loLoRelationInfo.relatedLoId" parent="loLoRelationInfo.relatedLoId-parent"/>
+
+ <bean id="loLoRelationInfo.state-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="state"/>
+ </bean>
+ <bean id="loLoRelationInfo.state" parent="loLoRelationInfo.state-parent"/>
+
+ <bean id="loLoRelationInfo.type-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="type"/>
+ </bean>
+ <bean id="loLoRelationInfo.type" parent="loLoRelationInfo.type-parent"/>
+
 </beans>
