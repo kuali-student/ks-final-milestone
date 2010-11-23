@@ -122,6 +122,10 @@
   </build>
   <profiles>
     <profile>
+      <id>skip-impex</id>
+      <!-- Don't include any modules -->
+    </profile>
+    <profile>
       <id>default</id>
       <activation>
         <activeByDefault>true</activeByDefault>
