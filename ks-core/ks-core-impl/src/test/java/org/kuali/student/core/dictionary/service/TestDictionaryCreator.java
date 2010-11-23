@@ -3,8 +3,10 @@ package org.kuali.student.core.dictionary.service;
 import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.dto.DateRangeInfo;
+import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.dictionary.service.impl.DictionaryCreator;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 
 
 public class TestDictionaryCreator
@@ -17,6 +19,8 @@ public class TestDictionaryCreator
           SecurityException,
           NoSuchFieldException
  {
-  new DictionaryCreator ().execute (VersionInfo.class, "target/ks-VersionInfo-dictinoary-context-generated.xml");
+  new DictionaryCreator ().execute (AtpInfo.class, "target/ks-AtpInfo-dictinoary-context-generated.xml");
+  new DictionaryCreator ().execute (MilestoneInfo.class, "target/ks-MilestoneInfo-dictinoary-context-generated.xml");
+  new DictionaryCreator ().execute (DateRangeInfo.class, "target/ks-DateRangeInfo-dictinoary-context-generated.xml");
  }
 }
