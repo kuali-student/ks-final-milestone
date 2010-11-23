@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>16</version>
+  <version>17-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -108,9 +108,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
   </scm>
   <build>
     <extensions>
@@ -144,8 +144,7 @@
           <version>3.0.2</version>
           <configuration>
             <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
-xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <generateHistorical>true</generateHistorical>
             <historyDir>${clover.history.dir}</historyDir>
@@ -395,8 +394,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <version>3.0.2</version>
         <configuration>
           <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
-xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           <generateHistorical>true</generateHistorical>
           <historyDir>${clover.history.dir}</historyDir>
