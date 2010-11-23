@@ -87,6 +87,15 @@
         <module>ks-lum-ui-common</module>
       </modules>
     </profile>
+    <profile>
+      <id>skip-gwt</id>
+      <modules>
+        <module>ks-lum-sql</module>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+      </modules>
+    </profile>
   </profiles>
   <repositories>
     <repository>
