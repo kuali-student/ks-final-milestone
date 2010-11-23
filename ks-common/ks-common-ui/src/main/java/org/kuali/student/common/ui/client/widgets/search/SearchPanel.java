@@ -346,9 +346,23 @@ public class SearchPanel extends Composite{
         private ParamListItems listItems;
 
         public CustomLine(LookupMetadata meta, final ParamListItems listItems){
-            this.listItems = listItems;
+            
+            List<LookupParamMetadata> customParams = new ArrayList<LookupParamMetadata>();
+
+            for (LookupParamMetadata lookupParamMetadata : listItems.getParams()) {
+                if (lookupParamMetadata.getWriteAccess() != WriteAccess.NEVER){
+                    if (lookupParamMetadata.getUsage() == Usage.CUSTOM || lookupParamMetadata.getUsage() == Usage.ADVANCED_CUSTOM ) {
+                        customParams.add(lookupParamMetadata);
+                    }                   
+                } 
+            }
+            
+            ParamListItems customParamList = new ParamListItems(customParams);
+            
+            this.listItems = customParamList;
             paramSelector.setBlankFirstItem(false);
-            paramSelector.setListItems(listItems);
+            paramSelector.setListItems(customParamList);
+
             String id = meta.getParams().get(0).getKey();
             paramSelector.selectItem(id);
             widget = listItems.getWidget(id);
@@ -638,6 +652,10 @@ public class SearchPanel extends Composite{
             params = meta.getParams();
         }
 
+        public ParamListItems(List<LookupParamMetadata> params){
+            this.params = params;
+        }
+        
         @Override
         public List<String> getAttrKeys() {
             return new ArrayList<String>();
@@ -684,6 +702,10 @@ public class SearchPanel extends Composite{
                 }
             }
             return w;
+        }
+
+        public List<LookupParamMetadata> getParams() {
+            return params;
         }
     }
 
@@ -791,4 +813,6 @@ public class SearchPanel extends Composite{
             this.actionLabel = actionLabel;
         }
     }
+
+
 }

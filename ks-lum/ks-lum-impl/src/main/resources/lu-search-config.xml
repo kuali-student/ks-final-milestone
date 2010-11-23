@@ -939,11 +939,13 @@
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.luVariationsByName" key="var">
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
+            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
@@ -1007,6 +1009,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
+            <ref bean="lu.queryParam.luOptionalState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1037,6 +1040,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
+            <ref bean="lu.queryParam.luOptionalState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1081,6 +1085,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
+            <ref bean="lu.queryParam.luOptionalState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1447,7 +1452,7 @@
                          FROM Clu clu, CluIdentifier ident1
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'
-                          AND clu.version.currentVersionEnd IS NULL
+                          <!--AND clu.version.currentVersionEnd IS NULL-->
                      </value>
                  </entry>
                 <entry key="lu.search.luVariationsByName">
@@ -1459,7 +1464,7 @@
                          and  clu2.officialIdentifier.id = ident2.id
                          AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
                          AND clu.luType.id = 'kuali.lu.type.Variation'
-                         AND clu.version.currentVersionEnd IS NULL
+                         <!--AND clu.version.currentVersionEnd IS NULL-->
                      </value>
                  </entry>
             </map>
