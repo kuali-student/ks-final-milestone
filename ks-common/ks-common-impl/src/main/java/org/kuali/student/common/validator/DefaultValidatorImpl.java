@@ -52,7 +52,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     private DateParser dateParser = new ServerDateParser();
 
     private boolean serverSide = true;
-        
+
     public MessageService getMessageService() {
         return messageService;
     }
@@ -105,7 +105,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     /**
      * Validate Object and all its nested child objects for given type and state
-     * 
+     *
      * @param data
      * @param objStructure
      * @return
@@ -140,9 +140,9 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         for (FieldDefinition f : objStructure.getAttributes()) {
             List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack);
-            
+
             results.addAll(l);
-            
+
             // Use Custom Validators
             if (f.getCustomValidatorClass() != null || f.isServerSide() && serverSide) {
             	Validator customValidator = validatorFactory.getValidator(f.getCustomValidatorClass());
@@ -232,7 +232,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         } else { // If non complex data type
 
             if (value instanceof Collection) {
-            	
+
+                if(((Collection<?>)value).isEmpty()){
+                    processConstraint(results, field, objStruct, "", dataProvider, elementStack);
+                }
+
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
                 	elementStack.push(Integer.toBinaryString(i));
@@ -286,8 +290,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
         Constraint caseConstraint = processCaseConstraint(valResults, field, objStructure, value, dataProvider, elementStack);
 
-        Constraint constraint = (null != caseConstraint) ? caseConstraint : field; 
-        
+        Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
+
         processBaseConstraints(valResults, constraint, field.getDataType(), field.getName(), value, elementStack);
 
         // Stop other checks if value is null
@@ -363,7 +367,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     /**
      * Process caseConstraint tag and sets any of the base constraint items if any of the when condition matches
-     * 
+     *
      * @param constraint
      * @param caseConstraint
      * @param field
@@ -372,7 +376,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         CaseConstraint constraint = field.getCaseConstraint();
 
-        if (null == constraint) { 
+        if (null == constraint) {
             return null;
         }
 
@@ -381,13 +385,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // TODO: What happens when the field is not in the dataProvider?
         Object fieldValue = (null != caseField) ? dataProvider.getValue(caseField.getName()) : value;
-        DataType fieldDataType = (null != caseField ? caseField.getDataType():null); 
-        
+        DataType fieldDataType = (null != caseField ? caseField.getDataType():null);
+
         // If fieldValue is null then skip Case check
         if(null == fieldValue) {
             return null;
         }
-        
+
         // Extract value for field Key
         for (WhenConstraint wc : constraint.getWhenConstraint()) {
 
@@ -399,7 +403,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -437,7 +441,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     /**
      * Computes if all the filed required in the occurs clause are between the min and max
-     * 
+     *
      * @param valResults
      * @param constraint
      * @param field
