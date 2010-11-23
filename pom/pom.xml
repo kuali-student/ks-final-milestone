@@ -53,7 +53,7 @@
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
 
-    <kuali.extra.release.arguments />
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -122,6 +122,16 @@
     </extensions>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>${findbugs.plugin.version}</version>
+          <configuration>
+            <findbugsXmlOutput>true</findbugsXmlOutput>
+            <!-- Optional directory to put findbugs xml report -->
+            <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+          </configuration>
+        </plugin>
         <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
