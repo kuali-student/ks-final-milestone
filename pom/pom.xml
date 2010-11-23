@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>16-SNAPSHOT</version>
+  <version>16</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -53,7 +53,7 @@
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
 
-    <kuali.extra.release.arguments></kuali.extra.release.arguments>
+    <kuali.extra.release.arguments />
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -108,9 +108,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-16</url>
   </scm>
   <build>
     <extensions>
@@ -144,8 +144,7 @@
           <version>3.0.2</version>
           <configuration>
             <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
-RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
 xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <generateHistorical>true</generateHistorical>
@@ -396,8 +395,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <version>3.0.2</version>
         <configuration>
           <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
-RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
 xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           <generateHistorical>true</generateHistorical>
