@@ -136,6 +136,9 @@ public class MajorDisciplineDataGenerator {
         if("programRequirements".equals(name)){
         	return "REQ-200";
         }
+        if("catalogPublicationTargets".equals(name)){
+			return ProgramAssemblerConstants.CATALOG;
+		}
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){
@@ -159,7 +162,7 @@ public class MajorDisciplineDataGenerator {
 			}
 
 			if("divisionsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION;
 			}
 			if("divisionsStudentOversight".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
@@ -174,7 +177,7 @@ public class MajorDisciplineDataGenerator {
 				return ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION;
 			}
 			if("unitsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT;
 			}
 			if("unitsStudentOversight".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT;
@@ -187,7 +190,7 @@ public class MajorDisciplineDataGenerator {
 			}
             if("unitsFinancialControl".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT;
-			}
+            }
 
 			//Temporary change added because of addition of type field to AdminOrgInfo.
 			// Please add the type values for MajorDisciplineInfo admin orgs

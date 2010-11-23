@@ -138,8 +138,8 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private MetaInfo metaInfo;
 
     @XmlElement
-    private VersionInfo versionInfo; 
-    
+    private VersionInfo versionInfo;
+
     @XmlAttribute
     private String type;
 
@@ -469,7 +469,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.metaInfo = metaInfo;
     }
 
-       
+
     public VersionInfo getVersionInfo() {
         return versionInfo;
     }
@@ -537,7 +537,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @Override
     public String toString() {
-    	return "CluInfo[id=" + id + "]";
+    	return "CluInfo[id=" + id + ", type=" + type + "]";
     }
 
 }

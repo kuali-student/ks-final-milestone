@@ -19,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.student.core.assembly.AssemblerFilterManager;
 import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.old.AssemblerFilterManager;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 
 public class TestOldFilterStuff {
 	final Logger LOG = Logger.getLogger(TestOldFilterStuff.class);

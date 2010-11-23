@@ -56,7 +56,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
     private String defaultModelId = null;
-    private ViewContext context = new ViewContext();
+    protected ViewContext context = new ViewContext();
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
     private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
@@ -216,6 +216,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     
     public Enum<?> getCurrentViewEnum() {
         return currentViewEnum;
+    }
+
+    public void setCurrentViewEnum(Enum<?> currentViewEnum) {
+        this.currentViewEnum = currentViewEnum;
     }
 
     /**

@@ -4,15 +4,15 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.Assembler;
-import org.kuali.student.core.assembly.PassThroughAssemblerFilter;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.old.Assembler;
+import org.kuali.student.core.assembly.old.PassThroughAssemblerFilter;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;

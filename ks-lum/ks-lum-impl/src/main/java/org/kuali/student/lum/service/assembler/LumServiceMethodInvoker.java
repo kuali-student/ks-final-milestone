@@ -35,6 +35,7 @@ import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -102,6 +103,11 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		if (nodeData == null) {
 			return;
 		}
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(results.getOperation() + ": " + nodeData);
+		}
+
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
@@ -160,12 +166,10 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
 				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
-				LOG.debug("added category " + loCategoryRelation.getCategoryId() + " to lo " + loCategoryRelation.getLoId());
 				break;
 			case UPDATE:
 				throw new UnsupportedOperationException("Can't call update on lo category relations, just add and remove");
 			case DELETE:
-				LOG.debug("removing category " + loCategoryRelation.getCategoryId() + " to lo " + loCategoryRelation.getLoId());
 				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
 				break;
 			}
@@ -177,7 +181,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				if(null != results.getBusinessDTORef()) {
 					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true);
 				}
-				LOG.debug("created Lo "+lo.getId());
 				break;
 			case UPDATE:
 				LoInfo updatedLo = loService.updateLo(lo.getId(), lo);
@@ -186,7 +189,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				}
 				break;
 			case DELETE:
-				LOG.debug("deleting Lo "+lo.getId());
 				loService.deleteLo(lo.getId());
 				break;
 			}
@@ -195,14 +197,11 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
 				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getType(), loRelation);
-				LOG.debug("created lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId());
 				break;
 			case UPDATE:
 				loService.updateLoLoRelation(loRelation.getId(), loRelation);
-				LOG.debug("updated lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId());
-				break;
+ 				break;
 			case DELETE:
-				LOG.debug("deleting lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId() +" with id " +loRelation.getId());
 				loService.deleteLoLoRelation(loRelation.getId());
 				break;
 			}
@@ -313,9 +312,23 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				statementService.deleteStatementTreeView(treeView.getId());
 				break;
 			}
+   		}else if(nodeData instanceof CluPublicationInfo){
+			CluPublicationInfo cluPublication = (CluPublicationInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				luService.createCluPublication(cluPublication.getCluId(), cluPublication.getType(), cluPublication);
+				break;
+			case UPDATE:
+				luService.updateCluPublication(cluPublication.getId(), cluPublication);
+				break;
+			case DELETE:
+				luService.deleteCluPublication(cluPublication.getId());
+				break;
+			}
 		}else{
 			throw new UnsupportedActionException("This service invoker does not know how to handle nodeData for "+nodeData.getClass().getName());
 		}
+
 	}
 
 	public LuService getLuService() {

@@ -27,7 +27,7 @@ public class RichText extends BaseEntity{
 	@Column(name = "PLAIN",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String plain;
 
-	@Column(name = "FORMATTED",length=KSEntityConstants.SHORT_TEXT_LENGTH)
+	@Column(name = "FORMATTED",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String formatted;
 
 	public String getPlain() {

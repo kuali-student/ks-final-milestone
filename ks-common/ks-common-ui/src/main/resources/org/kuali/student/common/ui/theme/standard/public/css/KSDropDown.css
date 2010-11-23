@@ -14,12 +14,18 @@
  */
 
 .KS-Dropdown{
+    border: 1px solid #AAAAAA;
+    padding: 3px;
 }
 .KS-Dropdown-Focus{
-	background-color: #ECF2FA;
+    background-color: #ECF2FA;
+    border: 1px solid #AAAAAA;
+    padding: 3px;
 }
 .KS-Dropdown-Hover{
-	background-color: #ECF2FA;
+    background-color: #ECF2FA;
+    border: 1px solid #AAAAAA;
+    padding: 3px;
 }
 .KS-Dropdown-Selected{
 

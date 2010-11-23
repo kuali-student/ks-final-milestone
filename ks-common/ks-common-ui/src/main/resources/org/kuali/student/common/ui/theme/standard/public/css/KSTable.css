@@ -45,7 +45,7 @@
 .ks-table td, .ks-table th { padding:8px 10px 8px 15px;  vertical-align: top;}
 .ks-table input { margin: 0; padding: 0;}
 
-.ks-table-plain td, .ks-table-plain th { padding: 8px 5px;}
+.ks-table-plain td, .ks-table-plain th { padding:0 5px;}
 
 
 /* Heads -------------------------------------------------------------- */ 
@@ -95,8 +95,8 @@
 /* Cells -------------------------------------------------------------- */ 
 
 .ks-table td, .ks-table-plain td {
-	vertical-align: middle;
-	border-bottom: solid 1px #d5d5d5;	
+    border-bottom: 1px solid #D5D5D5;
+    vertical-align: top;
 }
 
 .ks-table-plain th {

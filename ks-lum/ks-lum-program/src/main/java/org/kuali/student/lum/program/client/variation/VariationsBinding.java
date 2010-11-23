@@ -13,10 +13,12 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -28,9 +30,16 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
 
     private boolean editable;
 
+    private Configuration configuration;
+
     public VariationsBinding(String url, boolean editable) {
         this.url = url;
         this.editable = editable;
+    }
+
+    public VariationsBinding(String url, boolean editable, Configuration configuration) {
+        this(url, editable);
+        this.configuration = configuration;
     }
 
     @Override
@@ -46,11 +55,14 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
             int row = 0;
             for (final Data.Property property : variationMap) {
                 final Data variationData = property.getValue();
+                final int currentRow = row;
                 Anchor anchor = new Anchor(getVariationName(variationData));
                 anchor.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         ProgramRegistry.setData(variationData);
+                        ProgramRegistry.setRow(currentRow);
+                        ProgramUtils.addCredentialProgramDataToVariation(variationData, model);
                         String id = (String) model.get("id");
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);
@@ -62,17 +74,19 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                 if (editable) {
                     KSButton removeButton = new KSButton(ProgramProperties.get().common_remove());
                     table.setWidget(row, 1, removeButton);
-                    final int currentRow = row;
                     removeButton.addClickHandler(new ClickHandler() {
 
                         @Override
                         public void onClick(ClickEvent event) {
                             if (Window.confirm("Are you sure you want to delete specialization?")) {
                                 variationMap.remove(new Data.IntegerKey(currentRow));
-                                ProgramManager.getEventBus().fireEvent(new UpdateEvent());
+                                MajorManager.getEventBus().fireEvent(new UpdateEvent());
                             }
                         }
                     });
+                    if (configuration != null && configuration.checkPermission(model)) {
+                        removeButton.setEnabled(false);
+                    }
 
                 }
                 row++;

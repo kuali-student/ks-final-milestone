@@ -87,7 +87,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypeCount() {
     	List<ReqComponentType> reqComponentTypes = this.dao.find(ReqComponentType.class);
-    	Assert.assertEquals(40, reqComponentTypes.size());
+    	Assert.assertEquals(42, reqComponentTypes.size());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypeNLTemplateCount() {
     	List<ReqComponentTypeNLTemplate> reqComponentTypeNLTemplates = this.dao.find(ReqComponentTypeNLTemplate.class);
-    	Assert.assertEquals(160, reqComponentTypeNLTemplates.size());
+    	Assert.assertEquals(168, reqComponentTypeNLTemplates.size());
     }
 
     @Test
@@ -286,7 +286,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypesForProgramSatisfactoryProgressType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program.satisfactoryProgress");
-    	Assert.assertEquals(5, statementType.getAllowedReqComponentTypes().size());
+    	Assert.assertEquals(7, statementType.getAllowedReqComponentTypes().size());
     }
 
     @Test
@@ -298,6 +298,8 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.completion.duration"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.candidate.status.duration"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.nof.grade.min"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.cumulative.gpa.min"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.duration.gpa.min"));
     }
 
     @Test
@@ -323,7 +325,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypesForProgramCompletionType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program.completion");
-    	Assert.assertEquals(17, statementType.getAllowedReqComponentTypes().size());
+    	Assert.assertEquals(18, statementType.getAllowedReqComponentTypes().size());
     }
 
     @Test
@@ -339,6 +341,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.enrolled.credits.final"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.completion.duration.afterentry"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.minors.nof"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.cumulative.gpa.min"));
     }
     
     private boolean containsReqComponentFieldType(List<ReqComponentFieldType> typeList, String id) {
@@ -515,7 +518,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqCompType_course_courseset_grade_min() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.course.courseset.grade.min");
-    	Assert.assertEquals(3, reqComponentType.getReqCompFieldTypes().size());
+    	Assert.assertEquals(2, reqComponentType.getReqCompFieldTypes().size());
     }
 
     @Test
@@ -524,13 +527,12 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	List<ReqComponentFieldType> types = reqComponentType.getReqCompFieldTypes();
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.course.cluSet.id"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.grade.id"));
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.gradeType.id"));
     }
 
     @Test
     public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqCompType_course_courseset_grade_max() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.course.courseset.grade.max");
-    	Assert.assertEquals(3, reqComponentType.getReqCompFieldTypes().size());
+    	Assert.assertEquals(2, reqComponentType.getReqCompFieldTypes().size());
     }
 
     @Test
@@ -539,7 +541,6 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	List<ReqComponentFieldType> types = reqComponentType.getReqCompFieldTypes();
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.course.cluSet.id"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.grade.id"));
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.gradeType.id"));
     }
 
     @Test
@@ -599,7 +600,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqCompType_course_courseset_nof_grade_min() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.course.courseset.nof.grade.min");
-    	Assert.assertEquals(4, reqComponentType.getReqCompFieldTypes().size());
+    	Assert.assertEquals(3, reqComponentType.getReqCompFieldTypes().size());
     }
 
     @Test
@@ -609,7 +610,6 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.value.positive.integer"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.course.cluSet.id"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.grade.id"));
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.gradeType.id"));
     }
 
     @Test

@@ -260,7 +260,7 @@ public class CommentTool implements HasReferenceId {
     
     private void checkPermissionsAndRedrawTable(final List<CommentInfo> commentInfos) {
         // check permission to see if user can comment
-        commentServiceAsync.isAuthorizedAddComment(referenceId, new KSAsyncCallback<Boolean>() {
+        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -390,7 +390,7 @@ public class CommentTool implements HasReferenceId {
                 deleteButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                            ConfirmationDialog confirmDeletion = 
+                            final ConfirmationDialog confirmDeletion =
                                 new ConfirmationDialog("Delete Comment",  
                                     "You are about to delete a comment.  Are you sure?");
                             confirmDeletion.getConfirmButton().addClickHandler(new ClickHandler(){
@@ -408,9 +408,7 @@ public class CommentTool implements HasReferenceId {
 
                                             @Override
                                             public void onSuccess(StatusInfo result) {
-                                                if(result.getSuccess()){
-                                                    Window.alert("Your comment was deleted successfully");
-                                                }
+                                                confirmDeletion.hide();
                                                 refreshComments();
                                             }
 

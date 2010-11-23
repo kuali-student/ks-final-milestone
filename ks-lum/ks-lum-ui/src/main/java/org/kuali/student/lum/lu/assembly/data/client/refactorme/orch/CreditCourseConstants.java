@@ -64,6 +64,11 @@ public interface CreditCourseConstants
 	public static final String INSTRUCTORS = "instructors";
 	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
 	public static final String COURSE_SPECIFIC_LRTS = "courseSpecificLRTs";
+	public static final String VERSION_INFO = "versionInfo";
+	public static final String VERSION_CURRENT_VERSION_START = "currentVersionStart";
+	public static final String VERSION_CURRENT_VERSION_END = "currentVersionEnd";
+	public static final String VERSION_SEQ_NUMBER = "sequenceNumber";
+	public static final String VERSION_IND_ID = "versionIndId";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

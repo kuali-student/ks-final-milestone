@@ -1,20 +1,12 @@
 package org.kuali.student.common.ui.client.widgets.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -43,7 +35,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
     //widgets
     private FlowPanel reqCompTypePanel = new FlowPanel();
-    private FlowPanel holdFieldsPanel = new FlowPanel();
+    private FlowPanel ReqCompEditPanel = new FlowPanel();
     private KSDropDown reqCompTypesList = new KSDropDown();
     private VerticalSectionView reqCompFieldsPanel;
     private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);
@@ -58,18 +50,19 @@ public class ReqCompEditWidget extends FlowPanel {
     private List<String> selectedReqCompFieldTypes;             //types of all fields for given selected req. component type
     private boolean addingNewReqComp;                           //adding (true) or editing (false) req. component
     private DataModel ruleFieldsData;
-    private BasicLayout reqCompController;
+    private BasicLayout reqCompFieldsLayout;
     private Map<String, Widget> customWidgets = new HashMap<String, Widget>();
+    private List<Widget> customWidgetsNew;
 
     //other
     private Callback reqCompConfirmCallback;
     private Callback newReqCompSelectedCallback;
     private Callback fieldsMetadataTemplateCallback;
     private Callback compositionTemplateCallback;
-    private Callback displayCustomWidgetCallback;    
+    private Callback displayCustomWidgetCallback;
     private String newReqCompId;
-    private static int tempReqCompInfoID = 999999;    
-    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";    
+    private static int tempReqCompInfoID = 999999;
+    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";
 
     private enum ReqCompEditView {VIEW}
 
@@ -89,10 +82,10 @@ public class ReqCompEditWidget extends FlowPanel {
 
         setupReqCompTypesList();
         setupHandlers();
-        
+
         displayReqCompListPanel();
-        add(holdFieldsPanel);
-        displayConfirmButton();       
+        add(ReqCompEditPanel);
+        displayConfirmButton();
     }
 
     private void setupHandlers() {
@@ -102,7 +95,7 @@ public class ReqCompEditWidget extends FlowPanel {
                public void exec(ButtonEnumerations.ButtonEnum result) {
 
                     setEnableAddRuleButtons(false);
-                    
+
                     if (result == ButtonEnumerations.AddCancelEnum.ADD) {
 
                         //true if we have no fields for this req. component type
@@ -113,12 +106,12 @@ public class ReqCompEditWidget extends FlowPanel {
 
                         //validate and retrieve fields
                         validateAndRetrieveFields();
-                        
+
                     } else { //user canceled add/edit rule action
                         setupNewReqComp();
-                        reqCompConfirmCallback.exec(null);                        
+                        reqCompConfirmCallback.exec(null);
                     }
-               }                                             
+               }
         });
 
         reqCompTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -130,7 +123,7 @@ public class ReqCompEditWidget extends FlowPanel {
 			    }
 
                 //disable Step 2 section and enable 'Add Rule' and 'cancel' buttons
-                 newReqCompSelectedCallback.exec(null);                
+                 newReqCompSelectedCallback.exec(null);
                  setEnableAddRuleButtons(true);
 
                  List<String> ids = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
@@ -149,9 +142,9 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     private void validateAndRetrieveFields() {
-        
+
         final List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
-        reqCompController.updateModel();
+        reqCompFieldsLayout.updateModel();
 
         //1. validate and retrieve non-custom fields
         if (ruleFieldsData.getRoot().size() > 0) {
@@ -160,7 +153,7 @@ public class ReqCompEditWidget extends FlowPanel {
                 public void exec(List<ValidationResultInfo> validationResults) {
 
                     //do not proceed if the user input is not valid
-                    if (!reqCompController.isValid(validationResults, true, true)) {
+                    if (!reqCompFieldsLayout.isValid(validationResults, true, true)) {
                         setEnableAddRuleButtons(true);
                         return;
                     }
@@ -181,20 +174,20 @@ public class ReqCompEditWidget extends FlowPanel {
                         editedFields.add(fieldInfo);
                     }
 
-                    //2. retrieve non-custom fields 
+                    //2. retrieve non-custom fields
                     retrieveValuesFromCustomWidgets(editedFields);
                 }
             });
         } else {
             //2. retrieve non-custom fields
-            retrieveValuesFromCustomWidgets(editedFields);    
+            retrieveValuesFromCustomWidgets(editedFields);
         }
     }
 
     private void retrieveValuesFromCustomWidgets(final List<ReqCompFieldInfo> editedFields) {
 
         if (customWidgets.size() == 0) {
-            editedReqComp.setReqCompFields(editedFields);            
+            editedReqComp.setReqCompFields(editedFields);
             finalizeRuleUpdate();
             return;
         }
@@ -216,7 +209,7 @@ public class ReqCompEditWidget extends FlowPanel {
                     fieldInfo.setValue(widgetValue);
                     editedFields.add(fieldInfo);
 
-                    //TODO not sure if this will work all the time due to parallel nature of this code but running out of time                    
+                    //TODO not sure if this will work all the time due to parallel nature of this code but running out of time
                     iter.remove();
                     if (customWidgets.size() == 0) {
                         //3. update req. component being edited
@@ -239,8 +232,8 @@ public class ReqCompEditWidget extends FlowPanel {
         addingNewReqComp = true;
         selectedReqCompType = null;
         createReqComp(null);
-        holdFieldsPanel.clear();
-        redraw();        
+        ReqCompEditPanel.clear();
+        redraw();
     }
 
     /* create a new Req. Component Type based on user selection or empty at first */
@@ -248,7 +241,7 @@ public class ReqCompEditWidget extends FlowPanel {
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("");
         desc.setFormatted("");
-        editedReqComp = new ReqComponentInfo();
+        editedReqComp = new ReqComponentInfoUi();
         editedReqComp.setDesc(desc);
         editedReqComp.setId(newReqCompId + Integer.toString(tempReqCompInfoID++));
         editedReqComp.setReqCompFields(null);
@@ -280,12 +273,12 @@ public class ReqCompEditWidget extends FlowPanel {
             Window.alert("Unknown Requirement Component Type found: " + existingReqComp.getType());
         }
 
-        redraw();        
+        redraw();
     }
 
     private void redraw() {
 
-        selectReqCompTypeInList();        
+        selectReqCompTypeInList();
 
         displayFieldsSection();
 
@@ -293,7 +286,7 @@ public class ReqCompEditWidget extends FlowPanel {
             actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setText("Add Rule");
             setEnableAddRuleButtons(false);
         } else {
-            actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setText("Update Rule"); 
+            actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setText("Update Rule");
             setEnableAddRuleButtons(false);
             if (selectedReqCompType != null) {
                 setEnableAddRuleButtons(true);
@@ -310,7 +303,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //no display if the req. comp. type has no fields
         if ((selectedReqCompType.getReqCompFieldTypeInfos() == null) || selectedReqCompType.getReqCompFieldTypeInfos().isEmpty()) {
-            holdFieldsPanel.clear();
+            ReqCompEditPanel.clear();
             return;
         }
 
@@ -325,7 +318,7 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     public void displayFieldsStart(String compositionTemplate) {
-        
+
         compositionTemplates.put(selectedReqCompType.getId(), compositionTemplate);
         setEnableAddRuleButtons(true);
 
@@ -344,24 +337,51 @@ public class ReqCompEditWidget extends FlowPanel {
         reqCompFieldsPanel = new VerticalSectionView(ReqCompEditView.VIEW, "", REQ_COMP_MODEL_ID, false);
         reqCompFieldsPanel.addStyleName("KS-Rule-FieldsList");
         Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();
-        
+
         int ix = 0;
-        holdFieldsPanel.clear();
+        Metadata fieldGradeTypeMetadata = null;
+        Metadata fieldGradeMetadata = null;
+        ReqCompEditPanel.clear();
         Map<String, Metadata> fieldDefinitionMetadata = new HashMap<String,Metadata>();
         for (Metadata oneFieldMetadata : fieldsMetadataList) {
-            
+
             Metadata fieldMetadata = oneFieldMetadata.getProperties().get("value");
             String fieldType = selectedReqCompFieldTypes.get(ix++);
 
             //add clusets separately
-            if (RulesUtil.isCluSetWidget(fieldType)) {
+            if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
                 displayCustomWidgetCallback.exec(fieldType);
                 continue;
             }
 
             String fieldLabel = getFieldLabel(fieldType);
+            FieldDescriptor fd;
+            if (RulesUtil.isGradeWidget(fieldType)) {
 
-            FieldDescriptor fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
+                if (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())) {
+                    fieldGradeTypeMetadata = fieldMetadata;
+                }
+                if (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.grade.id".toLowerCase())) {
+                    fieldGradeMetadata = fieldMetadata;
+                }
+
+                if ((fieldGradeTypeMetadata != null) && (fieldGradeMetadata != null)) {
+                    Widget gradeWidget = customWidgetsNew.get(0);
+                    List<Metadata> fieldsMetadata = new ArrayList<Metadata>();
+                    fieldsMetadata.add(fieldGradeTypeMetadata);
+                    fieldsMetadata.add(fieldGradeMetadata);
+                    ((AccessWidgetValue)gradeWidget).initWidget(fieldsMetadata);
+                    fieldType = "kuali.reqComponent.field.type.grade.id";
+                    fieldLabel = getFieldLabel(fieldType);
+                    fieldMetadata = fieldGradeMetadata;
+                    fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata, gradeWidget);
+                } else {
+                    continue;
+                }
+            } else {
+                 fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
+            }
+
             //reqCompFieldsPanel.addField(fd);
             fields.put(fieldType, fd);
 
@@ -371,7 +391,8 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //now we add fields to the panel in proper order based on composition template
         for (String type : getFieldSequence()) {
-            if (RulesUtil.isCluSetWidget(type)) {
+            if (RulesUtil.isCluSetWidget(type) || RulesUtil.isCluWidget(type) ||
+                type.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())) {
                 continue;
             }
             reqCompFieldsPanel.addField(fields.get(type));
@@ -380,19 +401,23 @@ public class ReqCompEditWidget extends FlowPanel {
         //setup data model
         Metadata modelDefinitionMetadata = new Metadata();
         modelDefinitionMetadata.setCanView(true);
-        modelDefinitionMetadata.setDataType(Data.DataType.DATA);        
+        modelDefinitionMetadata.setDataType(Data.DataType.DATA);
         modelDefinitionMetadata.setProperties(fieldDefinitionMetadata);
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
-        ruleFieldsData.setDefinition(new DataModelDefinition(modelDefinitionMetadata));            
+        ruleFieldsData.setDefinition(new DataModelDefinition(modelDefinitionMetadata));
+
+        if (selectedReqCompFieldTypes.contains("kuali.reqComponent.field.type.grade.id")) {
+            selectedReqCompFieldTypes.remove("kuali.reqComponent.field.type.gradeType.id");
+        }
 
         //initialize fields with values if user is editing an existing rule
         if (!addingNewReqComp) {
             for (String fieldType : selectedReqCompFieldTypes) {
                 String fieldValue = getFieldValue(reqCompFields, fieldType);
                 if (fieldValue != null) {
-                    if (RulesUtil.isCluSetWidget(fieldType)) {
-                        ((AccessWidgetValue)customWidgets.get(fieldType)).setValue(fieldValue);    
+                    if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
+                        ((AccessWidgetValue)customWidgets.get(fieldType)).setValue(fieldValue);
                     } else {
                         ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);
                     }
@@ -401,10 +426,10 @@ public class ReqCompEditWidget extends FlowPanel {
         }
 
         //setup controller
-        reqCompController = new BasicLayout(null);
-        reqCompController.addView(reqCompFieldsPanel);
-        reqCompController.setDefaultModelId(REQ_COMP_MODEL_ID);        
-        reqCompController.registerModel(REQ_COMP_MODEL_ID, new ModelProvider<DataModel>() {
+        reqCompFieldsLayout = new BasicLayout(null);
+        reqCompFieldsLayout.addView(reqCompFieldsPanel);
+        reqCompFieldsLayout.setDefaultModelId(REQ_COMP_MODEL_ID);
+        reqCompFieldsLayout.registerModel(REQ_COMP_MODEL_ID, new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 callback.onModelReady(ruleFieldsData);
@@ -412,20 +437,20 @@ public class ReqCompEditWidget extends FlowPanel {
         });
 
         //show fields
-        holdFieldsPanel.add(reqCompController);        
-        reqCompController.showView(ReqCompEditView.VIEW);
+        ReqCompEditPanel.add(reqCompFieldsLayout);
+        reqCompFieldsLayout.showView(ReqCompEditView.VIEW);
 
-        //TODO save history        
+        //TODO save history
     }
 
-    //TODO can we include the custom widgets with regular widgets?
+    //TODO we should mix the custom widgets with regular widgets
     public void displayCustomWidget(String fieldType, Widget customWidget) {
         KSLabel label = new KSLabel(getFieldLabel(fieldType));
         label.addStyleName("KS-Rule-ReqComp-Custom-Widget-label");
-        holdFieldsPanel.add(label);
+        ReqCompEditPanel.add(label);
         customWidgets.put(fieldType, customWidget);
-        holdFieldsPanel.add(customWidget);
-    }    
+        ReqCompEditPanel.add(customWidget);
+    }
 
     private String getFieldLabel(String fieldType) {
         String compositionTemplate = compositionTemplates.get(selectedReqCompType.getId());
@@ -463,13 +488,13 @@ public class ReqCompEditWidget extends FlowPanel {
                 return (fieldInfo.getValue() == null ? "" : fieldInfo.getValue());
             }
         }
-        
+
         return "";
     }
 
     private void displayConfirmButton() {
         actionCancelButtons.addStyleName("KS-Rule-ReqComp-btn");
-        actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setText("Add Rule");        
+        actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setText("Add Rule");
         add(actionCancelButtons);
     }
 
@@ -483,7 +508,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         KSLabel instructions = new KSLabel("Use the list below to select the type of rule you would like to add to this requirement");
         reqCompTypePanel.add(instructions);
-        
+
         reqCompTypesList.addStyleName("KS-Rule-ReqCompList");
         reqCompTypePanel.add(reqCompTypesList);
         add(reqCompTypePanel);
@@ -580,13 +605,17 @@ public class ReqCompEditWidget extends FlowPanel {
         setEnableAddRuleButtons(false);
     }
 
-    public void setReqCompConfirmButtonClickCallback(Callback<ReqComponentInfo> callback) {
-        reqCompConfirmCallback = callback;
+    public void setCustomWidgets(List<Widget> customWidgets) {
+        customWidgetsNew = customWidgets;
     }
-	
+
+    public void setReqCompConfirmButtonClickCallback(Callback<ReqComponentInfoUi> actionButtonClickedReqCompCallback) {
+        reqCompConfirmCallback = actionButtonClickedReqCompCallback;
+    }
+
     public void setRetrieveCompositionTemplateCallback(Callback<ReqComponentInfo> callback) {
         compositionTemplateCallback = callback;
-    }	
+    }
 
     public void setRetrieveFieldsMetadataCallback(Callback<List<String>> callback) {
         fieldsMetadataTemplateCallback = callback;

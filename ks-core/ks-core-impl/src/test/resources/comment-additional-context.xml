@@ -29,7 +29,5 @@
     <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
     </bean>
-    
-    <bean id="validator" class="org.kuali.student.common.validator.old.Validator">
-    </bean>
+
 </beans>

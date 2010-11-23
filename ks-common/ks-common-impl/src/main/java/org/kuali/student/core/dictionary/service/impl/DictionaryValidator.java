@@ -334,9 +334,10 @@ public class DictionaryValidator
  public static final String GREATER_THAN = "greater_than";
  public static final String LESS_THAN = "less_than";
  public static final String EQUALS = "equals";
+ public static final String NOT_EQUAL = "not_equal";
  private static final String[] VALID_OPERATORS =
  {
-  EQUALS, GREATER_THAN_EQUAL, LESS_THAN_EQUAL, GREATER_THAN, LESS_THAN
+  NOT_EQUAL, EQUALS, GREATER_THAN_EQUAL, LESS_THAN_EQUAL, GREATER_THAN, LESS_THAN
  };
 
  private List<String> validateCase (FieldDefinition fd, CaseConstraint cc)

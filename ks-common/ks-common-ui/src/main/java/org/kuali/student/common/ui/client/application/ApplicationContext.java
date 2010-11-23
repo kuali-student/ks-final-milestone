@@ -150,6 +150,17 @@ public class ApplicationContext {
         return label;
         
     }
+	 
+	public String getUILabel(String groupName, String fieldId) {
+
+	        String label = getMessage(groupName, fieldId);
+	        
+	        if (label == null)
+	            label =  fieldId;
+	        
+	        return label;
+	        
+	}
 
     public SecurityContext getSecurityContext() {
         return securityContext;

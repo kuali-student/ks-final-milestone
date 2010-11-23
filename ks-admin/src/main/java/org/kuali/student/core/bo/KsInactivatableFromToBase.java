@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Transient;
 
 import org.kuali.rice.kns.bo.InactivateableFromTo;
+import org.kuali.student.core.bo.util.InactivatableFromToHelper;
 
 public abstract class KsInactivatableFromToBase extends KsBusinessObjectBase implements InactivateableFromTo {
 
@@ -20,21 +21,13 @@ public abstract class KsInactivatableFromToBase extends KsBusinessObjectBase imp
     @Transient
     protected Timestamp activeAsOfDate;
     
-    @Transient
-    protected boolean current;
 
     /**
      * Returns active if the {@link #getActiveAsOfDate()} (current time used if not set) is between
      * the from and to dates. Null dates are considered to indicate an open range.
      */
     public boolean isActive() {
-        long asOfDate = System.currentTimeMillis();
-        if (activeAsOfDate != null) {
-            asOfDate = activeAsOfDate.getTime();
-        }
-
-        return (activeFromDate == null || asOfDate >= activeFromDate.getTime())
-                && (activeToDate == null || asOfDate < activeToDate.getTime());
+        return InactivatableFromToHelper.isActive(this);
     }
     
     public void setActive(boolean active) {
@@ -63,14 +56,6 @@ public abstract class KsInactivatableFromToBase extends KsBusinessObjectBase imp
 
     public void setActiveAsOfDate(Timestamp activeAsOfDate) {
         this.activeAsOfDate = activeAsOfDate;
-    }
-
-    public boolean isCurrent() {
-        return this.current;
-    }
-
-    public void setCurrent(boolean current) {
-        this.current = current;
     }
 
 }

@@ -42,6 +42,8 @@ public class LrcContextImplTest {
 	private LrcContextImpl lrcContext = new LrcContextImpl();
 	private ReqComponentInfo reqComponent1;
 	private ReqComponentInfo reqComponent2;
+	private ReqComponentInfo reqComponent3;
+	private ReqComponentInfo reqComponent4;
 	
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
@@ -73,11 +75,35 @@ public class LrcContextImplTest {
 		reqComponent2.setReqCompFields(reqCompFieldList);
 	}
 	
+	private void setupReqComponent3() {
+		reqComponent3 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
+        reqCompField1.setType(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+        reqCompField1.setValue("kuali.resultComponent.grade.letter");
+        reqCompFieldList.add(reqCompField1);
+
+		reqComponent3.setReqCompFields(reqCompFieldList);
+	}
+	
+	private void setupReqComponent4() {
+		reqComponent4 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
+        reqCompField1.setType(ReqComponentFieldTypes.GRADE_KEY.getId());
+        reqCompField1.setValue("A");
+        reqCompFieldList.add(reqCompField1);
+
+		reqComponent4.setReqCompFields(reqCompFieldList);
+	}
+	
 	@Before
 	public void beforeMethod() {
 		lrcContext.setLrcService(lrcService);
 		setupReqComponent1();
 		setupReqComponent2();
+		setupReqComponent3();
+		setupReqComponent4();
 	}
 
 	@Test
@@ -86,6 +112,38 @@ public class LrcContextImplTest {
 		Assert.assertNotNull(contextMap);
 		Assert.assertTrue(contextMap.containsKey(LrcContextImpl.GRADE_TOKEN));
 		Assert.assertTrue(contextMap.containsKey(LrcContextImpl.GRADE_TYPE_TOKEN));
+    }
+
+	@Test
+    public void testCreateContextMap_GradeTypeToken() throws OperationFailedException {
+		Map<String, Object> contextMap = lrcContext.createContextMap(reqComponent3);
+		Assert.assertNotNull(contextMap);
+		Assert.assertTrue(contextMap.containsKey(LrcContextImpl.GRADE_TYPE_TOKEN));
+    }
+
+	@Test
+    public void testCreateContextMap_GradeToken() throws OperationFailedException {
+		Map<String, Object> contextMap = lrcContext.createContextMap(reqComponent4);
+		Assert.assertNotNull(contextMap);
+		Assert.assertTrue(contextMap.containsKey(LrcContextImpl.GRADE_TOKEN));
+    }
+
+	@Test
+    public void testCreateContextMap_GradeTypeTokenValues() throws OperationFailedException {
+		Map<String, Object> contextMap = lrcContext.createContextMap(reqComponent3);
+		ResultComponentInfo gradeTypeId = (ResultComponentInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
+		
+		Assert.assertEquals("kuali.resultComponent.grade.letter", gradeTypeId.getId());
+    }
+
+	@Test
+    public void testCreateContextMap_GradeTokenValues() throws OperationFailedException {
+		Map<String, Object> contextMap = lrcContext.createContextMap(reqComponent4);
+		ResultComponentInfo gradeTypeId = (ResultComponentInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
+		String gradeId = (String) contextMap.get(LrcContextImpl.GRADE_TOKEN);
+		
+		Assert.assertEquals("kuali.resultComponent.grade.letter", gradeTypeId.getId());
+		Assert.assertEquals("A", gradeId);
     }
 
 	@Test
@@ -110,7 +168,9 @@ public class LrcContextImplTest {
 
 	private static class LrcServiceMock implements LrcService {
 
-		Map<String, ResultComponentInfo> resultComponentMap = new HashMap<String, ResultComponentInfo>();
+		private Map<String, ResultComponentInfo> resultComponentMap = new HashMap<String, ResultComponentInfo>();
+		private List<ResultComponentTypeInfo> resultComponentTypeList = new ArrayList<ResultComponentTypeInfo>();
+		private Map<String, List<String>> typeIdMap = new HashMap<String, List<String>>();
 		
 		public LrcServiceMock() {
 			ResultComponentInfo rc1 = new ResultComponentInfo();
@@ -124,6 +184,18 @@ public class LrcContextImplTest {
 			rc2.setName("Pass-Fail");
 			rc2.setResultValues(Arrays.asList(new String[] {"Pass", "Fail"}));
 			resultComponentMap.put("kuali.resultComponent.grade.passFail", rc2);
+
+			ResultComponentTypeInfo type1 = new ResultComponentTypeInfo();
+			type1.setId("kuali.resultComponentType.grade.finalGrade");
+			type1.setName("Final Grade");
+			resultComponentTypeList.add(type1);
+			
+			ResultComponentTypeInfo type2 = new ResultComponentTypeInfo();
+			type2.setId("kuali.resultComponentType.credit.degree.fixed");
+			type2.setName("Fixed Number");
+			resultComponentTypeList.add(type2);
+			
+			typeIdMap.put("kuali.resultComponentType.grade.finalGrade", Arrays.asList(new String[] {"kuali.resultComponent.grade.letter", "kuali.resultComponent.grade.passFail"}));
 		}
 
 		@Override
@@ -304,8 +376,7 @@ public class LrcContextImplTest {
 				String resultComponentTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
+			return typeIdMap.get(resultComponentTypeKey);
 		}
 
 		@Override
@@ -320,8 +391,7 @@ public class LrcContextImplTest {
 		@Override
 		public List<ResultComponentTypeInfo> getResultComponentTypes()
 				throws OperationFailedException {
-			// TODO Auto-generated method stub
-			return null;
+			return this.resultComponentTypeList;
 		}
 
 		@Override

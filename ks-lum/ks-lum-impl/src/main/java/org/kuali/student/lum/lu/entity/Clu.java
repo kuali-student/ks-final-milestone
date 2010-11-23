@@ -61,7 +61,12 @@ import org.kuali.student.core.entity.VersionEntity;
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.sequenceNumber IN (SELECT MIN(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
-	@NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
+    @NamedQuery(name = "Clu.findLatestVersion", query = "SELECT " +
+ 	    	"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    	    "FROM Clu c " +
+    	    "WHERE c.version.versionIndId = :versionIndId " +
+    	    "AND c.version.sequenceNumber IN (SELECT MAX(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+    @NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
     		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
@@ -168,7 +173,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     private String nextReviewPeriod;
 
     @Column(name = "IS_ENRL")
-    private boolean isEnrollable;
+    private boolean enrollable;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="clu")
     private List<CluAtpTypeKey> offeredAtpTypes;
@@ -183,7 +188,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     private int defaultMaximumEnrollment;
 
     @Column(name = "IS_HAZR_DISBLD_STU")
-    private boolean isHazardousForDisabledStudents;
+    private boolean hazardousForDisabledStudents;
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "FEE_ID")
@@ -318,11 +323,11 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
      }
 
      public boolean isEnrollable() {
-         return isEnrollable;
+         return enrollable;
      }
 
-     public void setEnrollable(boolean isEnrollable) {
-         this.isEnrollable = isEnrollable;
+     public void setEnrollable(boolean enrollable) {
+         this.enrollable = enrollable;
      }
 
      public List<CluAtpTypeKey> getOfferedAtpTypes() {
@@ -358,12 +363,12 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
      }
 
      public boolean isHazardousForDisabledStudents() {
-         return isHazardousForDisabledStudents;
+         return hazardousForDisabledStudents;
      }
 
      public void setHazardousForDisabledStudents(
-             boolean isHazardousForDisabledStudents) {
-         this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
+             boolean hazardousForDisabledStudents) {
+         this.hazardousForDisabledStudents = hazardousForDisabledStudents;
      }
 
      public CluFee getFee() {

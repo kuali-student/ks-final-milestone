@@ -5,16 +5,11 @@ import java.io.Serializable;
 
 public class CluInformation implements Serializable {
     private static final long serialVersionUID = 1123124L;
-    private String id;
+    private String verIndependentId;
     private String code;
     private String title;
     private String credits;
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
+
     public String getCode() {
         return code;
     }
@@ -33,4 +28,10 @@ public class CluInformation implements Serializable {
     public void setCredits(String credits) {
         this.credits = credits;
     }
+	public void setVerIndependentId(String verIndependentId) {
+		this.verIndependentId = verIndependentId;
+	}
+	public String getVerIndependentId() {
+		return verIndependentId;
+	}
 }

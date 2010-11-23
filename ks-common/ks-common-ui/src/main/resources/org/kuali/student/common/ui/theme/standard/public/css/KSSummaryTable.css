@@ -3,6 +3,12 @@
    max-width:800px;
    width:100%;
 }
+.summaryTable .columnTitle {
+  font-size:14px;
+  font-weight:bold;
+  padding:5px;
+  border-bottom:1px dotted #999999;
+}
 
 .rowTitleColunm{
 	width:180px;
@@ -78,8 +84,4 @@ border-bottom:1px dotted #999999;
 	margin: 0;
 	padding-left: 1.1em;
 	list-style: inherit outside none;
-}
-
-.firstRowInUnnamedBlock{
-	border-top:1px solid #999999; 
 }

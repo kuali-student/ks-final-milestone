@@ -118,7 +118,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 															// already(important
 															// for creating
 															// relations)
-		clu.setType(format.getType());
+		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
 		clu.setState(format.getState());
 		clu.setMetaInfo(format.getMetaInfo());
 		clu.setAttributes(format.getAttributes());

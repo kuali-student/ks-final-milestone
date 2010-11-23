@@ -78,9 +78,10 @@ public interface CommentRpcService extends BaseRpcService {
 
     /**
      * Check for authorization to add a comment
-     * @param proposalId identifier of the proposal
+     * @param id identifier of the object
+     * @param referenceTypeKey reference type of the object
      */
-    public Boolean isAuthorizedAddComment(String proposalId);
+    public Boolean isAuthorizedAddComment(String id, String referenceTypeKey);
     
     /**
      * user IdentityService to get user name

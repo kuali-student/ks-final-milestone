@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,4 +33,7 @@ public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAs
     public void createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
     public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatusInfo> callback);
     public void updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    public void changeState(String courseId, String newState, AsyncCallback<StatusInfo> callback);
+    public void changeState(String courseId, String newState, Date currentVersionStart, AsyncCallback<StatusInfo> callback);
+   
 }

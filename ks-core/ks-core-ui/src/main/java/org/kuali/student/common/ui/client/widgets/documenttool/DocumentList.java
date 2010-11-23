@@ -127,25 +127,14 @@ public class DocumentList extends Composite{
 	                         try {
 	                             //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
 	                             //before delete
-	                        	 documentServiceAsync.deleteRefDocRelation(docInfo.getId(), new KSAsyncCallback<StatusInfo>(){
+	                        	 documentServiceAsync.deleteRefDocRelationAndOrphanedDoc(docInfo.getId(), docInfo.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
 	                                @Override
 	                                public void onSuccess(StatusInfo result) {
-	                                    try {
-	                                        documentServiceAsync.deleteDocument(docInfo.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
-	                                            @Override
-	                                            public void onSuccess(StatusInfo result) {
-	                                                deleteCallback.exec(result.toString());
-	                                            }
-	
-	                                        });
-	                                    } catch (Exception e) {
-	                                        GWT.log("deleteDocument failed", e);
-	                                    }
-	
+	                                	deleteCallback.exec(result.toString());
 	                                }
 	                            });
 	                        } catch (Exception e) {
-	                            GWT.log("deleteRefDocRelation failed", e);
+	                            GWT.log("deleteRefDocRelationAndOrphanedDoc failed", e);
 	                        }
 	
 	

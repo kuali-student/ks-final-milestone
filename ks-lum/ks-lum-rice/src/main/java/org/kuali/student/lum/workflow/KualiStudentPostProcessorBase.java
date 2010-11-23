@@ -49,6 +49,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
 
 	protected static final String PROPOSAL_STATE_SAVED = "Saved";
+    protected static final String PROPOSAL_STATE_CANCELLED = "Cancelled";
 	protected static final String PROPOSAL_STATE_ENROUTE = "Enroute";
 	protected static final String PROPOSAL_STATE_WITHDRAWN = "Withdrawn";
 	protected static final String PROPOSAL_STATE_REJECTED = "Rejected";
@@ -204,6 +205,8 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_SAVED);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_ENROUTE);
+        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
+            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_CANCELLED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_REJECTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {

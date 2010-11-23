@@ -22,7 +22,7 @@
 		Validator.java should not be used in client. Several other classes here may not be required for UI as well
 		and need to be removed.
 	 -->
-	<source path='validator/old' >
+	<source path='validator' >
 		<include name="DateParseException.java"/>
 		<include name="DateParser.java"/>
 	

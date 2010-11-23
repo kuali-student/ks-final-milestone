@@ -73,6 +73,7 @@
 		<class>org.kuali.student.lum.lu.entity.CluResultTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluSet</class>
 		<class>org.kuali.student.lum.lu.entity.CluSetAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu</class>
 		<class>org.kuali.student.lum.lu.entity.CluSetType</class>
 		<class>org.kuali.student.lum.lu.entity.CluSetTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.DeliveryMethodType</class>

@@ -16,7 +16,11 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -24,8 +28,20 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.*;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.event.ActionEvent;
+import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
+import org.kuali.student.common.ui.client.event.ContentDirtyEventHandler;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -54,10 +70,9 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -83,8 +98,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);
 	//Models
-	private DataModel cluProposalModel = new DataModel("Proposal");
-	private DataModel comparisonModel = new DataModel("Original Course");
+	private final DataModel cluProposalModel = new DataModel("Proposal");
+	private final DataModel comparisonModel = new DataModel("Original Course");
 
 	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
 	
@@ -103,11 +118,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private String proposalPath = "";
 	private String currentTitle;
 
-	private DateFormat df = DateFormat.getInstance();
+	private final DateFormat df = DateFormat.getInstance();
 
-	private BlockingTask initializingTask = new BlockingTask("Loading");
-	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
-	private BlockingTask saving = new BlockingTask("Saving");
+	private final BlockingTask initializingTask = new BlockingTask("Loading");
+	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	private final BlockingTask saving = new BlockingTask("Saving");
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -174,15 +189,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
             		callback.onModelReady(null);
             	}
                 
-            }
-        });
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-            @Override
-            public void onValidateRequest(final ValidateRequestEvent event) {
-            	if(event.getFieldDescriptor().isDirty()){
-            		//TODO: When field descriptor dirty flag set, it should fire content dirty event
-            		setContentWarning("You have unsaved changes");
-            	}
             }
         });
         super.addApplicationEventHandler(ContentDirtyEvent.TYPE, new ContentDirtyEventHandler(){
@@ -259,11 +265,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 		    		//Get metadata and complete initializing the screen
 		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
-						public void handleTimeout(Throwable caught) {
+						@Override
+                        public void handleTimeout(Throwable caught) {
 		                	initializeFailed(); 
 						}
 
-						public void handleFailure(Throwable caught) {
+						@Override
+                        public void handleFailure(Throwable caught) {
 							initializeFailed();
 		                    throw new RuntimeException("Failed to get model definition.", caught);
 		                }
@@ -359,7 +367,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         		callback.onModelReady(ref);
         	}
-        } else if (modelType == LuData.class){
+        } else if (modelType == Data.class){
         	requestModel(cfg.getModelId(), callback);
         } else {
             super.requestModel(modelType, callback);
@@ -441,7 +449,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        cluProposalModel.setRoot(new LuData());
+        cluProposalModel.setRoot(new Data());
         isNew = true;
         setProposalHeaderTitle();
         setLastUpdated();
@@ -451,7 +459,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createModifyCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        LuData data = new LuData();
+        Data data = new Data();
         
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), MODIFY_TYPE);
@@ -560,6 +568,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         };
         try {
             cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
+                @Override
                 public void handleFailure(Throwable caught) {
                    saveFailedCallback.exec(caught);
                 }

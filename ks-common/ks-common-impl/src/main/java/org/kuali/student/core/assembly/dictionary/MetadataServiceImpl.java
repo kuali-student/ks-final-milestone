@@ -34,6 +34,7 @@ import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.DtoConstants.DtoState;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -98,23 +99,40 @@ public class MetadataServiceImpl {
     }
 
     /**
-     * This method gets the metadata for the given object key, type and state
+     * This method gets the metadata for the given object key, type, state and nextState
      * 
      * @param objectKey
-     * @param type
-     * @param state
+     * @param type The type of the object (value can be null)
+     * @param state The state for which to retrieve object constraints (value can be null)
+     * @param nextState The state to to check requiredForNextState indicators (value can be null)
      * @return
      */
-    public Metadata getMetadata(String objectKey, String type, String state) {
+    public Metadata getMetadata(String objectKey, String type, String state, String nextState) {
         if (metadataRepository == null || metadataRepository.get(objectKey) == null) {
-            return getMetadataFromDictionaryService(objectKey, type, state);
+            return getMetadataFromDictionaryService(objectKey, type, state, nextState);
         }
 
         return null;
     }
 
     /**
+     * This method gets the metadata for the given object key, type and state
+     * 
+     * @param objectKey
+     * @param type The type of the object (value can be null)
+     * @param state The state for which to retrieve object constraints (value can be null)
+     * @return
+     */
+    public Metadata getMetadata(String objectKey, String type, String state) {
+        return getMetadata(objectKey, type, state, null);
+    }
+
+
+    /**
      * This method gets the metadata for the given object key and state
+     * 
+     * @param objectKey
+     * @param type The type of the object (value can be null)
      */
     public Metadata getMetadata(String objectKey, String state) {
         return getMetadata(objectKey, null, state);
@@ -140,13 +158,13 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state) {
+    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState) {
 
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
 
-        metadata.setProperties(getProperties(objectStructure, type, state, new RecursionCounter()));
+        metadata.setProperties(getProperties(objectStructure, type, state, nextState, new RecursionCounter()));
 
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
@@ -162,7 +180,7 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, RecursionCounter counter) {
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, RecursionCounter counter) {
         String objectId = objectStructure.getName();
         int hits = counter.increment(objectId);
 
@@ -179,7 +197,7 @@ public class MetadataServiceImpl {
                 // Set constraints, authz flags, default value
                 metadata.setWriteAccess(WriteAccess.ALWAYS);
                 metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-                metadata.setConstraints(getConstraints(fd, type, state));
+                metadata.setConstraints(getConstraints(fd, type, state, nextState));
                 metadata.setCanEdit(!fd.isReadOnly());
                 metadata.setCanUnmask(!fd.isMask());
                 metadata.setCanView(!fd.isHide());
@@ -198,7 +216,7 @@ public class MetadataServiceImpl {
                 // Get properties for nested object structure
                 Map<String, Metadata> nestedProperties = null;
                 if (fd.getDataType() == org.kuali.student.core.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null) {
-                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, counter);
+                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, counter);
                 }
 
                 // For repeating field, create a LIST with wildcard in metadata structure
@@ -264,12 +282,12 @@ public class MetadataServiceImpl {
         return dictionaryService.getObjectStructure(objectKey);
     }
 
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state) {
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
 
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
 
-        updateConstraintMetadata(constraintMetadata, (Constraint) fd, type, state);
+        updateConstraintMetadata(constraintMetadata, (Constraint) fd, type, state, nextState);
         constraints.add(constraintMetadata);
 
         return constraints;
@@ -281,7 +299,7 @@ public class MetadataServiceImpl {
      * @param constraintMetadata
      * @param constraint
      */
-    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state) {
+    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state, String nextState) {
         // For now ignoring the serverSide flag and making determination of which constraints
         // should be passed up to the UI via metadata.
 
@@ -341,11 +359,11 @@ public class MetadataServiceImpl {
 
         // Case constraints
         if (constraint.getCaseConstraint() != null) {
-            processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state);
+            processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state, nextState);
         }
     }
 
-    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state) {
+    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state, String nextState) {
         String fieldPath = caseConstraint.getFieldPath();
         List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
 
@@ -353,14 +371,9 @@ public class MetadataServiceImpl {
         if ("STATE".equals(fieldPath)) {
             // Process a state constraint
 
-            // Determine nextState for required for next state indicator
-            String nextState = null;
-            if (state == null || "DRAFT".equals(state.toUpperCase())) {
-                state = "DRAFT";
-                nextState = "SUBMITTED";
-            } else if ("SUBMITTED".equals(state.toUpperCase())) {
-                nextState = "ACTIVE";
-            }
+        	// Defaults for state and nextState
+        	state = (state == null ? DtoState.DRAFT.toString():state);
+        	nextState = (nextState == null ? DtoState.getNextStateAsString(state):nextState);
 
             if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
                 for (WhenConstraint whenConstraint : whenConstraints) {
@@ -372,12 +385,13 @@ public class MetadataServiceImpl {
                         if (values.contains(nextState)) {
                             if (constraint.getMinOccurs() > 0) {
                                 constraintMetadata.setRequiredForNextState(true);
+                                constraintMetadata.setNextState(nextState);
                             }
                         }
 
                         // Update constraints based on state constraints
                         if (values.contains(state.toUpperCase())) {
-                            updateConstraintMetadata(constraintMetadata, constraint, type, state);
+                            updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
                         }
                     }
                 }
@@ -390,13 +404,13 @@ public class MetadataServiceImpl {
                     List<Object> values = whenConstraint.getValues();
                     if (values != null && values.contains(type)) {
                         Constraint constraint = whenConstraint.getConstraint();
-                        updateConstraintMetadata(constraintMetadata, constraint, type, state);
+                        updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
                     }
                 }
             }
         }
     }
-
+    
     /**
      * Convert Object value to respective DataType. Method return null for object Value.
      * 

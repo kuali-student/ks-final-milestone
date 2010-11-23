@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
@@ -71,8 +72,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     private List<KSItemLabel> removedItems = new ArrayList<KSItemLabel>();
     public static ItemDataHelper itemDataHelper = new ItemDataHelper();
 
-    private List<SelectionChangeHandler> selectionChangeHandlers = new ArrayList<SelectionChangeHandler>();
-    private List<Callback<Widget>> widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
+    private final List<SelectionChangeHandler> selectionChangeHandlers = new ArrayList<SelectionChangeHandler>();
+    private final List<Callback<Widget>> widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
     private boolean hasDetails = false;
 
     private WidgetConfigInfo config;
@@ -97,12 +98,12 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         if (config.canEdit) {
             pickerPanel = new HorizontalPanel();
             pickerPanel.addStyleName("ks-selected-list-picker");
-            addItemButton = new KSButton("Add to list", ButtonStyle.PRIMARY_SMALL);
+            addItemButton = new KSButton("Add to list", ButtonStyle.SECONDARY_SMALL);
             addItemButton.setEnabled(false);
             picker = new KSPicker(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());
-            picker.addValueChangeCallback(createPickerValueChangedCallback());
-
+            addSelectionChangeHandler();
+            
             addItemButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -172,20 +173,28 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         return result;
     }
 
-    private Callback<Value> createPickerValueChangedCallback() {
-        return new Callback<Value>() {
-
-            @Override
-            public void exec(Value result) {
-                String v = result.get();
-                if (v != null && !v.isEmpty()) {
-                    addItemButton.setEnabled(true);
-                } else {
-                    addItemButton.setEnabled(false);
-                }
-            }
-
-        };
+    /**
+     * Adds handler when suggest box selection change event is fired and enables/disables the the
+     * Add item button accordingly. 
+     */
+    private void addSelectionChangeHandler() {
+        if (picker.getInputWidget() instanceof KSSuggestBox){
+        	KSSuggestBox suggestBox = (KSSuggestBox)picker.getInputWidget();
+        	suggestBox.addSelectionChangeHandler(new SelectionChangeHandler(){
+				@Override
+				public void onSelectionChange(SelectionChangeEvent event) {
+					//Compare the user entered value in picker's input textbox with the current display value
+					//from the picker suggest list, if they are the same (ie. user has selected item from list)
+					//then enable the add to list button. NOTE: This comparison should not be required if the picker
+					//ONLY fired selection change event when an actual selection change took place, but doesn't seem
+					//to be doing that.
+					String userValue = ((KSSuggestBox)picker.getInputWidget()).getText();
+	                String displayValue = picker.getDisplayValue();
+	                boolean enabled = displayValue != null && !displayValue.isEmpty() && displayValue.equals(userValue);
+                    addItemButton.setEnabled(enabled);
+				}
+        	});
+        }
     }
 
     public void addItem(final KSItemLabel item) {
@@ -322,6 +331,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                 selectedItems.remove(itemToBeDeleted);
                 removedItems.add(itemToBeDeleted);
                 valuesPanel.remove(itemToBeDeleted);
+                selectionChanged();
             }
         });
         return item;

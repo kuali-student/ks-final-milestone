@@ -1,11 +1,8 @@
 package org.kuali.student.lum.program.client.variation.view;
 
-import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.major.view.*;
-
-import com.google.gwt.core.client.GWT;
 
 public class VariationViewConfigurer extends AbstractProgramConfigurer {
 
@@ -14,9 +11,9 @@ public class VariationViewConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(VariationInformationViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration(false));
         programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new VariationViewAllConfiguration());
     }
 }

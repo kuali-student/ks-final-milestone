@@ -1,29 +1,33 @@
 package org.kuali.student.lum.program.client.core.edit;
 
-import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.lum.common.client.configuration.AbstractConfiguration;
-import org.kuali.student.lum.program.client.ProgramController;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 
-/**
- * @author Igor
- */
-public class CoreRequirementsEditConfiguration extends AbstractConfiguration {
+import com.google.gwt.user.client.ui.Widget;
 
-    private ProgramController parentController;
+public class CoreRequirementsEditConfiguration extends AbstractControllerConfiguration {
+
     private ProgramRequirementsViewController progReqcontroller;
 
     @Override
     public View getView() {
-        progReqcontroller = new ProgramRequirementsViewController(parentController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+        progReqcontroller = new ProgramRequirementsViewController(controller, CoreManager.getEventBus(), 
+                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false, null);
         return progReqcontroller;
     }
 
-    public void setViewController(ProgramController controller) {
-        this.parentController = controller;
+    @Override
+    protected void buildLayout() {
+    }
+
+    @Override
+    public void setController(Controller controller) {
+        this.controller = controller;
         if (progReqcontroller != null) {
             progReqcontroller.setParentController(controller);
         }
@@ -31,7 +35,7 @@ public class CoreRequirementsEditConfiguration extends AbstractConfiguration {
 
     @Override
     public Widget asWidget() {
-        return parentController;
+        return controller;
     }
 
     @Override

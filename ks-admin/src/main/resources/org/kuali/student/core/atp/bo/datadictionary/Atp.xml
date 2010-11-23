@@ -43,9 +43,7 @@
         </property>
     </bean>
 
-    <bean id="Atp-id" parent="Atp-id-parentBean" />
-    <bean id="Atp-id-parentBean" abstract="true" parent="CoreAttributeReference-id">
-    </bean>
+    <alias alias="Atp-id" name="CoreAttributeReference-id" />
 
     <bean id="Atp-name" parent="Atp-name-parentBean" />
     <bean id="Atp-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
@@ -63,21 +61,10 @@
     <bean id="Atp-state-parentBean" abstract="true" parent="CoreAttributeReference-state">
     </bean>
 
-    <bean id="Atp-createId" parent="Atp-createId-parentBean" />
-    <bean id="Atp-createId-parentBean" abstract="true" parent="CoreAttributeReference-createId">
-    </bean>
-
-    <bean id="Atp-createDate" parent="Atp-createDate-parentBean" />
-    <bean id="Atp-createDate-parentBean" abstract="true" parent="CoreAttributeReference-createDate">
-    </bean>
-
-    <bean id="Atp-updateId" parent="Atp-updateId-parentBean" />
-    <bean id="Atp-updateId-parentBean" abstract="true" parent="CoreAttributeReference-updateId">
-    </bean>
-
-    <bean id="Atp-updateDate" parent="Atp-updateDate-parentBean" />
-    <bean id="Atp-updateDate-parentBean" abstract="true" parent="CoreAttributeReference-updateDate">
-    </bean>
+    <alias alias="Atp-createId" name="CoreAttributeReference-createId" />
+    <alias alias="Atp-createDate" name="CoreAttributeReference-createDate" />
+    <alias alias="Atp-updateId" name="CoreAttributeReference-updateId" />
+    <alias alias="Atp-updateDate" name="CoreAttributeReference-updateDate" />
 
     <bean id="Atp-typeId" parent="Atp-typeId-parentBean" />
     <bean id="Atp-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
@@ -212,8 +199,6 @@
         </property>
     </bean>
     
-    <bean id="Atp-inquirySection-metaInformation" parent="Atp-inquirySection-metaInformation-parentBean" />
-    <bean id="Atp-inquirySection-metaInformation-parentBean" abstract="true" parent="CoreAttributeReference-inquirySection-metaInformation">
-    </bean>
+    <alias alias="Atp-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
 
 </beans>

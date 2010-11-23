@@ -3,29 +3,44 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VersionsController extends BasicLayoutWithContentHeader{
 	
@@ -34,9 +49,10 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private SelectVersionsView select = new SelectVersionsView(this, "", Views.VERSION_SELECT);
 	private ShowVersionView view;
 	private VerticalSectionView compare;
+    private static final String MSG_GROUP = "course";
     private String type = "course";
     private String state = "draft";
-    private String groupName = LUConstants.COURSE_GROUP_NAME;
+    private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 	CourseSummaryConfigurer summaryConfigurer;
 	CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
 	DataModelDefinition definition;
@@ -46,26 +62,37 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	
 	private String lastId1 = "";
 	private String lastId2 = "";
-	private KSButton versionHistoryButton = new KSButton("Version History", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
-
-		@Override
-		public void onClick(ClickEvent event) {
-			VersionsController.this.showDefaultView(Controller.NO_OP_CALLBACK);
-		}
-	});
+	private HorizontalSection workflowVersionInfoSection = new HorizontalSection();
+	
 	
 	private boolean initialized = false;
 	private String versionIndId = "";
 	private String currentVersionId = "";
-	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
-
+	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
+	
+	private List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+	private KSLabel statusLabel = new KSLabel("");
+	
 	public VersionsController(Enum<?> viewType) {
 		super(VersionsController.class.toString());
 		this.addView(select);
         this.setDefaultView(Views.VERSION_SELECT);
         this.setName("Versions");
         this.setViewEnum(viewType);
-        this.getHeader().addWidget(versionHistoryButton);
+        KSButton versionHistoryButton = new KSButton("Version History", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+
+    		@Override
+    		public void onClick(ClickEvent event) {
+    			VersionsController.this.showDefaultView(Controller.NO_OP_CALLBACK);
+    		}
+    	});
+        versionHistoryButton.addStyleName("versionHistoryLink");
+        
+        workflowVersionInfoSection.addWidget(this.getStatusLabel());
+        workflowVersionInfoSection.addWidget(this.generateActionDropDown());
+        workflowVersionInfoSection.addWidget(versionHistoryButton);
+		
+        this.getHeader().addWidget(workflowVersionInfoSection);
         this.viewContainer.addStyleName("standard-content-padding");
         initialize();
     }	
@@ -133,6 +160,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        			view.setName(name);
 	        			view.showWarningMessage(true);
 	        		}
+	        		updateState(cluModel1);
 	 	            callback.onModelReady(cluModel1);
 	 	            lastId1 = courseId;
 	        	}
@@ -158,22 +186,33 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	
     @Override
     public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+    	
         init(new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
                 if (result) {
-                	VersionsController.super.showDefaultView(onReadyCallback);
+                	VersionsController.super.showDefaultView(new Callback<Boolean>() {
+                		
+                		@Override
+                		public void exec(Boolean result) {
+                			onReadyCallback.exec(result);
+                			KSBlockingProgressIndicator.removeTask(loadDataTask);
+                		}
+                	});
                 } else {
                     onReadyCallback.exec(false);
+                    KSBlockingProgressIndicator.removeTask(loadDataTask);
                 }
+                
             }
         });
     }
     
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
-    	versionHistoryButton.setVisible(false);
+    	workflowVersionInfoSection.setVisible(false);
     	this.getHeader().showPrint(false);
     	showDefaultView(onReadyCallback);
     }
@@ -235,6 +274,37 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         });
     }
     
+    public Widget generateActionDropDown(){
+    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"));
+
+    	actionDropDownWidgets.add(actionList);
+        
+    	return actionList;
+    }
+    
+    private void updateState(DataModel cluModel) {
+    	if(cluModel.get("state") != null){
+	    	statusLabel.setText("Status: " + cluModel.get("state"));
+	    	
+	    	for(CourseWorkflowActionList widget: actionDropDownWidgets){
+				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);
+				widget.updateCourseActionItems(cluModel);
+				widget.setEnabled(true);
+				if(widget.isEmpty()) {
+					widget.setVisible(false);
+				}
+				else{
+					widget.setVisible(true);
+				}
+			}
+    	}
+    }
+    
+	public Widget getStatusLabel() {
+		statusLabel.setStyleName("courseStatusLabel");
+		return statusLabel;
+	}
+    
     public DataModelDefinition getDefinition(){
     	return definition;
     }
@@ -251,15 +321,23 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 		return versionIndId;
 	}
 	
+    public String getMessage(String courseMessageKey) {
+    	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    	if (msg == null) {
+    		msg = courseMessageKey;
+    	}
+    	return msg;
+    }
+	
 	
 	@Override
 	public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
 		if(viewType != Views.VERSION_SELECT){
-			versionHistoryButton.setVisible(true);
+			workflowVersionInfoSection.setVisible(true);
 			this.getHeader().showPrint(true);
 		}
 		else{
-			versionHistoryButton.setVisible(false);
+			workflowVersionInfoSection.setVisible(false);
 			this.getHeader().showPrint(false);
 		}
 		super.showView(viewType, onReadyCallback);

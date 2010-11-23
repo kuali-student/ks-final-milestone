@@ -161,7 +161,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         //display 'Course Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
             SectionTitle pageTitle = SectionTitle.generateH2Title("Course Requisites");
-            pageTitle.setStyleName("KS-Course-Requisites-Section-header");  //make the header orange
+            pageTitle.addStyleName("ks-layout-header");  //make the header orange
             layout.add(pageTitle);
         }
 
@@ -213,7 +213,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
         //display "Add Rule" button if user is in 'edit' mode OR a rule is already defined
         final String stmtId = stmtTypeInfo.getId();
-        if (!isReadOnly && rules.getCourseReqInfo(stmtId).isEmpty()) {
+        if (!isReadOnly) { // && rules.getCourseReqInfo(stmtId).isEmpty()) {
             KSButton addCourseReqButton = new KSButton("Add " + stmtTypeInfo.getName(), KSButtonAbstract.ButtonStyle.FORM_SMALL);
             addCourseReqButton.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
@@ -241,6 +241,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     });
                 };
             });
+            addCourseReqButton.setVisible(rules.getCourseReqInfo(stmtId).isEmpty());
             addButtonsList.put(stmtId, addCourseReqButton);
             layout.add(addCourseReqButton);
             VerticalPanel spacer = new VerticalPanel();

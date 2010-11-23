@@ -56,7 +56,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validator.old.DateParser;
+import org.kuali.student.common.validator.DateParser;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -185,7 +185,7 @@ public class DataModelValidator {
 	
     private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey, Map<String, Object> constraintInfo) {
         ValidationResultInfo v = new ValidationResultInfo();    	
-        String rawMsg = Application.getApplicationContext().getMessage(msgKey.getKey());
+        String rawMsg = getValidationMessage(msgKey.getKey());
         v.setElement(element.toString());
         v.setError(MessageUtils.interpolate(rawMsg, constraintInfo));       
         list.add(v);
@@ -193,12 +193,15 @@ public class DataModelValidator {
     
     private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey, Object value ){
         ValidationResultInfo v = new ValidationResultInfo();
-        String rawMsg = Application.getApplicationContext().getMessage(msgKey.getKey());
+        String rawMsg = getValidationMessage(msgKey.getKey());
         v.setElement(element.toString());
         v.setError(MessageUtils.interpolate(rawMsg, msgKey.getProperty(), value));       
         list.add(v);
     }
     
+    protected String getValidationMessage(String msgKey){
+    	return Application.getApplicationContext().getMessage(msgKey);
+    }
     
     private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey){
     	addError(list, element, msgKey.getKey());
@@ -207,7 +210,7 @@ public class DataModelValidator {
     private void addError(List<ValidationResultInfo> list, QueryPath element, String msgKey){
         ValidationResultInfo v = new ValidationResultInfo();
         v.setElement(element.toString());
-        v.setError(Application.getApplicationContext().getMessage(msgKey));       
+        v.setError(getValidationMessage(msgKey));       
         list.add(v);
     }
     
@@ -239,40 +242,58 @@ public class DataModelValidator {
 			QueryPath element = (QueryPath)keys[keyIndex];
 
 			String s = (values.get(element) == null) ? "" : values.get(element).toString();
+			doValidateString(s,element,meta,results);
+								
+		}
+	}
+	
+	
+	public void doValidateString(String s, QueryPath element, Metadata meta,
+			List<ValidationResultInfo> results) {
+		if (s.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, element, REQUIRED);
+		} else if(!s.isEmpty()) {
+			int len = s.length();
+			Integer minLength = getLargestMinLength(meta);
+			Integer maxLength = getSmallestMaxLength(meta);
 			
-			if (s.isEmpty() && isRequiredCheck(meta)) {
-				addError(results, element, REQUIRED);
-			} else if(!s.isEmpty()) {
-				int len = s.length();
-				Integer minLength = getLargestMinLength(meta);
-				Integer maxLength = getSmallestMaxLength(meta);
-				
-				if (minLength != null && maxLength != null) {
-					if (len < minLength || len > maxLength) {
-						addRangeError(results, element, LENGTH_OUT_OF_RANGE, minLength, maxLength);
-					}
-				} else if (minLength != null && len < minLength) {
-					addError(results, element, MIN_LENGTH, minLength);
-				} else if (maxLength != null && len > maxLength) {
-					addError(results, element, MAX_LENGTH, maxLength);
+			if (minLength != null && maxLength != null) {
+				if (len < minLength || len > maxLength) {
+					addRangeError(results, element, LENGTH_OUT_OF_RANGE, minLength, maxLength);
 				}
+			} else if (minLength != null && len < minLength) {
+				addError(results, element, MIN_LENGTH, minLength);
+			} else if (maxLength != null && len > maxLength) {
+				addError(results, element, MAX_LENGTH, maxLength);
+			}
+			
+			// process valid chars constraint
+			if (meta.getConstraints() != null) {
+				boolean failed = false;
+				List<ConstraintMetadata> constraints = meta.getConstraints();
 				
-				// process valid chars constraint
-				if (meta.getConstraints() != null) {
-					boolean failed = false;
-					List<ConstraintMetadata> constraints = meta.getConstraints();
-					
-					for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
-						ConstraintMetadata cons = constraints.get(consIdx);
-						if (failed) {
-							break;
-						}
-						String validChars = cons.getValidChars();
-						validChars = (validChars == null) ? "" : validChars.trim();
-						if (!validChars.isEmpty()) {
-							if (validChars.startsWith("regex:")) {
-								validChars = validChars.substring(6);
-								if (!s.matches(validChars)) {
+				for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
+					ConstraintMetadata cons = constraints.get(consIdx);
+					if (failed) {
+						break;
+					}
+					String validChars = cons.getValidChars();
+					validChars = (validChars == null) ? "" : validChars.trim();
+					if (!validChars.isEmpty()) {
+						if (validChars.startsWith("regex:")) {
+							validChars = validChars.substring(6);
+							if (!s.matches(validChars)) {
+								if(cons.getValidCharsMessageId() != null ){
+									addError(results, element, cons.getValidCharsMessageId());
+								}else{
+									addError(results, element, VALID_CHARS);	
+								}
+								failed = true;
+								break;
+							}
+						} else {
+							for (char c : s.toCharArray()) {
+								if (!validChars.contains(String.valueOf(c))) {
 									if(cons.getValidCharsMessageId() != null ){
 										addError(results, element, cons.getValidCharsMessageId());
 									}else{
@@ -281,27 +302,14 @@ public class DataModelValidator {
 									failed = true;
 									break;
 								}
-							} else {
-								for (char c : s.toCharArray()) {
-									if (!validChars.contains(String.valueOf(c))) {
-										if(cons.getValidCharsMessageId() != null ){
-											addError(results, element, cons.getValidCharsMessageId());
-										}else{
-											addError(results, element, VALID_CHARS);	
-										}
-										failed = true;
-										break;
-									}
-								}
 							}
 						}
 					}
 				}
-			}					
+			}
 		}
 	}
-	
-	
+
 	private void doValidateInteger(DataModel model, Metadata meta,
 			QueryPath path, List<ValidationResultInfo> results) {
 		

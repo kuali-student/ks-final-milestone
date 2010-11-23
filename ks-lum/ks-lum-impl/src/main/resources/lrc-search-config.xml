@@ -261,13 +261,13 @@
 				<entry key="lrc.queryParam.resultComponent.idRestrictionList">
 					<value>rc.id IN (:lrc_queryParam_resultComponent_idRestrictionList)</value>
 				</entry>
-   	<entry key="lrc.queryParam.resultValue.id">
+				<entry key="lrc.queryParam.resultValue.id">
 					<value>rv.id = :lrc_queryParam_resultValue_id</value>
 				</entry>
-   	<entry key="lrc.queryParam.resultValue.value">
+				<entry key="lrc.queryParam.resultValue.value">
 					<value>rv.value = :lrc_queryParam_resultValue_value</value>
 				</entry>
-   	<entry key="lrc.queryParam.resultValue.resultComponent.id">
+				<entry key="lrc.queryParam.resultValue.resultComponent.id">
 					<value>rv.resultComponent.id = :lrc_queryParam_resultValue_resultComponent_id</value>
 				</entry>
 			</map>

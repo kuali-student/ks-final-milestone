@@ -1,16 +1,18 @@
 package org.kuali.student.lum.program.client.major;
 
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.lum.program.client.ProgramStatus;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
 public enum ActionType {
     NO_ACTION(ProgramProperties.get().programAction_title()),
-    MODIFY(ProgramProperties.get().programAction_modify());
+    MODIFY(ProgramProperties.get().programAction_modify()),
+    MODIFY_VERSION(ProgramProperties.get().programAction_modifyVersion());
 
     private final String value;
 
@@ -34,6 +36,18 @@ public enum ActionType {
         return values;
     }
 
+    public static List<String> getValues(boolean showAllActions){
+    	if (showAllActions){
+    		return getValues();
+    	} else {
+    		List<String> values = new ArrayList<String>();
+    		values.add(NO_ACTION.getValue());
+    		values.add(MODIFY.getValue());
+    		
+    		return values;
+    	}
+    }
+    
     public static ActionType of(String value) {
         for (ActionType actionType : values()) {
             if (actionType.getValue().equals(value)) {

@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
@@ -30,7 +31,6 @@ import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
@@ -60,7 +60,7 @@ public class CollaboratorSectionView extends SectionView {
     private FieldDescriptor permissions;    
     private FieldDescriptor actionRequests;
     private FieldDescriptor authorNotation;
-    private KSButton addButton = new KSButton("Add Collaborator");
+    private KSButton addButton = new KSButton("Add Collaborator",ButtonStyle.SECONDARY);
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
@@ -303,11 +303,11 @@ public class CollaboratorSectionView extends SectionView {
 		permissionListItems.clear();
 		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
 		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
-            permissionListItems.addItem(PermissionType.EDIT.getCode(),StudentIdentityConstants.EDIT_COMMENT_VIEW);					
+            permissionListItems.addItem(PermissionType.EDIT.getCode(),"Edit, Comment, View");					
 		}
 
-        permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),StudentIdentityConstants.COMMENT_VIEW);
-        permissionListItems.addItem(PermissionType.OPEN.getCode(),StudentIdentityConstants.VIEW);
+        permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),"Comment, View");
+        permissionListItems.addItem(PermissionType.OPEN.getCode(),"View");
 
 		permissionList.setListItems(permissionListItems);		
 	}
@@ -321,11 +321,11 @@ public class CollaboratorSectionView extends SectionView {
 		PermissionType permType = PermissionType.getByCode(permCode);
 		switch (permType){
 			case ADD_COMMENT: 
-				return StudentIdentityConstants.COMMENT_VIEW;
+				return "Comment, View";
 			case EDIT:
-				return StudentIdentityConstants.EDIT_COMMENT_VIEW;
+				return "Edit, Comment, View";
 			case OPEN:
-				return StudentIdentityConstants.VIEW;				
+				return "View";				
 		}
 		return "";
 	}

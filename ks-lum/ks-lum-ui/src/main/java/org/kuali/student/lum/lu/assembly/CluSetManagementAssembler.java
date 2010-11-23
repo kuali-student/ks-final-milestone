@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.old.BaseAssembler;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -35,6 +35,7 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -43,6 +44,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -369,15 +371,19 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetHelper result = CluSetHelper.wrap(cluSetDetailData);
         if (cluSetInfo != null) {
             if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
-                List<CluInfo> cluInfos = luService.getClusByIdList(cluSetInfo.getCluIds());
+            	List<CluInfo> cluInfos = new ArrayList<CluInfo>();
+            	for(String id:cluSetInfo.getCluIds()){
+            		VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, id);
+            		cluInfos.add(luService.getClu(versionInfo.getId()));
+            	}
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
                     if (cluInfo.getState().equals("Active")) {
-                        result.getApprovedClus().add(cluInfo.getId());
+                        result.getApprovedClus().add(cluInfo.getVersionInfo().getVersionIndId());
                     } else {
-                        result.getProposedClus().add(cluInfo.getId());
+                        result.getProposedClus().add(cluInfo.getVersionInfo().getVersionIndId());
                     }
-                    result.getAllClus().add(cluInfo.getId());
+                    result.getAllClus().add(cluInfo.getVersionInfo().getVersionIndId());
                 }
             }
             if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {

@@ -172,4 +172,9 @@ public class CluResultInfo implements Serializable, Idable, HasTypeState {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+    	return "CluResultInfo[id=" + id + ", cluId=" + cluId + ", type=" + type + "]";
+    }
 }

@@ -49,6 +49,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
@@ -86,9 +87,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
+        checkForMissingParameter(courseInfo, "CourseInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
@@ -110,10 +109,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
-
+        checkForMissingParameter(courseInfo, "CourseInfo");
+        
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
         if (null != validationResults && validationResults.size() > 0) {
@@ -204,7 +201,6 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
         return validationResults;
@@ -286,11 +282,10 @@ public class CourseServiceImpl implements CourseService {
 		}
 
     	ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
         return validationResults;
-    }
+    }   
 
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
@@ -334,21 +329,6 @@ public class CourseServiceImpl implements CourseService {
 		courseServiceMethodInvoker.invokeServiceCalls(results);
 
         return results.getBusinessDTORef();
-    }
-
-    /**
-     * @param validator
-     *            the validator to set
-     */
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    /**
-     * @return the validator
-     */
-    public Validator getValidator() {
-        return validator;
     }
 
     public ValidatorFactory getValidatorFactory() {
@@ -446,7 +426,9 @@ public class CourseServiceImpl implements CourseService {
 			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 				field.setId(null);
 				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(CourseAssemblerConstants.COURSE_REQ_COMP_FIELD_TYPE_CLUSET_ID.equals(field.getType())){
+				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
+				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
+				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
 						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 						cluSet.setId(null);
@@ -527,6 +509,18 @@ public class CourseServiceImpl implements CourseService {
 			OperationFailedException, PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
 			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
+	}
+
+	@Override
+	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 

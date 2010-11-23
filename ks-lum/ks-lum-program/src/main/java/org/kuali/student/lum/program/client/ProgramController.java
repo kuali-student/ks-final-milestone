@@ -1,17 +1,20 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -24,23 +27,29 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
  */
 public abstract class ProgramController extends MenuSectionController {
 
-    protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
+    protected MajorDisciplineRpcServiceAsync programRemoteService;
 
     protected boolean initialized = false;
 
@@ -63,13 +72,20 @@ public abstract class ProgramController extends MenuSectionController {
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name);
+        programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
-        sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
     }
 
+
+    /**
+     * Create a ProgramRpcServiceAsync appropriate for this Controller
+     */
+    protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
+        return GWT.create(MajorDisciplineRpcService.class);
+    }
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
@@ -88,8 +104,7 @@ public abstract class ProgramController extends MenuSectionController {
                                 switch (result) {
                                     case YES:
                                         dialog.hide();
-                                        eventBus.fireEvent(new UpdateEvent(okToChange));
-                                        resetFieldInteractionFlag();
+                                        fireUpdateEvent(okToChange);
                                         break;
                                     case NO:
                                         dialog.hide();
@@ -114,6 +129,10 @@ public abstract class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
+        eventBus.fireEvent(new UpdateEvent(okToChange));
     }
 
     protected void resetModel() {
@@ -150,8 +169,8 @@ public abstract class ProgramController extends MenuSectionController {
         if (modelType == ReferenceModel.class) {
             ReferenceModel referenceModel = new ReferenceModel();
             referenceModel.setReferenceId((String) programModel.get("id"));
-            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_TYPE_ID);
-            referenceModel.setReferenceType(ProgramConstants.MAJOR_OBJECT_ID);
+            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("name", (String) programModel.get("name"));
             referenceModel.setReferenceAttributes(attributes);
@@ -183,14 +202,36 @@ public abstract class ProgramController extends MenuSectionController {
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
+                configurer.applyPermissions();
                 //We don't want to throw ModelLoadedEvent when we just want to rollback the model
                 if (needToLoadOldModel) {
                     needToLoadOldModel = false;
                 } else {
+                    if (null != programModel.get(ProgramConstants.ID)) {
+                        // add to recently viewed
+                        ViewContext docContext = new ViewContext();
+                        docContext.setId((String) programModel.get(ProgramConstants.ID));
+                        docContext.setIdType(IdType.OBJECT_ID);
+                        String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                        docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
+                        RecentlyViewedHelper.addDocument(getProgramName(), 
+                                HistoryManager.appendContext(getProgramViewLocation(pgmType) , docContext));
+                    }
                     eventBus.fireEvent(new ModelLoadedEvent(programModel));
                 }
             }
         });
+    }
+
+    private String getProgramViewLocation(String pgmType) {
+        if (ProgramClientConstants.MAJOR_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CORE_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(pgmType)) {
+            return AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation();
+        }
+        return null;
     }
 
     protected void setStatus() {
@@ -307,5 +348,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void doSave() {
+    }
+
+   private void updateViewContext(){
+
+   }
+
+    public DataModel getProgramModel() {
+        return programModel;
     }
 }

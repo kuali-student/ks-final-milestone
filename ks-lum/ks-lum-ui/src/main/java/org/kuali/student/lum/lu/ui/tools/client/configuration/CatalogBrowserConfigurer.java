@@ -59,7 +59,9 @@ public class CatalogBrowserConfigurer {
 
 	public void configureCatalogBrowser (CatalogBrowserController layout)
 	{
-		layout.setContentTitle("Browse Course Catalog");
+		//layout.setContentTitle("Browse Course Catalog");
+		layout.addStyleName("browseCatalog");
+		layout.setBasicTitle("Browse Course Catalog");
 		layout.addTab(createBrowseBySubjectAreaSection (), "Browse By Subject Area");
 		layout.addTab(createBrowseBySchoolSection (), "Browse By School");
 		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
@@ -69,7 +71,7 @@ public class CatalogBrowserConfigurer {
 	{
 		VerticalSectionView nestedSectionView =
 			new VerticalSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
-					getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
+					"",
 					CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
@@ -80,7 +82,7 @@ public class CatalogBrowserConfigurer {
 	{
 		VerticalSectionView nestedSectionView =
 			new VerticalSectionView (Sections.BROWSE_BY_SCHOOL,
-					getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
+					"",
 					CATALOG_BROWSER_MODEL);
 		String fieldKey =  CatalogBrowserConstants.FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));

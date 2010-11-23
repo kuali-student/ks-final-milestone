@@ -7,7 +7,9 @@ import org.kuali.student.core.assembly.data.Data;
  */
 public class ProgramRegistry {
 
-   private static Data data;
+    private static Data data;
+
+    private static int row;
 
     private static Enum<?> section;
 
@@ -17,6 +19,14 @@ public class ProgramRegistry {
 
     public static void setData(Data data) {
         ProgramRegistry.data = data;
+    }
+
+    public static int getRow() {
+        return row;
+    }
+
+    public static void setRow(int row) {
+        ProgramRegistry.row = row;
     }
 
     public static Enum<?> getSection() {

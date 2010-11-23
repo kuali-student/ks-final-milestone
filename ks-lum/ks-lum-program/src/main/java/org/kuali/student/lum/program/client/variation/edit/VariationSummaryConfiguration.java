@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
@@ -27,9 +26,9 @@ public class VariationSummaryConfiguration extends AbstractControllerConfigurati
         configurationManager.registerConfiguration(VariationInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(true));
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);

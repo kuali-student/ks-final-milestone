@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -24,6 +25,13 @@ public class TabMenuController extends LayoutController{
 		header.setVisible(false);
 		layout.add(tabPanel);
 		this.initWidget(layout);
+	}
+	
+	/**
+	 * Do not use in combination with setContentTitle
+	 */
+	public void setBasicTitle(String titleText){
+		layout.insert(SectionTitle.generateH1Title(titleText), 0);
 	}
 	
     public void setContentTitle(String title){

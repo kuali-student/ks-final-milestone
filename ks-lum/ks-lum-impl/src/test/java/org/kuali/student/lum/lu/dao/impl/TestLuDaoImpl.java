@@ -107,7 +107,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	public void testVersionQueries() throws Exception{
 		List<VersionDisplayInfo> versions;
 		versions = dao.getVersions("CLU-VERSIONTEST-IND", "foo.com");
-		assertEquals(5,versions.size());
+		assertEquals(6,versions.size());
 		
 		VersionDisplayInfo versionDisplay; 
 		versionDisplay = dao.getCurrentCluVersionInfo("CLU-VERSIONTEST-IND", "foo.com");
@@ -122,6 +122,9 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		versionDisplay = dao.getFirstVersion("CLU-VERSIONTEST-IND", "foo.com");
 		assertEquals("CLU-VERSIONTEST-V0", versionDisplay.getId());
 		
+		versionDisplay = dao.getLatestVersion("CLU-VERSIONTEST-IND", "foo.com");
+		assertEquals("CLU-VERSIONTEST-V5", versionDisplay.getId());
+
 		versionDisplay = dao.getVersionBySequenceNumber("CLU-VERSIONTEST-IND", "foo.com", Long.valueOf(3));
 		assertEquals("CLU-VERSIONTEST-V3", versionDisplay.getId());
 		

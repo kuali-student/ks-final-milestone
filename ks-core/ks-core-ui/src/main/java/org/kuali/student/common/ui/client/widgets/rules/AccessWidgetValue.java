@@ -1,6 +1,9 @@
 package org.kuali.student.common.ui.client.widgets.rules;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.core.assembly.data.Metadata;
 
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the
@@ -19,4 +22,5 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 public interface AccessWidgetValue {
     public void getValue(final Callback<String> doneSaveCallback);
     public void setValue(String id);
+    public void initWidget(List<Metadata> fieldsMetadata);
 }

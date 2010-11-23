@@ -18,10 +18,10 @@ package org.kuali.student.common.assembly;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.old.Assembler;
+import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class AddOneAssembler implements Assembler<Integer,Integer>{

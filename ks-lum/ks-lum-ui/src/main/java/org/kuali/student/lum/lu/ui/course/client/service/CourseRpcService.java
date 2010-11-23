@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,5 +32,8 @@ public interface CourseRpcService extends BaseDataOrchestrationRpcService{
                                                                         Map<Integer, StatementTreeViewInfo> rules) throws Exception;    
     public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;    
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
+    public StatusInfo changeState(String courseId, String newState) throws Exception;
+    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception;
+ 
 }

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.annotation.XmlElement;
-
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -108,12 +106,14 @@ public class Metadata implements Serializable {
         _toString(sb);
         return sb.toString();
     }
-
+    
     protected void _toString(StringBuilder sb) {
         Data.DataType type = (dataType == null) ? Data.DataType.DATA : dataType;
         sb.append("Type: ");
         sb.append(type.toString());
         sb.append(", Default: ");
+        sb.append(", canEdit: " + canEdit);
+        sb.append(", canView: " + canView);
         sb.append(defaultValue == null ? "null" : defaultValue.toString());
         sb.append(", Properties: {");
         if (childProperties != null) {
@@ -134,6 +134,8 @@ public class Metadata implements Serializable {
         // TODO dump lookup/constraint/etc info as well
     }
 
+    
+    
     public List<ConstraintMetadata> getConstraints() {
         if (constraints == null) {
             constraints = new ArrayList<ConstraintMetadata>();

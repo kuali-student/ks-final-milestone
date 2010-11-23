@@ -70,8 +70,8 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE = "fixedCreditValue";
 	public static final String COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE = "minCreditValue";
 	public static final String COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE = "maxCreditValue";
+    public static final String COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR = "creditValueIncrement";
 	public static final String COURSE_RESULT_COMP_CREDIT_PREFIX = "kuali.creditType.credit.degree.";
-
 
 	//FIXME ask norm for these values
 	public static final String COURSE_CODE_SPECIAL_TOPICS = "kuali.lu.code.specialTopics";
@@ -94,7 +94,4 @@ public class CourseAssemblerConstants {
 
 	// State
 	public static final String ACTIVE = "Active";
-	
-	
-	public static final String COURSE_REQ_COMP_FIELD_TYPE_CLUSET_ID = "kuali.reqComponent.field.type.course.cluSet.id";
 }

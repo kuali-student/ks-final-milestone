@@ -17,12 +17,16 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -62,7 +66,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 		//assembling minCredits & maxCredits
 		assembleCredits(clu, progReq);
-		
+
 		if (progReq.getStatement() == null) {
 			try {
 				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId());
@@ -126,6 +130,22 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 			throw new AssemblyException("Error getting existing learning unit during program requirement update", e);
         }
 
+        if (operation.equals(NodeOperation.DELETE)) {
+            try {
+				final List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(progReq.getId());
+	            final BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo> cluRelation = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo>(null);
+	            if (relations.size() > 1) {
+	            	throw new AssemblyException("Unable to dissamble ProgramRequirement, more than one CluCluRelation found");
+	            } else if (relations.size() == 1) {
+	            	cluRelation.setNodeData(relations.get(0));
+	            	cluRelation.setOperation(operation);
+	            	result.getChildNodes().add(cluRelation);
+	            }
+			} catch (Exception e) {
+				throw new AssemblyException(e);
+			}
+        }
+
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> cluResult = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(this);
 
         cluResult.setNodeData(clu);
@@ -133,11 +153,11 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         cluResult.setOperation(operation);
         result.getChildNodes().add(cluResult);
 
-        programAssemblerUtils.disassembleBasics(clu, progReq, operation);
-        
+        programAssemblerUtils.disassembleBasics(clu, progReq);
+
 		//disassembling minCredits & maxCredits
         disassembleCredits(clu, progReq);
-		
+
         progReq.setId(clu.getId());
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
         official.setLongName(progReq.getLongTitle());
@@ -197,12 +217,12 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
-		
+
 		if(progReq.getMinCredits() != null) attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
 		if(progReq.getMaxCredits() != null) attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
-		clu.setAttributes(attributes);		
+		clu.setAttributes(attributes);
 	}
-	
+
 	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = clu.getAttributes();
 		if(attributes != null){
@@ -212,7 +232,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 				progReq.setMaxCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MAX_CREDITS)));
 		}
 	}
-	
+
 	public StatementTreeViewAssembler getStatementTreeViewAssembler() {
 		return statementTreeViewAssembler;
 	}

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-M9.3-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -122,32 +122,6 @@
       <groupId>org.kuali.student.security</groupId>
       <artifactId>ks-sts</artifactId>
       <version>${project.version}</version>
-    </dependency>
-
-    <!-- these are needed for rice jsp's to work properly -->
-    <dependency>
-      <groupId>tomcat</groupId>
-      <artifactId>jasper-compiler</artifactId>
-      <version>5.5.15</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>tomcat</groupId>
-      <artifactId>jasper-compiler-jdt</artifactId>
-      <version>5.5.15</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>tomcat</groupId>
-      <artifactId>jasper-runtime</artifactId>
-      <version>5.5.15</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jdt</groupId>
-      <artifactId>core</artifactId>
-      <version>3.1.1</version>
-      <scope>runtime</scope>
     </dependency>
 
     <!--  Sources for GWT Compile -->

@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
@@ -28,6 +29,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -56,66 +58,73 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	protected boolean isValidationEnabled = true;
 	protected boolean isDirty = false;
 
+	/**
+	 * Note if a field has been marked as hidden in the dictionary, this method will not add this field to the layout.
+	 * If it is not visible the key returned by making call to addField is null.
+	 */
 	@Override
 	public String addField(final FieldDescriptor fieldDescriptor) {
-
-        fields.add(fieldDescriptor);
-        String key = layout.addField(fieldDescriptor.getFieldElement());
-
-        ValidationEventBinding binding = new ValidationEventBindingImpl();
-        if(fieldDescriptor.getValidationRequestCallback()== null){
-            fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
-                @Override
-                public void exec(Boolean result) {
-            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
-            	    if (mwb != null) {
-            	        final Widget w = fieldDescriptor.getFieldWidget();
-            	        final String modelId = fieldDescriptor.getModelId();
-            	        final Controller parent;
-                        Controller findResult = LayoutController.findParentLayout(w);
-                        if(BaseSection.this instanceof View){
-                        	findResult = ((View)BaseSection.this).getController();
-                        }
-                        parent = findResult;
-                        if(parent != null){
-                        	if (modelId == null) {
-                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
-
-                        			@Override
-                        			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model, parent);
-                        				
-                        			}
-
-                        			@Override
-                        			public void onRequestFail(Throwable cause) {
-                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                        			}
-
-                        		});
-                        	} else {
-                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-
-                        			@Override
-                        			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model, parent);
-                        			}
-
-                        			@Override
-                        			public void onRequestFail(Throwable cause) {
-                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                        			}
-
-                        		});                        	}
-            	    	}
-                    } else {
-                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                    }
-                }
-            });
-        }
-        binding.bind(fieldDescriptor);
-
+		String key = null;
+		
+		if (fieldDescriptor.isVisible()){
+			fields.add(fieldDescriptor);
+	        key = layout.addField(fieldDescriptor.getFieldElement());
+	
+	        ValidationEventBinding binding = new ValidationEventBindingImpl();
+	        if(fieldDescriptor.getValidationRequestCallback()== null){
+	            fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
+	                @Override
+	                public void exec(Boolean result) {
+	            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+	            	    if (mwb != null) {
+	            	        final Widget w = fieldDescriptor.getFieldWidget();
+	            	        final String modelId = fieldDescriptor.getModelId();
+	            	        final Controller parent;
+	                        Controller findResult = LayoutController.findParentLayout(w);
+	                        if(BaseSection.this instanceof View){
+	                        	findResult = ((View)BaseSection.this).getController();
+	                        }
+	                        parent = findResult;
+	                        if(parent != null){
+	                        	if (modelId == null) {
+	                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
+	
+	                        			@Override
+	                        			public void onModelReady(DataModel model) {
+	                        				validateField(fieldDescriptor, model, parent);
+	
+	                        			}
+	
+	                        			@Override
+	                        			public void onRequestFail(Throwable cause) {
+	                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+	                        			}
+	
+	                        		});
+	                        	} else {
+	                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+	
+	                        			@Override
+	                        			public void onModelReady(DataModel model) {
+	                        				validateField(fieldDescriptor, model, parent);
+	                        			}
+	
+	                        			@Override
+	                        			public void onRequestFail(Throwable cause) {
+	                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+	                        			}
+	
+	                        		});                        	}
+	            	    	}
+	                    } else {
+	                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
+	                    }
+	                }
+	            });
+	        }
+	        binding.bind(fieldDescriptor);
+		}	       
+	        
         return key;
 	}
 
@@ -132,7 +141,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			controller.fireApplicationEvent(e);
 		}
 	}
-	
+
 	private void dirtyCheckField(FieldDescriptor fieldDescriptor, DataModel model){
         QueryPath fieldPath = QueryPath.parse(fieldDescriptor.getFieldKey());
 		QueryPath qPathDirty = fieldPath.subPath(0, fieldPath.size() - 1);
@@ -140,16 +149,16 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	    qPathDirty.add(ModelWidgetBindingSupport.DIRTY_PATH);
 	    qPathDirty.add(fieldPath.get(fieldPath.size()-1));
 	    Boolean dirty = false;
-	    
+
 	    if(ensureDirtyFlagPath(model.getRoot(), qPathDirty)){
 	    	dirty = model.get(qPathDirty);
 	    }
 	    if(dirty){
-	    	isDirty = true;
+	    	setIsDirty(true);
 	    	fieldDescriptor.setDirty(true);
 	    }
 	}
-	
+
     protected boolean ensureDirtyFlagPath(Data root, QueryPath path) {
         Data current = root;
         boolean containsFlag = false;
@@ -172,7 +181,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	@Override
 	public String addSection(Section section) {
 
-        sections.add(section);
+        section.setLayoutController(layoutController);
+		sections.add(section);
         String key = layout.addLayout(section.getLayout());
         return key;
 	}
@@ -208,7 +218,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public List<Section> getSections() {
 		return sections;
 	}
-	
+
 	@Override
 	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation){
 		if(clearAllValidation){
@@ -221,18 +231,16 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			for(FieldDescriptor f: this.fields){
 
 				if(f.hasHadFocus()){
-					//System.out.println("Processing field " + f.getFieldKey());
 					for(ValidationResultInfo vr: results){
-						if(vr.getElement().equals(f.getFieldKey())){
+                        String vrElement = vr.getElement();
+                        if(vrElement.startsWith("/")){
+                            vrElement = vrElement.substring(1);
+                        }
+						if(vrElement.equals(f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
-							//System.out.println("Checking validation on field " + f.getFieldKey());
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
-								if(fieldStatus == ErrorLevel.ERROR){
-									System.out.println("Error: " + f.getFieldKey());
-								}
 								if(fieldStatus.getLevel() > status.getLevel()){
-
 									status = fieldStatus;
 								}
 							}
@@ -267,7 +275,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            		}
 	            	}
 				}
-			
+
 			}
 
 	        for(Section s: sections){
@@ -305,7 +313,6 @@ public abstract class BaseSection extends SpanPanel implements Section{
     public void setFieldHasHadFocusFlags(boolean hadFocus) {
         for(FieldDescriptor f: fields){
             f.setHasHadFocus(hadFocus);
-            System.out.println(f.getFieldKey() + " has had focus");
             if(f.getFieldWidget() instanceof MultiplicityComposite){
 				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
 
@@ -356,7 +363,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
 
     }
-    
+
     @Override
     public void resetDirtyFlags() {
     	this.isDirty = false;
@@ -464,7 +471,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			//Check child sections for dirtyness
 			for(Section s: sections){
 				if(s.isDirty()){
-					isDirty = true;
+					setIsDirty(true);
 					break;
 				}
 			}
@@ -473,9 +480,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	}
 
     public void setIsDirty(boolean state) {
-        isDirty = state;
+		//Should this trust layoutController to be already set?
+    	if (layoutController == null){
+    		layoutController = LayoutController.findParentLayout(layout);
+    	}
+    	if (isDirty != state){
+        	isDirty = state;
+	    	if (layoutController != null && isDirty){
+	    		layoutController.fireApplicationEvent(new ContentDirtyEvent());
+	    	}
+    	}
     }
-	
+
 	/**
 	 * Do not use this method for adding sections, fields, or widgets to sections
 	 */
@@ -483,21 +499,21 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public void add(Widget w) {
 		super.add(w);
 	}
-	
+
 	@Override
 	public void addStyleName(String style) {
 		layout.addStyleName(style);
 	}
-	
+
 	@Override
 	public void setStyleName(String style) {
 		layout.setStyleName(style);
 	}
-	
+
 	public void setInstructions(String html){
 		layout.setInstructions(html);
 	}
-	
+
 	public void setHelp(String html){
 		layout.setHelp(html);
 	}

@@ -120,7 +120,8 @@
 }
 
 .KS-LOBuilder-LO-Panel {
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .KS-LOWindow {
@@ -156,10 +157,11 @@
 }
 
 .KS-LOCategoryPicker {
-               border-style:dashed; 
-               font-size:1em; 
-               padding:2px 5px 5px;
-               width:20em; 
+    border-style: dashed;
+    font-size: 1em;
+    margin: 0 5px 0 70px;
+    padding: 2px 5px 5px;
+    width: 100%;
 
 }
 
@@ -177,14 +179,14 @@ margin-bottom: 15px;
 	width:50px;
 }
 .KS-LONodeIndentToolbar {
-    width:50px;
+    width:47px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
-                    background-color:#F2F9F9;
-                    border:1px solid #D2D8E3;
-                    height:50px;
-                    width:400px;
+    background-color: #F2F9F9;
+    border: 1px solid #D2D8E3;
+    height: 50px;
+    width: 790px;
 }
 .KS-LOHNodePanel {
 }
@@ -193,12 +195,11 @@ margin-bottom: 15px;
 	height: 32px;
 }
 .KS-LOButtonPanel {
-    border-bottom: medium none;
-    border-left: #D2D8E3 1px solid;
-    width: 100%;
     border-collapse: collapse;
-    border-top: #D2D8E3 1px solid;
-    border-right: #D2D8E3 1px solid;
+    border-color: #D2D8E3;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    width: 100%;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
@@ -257,11 +258,12 @@ margin-bottom: 15px;
     margin: 4px 0 0;
 }
 .KS-LODeleteButton{
-                    background:none repeat scroll 0 0 transparent;
-                    border:medium none;
-                    color:blue;
-                    font-size :0.916em;
-                    margin:8px 4px 1px 457px;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: blue;
+    float: right;
+    font-size: 0.916em;
+    margin: 8px 4px 1px 320px;  /* not ideal but the quickest fix */
 
 }
 .KS-LODeleteButtonDisabled{
@@ -277,12 +279,17 @@ margin-bottom: 15px;
 	cursor: pointer;
 }
 .KS-LOTextArea {
-                    border:1px solid #888888;
-                    height:2.95em;
-                    margin:8px;
-                    width:28em;
+    border: 1px solid #888888;
+    height: 62px;
+    margin: 8px;
+    width: 35em;
 
 }
+
+.loText-count-label{
+	margin-left: 8px;
+}
+
 .KS-LOSelectedCategories {
     margin-left: 0px;	
 }
@@ -320,18 +327,18 @@ margin-bottom: 15px;
 	margin-left: 10px;
 }
 .Lum-DocumentHeader-Spacing {
-    margin-left: 20px;
+    margin-left: 0px;
 }
 .KSLOCategoryManagementMainPanel {
 	margin-top: 5px;
-    margin-left: 20px;
+    margin-left: 0px;
 }
 .KSLOCategoryManagementFilterPanel {
 	padding-right: 20px;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.5em;
 }
 
 .KS-Action-List{
@@ -404,6 +411,10 @@ padding:10px
 
 }
 
+.browseCatalog .KS-TabPanel-Small .KS-TabPanel-Content{
+	width: 940px;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}
@@ -471,3 +482,96 @@ padding:10px
 .TableIndent-8{text-indent:80px;}
 .SummaryTable-EvenRow{background-color:  #FAFAFA;}
 .SummaryTable-OddRow{background-color: #F0F0F0;}
+
+.KS-LOSecondaryButton {
+	line-height:1.93em;
+	text-decoration:none;
+
+	background-color: #EEEEEE;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	\-moz-border-radius: 3px;
+	\-webkit-border-radius: 3px;
+	border: 1px solid #999999;
+	padding: 3px 8px 2px 8px;
+	color: #2C61E6;
+	font-size: 1em;
+	margin-left: 10px;
+}
+.KS-LOSecondaryButtonDisabled {
+	line-height:1.93em;
+	text-decoration:none;
+
+	background-color: #F8F8F8;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
+	\-moz-border-radius: 3px;
+	\-webkit-border-radius: 3px;
+	border: 1px solid #999999;
+	padding: 3px 8px 2px 8px;
+	color: #999999;
+	font-size: 1em;
+	margin-left: 10px;
+}
+.KS-LOSelectAllHyperlink {
+	margin-right: 7px;
+}
+.KS-LOClearHyperlink {
+	margin-left: 7px;
+}
+.KS-LOFunnelImg{
+    background: url("images/funnel-small.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogTitle{
+	font-size: 1.5em;
+	color: red;
+}
+.KS-LODialogFieldLabel{
+	font-weight: bold;
+	margin-right: 10px;
+}
+.KS-LODialogCancel {
+	margin-left: 7px;
+	vertical-align: bottom;
+}
+.KS-LOSpacer {
+    width: 20px;
+    height:20px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogLabel{
+	font-weight: bold;
+	width: 130px;
+	text-align:left
+}
+
+.acknowledgements{
+	margin-left: 30px;
+	width: 900px;
+}
+
+.acknowledgements p{
+	font-size: 1.1em;
+}
+
+.acknowledgements h1{
+	padding-bottom: 5px;
+	border-bottom: 2px solid black;
+	font-weight: bold;
+}
+
+.acknowledgements h2{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.acknowledgements h3{
+    font-size: 1.1em;
+    font-weight: bold;
+	margin-bottom: 0px;
+}

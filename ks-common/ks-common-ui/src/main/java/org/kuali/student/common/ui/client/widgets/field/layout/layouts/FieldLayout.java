@@ -50,7 +50,7 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 
 
 	private static String getNextId() {
-		return "fieldComponent" + (generatedKeyNum);
+		return "fieldComponent" + (generatedKeyNum++);
 	}
 
 	public void underlineTitle(boolean underline){

@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -33,6 +34,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -68,6 +70,7 @@ public class MultiplicityGroup extends Composite {
     private boolean loaded = false;
     private int itemCount = 0;
     private String parentPath;
+    private boolean isDirty = false;
 
     private Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition;
     private List<String> deletionParentKeys;
@@ -290,6 +293,10 @@ public class MultiplicityGroup extends Composite {
                                     ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
                                         .getModelWidgetBindingInstance();
                                     concreteFieldDescriptor.setFieldWidget(fieldWidget);
+                                    if(fieldWidget instanceof ListOfStringWidget){
+                                    	((ListOfStringWidget)fieldWidget).setFd(concreteFieldDescriptor);
+                                    }
+                                    
                                     concreteFieldDescriptor.setWidgetBinding(mwb);
                                 }
                                 conditionSection.addField(concreteFieldDescriptor);
@@ -438,6 +445,37 @@ public class MultiplicityGroup extends Composite {
 	public void setConfig(MultiplicityConfiguration config) {
 		this.config = config;
 	}   
+	
+    public void resetDirtyFlags() {
+    	isDirty = false;
+		for (MultiplicityGroupItem item:items){
+			item.resetDirtyFlags();
+			Widget itemWidget = item.getItemWidget();
+			if (itemWidget instanceof BaseSection){
+				((BaseSection)itemWidget).resetDirtyFlags();
+			}
+		}
+    }
+	
+	public boolean isDirty(){
+		for (MultiplicityGroupItem item:items){
+			if (item.isDirty()){
+				isDirty = true;
+				break;
+			} else {
+				Widget itemWidget = item.getItemWidget();
+				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+					isDirty = true;
+					break;
+				}
+			}
+		}
+		return isDirty;
+	}
+	
+	public void setIsDirty(boolean dirty){
+		isDirty = dirty;
+	}
 	
     public class ConditionChoices extends KSRadioButtonList{
         private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);

@@ -223,6 +223,15 @@
                 <entry key="kuali.reqComponent.type.course.courseset.completed.max">
                     <ref local="luContext"/>
                 </entry>
+                <entry key="kuali.reqComponent.type.program.cumulative.gpa.min">
+                    <ref local="gpaContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.program.duration.gpa.min">
+                    <list>
+	                    <ref local="atpContext"/>                
+						<ref local="gpaContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>

@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-M9.3-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.common</groupId>
   <artifactId>ks-common</artifactId>
@@ -32,6 +32,21 @@
         <module>ks-common-api</module>
         <module>ks-common-impl</module>
         <module>ks-common-ui</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-gwt</id>
+      <modules>
+        <module>ks-cxf</module>
+        <module>ks-metro</module>
+        <module>ks-eclipselink</module>
+        <module>ks-hibernate</module>
+        <module>ks-jta</module>
+        <module>ks-rice-lessdep</module>
+        <module>ks-common-util</module>
+        <module>ks-common-test</module>
+        <module>ks-common-api</module>
+        <module>ks-common-impl</module>
       </modules>
     </profile>
   </profiles>
