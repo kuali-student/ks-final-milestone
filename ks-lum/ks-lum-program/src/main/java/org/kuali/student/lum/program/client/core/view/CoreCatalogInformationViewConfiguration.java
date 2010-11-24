@@ -33,7 +33,7 @@ public class CoreCatalogInformationViewConfiguration extends AbstractSectionConf
     protected void buildLayout() {
         TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
         configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr()));
-        configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
+        configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
         configurer.addReadOnlyField(section, ProgramConstants.PUBLICATION_TARGETS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogPublicationTargets()));
         configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl()));
         rootSection.addSection(section);
