@@ -18,6 +18,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -282,12 +284,23 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     	return actionList;
     }
     
-    private void updateState(DataModel cluModel) {
+    private void updateState(final DataModel cluModel) {
     	if(cluModel.get("state") != null){
 	    	statusLabel.setText("Status: " + cluModel.get("state"));
 	    	
 	    	for(CourseWorkflowActionList widget: actionDropDownWidgets){
-				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);
+				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel, new Callback<String>() {
+					@Override
+			        public void exec(String newState) {
+			            if (newState != null) {
+			                KSNotifier.add(new KSNotification(getMessage("cluStateChangeNotification" + newState), false, 5000));
+			                // FIXME: this is not updating the cluModel so state will not be updated in the model.  May not be a problem.
+			                statusLabel.setText("Status: " + newState);
+			            } else {
+			            	KSNotifier.add(new KSNotification(getMessage("cluStateChangeFailedNotification"), false, 5000));
+			            }
+			        }
+				});
 				widget.updateCourseActionItems(cluModel);
 				widget.setEnabled(true);
 				if(widget.isEmpty()) {

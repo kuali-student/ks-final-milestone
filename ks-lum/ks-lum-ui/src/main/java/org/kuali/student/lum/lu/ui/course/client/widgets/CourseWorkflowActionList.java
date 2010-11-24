@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -16,6 +17,8 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -65,19 +68,19 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     }
 
-	public CourseWorkflowActionList(String label, final ViewContext viewContext, final String modifyPath, DataModel model) {
+	public CourseWorkflowActionList(String label, final ViewContext viewContext, final String modifyPath, DataModel model, final Callback<String> stateChangeCallback) {
     	super(label);
         
     	this.setVisible(false);
         this.addStyleName("KS-Workflow-DropDown");
         
-        init(viewContext, modifyPath, model);
+        init(viewContext, modifyPath, model, stateChangeCallback);
 	}
 	
-	public void init (final ViewContext viewContext, final String modifyPath, final DataModel model) {
+	public void init (final ViewContext viewContext, final String modifyPath, final DataModel model, final Callback<String> stateChangeCallback) {
 
 		if (!this.isInitialized) {
-	    	buildActivateDialog();
+	    	buildActivateDialog(stateChangeCallback);
 	    	
 	    	this.isCurrentVersion = CourseWorkflowActionList.isCurrentVersion(model);
 	    	
@@ -154,8 +157,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
     		return "Activate this course makes it viewable and available for scheduling. The previous version will be inactivated, and available for reference in the version history.";
     }
     
-    private void buildActivateDialog(){
+    private void buildActivateDialog(final Callback<String> stateChangeCallback){
 	    FlowPanel panel = new FlowPanel();
+	    
+	    activateDialog.setMaxHeight(200);
+	    activateDialog.setMaxWidth(200);
 	    
 	    // TODO: use messages
 	    activateSection = new VerticalSection(SectionTitle.generateH2Title("Activate Course"));
@@ -167,8 +173,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
                 //activateSection.updateModel(cluModel);
                 //set previous active to superseded
                 //set this version to active
-                setCourseState(LUUIConstants.LU_STATE_ACTIVE);
-                activateDialog.hide();
+                setCourseState(LUUIConstants.LU_STATE_ACTIVE, stateChangeCallback);
+                activateDialog.hide();                
             }
 	    });
 	    activateDialog.addButton(activate);
@@ -188,7 +194,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     // This depends heavily on updateCourseActionItems().  Changes there will 
     // affect assumptions made here
-    private void setCourseState(String newState) {
+    private void setCourseState(final String newState, final Callback<String> stateChangeCallback) {
     	KSBlockingProgressIndicator.addTask(processingTask);
     	
     	rpcServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
@@ -197,12 +203,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        public void handleFailure(Throwable caught) {
  	            Window.alert("Error Updating State: "+caught.getMessage());
  	            KSBlockingProgressIndicator.removeTask(processingTask);
+ 	            // defer to controller to notify
+ 	            //KSNotifier.add(new KSNotification("Course Activation Failed.", false, 5000));
+ 	            stateChangeCallback.exec(null);
  	        }
  	
  	        @Override
- 	        public void onSuccess(StatusInfo result) {
- 	        	
- 	        	KSBlockingProgressIndicator.removeTask(processingTask); 	        
+ 	        public void onSuccess(StatusInfo result) { 	        	
+ 	        	KSBlockingProgressIndicator.removeTask(processingTask);
+ 	        	// defer to controller to notify
+ 	            //KSNotifier.add(new KSNotification("Course Activated.", false, 5000));
+ 	        	stateChangeCallback.exec(newState);
  	        }
     	});
     	

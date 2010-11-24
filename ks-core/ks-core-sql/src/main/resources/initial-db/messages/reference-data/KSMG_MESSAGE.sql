@@ -1371,3 +1371,9 @@ INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR)
 INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR)
   VALUES ('course','0282bba0-e111-11df-85ca-0800200c9a66','en','cluActionsLabel','Course Actions',1)
 /
+INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR)
+  VALUES ('course','fa63be60-f7e0-11df-98cf-0800200c9a66','en','cluStateChangeNotificationActive','Course Activated.',1)
+/
+INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR)
+  VALUES ('course','fa63be61-f7e0-11df-98cf-0800200c9a66','en','cluStateChangeFailedNotification','Failed to change Course State',1)
+/

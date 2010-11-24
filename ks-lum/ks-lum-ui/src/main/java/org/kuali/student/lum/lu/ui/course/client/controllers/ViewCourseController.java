@@ -36,6 +36,8 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -140,7 +142,18 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
      
     public Widget generateActionDropDown(){		    	
-    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel);
+    	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel, new Callback<String>() {
+    		@Override
+    		public void exec(String newState) {
+    			if (newState != null) {
+                    KSNotifier.add(new KSNotification(getMessage("cluStateChangeNotification" + newState), false, 5000));
+                    // FIXME: this is not updating the cluModel so state will not be updated in the model.  May not be a problem.
+                    statusLabel.setText("Status: " + newState);
+    			} else {
+                    KSNotifier.add(new KSNotification(getMessage("cluStateChangeFailedNotification"), false, 5000));
+    			}
+    		}
+    	});
         actionDropDownWidgets.add(actionList);
         
     	return actionList;
@@ -383,14 +396,18 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	else{
     		title = "Course";
     	}
-
-    	if(cluModel.get("state") != null){
-    		statusLabel.setText("Status: " + cluModel.get("state"));
-    	}
+    	
+    	updateStatus();
     	
     	this.setContentTitle(title);
     	this.setName(title);
     	WindowTitleUtils.setContextTitle(title);
+    }
+    
+    private void updateStatus() {
+    	if(cluModel.get("state") != null){
+    		statusLabel.setText("Status: " + cluModel.get("state"));
+    	}
     }
     
     private CloseHandler<KSLightBox> createActionSubmitSuccessHandler() {
