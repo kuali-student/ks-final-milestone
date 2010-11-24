@@ -4324,6 +4324,8 @@
                    <value>Approved</value>
                    <value>Active</value>
                    <value>Retired</value>
+                   <value>Draft</value>
+                   <value>draft</value>
                </list>
            </property>
        </bean>
