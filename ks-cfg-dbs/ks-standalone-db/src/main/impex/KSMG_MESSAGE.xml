@@ -1997,6 +1997,14 @@
         ID="fa2c5475-5ae4-4be8-8ba4-a45ed21e9a76" LOCALE="es"
         MSG_ID="cluFormats" MSG_VALUE="Formatos del curso"
         OBJ_ID="b063b98d-6d1d-4f52-8cc8-1a33bce73d99" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="fa63be60-f7e0-11df-98cf-0800200c9a66" LOCALE="en"
+        MSG_ID="cluStateChangeNotificationActive"
+        MSG_VALUE="Course Activated." VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="fa63be61-f7e0-11df-98cf-0800200c9a66" LOCALE="en"
+        MSG_ID="cluStateChangeFailedNotification"
+        MSG_VALUE="Failed to change Course State" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="fbe76ea1-a686-4d1a-9c16-c0059b148a3f" LOCALE="en"
         MSG_ID="go" MSG_VALUE="Go"
