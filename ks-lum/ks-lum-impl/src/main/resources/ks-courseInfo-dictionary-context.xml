@@ -1285,26 +1285,31 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
- <!-- Redefine the ResultComponentInfo to have dynamic attributes -->
- <bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
-       parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
-  <property name="attributes">
-   <list merge="true">
-	<ref bean="resultComponentInfo.desc" />
-	<ref bean="resultComponentInfo.effectiveDate" />
-	<ref bean="resultComponentInfo.expirationDate" />
-	<ref bean="resultComponentInfo.id" />
-	<ref bean="resultComponentInfo.name" />
-	<ref bean="resultComponentInfo.resultValuesNumeric" />
-	<ref bean="resultComponentInfo.state" />
-	<ref bean="resultComponentInfo.type" />
-    <ref bean="resultComponentInfo.minCreditValue"/>
-    <ref bean="resultComponentInfo.maxCreditValue"/>
-    <ref bean="resultComponentInfo.fixedCreditValue"/>
-   </list>
-  </property>
+<!-- Redefine the ResultComponentInfo to have dynamic attributes -->
+<bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
+      parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
+ <property name="attributes">
+  <list>
+   <ref bean="resultComponentInfo.desc" />
+   <ref bean="resultComponentInfo.effectiveDate" />
+   <ref bean="resultComponentInfo.expirationDate" />
+   <ref bean="resultComponentInfo.id" />
+   <ref bean="resultComponentInfo.name" />
+   <ref bean="resultComponentInfo.resultValuesNumeric" />
+   <ref bean="course.resultComponentInfo.state" />
+   <ref bean="resultComponentInfo.type" />
+   <ref bean="resultComponentInfo.minCreditValue"/>
+   <ref bean="resultComponentInfo.maxCreditValue"/>
+   <ref bean="resultComponentInfo.fixedCreditValue"/>
+  </list>
+ </property>
+</bean>
+<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+
+ <bean id="course.resultComponentInfo.state-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="state"/>
  </bean>
- <bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+ <bean id="course.resultComponentInfo.state" parent="course.resultComponentInfo.state-parent"/>
 
  <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValues" />
