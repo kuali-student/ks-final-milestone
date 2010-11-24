@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,18 @@ public class TestProgramServiceImpl {
     @Autowired
     public StatementService statementService;
     private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
+    
+    /**
+     * A set of methods that have a dummy implementation in ProgramServiceImpl.  Method names should be removed from here once
+     * they have a working implementation.
+     */
+    private final String[] DUMMY_SERVICE_METHODS = {"createHonorsProgram", "createMinorDiscipline", "deleteHonorsProgram", 
+            "deleteMinorDiscipline", "getCredentialProgramType", "getCredentialProgramTypes", 
+            "getHonorsByCredentialProgramType", "getHonorsProgram", "getMajorIdsByCredentialProgramType", 
+            "getMinorDiscipline", "getMinorsByCredentialProgramType", "updateHonorsProgram", "updateMinorDiscipline", 
+            "validateHonorsProgram", "validateMinorDiscipline", "getSearchCriteriaType", "getSearchCriteriaTypes", 
+            "getSearchResultType", "getSearchResultTypes", "getSearchType", "getSearchTypes", "getSearchTypesByCriteria", 
+            "getSearchTypesByResult", "search"};
 
     @Test
     public void testProgramServiceSetup() {
@@ -1506,4 +1519,46 @@ public class TestProgramServiceImpl {
         
         invokeForExpectedException(methods, InvalidParameterException.class);
     }
+    
+    /**
+     * 
+     * This method is a catch-all test for code coverage.  
+     * It calls methods in ProgramServiceImpl that have contracts in the interface but are not yet implemented
+     * All calls are expected to return null.  Once a method is implemented, its name should be removed from
+     * the DUMMY_SERVICE_METHODS array.
+     * 
+     * NOTE: This method does not work for methods that are overloaded (i.e. have two declarations with the same name, but different parameters)
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testCallDummyMethods() throws Exception {
+        // We need to get the Method objects, but we do not know or care about the parameter types for the methods
+        // so get the all methods of the service and load them into a hashtable, indexed by method name
+        Method[] serviceMethods = ProgramService.class.getMethods();
+        Map<String, Method> methodMap = new HashMap<String, Method>();
+        
+        for(Method m : serviceMethods) {
+            // if a method is already loaded into the map, ignore subsequent instances with the same name
+            if(!methodMap.containsKey(m.getName())) {
+                methodMap.put(m.getName(), m);
+            }
+        }
+        
+        for(String s : DUMMY_SERVICE_METHODS) {
+            Method dummyMethod = methodMap.get(s);
+            
+            if(dummyMethod == null) {
+                throw new Exception("No method " + s + " defined in ProgramService");
+            }
+            
+            // create a set of null parameters to pass to the method
+            Object[] params = new Object[dummyMethod.getParameterTypes().length];
+            
+            Object returned = dummyMethod.invoke(programService, params);
+            
+            assertTrue("The invocation of " + s + " returned a non-null value", returned == null);
+        }
+    }
+    
 }
