@@ -186,7 +186,7 @@ class TomcatUtilsLinux < TomcatUtils
 		
 		startupCommand = @tomcatCommandPrefix + '/startup.sh' + @tomcatCommandSuffix
 		
-		@deployConfig.log 'About to run shutdown command: ' + startupCommand
+		@deployConfig.log 'About to run startup command: ' + startupCommand
 		
 		IO.popen(startupCommand) { |f|
 			@deployConfig.log f.readlines
