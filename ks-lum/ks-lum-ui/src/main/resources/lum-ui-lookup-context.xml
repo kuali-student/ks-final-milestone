@@ -1082,7 +1082,7 @@
             value="Search atp type described by session, duration and year" />
   <property name="widget" value="DROP_DOWN" />
   <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
-  <property name="resultSortKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
   <property name="results">
    <list>
     <bean parent="result">
