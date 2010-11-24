@@ -939,13 +939,13 @@
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentState" subSearchParam="lu.queryParam.luOptionalCurrentState"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.luVariationsByName" key="var">
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
-            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentState" subSearchParam="lu.queryParam.luOptionalCurrentState"/>
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
@@ -1009,12 +1009,16 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
    	<search:queryParam id="lu.queryParam.luOptionalSingleState" parent="lu.queryParam.luOptionalSingleState-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalSingleState-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
+    <search:queryParam id="lu.queryParam.luOptionalCurrentState" parent="lu.queryParam.luOptionalCurrentState-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCurrentState-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
 	</search:queryParam>
 
@@ -1040,7 +1044,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1085,7 +1089,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1375,6 +1379,22 @@
                 <entry key="lu.queryParam.luOptionalSingleState">
 					<value>lower(clu.state) like '%' || LOWER(:lu_queryParam_luOptionalSingleState) || '%' </value>
 				</entry>
+				<entry key="lu.queryParam.luOptionalCurrentState">
+					<value>
+                            (clu.state IN (:lu_queryParam_luOptionalCurrentState)
+                            OR (clu.state NOT IN (:lu_queryParam_luOptionalCurrentState)
+                               <!-- no active programs for this code -->
+                               AND (select count(*) from Clu clu3, CluIdentifier ident3
+                                    where clu3.officialIdentifier.id = ident3.id
+                                      and ident3.code = ident1.code
+                                      and clu3.state IN (:lu_queryParam_luOptionalCurrentState)) = 0
+                               <!-- only 1 program for this code -->
+                               AND  (select count(*)  from Clu clu4, CluIdentifier ident4
+                                        where clu4.officialIdentifier.id = ident4.id
+                                          and ident4.code = ident1.code
+                                          and clu4.state NOT IN (:lu_queryParam_luOptionalCurrentState)) =1)))
+                    </value>
+				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>
 				</entry>
@@ -1448,23 +1468,21 @@
 				</entry>
                 <entry key="lu.search.luProgramsByName">
                      <value>
-                         SELECT clu.id,' ', ident1.code, clu.state, clu.luType.id, ident1.longName, 'N/A'  
+                         SELECT clu.id,' ', ident1.code, clu.state, clu.luType.id, ident1.longName, 'N/A'
                          FROM Clu clu, CluIdentifier ident1
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'
-                          <!--AND clu.version.currentVersionEnd IS NULL-->
                      </value>
                  </entry>
                 <entry key="lu.search.luVariationsByName">
                      <value>
-                         SELECT clu2.id, clu.id,  ident.code, clu.state,  clu.luType.id, ident2.longName, ident.longName
-                         FROM Clu clu, CluIdentifier ident, Clu clu2, CluIdentifier ident2, CluCluRelation rel
+                         SELECT clu2.id, clu.id,  ident1.code, clu.state,  clu.luType.id, ident2.longName, ident1.longName
+                         FROM Clu clu, CluIdentifier ident1, Clu clu2, CluIdentifier ident2, CluCluRelation rel
                          WHERE clu.id = rel.relatedClu.id    and  rel.clu.id = clu2.id
-                         and  clu.officialIdentifier.id = ident.id
+                         and  clu.officialIdentifier.id = ident1.id
                          and  clu2.officialIdentifier.id = ident2.id
                          AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
                          AND clu.luType.id = 'kuali.lu.type.Variation'
-                         <!--AND clu.version.currentVersionEnd IS NULL-->
                      </value>
                  </entry>
             </map>

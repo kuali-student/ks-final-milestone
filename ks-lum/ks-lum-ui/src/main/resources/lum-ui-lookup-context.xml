@@ -4310,8 +4310,8 @@
      <property name="usage" value="CUSTOM"/>
      <property name="widget" value="DROPDOWN_LIST"/>
     </bean>
-       <bean parent="param">
-           <property name="key" value="lu.queryParam.luOptionalState" />
+      <bean parent="param">
+           <property name="key" value="lu.queryParam.luOptionalCurrentState" />
            <property name="name" value="Program Status" />
            <property name="desc" value="CLU State" />
            <property name="dataType" value="STRING"/>
@@ -4321,14 +4321,29 @@
            <property name="usage" value="ADVANCED"/>
            <property name="defaultValueList">
                <list>
-                   <value>Approved</value>
                    <value>Active</value>
-                   <value>Retired</value>
-                   <value>Draft</value>
-                   <value>draft</value>
                </list>
            </property>
        </bean>
+       <!--<bean parent="param">-->
+           <!--<property name="key" value="lu.queryParam.luOptionalState" />-->
+           <!--<property name="name" value="Program Status" />-->
+           <!--<property name="desc" value="CLU State" />-->
+           <!--<property name="dataType" value="STRING"/>-->
+           <!--<property name="writeAccess" value="NEVER" />-->
+           <!--<property name="optional" value="true"/>-->
+           <!--<property name="caseSensitive" value="false" />-->
+           <!--<property name="usage" value="ADVANCED"/>-->
+           <!--<property name="defaultValueList">-->
+               <!--<list>-->
+                   <!--<value>Approved</value>-->
+                   <!--<value>Active</value>-->
+                   <!--<value>Retired</value>-->
+                   <!--<value>Draft</value>-->
+                   <!--<value>draft</value>-->
+               <!--</list>-->
+           <!--</property>-->
+       <!--</bean>-->
    </list>
   </property>
   <property name="resultReturnKey" value="lu.resultColumn.cluId"/>
