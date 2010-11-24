@@ -138,6 +138,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 categoryManagement.setUpdateButtonEnabled(false);
                 
                 final KSLightBox pop = new KSLightBox();
+                pop.setSize(600, 500);
                 KSButton addButton = new KSButton("Add");
                 addButton.addStyleName("KSLOLightBoxButton");
                 KSButton cancelButton = new KSButton("Cancel");
@@ -149,7 +150,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 
                 
                 VerticalPanel mainPanel = new VerticalPanel();
-                mainPanel.addStyleName("KSLOLightBoxMainPanel");
+                //mainPanel.addStyleName("KSLOLightBoxMainPanel");
                 mainPanel.add(categoryManagement);
                 mainPanel.add(buttonPanel);
                 
