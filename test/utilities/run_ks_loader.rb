@@ -33,3 +33,9 @@ puts "Cmd: java -jar ~/ks-loader.jar atp #{ENV['KS_LOADER_RESOURCES']}/ATP Calen
 out=`java -jar ~/ks-loader.jar atp "#{ENV['KS_LOADER_RESOURCES']}/ATP Calendar.xls" #{url}`
 puts "ATP load:"
 puts out
+
+puts ""
+puts "Cmd: java -jar ~/ks-loader.jar test #{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls #{url}"
+out=`java -jar ~/ks-loader.jar test "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
+puts "Test load:"
+puts out
