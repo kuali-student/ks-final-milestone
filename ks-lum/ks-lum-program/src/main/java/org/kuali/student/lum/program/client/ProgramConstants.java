@@ -106,7 +106,7 @@ public class ProgramConstants {
     public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = CREDENTIAL_PROGRAM + "/" + INSTITUTION + "/" + RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;
     public static final String CREDENTIAL_PROGRAM_TYPE_NAME = CREDENTIAL_PROGRAM + "/" + RUNTIME_DATA + "/" + CREDENTIAL_PROGRAM_TYPE + "/" + ID_TRANSLATION;
     public static final String CREDENTIAL_PROGRAM_LEVEL = CREDENTIAL_PROGRAM + "/" + PROGRAM_LEVEL;
-
+    public static final String ACCREDITING_AGENCY_ORG_ID_TRANSLATION = RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;
 
     public static final List<String> RICH_TEXT_KEYS = Arrays.asList("/" + DESCRIPTION, "/" + CATALOG_DESCRIPTION);
 }
