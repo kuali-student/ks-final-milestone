@@ -94,7 +94,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return courseService.deleteCourse(courseId);
+        return courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
     }
 
     @Override
@@ -105,11 +105,11 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         setReqCompNL(rule);
         return rule;
     }
-    
+
     public StatusInfo changeState(String courseId, String newState) throws Exception {
-    	return changeState(courseId, newState, null);    	
+    	return changeState(courseId, newState, null);
     }
-    
+
     public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
     	CourseInfo thisVerCourse = courseService.getCourse(courseId);
     	String prevState = thisVerCourse.getState();
@@ -119,8 +119,8 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 		String curVerId = curVerDisplayInfo.getId();
 		CourseInfo currVerCourse = courseService.getCourse(curVerId);
 		String currVerState = currVerCourse.getState();
-		boolean isCurrVer = (courseId.equals(currVerCourse.getId()));		
-		
+		boolean isCurrVer = (courseId.equals(currVerCourse.getId()));
+
 		StatusInfo ret = new StatusInfo();
 		try {
 			if (newState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
@@ -133,9 +133,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 							currVerState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
 						updateCourseVersionStates(thisVerCourse, newState, currVerCourse, LUUIConstants.LU_STATE_SUPERSEDED, true, currentVersionStart);
 					}
-					
+
 				} else if (prevState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
-					
+
 				}
 			}
 			ret.setSuccess(new Boolean(true));
@@ -143,13 +143,13 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 			ret.setSuccess(new Boolean(false));
 			ret.setMessage(e.getMessage());
 		}
-		
+
 		return ret;
     }
-    
+
     /**
      * Based on null values, updates states of thisVerCourse and currVerCourse and sets thisVerCourse as the current version.  Attempts to rollback transaction on exception.
-     * 
+     *
      * @param thisVerCourse this is the version that the user selected to change the state
      * @param thisVerNewState this is state that the user selected to change thisVerCourse to
      * @param currVerCourse this is the current version of the course (currentVersionStartDt <= now && currentVersionEndDt > now)
@@ -161,25 +161,25 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     private void updateCourseVersionStates (CourseInfo thisVerCourse, String thisVerNewState, CourseInfo currVerCourse, String currVerNewState, boolean makeCurrent, Date currentVersionStart) throws Exception {
     	String thisVerPrevState = thisVerCourse.getState();
     	String currVerPrevState = currVerCourse.getState();
-    	
+
     	// TODO: need to put this in a transaction
     	if (thisVerNewState == null) {
     		throw new InvalidParameterException("new state cannot be null");
     	} else {
     		thisVerCourse.setState(thisVerNewState);
-    		courseService.updateCourse(thisVerCourse);    		
+    		courseService.updateCourse(thisVerCourse);
     	}
-    	
+
     	// won't get called if previous exception was thrown
     	if (currVerNewState != null) {
     		currVerCourse.setState(currVerNewState);
     		courseService.updateCourse(currVerCourse);
-    		
+
     	}
-    	
+
     	if (makeCurrent == true) {
-    		courseService.setCurrentCourseVersion(thisVerCourse.getId(), currentVersionStart);    		
-    	}    	
+    		courseService.setCurrentCourseVersion(thisVerCourse.getId(), currentVersionStart);
+    	}
 
     }
 
