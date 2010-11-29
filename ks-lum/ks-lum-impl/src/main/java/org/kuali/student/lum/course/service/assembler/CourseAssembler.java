@@ -749,6 +749,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return results;
 	}
 	
+	// TODO Use CluAssemblerUtils
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleLos(String cluId,
 			CourseInfo course, NodeOperation operation) throws AssemblyException {
 		// TODO Auto-generated method stub
@@ -778,6 +779,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		        
                 // the lo does not exist, so create
                 // Assemble and add the lo
+		    	loDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE);
                 results.add(loNode);
