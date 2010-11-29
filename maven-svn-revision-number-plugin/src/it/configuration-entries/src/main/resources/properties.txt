@@ -1,4 +1,0 @@
-default = p=${configuration-entries.path} r=${configuration-entries.revision} cr=${configuration-entries.committedRevision} m=${configuration-entries.mixedRevisions} s=${configuration-entries.status} ss=${configuration-entries.specialStatus}
-single = p=${single.path} r=${single.revision} cr=${single.committedRevision} m=${single.mixedRevisions} s=${single.status} ss=${single.specialStatus}
-multiple1 = p=${multiple1.path} r=${multiple1.revision} cr=${multiple1.committedRevision} m=${multiple1.mixedRevisions} s=${multiple1.status} ss=${multiple1.specialStatus}
-multiple2 = p=${multiple2.path} r=${multiple2.revision} cr=${multiple2.committedRevision} m=${multiple2.mixedRevisions} s=${multiple2.status} ss=${multiple2.specialStatus}
