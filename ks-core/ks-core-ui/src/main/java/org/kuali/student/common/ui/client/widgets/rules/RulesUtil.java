@@ -234,5 +234,13 @@ public class RulesUtil {
     public static boolean isGradeWidget(String fieldType) {
         return ((fieldType.toLowerCase().equals("kuali.reqComponent.field.type.grade.id".toLowerCase())) ||
                 (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())));
-    }    
+    }
+
+    public static boolean isCourseWidget(String fieldType) {
+        return (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.course.clu.id".toLowerCase()));
+    }
+
+    public static boolean isProgramWidget(String fieldType) {
+        return (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.program.clu.id".toLowerCase()));
+    }
 }

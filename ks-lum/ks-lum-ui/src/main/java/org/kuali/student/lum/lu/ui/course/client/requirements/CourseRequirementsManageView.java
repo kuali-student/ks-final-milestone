@@ -15,8 +15,9 @@
 
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -35,14 +36,17 @@ import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.statement.dto.*;
-import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
-import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
-import org.kuali.student.lum.common.client.widgets.GradeWidget;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.lum.common.client.widgets.*;
+import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,11 +55,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
     private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
+    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);    
 
     protected static final String TEMLATE_LANGUAGE = "en";
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
     protected static final String RULEPREVIEW_TEMLATE = "KUALI.RULE.PREVIEW";
     protected static final String COMPOSITION_TEMLATE = "KUALI.RULE.COMPOSITION";
+    private static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
+    private static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
 
     private CourseRequirementsViewController parentController;
 
@@ -318,13 +325,53 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         });
     }
 
-    private List<Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
-        List<Widget> customWidgets = new ArrayList<Widget>();
+    private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
+        Map<String, Widget> customWidgets = new HashMap<String, Widget>();
 
         for (ReqComponentTypeInfo reqCompTypeInfo : reqComponentTypeInfoList) {
             for (ReqCompFieldTypeInfo fieldTypeInfo : reqCompTypeInfo.getReqCompFieldTypeInfos()) {
                 if (RulesUtil.isGradeWidget(fieldTypeInfo.getId())) {
-                    customWidgets.add(new GradeWidget());
+                    customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
+                } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
+
+                    final CourseWidget courseWidget = new CourseWidget();
+                    
+                    courseWidget.addGetCluNameCallback(new Callback() {
+
+                        @Override
+                        public void exec(Object id) {
+
+                            luRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    Window.alert(throwable.getMessage());
+                                    GWT.log("Failed to retrieve clu for id: '" +  "'", throwable);
+                                }
+
+                                @Override
+                                public void onSuccess(final VersionDisplayInfo versionInfo) {
+                                    luRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                        @Override
+                                        public void onFailure(Throwable throwable) {
+                                            Window.alert(throwable.getMessage());
+                                            GWT.log("Failed to retrieve clu", throwable);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(CluInfo cluInfo) {
+                                            courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
+                                        }
+                                    });
+                                }
+                            });
+
+
+                        }
+                    });
+
+                    customWidgets.put("kuali.reqComponent.field.type.course.clu.id", courseWidget);
+                } else if (RulesUtil.isProgramWidget(fieldTypeInfo.getId())) {
+                    customWidgets.put("kuali.reqComponent.field.type.program.clu.id", new ProgramWidget(new CluSetRetrieverImpl()));
                 }
             }
         }
@@ -352,7 +399,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
             if (fieldTypes.contains("kuali.reqComponent.field.type.grade.id")) {
                 fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
-            }            
+            }
 
             metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
@@ -381,7 +428,6 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType, new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
-            } else if (RulesUtil.isGradeWidget(fieldType)) {
             }
         }
     };

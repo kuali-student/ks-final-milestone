@@ -342,7 +342,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
-    private Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+    protected Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);

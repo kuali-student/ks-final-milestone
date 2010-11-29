@@ -26,9 +26,12 @@ import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.apache.log4j.Logger;
 
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
@@ -36,6 +39,7 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     final static Logger LOG = Logger.getLogger(StatementRpcServlet.class);
     
     private StatementService statementService;
+    private LuService luService;
     
     private static final long serialVersionUID = 822326113643828855L;
 
@@ -139,7 +143,21 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     	return nls;
     }
 
+    @Override
+    public CluInfo getClu(String cluId) throws Exception {
+        return luService.getClu(cluId);
+    }
+
+    @Override
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws Exception {
+        return luService.getCurrentVersion(refObjectTypeURI, refObjectId);
+    }
+
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
+    }
+
+    public void setLuService(LuService luService) {
+        this.luService = luService;
     }
 }

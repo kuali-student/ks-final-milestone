@@ -52,7 +52,7 @@ public class ReqCompEditWidget extends FlowPanel {
     private DataModel ruleFieldsData;
     private BasicLayout reqCompFieldsLayout;
     private Map<String, Widget> customWidgets = new HashMap<String, Widget>();
-    private List<Widget> customWidgetsNew;
+    private Map<String, Widget> customWidgetsNew;
 
     //other
     private Callback reqCompConfirmCallback;
@@ -349,7 +349,7 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldType = selectedReqCompFieldTypes.get(ix++);
 
             //add clusets separately
-            if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
+            if (RulesUtil.isCluSetWidget(fieldType)) {
                 displayCustomWidgetCallback.exec(fieldType);
                 continue;
             }
@@ -358,28 +358,32 @@ public class ReqCompEditWidget extends FlowPanel {
             FieldDescriptor fd;
             if (RulesUtil.isGradeWidget(fieldType)) {
 
-                if (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())) {
+                if (fieldType.equals("kuali.reqComponent.field.type.gradeType.id")) {
                     fieldGradeTypeMetadata = fieldMetadata;
                 }
-                if (fieldType.toLowerCase().equals("kuali.reqComponent.field.type.grade.id".toLowerCase())) {
+                if (fieldType.equals("kuali.reqComponent.field.type.grade.id")) {
                     fieldGradeMetadata = fieldMetadata;
                 }
 
                 if ((fieldGradeTypeMetadata != null) && (fieldGradeMetadata != null)) {
-                    Widget gradeWidget = customWidgetsNew.get(0);
+                    fieldType = "kuali.reqComponent.field.type.grade.id";
+                    Widget gradeWidget = customWidgetsNew.get(fieldType);
                     List<Metadata> fieldsMetadata = new ArrayList<Metadata>();
                     fieldsMetadata.add(fieldGradeTypeMetadata);
                     fieldsMetadata.add(fieldGradeMetadata);
                     ((AccessWidgetValue)gradeWidget).initWidget(fieldsMetadata);
-                    fieldType = "kuali.reqComponent.field.type.grade.id";
                     fieldLabel = getFieldLabel(fieldType);
                     fieldMetadata = fieldGradeMetadata;
                     fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata, gradeWidget);
                 } else {
                     continue;
                 }
+            } else if (RulesUtil.isCluWidget(fieldType)) {
+                Widget customWidget = customWidgetsNew.get(fieldType);
+                ((AccessWidgetValue)customWidget).initWidget(null);
+                fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata, customWidget);
             } else {
-                 fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
+                fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
             }
 
             //reqCompFieldsPanel.addField(fd);
@@ -391,8 +395,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //now we add fields to the panel in proper order based on composition template
         for (String type : getFieldSequence()) {
-            if (RulesUtil.isCluSetWidget(type) || RulesUtil.isCluWidget(type) ||
-                type.toLowerCase().equals("kuali.reqComponent.field.type.gradeType.id".toLowerCase())) {
+            if (RulesUtil.isCluSetWidget(type) || type.equals("kuali.reqComponent.field.type.gradeType.id")) {
                 continue;
             }
             reqCompFieldsPanel.addField(fields.get(type));
@@ -416,8 +419,11 @@ public class ReqCompEditWidget extends FlowPanel {
             for (String fieldType : selectedReqCompFieldTypes) {
                 String fieldValue = getFieldValue(reqCompFields, fieldType);
                 if (fieldValue != null) {
-                    if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
+                    if (RulesUtil.isCluSetWidget(fieldType)) {
                         ((AccessWidgetValue)customWidgets.get(fieldType)).setValue(fieldValue);
+                    } else if (RulesUtil.isCluWidget(fieldType)) {
+                        ((AccessWidgetValue)customWidgetsNew.get(fieldType)).setValue(fieldValue);
+                        ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);
                     } else {
                         ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);
                     }
@@ -605,7 +611,7 @@ public class ReqCompEditWidget extends FlowPanel {
         setEnableAddRuleButtons(false);
     }
 
-    public void setCustomWidgets(List<Widget> customWidgets) {
+    public void setCustomWidgets(Map<String, Widget> customWidgets) {
         customWidgetsNew = customWidgets;
     }
 

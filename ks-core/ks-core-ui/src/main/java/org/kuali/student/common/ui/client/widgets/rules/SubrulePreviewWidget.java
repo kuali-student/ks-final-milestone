@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
@@ -24,7 +23,6 @@ public class SubrulePreviewWidget extends FlowPanel {
     private SpanPanel separator = new SpanPanel(" | ");
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
     private boolean isReadOnly = true;
-    private Callback getClusetWidgetCallback;
     private Map<String, Widget> clusetWidgets;
     private final String CLU_SET_WIDGET_TAG = "[CLU_SET_WIDGET_TAG]";
 
@@ -211,9 +209,5 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     public void addDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);
-    }
-
-    public void setRetrieveClusetWidgetCallback(Callback<String> callback) {
-        getClusetWidgetCallback = callback;
     }
 }

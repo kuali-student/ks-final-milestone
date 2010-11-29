@@ -294,7 +294,7 @@
     
     <!--Program Servlet Declaration-->
     <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
-        <property name="service" ref="luClient"/>
+        <property name="luService" ref="luClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
