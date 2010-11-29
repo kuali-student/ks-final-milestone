@@ -363,7 +363,7 @@
     </bean>
 
     <bean id="majorDisciplineTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -376,7 +376,7 @@
     </bean>
     
     <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -388,7 +388,7 @@
     </bean>
     
     <bean id="coreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
-        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
                 <!-- Order of filters is important -->
@@ -483,6 +483,16 @@
     </bean>
 
     <bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+        <constructor-arg>
+            <list>
+                <ref bean="courseClient"/>
+                <ref bean="proposalClient"/>
+            </list>
+        </constructor-arg>
+        <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
+    </bean>
+
+    <bean id="programMetadataServiceImpl" class="org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl">
         <constructor-arg>
             <list>
                 <ref bean="courseClient"/>
