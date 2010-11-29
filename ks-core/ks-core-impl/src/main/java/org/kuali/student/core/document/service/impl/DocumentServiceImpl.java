@@ -21,9 +21,10 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
@@ -61,8 +62,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;
+    private ValidatorFactory validatorFactory;
     private SearchManager searchManager;
-    private Validator validator;
     
     public DocumentDao getDocumentDao(){
         return dao;
@@ -92,12 +93,23 @@ public class DocumentServiceImpl implements DocumentService {
 	DocumentType type;
 	DocumentCategory  category;
 	
+    // Validate
+    List<ValidationResultInfo> validationResults;
+    try {
+        validationResults = validateDocument("OBJECT", documentInfo);
+    } catch (DoesNotExistException e) {
+        throw new OperationFailedException("Validation call failed." + e.getMessage());
+    }
+    if (null != validationResults && validationResults.size() > 0) {
+        throw new DataValidationErrorException("Validation error!", validationResults);
+    }
+	
 	try {
 	    type = dao.fetch(DocumentType.class, documentTypeKey);
 	    category = dao.fetch(DocumentCategory.class, documentCategoryKey);
 	} catch (DoesNotExistException dnee) {
 	    throw new OperationFailedException("error fetching document keys", dnee);
-        }
+    }
 	
 	Document doc = DocumentServiceAssembler.toDocument(new Document(), documentInfo, dao);
 	doc.setType(type);
@@ -216,6 +228,11 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(documentInfo, "documentInfo");
         
+        List<ValidationResultInfo> validationResults = validateDocument("OBJECT", documentInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
         Document document = dao.fetch(Document.class, documentId);
         
         if (!String.valueOf(document.getVersionNumber()).equals(documentInfo.getMetaInfo().getVersionInd())){
@@ -232,10 +249,11 @@ public class DocumentServiceImpl implements DocumentService {
     public List<ValidationResultInfo> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(documentInfo, "documentInfo");
-
-		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(documentInfo, getObjectStructure("documentInfo")); 
-
-		return valResults;        
+        
+        ObjectStructureDefinition objStructure = this.getObjectStructure(DocumentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(documentInfo, objStructure);
+        return validationResults;        
     }
 
 
@@ -243,7 +261,11 @@ public class DocumentServiceImpl implements DocumentService {
     public List<ValidationResultInfo> validateRefDocRelation(String validationType, RefDocRelationInfo refDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
-	throw new OperationFailedException("unimplemented");
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(RefDocRelationInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refDocRelationInfo, objStructure);
+        return validationResults;        
     }
 
     @Override
@@ -253,6 +275,16 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(refDocRelationTypeKey, "refDocRelationTypeKey");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
         
+        List<ValidationResultInfo> validationResults;
+        try {
+            validationResults = validateRefDocRelation("OBJECT", refDocRelationInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Validation call failed." + e.getMessage());
+        }
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+                         
         refDocRelationInfo.setRefObjectTypeKey(refObjectTypeKey);
         refDocRelationInfo.setRefObjectId(refObjectId);
         refDocRelationInfo.setType(refDocRelationTypeKey);;
@@ -267,6 +299,11 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
         
+        List<ValidationResultInfo> validationResults = validateRefDocRelation("OBJECT", refDocRelationInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+                
         refDocRelationInfo.setId(refDocRelationId);
         
         RefDocRelation refDocRelation = dao.fetch(RefDocRelation.class, refDocRelationId);
@@ -314,16 +351,21 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
     
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+
+    @Override
+    public List<String> getObjectTypes() {
+        return dictionaryServiceDelegate.getObjectTypes();
     }
     
     public DictionaryService getDictionaryServiceDelegate() {
         return dictionaryServiceDelegate;
     }
 
-    public void setDictionaryServiceDelegate(
-            DictionaryService dictionaryServiceDelegate) {
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
@@ -343,11 +385,11 @@ public class DocumentServiceImpl implements DocumentService {
 		this.searchManager = searchManager;
 	}
 
-	public Validator getValidator() {
-		return validator;
-	}
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
 
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }	
 }

@@ -38,10 +38,10 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavCont
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.*;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.*;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;

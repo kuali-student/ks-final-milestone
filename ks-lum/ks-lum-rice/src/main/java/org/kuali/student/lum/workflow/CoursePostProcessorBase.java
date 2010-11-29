@@ -14,9 +14,10 @@ import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 /**
@@ -27,34 +28,34 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
 
     // TODO: switch to courseService so validation is correct
-    private LuService luService;
+    private CourseService courseService;
 
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Will set CLU state to '" + LUConstants.LU_STATE_SUBMITTED + "'");
-        CluInfo cluInfo = getLuService().getClu(getCluId(proposalInfo));
-        updateClu(actionTakenEvent, LUConstants.LU_STATE_SUBMITTED, cluInfo);
+        CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
+        updateCourse(actionTakenEvent, LUConstants.LU_STATE_SUBMITTED, courseInfo);
     }
 
     @Override
     protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
-        String cluId = getCluId(proposalInfo);
-        CluInfo cluInfo = getLuService().getClu(cluId);
-        updateClu(actionTakenEvent, null, cluInfo);
+        String cluId = getCourseId(proposalInfo);
+        CourseInfo courseInfo = getCourseService().getCourse(cluId);
+        updateCourse(actionTakenEvent, null, courseInfo);
         return true;
     }
 
     @Override
     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
-        // update the clu state if the cluState value is not null (allows for clearing of the state)
-        String cluId = getCluId(proposalInfo);
-        CluInfo cluInfo = getLuService().getClu(cluId);
-        String cluState = getCluStateForRouteStatus(cluInfo.getState(), statusChangeEvent.getNewRouteStatus());
-        updateClu(statusChangeEvent, cluState, cluInfo);
+        // update the course state if the cluState value is not null (allows for clearing of the state)
+        String courseId = getCourseId(proposalInfo);
+        CourseInfo courseInfo = getCourseService().getCourse(courseId);
+        String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus());
+        updateCourse(statusChangeEvent, courseState, courseInfo);
         return true;
     }
 
-    protected String getCluId(ProposalInfo proposalInfo) throws OperationFailedException {
+    protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
             LOG.error("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
             throw new OperationFailedException("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with docId='" + proposalInfo.getWorkflowId() + "' and proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
@@ -69,20 +70,20 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_APPROVED);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else {
             // no status to set
             return null;
@@ -93,51 +94,51 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * Default behavior is to return the <code>newCluState</code> variable only if it differs from the
      * <code>currentCluState</code> value. Otherwise <code>null</code> will be returned.
      */
-    protected String getCluStateFromNewState(String currentCluState, String newCluState) {
+    protected String getCourseStateFromNewState(String currentCourseState, String newCourseState) {
         if (LOG.isInfoEnabled()) {
-            LOG.info("current CLU state is '" + currentCluState + "' and new CLU state will be '" + newCluState + "'");
+            LOG.info("current CLU state is '" + currentCourseState + "' and new CLU state will be '" + newCourseState + "'");
         }
-        return getStateFromNewState(currentCluState, newCluState);
+        return getStateFromNewState(currentCourseState, newCourseState);
     }
 
-    protected void updateClu(IDocumentEvent iDocumentEvent, String cluState, CluInfo cluInfo) throws Exception {
-        // only change the state if the clu is not currently set to that state
+    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo) throws Exception {
+        // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
-        if (cluState != null) {
+        if (courseState != null) {
             if (LOG.isInfoEnabled()) {
-                LOG.info("Setting state '" + cluState + "' on CLU with cluId='" + cluInfo.getId() + "'");
+                LOG.info("Setting state '" + courseState + "' on CLU with cluId='" + courseInfo.getId() + "'");
             }
-            cluInfo.setState(cluState);
+            courseInfo.setState(courseState);
             requiresSave = true;
         }
         if (LOG.isInfoEnabled()) {
-            LOG.info("Running preProcessCluSave with cluId='" + cluInfo.getId() + "'");
+            LOG.info("Running preProcessCluSave with cluId='" + courseInfo.getId() + "'");
         }
-        requiresSave |= preProcessCluSave(iDocumentEvent, cluInfo);
+        requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
         if (requiresSave) {
-            getLuService().updateClu(cluInfo.getId(), cluInfo);
+            getCourseService().updateCourse(courseInfo);
             
-            //For a newly approved clu (w/no prior active versions), make the new clu the current version.
-            if (LUConstants.LU_STATE_APPROVED.equals(cluState) && cluInfo.getVersionInfo().getCurrentVersionStart() == null){
+            //For a newly approved course (w/no prior active versions), make the new course the current version.
+            if (LUConstants.LU_STATE_APPROVED.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
 
             	// if current version's state is not active then we can set this course as the active course
-            	if (!LUConstants.LU_STATE_ACTIVE.equals(getLuService().getClu(getLuService().getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
-            		getLuService().setCurrentCluVersion(cluInfo.getId(), null);
+            	if (!LUConstants.LU_STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
+            		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null);
             	}
             }
         }
 
     }
 
-    protected boolean preProcessCluSave(IDocumentEvent iDocumentEvent, CluInfo cluInfo) {
+    protected boolean preProcessCourseSave(IDocumentEvent iDocumentEvent, CourseInfo courseInfo) {
         return false;
     }
 
-    protected LuService getLuService() {
-        if (this.luService == null) {
-            this.luService = (LuService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lu","LuService")); 
+    protected CourseService getCourseService() {
+        if (this.courseService == null) {
+            this.courseService = (CourseService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/course","CourseService")); 
         }
-        return this.luService;
+        return this.courseService;
     }
 
 }

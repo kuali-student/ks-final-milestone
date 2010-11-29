@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
@@ -62,6 +64,7 @@ public class ProposalServiceImpl implements ProposalService {
 
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
+    private ValidatorFactory validatorFactory;
     
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
@@ -79,6 +82,13 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+        
         if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
@@ -234,6 +244,13 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+        
         proposalInfo.setId(proposalId);
         if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
@@ -252,8 +269,11 @@ public class ProposalServiceImpl implements ProposalService {
     public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalInfo, "proposalInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProposalInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(proposalInfo, objStructure);
+        return validationResults;         
     }
 
     /**
@@ -379,4 +399,33 @@ public class ProposalServiceImpl implements ProposalService {
 		return searchManager.search(searchRequest, proposalDao);
 	}
 
+    /**
+     * @return the validatorFactory
+     */
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
+
+    /**
+     * @param validatorFactory the validatorFactory to set
+     */
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
+
+    /**
+     * @return the searchManager
+     */
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    /**
+     * @return the dictionaryServiceDelegate
+     */
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
+    }
+
+	
 }

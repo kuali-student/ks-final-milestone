@@ -147,7 +147,7 @@
 	</bean>
 
 	<bean id="atpRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.AtpRpcGwtServlet">
+		class="org.kuali.student.core.atp.ui.server.AtpRpcGwtServlet">
 		<property name="service" ref="atpClient" />
 	</bean>
 

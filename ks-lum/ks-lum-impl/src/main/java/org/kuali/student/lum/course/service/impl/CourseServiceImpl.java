@@ -80,7 +80,6 @@ public class CourseServiceImpl implements CourseService {
     private CourseAssembler courseAssembler;
     private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
-    private Validator validator;
     private ValidatorFactory validatorFactory;
     private StatementService statementService;
 

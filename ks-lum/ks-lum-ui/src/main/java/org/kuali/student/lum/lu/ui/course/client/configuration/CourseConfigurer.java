@@ -89,10 +89,10 @@ import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
 import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.OutlineNode;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 

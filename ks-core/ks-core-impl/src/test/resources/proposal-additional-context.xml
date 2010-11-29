@@ -26,4 +26,17 @@
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:proposal-search-config.xml" />
 	</bean>
+	
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-proposalInfo-dictionary-context.xml" />
+    </bean>
+
+ 	<bean id="proposalServiceValidator" class="org.kuali.student.core.dictionary.service.MockDefaultValidatorImpl"/>
+
+	<bean id="validatorFactory"
+  		class="org.kuali.student.common.validator.ValidatorFactory">
+  	 <property name="defaultValidator" ref="proposalServiceValidator"/>
+  	</bean>
+
+	
 </beans>

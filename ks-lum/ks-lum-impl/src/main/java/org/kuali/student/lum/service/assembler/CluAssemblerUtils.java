@@ -197,6 +197,7 @@ public class CluAssemblerUtils {
 
                 // the lo does not exist, so create
                 // Assemble and add the lo
+		    	loDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE);
                 results.add(loNode);

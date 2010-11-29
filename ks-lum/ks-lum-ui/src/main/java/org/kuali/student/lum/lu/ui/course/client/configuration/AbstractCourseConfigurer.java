@@ -2,14 +2,14 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseExpenditureInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseRevenueInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
 
 public abstract class AbstractCourseConfigurer extends org.kuali.student.common.ui.client.configurable.mvc.Configurer
     implements ContentConfigurer, 

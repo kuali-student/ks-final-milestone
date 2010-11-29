@@ -309,14 +309,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setDivision(course.getSubjectArea());
 
-		//Custom logic to set the code as the concatenation of division and course number suffix
-		if(course.getCourseNumberSuffix()!=null&&course.getSubjectArea()!=null&&!course.getCourseNumberSuffix().isEmpty()&&!course.getSubjectArea().isEmpty()){
+		//Custom logic to set the code as the concatenation of division and course number suffix if code not provided
+		if (StringUtils.hasText(course.getCode())){
+			identifier.setCode(course.getCode());
+		} else if(course.getCourseNumberSuffix()!=null&&course.getSubjectArea()!=null&&!course.getCourseNumberSuffix().isEmpty()&&!course.getSubjectArea().isEmpty()){
 			identifier.setCode(course.getSubjectArea()+course.getCourseNumberSuffix());			
 		}else{
 			identifier.setCode(null);
 		}
 		
-		//Custom logic to set the level
+		//Custom logic to set the level, if level not provided
 		if(StringUtils.hasText(course.getLevel())) {
 		    identifier.setLevel(course.getLevel());
 		} else if(course.getCourseNumberSuffix()!=null&&course.getCourseNumberSuffix().length()>=3){
@@ -747,6 +749,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return results;
 	}
 	
+	// TODO Use CluAssemblerUtils
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleLos(String cluId,
 			CourseInfo course, NodeOperation operation) throws AssemblyException {
 		// TODO Auto-generated method stub
@@ -776,6 +779,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		        
                 // the lo does not exist, so create
                 // Assemble and add the lo
+		    	loDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE);
                 results.add(loNode);
