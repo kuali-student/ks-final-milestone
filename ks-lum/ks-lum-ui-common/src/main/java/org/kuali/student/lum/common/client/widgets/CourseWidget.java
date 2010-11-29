@@ -133,6 +133,7 @@ public class CourseWidget extends Composite implements AccessWidgetValue, HasDat
             previousCourseId = null;
         }
         courseWidget = (KSPicker) DefaultWidgetFactory.getInstance().getWidget(searchCourseMetadata.getProperties().get(courseType));
+        courseWidget.getSearchPanel().setMutipleSelect(false);
     //    ((KSSuggestBox) courseWidget.getInputWidget()).setEnabled(enabled);
         layout.add(courseWidget);
     }
