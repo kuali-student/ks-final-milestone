@@ -136,7 +136,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
     protected CourseService getCourseService() {
         if (this.courseService == null) {
-            this.courseService = (CourseService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lu","CourseService")); 
+            this.courseService = (CourseService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/course","CourseService")); 
         }
         return this.courseService;
     }
