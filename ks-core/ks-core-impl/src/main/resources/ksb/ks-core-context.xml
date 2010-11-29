@@ -264,8 +264,9 @@
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
         <property name="searchManager" ref="commentSearchManager" />
+        <property name="validatorFactory" ref="coreValidatorFactory"/>        
     </bean>
 
     <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -306,7 +307,8 @@
     <bean id="documentServiceImpl"
         class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao1" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
+        <property name="validatorFactory" ref="coreValidatorFactory"/>
     </bean>
 
     <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -379,6 +381,7 @@
         <property name="proposalDao" ref="proposalDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
+        <property name="validatorFactory" ref="coreValidatorFactory"/>
 	</bean>
 
     <bean id="proposalSearchManager"
@@ -398,6 +401,23 @@
             </bean>
         </property>
     </bean>
+
+
+    <bean id="coreServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+        <!--  TODO: Currently core services are not wired for lookup validation -->
+        <!--  <property name="searchDispatcher" ref="coreSearchDispatcher"/> -->
+    </bean>
+
+    <bean id="coreValidatorFactory-parent"
+          abstract="true" class="org.kuali.student.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="coreServiceValidator"/>
+        <property name="validatorList">
+        	<list/>
+        </property>
+    </bean>
+
+    <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
+
 
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">

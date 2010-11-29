@@ -48,6 +48,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -69,7 +70,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCommentCrud() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testCommentCrud() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException{
     	CommentInfo commentInfo = new CommentInfo();
     	RichTextInfo commentText = new RichTextInfo();
     	MetaInfo metaInfo = new MetaInfo();

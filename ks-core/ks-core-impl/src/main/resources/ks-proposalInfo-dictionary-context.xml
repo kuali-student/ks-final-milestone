@@ -126,7 +126,7 @@
 	<bean id="proposalInfo.rationale" parent="proposalInfo.rationale-parent" />
 
 	<bean id="proposalInfo.state-parent" abstract="true"
-		parent="baseKualiStateRequired">
+		parent="baseKualiState">
 		<property name="name" value="state" />
 	</bean>
 	<bean id="proposalInfo.state" parent="proposalInfo.state-parent" />
