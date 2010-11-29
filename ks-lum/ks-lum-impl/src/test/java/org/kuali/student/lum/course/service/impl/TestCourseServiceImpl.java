@@ -117,6 +117,7 @@ public class TestCourseServiceImpl {
             assertNotNull(cInfo);
             cInfo.setSpecialTopicsCourse(true);
             cInfo.setPilotCourse(true);
+            cInfo.setCode("");
             CourseInfo createdCourse = courseService.createCourse(cInfo);
             assertNotNull(createdCourse);
 
