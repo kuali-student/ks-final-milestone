@@ -3,6 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -337,7 +338,9 @@ public class TestCourseServiceImpl {
         createdCourse.getRevenues().get(0).getAffiliatedOrgs().get(0).setOrgId("NEWORG");
         createdCourse.getRevenues().get(0).getAffiliatedOrgs().get(0).setPercentage(Long.valueOf(99));
         
-        createdCourse.setLevel("Level100");
+        createdCourse.setSubjectArea(null);
+        createdCourse.setCode("UpdatedCode100");
+        createdCourse.setLevel("Level100");        
         
         // Perform the update
         try {
@@ -425,6 +428,8 @@ public class TestCourseServiceImpl {
         assertFalse(updatedCourse.isSpecialTopicsCourse());
         assertFalse(updatedCourse.isPilotCourse());
 
+        assertNull(updatedCourse.getSubjectArea());
+        assertEquals("UpdatedCode100", updatedCourse.getCode());
         assertEquals("Level100", updatedCourse.getLevel());
         assertEquals("NEWJUSTIFICATION", updatedCourse.getFeeJustification().getFormatted());
         assertEquals("UpdatedFeeType", updatedCourse.getFees().get(0).getFeeType());

@@ -223,7 +223,7 @@ public class CourseDataGenerator {
             return campusLocations[propertyIndex % 2];
         }
         if ("code".equals(name)) {
-            return "code-10";
+            return "";
         }
         // TODO: make it return A, B, C...
         if ("variationCode".equals(name)) {
