@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.service;
+package org.kuali.student.core.atp.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 

@@ -13,11 +13,19 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.service;
+package org.kuali.student.core.atp.ui.server;
 
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.atp.ui.client.service.AtpRpcService;
 
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+/**
+ * 
+ * @author Kuali Student Team
+ *
+ */
+public class AtpRpcGwtServlet extends BaseRpcGwtServletAbstract<AtpService> implements AtpRpcService {
 
-public interface AtpRpcServiceAsync extends BaseRpcServiceAsync {
-
+	private static final long serialVersionUID = 1L;
+	
 }
