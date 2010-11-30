@@ -1,0 +1,5 @@
+1.  Modify pom to generate version and build number properties file
+    -- and move it to target/WEB-INF/classes
+2.  Add dependencies in pom on ks-http-monitor and ks-service-monitor
+3.  Add monitor.html to docroot that redirects to memory-monitor page
+4.  modify web.xml to add context params, filters, filter-mappings, servlets and servlet mappings
