@@ -39,7 +39,8 @@
     	<security:intercept-url pattern="/auth/*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
-        <security:form-login />
+        <security:intercept-url pattern="/login.jsp*" filters="none"/>
+		<security:form-login login-page="/login.jsp" />
         <security:logout/>
     </security:http>
 

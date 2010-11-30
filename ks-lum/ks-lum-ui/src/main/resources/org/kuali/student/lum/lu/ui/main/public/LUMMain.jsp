@@ -23,11 +23,13 @@
 
 <html>
 <head>
-<title>LUM Application</title>
-
 </head>
 
 <body>
+<script type="text/javascript">
+	var val = unescape(self.document.location.hash.substring(1));
+	document.write('<input type="hidden" id="locationHash" value="'+val+'" >');
+</script>
 
 <%
     try {
