@@ -25,9 +25,12 @@ import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Hidden;
 
 public class HistoryManager {
     private static final NavigationEventMonitor monitor = new NavigationEventMonitor();
@@ -88,7 +91,13 @@ public class HistoryManager {
     
     public static void processWindowLocation(){
     	boolean navigateSuccess = false;
-    	if(Window.Location.getQueryString() != null && 
+    	Element loc = DOM.getElementById("locationHash");
+    	//String value = loc.getValue().trim();
+    	String value = loc.getAttribute("value");
+    	if(value != null && !value.equals("") && value.startsWith("/")){
+    		navigate(value);
+    	}
+    	else if(Window.Location.getQueryString() != null && 
     			!Window.Location.getQueryString().isEmpty()){
     		String view = Window.Location.getParameter(VIEW_ATR);
     		String docId = Window.Location.getParameter(ViewContext.ID_ATR);
