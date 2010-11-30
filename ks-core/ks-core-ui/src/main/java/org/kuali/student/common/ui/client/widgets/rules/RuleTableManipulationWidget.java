@@ -31,8 +31,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class RuleTableManipulationWidget extends FlowPanel {
 
@@ -343,7 +343,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
             public void run() {
                 rule.setSimplifying(false);
                 rule.setStatementVO(rule.getEditHistory().getLastHistoricStmtVO());
-                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, false);
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false, true);
             }
         };
         simplifyingTimer.schedule(1000);
