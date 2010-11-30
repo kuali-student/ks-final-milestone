@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -1065,8 +1067,6 @@ public class TestProgramServiceImpl {
 
     @Test
     public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
-        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-        	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
 
             List<String> reqIds = new ArrayList<String>(1);
@@ -1559,6 +1559,38 @@ public class TestProgramServiceImpl {
             
             assertTrue("The invocation of " + s + " returned a non-null value", returned == null);
         }
+    }
+    
+    @Test
+    public void testCoreProgramVersioning() throws Exception {
+        CoreProgramDataGenerator dataGen = new CoreProgramDataGenerator();
+        CoreProgramInfo coreData = dataGen.getCoreProgramTestData();
+        
+        coreData.getProgramRequirements().clear();
+        
+        CoreProgramInfo core = programService.createCoreProgram(coreData);
+        
+        CoreProgramInfo newCore = programService.createNewCoreProgramVersion(core.getVersionInfo().getVersionIndId(), "test core program versioning");
+        
+        assertNotNull(newCore);
+        
+        programService.setCurrentCoreProgramVersion(newCore.getId(), null);
+        
+        // create a second version, and ensure the sequence numbers are different
+        CoreProgramInfo secondVersion = null;
+        
+        try {
+            secondVersion = programService.createNewCoreProgramVersion(core.getVersionInfo().getVersionIndId(), "test core program second version");
+            assertTrue(true);
+        }
+        catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        assertNotNull(secondVersion);
+        
+        assertTrue(newCore.getVersionInfo().getSequenceNumber() != secondVersion.getVersionInfo().getSequenceNumber());
+        
     }
     
 }
