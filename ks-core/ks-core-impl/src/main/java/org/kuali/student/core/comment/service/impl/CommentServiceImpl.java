@@ -75,7 +75,9 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    
+        commentInfo.setReferenceTypeKey(referenceTypeKey);
+        commentInfo.setReferenceId(referenceId);
+    	
         // Validate Comment
         List<ValidationResultInfo> validationResults = null;
         try {
@@ -86,10 +88,7 @@ public class CommentServiceImpl implements CommentService {
         if (null != validationResults && validationResults.size() > 0) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
-
         
-        commentInfo.setReferenceTypeKey(referenceTypeKey);
-        commentInfo.setReferenceId(referenceId);
         Reference reference=null;
         reference = commentDao.getReference(referenceId, referenceTypeKey);
         if(reference==null){

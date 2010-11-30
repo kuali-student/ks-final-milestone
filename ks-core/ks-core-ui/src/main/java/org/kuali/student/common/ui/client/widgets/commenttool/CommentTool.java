@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.dto.DtoConstants.DtoState;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -187,9 +188,11 @@ public class CommentTool implements HasReferenceId {
                         RichTextInfo text = new RichTextInfo();
                         text.setFormatted(commentTextArea.getText());
                         text.setPlain(commentTextArea.getText());
-                        newComment.setCommentText(text);
-//                        newComment.setType("commentType." + referenceType + "." + referenceState);
                         newComment.setType(commentTypeKey);
+                        newComment.setReferenceId(referenceId);
+                        newComment.setReferenceTypeKey(referenceTypeKey);
+                        newComment.setState(DtoState.ACTIVE.toString());
+                        newComment.setCommentText(text);
 
                         try {
                             commentServiceAsync.addComment(referenceId, referenceTypeKey, newComment, new KSAsyncCallback<CommentInfo>(){
