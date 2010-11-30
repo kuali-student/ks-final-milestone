@@ -304,6 +304,7 @@ public class ReqCompEditWidget extends FlowPanel {
         //no display if the req. comp. type has no fields
         if ((selectedReqCompType.getReqCompFieldTypeInfos() == null) || selectedReqCompType.getReqCompFieldTypeInfos().isEmpty()) {
             ReqCompEditPanel.clear();
+            selectedReqCompFieldTypes = new ArrayList<String>();
             return;
         }
 
