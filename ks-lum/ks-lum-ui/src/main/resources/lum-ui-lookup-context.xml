@@ -1630,7 +1630,7 @@
     <bean parent="result" autowire-candidate="default"
           dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalLongName" />
-     <property name="name" value="Course Title" />
+     <property name="name" value="Name" />
      <property name="desc" value="Title for the course." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
@@ -1638,16 +1638,8 @@
     <bean parent="result" autowire-candidate="default"
           dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalCode" />
-     <property name="name" value="Course Number" />
+     <property name="name" value="Code" />
      <property name="desc" value="Course number." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
-    </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalStudySubjectArea" />
-     <property name="name" value="Subject Area" />
-     <property name="desc" value="Study Subject Area." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
@@ -1658,6 +1650,13 @@
      <property name="desc" value="Course or proposal state." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalDescr"/>
+     <property name="name" value="Description"/>
+     <property name="desc" value="Description for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
    </list>
   </property>
@@ -1691,7 +1690,7 @@
     <bean parent="result" autowire-candidate="default"
           dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalLongName" />
-     <property name="name" value="Course Title" />
+     <property name="name" value="Name" />
      <property name="desc" value="Title for the course." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
@@ -1699,16 +1698,8 @@
     <bean parent="result" autowire-candidate="default"
           dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalCode" />
-     <property name="name" value="Course Number" />
+     <property name="name" value="Code" />
      <property name="desc" value="Course number." />
-     <property name="dataType" value="STRING" />
-     <property name="hidden" value="false" />
-    </bean>
-    <bean parent="result" autowire-candidate="default"
-          dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalStudySubjectArea" />
-     <property name="name" value="Subject Area" />
-     <property name="desc" value="Study Subject Area." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
@@ -1719,6 +1710,13 @@
      <property name="desc" value="Course or proposal state." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalDescr"/>
+     <property name="name" value="Description"/>
+     <property name="desc" value="Description for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
    </list>
   </property>
