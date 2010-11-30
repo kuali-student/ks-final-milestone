@@ -45,6 +45,7 @@ import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.DtoConstants.DtoState;
 
 public class UploadServlet extends HttpServlet{
 	final Logger LOG = Logger.getLogger(UploadServlet.class);
@@ -143,7 +144,7 @@ public class UploadServlet extends HttpServlet{
 				    	bInfo.setBinary(new String(Base64.encodeBase64(bytes.toByteArray())));
 				    	
 				    	info.setDocumentBinaryInfo(bInfo);
-				    	info.setState("active");
+				    	info.setState(DtoState.ACTIVE.toString());
 				    	info.setFileName(filename);
 				    	
 				    	int extSeperator = filename.lastIndexOf(".");
@@ -171,6 +172,7 @@ public class UploadServlet extends HttpServlet{
 			    		}
 			    		
 			    		RefDocRelationInfo relationInfo = new RefDocRelationInfo();
+			    		relationInfo.setState(DtoState.ACTIVE.toString());
 			    		relationInfo.setDesc(info.getDesc());
 			    		relationInfo.setRefObjectId(request.getParameter("referenceId"));
 			    		relationInfo.setRefObjectTypeKey(request.getParameter("refObjectTypeKey"));
