@@ -12,6 +12,15 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>Maven S3 Browse Plugin</name>
   <description>Maven plugin for making S3 repositories browseable over http</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.s3browse</groupId>
+        <artifactId>maven-s3browse-plugin</artifactId>
+        <version>${project.version}</version>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.kuali.maven.mojo</groupId>
