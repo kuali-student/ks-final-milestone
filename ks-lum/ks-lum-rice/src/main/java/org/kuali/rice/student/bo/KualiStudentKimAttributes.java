@@ -47,6 +47,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public static final String QUALIFICATION_SCREEN_COMPONENT       = "screenComponent";
 	public static final String QUALIFICATION_SECTION_ID             = "sectionId";
     public static final String DESCEND_HIERARCHY                    = "descendHierarchy";
+    public static final String KS_REFERENCE_TYPE_KEY                = "ksReferenceTypeKey";
 
 	protected String dataId;
 	protected String org;
@@ -60,6 +61,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	protected String screenComponent;
 	protected String sectionId;
     protected Boolean descendHierarchy;
+    protected String ksReferenceTypeKey;
 
 	/**
      * @return the dataId
@@ -219,10 +221,24 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
         this.descendHierarchy = descendHierarchy;
     }
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap m = new LinkedHashMap();
-		return m;
-	}
+    /**
+     * @return the ksReferenceTypeKey
+     */
+    public String getKsReferenceTypeKey() {
+        return ksReferenceTypeKey;
+    }
+
+    /**
+     * @param ksReferenceTypeKey the ksReferenceTypeKey to set
+     */
+    public void setKsReferenceTypeKey(String ksReferenceTypeKey) {
+        this.ksReferenceTypeKey = ksReferenceTypeKey;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        return m;
+    }
 
 }

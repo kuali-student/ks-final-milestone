@@ -26,7 +26,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
@@ -50,7 +49,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
 
-	protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
+    protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
 
 	protected enum REQUESTS_TYPES_TO_CHECK {
 		BOTH, ADHOC_ONLY, NON_ADHOC_ONLY;
@@ -78,17 +77,26 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 
 	{
 		checkRequiredAttributes = true;
+        // add document number as one required attribute set
 		List<String> listOne = new ArrayList<String>();
 		listOne.add( KimAttributes.DOCUMENT_NUMBER );
 		newRequiredAttributes.add(listOne);
+        // add document type name and KEW application id as one required attribute set
 		List<String> listTwo = new ArrayList<String>();
 		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		listTwo.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		newRequiredAttributes.add(listTwo);
+        // add object id and object type as one required attribute set
 		List<String> listThree = new ArrayList<String>();
 		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
 		newRequiredAttributes.add(listThree);
+        // add each proposal reference type as a required attribute set
+        for (String proposalReferenceType : StudentIdentityConstants.QUALIFICATION_PROPOSAL_ID_REF_TYPES) {
+            List<String> tempList = new ArrayList<String>();
+            tempList.add( proposalReferenceType );
+            newRequiredAttributes.add(tempList);
+        }
 	}
 
 	/** 
@@ -100,77 +108,43 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	protected void validateRequiredAttributesAgainstReceived(AttributeSet receivedAttributes){
 		KimQualificationHelper.validateRequiredAttributesAgainstReceived(newRequiredAttributes, receivedAttributes, isCheckRequiredAttributes(), COMMA_SEPARATOR);
 		super.validateRequiredAttributesAgainstReceived(receivedAttributes);
-//		// abort if type does not want the qualifiers to be checked
-//		if ( !isCheckRequiredAttributes() ) {
-//			return;
-//		}
-//		// abort if the list is empty, no attributes need to be checked
-//		if ( newRequiredAttributes == null || newRequiredAttributes.isEmpty() ) {
-//			return;
-//		}
-//		// if attributes are null or empty, they're all missing
-//		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
-//			return;		
-//		}
-//		
-//		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
-//		for (List<String> currentReqAttributes : newRequiredAttributes) {
-//			List<String> missingAttributes = new ArrayList<String>();
-//			for( String requiredAttribute : currentReqAttributes ) {
-//				if( !receivedAttributes.containsKey(requiredAttribute) ) {
-//					missingAttributes.add(requiredAttribute);
-//				}
-//			}
-//			if (missingAttributes.isEmpty()) {
-//				// if no missing attributes from this list then we have required attributes needed
-//				return;
-//			}
-//			totalMissingAttributes.add(missingAttributes);
-//        }
-//
-//		int i = 1;
-//    	StringBuffer errorMessage = new StringBuffer("Missing Required Attributes from lists - ");
-//    	for (List<String> missingAttributes : totalMissingAttributes) {
-//            if(missingAttributes.size()>0) {
-//            	errorMessage.append("List " + i + ": (");
-//            	i++;
-//            	Iterator<String> attribIter = missingAttributes.iterator();
-//            	while ( attribIter.hasNext() ) {
-//            		errorMessage.append( attribIter.next() );
-//            		if( attribIter.hasNext() ) {
-//            			errorMessage.append( COMMA_SEPARATOR );
-//            		}
-//            	}
-//            	errorMessage.append(")");
-//            }
-//        }
-//		LOG.info("Found missing attributes: " + errorMessage.toString());
-//        throw new KimTypeAttributeValidationException(errorMessage.toString());
 	}
+
+    @Override
+    public AttributeSet translateInputAttributeSet(AttributeSet qualification) {
+        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributeSet(qualification));
+    }
 
 	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
 		// first check for a valid document id passed in
 		String documentId = qualification.get( KimAttributes.DOCUMENT_NUMBER );
-		if (StringUtils.isNotEmpty(documentId)) {
-			return Long.valueOf(documentId);
-		}
-		// if no document id passed in get the document via the id and document type name
-		String documentTypeName = qualification.get( KimAttributes.DOCUMENT_TYPE_NAME );
-		if (StringUtils.isEmpty(documentTypeName)) {
-			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
-			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
-	            documentTypeName = "CluCreditCourseProposal";
-			}
-		}
-		String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
-		LOG.info("Checking for document id using document type '" + documentTypeName + "' and application id '" + appId + "' with qualifications: " + qualification.toString());
-		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
-		if (docDetail == null) {
-			LOG.info("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
-			return null;
-//			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
-		}
-		return docDetail.getRouteHeaderId();
+        if (StringUtils.isNotEmpty(documentId)) {
+            return Long.valueOf(documentId);
+        } else {
+            LOG.warn("Could not find workflow document id in qualification list:");
+            LOG.warn(qualification.formattedDump(20));
+            return null;
+        }
+//		if (StringUtils.isNotEmpty(documentId)) {
+//			return Long.valueOf(documentId);
+//		}
+//		// if no document id passed in get the document via the id and document type name
+//		String documentTypeName = qualification.get( KimAttributes.DOCUMENT_TYPE_NAME );
+//		if (StringUtils.isEmpty(documentTypeName)) {
+//			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
+//			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
+//	            documentTypeName = "kuali.proposal.type.course.create";
+//			}
+//		}
+//		String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
+//		LOG.info("Checking for document id using document type '" + documentTypeName + "' and application id '" + appId + "' with qualifications: " + qualification.toString());
+//		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
+//		if (docDetail == null) {
+//			LOG.info("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+//			return null;
+////			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+//		}
+//		return docDetail.getRouteHeaderId();
 	}
 
 	protected void addMember(Map<String,List<ActionRequestDTO>> requestsByPrincipalId, String principalId, ActionRequestDTO actionRequest) {
@@ -185,14 +159,15 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	 */
 	@Override
 	public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(
-			String namespaceCode, String roleName, AttributeSet qualification) {
+			String namespaceCode, String roleName, AttributeSet paramQualification) {
 		// validate required attributes
-		validateRequiredAttributesAgainstReceived(qualification);
+		validateRequiredAttributesAgainstReceived(paramQualification);
+		AttributeSet qualification = translateInputAttributeSet(paramQualification);
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		try {
 			// check for valid qualification data to check
 			Long documentNumber = getDocumentNumber(qualification);
-			if (qualification != null && !qualification.isEmpty() && (documentNumber != null)) {
+			if (documentNumber != null) {
 				// get all action requests for the document id given
 				ActionRequestDTO[] actionRequests = getWorkflowUtility().getAllActionRequests(documentNumber);
 				Map<String,List<ActionRequestDTO>> requestsByPrincipalId = new HashMap<String, List<ActionRequestDTO>>();
@@ -228,11 +203,12 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	@Override
 	public boolean hasApplicationRole(String principalId,
 			List<String> groupIds, String namespaceCode, String roleName,
-			AttributeSet qualification) {
-		validateRequiredAttributesAgainstReceived(qualification);
+			AttributeSet paramQualification) {
+        validateRequiredAttributesAgainstReceived(paramQualification);
+        AttributeSet qualification = translateInputAttributeSet(paramQualification);
 		try {
 			Long documentNumber = getDocumentNumber(qualification);
-			if (qualification != null && !qualification.isEmpty() && (documentNumber != null)) {
+			if (documentNumber != null) {
 				ActionRequestDTO[] actionRequests = getWorkflowUtility().getActionRequests(documentNumber, null, principalId);
 				return containsActivatedRequest(roleName, actionRequests);
 			}

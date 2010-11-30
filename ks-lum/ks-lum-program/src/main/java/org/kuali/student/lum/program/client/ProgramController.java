@@ -1,23 +1,55 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.lum.program.client.framework.AbstractCallback;
+import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
  */
-public class ProgramController extends MenuSectionController {
+public abstract class ProgramController extends MenuSectionController {
 
-    protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
+    protected MajorDisciplineRpcServiceAsync programRemoteService;
 
     protected boolean initialized = false;
 
@@ -25,16 +57,93 @@ public class ProgramController extends MenuSectionController {
 
     protected AbstractProgramConfigurer configurer;
 
+    protected HandlerManager eventBus;
+
+    protected Label statusLabel = new Label();
+
+    protected ProgramSideBar sideBar;
+
+    private boolean needToLoadOldModel = false;
+
     /**
      * Constructor.
      *
      * @param programModel
      */
-    public ProgramController(DataModel programModel, ViewContext viewContext) {
-        super("");
+    public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(name);
+        programRemoteService = createProgramRemoteService();
+        this.eventBus = eventBus;
         this.programModel = programModel;
         setViewContext(viewContext);
         initializeModel();
+    }
+
+
+    /**
+     * Create a ProgramRpcServiceAsync appropriate for this Controller
+     */
+    protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
+        return GWT.create(MajorDisciplineRpcService.class);
+    }
+
+    @Override
+    public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                if (result) {
+                    if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
+                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+
+                            @Override
+                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                                switch (result) {
+                                    case YES:
+                                        dialog.hide();
+                                        fireUpdateEvent(okToChange);
+                                        break;
+                                    case NO:
+                                        dialog.hide();
+                                        resetModel();
+                                        needToLoadOldModel = true;
+                                        resetFieldInteractionFlag();
+                                        okToChange.exec(true);
+                                        break;
+                                    case CANCEL:
+                                        okToChange.exec(false);
+                                        dialog.hide();
+                                        break;
+                                }
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        okToChange.exec(true);
+                    }
+                } else {
+                    okToChange.exec(false);
+                }
+            }
+        });
+    }
+
+    protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
+        eventBus.fireEvent(new UpdateEvent(okToChange));
+    }
+
+    protected void resetModel() {
+        programModel.resetRoot();
+    }
+
+    protected void resetFieldInteractionFlag() {
+        View currentView = getCurrentView();
+        if (currentView instanceof Section) {
+            ((Section) currentView).resetFieldInteractionFlags();
+        }
     }
 
     /**
@@ -54,12 +163,30 @@ public class ProgramController extends MenuSectionController {
         });
     }
 
+
+    @Override
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
+        if (modelType == ReferenceModel.class) {
+            ReferenceModel referenceModel = new ReferenceModel();
+            referenceModel.setReferenceId((String) programModel.get("id"));
+            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put("name", (String) programModel.get("name"));
+            referenceModel.setReferenceAttributes(attributes);
+            callback.onModelReady(referenceModel);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+
+
     /**
      * Loads data model from the server.
      *
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
-    private void loadModel(final ModelRequestCallback<DataModel> callback) {
+    protected void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -72,9 +199,51 @@ public class ProgramController extends MenuSectionController {
             public void onSuccess(Data result) {
                 super.onSuccess(result);
                 programModel.setRoot(result);
+                setHeaderTitle();
+                setStatus();
                 callback.onModelReady(programModel);
+                configurer.applyPermissions();
+                //We don't want to throw ModelLoadedEvent when we just want to rollback the model
+                if (needToLoadOldModel) {
+                    needToLoadOldModel = false;
+                } else {
+                    if (null != programModel.get(ProgramConstants.ID)) {
+                        // add to recently viewed
+                        ViewContext docContext = new ViewContext();
+                        docContext.setId((String) programModel.get(ProgramConstants.ID));
+                        docContext.setIdType(IdType.OBJECT_ID);
+                        String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                        docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
+                        RecentlyViewedHelper.addDocument(getProgramName(), 
+                                HistoryManager.appendContext(getProgramViewLocation(pgmType) , docContext));
+                    }
+                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                }
             }
         });
+    }
+
+    private String getProgramViewLocation(String pgmType) {
+        if (ProgramClientConstants.MAJOR_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CORE_PROGRAM.equals(pgmType)) {
+            return AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation();
+        } else if (ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(pgmType)) {
+            return AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation();
+        }
+        return null;
+    }
+
+    protected void setStatus() {
+        statusLabel.setText(ProgramProperties.get().common_status(programModel.<String>get(ProgramConstants.STATE)));
+    }
+
+    public String getProgramName() {
+        String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
+        if (name == null) {
+            name = "New Program";
+        }
+        return name;
     }
 
     /**
@@ -106,11 +275,14 @@ public class ProgramController extends MenuSectionController {
         if (getViewContext().getIdType() != null) {
             idType = getViewContext().getIdType().toString();
             viewContextId = getViewContext().getId();
-            if (getViewContext().getIdType() == ViewContext.IdType.COPY_OF_OBJECT_ID) {
+            if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID) {
                 viewContextId = null;
             }
         }
-        programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
+        Map<String, String> idAttributes = new HashMap<String, String>();
+        idAttributes.put(IdAttributes.ID_TYPE, idType);
+
+        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -132,7 +304,8 @@ public class ProgramController extends MenuSectionController {
         addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
-        this.setContentTitle("Programs");
+        addContentWidget(statusLabel);
+        setSideBarWidget(sideBar);
     }
 
     @Override
@@ -153,5 +326,35 @@ public class ProgramController extends MenuSectionController {
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
         onReadyCallback.exec(true);
+    }
+
+    protected void setHeaderTitle() {
+        String title = getProgramName();
+        this.setContentTitle(title);
+        this.setName(title);
+    }
+
+    protected Widget createCommentPanel() {
+        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
+        commentTool.setController(this);
+        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        });
+        return commentsButton;
+    }
+
+    protected void doSave() {
+    }
+
+   private void updateViewContext(){
+
+   }
+
+    public DataModel getProgramModel() {
+        return programModel;
     }
 }

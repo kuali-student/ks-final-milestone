@@ -16,11 +16,13 @@
 package org.kuali.student.lum.statement.config.context;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -39,7 +41,7 @@ public class LrcContextImpl extends BasicContextImpl {
 		this.lrcService = lrcService;
 	}
 
-	private ResultComponentInfo getResultComponent(String resultComponentId) throws OperationFailedException {
+	private ResultComponentInfo getResultComponentByResultComponentId(String resultComponentId) throws OperationFailedException {
 		if (resultComponentId == null) {
 			return null;
 		}
@@ -51,6 +53,9 @@ public class LrcContextImpl extends BasicContextImpl {
 	}
 	
 	private String getResultValue(ResultComponentInfo resultComponent, String resultValue) throws OperationFailedException {
+		if(resultComponent == null || resultValue == null) {
+			return null;
+		}
 		for(String rv : resultComponent.getResultValues()) {
 			if(rv.equals(resultValue)) {
 				return rv;
@@ -59,22 +64,70 @@ public class LrcContextImpl extends BasicContextImpl {
 		throw new OperationFailedException("Result value not found: "+resultValue);
 	}
 	
+	private ResultComponentInfo getResultComponentByResultValueId(String resultValueId) throws OperationFailedException {
+		if(resultValueId == null) {
+			return null;
+		}
+		
+		try {
+			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
+			for(ResultComponentTypeInfo type : typeList) {
+				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
+				for(String resultComponentId : resultComponentIdList) {
+					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
+					if(resultComponent.getResultValues().contains(resultValueId)) {
+						return resultComponent;
+					}
+				}
+			}
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+		throw new OperationFailedException("Result value id not found: "+resultValueId);
+	}
+	
     /**
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
 
-        String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
-        ResultComponentInfo gradeTypeResultComponent = getResultComponent(gradeTypeId);
-        contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
+//        String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+//        ResultComponentInfo gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId);
+//        if(gradeTypeResultComponent != null) {
+//	        contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
+//        }
+//	
+//        String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
+//        String grade = getResultValue(gradeTypeResultComponent, gradeId);
+//        if(grade != null) {
+//        	contextMap.put(GRADE_TOKEN, grade);
+//        }
 
+    	
+        ResultComponentInfo gradeTypeResultComponent = null;
         String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
+        if (gradeId == null) {
+			String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+			gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId);
+			if (gradeTypeResultComponent != null) {
+				contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
+			}
+        } else {
+        	gradeTypeResultComponent = getResultComponentByResultValueId(gradeId);
+        }
+		if (gradeTypeResultComponent != null) {
+			contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
+		}
+
         String grade = getResultValue(gradeTypeResultComponent, gradeId);
-        contextMap.put(GRADE_TOKEN, grade);
+        if(grade != null) {
+        	contextMap.put(GRADE_TOKEN, grade);
+        }
+
         return contextMap;
     }
 }

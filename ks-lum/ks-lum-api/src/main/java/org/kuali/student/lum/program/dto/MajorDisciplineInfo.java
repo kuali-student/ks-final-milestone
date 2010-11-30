@@ -34,10 +34,19 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCredentialAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
 
 /**
  * Detailed information about a single major discipline program
@@ -49,7 +58,9 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes,
+        ProgramCommonAssembly, ProgramIdentifierAssembly, ProgramFullOrgAssembly, ProgramAtpAssembly,
+        ProgramCodeAssembly, ProgramPublicationAssembly, ProgramCredentialAssembly, ProgramRequirementAssembly {
 
     private static final long serialVersionUID = 1L;
 
@@ -179,6 +190,9 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private MetaInfo metaInfo;
+    
+    @XmlElement
+    private VersionInfo versionInfo;    
 
     @XmlAttribute
     private String type;
@@ -619,7 +633,7 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
     }
-
+        
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
@@ -658,4 +672,12 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setId(String id) {
         this.id = id;
     }
+
+    public VersionInfo getVersionInfo() {
+		return versionInfo;
+	}
+
+	public void setVersionInfo(VersionInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}    
 }

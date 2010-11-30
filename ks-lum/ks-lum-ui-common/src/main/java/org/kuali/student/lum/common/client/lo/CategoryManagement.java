@@ -15,23 +15,6 @@
 
 package org.kuali.student.lum.common.client.lo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,26 +22,46 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryManagement extends Composite {
     private KSButton addButton = new KSButton("Create");
     private KSButton deleteButton = new KSButton("Delete");
-    private KSButton updateButton = new KSButton("Update");
-
+    private KSButton updateButton = new KSButton("Edit");
+   
     KSCheckBox accreditationCheckBox = new KSCheckBox("Accreditation");
     KSCheckBox skillCheckBox = new KSCheckBox("Skill");
     KSCheckBox subjectCheckBox = new KSCheckBox("Subject");
     KSTextBox wordsInCategoryTextBox = new KSTextBox();
 	
-    static LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
-    
-    CategoryManagementTable categoryManagementTable = null;
+    static LoCategoryRpcServiceAsync loCatRpcServiceAsync = GWT.create(LoCategoryRpcService.class);
 
+    CategoryManagementTable categoryManagementTable = null;
+   
     VerticalPanel mainPanel = new VerticalPanel();
     KSLabel messageLabel = new KSLabel();
     
@@ -66,18 +69,37 @@ public class CategoryManagement extends Composite {
     private void initCategoryManagement() {
         super.initWidget(mainPanel);
         mainPanel.addStyleName("KSLOCategoryManagementMainPanel");
+ 
+        HorizontalPanel titlePanel = new HorizontalPanel();
+        
+        KSLabel funnelImg = new KSLabel("");
+        funnelImg.addStyleName("KS-LOFunnelImg");
+        titlePanel.add(funnelImg);
+        
+        KSLabel filterLabel = new KSLabel("Filter");
+        filterLabel.addStyleName("KSLOCategoryManagementFilterLabel");
+        titlePanel.add(filterLabel);
+        
+        mainPanel.add(titlePanel);
+        
+        addButton.setStyleName("KS-LOSecondaryButton");
+        deleteButton.setStyleName("KS-LOSecondaryButton");
+        updateButton.setStyleName("KS-LOSecondaryButton");
+     
         accreditationCheckBox.setValue(true);
         skillCheckBox.setValue(true);
         subjectCheckBox.setValue(true);
-        VerticalPanel filterPanel = new VerticalPanel();
-        filterPanel.addStyleName("KSLOCategoryManagementFilterPanel");
-        KSLabel filterLabel = new KSLabel("Filter");
-        filterLabel.addStyleName("KSLOCategoryManagementFilterLabel");
-        filterPanel.add(filterLabel);
-
-        Hyperlink selectAllLink = new Hyperlink("Select All","Select All");
-        selectAllLink.addStyleName("Home-Small-Hyperlink");
-        filterPanel.add(selectAllLink);
+        
+        HorizontalPanel linkButtonPanel = new HorizontalPanel();
+        linkButtonPanel.addStyleName("KSLOCategoryManagementFilterPanel");
+        
+        KSLabel spacer = new KSLabel("");
+        spacer.setWidth("60px");
+        KSLabel divider = new KSLabel("|");
+        
+        Anchor selectAllLink = new Anchor("Select All");
+        selectAllLink.addStyleName("KS-LOSelectAllHyperlink");
+        linkButtonPanel.add(selectAllLink);
         selectAllLink.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
@@ -87,10 +109,12 @@ public class CategoryManagement extends Composite {
                 filterCategoryByType();
             }
         });
-
-        Hyperlink clearLink = new Hyperlink("Clear","Clear");
-        clearLink.addStyleName("Home-Small-Hyperlink");
-        filterPanel.add(clearLink);
+         
+        linkButtonPanel.add(divider);
+        
+        Anchor clearLink = new Anchor("Clear");
+        clearLink.addStyleName("KS-LOClearHyperlink");
+        linkButtonPanel.add(clearLink);
         clearLink.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
@@ -101,20 +125,27 @@ public class CategoryManagement extends Composite {
                 filterCategoryByType();
             }
         });
+        linkButtonPanel.add(spacer);
+        linkButtonPanel.add(addButton);
+        linkButtonPanel.add(updateButton);
+        linkButtonPanel.add(deleteButton);
+        mainPanel.add(linkButtonPanel);
+        
+        HorizontalPanel filterTablePanel = new HorizontalPanel();
+        VerticalPanel filterPanel = new VerticalPanel();
+        filterPanel.addStyleName("KSLOCategoryManagementFilterPanel");
+       
         filterPanel.add(accreditationCheckBox);
         filterPanel.add(skillCheckBox);
         filterPanel.add(subjectCheckBox);
-        filterPanel.add(new KSLabel("By words in category"));
+        HorizontalPanel spacer1 = new HorizontalPanel();
+        spacer1.setStyleName("KS-LOSpacer");
+        filterPanel.add(spacer1);
+        KSLabel wordsInCategory = new KSLabel("By words in category");
+        wordsInCategory.setStyleName("KS-LODialogFieldLabel");
+        filterPanel.add(wordsInCategory);
         filterPanel.add(wordsInCategoryTextBox);
-
-        HorizontalPanel buttonPanel = new HorizontalPanel();
-        buttonPanel.addStyleName("KSLOCategoryManagementButtonPanel");
-        buttonPanel.add(addButton);
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(updateButton);
-
-        mainPanel.add(buttonPanel);
-        HorizontalPanel filterTablePanel = new HorizontalPanel();
+        
         filterTablePanel.add(filterPanel);
         if(this.categoryManagementTable == null) {
             categoryManagementTable = new CategoryManagementTable();
@@ -124,7 +155,7 @@ public class CategoryManagement extends Composite {
         
         mainPanel.add(messageLabel);
 
-        loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("getLoCategoryTypes failed", caught);
@@ -176,20 +207,22 @@ public class CategoryManagement extends Composite {
             public void onClick(ClickEvent event) {
                 
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
-                loRpcServiceAsync.getLoCategory(id, new KSAsyncCallback<LoCategoryInfo>() {
-                    @Override
-                    public void handleFailure(Throwable caught) {
-                        GWT.log("getSelectedLoCategoryInfo failed", caught);
-                        Window.alert("Get Selected Lo Category failed");
-                    }
+                if(id != null){
+	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
+	                    @Override
+	                    public void handleFailure(Throwable caught) {
+	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
+	                        Window.alert("Get Selected Lo Category failed");
+	                    }
 
-                    @Override
-                    public void onSuccess(LoCategoryInfo result) {
-                        DeleteConfirmationDialog dialog = new DeleteConfirmationDialog();
-                        dialog.setCategory(result);
-                        dialog.show();
-                    }
-                });
+                        @Override
+                        public void onSuccess(Data result) {
+                            DeleteConfirmationDialog dialog = new DeleteConfirmationDialog();
+                            dialog.setCategory(CategoryDataUtil.toLoCategoryInfo(result));
+                            dialog.show();
+                        }
+	                });
+                }
 
             }
         });
@@ -197,24 +230,26 @@ public class CategoryManagement extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
-                loRpcServiceAsync.getLoCategory(id, new KSAsyncCallback<LoCategoryInfo>() {
-                    @Override
-                    public void handleFailure(Throwable caught) {
-                        GWT.log("getSelectedLoCategoryInfo failed", caught);
-                        Window.alert("Get Selected Lo Category failed");
-                    }
-
-                    @Override
-                    public void onSuccess(LoCategoryInfo result) {
-                        UpdateCategoryDialog dialog = new UpdateCategoryDialog();
-                        dialog.setCategory(result);
-                        dialog.setCategoryType(categoryTypeList);
-                        dialog.show();
-                    }
-                });
+                if(id != null){
+	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
+	                    @Override
+	                    public void handleFailure(Throwable caught) {
+	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
+	                        Window.alert("Get Selected Lo Category failed");
+	                    }
+                        @Override
+                        public void onSuccess(Data result) {
+	                        UpdateCategoryDialog dialog = new UpdateCategoryDialog();
+	                        dialog.setCategory(CategoryDataUtil.toLoCategoryInfo(result));
+	                        dialog.setCategoryType(categoryTypeList);
+	                        dialog.show();
+	                    }
+	                });
+                }
             }
         });
     }
+
     public CategoryManagement() {
         initCategoryManagement();
     }
@@ -268,21 +303,44 @@ public class CategoryManagement extends Composite {
         addButton.setVisible(b);
     }
     class DeleteConfirmationDialog extends KSLightBox {
+    	FlexTable layoutTable = new FlexTable();
         KSLabel categoryNameLabel = new KSLabel();
         KSLabel categoryTypeLabel = new KSLabel();
+        HorizontalPanel spacer = new HorizontalPanel();
         LoCategoryInfo categoryInfo;
+        
         public DeleteConfirmationDialog() {
+        	this.setSize(540, 200);
+        	spacer.setStyleName("KS-LOSpacer");
             VerticalPanel mainPanel = new VerticalPanel();
-            FlexTable layoutTable = new FlexTable();
+            
+            KSLabel titleLabel = new KSLabel("Delete Category");
+            titleLabel.setStyleName("KS-LODialogTitle");
+            mainPanel.add(spacer);
+            mainPanel.add(titleLabel);
+            HorizontalPanel spacer1 = new HorizontalPanel();
+            spacer1.setStyleName("KS-LOSpacer");
+            mainPanel.add(spacer1);
             mainPanel.add(new KSLabel("You are about to delete the following:"));
+            HorizontalPanel spacer2 = new HorizontalPanel();
+            spacer2.setStyleName("KS-LOSpacer"); 
+            mainPanel.add(spacer2);
+            KSLabel catLabel = new KSLabel("Category");
             mainPanel.add(layoutTable);
-            layoutTable.setWidget(0, 0, new KSLabel("Category"));
+            layoutTable.setWidget(0, 0, catLabel);
             layoutTable.setWidget(0, 1, categoryNameLabel);
-            layoutTable.setWidget(1, 0, new KSLabel("Type"));
+            KSLabel typeLabel = new KSLabel("Type");
+            layoutTable.setWidget(1, 0, typeLabel);
             layoutTable.setWidget(1, 1, categoryTypeLabel);
-
+            layoutTable.getFlexCellFormatter().setStyleName(0, 0, "KS-LODialogLabel");
+            layoutTable.getFlexCellFormatter().setStyleName(1, 0, "KS-LODialogLabel");
+            
+        	HorizontalPanel spacer3 = new HorizontalPanel();
+            spacer3.setStyleName("KS-LOSpacer"); 
+            mainPanel.add(spacer3);
             KSButton deleteButton = new KSButton("Delete");
-            Hyperlink cancelButton = new Hyperlink();
+            Anchor cancelButton = new Anchor();
+            cancelButton.setStyleName("KS-LODialogCancel");
             cancelButton.setText("Cancel");
             HorizontalPanel buttonPanel = new HorizontalPanel();
             buttonPanel.add(deleteButton);
@@ -292,17 +350,23 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
                 	categoryInfo.setState("inactive");
-                    CategoryManagement.loRpcServiceAsync.updateLoCategory(categoryInfo.getId(), categoryInfo, new KSAsyncCallback<LoCategoryInfo>() {
+                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
                             Window.alert("Switch LoCategory state to inactive failed ");
                         }
-
                         @Override
-                        public void onSuccess(LoCategoryInfo updatedLo) {
+                        public void onSuccess(DataSaveResult result) {
+//                            KSBlockingProgressIndicator.removeTask(saving);
+
+                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+                                Window.alert("Update LO Category failed: " + result.getValidationResults().get(0).getMessage());
+                           }else{
+                            KSNotifier.add(new KSNotification("Update LO Category Successful", false, 3000));
                             categoryManagementTable.loadTable();
                             filterCategoryByType();
+                            }
                         }
                     });
 
@@ -332,13 +396,22 @@ public class CategoryManagement extends Composite {
         FlexTable layoutTable = new FlexTable();
         KSTextBox nameTextBox = new KSTextBox();
         KSDropDown typeListBox = new KSDropDown();
-        KSButton okButton = new KSButton("OK");
-        KSButton cancelButton = new KSButton("Cancel");
+        KSButton okButton = new KSButton("Save");
+        Anchor cancelButton = new Anchor("Cancel");
         LoCategoryInfo categoryInfo;
+        HorizontalPanel spacer = new HorizontalPanel();
 
         public UpdateCategoryDialog() {
-            layoutTable.setWidget(0, 0, new KSLabel("Category"));
-            layoutTable.setWidget(0, 1, new KSLabel("Type"));
+        	this.setSize(540, 200);
+        	spacer.setStyleName("KS-LOSpacer");
+        	cancelButton.setStyleName("KS-LODialogCancel");
+        	typeListBox.setHeight("21px");
+        	KSLabel catLabel = new KSLabel("Category");
+        	catLabel.setStyleName("KS-LODialogFieldLabel");
+        	KSLabel typeLabel = new KSLabel("Type");
+        	typeLabel.setStyleName("KS-LODialogFieldLabel");
+            layoutTable.setWidget(0, 0, catLabel);
+            layoutTable.setWidget(0, 1, typeLabel);
             layoutTable.setWidget(1, 0, nameTextBox);
             layoutTable.setWidget(1, 1, typeListBox);
 
@@ -347,27 +420,42 @@ public class CategoryManagement extends Composite {
             buttonPanel.add(cancelButton);
 
             VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(new KSLabel("Update Category"));
+            mainPanel.add(spacer);
+            KSLabel titleLabel = new KSLabel("Edit Category");
+            titleLabel.setStyleName("KS-LODialogTitle");
+            mainPanel.add(titleLabel);
+            HorizontalPanel spacer1 = new HorizontalPanel();
+            spacer1.setStyleName("KS-LOSpacer");
+            mainPanel.add(spacer1);
             mainPanel.add(layoutTable);
+            HorizontalPanel spacer2 = new HorizontalPanel();
+            spacer2.setStyleName("KS-LOSpacer");
+            mainPanel.add(spacer2);
             mainPanel.add(buttonPanel);
-
             super.setWidget(mainPanel);
             okButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    CategoryManagement.loRpcServiceAsync.updateLoCategory(cate.getId(), cate, new KSAsyncCallback<LoCategoryInfo>() {
+
+                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
                             Window.alert("Update LoCategory failed ");
                         }
                         @Override
-                        public void onSuccess(LoCategoryInfo result) {
+                        public void onSuccess(DataSaveResult result) {
+                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+                                Window.alert("Update LO Category failed: " + result.getValidationResults().get(0).getMessage());
+                           }else{
+                            KSNotifier.add(new KSNotification("Update LO Category Successful", false, 3000));
                             categoryManagementTable.loadTable();
                             filterCategoryByType();
+                            }
                         }
                     });
+
                     UpdateCategoryDialog.this.hide();
                 }
 
@@ -409,46 +497,66 @@ public class CategoryManagement extends Composite {
 
     class CreateCategoryDialog extends KSLightBox {
         FlexTable layoutTable = new FlexTable();
-
-        KSButton okButton = new KSButton("OK");
-        KSButton cancelButton = new KSButton("Cancel");
-
-        KSTextBox nameTextBox = new KSTextBox();
-
-         KSDropDown typeListBox = new KSDropDown();
+        KSButton okButton = new KSButton("Save");
+        Anchor cancelButton = new Anchor("Cancel");
+        KSTextBox nameTextBox = new KSTextBox(); 
+        KSDropDown typeListBox = new KSDropDown();
+        HorizontalPanel spacer = new HorizontalPanel();
+        
         public CreateCategoryDialog() {
-
-            layoutTable.setWidget(0, 0, new KSLabel("Category"));
-            layoutTable.setWidget(0, 1, new KSLabel("Type"));
+        	this.setSize(540, 200);
+        	spacer.setStyleName("KS-LOSpacer");
+        	cancelButton.setStyleName("KS-LODialogCancel");
+        	typeListBox.setHeight("21px");
+        	KSLabel catLabel = new KSLabel("Category");
+        	catLabel.setStyleName("KS-LODialogFieldLabel");
+        	KSLabel typeLabel = new KSLabel("Type");
+        	typeLabel.setStyleName("KS-LODialogFieldLabel");
+            layoutTable.setWidget(0, 0, catLabel);
+            layoutTable.setWidget(0, 1, typeLabel);
             layoutTable.setWidget(1, 0, nameTextBox);
             layoutTable.setWidget(1, 1, typeListBox);
-
+            
             HorizontalPanel buttonPanel = new HorizontalPanel();
             buttonPanel.add(okButton);
             buttonPanel.add(cancelButton);
-
+            
             VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(new KSLabel("Create New Category"));
+            mainPanel.add(spacer);
+            KSLabel titleLabel = new KSLabel("Create New Category");
+            titleLabel.setStyleName("KS-LODialogTitle");
+            HorizontalPanel spacer1 = new HorizontalPanel();
+            spacer1.setStyleName("KS-LOSpacer");
+            
+            mainPanel.add(titleLabel);
+            mainPanel.add(spacer1);
             mainPanel.add(layoutTable);
+            HorizontalPanel spacer2 = new HorizontalPanel();
+            spacer2.setStyleName("KS-LOSpacer");
+            mainPanel.add(spacer2);
             mainPanel.add(buttonPanel);
-            mainPanel.setPixelSize(300, 300);
             super.setWidget(mainPanel);
             okButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    CategoryManagement.loRpcServiceAsync.createLoCategory(cate.getLoRepository(), cate.getType(), cate, new KSAsyncCallback<LoCategoryInfo>() {
+                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
-                            GWT.log("createLoCategory failed ", caught);
-                            Window.alert("Create LoCategory failed ");
+                            Window.alert("Create LO Category failed: " + caught.getMessage());
                         }
                         @Override
-                        public void onSuccess(LoCategoryInfo result) {
+                        public void onSuccess(DataSaveResult result) {
+                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+                                Window.alert("Create LO Category failed: " + result.getValidationResults().get(0).getMessage());
+                           }else{
+                            KSNotifier.add(new KSNotification("Create LO Category Successful", false, 3000));
                             categoryManagementTable.loadTable();
                             filterCategoryByType();
+                            }
                         }
                     });
+
                     CreateCategoryDialog.this.hide();
                 }
             });

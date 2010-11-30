@@ -26,18 +26,15 @@ package org.kuali.student.lum.statement.typekey;
  * <ul>
  * <li><code>kuali.reqComponent.field.type.clu</code> maps to <code>clu</code></li>
  * <li><code>kuali.reqComponent.field.type.cluSet</code> maps to <code>cluSet</code></li>
- * <li><code>kuali.reqComponent.field.type.value</code> maps to <code>value</code></li>
+ * <li><code>kuali.reqComponent.field.type.value.positive.integer</code> maps to <code>value</code></li>
  * <li><code>kuali.reqComponent.field.type.operator</code> maps to <code>relationalOperator</code></li>
  * </ul>
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
 public enum ReqComponentFieldTypes {
-	VALUE_KEY("kuali.reqComponent.field.type.value"),
-	VALUE_DATA_TYPE_KEY("kuali.reqComponent.field.type.valueDataType"),
+	INTEGER_VALUE1_KEY("kuali.reqComponent.field.type.value.positive.integer"),
 	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
-	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
-	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
     GPA_KEY("kuali.reqComponent.field.type.gpa"),
     TOTAL_CREDIT_KEY("kuali.reqComponent.field.type.totalCredits"),
 	INCLUSION_FILTER_TYPE_KEY("kuali.reqComponent.field.type.inclusionFilter.type"),
@@ -47,8 +44,16 @@ public enum ReqComponentFieldTypes {
     ORGANIZATION_KEY("kuali.reqComponent.field.type.org.id"),
     PERSON_KEY("kuali.reqComponent.field.type.person.id"),
     DURATION_KEY("kuali.reqComponent.field.type.duration"),
-    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id");
-	
+    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id"),
+	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
+	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
+	COURSE_CLU_KEY("kuali.reqComponent.field.type.course.clu.id"),
+	COURSE_CLUSET_KEY("kuali.reqComponent.field.type.course.cluSet.id"),
+	PROGRAM_CLU_KEY("kuali.reqComponent.field.type.program.clu.id"),
+	PROGRAM_CLUSET_KEY("kuali.reqComponent.field.type.program.cluSet.id"),
+	TEST_CLU_KEY("kuali.reqComponent.field.type.test.clu.id"),//FIXME Why do we have test data in our code?
+	TEST_CLUSET_KEY("kuali.reqComponent.field.type.test.cluSet.id");
+
 	private String id;
 	
 	ReqComponentFieldTypes(String id) {
@@ -58,10 +63,10 @@ public enum ReqComponentFieldTypes {
 	public String getId() {
 		return this.id;
 	}
-
-	public enum ValueDataType {
-		STRING,
-		INTEGER,
-		DOUBLE,
-	}
+//
+//	public enum ValueDataType {
+//		STRING,
+//		INTEGER,
+//		DOUBLE,
+//	}
 }

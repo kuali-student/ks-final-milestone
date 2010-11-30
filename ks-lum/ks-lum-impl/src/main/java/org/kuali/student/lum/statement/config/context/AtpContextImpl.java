@@ -17,7 +17,7 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -55,7 +55,7 @@ public class AtpContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         String durationTypeKey = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId());
         String duration = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_KEY.getId());
         AtpDurationTypeInfo atpDurationType = getAtpDurationType(durationTypeKey);

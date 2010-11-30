@@ -15,13 +15,11 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -29,7 +27,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -37,9 +34,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLU_CLU_FEE_REC")
 public class CluFeeRecord extends MetaEntity implements
 		AttributeOwner<CluFeeRecordAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "FEE_TYPE")
 	private String feeType;
@@ -62,19 +56,6 @@ public class CluFeeRecord extends MetaEntity implements
     @JoinColumn(name = "RT_DESCR_ID")
     private LuRichText descr;
 
-	@Override
-    public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getFeeType() {
 		return feeType;
 	}
@@ -92,9 +73,6 @@ public class CluFeeRecord extends MetaEntity implements
 	}
 
 	public List<CluFeeAmount> getFeeAmounts() {
-		if(null == feeAmounts) {
-			this.feeAmounts = new ArrayList<CluFeeAmount>();
-		}
 		return feeAmounts;
 	}
 
@@ -111,9 +89,6 @@ public class CluFeeRecord extends MetaEntity implements
 	}
 
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
-		if(null == affiliatedOrgs) {
-			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
-		}
 		return affiliatedOrgs;
 	}
 

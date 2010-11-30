@@ -1,8 +1,12 @@
 package org.kuali.student.lum.common.client.lo;
 
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.StringKey;
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+
+import java.util.Date;
 
 public class CategoryDataUtil {
     
@@ -26,14 +30,19 @@ public class CategoryDataUtil {
         */
         catHelper.setState(loCategoryInfo.getState());
         catHelper.setType(loCategoryInfo.getType());
-        
-        // TODO - do we need  MetaInfo communicated to the client, and hence a MetaInfoAssembler?
-        /*
-        MetaInfo mInfo = loCategory.getMetaInfo();
-        MetaInfoHelper metaHelper = MetaInfoHelper.wrap(new Data());
-        metaHelper.setCreateId(mInfo.getCreateId());
-        ...
-        */
+
+        MetaInfo mInfo = loCategoryInfo.getMetaInfo();
+        if (mInfo != null) {
+            MetaInfoHelper metaHelper = MetaInfoHelper.wrap(new Data());
+            metaHelper.setCreateId(mInfo.getCreateId());
+            metaHelper.setCreateTime(mInfo.getCreateTime());
+            metaHelper.setUpdateId(mInfo.getUpdateId());
+            metaHelper.setUpdateTime(mInfo.getUpdateTime());
+            metaHelper.setVersionInd(mInfo.getVersionInd());            
+            catHelper.getData().set(LoCategoryInfoHelper.Properties.META.getKey(), metaHelper.getData());
+      }
+       
+ 
         // TODO - LoCategoryInfoAssembler, w/ an assemble method so we can just do 
         // categoriesData.add(LoCategoryInfoAssembler.assemble(cat)) instead
         // of all the above
@@ -66,6 +75,16 @@ public class CategoryDataUtil {
             // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
             // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
             // of all the above
+
+            MetaInfo metaInfo = new MetaInfo();
+            MetaInfoHelper metaHelper = MetaInfoHelper.wrap((Data)categoryData.get("metaInfo"));
+
+            metaInfo.setCreateId(metaHelper.getCreateId());
+            metaInfo.setCreateTime(metaHelper.getCreateTime());
+            metaInfo.setUpdateId(metaHelper.getUpdateId());
+            metaInfo.setUpdateTime(metaHelper.getUpdateTime());
+            metaInfo.setVersionInd(metaHelper.getVersionInd());
+            catInfo.setMetaInfo(metaInfo);
         }
         return catInfo;
     }

@@ -25,7 +25,7 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -35,6 +35,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 /**
@@ -211,8 +212,10 @@ public interface CommentService extends DictionaryService {
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DoesNotExistException comment does not exist
+     * @throws VersionMismatchException The action was attempted on an out of date version.     * 
 	 */
-    public CommentInfo updateComment(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CommentInfo updateComment(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException;
 
     /**
      * Removes a comment from a reference.

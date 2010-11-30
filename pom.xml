@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <!--
-    Copyright 2009 The Kuali Foundation Licensed under the Educational Community
-    License, Version 2.0 (the "License"); you may not use this file except in
-    compliance with the License. You may obtain a copy of the License at
-    http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
-    agreed to in writing, software distributed under the License is distributed
-    on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-    express or implied. See the License for the specific language governing
-    permissions and limitations under the License.
-  -->
+<!--
+  Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+  License, Version 2.0 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+  agreed to in writing, software distributed under the License is distributed
+  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+  express or implied. See the License for the specific language governing
+  permissions and limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>15</version>
+    <version>17</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-ver-M8-SNAPSHOT</version>
+  <version>1.1.0-M10-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -49,39 +49,71 @@
     <system>hudson</system>
     <url>http://ci.ks.kuali.org</url>
   </ciManagement>
-  <modules>
-    <module>ks-security</module>
-    <module>ks-core</module>
-    <module>ks-lum</module>
-    <module>ks-web</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>ks-common</module>
+        <module>ks-security</module>
+        <module>ks-admin</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
+        <module>ks-web</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-gwt</id>
+      <modules>
+        <module>ks-common</module>
+        <module>ks-security</module>
+        <module>ks-admin</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
+      </modules>
+      <properties>
+        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
+      </properties>
+    </profile>
+    <profile>
+      <id>skip-all-wars</id>
+      <modules>
+        <module>ks-common</module>
+        <module>ks-security</module>
+        <module>ks-admin</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
+      </modules>
+    </profile>
+  </profiles>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
     <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
-    <!-- Shared between compiler, pmd, and javadoc plugins -->
-    <compileSource>1.6</compileSource>
-    <compileTarget>1.6</compileTarget>
-    <clover.history.dir>${user.home}/.m2/repository/.clover/history/${project.groupId}/${project.artifactId}/${project.version}</clover.history.dir>
-  
+    <ks.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</ks.clover.exclude.pattern.1>
+    <ks.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</ks.clover.exclude.pattern.2>
+    <ks.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</ks.clover.exclude.pattern.3>
+
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
-    <cxf.version>2.2</cxf.version>
+    <cxf.version>2.2.9</cxf.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <gwtVersion>2.0.4</gwtVersion>
+    <gwt.version>2.0.4</gwt.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.2.1</kuali.rice.version>
+    <kuali.rice.version>1.0.3</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>2.5.4</spring.version>
+    <spring.version>2.5.6</spring.version>
     <spring.security.version>2.0.4</spring.security.version>
     <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
@@ -89,6 +121,8 @@
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
+    <mysql.connector.version>5.1.13</mysql.connector.version>
+    <site.plugin.version>2.0.1</site.plugin.version>
 
     <!-- plugin versions -->
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
@@ -101,120 +135,40 @@
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
+    <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
+    <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
+    <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
+    <ks.java2ws.phase>none</ks.java2ws.phase>
+    <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
-  <profiles>
-    <!--
-     - This profile makes it easier to place Oracle's ojdbc14.jar into your local repository so Maven can find it
-     - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
-     - Run the maven-install-plugin using the oracle profile and pass in the download location
-
-      mvn -N -Poracle install:install-file -Dfile=/tmp/ojdbc14.jar
-
-     - You should see output like this:
-       [INFO] Installing /tmp/ojdbc14.jar to /opt/m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar
-     -->
-    <profile>
-      <id>oracle</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-install-plugin</artifactId>
-            <configuration>
-              <groupId>com.oracle</groupId>
-              <artifactId>ojdbc14</artifactId>
-              <version>${oracle.ojdbc.version}</version>
-              <packaging>jar</packaging>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- License plugin -->
-    <!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
-    <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
-    <!-- aslo non ascii characters like the japanese in statement.xml will get messed up by this plugin -->
-    <profile>
-      <id>generate-ecl</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.mycila.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <configuration>
-              <header>src/etc/ecl-header.txt</header>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>mc-release</id>
-          <name>Local Maven repository of releases</name>
-          <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-  </profiles>
   <build>
     <plugins>
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>3.0.2</version>
         <configuration>
-          <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
-RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
-xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
-UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
-          <generateHistorical>true</generateHistorical>
-          <historyDir>${clover.history.dir}</historyDir>
+          <excludes>
+            <exclude>${ks.clover.exclude.pattern.1}</exclude>
+            <exclude>${ks.clover.exclude.pattern.2}</exclude>
+            <exclude>${ks.clover.exclude.pattern.3}</exclude>
+          </excludes>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>${compileSource}</source>
-            <target>${compileTarget}</target>
-            <!-- Don't compile sources that are in jars -->
-            <compilerArgument>-implicit:none</compilerArgument>
-          </configuration>
-        </plugin>
-
-        <!--  the site plugin is both build and reporting -->
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${site.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <!-- Don't compile sources that are in jars -->
+            <compilerArgument>-implicit:none</compilerArgument>
+          </configuration>
         </plugin>
 
         <!-- CXF Java2WS Default Configuration -->
@@ -242,7 +196,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           </configuration>
         </plugin>
 
-        <!--  Tomcat Plugin Configuration -->
+        <!-- Tomcat Plugin Configuration -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>tomcat-maven-plugin</artifactId>
@@ -253,30 +207,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           </configuration>
         </plugin>
 
-        <!-- War Plugin Configuration -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>${war.plugin.version}</version> <!-- so one version is used regardless of build env :-) -->
-          <configuration>
-            <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-            <archive>
-              <manifestEntries>
-                <Bundle-Version>${project.version}</Bundle-Version>
-                <Bundle-Name>${project.name}</Bundle-Name>
-                <Bundle-Description>${project.description}</Bundle-Description>
-                <Bundle-License>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</Bundle-License>
-                <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
-                <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
-                <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
-                <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                <Hudson-Build-Number>${env.BUILD_NUMBER}</Hudson-Build-Number>
-              </manifestEntries>
-            </archive>
-          </configuration>
-        </plugin>
-
-        <!-- Codehaus GWT Maven Plugin Configuration-->
+        <!-- Codehaus GWT Maven Plugin Configuration -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
@@ -286,6 +217,9 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
             <hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
             <extraJvmArgs>-Xss32m -Xmx1g</extraJvmArgs>
+            <style>${ks.gwt.compile.style}</style>
+            <soyc>${ks.gwt.compile.soyc}</soyc>
+            <draftCompile>${ks.gwt.compile.draftCompile}</draftCompile>
           </configuration>
         </plugin>
       </plugins>
@@ -296,43 +230,19 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>3.0.2</version>
         <configuration>
-          <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
-RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
-xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
-UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
-          <generateHistorical>true</generateHistorical>
-          <historyDir>${clover.history.dir}</historyDir>
+          <excludes>
+            <exclude>${ks.clover.exclude.pattern.1}</exclude>
+            <exclude>${ks.clover.exclude.pattern.2}</exclude>
+            <exclude>${ks.clover.exclude.pattern.3}</exclude>
+          </excludes>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs.plugin.version}</version>
-        <configuration>
-          <findbugsXmlOutput>true</findbugsXmlOutput>
-          <!-- Optional directory to put findbugs xml report -->
-          <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${javadoc.plugin.version}</version>
         <configuration>
-          <maxmemory>256m</maxmemory>
-          <aggregate>true</aggregate>
-          <show>private</show>
-          <quite>true</quite>
-          <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
           <excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
-          <source>${compileSource}</source>
           <links>
             <link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
             <link>http://java.sun.com/javase/6/docs/api/</link>
@@ -344,65 +254,6 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
             <link>http://ws.apache.org/wss4j/apidocs/</link>
           </links>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>javadoc</report>
-              <report>test-javadoc</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${cobertura.plugin.version}</version>
-        <configuration>
-          <formats>
-            <format>html</format>
-          </formats>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.3</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <targetJdk>${compileSource}</targetJdk>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <!-- NOTE: 2.3 or more requires java 1.5 -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <aggregate>true</aggregate>
         </configuration>
       </plugin>
     </plugins>
@@ -471,7 +322,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <version>1.2.1</version>
       </dependency>
 
-      <!--  Hibernate -->
+      <!-- Hibernate -->
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-annotations</artifactId>
@@ -822,11 +673,11 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           </exclusion>
           <!-- GWT hosted not working if this is excluded -->
           <!--
-                    <exclusion>
-                        <groupId>org.codehaus.woodstox</groupId>
-                        <artifactId>wstx-asl</artifactId>
-                    </exclusion>
-                    -->
+            <exclusion>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+            </exclusion>
+          -->
         </exclusions>
       </dependency>
       <dependency>
@@ -851,7 +702,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
       </dependency>
 
 
-      <!--  Atomikos -->
+      <!-- Atomikos -->
       <dependency>
         <groupId>com.atomikos</groupId>
         <artifactId>transactions-jdbc</artifactId>
@@ -889,7 +740,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         </exclusions>
       </dependency>
 
-      <!--  Logging -->
+      <!-- Logging -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -935,31 +786,31 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
 
       <!-- Pom dependencies for impl specific jars -->
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-jta</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-cxf</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-metro</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-eclipselink</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-hibernate</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
@@ -982,19 +833,19 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-dev</artifactId>
-        <version>${gwtVersion}</version>
+        <version>${gwt.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-user</artifactId>
-        <version>${gwtVersion}</version>
+        <version>${gwt.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-servlet</artifactId>
-        <version>${gwtVersion}</version>
+        <version>${gwt.version}</version>
         <exclusions>
           <exclusion>
             <artifactId>junit</artifactId>
@@ -1061,17 +912,17 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <artifactId>jetty</artifactId>
           </exclusion>
           <!--
-                    <exclusion>
-                        <groupId>org.springmodules</groupId>
-                        <artifactId>spring-modules-ojb</artifactId>
-                    </exclusion>
-                    -->
+            <exclusion>
+            <groupId>org.springmodules</groupId>
+            <artifactId>spring-modules-ojb</artifactId>
+            </exclusion>
+          -->
           <!--
-                    <exclusion>
-                        <groupId>ojb</groupId>
-                        <artifactId>db-ojb</artifactId>
-                    </exclusion>
-                    -->
+            <exclusion>
+            <groupId>ojb</groupId>
+            <artifactId>db-ojb</artifactId>
+            </exclusion>
+          -->
           <exclusion>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
@@ -1088,11 +939,10 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
-
           <!--
-                        These dependencies conflict with gwt-dev for running hosted mode via eclipse
-                        launch file.
-                    -->
+            These dependencies conflict with gwt-dev for running hosted mode via eclipse
+            launch file.
+          -->
           <exclusion>
             <groupId>tomcat</groupId>
             <artifactId>jasper-compiler-jdt</artifactId>
@@ -1125,6 +975,11 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <groupId>com.oracle</groupId>
         <artifactId>ojdbc14</artifactId>
         <version>${oracle.ojdbc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.connector.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

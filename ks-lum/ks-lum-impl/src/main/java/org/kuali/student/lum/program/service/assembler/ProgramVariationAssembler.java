@@ -48,19 +48,24 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         // Copy all the data from the clu to the programvariation
         programAssemblerUtils.assembleBasics(clu, pvInfo);
         programAssemblerUtils.assembleIdentifiers(clu, pvInfo);
-        programAssemblerUtils.assembleAdminOrgIds(clu, pvInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, pvInfo);
+        programAssemblerUtils.assembleFullOrgs(clu, pvInfo);
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
-        programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        programAssemblerUtils.assemblePublications(clu, pvInfo);
         
-        pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.DEGREE_RESULTS));
-        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
-
+        if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
+            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        }
+        
         pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
+        pvInfo.setStdDuration(clu.getStdDuration());
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
         pvInfo.setDescr(clu.getDescr());
+        pvInfo.setVersionInfo(clu.getVersionInfo());
 
         return pvInfo;
     }
@@ -83,15 +88,20 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
         
-        programAssemblerUtils.disassembleBasics(clu, variation, operation);
+        boolean stateChanged = NodeOperation.UPDATE == operation && variation.getState() != null && !variation.getState().equals(clu.getState());
+        
+        programAssemblerUtils.disassembleBasics(clu, variation);
         if (variation.getId() == null)
         	variation.setId(clu.getId());
         programAssemblerUtils.disassembleIdentifiers(clu, variation, operation);
         programAssemblerUtils.disassembleAdminOrgs(clu, variation, operation);
         programAssemblerUtils.disassembleAtps(clu, variation, operation);
         programAssemblerUtils.disassembleLuCodes(clu, variation, operation);        
-        programAssemblerUtils.disassemblePublicationInfo(clu, variation, operation);
-        programAssemblerUtils.disassembleRequirements(clu, variation, operation);
+        programAssemblerUtils.disassemblePublications(clu, variation, operation, result);
+
+        if(variation.getProgramRequirements() != null && !variation.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result, stateChanged);
+        }
         
         if (variation.getResultOptions() != null) {
             disassembleResultOptions(variation, operation, result);           
@@ -104,10 +114,11 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		AmountInfo intensity = new AmountInfo();
 		intensity.setUnitType(variation.getIntensity());
 		clu.setIntensity(intensity);
-		
+		clu.setStdDuration(variation.getStdDuration());
         clu.setCampusLocations(variation.getCampusLocations());
         clu.setEffectiveDate(variation.getEffectiveDate());
         clu.setDescr(variation.getDescr());
+        clu.setVersionInfo(variation.getVersionInfo());        
         
 		// Add the Clu to the result
 		result.setNodeData(clu);

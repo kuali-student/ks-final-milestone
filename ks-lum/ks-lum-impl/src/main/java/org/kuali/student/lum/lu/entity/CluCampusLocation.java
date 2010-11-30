@@ -17,13 +17,11 @@ package org.kuali.student.lum.lu.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -34,11 +32,7 @@ import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "KSLU_CLU_JN_CAMP_LOC")
-public class CluCampusLocation {
-    
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class CluCampusLocation extends BaseEntity{
 
     @Column(name = "CAMP_LOC")
     private String campusLocation; 
@@ -46,19 +40,6 @@ public class CluCampusLocation {
     @ManyToOne
     @JoinColumn(name="CLU_ID")
     private Clu clu;
-    
-    @PrePersist
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCampusLocation() {
         return campusLocation;

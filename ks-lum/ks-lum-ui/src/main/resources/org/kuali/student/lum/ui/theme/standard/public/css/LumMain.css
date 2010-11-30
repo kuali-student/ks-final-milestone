@@ -83,9 +83,8 @@
 }
 
 .KS-LOBuilder-Search-Panel {
-	padding: 0px;
-	width: 100%;
-	
+    line-height:1.5em;
+    width:100%;
 }
 
 .KS-LOBuilder-Spacer-Panel {
@@ -105,7 +104,7 @@
 }
 
 .KS-LOBuilder-Instructions {
-    font-size:0.916em;
+    font-size:1em;
 }
 
 .KS-LOBuilder-Highlighted-Item {
@@ -121,7 +120,8 @@
 }
 
 .KS-LOBuilder-LO-Panel {
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .KS-LOWindow {
@@ -157,31 +157,36 @@
 }
 
 .KS-LOCategoryPicker {
-    padding: 5px;
- /*   background-color: #FFE0C2; */
     border-style: dashed;
-    font-size: 75%;
+    font-size: 1em;
+    margin: 0 5px 0 70px;
+    padding: 2px 5px 5px;
+    width: 100%;
+
 }
 
 .KS-LOCategoryPicker-Button {
-    font-size: 75%;
+               font-size:75%;
+               margin:0 0 0 7px;
+
 }
 .KS-LOMainPanel {
 }
 .KS-LONodePanel {
+margin-bottom: 15px;
 }
 .KS-LONodeIndent {
 	width:50px;
 }
 .KS-LONodeIndentToolbar {
-    width:50px;
+    width:47px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
-	width:400px;
-	height:50px;
-	border: 1px solid gray;
-	background-color: aliceBlue;
+    background-color: #F2F9F9;
+    border: 1px solid #D2D8E3;
+    height: 50px;
+    width: 790px;
 }
 .KS-LOHNodePanel {
 }
@@ -190,12 +195,11 @@
 	height: 32px;
 }
 .KS-LOButtonPanel {
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
-	border-right: 1px solid gray;
-	border-bottom: none;
-	border-collapse: collapse;
-	width: 100%;
+    border-collapse: collapse;
+    border-color: #D2D8E3;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    width: 100%;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
@@ -254,11 +258,13 @@
     margin: 4px 0 0;
 }
 .KS-LODeleteButton{
-	background: transparent;
-	border: none;
-	color: blue;
-	font-size:0.916em;
-	margin: 8px 4px 1px 422px;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: blue;
+    float: right;
+    font-size: 0.916em;
+    margin: 8px 4px 1px 320px;  /* not ideal but the quickest fix */
+
 }
 .KS-LODeleteButtonDisabled{
 	background: transparent;
@@ -273,17 +279,27 @@
 	cursor: pointer;
 }
 .KS-LOTextArea {
-	width: 28em;
-	height: 2.75em;
-	margin: 8px;
-	border: 1px solid #888888;
+    border: 1px solid #888888;
+    height: 62px;
+    margin: 8px;
+    width: 35em;
+
 }
+
+.loText-count-label{
+	margin-left: 8px;
+}
+
 .KS-LOSelectedCategories {
     margin-left: 0px;	
 }
 .KS-LOSelectedCategories .ks-selected-list-value {
-	border: solid 1px #cdcdcd;
-	background: none repeat scroll 0 0 white;
+                      border-bottom: #cdcdcd 1px solid;
+                      border-left: #cdcdcd 1px solid;
+                      background: white 0px 0px;
+                      border-top: #cdcdcd 1px solid;
+                      border-right: #cdcdcd 1px solid;
+                      width: 15em;
 }
 .KSLOLightBox {
 }
@@ -310,17 +326,19 @@
 	margin-bottom: 10px;
 	margin-left: 10px;
 }
+.Lum-DocumentHeader-Spacing {
+    margin-left: 0px;
+}
 .KSLOCategoryManagementMainPanel {
-	background-color: white;
-	margin-top: 30px;
-    padding-top: 10px;
-    padding-left: 16px;
+	margin-top: 5px;
+    margin-left: 0px;
 }
 .KSLOCategoryManagementFilterPanel {
+	padding-right: 20px;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.5em;
 }
 
 .KS-Action-List{
@@ -364,6 +382,37 @@
 }
 .KS-MultiplicityTableCellBorder {
   border: 1px solid #C0C0C0;
+}
+
+.KS-CommentButton{
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+}
+
+.KS-CommentButtonDisabled{
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+}
+
+.KS-CluSetManagement-chooser {
+background-color: lightgrey;
+width:500px;
+padding:10px
+}
+.KS-CluSetManagement-chooser-unselected {
+    background-color: lightgrey;
+    width:500px;
+    height:100px;
+    padding:10px;
+
+}
+
+.browseCatalog .KS-TabPanel-Small .KS-TabPanel-Content{
+	width: 940px;
 }
 
 .cluInfo-officialIdentifier-longName{}
@@ -433,3 +482,97 @@
 .TableIndent-8{text-indent:80px;}
 .SummaryTable-EvenRow{background-color:  #FAFAFA;}
 .SummaryTable-OddRow{background-color: #F0F0F0;}
+
+.KS-LOSecondaryButton {
+	line-height:1.93em;
+	text-decoration:none;
+
+	background-color: #EEEEEE;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	\-moz-border-radius: 3px;
+	\-webkit-border-radius: 3px;
+	border: 1px solid #999999;
+	padding: 3px 8px 2px 8px;
+	color: #2C61E6;
+	font-size: 1em;
+	margin-left: 10px;
+}
+.KS-LOSecondaryButtonDisabled {
+	line-height:1.93em;
+	text-decoration:none;
+
+	background-color: #F8F8F8;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
+	\-moz-border-radius: 3px;
+	\-webkit-border-radius: 3px;
+	border: 1px solid #999999;
+	padding: 3px 8px 2px 8px;
+	color: #999999;
+	font-size: 1em;
+	margin-left: 10px;
+}
+.KS-LOSelectAllHyperlink {
+	margin-right: 7px;
+}
+.KS-LOClearHyperlink {
+	margin-left: 7px;
+}
+.KS-LOFunnelImg{
+    background: url("images/funnel-small.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogTitle{
+	font-size: 1.5em;
+	color: red;
+}
+.KS-LODialogFieldLabel{
+	font-weight: bold;
+	margin-right: 10px;
+}
+.KS-LODialogCancel {
+	margin-left: 7px;
+	vertical-align: bottom;
+}
+.KS-LOSpacer {
+    width: 20px;
+    height:20px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogLabel{
+	font-weight: bold;
+	width: 130px;
+	text-align:left
+}
+
+.acknowledgements{
+	margin-left: 30px;
+	width: 900px;
+	padding-top: 20px;
+}
+
+.acknowledgements p{
+	font-size: 1.1em;
+}
+
+.acknowledgements h1{
+	padding-bottom: 5px;
+	border-bottom: 2px solid black;
+	font-weight: bold;
+}
+
+.acknowledgements h2{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.acknowledgements h3{
+    font-size: 1.1em;
+    font-weight: bold;
+	margin-bottom: 0px;
+}

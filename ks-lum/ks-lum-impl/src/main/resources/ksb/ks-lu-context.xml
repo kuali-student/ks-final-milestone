@@ -51,10 +51,6 @@
         </property>
     </bean>
 
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
-        <property name="messageService" ref="ks.messageServiceMock"/>
-    </bean>
-
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -122,18 +118,18 @@
     <bean id="lumDictionary"
           class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0"
-                         value="${ks.lum.dictionary.serviceContextLocations}"/>
+                         value="${ks.lum.dictionary.old.serviceContextLocations}"/>
     </bean>
 
     <bean id="luClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
 
     <bean id="proposalClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
@@ -144,11 +140,10 @@
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="pocServiceValidator"/>
+		<property name="validatorFactory" ref="lumValidatorFactory"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.luService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -220,13 +215,13 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
-        <property name="validator" ref="serviceValidator"/>
+		<property name="validatorFactory" ref="lumValidatorFactory"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -307,7 +302,7 @@
     </bean>
 
     <bean id="lrcClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
@@ -319,7 +314,7 @@
         <property name="searchManager" ref="lrcSearchManager"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -334,7 +329,7 @@
     </bean>
 
     <bean id="loClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
@@ -345,11 +340,11 @@
           class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
         <property name="loDao" ref="loDao"/>
         <property name="searchManager" ref="loSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
-        <property name="validator" ref="serviceValidator"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>        
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.loService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -364,7 +359,7 @@
     </bean>
 
     <bean id="orgClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
@@ -372,36 +367,11 @@
     </bean>
 
     <bean id="enumServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
-    </bean>
-
-    <!-- Document Relation Mock Service Config -->
-    <!--Note: When this service is defined, move this declaration into core
-        context.
-    -->
-
-    <bean id="documentRelationServiceImpl"
-          class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true"/>
-                <property name="service" ref="documentRelationServiceImpl"/>
-                <property name="serviceInterface"
-                          value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-                <property name="localServiceName" value="DocumentRelationService"/>
-                <property name="serviceNameSpaceURI"
-                          value="http://student.kuali.org/wsdl/documentRelation"/>
-                <property name="busSecurity" value="false"></property>
-            </bean>
-        </property>
     </bean>
 
     <!-- CourseService config -->
@@ -411,11 +381,11 @@
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-        <property name="validator" ref="pocServiceValidator"/>
-        <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.courseService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -430,15 +400,20 @@
     </bean>
 
     <bean id="atpClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
+    
+    <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
+    </bean>
 
     <bean id="statementServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName"
@@ -481,30 +456,35 @@
 
     <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg>
-	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml</value>
-        </constructor-arg>
+        <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
-    <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
         <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-    <bean id="validatorFactory"
-          class="org.kuali.student.common.validator.ValidatorFactory">
-        <constructor-arg index="0">
-            <list>
-                <ref bean="customValidator1"/>
-            </list>
-        </constructor-arg>
-        <property name="defaultValidator" ref="pocServiceValidator"/>
+
+    <bean id="lumValidatorFactory-parent"
+          abstract="true" class="org.kuali.student.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="lumServiceValidator"/>
+        <property name="validatorList">
+        	<list>
+				<!--  Add Custom Validators Here -->
+				
+				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
+			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
+			    <bean class="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>    	
+				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
+					<property name="atpService" ref="atpClient"/>
+				</bean>
+			</list>
+        </property>
     </bean>
 
-    <bean id="customValidator1"
-          class="org.kuali.student.common.validator.SampCustomValidator">
-
-    </bean>
+    <bean id="lumValidatorFactory" parent="lumValidatorFactory-parent"/>
+	
+    
 
     <!-- Program Service Config -->
 
@@ -515,7 +495,6 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
     <bean id="programRequirementAssembler"
@@ -560,6 +539,7 @@
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="luService" ref="luClient"/>
     </bean>
 
@@ -590,14 +570,16 @@
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="lumDictionaryService"/>
-        <property name="validator" ref="pocServiceValidator"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="atpService" ref="atpClient"/>
+        <property name="documentService" ref="documentClient"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.programService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -609,28 +591,6 @@
                           value="http://student.kuali.org/wsdl/program"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
-        </property>
-    </bean>
-
-    <!-- Preloaded data -->
-    <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="transactionManager"/>
-        <property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
-        <property name="preloadMap">
-            <map>
-                <entry key="Lo">
-                    <value>classpath:ks-lo.sql</value>
-                </entry>
-                <entry key="Lu">
-                    <value>classpath:ks-lu.sql</value>
-                </entry>
-                <entry key="Statement">
-                    <value>classpath:ks-statement.sql</value>
-                </entry>
-                <entry key="Lrc">
-                    <value>classpath:ks-lrc.sql</value>
-                </entry>
-            </map>
         </property>
     </bean>
 

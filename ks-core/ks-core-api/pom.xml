@@ -6,17 +6,17 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-ver-M8-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.code.gwtx</groupId>
-      <artifactId>gwtx</artifactId>
-      <scope>compile</scope>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-api</artifactId>
     </dependency>
   </dependencies>
   <build>

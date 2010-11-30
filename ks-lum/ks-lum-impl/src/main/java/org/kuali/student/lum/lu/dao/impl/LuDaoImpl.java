@@ -28,10 +28,10 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluPublication;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
-import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 
@@ -153,49 +153,6 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		@SuppressWarnings("unchecked")
 		List<CluCluRelation> cluCluRelations = query.getResultList();
 		return cluCluRelations;
-	}
-
-	@Override
-	public List<LuDocumentRelation> getLuDocRelationsByClu(String cluId) {
-		Query query = em
-				.createNamedQuery("LuDocumentRelation.getLuDocRelationsByClu");
-		query.setParameter("cluId", cluId);
-		@SuppressWarnings("unchecked")
-		List<LuDocumentRelation> luDocRelations = query.getResultList();
-		return luDocRelations;
-	}
-
-	@Override
-	public List<LuDocumentRelation> getLuDocRelationsByDocument(
-			String documentId) {
-		Query query = em
-				.createNamedQuery("LuDocumentRelation.getLuDocRelationsByDocument");
-		query.setParameter("documentId", documentId);
-		@SuppressWarnings("unchecked")
-		List<LuDocumentRelation> luDocRelations = query.getResultList();
-		return luDocRelations;
-	}
-
-	@Override
-	public List<LuDocumentRelation> getLuDocRelationsByIdList(
-			List<String> luDocRelationIds) {
-		Query query = em
-				.createNamedQuery("LuDocumentRelation.getLuDocRelationsByIdList");
-		query.setParameter("luDocRelationIds", luDocRelationIds);
-		@SuppressWarnings("unchecked")
-		List<LuDocumentRelation> luDocRelations = query.getResultList();
-		return luDocRelations;
-	}
-
-	@Override
-	public List<LuDocumentRelation> getLuDocRelationsByType(
-			String luDocRelationTypeId) {
-		Query query = em
-				.createNamedQuery("LuDocumentRelation.getLuDocRelationsByType");
-		query.setParameter("luDocRelationTypeId", luDocRelationTypeId);
-		@SuppressWarnings("unchecked")
-		List<LuDocumentRelation> luDocRelations = query.getResultList();
-		return luDocRelations;
 	}
 
 	@Override
@@ -464,6 +421,16 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
+	public VersionDisplayInfo getLatestVersion(String versionIndId,
+			String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findLatestVersion");
+        query.setParameter("versionIndId", versionIndId);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
 	public VersionDisplayInfo getVersionBySequenceNumber(String versionIndId,
 			String objectTypeURI, Long sequenceNumber) {
         Query query = em.createNamedQuery("Clu.findVersionBySequence");
@@ -519,6 +486,23 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
         }
         return versionDisplayInfos;
+	}
+
+	@Override
+	public List<CluPublication> getCluPublicationsByType(
+			String luPublicationTypeKey) {
+        Query query = em.createNamedQuery("CluPublication.findCluPublicationsByType");
+        query.setParameter("luPublicationTypeKey", luPublicationTypeKey);
+        List<CluPublication> cluPublications = query.getResultList();
+        return cluPublications;
+	}
+
+	@Override
+	public List<CluPublication> getCluPublicationsByCluId(String cluId) {
+        Query query = em.createNamedQuery("CluPublication.findPublicationsByCluId");
+        query.setParameter("cluId", cluId);
+        List<CluPublication> cluPublications = query.getResultList();
+        return cluPublications;
 	}
 	
 }

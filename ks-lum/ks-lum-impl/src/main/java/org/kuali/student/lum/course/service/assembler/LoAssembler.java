@@ -68,7 +68,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 	}
 
 	@Override
-	//Creation of categories is done in the LoRpcGwtServlet
+	//Creation of categories is done in the LoCategoryRpcGwtServlet
 	public BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> disassemble(
 			LoDisplayInfo loDisplay, NodeOperation operation)
 			throws AssemblyException {
@@ -198,9 +198,10 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentLoRelations.containsKey(childDisplay.getLoInfo().getId()))) {
-		        
+		        		    
                 // the lo does not exist, so create
                 // Assemble and add the lo
+		    	childDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this
                         .disassemble(childDisplay, NodeOperation.CREATE);
                 results.add(loNode);

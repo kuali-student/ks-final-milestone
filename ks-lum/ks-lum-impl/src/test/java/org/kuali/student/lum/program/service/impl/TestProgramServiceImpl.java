@@ -5,7 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,22 +24,30 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -52,11 +67,26 @@ public class TestProgramServiceImpl {
 
     @Autowired
     public ProgramService programService;
+    @Autowired
+    public StatementService statementService;
     private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
+    
+    /**
+     * A set of methods that have a dummy implementation in ProgramServiceImpl.  Method names should be removed from here once
+     * they have a working implementation.
+     */
+    private final String[] DUMMY_SERVICE_METHODS = {"createHonorsProgram", "createMinorDiscipline", "deleteHonorsProgram", 
+            "deleteMinorDiscipline", "getCredentialProgramType", "getCredentialProgramTypes", 
+            "getHonorsByCredentialProgramType", "getHonorsProgram", "getMajorIdsByCredentialProgramType", 
+            "getMinorDiscipline", "getMinorsByCredentialProgramType", "updateHonorsProgram", "updateMinorDiscipline", 
+            "validateHonorsProgram", "validateMinorDiscipline", "getSearchCriteriaType", "getSearchCriteriaTypes", 
+            "getSearchResultType", "getSearchResultTypes", "getSearchType", "getSearchTypes", "getSearchTypesByCriteria", 
+            "getSearchTypesByResult", "search"};
 
     @Test
     public void testProgramServiceSetup() {
     	assertNotNull(programService);
+    	assertNotNull(statementService);
     }
 
 	@Test
@@ -100,15 +130,15 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
+    @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULEEDIT", "en");
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en");
         assertNotNull(progReqInfo);
 
         checkTreeView(progReqInfo, true);
     }
 
-	private void checkTreeView(final ProgramRequirementInfo progReqInfo,  final boolean checkNaturalLanguage) {
+	private void checkTreeView(final ProgramRequirementInfo progReqInfo, final boolean checkNaturalLanguage) {
 		StatementTreeViewInfo rootTree = progReqInfo.getStatement();
         assertNotNull(rootTree);
         List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
@@ -131,9 +161,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        			subTree1.getNaturalLanguageTranslation());
         }
 
         // Check reqComps of sub-tree 2
@@ -144,14 +171,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        			subTree2.getNaturalLanguageTranslation());
-
-        	assertEquals(
-        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        			rootTree.getNaturalLanguageTranslation());
         }
 	}
 
@@ -166,9 +185,8 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    public void testGetCoreProgram() {
+    public void testGetCoreProgram() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         CoreProgramInfo core = null;
-        try {
             try {
                 core = programService.getCoreProgram("d4ea77dd-b492-4554-b104-863e42c5f8b7");
                 fail("Should have received DoesNotExistException");
@@ -182,8 +200,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getReferenceURL());
             assertEquals("http://www.google.ca", core.getReferenceURL());
-//            assertNotNull(major.getUniversityClassification());
-//            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
+            assertNotNull(core.getUniversityClassification());
+            assertEquals(core.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
             assertNotNull(core.getStartTerm());
             assertEquals("start_term", core.getStartTerm());
             assertNotNull(core.getEndTerm());
@@ -198,17 +216,15 @@ public class TestProgramServiceImpl {
             assertEquals("Bachelor of Science", core.getLongTitle());
             assertNotNull(core.getTranscriptTitle());
             assertEquals(core.getTranscriptTitle(), "TRANSCRIPT-TITLE");
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
 
-            //TODO: add descr in test db
-//            assertNotNull(core.getDescr());
-//            assertEquals("Anthropology Major", core.getDescr().getPlain());
-//
 //            //TODO catalog descr
 //            //TODO catalog pub targets
-             //TODO: add lo in test db
-//            assertNotNull(major.getLearningObjectives());
-//            assertTrue(major.getLearningObjectives().size() ==1);
-//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(core.getLearningObjectives());
+            assertTrue(core.getLearningObjectives().size() ==1);
+            assertEquals("Core Program Learning objectives", core.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
             assertNotNull(core.getDivisionsContentOwner());
             assertTrue(core.getDivisionsContentOwner().size() == 1);
@@ -236,15 +252,10 @@ public class TestProgramServiceImpl {
             assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
             assertNotNull(core.getId());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
-          } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
     @Test
-    public void testGetMajorDiscipline() {
+    public void testGetMajorDiscipline() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         MajorDisciplineInfo major = null;
-        try {
 //        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
             // MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             try {
@@ -276,19 +287,20 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
-            assertEquals("450202", major.getCip2000Code());
+            assertEquals("45.0202", major.getCip2000Code());
             assertNotNull(major.getCip2010Code());
-            assertEquals("450201", major.getCip2010Code());
+            assertEquals("45.0201", major.getCip2010Code());
             assertNotNull(major.getHegisCode());
-            assertEquals("HEGISCODE", major.getHegisCode());
+            assertEquals("220200", major.getHegisCode());
             assertNotNull(major.getUniversityClassification());
             assertEquals("UNIVERSITYCLASSIFICATIONCODE", major.getUniversityClassification());
             assertNotNull(major.getSelectiveEnrollmentCode());
             assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+            assertTrue(major.getResultOptions().size() == 2);
+            assertEquals("kuali.resultComponent.degree.ba", major.getResultOptions().get(0));
+            assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
             assertNotNull(major.getStdDuration());
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
@@ -322,20 +334,26 @@ public class TestProgramServiceImpl {
             assertEquals("Anthropology Major", major.getDescr().getPlain());
 
             //TODO catalog descr
-            //TODO catalog pub targets
 
+            assertNotNull(major.getCatalogDescr());
+            assertEquals("This is the catalog description", major.getCatalogDescr().getPlain());
+            assertNotNull(major.getCatalogPublicationTargets());
+            assertEquals(1, major.getCatalogPublicationTargets().size());
+            assertEquals("kuali.lu.publication.UndergradCatalog", major.getCatalogPublicationTargets().get(0));
             assertNotNull(major.getLearningObjectives());
             assertTrue(major.getLearningObjectives().size() ==1);
             assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
             assertNotNull(major.getCampusLocations());
             assertTrue(major.getCampusLocations().size() == 2);
-            assertEquals("NORTH", major.getCampusLocations().get(0));
-            assertEquals("SOUTH", major.getCampusLocations().get(1));
+            assertEquals("NO", major.getCampusLocations().get(0));
+            assertEquals("SO", major.getCampusLocations().get(1));
 
             assertNotNull(major.getOrgCoreProgram());
             assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", major.getOrgCoreProgram().getId());
-            //TODO progr requirements
+            assertNotNull(major.getProgramRequirements());
+            assertTrue(major.getProgramRequirements().size() == 1);
+            assertEquals("REQ-200", major.getProgramRequirements().get(0));
 
             assertNotNull(major.getAccreditingAgencies());
             assertTrue(major.getAccreditingAgencies().size() == 1);
@@ -393,17 +411,12 @@ public class TestProgramServiceImpl {
             assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
 
 
-          } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void testGetVariationsByMajorDisciplineId(){
+    public void testGetVariationsByMajorDisciplineId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-        try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
 
@@ -417,20 +430,15 @@ public class TestProgramServiceImpl {
             assertEquals("Zooarchaeology", pvInfo.getLongTitle());
             assertEquals("ZooArch", pvInfo.getShortTitle());
             assertEquals("VAR-200", pvInfo.getId());
-            assertEquals("active", pvInfo.getState());
+            assertEquals("Active", pvInfo.getState());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void testGetBaccCredentialProgram(){
+    public void testGetBaccCredentialProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
     	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
     	CredentialProgramInfo credentialProgramInfo = null;
-    	try{
     		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(credentialProgramInfo);
             assertEquals("BS", credentialProgramInfo.getCode());
@@ -444,17 +452,12 @@ public class TestProgramServiceImpl {
             assertNotNull(credentialProgramInfo.getCoreProgramIds());
             assertEquals(1, credentialProgramInfo.getCoreProgramIds().size());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	        fail(e.getMessage());
-	    }
     }
 
     @Test
-    public void testCreateMajorDiscipline() {
+    public void testCreateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
-        try {
             assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
 
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
@@ -537,15 +540,13 @@ public class TestProgramServiceImpl {
             assertEquals("plain-test", createdMD.getDescr().getPlain());
             assertEquals("formatted-test", createdMD.getDescr().getFormatted());
 
-            //TODO catalog pub targets
-
             assertNotNull(createdMD.getCatalogDescr());
             assertEquals("plain-test", createdMD.getCatalogDescr().getPlain());
             assertEquals("formatted-test", createdMD.getCatalogDescr().getFormatted());
 
             assertNotNull(createdMD.getCatalogPublicationTargets());
             assertTrue(createdMD.getCatalogPublicationTargets().size() == 2);
-            assertEquals("catalogPublicationTargets-test", createdMD.getCatalogPublicationTargets().get(0));
+            assertEquals("kuali.lu.publication.Catalog", createdMD.getCatalogPublicationTargets().get(0));
 
             assertNotNull(createdMD.getLearningObjectives());
             assertTrue(createdMD.getLearningObjectives().size() == 2);
@@ -553,60 +554,59 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getCampusLocations());
             assertTrue(createdMD.getCampusLocations().size() == 2);
-            assertEquals("SOUTH", createdMD.getCampusLocations().get(0));
-            assertEquals("NORTH", createdMD.getCampusLocations().get(1));
+            assertEquals("SO", createdMD.getCampusLocations().get(0));
+            assertEquals("NO", createdMD.getCampusLocations().get(1));
 
             assertNotNull(createdMD.getOrgCoreProgram());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
 // TODO           assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getOrgCoreProgram().getId());
-            //TODO progr requirements
 
             assertNotNull(createdMD.getProgramRequirements());
             assertTrue(createdMD.getProgramRequirements().size() == 2);
-            assertEquals("programRequirements-test", createdMD.getProgramRequirements().get(0));
+            assertEquals("REQ-200", createdMD.getProgramRequirements().get(0));
 
             assertNotNull(createdMD.getAccreditingAgencies());
             assertTrue(createdMD.getAccreditingAgencies().size() == 2);
             assertEquals("orgId-test", createdMD.getAccreditingAgencies().get(0).getOrgId());
 
             assertNotNull(createdMD.getDivisionsContentOwner());
-            assertTrue(createdMD.getDivisionsContentOwner().size() == 4);
+            assertTrue(createdMD.getDivisionsContentOwner().size() == 2);
             assertEquals("divisionsContentOwner-test", createdMD.getDivisionsContentOwner().get(0));
 
             assertNotNull(createdMD.getDivisionsStudentOversight());
-            assertTrue(createdMD.getDivisionsStudentOversight().size() == 4);
+            assertTrue(createdMD.getDivisionsStudentOversight().size() == 2);
             assertEquals("divisionsStudentOversight-test", createdMD.getDivisionsStudentOversight().get(0));
 
             assertNotNull(createdMD.getDivisionsDeployment());
-            assertTrue(createdMD.getDivisionsDeployment().size() == 4);
+            assertTrue(createdMD.getDivisionsDeployment().size() == 2);
             assertEquals("divisionsDeployment-test", createdMD.getDivisionsDeployment().get(0));
 
             assertNotNull(createdMD.getDivisionsFinancialResources());
-            assertTrue(createdMD.getDivisionsFinancialResources().size() == 4);
+            assertTrue(createdMD.getDivisionsFinancialResources().size() == 2);
             assertEquals("divisionsFinancialResources-test", createdMD.getDivisionsFinancialResources().get(0));
 
             assertNotNull(createdMD.getDivisionsFinancialControl());
-            assertTrue(createdMD.getDivisionsFinancialControl().size() == 4);
+            assertTrue(createdMD.getDivisionsFinancialControl().size() == 2);
             assertEquals("divisionsFinancialControl-test", createdMD.getDivisionsFinancialControl().get(0));
 
             assertNotNull(createdMD.getUnitsContentOwner());
-            assertTrue(createdMD.getUnitsContentOwner().size() == 4);
+            assertTrue(createdMD.getUnitsContentOwner().size() == 2);
             assertEquals("unitsContentOwner-test", createdMD.getUnitsContentOwner().get(0));
 
             assertNotNull(createdMD.getUnitsStudentOversight());
-            assertTrue(createdMD.getUnitsStudentOversight().size() == 4);
-            assertEquals("unitsStudentOversight-test", createdMD.getUnitsStudentOversight().get(1));
+            assertTrue(createdMD.getUnitsStudentOversight().size() == 2);
+            assertEquals("unitsStudentOversight-test", createdMD.getUnitsStudentOversight().get(0));
 
             assertNotNull(createdMD.getUnitsDeployment());
-            assertTrue(createdMD.getUnitsDeployment().size() == 4);
+            assertTrue(createdMD.getUnitsDeployment().size() == 2);
             assertEquals("unitsDeployment-test", createdMD.getUnitsDeployment().get(0));
 
             assertNotNull(createdMD.getUnitsFinancialResources());
-            assertTrue(createdMD.getUnitsFinancialResources().size() == 4);
+            assertTrue(createdMD.getUnitsFinancialResources().size() == 2);
             assertEquals("unitsFinancialResources-test", createdMD.getUnitsFinancialResources().get(0));
 
             assertNotNull(createdMD.getUnitsFinancialControl());
-            assertTrue(createdMD.getUnitsFinancialControl().size() == 4);
+            assertTrue(createdMD.getUnitsFinancialControl().size() == 2);
             assertEquals("unitsFinancialControl-test", createdMD.getUnitsFinancialControl().get(0));
 
             assertNotNull(createdMD.getAttributes());
@@ -621,11 +621,46 @@ public class TestProgramServiceImpl {
 //            createTime.set(2009, 4, 7, 12, 5, 36);
 //            testDate = new Date(createTime.getTimeInMillis());
 //            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
-
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
 	}
+
+    @Test
+    public void testMajorDisciplineVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
+		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo mdInfo = mdGenerator.getMajorDisciplineInfoTestData();
+        mdInfo.getProgramRequirements().clear();
+        for(ProgramVariationInfo variation :mdInfo.getVariations()){
+        	variation.getProgramRequirements().clear();
+        }
+        MajorDisciplineInfo createdMajor = programService.createMajorDiscipline(mdInfo);
+
+        MajorDisciplineInfo newMajorDiscipline = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+        
+        // Make the created the current version
+        programService.setCurrentMajorDisciplineVersion(newMajorDiscipline.getId(), null);
+
+		MajorDisciplineInfo	newMajor = null;
+        try {
+            newMajor = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+
+        assertNotNull(newMajor);
+
+    }
+
+    @Test
+    public void testCreateMajorDisciplineDeleteRule() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo major;
+            assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
+
+            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
+
+            ProgramRequirementInfo progReq = createProgramRequirementTestData();
+        	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+    }
 
     @Test(expected = MissingParameterException.class)
     public void testCreateProgramRequirement_null() throws Exception {
@@ -670,13 +705,14 @@ public class TestProgramServiceImpl {
 		assertNotNull(created);
 		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"id", "descr", "learningObjectives","statement","attributes","metaInfo"}));
     	checkLoDisplays(orig.getLearningObjectives(), created.getLearningObjectives());
-		if (orig.getId() != null) {
+    	if (orig.getId() == null && created.getId() == null) {
+    		fail("both ProgramRequirements ids are null");
+    	} else if (orig.getId() != null) {
 			assertEquals(orig.getId(), created.getId());
 		}
 
-    	StatementTreeViewInfo statement2 = created.getStatement();
+    	checkRichText(orig.getDescr(), created.getDescr());
     	checkStatementTreeView(orig.getStatement(), created.getStatement());
-    	assertNotNull(statement2);
 	}
 
 	private static void checkStatementTreeView(StatementTreeViewInfo statement,
@@ -684,7 +720,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(statement);
 		assertNotNull(statement2);
 		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"id", "desc", "attributes", "metaInfo", "statements", "reqComponents"}));
-		if (statement.getId() != null) {
+		if (statement.getId() == null && statement2.getId() == null) {
+			fail("Both StatementTreeView ids are null");
+		} else if (statement.getId() != null) {
 			assertEquals(statement.getId(), statement2.getId());
 		}
 		checkRichText(statement.getDesc(), statement2.getDesc());
@@ -707,7 +745,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(reqComponent);
 		assertNotNull(reqComponent2);
 		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"id", "desc", "reqCompFields", "requiredComponentType", "naturalLanguageTranslation", "metaInfo"}));
-		if (reqComponent.getId() != null) {
+		if (reqComponent.getId() == null && reqComponent2.getId() == null) {
+			fail("Both ReqComponent ids are null");
+		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
 		checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
@@ -739,7 +779,7 @@ public class TestProgramServiceImpl {
 			ReqCompFieldTypeInfo reqCompFieldTypeInfo2) {
 		assertNotNull(reqCompFieldTypeInfo);
 		assertNotNull(reqCompFieldTypeInfo2);
-		
+
 	}
 
 	private static void checkReqCompFields(List<ReqCompFieldInfo> reqCompFields,
@@ -901,9 +941,35 @@ public class TestProgramServiceImpl {
 		return richTextInfo;
 	}
 
+	@Test(expected=DoesNotExistException.class)
+	public void testUpdateProgramRequirement() throws Exception {
+		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
+        StatementTreeViewInfo treeView = progReq.getStatement();
+
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+
+        StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
+        treeView.getStatements().set(0, subTree1);
+        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq);
+        checkProgramRequirement(progReq, updated);
+        statementService.getStatement(oldSubTree1.getId());
+	}
+
     @Test
-    public void testDeleteMajorDiscipline() {
-        try {
+    @Ignore public void testDeleteMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
@@ -923,9 +989,6 @@ public class TestProgramServiceImpl {
             	retrievedMD = programService.getMajorDiscipline(majorDisciplineId);
                 fail("Retrieval of deleted MajorDiscipline should have thrown exception");
             } catch (DoesNotExistException e) {}
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
     }
 
     private void fixLoCategoryIds(List<LoDisplayInfo> loDisplayInfoList) {
@@ -939,8 +1002,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    public void testUpdateMajorDiscipline() {
-        try {
+    public void testUpdateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
@@ -970,6 +1032,11 @@ public class TestProgramServiceImpl {
             major.setCip2000Code(major.getCip2000Code() + "-updated");
             major.setDiplomaTitle(major.getDiplomaTitle() + "-updated");
             major.setTranscriptTitle(major.getTranscriptTitle() + "-updated");
+            //major.setEndProgramEntryTerm("kuali.atp.FA2008-2009");
+            //major.setStartTerm("kuali.atp.FA2008-2009");
+
+            major.getCatalogDescr().setPlain(major.getCatalogDescr().getPlain() + "-updated");
+            major.getCatalogPublicationTargets().add("kuali.lu.publication.GradCatalog");
 
             for (String orgInfoId : major.getDivisionsFinancialControl()) {
                 orgInfoId = orgInfoId + "-updated";
@@ -978,23 +1045,48 @@ public class TestProgramServiceImpl {
                 orgInfoId = orgInfoId + "-updated";
             }
 
+            List<String> reqIds = new ArrayList<String>();
+            reqIds.add("REQ-200");
+            reqIds.add("REQ-300");
+            major.setProgramRequirements(reqIds);
+
            //Perform the update
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major);
 
             //Verify the update
             verifyUpdate(updatedMD);
+            assertEquals(2, updatedMD.getProgramRequirements().size());
 
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(major.getId());
             verifyUpdate(retrievedMD);
-
+            assertEquals(2, retrievedMD.getProgramRequirements().size());
             //TODO: add version update
 
-        } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
+
+    @Test
+    public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+            MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+
+            List<String> reqIds = new ArrayList<String>(1);
+            ProgramRequirementInfo req1 = programService.createProgramRequirement(createProgramRequirementTestData());
+            reqIds.add(req1.getId());
+            major.setProgramRequirements(reqIds);
+
+           //Perform the update
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major); // FIXME Updated version info isn't returned
+            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(major.getId());
+
+            // Test that we can remove the program requirements
+            programService.deleteProgramRequirement(req1.getId());
+            retrievedMD.getProgramRequirements().clear();
+            MajorDisciplineInfo updatedMD2 = programService.updateMajorDiscipline(retrievedMD);
+            assertEquals(0, updatedMD2.getProgramRequirements().size());
+            retrievedMD = programService.getMajorDiscipline(major.getId());
+            assertEquals(0, retrievedMD.getProgramRequirements().size());
+    }
+
 
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
     	assertNotNull(updatedMD);
@@ -1004,131 +1096,116 @@ public class TestProgramServiceImpl {
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
         assertEquals(3, updatedMD.getCampusLocations().size());
-        assertEquals("NORTH", updatedMD.getCampusLocations().get(0));
-        assertEquals("SOUTH", updatedMD.getCampusLocations().get(1));
+        assertEquals("NO", updatedMD.getCampusLocations().get(0));
+        assertEquals("SO", updatedMD.getCampusLocations().get(1));
         assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
 
+        assertNotNull(updatedMD.getCatalogDescr());
+        assertEquals("This is the catalog description-updated", updatedMD.getCatalogDescr().getPlain());
+
+        assertNotNull(updatedMD.getCatalogPublicationTargets());
+        assertEquals(2, updatedMD.getCatalogPublicationTargets().size());
+
         assertEquals("Anthropology-updated", updatedMD.getLongTitle());
-        assertEquals("450202-updated", updatedMD.getCip2000Code());
+        assertEquals("45.0202-updated", updatedMD.getCip2000Code());
         assertEquals("TRANSCRIPT-TITLE-updated", updatedMD.getTranscriptTitle());
         assertEquals("DIPLOMA-TITLE-updated", updatedMD.getDiplomaTitle() );
     }
 
     @Test
-    @Ignore
-    public void testCreateBaccCredentialProgram() {
+    public void testCreateBaccCredentialProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
     	CredentialProgramInfo credentialProgramInfo = null;
-        try {
             assertNotNull(credentialProgramInfo = generator.getCPTestData());
+            List<String> coreProgramIds = new ArrayList<String>();
+            coreProgramIds.add("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+            credentialProgramInfo.setCoreProgramIds(coreProgramIds);
             CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
             assertNotNull(createdCP);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
             assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
 	}
 
     @Test
-    @Ignore public void testDeleteBaccCredentialProgram() {
-        try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
-            assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            String credentialProgramId = createdCP.getId();
+    public void testDeleteBaccCredentialProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(retrievedCP);
 
-            programService.deleteMajorDiscipline(credentialProgramId);
-            try {
-            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
-                fail("Retrieval of deleted CredentialProgram should have thrown exception");
-            } catch (DoesNotExistException e) {}
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+            try{
+	            programService.deleteCredentialProgram(credentialProgramId);
+	            try {
+	            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
+	                fail("Retrieval of deleted CredentialProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
     }
 
     @Test
-    @Ignore public void testUpdateBaccCredentialProgram() {
-        try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
+    public void testUpdateBaccCredentialProgram() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+            CredentialProgramInfo credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
 
             // minimal sanity check
-            assertEquals("longTitle-test", createdCP.getLongTitle());
-            assertEquals("shortTitle-test", createdCP.getShortTitle());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
 
             // update some fields
-            createdCP.setLongTitle("longTitle-toolong");
-            createdCP.getProgramRequirements().remove(0);
-
-            Map<String, String> attributes = createdCP.getAttributes();
-            attributes.put("testKey", "testValue");
-            createdCP.setAttributes(attributes);
+            //credentialProgramInfo.setCode(credentialProgramInfo.getCode() + "-updated");
+            //credentialProgramInfo.setShortTitle(credentialProgramInfo.getShortTitle() + "-updated");
+           // credentialProgramInfo.setLongTitle(credentialProgramInfo.getLongTitle() + "-updated");
+            credentialProgramInfo.setProgramLevel(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL);
+            AdminOrgInfo institution = new AdminOrgInfo();
+            institution.setOrgId("51");
+            credentialProgramInfo.setInstitution(institution);
 
            //Perform the update
-            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(createdCP);
+            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(credentialProgramInfo);
 
             //Verify the update
             verifyUpdate(updatedCP);
 
             // Now explicitly get it
-            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(createdCP.getId());
+            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramInfo.getId());
             verifyUpdate(retrievedCP);
 
             //TODO: add version update
 
-        } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     private void verifyUpdate(CredentialProgramInfo updatedCP) {
     	assertNotNull(updatedCP);
 
-        assertEquals(3, updatedCP.getAttributes().size());
-        assertNotNull(updatedCP.getAttributes().get("testKey"));
-        assertEquals("testValue", updatedCP.getAttributes().get("testKey"));
-
-        assertEquals(1, updatedCP.getProgramRequirements().size());
-
-        assertEquals("longTitle-toolong", updatedCP.getLongTitle());
+        //assertEquals("BS-updated", updatedCP.getCode());
+       // assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        //assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL, updatedCP.getProgramLevel());
+        assertEquals("51", updatedCP.getInstitution().getOrgId());
     }
 
     @Test
-    public void testCreateCoreProgram() {
+    public void testCreateCoreProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;
-        try {
             assertNotNull(coreProgramInfo = generator.getCoreProgramTestData());
             CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
             assertNotNull(createdCP);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
 	}
 
     @Test
-    public void testUpdateVariationsByMajorDiscipline(){
+    public void testUpdateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-        try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
 
@@ -1176,10 +1253,6 @@ public class TestProgramServiceImpl {
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
             verifyUpdate(pvInfo, retrievedPVs.get(0)); // see comment in verifyUpdate
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     private void verifyUpdate(ProgramVariationInfo source, ProgramVariationInfo target) {
@@ -1206,10 +1279,9 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    public void testCreateVariationsByMajorDiscipline(){
+    public void testCreateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, VersionMismatchException, PermissionDeniedException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-        try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
 
@@ -1252,24 +1324,20 @@ public class TestProgramServiceImpl {
             verifyUpdate(pvInfoT, retrievedPVs.get(2));
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void testDeleteVariationsByMajorDiscipline(){
+    public void testDeleteVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-        try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
 
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
 
-            //Perform the update: adding the new variation
+            //Perform the update: remove a variation
+            String var1 = pvInfos.get(1).getId();
             pvInfos.remove(1);
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
             List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
@@ -1282,24 +1350,247 @@ public class TestProgramServiceImpl {
 
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
-            assertEquals(2, updatedPvInfos.size());
+            for(ProgramVariationInfo pvi : retrievedPVs){
+            	if(pvi.getId().equals(var1)){
+            		assertEquals("Inactive", pvi.getState());
+            	}
+            }
+            
             verifyUpdate(pvInfos.get(0), retrievedPVs.get(0));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test(expected=DoesNotExistException.class)
     public void testDeleteProgramRequirement() throws Exception {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
-    	try {
 			programService.deleteProgramRequirement(createdProgReq.getId());
-		} catch (DoesNotExistException e) {
-			fail(e.getMessage());
-		}
     	programService.getProgramRequirement(createdProgReq.getId(), null, null);
     }
+
+    @Test
+    public void testUpdateCoreProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
+    	CoreProgramInfo core = null;
+        	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+
+            // minimal sanity check
+            assertNotNull(core);
+            assertEquals("BS", core.getCode());
+            assertNotNull(core.getShortTitle());
+            assertEquals("B.S.", core.getShortTitle());
+            assertNotNull(core.getLongTitle());
+            assertEquals("Bachelor of Science", core.getLongTitle());
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+
+            // update some fields
+            core.setCode(core.getCode() + "-updated");
+            core.setShortTitle(core.getShortTitle() + "-updated");
+            core.setLongTitle(core.getLongTitle() + "-updated");
+            core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
+            core.setState(ProgramAssemblerConstants.RETIRED);
+
+           //Perform the update
+            CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
+
+            //Verify the update
+            verifyUpdate(updatedCP);
+
+            // Now explicitly get it
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(core.getId());
+            verifyUpdate(retrievedCP);
+
+            //TODO: update versioning
+	}
+
+    private void verifyUpdate(CoreProgramInfo updatedCP) {
+    	assertNotNull(updatedCP);
+    	assertEquals("BS-updated", updatedCP.getCode());
+        assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
+        assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
+    }
+
+    @Test
+    public void testDeleteCoreProgram() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException {
+        	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
+        	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
+
+            assertNotNull(coreProgramInfo);
+            fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
+            CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+
+
+            String coreProgramId = createdCP.getId();
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(coreProgramId);
+            assertNotNull(retrievedCP);
+
+            try{
+	            programService.deleteCoreProgram(coreProgramId);
+	            try {
+	            	retrievedCP = programService.getCoreProgram(coreProgramId);
+	                fail("Retrieval of deleted coreProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
+
+    }
+
+    @Test
+    public void testCreditsProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    	ProgramRequirementInfo progReq = createProgramRequirementTestData();
+    	progReq.setMinCredits(3);
+    	progReq.setMaxCredits(45);
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+       	assertEquals("3", Integer.toString(createdProgReq.getMinCredits()));
+    	assertEquals("45", Integer.toString(createdProgReq.getMaxCredits()));
+
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
+       	assertEquals("3", Integer.toString(progReq2.getMinCredits()));
+    	assertEquals("45", Integer.toString(progReq2.getMaxCredits()));
+    }
+    
+    private class ServiceMethodInvocationData {
+        String methodName;
+        Object[] parameters;
+        Class<?>[] paramterTypes;
+    }
+    
+    private void invokeForExpectedException(Collection<ServiceMethodInvocationData> methods, Class<? extends Exception> expectedExceptionClass) throws Exception {
+        for(ServiceMethodInvocationData methodData : methods) {
+            Method method = programService.getClass().getMethod(methodData.methodName, methodData.paramterTypes);
+            Throwable expected = null;
+            Exception unexpected = null;
+            try {
+                method.invoke(programService, methodData.parameters);
+            }
+            catch(InvocationTargetException ex) {
+                if(ex.getCause() != null && ex.getCause().getClass().equals(expectedExceptionClass)) {
+                    expected = ex.getCause();
+                }
+                else {
+                    unexpected = ex;
+                    unexpected.printStackTrace();
+                }
+            }
+            catch(Exception other) {
+                unexpected = other;
+            }
+            finally {
+                assertNotNull("An exception of class: " + expectedExceptionClass.toString() + " was expected, but the method: " + methodData.methodName + " threw this exception: " + unexpected, expected);
+            }
+        }
+    }
+    
+    @Test
+    public void testGetVersionMethodsForInvalidParameters() throws Exception {
+        String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getFirstVersion", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
+        
+        // build an object array with the appropriate number of arguments for each version method to be called
+        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[2], new Object[4], new Object[2], new Object[3]};
+        
+        // build a class array with the parameter types for each method call
+        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
+                {String.class, String.class}, // for getVersions
+                {String.class, String.class}, // for getFirstVersion
+                {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
+                {String.class, String.class}, // for getCurrentVersion
+                {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
+        
+        String badRefObjectTypeURI = "BADBADBAD";
+        Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
+        for(int i = 0; i < getVersionMethods.length; i++) {
+            ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
+            invocationData.methodName = getVersionMethods[i];
+            
+            // set the first parameter of each invocation to the invalid data
+            getVersionParams[i][0] = badRefObjectTypeURI;
+            
+            invocationData.parameters = getVersionParams[i];
+            invocationData.paramterTypes = getVersionParamTypes[i];
+            
+            methods.add(invocationData);
+        }
+        
+        invokeForExpectedException(methods, InvalidParameterException.class);
+    }
+    
+    /**
+     * 
+     * This method is a catch-all test for code coverage.  
+     * It calls methods in ProgramServiceImpl that have contracts in the interface but are not yet implemented
+     * All calls are expected to return null.  Once a method is implemented, its name should be removed from
+     * the DUMMY_SERVICE_METHODS array.
+     * 
+     * NOTE: This method does not work for methods that are overloaded (i.e. have two declarations with the same name, but different parameters)
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testCallDummyMethods() throws Exception {
+        // We need to get the Method objects, but we do not know or care about the parameter types for the methods
+        // so get the all methods of the service and load them into a hashtable, indexed by method name
+        Method[] serviceMethods = ProgramService.class.getMethods();
+        Map<String, Method> methodMap = new HashMap<String, Method>();
+        
+        for(Method m : serviceMethods) {
+            // if a method is already loaded into the map, ignore subsequent instances with the same name
+            if(!methodMap.containsKey(m.getName())) {
+                methodMap.put(m.getName(), m);
+            }
+        }
+        
+        for(String s : DUMMY_SERVICE_METHODS) {
+            Method dummyMethod = methodMap.get(s);
+            
+            if(dummyMethod == null) {
+                throw new Exception("No method " + s + " defined in ProgramService");
+            }
+            
+            // create a set of null parameters to pass to the method
+            Object[] params = new Object[dummyMethod.getParameterTypes().length];
+            
+            Object returned = dummyMethod.invoke(programService, params);
+            
+            assertTrue("The invocation of " + s + " returned a non-null value", returned == null);
+        }
+    }
+    
+    @Test
+    public void testCoreProgramVersioning() throws Exception {
+        CoreProgramDataGenerator dataGen = new CoreProgramDataGenerator();
+        CoreProgramInfo coreData = dataGen.getCoreProgramTestData();
+        
+        coreData.getProgramRequirements().clear();
+        
+        CoreProgramInfo core = programService.createCoreProgram(coreData);
+        
+        CoreProgramInfo newCore = programService.createNewCoreProgramVersion(core.getVersionInfo().getVersionIndId(), "test core program versioning");
+        
+        assertNotNull(newCore);
+        
+        programService.setCurrentCoreProgramVersion(newCore.getId(), null);
+        
+        // create a second version, and ensure the sequence numbers are different
+        CoreProgramInfo secondVersion = null;
+        
+        try {
+            secondVersion = programService.createNewCoreProgramVersion(core.getVersionInfo().getVersionIndId(), "test core program second version");
+            assertTrue(true);
+        }
+        catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        assertNotNull(secondVersion);
+        
+        assertTrue(newCore.getVersionInfo().getSequenceNumber() != secondVersion.getVersionInfo().getSequenceNumber());
+        
+    }
+    
 }

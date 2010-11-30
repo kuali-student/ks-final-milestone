@@ -209,8 +209,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 			// delete the two (one erroneously) created so as to not mess up other tests
 			client.deleteLoCategory(newCatInfo.getId());
 			client.deleteLoCategory(dupCatInfo.getId());
-            fail("OperationFailedException expected when creating LoCategory with the same name, type and state");
-		} catch (OperationFailedException ofe) {
+            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
+		} catch (DataValidationErrorException e) {
 			// expected result
 		}
 		// delete the one created so as to not mess up other tests
@@ -325,8 +325,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 			// delete the two (one erroneously) created so as to not mess up other tests
 			client.deleteLoCategory(newCatInfo.getId());
 			client.deleteLoCategory(dupCatInfo.getId());
-            fail("OperationFailedException expected when creating LoCategory with the same name, type and state");
-		} catch (OperationFailedException ofe) {
+            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
+		} catch (DataValidationErrorException e) {
 			// expected result
 		}
 		// delete the one created so as to not mess up other tests
@@ -375,8 +375,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 			client.updateLoCategory(catId2, catInfo2);
 			
 	
-            fail("OperationFailedException expected when updating LoCategory with the same name, type and state");
-		} catch (OperationFailedException ofe) {
+            fail("DataValidationErrorException expected when updating LoCategory with the same name, type and state");
+		} catch (DataValidationErrorException e) {
 			// expected result
 		}catch (VersionMismatchException e){
 			//expected for testing
@@ -721,9 +721,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         try {
             client.updateLoCategory(categoryId, category);
-            fail("VersionMismatchException expected");
+            fail("DataValidationErrorException expected: LO Category already exists");
         } catch (VersionMismatchException e) {}
-           catch (OperationFailedException e) {}
+           catch (DataValidationErrorException e) {}
            
         // switch to new LoCategory id; new one was created when we changed its type
         String newCategoryId = updated.getId();

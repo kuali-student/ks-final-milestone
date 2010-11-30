@@ -43,6 +43,7 @@
         <search:name>ProposalAdvancedCriteria</search:name>
         <search:desc>Advanced criteria</search:desc>
         <search:queryParams>
+            <ref bean="proposal.queryParam.proposalId"/>
             <ref bean="proposal.queryParam.proposalOptionalName"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
@@ -67,6 +68,7 @@
         <search:resultColumns>
             <ref bean="proposal.resultColumn.proposalId" />
             <ref bean="proposal.resultColumn.proposalOptionalName" />
+            <ref bean="proposal.resultColumn.proposalType" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -83,15 +85,25 @@
         <search:desc>Name of the proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalType" parent="proposal.resultColumn.proposalType-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalType-parent"  abstract="true">
+        <search:name>Proposal Type</search:name>
+        <search:desc>Type of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
 
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
                 <entry key="proposal.search.generic">
-                    <value>SELECT proposal.id, proposal.name FROM Proposal proposal</value>
+                    <value>SELECT proposal.id, proposal.name, proposal.type.id FROM Proposal proposal</value>
                 </entry>
                 <entry key="proposal.queryParam.proposalOptionalName">
                     <value>proposal.name</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalType">
+                    <value>proposal.type.id</value>
                 </entry>
             </map>
 		</property>

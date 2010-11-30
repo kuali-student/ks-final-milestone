@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -54,7 +53,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testGetCluLoRelationTypeInfo() throws DoesNotExistException{
-        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLoType.default");
+        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "kuali.lu.lo.relation.type.includes");
 		assertEquals("Default Clu-Lo relation type", relType.getDescr());
 	}
 
@@ -108,7 +107,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	public void testVersionQueries() throws Exception{
 		List<VersionDisplayInfo> versions;
 		versions = dao.getVersions("CLU-VERSIONTEST-IND", "foo.com");
-		assertEquals(5,versions.size());
+		assertEquals(6,versions.size());
 		
 		VersionDisplayInfo versionDisplay; 
 		versionDisplay = dao.getCurrentCluVersionInfo("CLU-VERSIONTEST-IND", "foo.com");
@@ -123,6 +122,9 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		versionDisplay = dao.getFirstVersion("CLU-VERSIONTEST-IND", "foo.com");
 		assertEquals("CLU-VERSIONTEST-V0", versionDisplay.getId());
 		
+		versionDisplay = dao.getLatestVersion("CLU-VERSIONTEST-IND", "foo.com");
+		assertEquals("CLU-VERSIONTEST-V5", versionDisplay.getId());
+
 		versionDisplay = dao.getVersionBySequenceNumber("CLU-VERSIONTEST-IND", "foo.com", Long.valueOf(3));
 		assertEquals("CLU-VERSIONTEST-V3", versionDisplay.getId());
 		

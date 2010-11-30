@@ -17,13 +17,11 @@ package org.kuali.student.lum.lrc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /*
  * Copyright 2009 The Kuali Foundation
@@ -42,11 +40,8 @@ import org.kuali.student.common.util.UUIDHelper;
  */
 
 @Entity
-@Table(name="KSLU_LRC_RESULT_VALUE")
-public class ResultValue {
-    @Id
-    @Column(name = "ID")
-    private String id;
+@Table(name="KSLR_RESULT_VALUE")
+public class ResultValue extends BaseEntity{
 
     @Column(name = "VALUE")
     private String value;
@@ -55,22 +50,6 @@ public class ResultValue {
     @JoinColumn(name = "RSLT_COMP_ID")
     private ResultComponent resultComponent;
     
-    /**
-     * AutoGenerate the Id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getValue() {
 		return value;
 	}
@@ -86,7 +65,5 @@ public class ResultValue {
 	public void setResultComponent(ResultComponent resultComponent) {
 		this.resultComponent = resultComponent;
 	}
-
-
 
 }

@@ -47,7 +47,7 @@
     <bean id="lrcContext" class="org.kuali.student.lum.statement.config.context.LrcContextImpl">
         <property name="lrcService" ref="lrcServiceImpl"/>
     </bean>
-    <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.GPAContextImpl">
+    <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.GpaContextImpl">
     </bean>
     <bean id="personContext" class="org.kuali.student.lum.statement.config.context.PersonContextImpl">
     </bean>
@@ -117,7 +117,7 @@
                     <ref local="orgContext"/>
                 </entry>  
                 <entry key="kuali.reqComponent.type.course.permission.instructor.required">
-                    <ref local="personContext"/>
+                    <ref local="basicContext"/>
                 </entry>
                 <entry key="kuali.reqComponent.type.course.test.score.min">
 	                <ref local="luContext"/>
@@ -151,11 +151,23 @@
                 <entry key="kuali.reqComponent.type.course.program.notadmitted">
 	                <ref local="luContext"/>
                 </entry>
+                <entry key="kuali.reqComponent.type.course.program.admitted">
+                    <ref local="luContext"/>
+                </entry>
                 <entry key="kuali.reqComponent.type.course.credits.repeat.max">
                     <ref local="basicContext"/>                
                 </entry>
                 <entry key="kuali.reqComponent.type.course.org.credits.completed.min">
 	                <ref local="orgContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.course.completed">
+                    <ref local="luContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.course.enrolled">
+                    <ref local="luContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.course.notcompleted">
+                    <ref local="luContext"/>
                 </entry>
 
                 <!-- Program Contexts -->
@@ -196,6 +208,30 @@
                 <entry key="kuali.reqComponent.type.program.completion.duration.afterentry">
                     <ref local="atpContext"/>                
                 </entry>                
+                <entry key="kuali.reqComponent.type.program.residence.credits.final">
+                    <ref local="luContext"/>                
+                </entry>                
+                <entry key="kuali.reqComponent.type.program.enrolled.credits.final">
+                    <ref local="luContext"/>                
+                </entry>                
+                <entry key="kuali.reqComponent.type.program.minors.nof">
+                    <ref local="basicContext"/>                
+                </entry>                
+                <entry key="kuali.reqComponent.type.program.minor.admitted.classstanding">
+                    <ref local="basicContext"/>                
+                </entry>                
+                <entry key="kuali.reqComponent.type.course.courseset.completed.max">
+                    <ref local="luContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.program.cumulative.gpa.min">
+                    <ref local="gpaContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.program.duration.gpa.min">
+                    <list>
+	                    <ref local="atpContext"/>                
+						<ref local="gpaContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>

@@ -26,10 +26,16 @@
         autowire="byType">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
     </bean>
-    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
-    </bean>
     
-    <bean id="validator" class="org.kuali.student.common.validator.old.Validator">
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-comment-dictionary-context.xml" />
     </bean>
+
+ 	<bean id="commentServiceValidator" class="org.kuali.student.core.dictionary.service.MockDefaultValidatorImpl"/>
+
+	<bean id="validatorFactory"
+  		class="org.kuali.student.common.validator.ValidatorFactory">
+  	 <property name="defaultValidator" ref="commentServiceValidator"/>
+  	</bean>
+
 </beans>

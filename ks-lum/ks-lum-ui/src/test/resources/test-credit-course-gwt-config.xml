@@ -29,12 +29,6 @@
 
   
 	<!-- GWT Servlets -->
-	<bean id="requirementsRpcGwtServlet"
-		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
-		<property name="service" ref="luClient" />
-		<property name="statementService" ref="statementServiceClient"/>
-	</bean>
-
 	<bean id="LuRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
@@ -55,7 +49,7 @@
 		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 	
-	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.old.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
 		<property name="namespace" value="KS-SYS" />
@@ -94,7 +88,7 @@
 	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
-	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="creditCourseProposalAssembler"/>
 		<property name="filters">
 			<list>
@@ -117,7 +111,7 @@
 		<property name="assembler" ref="courseAssemblerFilterManager"/>
 	</bean>
 
-	<bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="courseAssembler"/>
 	</bean>
 
@@ -153,12 +147,12 @@
 	</bean>
 
 	<bean id="atpRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.AtpRpcGwtServlet">
+		class="org.kuali.student.core.atp.ui.server.AtpRpcGwtServlet">
 		<property name="service" ref="atpClient" />
 	</bean>
 
-	<bean id="LoRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
+	<bean id="LoCategoryRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoCategoryRpcGwtServlet">
 		<property name="service" ref="loClient" />
 	</bean>
 

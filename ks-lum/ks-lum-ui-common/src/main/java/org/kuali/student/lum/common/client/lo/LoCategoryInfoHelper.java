@@ -2,6 +2,7 @@ package org.kuali.student.lum.common.client.lo;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.core.dto.MetaInfo;
 
 import java.util.Date;
 
@@ -20,7 +21,8 @@ public class LoCategoryInfoHelper {
         LO_REPOSITORY ("loRepository"),
         NAME ("name"),
         STATE ("state"),
-        TYPE ("type");
+        TYPE ("type"),
+        META ("metaInfo");
         private final String key;
 
         private Properties (final String key)
@@ -114,4 +116,5 @@ public class LoCategoryInfoHelper {
     public String getType() {
         return (String) data.get(Properties.TYPE.getKey());
     }
+
 }

@@ -27,8 +27,8 @@ import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -62,9 +62,8 @@ public class CategoryManagementTable extends Composite {
     private static Boolean displayOnlyActiveCategories; // static global
     private boolean hideInactiveCategories = false;
 
-    private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
+    private LoCategoryRpcServiceAsync loCatRpcServiceAsync = GWT.create(LoCategoryRpcService.class);
     private static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
-    protected ResultRow resultRow;
 
     /**
      * This method should be called before constructor so config flag is pre-set
@@ -259,7 +258,7 @@ public class CategoryManagementTable extends Composite {
     }
     
     public void loadTable() {
-        loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new KSAsyncCallback<List<LoCategoryInfo>>() {
+        loCatRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new KSAsyncCallback<List<LoCategoryInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("getLoCategories failed", caught);

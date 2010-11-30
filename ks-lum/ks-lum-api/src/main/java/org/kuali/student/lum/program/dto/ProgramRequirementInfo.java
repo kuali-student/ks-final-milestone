@@ -35,6 +35,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
 
 /**
  * Detailed information about a program requirement
@@ -46,7 +47,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramRequirementInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class ProgramRequirementInfo implements Serializable, Idable, HasTypeState, HasAttributes, ProgramCommonAssembly {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +65,12 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
 
     @XmlElement
     private StatementTreeViewInfo statement;
+
+    @XmlElement
+    Integer minCredits;
+    
+    @XmlElement
+    Integer maxCredits;
     
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -122,6 +129,22 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
 
     public void setStatement(StatementTreeViewInfo statement) {
         this.statement = statement;
+    }
+    
+    public Integer getMinCredits() {
+        return minCredits;
+    }
+
+    public void setMinCredits(Integer minCredits) {
+        this.minCredits = minCredits;
+    }
+
+    public Integer getMaxCredits() {
+        return maxCredits;
+    }
+
+    public void setMaxCredits(Integer maxCredits) {
+        this.maxCredits = maxCredits;
     }
 
     /**

@@ -22,7 +22,17 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 
-	<bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
-	</bean>
+
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-document-dictionary-context.xml" />
+    </bean>
+
+ 	<bean id="documentServiceValidator" class="org.kuali.student.core.dictionary.service.MockDefaultValidatorImpl"/>
+
+	<bean id="validatorFactory"
+  		class="org.kuali.student.common.validator.ValidatorFactory">
+  	 <property name="defaultValidator" ref="documentServiceValidator"/>
+  	</bean>
+
+
 </beans>

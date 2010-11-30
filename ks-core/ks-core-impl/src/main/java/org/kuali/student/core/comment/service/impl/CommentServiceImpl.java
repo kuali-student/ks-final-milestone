@@ -21,7 +21,8 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -34,8 +35,8 @@ import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -65,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
     private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
-    private Validator validator;
+    private ValidatorFactory validatorFactory;
 
     /**
      * This overridden method ...
@@ -76,6 +77,18 @@ public class CommentServiceImpl implements CommentService {
     public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         commentInfo.setReferenceTypeKey(referenceTypeKey);
         commentInfo.setReferenceId(referenceId);
+    	
+        // Validate Comment
+        List<ValidationResultInfo> validationResults = null;
+        try {
+            validationResults = validateComment("OBJECT", commentInfo);
+        } catch (DoesNotExistException e1) {
+            throw new OperationFailedException("Validation call failed." + e1.getMessage());
+        }
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
         Reference reference=null;
         reference = commentDao.getReference(referenceId, referenceTypeKey);
         if(reference==null){
@@ -112,6 +125,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public TagInfo addTag(String referenceId, String referenceTypeKey, TagInfo tagInfo) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        // Validate Tag
+        List<ValidationResultInfo> validationResults = null;
+        try {
+            validationResults = validateTag("OBJECT", tagInfo);
+        } catch (DoesNotExistException e1) {
+            throw new OperationFailedException("Validation call failed." + e1.getMessage());
+        }
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
         tagInfo.setReferenceTypeKey(referenceTypeKey);
         tagInfo.setReferenceId(referenceId);
         Reference reference=null;
@@ -353,22 +377,23 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#updateComment(java.lang.String, java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        try {
-			Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());
-			if (!String.valueOf(entity.getVersionInd()).equals(commentInfo.getMetaInfo().getVersionInd())){
-				throw new VersionMismatchException("ResultComponent to be updated is not the current version");
-			}
+    public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
 
-			CommentServiceAssembler.toComment(entity, referenceId, referenceTypeKey, commentInfo, commentDao);
-	    	commentDao.update(entity);
-
-	        return CommentServiceAssembler.toCommentInfo(entity);
-		} catch (DoesNotExistException e) {
-			throw new InvalidParameterException(e.getMessage());
-		} catch (VersionMismatchException e) {
-			throw new DataValidationErrorException(e.getMessage());
+        // Validate Comment
+        List<ValidationResultInfo> validationResults = validateComment("OBJECT", commentInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+		Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());
+		if (!String.valueOf(entity.getVersionNumber()).equals(commentInfo.getMetaInfo().getVersionInd())){
+			throw new VersionMismatchException("ResultComponent to be updated is not the current version");
 		}
+
+		CommentServiceAssembler.toComment(entity, referenceId, referenceTypeKey, commentInfo, commentDao);
+	    commentDao.update(entity);
+
+	    return CommentServiceAssembler.toCommentInfo(entity);
     }
 
     /**
@@ -381,11 +406,22 @@ public class CommentServiceImpl implements CommentService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(commentInfo, "commentInfo");
 
-		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo")); 
-
-		return valResults;
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CommentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(commentInfo, objStructure);
+        return validationResults;         
     }
 
+    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(tagInfo, "tagInfo");
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(TagInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(tagInfo, objStructure);
+        return validationResults;         
+    }
+    
     /**
      * @return the commentDao
      */
@@ -443,7 +479,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public ObjectStructure getObjectStructure(String objectTypeKey) {
+	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
 	}
 	@Override
@@ -451,12 +487,17 @@ public class CommentServiceImpl implements CommentService {
 		return dictionaryServiceDelegate.getObjectTypes();
 	}
 
-	public Validator getValidator() {
-		return validator;
-	}
+    /**
+     * @return the validatorFactory
+     */
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
 
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
-
+    /**
+     * @param validatorFactory the validatorFactory to set
+     */
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
 }

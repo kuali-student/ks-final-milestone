@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
@@ -33,13 +35,9 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
-import org.kuali.student.core.proposal.entity.ProposalDocRelation;
-import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -66,6 +64,7 @@ public class ProposalServiceImpl implements ProposalService {
 
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
+    private ValidatorFactory validatorFactory;
     
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
@@ -83,6 +82,13 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+        
         if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
@@ -95,25 +101,6 @@ public class ProposalServiceImpl implements ProposalService {
            throw new InvalidParameterException(e.getMessage());
        }
 
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#createProposalDocRelation(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
-     */
-    @Override
-    public ProposalDocRelationInfo createProposalDocRelation(String proposalDocRelationType, String documentId, String proposalId, ProposalDocRelationInfo proposalDocRelationInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(proposalDocRelationType, "proposalDocRelationType");
-        checkForMissingParameter(documentId, "documentId");
-        checkForMissingParameter(proposalId, "proposalId");
-        checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
-
-        try {
-            ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationType, documentId, proposalId, proposalDocRelationInfo, proposalDao);
-            proposalDao.create(proposalDocRelation);
-            return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
-        } catch (VersionMismatchException e) {
-            throw new InvalidParameterException(e.getMessage());
-        }
     }
 
     /**
@@ -133,32 +120,6 @@ public class ProposalServiceImpl implements ProposalService {
         return status;
     }
 
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#deleteProposalDocRelation(java.lang.String)
-     */
-    @Override
-    public StatusInfo deleteProposalDocRelation(String proposalDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
-
-        StatusInfo status = new StatusInfo();
-        try {
-            proposalDao.delete(ProposalDocRelation.class, proposalDocRelationId);
-        } catch (DoesNotExistException e) {
-            status.setSuccess(false);
-        }
-
-        return status;
-    }
-
-    /**
-    * @see org.kuali.student.core.proposal.service.ProposalService#getAllowedProposalDocRelationTypesForProposalType(java.lang.String)
-     */
-    @Override
-    public List<String> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-        List<ProposalDocRelationType> proposalDocRelationType = proposalDao.getAllowedProposalDocRelationTypesForProposalType(proposalTypeKey);
-        return ProposalAssembler.toProposalDocRelationTypeKeyList(proposalDocRelationType);
-    }
 
     /**
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposal(java.lang.String)
@@ -168,78 +129,6 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalId, "proposalId");
         Proposal entity = proposalDao.fetch(Proposal.class, proposalId);
         return ProposalAssembler.toProposalInfo(entity);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelation(java.lang.String)
-     */
-    @Override
-    public ProposalDocRelationInfo getProposalDocRelation(String proposalDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
-        ProposalDocRelation docRelation = proposalDao.fetch(ProposalDocRelation.class, proposalDocRelationId);
-        return ProposalAssembler.toProposalDocRelationInfo(docRelation);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationType(java.lang.String)
-     */
-    @Override
-    public ProposalDocRelationTypeInfo getProposalDocRelationType(String proposalDocRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalDocRelationTypeKey, "proposalDocRelationTypeKey");
-
-        ProposalDocRelationType type = proposalDao.fetch(ProposalDocRelationType.class, proposalDocRelationTypeKey);
-        return ProposalAssembler.toProposalDocRelationTypeInfo(type);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationTypes()
-     */
-    @Override
-    public List<ProposalDocRelationTypeInfo> getProposalDocRelationTypes() throws OperationFailedException {
-        List<ProposalDocRelationType> types = proposalDao.find(ProposalDocRelationType.class);
-        return ProposalAssembler.toProposalDocRelationTypeInfos(types);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByDocument(java.lang.String)
-     */
-    @Override
-    public List<ProposalDocRelationInfo> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(documentId, "documentId");
-
-        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByDocument(documentId);
-        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByIdList(java.util.List)
-     */
-    @Override
-    public List<ProposalDocRelationInfo> getProposalDocRelationsByIdList(List<String> proposalDocRelationIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalDocRelationIdList, "proposalDocRelationIdList");
-        checkForEmptyList(proposalDocRelationIdList, "proposalDocRelationIdList");
-        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByIdList(proposalDocRelationIdList);
-        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByProposal(java.lang.String)
-     */
-    @Override
-    public List<ProposalDocRelationInfo> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalId, "proposalId");
-        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByProposal(proposalId);
-        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
-    }
-
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByType(java.lang.String)
-     */
-    @Override
-    public List<ProposalDocRelationInfo> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(proposalDocRelationTypeKey, "proposalDocRelationTypeKey");
-        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByType(proposalDocRelationTypeKey);
-        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
 
     /**
@@ -326,6 +215,19 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
+     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalByWorkflowId()
+     */
+	@Override
+	public ProposalInfo getProposalByWorkflowId(String workflowId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(workflowId, "workflowId");
+		
+        Proposal entity = proposalDao.getProposalByWorkflowId(workflowId);
+        return ProposalAssembler.toProposalInfo(entity);
+	}
+
+    /**
      * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
      */
     @Override
@@ -342,6 +244,13 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+        
         proposalInfo.setId(proposalId);
         if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
@@ -354,39 +263,17 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#updateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
-     */
-    @Override
-    public ProposalDocRelationInfo updateProposalDocRelation(String proposalDocRelationId, ProposalDocRelationInfo proposalDocRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
-        checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
-
-        proposalDocRelationInfo.setId(proposalDocRelationId);
-        ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationInfo.getType(), proposalDocRelationInfo.getDocumentId(), proposalDocRelationInfo.getProposalId(), proposalDocRelationInfo, proposalDao);
-        proposalDao.update(proposalDocRelation);
-        return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
-    }
-
-    /**
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
     public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalInfo, "proposalInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
 
-    /**
-     * @see org.kuali.student.core.proposal.service.ProposalService#validateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
-     */
-    @Override
-    public List<ValidationResultInfo> validateProposalDocRelation(String validationType, ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(validationType, "validationType");
-        checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProposalInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(proposalInfo, objStructure);
+        return validationResults;         
     }
 
     /**
@@ -511,4 +398,34 @@ public class ProposalServiceImpl implements ProposalService {
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		return searchManager.search(searchRequest, proposalDao);
 	}
+
+    /**
+     * @return the validatorFactory
+     */
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
+
+    /**
+     * @param validatorFactory the validatorFactory to set
+     */
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
+
+    /**
+     * @return the searchManager
+     */
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    /**
+     * @return the dictionaryServiceDelegate
+     */
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
+    }
+
+	
 }

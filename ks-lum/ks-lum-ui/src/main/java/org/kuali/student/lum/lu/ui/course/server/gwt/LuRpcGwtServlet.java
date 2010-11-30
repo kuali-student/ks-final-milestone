@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -81,4 +82,14 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
 		}
 		return null;
 	}
+
+    @Override
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) {
+		try {
+			return service.getCurrentVersion(refObjectTypeURI, refObjectId);
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+		return null;
+    }
 }

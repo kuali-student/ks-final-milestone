@@ -31,9 +31,16 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate, Master, Doctoral, Graduate Certificate, Undergraduate Certificate
@@ -46,7 +53,8 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CredentialProgramInfo implements Serializable, Idable, HasAttributes {
+public class CredentialProgramInfo implements Serializable, Idable, HasAttributes, ProgramCommonAssembly, ProgramIdentifierAssembly, ProgramAtpAssembly,
+        ProgramCodeAssembly, ProgramBasicOrgAssembly, ProgramRequirementAssembly {
 
     private static final long serialVersionUID = 1L;
 
@@ -114,6 +122,9 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     @XmlElement
     private MetaInfo metaInfo;
 
+    @XmlElement
+    private VersionInfo versionInfo;
+
     @XmlAttribute
     private String credentialProgramType;
 
@@ -171,8 +182,17 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
     }
+    
+    
+    public VersionInfo getVersionInfo() {
+		return versionInfo;
+	}
 
-    /**
+	public void setVersionInfo(VersionInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}
+
+	/**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
     public String getCredentialProgramType() {
@@ -239,7 +259,17 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     public void setTranscriptTitle(String transcriptTitle) {
         this.transcriptTitle = transcriptTitle;
     }
-    
+
+    @Override
+    public String getDiplomaTitle() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setDiplomaTitle(String diplomaTitle) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /**
      * A code that indicates whether this is Graduate, Undergraduage etc    
      */
@@ -392,5 +422,55 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
 
     public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
         this.learningObjectives = learningObjectives;
-    }    
+    }
+
+    @Override
+    public String getType() {
+        return credentialProgramType;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.credentialProgramType = type;
+    }
+
+    @Override
+    public String getCip2000Code() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setCip2000Code(String cip2000Code) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getCip2010Code() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setCip2010Code(String cip2010Code) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getHegisCode() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setHegisCode(String hegisCode) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getSelectiveEnrollmentCode() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

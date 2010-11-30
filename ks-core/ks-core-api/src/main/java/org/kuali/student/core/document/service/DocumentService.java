@@ -31,6 +31,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
@@ -50,7 +51,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  */
 @WebService(name = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/document") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface DocumentService { 
+public interface DocumentService extends DictionaryService { 
     /** 
      * Retrieves the list of document types known by this service
      * @return list of document type information
@@ -217,7 +218,7 @@ public interface DocumentService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, @WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, @WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /** 
      * Updates an existing document.
@@ -312,8 +313,10 @@ public interface DocumentService {
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException 
+     * @throws DoesNotExistException 
 	 */
-    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException;
 
     /** 
      * Removes a relationship between a reference and a document.

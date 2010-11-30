@@ -22,7 +22,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -35,7 +34,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -43,13 +41,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLU_CLU_SET")
 @NamedQueries( {
 	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE c.id IN (:cluSetIdList)"),
-	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(c) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
+	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(cluSet) FROM CluSet cluSet JOIN cluSet.cluVerIndIds cluVerIndIds WHERE cluSet.id = :cluSetId AND cluVerIndIds.cluVersionIndId = :cluId ")
 })
 public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
-
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -70,10 +64,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
 	private List<CluSet> cluSets = new ArrayList<CluSet>();
 
-	@ManyToMany
-	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
-	private List<Clu> clus = new ArrayList<Clu>();
-
+//	@ManyToMany
+//	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
+//	private List<Clu> clus = new ArrayList<Clu>();
+	
+	@OneToMany(mappedBy="cluSet",cascade=CascadeType.ALL)
+	private List<CluSetJoinVersionIndClu> cluVerIndIds = new ArrayList<CluSetJoinVersionIndClu>();
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluSetAttribute> attributes = new ArrayList<CluSetAttribute>();
 
@@ -96,29 +93,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
     @Column(name = "REFERENCEABLE")
     private Boolean isReferenceable;
 
-    @Override
-    public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public List<Clu> getClus() {
-		if(clus == null){
-			return new ArrayList<Clu>();
-		}
-		return clus;
-	}
-
-	public void setClus(List<Clu> clus) {
-		this.clus = clus;
-	}
+//	public List<Clu> getClus() {
+//		return clus;
+//	}
+//
+//	public void setClus(List<Clu> clus) {
+//		this.clus = clus;
+//	}
 
 	public String getName() {
 		return name;
@@ -153,9 +134,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSet> getCluSets() {
-		if (cluSets == null) {
-			return new ArrayList<CluSet>();
-		}
 		return cluSets;
 	}
 
@@ -164,9 +142,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSetAttribute> getAttributes() {
-		if (attributes == null) {
-			return new ArrayList<CluSetAttribute>();
-		}
 		return attributes;
 	}
 
@@ -220,6 +195,14 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 
 	public void setIsReferenceable(Boolean isReferenceable) {
 		this.isReferenceable = isReferenceable;
+	}
+
+	public List<CluSetJoinVersionIndClu> getCluVerIndIds() {
+		return cluVerIndIds;
+	}
+
+	public void setCluVerIndIds(List<CluSetJoinVersionIndClu> cluVerIndIds) {
+		this.cluVerIndIds = cluVerIndIds;
 	}
 
 }
