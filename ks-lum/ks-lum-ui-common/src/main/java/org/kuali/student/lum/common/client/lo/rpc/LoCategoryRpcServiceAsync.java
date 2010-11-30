@@ -32,16 +32,9 @@ import java.util.List;
  */
 public interface LoCategoryRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
 
-        public void getLoByIdList(List<String> loId,  AsyncCallback<List<LoInfo>> callback);
-    public void getLosByLoCategory(String loCategoryId,  AsyncCallback<List<LoInfo>> callback);
-
-//    public void  updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo,AsyncCallback<LoCategoryInfo> callback);
     public void  deleteLoCategory(String loCategoryId,AsyncCallback<StatusInfo> callback);
 
     public void getLoCategoryTypes( AsyncCallback<List<LoCategoryTypeInfo>> callback);
-//    public void createLoCategory(String loRepositoryKey,  String loCategoryTypeKey, LoCategoryInfo loCategoryInfo,
-//            AsyncCallback<LoCategoryInfo> callback);
-//    public void getLoCategory(String loCategoryId, AsyncCallback<LoCategoryInfo> callback);
     public void  getLoCategoryType(String loCategoryTypeKey, AsyncCallback<LoCategoryTypeInfo> callback );
     public void getLoCategories(String loRepositoryKey,AsyncCallback<List<LoCategoryInfo>> callback);
 

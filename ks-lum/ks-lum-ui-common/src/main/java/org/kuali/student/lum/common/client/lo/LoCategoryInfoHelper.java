@@ -117,4 +117,12 @@ public class LoCategoryInfoHelper {
         return (String) data.get(Properties.TYPE.getKey());
     }
 
+    public void setMetaInfo(Data meta) {
+        data.set(Properties.META.getKey(), meta);
+    }
+
+    public Data getMetaInfo() {
+        return (Data) data.get(Properties.META.getKey());
+    }
+
 }

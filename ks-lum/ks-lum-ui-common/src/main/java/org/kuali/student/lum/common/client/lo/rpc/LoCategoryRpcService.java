@@ -33,20 +33,10 @@ import java.util.List;
 public interface LoCategoryRpcService extends BaseDataOrchestrationRpcService {
 
     public List<LoCategoryInfo> getLoCategories(String loRepositoryKey);
-//    public LoCategoryInfo updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo);
     public StatusInfo deleteLoCategory(String loCategoryId);
-    public List<LoInfo> getLoByIdList(List<String> loId);
 
     public List<LoCategoryTypeInfo> getLoCategoryTypes();
 
-//    public LoCategoryInfo createLoCategory(String loRepositoryKey,
-//            String loCategoryTypeKey, LoCategoryInfo loCategoryInfo);
-
-//    public LoCategoryInfo getLoCategory(String loCategoryId);
-
     public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
-
-    public List<LoInfo> getLosByLoCategory(String loCategoryId);
-
 
 }

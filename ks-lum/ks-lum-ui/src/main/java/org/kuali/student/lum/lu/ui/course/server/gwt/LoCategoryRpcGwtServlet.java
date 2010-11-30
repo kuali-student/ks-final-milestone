@@ -43,21 +43,6 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoByIdList(java.util.List)
-     */
-    @Override
-    public List<LoInfo> getLoByIdList(List<String> loIds) {
-        try {
-            return loService.getLoByIdList(loIds);
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoCategoryTypes()
      */
     @Override
@@ -69,42 +54,6 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
         }
         return null;
     }
-
-//    /**
-//     * This overridden method ...
-//     *
-//     * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#createLoCategory(java.lang.String,
-//     *      java.lang.String, org.kuali.student.lum.lo.dto.LoCategoryInfo)
-//     */
-//    @Override
-//    public LoCategoryInfo createLoCategory(String loRepositoryKey,
-//            String loCategoryTypeKey, LoCategoryInfo loCategoryInfo) {
-//        try {
-//            if(loCategoryInfo.getEffectiveDate()==null){
-//                loCategoryInfo.setEffectiveDate(new Date());
-//            }
-//            return loService.createLoCategory(loRepositoryKey, loCategoryTypeKey,
-//                    loCategoryInfo);
-//        } catch (Exception e) {
-//            LOG.error(e);
-//        }
-//        return null;
-//    }
-
-//    /**
-//     * This overridden method ...
-//     *
-//     * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoCategory(java.lang.String)
-//     */
-//    @Override
-//    public LoCategoryInfo getLoCategory(String loCategoryId) {
-//        try {
-//            return loService.getLoCategory(loCategoryId);
-//        } catch (Exception e) {
-//            LOG.error(e);
-//        }
-//        return null;
-//    }
 
     /**
      * This overridden method ...
@@ -137,29 +86,6 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     public StatusInfo deleteLoCategory(String loCategoryId) {
         try {
             return loService.deleteLoCategory(loCategoryId);
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-//    @Override
-//    public LoCategoryInfo updateLoCategory(String loCategoryId,
-//            LoCategoryInfo loCategoryInfo) {
-//        try {
-//
-//            return loService.updateLoCategory(loCategoryId, loCategoryInfo);
-//
-//        } catch (Exception e) {
-//            LOG.error(e);
-//        }
-//        return null;
-//    }
-
-    @Override
-    public List<LoInfo> getLosByLoCategory(String loCategoryId) {
-        try {
-            return loService.getLosByLoCategory(loCategoryId);
         } catch (Exception e) {
             LOG.error(e);
         }

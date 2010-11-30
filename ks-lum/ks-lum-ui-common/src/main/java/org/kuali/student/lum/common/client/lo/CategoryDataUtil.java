@@ -38,8 +38,8 @@ public class CategoryDataUtil {
             metaHelper.setCreateTime(mInfo.getCreateTime());
             metaHelper.setUpdateId(mInfo.getUpdateId());
             metaHelper.setUpdateTime(mInfo.getUpdateTime());
-            metaHelper.setVersionInd(mInfo.getVersionInd());            
-            catHelper.getData().set(LoCategoryInfoHelper.Properties.META.getKey(), metaHelper.getData());
+            metaHelper.setVersionInd(mInfo.getVersionInd());
+            catHelper.setMetaInfo(metaHelper.getData());
       }
        
  
@@ -77,7 +77,7 @@ public class CategoryDataUtil {
             // of all the above
 
             MetaInfo metaInfo = new MetaInfo();
-            MetaInfoHelper metaHelper = MetaInfoHelper.wrap((Data)categoryData.get("metaInfo"));
+            MetaInfoHelper metaHelper = MetaInfoHelper.wrap(catHelper.getMetaInfo());
 
             metaInfo.setCreateId(metaHelper.getCreateId());
             metaInfo.setCreateTime(metaHelper.getCreateTime());
