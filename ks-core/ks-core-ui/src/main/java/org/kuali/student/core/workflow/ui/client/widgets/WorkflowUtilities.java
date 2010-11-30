@@ -49,6 +49,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.DtoConstants.DtoState;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
@@ -64,7 +65,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WorkflowUtilities{
 
-    public static enum DecisionRationaleDetail {
+	//TODO: This should come from the ReferenceModel like it does in CommentTool
+    public static final String PROPOSAL_REF_TYPE_KEY = "referenceType.clu.proposal";
+    
+	public static enum DecisionRationaleDetail {
         APPROVE("kuali.comment.type.workflowDecisionRationale.approve", "Approved"),
         REJECT("kuali.comment.type.workflowDecisionRationale.reject", "Rejected"),
         RETURN_TO_PREVIOUS("kuali.comment.type.workflowDecisionRationale.return", "Sent for Revisions"),
@@ -802,11 +806,14 @@ public class WorkflowUtilities{
         RichTextInfo text = new RichTextInfo();
         text.setFormatted(rationaleEditor.getHTML());
         text.setPlain(rationaleEditor.getText());
+        newDecisionRationale.setReferenceTypeKey(PROPOSAL_REF_TYPE_KEY);
+        newDecisionRationale.setReferenceId(proposalId);
+        newDecisionRationale.setState(DtoState.ACTIVE.toString());
         newDecisionRationale.setCommentText(text);
         newDecisionRationale.setType(rationaleType);
 
         try {
-            commentServiceAsync.addComment(proposalId, "referenceType.clu.proposal", newDecisionRationale, new KSAsyncCallback<CommentInfo>() {
+            commentServiceAsync.addComment(proposalId, PROPOSAL_REF_TYPE_KEY, newDecisionRationale, new KSAsyncCallback<CommentInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
