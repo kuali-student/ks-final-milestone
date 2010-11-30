@@ -215,6 +215,7 @@ public class SuccessMessageBuilderTest {
 		list.add(andNode);
 
 		String successMsg = successMessageBuilder.buildSuccessMessage(list);
+System.out.println("\n\nmsg="+successMsg);		
 		
 		Assert.assertEquals(successMsg, andNode.getNodeMessage());
 		Assert.assertEquals("MATH101 AND MATH401", successMsg);
