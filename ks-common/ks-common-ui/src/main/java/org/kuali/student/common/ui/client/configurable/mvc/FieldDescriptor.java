@@ -102,7 +102,10 @@ public class FieldDescriptor {
 					else if(nextState.equalsIgnoreCase("INACTIVE") ||
 							nextState.equalsIgnoreCase("RETIRED")){
 						fieldElement.setRequiredString("reqDeactivate", "ks-form-required-for-submit");
-					}
+					} 
+					else {
+						fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
+					} 
     				
     			}
     		}

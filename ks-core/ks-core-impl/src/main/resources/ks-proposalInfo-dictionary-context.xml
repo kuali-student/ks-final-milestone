@@ -108,7 +108,7 @@
 	     <bean parent="whenConstraint">
 	      <property name="values">
 	       <list>
-	        <value>Enroute</value>
+	        <value>ENROUTE</value>
 	       </list>
 	      </property>
 	      <property name="constraint">

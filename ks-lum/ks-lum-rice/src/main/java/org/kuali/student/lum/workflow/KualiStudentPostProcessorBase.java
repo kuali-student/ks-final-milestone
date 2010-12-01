@@ -42,19 +42,12 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 public class KualiStudentPostProcessorBase implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
-
-	protected static final String PROPOSAL_STATE_SAVED = "Saved";
-    protected static final String PROPOSAL_STATE_CANCELLED = "Cancelled";
-	protected static final String PROPOSAL_STATE_ENROUTE = "Enroute";
-	protected static final String PROPOSAL_STATE_WITHDRAWN = "Withdrawn";
-	protected static final String PROPOSAL_STATE_REJECTED = "Rejected";
-	protected static final String PROPOSAL_STATE_APPROVED = "Approved";
-	protected static final String PROPOSAL_STATE_EXCEPTION = "Exception";
 
     private ProposalService proposalService;
 
@@ -119,8 +112,8 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 
     protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Action taken was 'Super User Disapprove' which is a 'Withdraw' in Kuali Student");
-        LOG.info("Will set proposal state to '" + PROPOSAL_STATE_WITHDRAWN + "'");
-        updateProposal(actionTakenEvent, PROPOSAL_STATE_WITHDRAWN, proposalInfo);
+        LOG.info("Will set proposal state to '" + ProposalConstants.PROPOSAL_STATE_WITHDRAWN + "'");
+        updateProposal(actionTakenEvent, ProposalConstants.PROPOSAL_STATE_WITHDRAWN, proposalInfo);
         processWithdrawActionTaken(actionTakenEvent, proposalInfo);
 	}
 
@@ -197,22 +190,22 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
      * @return the proposal state to set or null if the proposal does not need it's state changed
      */
     protected String getProposalStateForRouteStatus(String currentProposalState, String newWorkflowStatusCode) {
-        if (StringUtils.equals(PROPOSAL_STATE_WITHDRAWN, currentProposalState)) {
+        if (StringUtils.equals(ProposalConstants.PROPOSAL_STATE_WITHDRAWN, currentProposalState)) {
             // if the current proposal state is Withdrawn... don't change the proposal state
             return null;
         }
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_SAVED);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_SAVED);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_ENROUTE);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_ENROUTE);
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_CANCELLED);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_CANCELLED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_REJECTED);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_REJECTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_APPROVED);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getProposalStateFromNewState(currentProposalState, PROPOSAL_STATE_EXCEPTION);
+            return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_EXCEPTION);
         } else {
             // no status to set
             return null;

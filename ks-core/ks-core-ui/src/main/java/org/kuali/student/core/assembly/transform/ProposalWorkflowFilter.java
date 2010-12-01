@@ -26,6 +26,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -115,6 +116,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				String referenceId = data.query("id");
 				proposalInfo.setProposalReferenceType(getProposalReferenceType());
 				proposalInfo.getProposalReference().add(referenceId);
+				proposalInfo.setState("Saved");
 				
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
 			} 
@@ -141,7 +143,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {	
-		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName());
+		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), "SAVED");
 				
 		Map<String, Metadata> properties = metadata.getProperties();
 		properties.put("proposal", proposalMetadata);		
