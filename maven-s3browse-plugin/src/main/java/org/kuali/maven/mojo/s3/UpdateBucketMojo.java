@@ -34,7 +34,7 @@ public class UpdateBucketMojo extends S3Mojo {
         ObjectListing objectListing = client.listObjects(request);
         List<String> commonPrefixes = objectListing.getCommonPrefixes();
         for (String commonPrefix : commonPrefixes) {
-            getLog().info("\n###Updating: " + commonPrefix + "###\n");
+            getLog().info("Updating: " + commonPrefix);
             updateDir(client, getBucket(), commonPrefix);
             recurse(client, commonPrefix);
         }
