@@ -118,7 +118,7 @@
   <distributionManagement>
     <site>
       <id>kuali.site</id>
-      <url>s3://foobar.ks.kuali.org.s3.amazonaws.com/maven/${project.artifactId}/${project.version}</url>
+      <url>s3://foobar.ks.kuali.org/maven/${project.artifactId}/${project.version}</url>
     </site>
   </distributionManagement>
 </project>
