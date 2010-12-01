@@ -441,8 +441,30 @@
  </bean>
  <bean id="majorDisciplineInfo.diplomaTitle" parent="majorDisciplineInfo.diplomaTitle-parent"/>
 
+
  <bean id="majorDisciplineInfo.descr-parent" abstract="true" parent="cluInfo.descr-parent">
   <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="majorDisciplineInfo.descr.RichTextInfo" />
+ </bean>
+ <bean id="majorDisciplineInfo.descr" parent="majorDisciplineInfo.descr-parent"/>
+
+ <bean id="majorDisciplineInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="majorDisciplineInfo.descr.formatted" />
+    <ref bean="majorDisciplineInfo.descr.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="majorDisciplineInfo.descr.RichTextInfo" parent="majorDisciplineInfo.descr.RichTextInfo-parent" />
+
+ <bean id="majorDisciplineInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+ </bean>
+ <bean id="majorDisciplineInfo.descr.formatted" parent="majorDisciplineInfo.descr.formatted-parent" />
+
+ <bean id="majorDisciplineInfo.descr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
+  <property name="name" value="plain" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -460,7 +482,7 @@
        </property>
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluInfo.descr-parent">
+        <bean parent="richTextInfo.plain-parent">
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -470,7 +492,7 @@
    </bean>
   </property>
  </bean>
- <bean id="majorDisciplineInfo.descr" parent="majorDisciplineInfo.descr-parent"/>
+ <bean id="majorDisciplineInfo.descr.plain" parent="majorDisciplineInfo.descr.plain-parent" />
 
  <bean id="majorDisciplineInfo.catalogDescr-parent" abstract="true" parent="cluInfo.descr-parent">
   <property name="name" value="catalogDescr"/>
@@ -495,7 +517,7 @@
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr.formatted" parent="majorDisciplineInfo.catalogDescr.formatted-parent" />
 
- <bean id="majorDisciplineInfo.catalogDescr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+ <bean id="majorDisciplineInfo.catalogDescr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="1000" />
  </bean>
