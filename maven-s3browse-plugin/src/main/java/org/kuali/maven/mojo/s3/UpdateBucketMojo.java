@@ -16,6 +16,12 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
  * @goal update
  */
 public class UpdateBucketMojo extends S3Mojo {
+
+    /**
+     * @parameter expression="${prefix}"
+     */
+    private String prefix;
+
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
@@ -23,7 +29,7 @@ public class UpdateBucketMojo extends S3Mojo {
             validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            recurse(client, null);
+            recurse(client, getPrefix());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
@@ -45,6 +51,14 @@ public class UpdateBucketMojo extends S3Mojo {
         PutObjectRequest request2 = getPutObjectRequest("/dir.htm", prefix.substring(0, prefix.length() - 1));
         client.putObject(request1);
         client.putObject(request2);
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
 }
