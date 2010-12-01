@@ -1,10 +1,8 @@
 package org.kuali.student.lum.program.client.core.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -19,14 +17,24 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreController;
-import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -109,6 +117,23 @@ public class CoreEditController extends CoreController {
                 doSave(event.getOkCallback());
             }
         });
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+            @Override
+            public void onEvent(ModelLoadedEvent event) {
+                Enum<?> changeSection = ProgramRegistry.getSection();
+                if (changeSection != null) {
+                    showView(changeSection);
+                    ProgramRegistry.setSection(null);
+                } else {
+                    String id = (String) programModel.get(ProgramConstants.ID);
+                    if (id == null) {
+                        showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+                    } else {
+                        showView(ProgramSections.SUMMARY);
+                    }
+                }
+            }
+        });
     }
 
     private void doCancel() {
@@ -138,6 +163,7 @@ public class CoreEditController extends CoreController {
         data.set(new Data.StringKey("versionInfo"), versionData);
 
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+            @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 viewContext.setIdType(IdType.OBJECT_ID);
@@ -148,6 +174,7 @@ public class CoreEditController extends CoreController {
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
 
+            @Override
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 callback.onRequestFail(caught);

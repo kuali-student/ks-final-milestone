@@ -1,10 +1,5 @@
 package org.kuali.student.lum.program.client.credential.view;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
-
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -21,12 +16,17 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
+
 /**
  * @author Igor
  */
 public class CredentialViewController extends CredentialController {
 
-    private DropdownList actionBox = new DropdownList(ActionType.getValues());
+    private final DropdownList actionBox = new DropdownList(ActionType.getValues());
 
     /**
      * Constructor.
@@ -46,8 +46,8 @@ public class CredentialViewController extends CredentialController {
                 ActionType actionType = ActionType.of(actionBox.getSelectedValue());
             	ViewContext viewContext = getViewContext();
                 if (actionType == ActionType.MODIFY) {
-                    HistoryManager.navigate(AppLocations.Locations.EDIT_BACC_PROGRAM.getLocation(), getViewContext());
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                    HistoryManager.navigate(AppLocations.Locations.EDIT_BACC_PROGRAM.getLocation(), getViewContext());
                 } else if (actionType == ActionType.MODIFY_VERSION){
                 	String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
                 	viewContext.setId(versionIndId);

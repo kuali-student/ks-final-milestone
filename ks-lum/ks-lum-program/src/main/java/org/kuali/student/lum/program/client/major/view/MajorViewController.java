@@ -1,10 +1,5 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
-
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,10 +18,15 @@ import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
+
 
 public class MajorViewController extends MajorController {
 
-    private DropdownList actionBox = new DropdownList(ActionType.getValues());
+    private final DropdownList actionBox = new DropdownList(ActionType.getValues());
 
     /**
      * Constructor.
@@ -46,8 +46,8 @@ public class MajorViewController extends MajorController {
                 ActionType actionType = ActionType.of(actionBox.getSelectedValue());
                 ViewContext viewContext = getViewContext();
                 if (actionType == ActionType.MODIFY) {
-                    HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                    HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                 } else if (actionType == ActionType.MODIFY_VERSION) {
                     String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
