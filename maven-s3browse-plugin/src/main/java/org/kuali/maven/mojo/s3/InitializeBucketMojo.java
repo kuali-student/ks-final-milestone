@@ -54,7 +54,7 @@ public class InitializeBucketMojo extends S3Mojo {
 
     protected ObjectMetadata getObjectMetadata(String location, Resource resource) throws IOException {
         ObjectMetadata om = new ObjectMetadata();
-        String contentType = this.mimeTypes.getMimetype(location);
+        String contentType = mimeTypes.getMimetype(location);
         om.setContentType(contentType);
         om.setContentLength(resource.contentLength());
         return om;
