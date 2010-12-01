@@ -86,6 +86,8 @@ public class InitializeBucketMojo extends S3Mojo {
         requests.add(getPutObjectRequest("/s3browse/js/jQuery.url.js"));
         requests.add(getPutObjectRequest("/s3browse/js/jQuery.xml2json.js"));
         requests.add(getPutObjectRequest("/s3browse/js/s3Dir.js"));
+        requests.add(getPutObjectRequest("/s3browse/images/folder.png"));
+        requests.add(getPutObjectRequest("/s3browse/images/page_white.png"));
         return requests;
     }
 
