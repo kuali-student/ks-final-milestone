@@ -80,17 +80,17 @@ public abstract class S3Mojo extends BaseMojo {
 
     protected String getAuthenticationErrorMessage() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Error: accessKeyId and secretAccessKey must be provided\n");
-        sb.append("Provide them in the plugin configuration or specify them on the command line. eg:\n");
+        sb.append("\n\nError: accessKeyId and secretAccessKey must be provided.\n");
+        sb.append("Provide them in the plugin configuration or specify them on the command line:\n\n");
         sb.append("-DaccessKeyId=XXXX\n");
         sb.append("-DsecretAccessKey=XXXX\n");
         sb.append("\n");
-        sb.append("You can also provide them in settings.xml as username and password eg:\n");
+        sb.append("You can also provide them in settings.xml as username and password:\n\n");
         sb.append("<server>\n");
-        sb.append("  <id>my.server</id>\n");
+        sb.append("  <id>[serverId]</id>\n");
         sb.append("  <username>[AWS Access Key ID]</username>\n");
         sb.append("  <password>[AWS Secret Access Key]</password>\n");
-        sb.append("</server>\n");
+        sb.append("</server>\n\n.\n");
         return sb.toString();
     }
 

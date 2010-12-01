@@ -19,6 +19,8 @@ public class UpdateBucketMojo extends S3Mojo {
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
+            updateCredentials();
+            validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
             ListObjectsRequest request = new ListObjectsRequest(getBucket(), null, null, "/", Integer.MAX_VALUE);
