@@ -12,35 +12,26 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.internal.Mimetypes;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 /**
- * @goal init
+ * @goal prepare
  */
-public class InitializeBucketMojo extends S3Mojo {
+public class PrepareBucketMojo extends S3Mojo {
     Mimetypes mimeTypes = Mimetypes.getInstance();
 
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
-            executeUploadInternals();
-            AWSCredentials credentials = new BasicAWSCredentials(getAccessKeyId(), getSecretAccessKey());
+            List<PutObjectRequest> requests = getInternalUploadRequests();
+            AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            ListObjectsRequest request = new ListObjectsRequest();
-            request.setBucketName(getBucket());
-            request.setDelimiter(getDelimiter());
-            request.setPrefix(getPrefix());
-            request.setMaxKeys(getMaxKeys());
-            ObjectListing listing = client.listObjects(request);
-            for (String prefix : listing.getCommonPrefixes()) {
-                getLog().info("prefix=" + prefix);
+            for (PutObjectRequest request : requests) {
+                client.putObject(request);
             }
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
@@ -64,15 +55,6 @@ public class InitializeBucketMojo extends S3Mojo {
         PutObjectRequest request = new PutObjectRequest(getBucket(), key, in, objectMetadata);
         request.setCannedAcl(CannedAccessControlList.PublicRead);
         return request;
-    }
-
-    protected void executeUploadInternals() throws Exception {
-        List<PutObjectRequest> requests = getInternalUploadRequests();
-        AWSCredentials credentials = new BasicAWSCredentials(getAccessKeyId(), getSecretAccessKey());
-        AmazonS3Client client = new AmazonS3Client(credentials);
-        for (PutObjectRequest request : requests) {
-            client.putObject(request);
-        }
     }
 
     protected void addDir(List<PutObjectRequest> requests, String dir) throws IOException {

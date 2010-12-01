@@ -1,6 +1,17 @@
 package org.kuali.maven.mojo.s3;
 
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.settings.Server;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+
 public abstract class S3Mojo extends BaseMojo {
+
+    /**
+     * @parameter expression="${serverId}"
+     */
+    private String serverId;
 
     /**
      * @parameter expression="${prefix}"
@@ -31,6 +42,18 @@ public abstract class S3Mojo extends BaseMojo {
      * @parameter expression="${bucket}"
      */
     private String bucket;
+
+    protected AWSCredentials getCredentials() throws MojoExecutionException {
+        if (getServerId() == null) {
+            return new BasicAWSCredentials(getAccessKeyId(), getSecretAccessKey());
+        }
+        Server server = getSettings().getServer(getServerId());
+        if (server == null) {
+            throw new MojoExecutionException("No server located with id: " + getServerId());
+        } else {
+            return new BasicAWSCredentials(server.getUsername(), server.getPassword());
+        }
+    }
 
     public String getAccessKeyId() {
         return accessKeyId;
@@ -78,6 +101,14 @@ public abstract class S3Mojo extends BaseMojo {
 
     public void setMaxKeys(Integer maxKeys) {
         this.maxKeys = maxKeys;
+    }
+
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
 }
