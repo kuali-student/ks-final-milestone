@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>17</version>
+    <version>18-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.maven.s3browse</groupId>
   <artifactId>maven-s3browse-plugin</artifactId>
