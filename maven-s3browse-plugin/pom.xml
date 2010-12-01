@@ -12,6 +12,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>Maven S3 Browse Plugin</name>
   <description>Maven plugin for making S3 repositories browseable over http</description>
+  <url>http://foobar.ks.kuali.org.s3.amazonaws.com/maven/${kuali.project.id}/${project.version}</url>
   <build>
     <plugins>
       <plugin>
