@@ -82,7 +82,6 @@ public class CrossSearchManager {
 							subSearchParam.setValue((List<String>)paramValue);
 						}
 						subSearchRequest.getParams().add(subSearchParam);
-						break;
 					}
 				}
 			}
