@@ -97,9 +97,9 @@ public class InitializeBucketMojo extends S3Mojo {
         addDir(requests, "s3browse/css");
         addDir(requests, "s3browse/js");
         addDir(requests, "s3browse/images");
-        PutObjectRequest indexHtml = getPutObjectRequest("/dir.htm");
-        indexHtml.setKey("s3browse.html");
-        requests.add(indexHtml);
+        PutObjectRequest rootBrowse = getPutObjectRequest("/dir.htm");
+        rootBrowse.setKey("s3browse.html");
+        requests.add(rootBrowse);
         return requests;
     }
 
