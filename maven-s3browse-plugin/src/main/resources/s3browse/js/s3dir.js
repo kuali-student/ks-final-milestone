@@ -25,6 +25,9 @@
       log("myPrefix from query string=" + myPrefix);
       var path = jQuery.url.attr("path");
       log("path=" + path);
+      if (myPrefix == "s3browse.html/") {
+    	  myPrefix = "";
+      }
 
       function GetQueryString() {
         return function(a)  {
@@ -279,7 +282,7 @@
 
       function getUpOneDirectory() {
 		  log("upOne myPrefix=" + myPrefix);
-		  if (myPrefix == null) {
+		  if (myPrefix == null || myPrefix == "") {
 			  return null;
 		  }
 		  var length = myPrefix.length;
