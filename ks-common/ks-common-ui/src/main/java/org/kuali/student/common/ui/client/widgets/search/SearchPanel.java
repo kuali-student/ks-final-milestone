@@ -248,6 +248,7 @@ public class SearchPanel extends Composite{
             line.addStyleName("ks-form-module-single-line-margin");
             linePanel.add(line);
             lines.add(line);
+            searchParams.add(line);
             this.meta = meta;
 
             KSButton addCriteria = new KSButton(getMessage("searchPanelAddCriteria"), ButtonStyle.SECONDARY);
