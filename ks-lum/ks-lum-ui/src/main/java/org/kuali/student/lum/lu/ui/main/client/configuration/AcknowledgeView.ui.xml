@@ -8,46 +8,40 @@
 <p>The Kuali Foundation Educational Community License 2.0: Kuali Rice API, Kuali Rice Implementation, Kuali Rice Web</p>
 
 <h2>Third Party Contributions</h2>
-<p>Portions of Kuali were developed by The University of British Columbia, University of Maryland College Park, University of California Berkeley, Florida State University, San Joaquin Delta Community College, The University of Washington, University of Southern California, Massachusetts Institute of Technology, Carnegie Mellon University and Naval Post Graduate School. (<a href='http://www.kuali.org/'>http://www.kuali.org/</a>).</p>
+<p>Portions of Kuali were developed by The University of British Columbia, University of Maryland College Park, University of California Berkeley, Florida State University, San Joaquin Delta Community College, The University of Washington, University of Southern California, Massachusetts Institute of Technology, Carnegie Mellon University and Naval Post Graduate School. (<a href="http://www.kuali.org/" class="external-link" rel="nofollow">http://www.kuali.org/</a>).</p>
 
-<h3>Apache</h3>
-<p>This product includes software developed by the Apache Software Foundation (<a href='http://www.apache.org'>http://www.apache.org</a>).</p>
-<p>Apache 2: OpenSAML-J</p>
-<p>Apache License, Version 2.0: spring-modules-ojb</p>
-<p>Apache License 2.0: gwtx</p>
-<p>Apache License: HttpClient</p>
-<p>Apache Software License, Version 1.1: sslext</p>
-<p>The Apache Software License, Version 2.0: Acegi Security Core, Acegi Security System for Spring - CAS adapter, Apache CXF API, Apache CXF Command Line Tools Common, Apache CXF Common Schemas, Apache CXF Common Utilities, Apache CXF Runtime Aegis Databinding, Apache CXF Runtime Core, Apache CXF Runtime HTTP Transport, Apache CXF Runtime JAX-WS Frontend, Apache CXF Runtime JAXB DataBinding, Apache CXF Runtime SOAP Binding, Apache CXF Runtime Simple Frontend, Apache CXF Runtime WS Addressing, Apache CXF Runtime WS Security, Apache CXF Runtime XML Binding, Apache Velocity, Bean Scripting Framework, Codec, Collections, Commons Chain, Commons DBCP, Commons FileUpload, Commons IO, Commons Logging, Commons Pool, DWR, EL, Ehcache Core, GWT Development Library 2.0, GWT Servlet Library 2.0, GWT User Library 2.0, Lang, Log4j, Neethi, Spring Framework: AOP, Spring Framework: Aspects, Spring Framework: Beans, Spring Framework: Context, Spring Framework: Context Support, Spring Framework: Core, Spring Framework: JDBC, Spring Framework: ORM, Spring Framework: Transaction, Spring Framework: Web, Spring Framework: Web MVC, Spring Security - CAS support, Spring Security - Core, Struts Core, Struts Taglib, Struts Tiles, Transaction, Unnamed - ant:ant:jar:1.6.5, Unnamed - tomcat:jasper-compiler-jdt:jar:5.5.15, Unnamed - tomcat:jasper-compiler:jar:5.5.15, Unnamed - tomcat:jasper-runtime:jar:5.5.15, VelocityTools, WSS4J, Woodstox, XML Commons External Components XML APIs, XML Commons Resolver Component, Xalan Java, Xalan Java Serializer, Xerces2 Java Parser, XmlSchema</p>
+<p>This product includes software developed by ANTLR (<a href="http://www.antlr.org/" class="external-link" rel="nofollow">http://www.antlr.org/</a>).</p>
 
-<h3>BSD</h3>
-<p>BSD License: AntLR Parser Generator</p>
-<p>BSD style: XStream Core</p>
+<p>This product includes software developed by the Apache Software Foundation (<a href="http://www.apache.org" class="external-link" rel="nofollow">http://www.apache.org</a>).</p>
 
-<h3>Eclipse</h3>
-<p>Eclipse Public License v1.0: Eclipse JDT Core</p>
-<p>Eclipse Public License - v 1.0: AspectJ runtime, AspectJ weaver</p>
+<p>This product includes software developed by CDDL (<a href="http://www.opensource.org/" class="external-link" rel="nofollow">http://www.opensource.org/</a>).</p>
 
-<h3>GNU</h3>
-<p>GNU LESSER GENERAL PUBLIC LICENSE: Hibernate, Hibernate Annotations, Hibernate Commons Annotations, Hibernate Entitity Manager</p>
-<p>GNU Lesser General Public License: Hibernate Core</p>
-<p>GNU General Public Library: Streaming API for XML</p>
+<p>This product includes software developed by Junit  (<a href="http://www.junit.org/" class="external-link" rel="nofollow">http://www.junit.org/</a>).</p>
 
-<h3>Java</h3>
-<p>JA-SIG License for Use: JA-SIG CAS Client for Java - Core</p>
-<p>Bouncy Castle License: Legion of the Bouncy Castle Java Cryptography APIs</p>
-<p>Yale Central Authentication Service License: Java CAS Client Distribution</p>
-<p>Common Development and Distribution License (CDDL) v1.0: Enterprise JavaBeans (EJB) 3.0, JavaBeans Activation Framework (JAF), JavaMail API</p>
-<p>lgpl: Javassist</p>
+<p>This product includes software developed by ECLIPSE (<a href="http://www.eclipse.org/legal/epl-v10.htm" class="external-link" rel="nofollow">http://www.eclipse.org/legal/epl-v10.htm</a>).</p>
 
-<h3>Public Domain</h3>
-<p>Public Domain: AOP alliance, Backport of JSR 166</p>
-<p>Public domain, Sun Microsoystems: Dough Lea's util.concurrent package</p>
-<p>Common Public License Version 1.0: JUnit</p>
-<p>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0: SOAP with Attachments API Package, Streaming API for XML</p>
-<p>Artistic License: Display tag library</p>
-<p>CPL: WSDL4J</p>
-<p>Educational Community License, Version 2.0: KS Common Impl, KS Common UI, KS Common Util, KS Core API, KS Core Impl, KS Core Rice, KS Core UI, KS LUM API, KS LUM Impl, KS LUM Program, KS LUM Rice, KS LUM UI, KS LUM UI Common, KS Rice Less Dependencies, KS Security Token Service, KS Standard Security, Kuali Student Embedded</p>
-<p>MIT License: SLF4J API Module, SLF4J LOG4J-12 Binding</p>
-<p>Unknown: ASM Core, Antlr 3 Runtime, Central Authentication Service, Derby Engine, Groovy, J2EE Connector Architecture, JOTM : A Java Open Transaction Manager, Java Persistence API, Java Transaction API, ObJectRelationalBridge, Unnamed - bcel:bcel:jar:5.1, Unnamed - cas:cas-server:pom:3.0.4, Unnamed - com.google.gwt:gwt-visualization:jar:1.0, Unnamed - com.sun.xml.bind:jaxb-impl:jar:2.1.9, Unnamed - com.sun.xml.bind:jaxb-xjc:jar:2.1.9, Unnamed - com.sun.xml.fastinfoset:FastInfoset:jar:1.2.2, Unnamed - commons-beanutils:commons-beanutils:jar:1.7.0, Unnamed - commons-digester:commons-digester:jar:1.6, Unnamed - commons-validator:commons-validator:jar:1.1.4, Unnamed - howl:howl-logger:jar:0.1.11, Unnamed - javax.resource:connector-api:jar:1.5, Unnamed - javax.servlet:jsp-api:jar:2.0, Unnamed - javax.servlet:jstl:jar:1.1.2, Unnamed - javax.servlet:servlet-api:jar:2.5, Unnamed - javax.xml.bind:jaxb-api:jar:2.1, Unnamed - jdom:jdom:jar:1.0, Unnamed - jotm:jotm_jrmp_stubs:jar:2.0.10, Unnamed - logkit:logkit:jar:2.0, Unnamed - opensymphony:oscache:pom:2.3.2, Unnamed - opensymphony:quartz:pom:1.6.0, Unnamed - org.apache.santuario:xmlsec:jar:1.4.2, Unnamed - org.objectweb.carol:carol:jar:2.0.5, Unnamed - oro:oro:jar:2.0.8, Unnamed - taglibs:standard:jar:1.1.2, Unnamed - xapool:xapool:jar:1.5.0-patch3, Unnamed - xerces:xmlParserAPIs:jar:2.6.2, Unnamed - xpp3:xpp3_min:jar:1.1.3.4.O, asm-attrs, cglib, dom4j, itext, jaxen, struts, struts-el, xom </p>
+<p>This product includes software licensed under GNU Lesser General Public License (<a href="http://www.opensource.org/licenses/lgpl-license.php" class="external-link" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a>).</p>
+
+<p>This product includes software developed by HOWL (<a href="http://hsqldb.org" class="external-link" rel="nofollow">http://hsqldb.org</a>).</p>
+
+<p>This product includes software developed by JDOM (<a href="http://www.jdom.org/" class="external-link" rel="nofollow">http://www.jdom.org/</a>).</p>
+
+<p>This product includes software developed by JOTM (<a href="http://jotm.objectware.org" class="external-link" rel="nofollow">http://jotm.objectware.org</a>).</p>
+
+<p>This product includes software developed by the Open Symphony Group (<a href="http://www.opensymphony.com/" class="external-link" rel="nofollow">http://www.opensymphony.com/</a>).</p>
+
+<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (Rice Acknowledgments).</p>
+
+<p>This product includes software developed by Xstream (<a href="http://xstream.codehaus.org/" class="external-link" rel="nofollow">http://xstream.codehaus.org/</a>).</p>
+
+<p>Portions Copyright (c) 2000-2006 The Legion of the Bouncy Castle. All Rights Reserved. (<a href="http://www.bouncycastle.org" class="external-link" rel="nofollow">http://www.bouncycastle.org</a>).</p>
+
+<p>Portions Copyright (c) 2001-2006 Sun Microsystems, Inc. All Rights Reserved.</p>
+
+<p>Portions Copyright (c) 2007, JA-SIG, Inc. All Rights Reserved.</p>
+
+<p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
+
+<p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<a href="http://xstream.codehaus.org/" class="external-link" rel="nofollow">http://xstream.codehaus.org/</a>).</p>
   	</g:HTMLPanel>
 </ui:UiBinder> 
