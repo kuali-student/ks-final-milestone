@@ -145,7 +145,7 @@
 	  }
 
       function getDirDisplayRow(s3Dir) {
-        var image = getHtmlImg('/images/folder.png');
+        var image = getHtmlImg('/s3Browse/images/folder.png');
         var dest = getDestDir(s3Dir.prefix);
         var show = getShow(s3Dir.prefix);
         var ahref = getHtmlHref(dest,show);
@@ -177,7 +177,7 @@
 		if ((s3Object.key + "/") == myPrefix) {
 			return null;
 		}
-        var image = getHtmlImg('/images/page_white.png');
+        var image = getHtmlImg('/s3Browse/images/page_white.png');
         var show = getShow(s3Object.key);
         var dest = "/" + s3Object.key;
         var ahref = getHtmlHref(dest,show);
