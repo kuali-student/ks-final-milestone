@@ -47,11 +47,6 @@ public class InitializeBucketMojo extends S3Mojo {
         }
     }
 
-    protected Resource getResource(String location) {
-        ResourceLoader loader = new DefaultResourceLoader();
-        return loader.getResource(location);
-    }
-
     protected ObjectMetadata getObjectMetadata(String location, Resource resource) throws IOException {
         ObjectMetadata om = new ObjectMetadata();
         String contentType = mimeTypes.getMimetype(location);
@@ -61,7 +56,8 @@ public class InitializeBucketMojo extends S3Mojo {
     }
 
     protected PutObjectRequest getPutObjectRequest(String location) throws IOException {
-        Resource resource = getResource(location);
+        ResourceLoader loader = new DefaultResourceLoader();
+        Resource resource = loader.getResource(location);
         InputStream in = resource.getInputStream();
         ObjectMetadata objectMetadata = getObjectMetadata(location, resource);
         String key = location.substring(1);
