@@ -38,7 +38,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="resultComponentInfo.expirationDate" parent="resultComponentInfo.expirationDate-parent"/>
 
- <bean id="resultComponentInfo.id-parent" abstract="true" parent="baseKualiId">
+<!-- We are storing the actual value in the result component id (not a guid) so we have to modify
+ the paretn from 'baseKualiId' to to allow longer values with more types of characters-->
+ <bean id="resultComponentInfo.id-parent" abstract="true" parent="baseString">
   <property name="name" value="id"/>
  </bean>
  <bean id="resultComponentInfo.id" parent="resultComponentInfo.id-parent"/>
