@@ -23,15 +23,20 @@ public class UpdateBucketMojo extends S3Mojo {
             validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            ListObjectsRequest request = new ListObjectsRequest(getBucket(), null, null, "/", Integer.MAX_VALUE);
-            ObjectListing objectListing = client.listObjects(request);
-            List<String> commonPrefixes = objectListing.getCommonPrefixes();
-            for (String prefix : commonPrefixes) {
-                getLog().info("Updating: " + prefix);
-                updateDir(client, getBucket(), prefix);
-            }
+            recurse(client, null);
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
+        }
+    }
+
+    protected void recurse(AmazonS3Client client, String prefix) throws IOException {
+        ListObjectsRequest request = new ListObjectsRequest(getBucket(), prefix, null, "/", Integer.MAX_VALUE);
+        ObjectListing objectListing = client.listObjects(request);
+        List<String> commonPrefixes = objectListing.getCommonPrefixes();
+        for (String commonPrefix : commonPrefixes) {
+            getLog().info("\n###Updating: " + commonPrefix + "###\n");
+            updateDir(client, getBucket(), commonPrefix);
+            recurse(client, commonPrefix);
         }
     }
 
