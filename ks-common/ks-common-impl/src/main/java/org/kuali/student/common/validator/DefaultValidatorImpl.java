@@ -204,14 +204,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     i++;
                 }
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection, value);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
                     results.add(valRes);
                 }
 
                 Integer maxOccurs = tryParse(field.getMaxOccurs());
                 if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection, value);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), toMap(field)));
                     results.add(valRes);
                 }
@@ -220,7 +220,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack);
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
-                        ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack));
+                        ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
                         val.setError(getMessage("validation.required"));
                         results.add(val);
                     }
@@ -247,14 +247,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
                 String xPath = getElementXpath(elementStack) + "/" + field.getName() + "/*";
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPath);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPath, value);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
                     results.add(valRes);
                 }
 
                 Integer maxOccurs = tryParse(field.getMaxOccurs());
                 if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPath);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPath, value);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), toMap(field)));
                     results.add(valRes);
                 }
@@ -358,7 +358,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             Map<String, Object> rMap = new HashMap<String, Object>();
             rMap.put("field1", field.getName());
             rMap.put("field2", fieldName);
-            val = new ValidationResultInfo(element);
+            val = new ValidationResultInfo(element, fieldValue);
             val.setError(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
         }
 
@@ -427,7 +427,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         if ("regex".equalsIgnoreCase(processorType)) {
             if (fieldValue == null || !fieldValue.toString().matches(validChars)) {
-            	val = new ValidationResultInfo(element);
+            	val = new ValidationResultInfo(element, fieldValue);
                 if(vcConstraint.getLabelKey()!=null){
                 	val.setError(getMessage(vcConstraint.getLabelKey()));
                 }else{
@@ -469,7 +469,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         result = (trueCount >= constraint.getMin() && trueCount <= constraint.getMax()) ? true : false;
 
         if (!result) {
-            val = new ValidationResultInfo(element);
+         // TODO: figure out what data should go here instead of null
+            val = new ValidationResultInfo(element, null);
             val.setError(getMessage("validation.occurs"));
         }
 
@@ -484,6 +485,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // Create search params based on the param mapping
         List<SearchParam> params = new ArrayList<SearchParam>();
+        Object fieldValue = null;
         for (CommonLookupParam paramMapping : lookupConstraint.getParams()) {
             SearchParam param = new SearchParam();
 
@@ -491,7 +493,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
             // If the value of the search param comes form another field then get it
             if (paramMapping.getFieldPath() != null && !paramMapping.getFieldPath().isEmpty()) {
-                Object fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
+                fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
                 if (fieldValue instanceof String) {
                     param.setValue((String) fieldValue);
                 } else if (fieldValue instanceof List<?>) {
@@ -519,7 +521,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             LOG.info("Error calling Search", e);
         }
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
-            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
+            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), fieldValue);
             val.setError(getMessage("validation.lookup"));
             valResults.add(val);
         }
@@ -529,7 +531,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
-                ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name);
+                ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
                 val.setError(getMessage("validation.required"));
                 valResults.add(val);
             }
@@ -560,7 +562,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 Boolean.valueOf(value.toString());
             } catch (Exception e) {
-                ValidationResultInfo val = new ValidationResultInfo(element);
+                ValidationResultInfo val = new ValidationResultInfo(element, value);
                 val.setError(getMessage("validation.mustBeBoolean"));
                 results.add(val);
             }
@@ -570,7 +572,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void validateDouble(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Double v = null;
 
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         if (value instanceof Number) {
             v = ((Number) value).doubleValue();
@@ -610,7 +612,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Float v = null;
 
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
         if (value instanceof Number) {
             v = ((Number) value).floatValue();
         } else {
@@ -649,7 +651,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Long v = null;
 
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
         if (value instanceof Number) {
             v = ((Number) value).longValue();
         } else {
@@ -689,7 +691,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void validateInteger(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         Integer v = null;
 
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         if (value instanceof Number) {
             v = ((Number) value).intValue();
@@ -727,7 +729,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void validateDate(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, DateParser dateParser) {
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         Date v = null;
 
@@ -773,7 +775,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
         String s = value.toString().trim();
 
-        ValidationResultInfo val = new ValidationResultInfo(element);
+        ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         Integer maxLength = tryParse(constraint.getMaxLength());
         if (maxLength != null && constraint.getMinLength() != null && constraint.getMinLength() > 0) {
