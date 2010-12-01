@@ -1,34 +1,28 @@
 package org.kuali.maven.mojo.s3;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.internal.Mimetypes;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 /**
  * @goal prepare
  */
 public class PrepareBucketMojo extends S3Mojo {
-    Mimetypes mimeTypes = Mimetypes.getInstance();
 
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
-            List<PutObjectRequest> requests = getInternalUploadRequests();
+            updateCredentials();
+            validateCredentials();
             AWSCredentials credentials = getCredentials();
+            List<PutObjectRequest> requests = getInternalUploadRequests();
             AmazonS3Client client = new AmazonS3Client(credentials);
             for (PutObjectRequest request : requests) {
                 client.putObject(request);
@@ -36,25 +30,6 @@ public class PrepareBucketMojo extends S3Mojo {
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
-    }
-
-    protected ObjectMetadata getObjectMetadata(String location, Resource resource) throws IOException {
-        ObjectMetadata om = new ObjectMetadata();
-        String contentType = mimeTypes.getMimetype(location);
-        om.setContentType(contentType);
-        om.setContentLength(resource.contentLength());
-        return om;
-    }
-
-    protected PutObjectRequest getPutObjectRequest(String location) throws IOException {
-        ResourceLoader loader = new DefaultResourceLoader();
-        Resource resource = loader.getResource(location);
-        InputStream in = resource.getInputStream();
-        ObjectMetadata objectMetadata = getObjectMetadata(location, resource);
-        String key = location.substring(1);
-        PutObjectRequest request = new PutObjectRequest(getBucket(), key, in, objectMetadata);
-        request.setCannedAcl(CannedAccessControlList.PublicRead);
-        return request;
     }
 
     protected void addDir(List<PutObjectRequest> requests, String dir) throws IOException {
