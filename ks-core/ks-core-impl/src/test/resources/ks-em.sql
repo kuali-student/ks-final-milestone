@@ -72,8 +72,7 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SOR
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('37', 'per month', 'kuali.atp.duration.month', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 37, 'per month');
 
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('38', 'template', 'template',{ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 38, 'A template holds configuration for defaults for creating a new course');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('39', 'draft.private', 'draft.private', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 39, 'Exploratory/Private scratch pad');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('40', 'draft.public', 'draft.public', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 40, 'Entered as draft but not yet submitted');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('39', 'draft', 'draft', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 39, 'Draft');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('41', 'submitted', 'submitted', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 41, 'Submitted but not yet approved');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('42', 'withdrawn', 'withdrawn', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 42, 'Withdrawn (anytime before Active)');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('43', 'approved', 'approved', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 43, 'Approved');
@@ -151,7 +150,6 @@ insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','37');
 
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','38');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','39');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','40');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','41');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','42');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','43');
