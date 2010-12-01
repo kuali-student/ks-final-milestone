@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Department Curriculum Committee Review"
+        NM="Review" NMSPC_CD="KS-LUM"
+        OBJ_ID="DepartmentCOCReview0000000000RSP" RSP_ID="900"
+        RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Faculty Admin Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="FacultyReview00000000000000000000RSP"
+        RSP_ID="901" RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Faculty Curriculum Committee Admin Review"
+        NM="Review" NMSPC_CD="KS-LUM"
+        OBJ_ID="FacultyCOCReview00000000000000000RSP" RSP_ID="902"
+        RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Senate Curriculum Committee - Science Subcommittee Review"
+        NM="Review" NMSPC_CD="KS-LUM"
+        OBJ_ID="SenateScienceSubCommittee00ReviewRSP" RSP_ID="903"
+        RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Senate Curriculum Committee - Graduate Subcommittee Review"
+        NM="Review" NMSPC_CD="KS-LUM"
+        OBJ_ID="SenateGraduateSubCommittee0ReviewRSP" RSP_ID="904"
+        RSP_TMPL_ID="1" VER_NBR="1"/>
+</dataset>

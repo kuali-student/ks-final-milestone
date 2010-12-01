@@ -1,0 +1,2 @@
+module CrrcCrsCatalogtsHelper
+end
