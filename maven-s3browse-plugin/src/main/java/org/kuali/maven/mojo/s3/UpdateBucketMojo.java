@@ -37,7 +37,7 @@ public class UpdateBucketMojo extends S3Mojo {
 
     protected void updateDir(AmazonS3Client client, String bucket, String prefix) throws IOException {
         PutObjectRequest request1 = getPutObjectRequest("/dir.htm", prefix);
-        PutObjectRequest request2 = getPutObjectRequest("/dir.htm", prefix + "/");
+        PutObjectRequest request2 = getPutObjectRequest("/dir.htm", prefix.substring(0, prefix.length() - 1));
         client.putObject(request1);
         client.putObject(request2);
     }
