@@ -112,12 +112,15 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		//Update proposal/workflow data for a save request
 		if (TransformFilterAction.SAVE == properties.get(TransformFilter.FILTER_ACTION)){
 			//If new proposal create proposal 
-			if (proposalInfo.getId() == null){			
+			if (proposalInfo.getId() == null){
+				String docType = proposalInfo.getType();
+				DocumentTypeConfiguration docTypeConfig = getDocTypeConfig(docType);
 				String referenceId = data.query("id");
 				proposalInfo.setProposalReferenceType(getProposalReferenceType());
 				proposalInfo.getProposalReference().add(referenceId);
+				proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
 				proposalInfo.setState("Saved");
-				
+								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
 			} 
 				
