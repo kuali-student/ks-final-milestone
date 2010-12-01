@@ -52,6 +52,7 @@
 
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
+    <cobertura.plugin.version>2.4</cobertura.plugin.version>
 
     <kuali.extra.release.arguments />
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
