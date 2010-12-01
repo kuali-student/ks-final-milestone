@@ -75,15 +75,31 @@ public class InitializeBucketMojo extends S3Mojo {
         }
     }
 
+    protected void addDir(List<PutObjectRequest> requests, String dir) throws IOException {
+        PutObjectRequest dirWithSlash = getPutObjectRequest("/dir.htm");
+        PutObjectRequest dirWithOutSlash = getPutObjectRequest("/dir.htm");
+        dirWithSlash.setKey(dir + "/");
+        dirWithOutSlash.setKey(dir);
+        requests.add(dirWithSlash);
+        requests.add(dirWithOutSlash);
+    }
+
     protected List<PutObjectRequest> getInternalUploadRequests() throws IOException {
         List<PutObjectRequest> requests = new ArrayList<PutObjectRequest>();
         requests.add(getPutObjectRequest("/s3browse/css/style.css"));
         requests.add(getPutObjectRequest("/s3browse/js/jquery-1.4.4.js"));
-        requests.add(getPutObjectRequest("/s3browse/js/jQuery.url.js"));
-        requests.add(getPutObjectRequest("/s3browse/js/jQuery.xml2json.js"));
-        requests.add(getPutObjectRequest("/s3browse/js/s3Dir.js"));
+        requests.add(getPutObjectRequest("/s3browse/js/jquery.url.js"));
+        requests.add(getPutObjectRequest("/s3browse/js/jquery.xml2json.js"));
+        requests.add(getPutObjectRequest("/s3browse/js/s3dir.js"));
         requests.add(getPutObjectRequest("/s3browse/images/folder.png"));
         requests.add(getPutObjectRequest("/s3browse/images/page_white.png"));
+        addDir(requests, "s3browse");
+        addDir(requests, "s3browse/css");
+        addDir(requests, "s3browse/js");
+        addDir(requests, "s3browse/images");
+        PutObjectRequest indexHtml = getPutObjectRequest("/dir.htm");
+        indexHtml.setKey("s3browse.html");
+        requests.add(indexHtml);
         return requests;
     }
 

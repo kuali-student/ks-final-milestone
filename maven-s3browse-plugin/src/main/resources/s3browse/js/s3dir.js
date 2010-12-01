@@ -9,7 +9,7 @@
       defaultFiles.push("index.htm");
 
       var start = new Date().getTime();
-      var debug = false;
+      var debug = true;
       var localMode = false;
       var columnDecorators = new Array();
       var xml = '';
@@ -283,7 +283,7 @@
 			  return null;
 		  }
 		  var length = myPrefix.length;
-		  var s = myPrefix.substring(0,length-2);
+		  var s = myPrefix.substring(0,length-1);
 		  log("s=" + s);
 		  var pos = s.lastIndexOf("/");
 		  log("pos=" + pos);
@@ -295,7 +295,7 @@
 		  var show = "../";
 		  log("dest=" + dest);
 		  if (dest == "/") {
-			  dest = "/index.html";
+			  dest = "/s3browse.html";
 		  }
 		  var image = "";
 		  var ahref = getHtmlHref(dest,show);
