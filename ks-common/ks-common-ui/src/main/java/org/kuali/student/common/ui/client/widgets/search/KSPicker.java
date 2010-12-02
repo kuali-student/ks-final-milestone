@@ -608,6 +608,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         sr.setSearchKey(lookup.getSearchTypeId());
 
+        if (lookup.getResultSortKey() != null){
+        	sr.setSortColumn(lookup.getResultSortKey());
+        }
+
         //initialize search parameters that are hidden from the UI because they are set to default context specific values
         for(LookupParamMetadata metaParam: lookup.getParams()){
             if(metaParam.getWriteAccess() == WriteAccess.NEVER){
