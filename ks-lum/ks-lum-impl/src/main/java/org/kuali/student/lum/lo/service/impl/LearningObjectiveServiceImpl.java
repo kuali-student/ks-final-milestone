@@ -493,7 +493,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
         if (!String.valueOf(loCategory.getVersionNumber()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
-            throw new VersionMismatchException("LO to be updated is not the current version");
+            throw new VersionMismatchException("LoCategory to be updated is not the current version");
         }
         
         // if state is changing from "active"
