@@ -136,12 +136,50 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             return "";
         }
         StringBuffer sb = new StringBuffer();
-        sb.append(html.getOpenTag(new Tag("table", "mainTable")));
-        sb.append(html.getOpenTag(new Tag("thead", 1)));
-        sb.append(html.getOpenTag(new Tag("tr", 2)));
-        sb.append(html.getCloseTag(new Tag("tr", 2)));
-        sb.append(html.getCloseTag(new Tag("thead", 1)));
-        sb.append(html.getCloseTag(new Tag("table")));
+        Tag table = new Tag("table", "mainTable");
+        Tag thead = new Tag("thead", 1);
+        Tag tr = new Tag("tr", 2);
+        Tag tbody = new Tag("tbody", 1);
+        sb.append(html.getOpenTag(table));
+        sb.append(html.getOpenTag(thead));
+        sb.append(html.getOpenTag(tr));
+        sb.append(html.getCloseTag(tr));
+        sb.append(html.getCloseTag(thead));
+        sb.append(html.getOpenTag(tbody));
+        sb.append(html.getCloseTag(tbody));
+        sb.append(html.getCloseTag(table));
+        return sb.toString();
+    }
+
+    protected Tag getTableRowTag(int row) {
+        if ((row % 2) == 0) {
+            return new Tag("tr", 2);
+        } else {
+            return new Tag("tr", "table-tr-odd", 2);
+        }
+    }
+
+    protected String getTableCell(String content, ColumnDecorator decorator) {
+        Tag td = new Tag("td", decorator.getTableDataClass(), 3);
+        return html.getTag(td, content);
+    }
+
+    protected String getTableRow(int row, String[] data, List<ColumnDecorator> columnDecorators) {
+        StringBuffer sb = new StringBuffer();
+        Tag tr = getTableRowTag(row);
+        sb.append(html.getOpenTag(tr));
+        for (int i = 0; i < data.length; i++) {
+            sb.append(getTableCell(data[i], columnDecorators.get(i)));
+        }
+        sb.append(html.getCloseTag(tr));
+        return sb.toString();
+    }
+
+    protected String getTableRows(List<String[]> data, List<ColumnDecorator> columnDecorators) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < data.size(); i++) {
+            sb.append(getTableRow(i, data.get(i), columnDecorators));
+        }
         return sb.toString();
     }
 
@@ -150,14 +188,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         for (int i = 0; i < columnDecorators.size(); i++) {
             ColumnDecorator decorator = columnDecorators.get(i);
             sb.append(html.getOpenTag(new Tag("th", decorator.getTableDataClass(), 3)));
-            sb.append(html.getGeneric(new Tag("span", decorator.getSpanClass(), 4), decorator.getColumnTitle()));
+            sb.append(html.getTag(new Tag("span", decorator.getSpanClass(), 4), decorator.getColumnTitle()));
             sb.append(html.getCloseTag(new Tag("th", 3)));
         }
-        return sb.toString();
-    }
-
-    protected String getTableRow(String s) {
-        StringBuffer sb = new StringBuffer();
         return sb.toString();
     }
 

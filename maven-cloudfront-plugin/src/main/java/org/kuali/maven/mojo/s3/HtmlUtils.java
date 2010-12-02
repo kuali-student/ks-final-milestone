@@ -37,7 +37,7 @@ public class HtmlUtils {
         return StringUtils.repeat(" ", tag.getIndent()) + "</" + tag.getName() + ">\n";
     }
 
-    public String getGeneric(Tag tag, String content) {
+    public String getTag(Tag tag, String content) {
         StringBuffer sb = new StringBuffer();
         sb.append(getOpenTag(tag));
         sb.append(content);
