@@ -64,6 +64,7 @@ public class MajorEditController extends MajorController {
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
+            excludedViews.add(ProgramSections.SUMMARY);
             addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
