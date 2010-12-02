@@ -16,9 +16,9 @@
 
 -->
 
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>Kuali Rice Standalone</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>Kuali Rice Standalone</display-name>
 
     <listener>
       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
@@ -45,35 +45,35 @@
       <param-value>${bootstrap.spring.file}</param-value>
     </context-param>
 
-	<filter>
+    <filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
     </filter>
     
     <filter>
-		<filter-name>ResponseOverrideFilter</filter-name>
-		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
-	</filter>
+        <filter-name>ResponseOverrideFilter</filter-name>
+        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+    </filter>
 
   <filter>
     <filter-name>BootstrapFilter</filter-name>
     <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
   </filter>
 
-	<filter>
-		<filter-name>UserLoginFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
-	</filter>
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+    </filter>
 
-	<filter-mapping>
+    <filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-	<filter-mapping>
-		<filter-name>ResponseOverrideFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
+    <filter-mapping>
+        <filter-name>ResponseOverrideFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
 
     <filter-mapping>
       <filter-name>BootstrapFilter</filter-name>
@@ -85,10 +85,10 @@
       <servlet-name>notification</servlet-name>
     </filter-mapping>
 
-	<filter-mapping>
-		<filter-name>UserLoginFilter</filter-name>
-		<servlet-name>action</servlet-name>
-	</filter-mapping>
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
 
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
@@ -110,32 +110,31 @@
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
 
+    <listener>
+        <listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
+    </listener>
 
-	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
-	</listener>
+    <listener>
+        <listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
+    </listener>
 
-	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
-	</listener>
-
-	<servlet>
-		<servlet-name>action</servlet-name>
-		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
         <init-param>
           <param-name>config</param-name>
           <param-value>/WEB-INF/struts-config.xml</param-value>
         </init-param>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>3</param-value>
-		</init-param>
-		<init-param>
-			<param-name>detail</param-name>
-			<param-value>3</param-value>
-		</init-param>
-		<load-on-startup>0</load-on-startup>
-	</servlet>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <init-param>
+            <param-name>detail</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
@@ -156,19 +155,19 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
 
-	<servlet>
-		<servlet-name>dwr-invoker</servlet-name>
-		<servlet-class>org.kuali.rice.kns.web.servlet.KualiDWRServlet</servlet-class>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>springpath</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>org.kuali.rice.kns.web.servlet.KualiDWRServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>springpath</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <!-- KCB servlets -->
     <servlet>
@@ -186,86 +185,87 @@
           <param-value>/kcb</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-	</servlet>
+    </servlet>
 
-	<servlet>
-		<servlet-name>remoting</servlet-name>
-		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+    <servlet>
+        <servlet-name>remoting</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-	<servlet>
-		<servlet-name>export</servlet-name>
-		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>export</servlet-name>
+        <servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
+    </servlet>
 
-	<servlet>
-		<servlet-name>exportsecurity</servlet-name>
-		<servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>exportsecurity</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
+    </servlet>
 
-	<servlet>
-		<servlet-name>attachment</servlet-name>
-		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>attachment</servlet-name>
+        <servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
+    </servlet>
 
-	<servlet>
-		<servlet-name>edoclite</servlet-name>
-		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>edoclite</servlet-name>
+        <servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>remoting</servlet-name>
-		<url-pattern>/services/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>remoting</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>notification</servlet-name>
         <url-pattern>*.form</url-pattern>
     </servlet-mapping>
 
-	<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>kcb</servlet-name>
         <url-pattern>*.kcb</url-pattern>
     </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>dwr-invoker</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>export</servlet-name>
-		<url-pattern>/export/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>export</servlet-name>
+        <url-pattern>/export/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>exportsecurity</servlet-name>
-		<url-pattern>/exportsecurity/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>exportsecurity</servlet-name>
+        <url-pattern>/exportsecurity/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>attachment</servlet-name>
-		<url-pattern>/kew/attachment/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>attachment</servlet-name>
+        <url-pattern>/kew/attachment/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>edoclite</servlet-name>
-		<url-pattern>/kew/EDocLite</url-pattern>
-	</servlet-mapping>	
+    <servlet-mapping>
+        <servlet-name>edoclite</servlet-name>
+        <url-pattern>/kew/EDocLite</url-pattern>
+    </servlet-mapping>
 
-	<session-config>
-		<session-timeout>60</session-timeout>
-	</session-config>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
 
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
 </web-app>
 
