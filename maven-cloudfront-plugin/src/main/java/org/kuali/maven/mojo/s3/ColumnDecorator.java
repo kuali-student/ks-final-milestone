@@ -1,9 +1,21 @@
 package org.kuali.maven.mojo.s3;
 
 public class ColumnDecorator {
+
     String tableDataClass;
     String spanClass;
     String columnTitle;
+
+    public ColumnDecorator() {
+        this(null, null, null);
+    }
+
+    public ColumnDecorator(String tableDataClass, String spanClass, String columnTitle) {
+        super();
+        this.tableDataClass = tableDataClass;
+        this.spanClass = spanClass;
+        this.columnTitle = columnTitle;
+    }
 
     public String getTableDataClass() {
         return tableDataClass;

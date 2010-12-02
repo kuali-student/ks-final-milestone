@@ -26,6 +26,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class UpdateOriginBucketMojo extends S3Mojo {
     NumberFormat nf = getNumberFormatInstance();
     SimpleDateFormat dateFormatter;
+    HtmlUtils html = new HtmlUtils();
 
     /**
      * @parameter expression="${css}" default-value="http://s3browse.ks.kuali.org/css/style.css"
@@ -91,20 +92,6 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     }
 
     /**
-     * Return an HTML ahref tag
-     */
-    protected String getHtmlHref(String dest, String show) {
-        return "<a href=\"" + dest + "\">" + show + "</a>";
-    }
-
-    /**
-     * Return an HTML img tag
-     */
-    protected String getHtmlImage(String image) {
-        return "<img src=\"" + image + "\">";
-    }
-
-    /**
      * Trim the prefix off of the text we display for this object.<br>
      * Display "style.css" instead of "css/style.css"
      */
@@ -140,8 +127,46 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return data;
     }
 
+    protected boolean isEmpty(List<?> list) {
+        return list == null || list.size() == 0;
+    }
+
+    protected String getHtmlTable(List<String[]> data, List<ColumnDecorator> columnDecorators) {
+        if (isEmpty(data)) {
+            return "";
+        }
+        StringBuffer sb = new StringBuffer();
+        sb.append(html.getOpenTag(new Tag("table", "mainTable")));
+        sb.append(html.getOpenTag(new Tag("thead", 1)));
+        sb.append(html.getOpenTag(new Tag("tr", 2)));
+        sb.append(html.getCloseTag(new Tag("tr", 2)));
+        sb.append(html.getCloseTag(new Tag("thead", 1)));
+        sb.append(html.getCloseTag(new Tag("table")));
+        return sb.toString();
+    }
+
+    protected String getTableHeaders(List<ColumnDecorator> columnDecorators) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < columnDecorators.size(); i++) {
+            ColumnDecorator decorator = columnDecorators.get(i);
+            sb.append(html.getOpenTag(new Tag("th", decorator.getTableDataClass(), 3)));
+            sb.append(html.getGeneric(new Tag("span", decorator.getSpanClass(), 4), decorator.getColumnTitle()));
+            sb.append(html.getCloseTag(new Tag("th", 3)));
+        }
+        return sb.toString();
+    }
+
+    protected String getTableRow(String s) {
+        StringBuffer sb = new StringBuffer();
+        return sb.toString();
+    }
+
     protected List<ColumnDecorator> getColumnDecorators() {
         List<ColumnDecorator> columnDecorators = new ArrayList<ColumnDecorator>();
+        columnDecorators.add(new ColumnDecorator("image-column", "sort-header", ""));
+        columnDecorators.add(new ColumnDecorator("name-column", "sort-header", "Name"));
+        columnDecorators.add(new ColumnDecorator("last-modified-column", "sort-header", "Last Modified"));
+        columnDecorators.add(new ColumnDecorator("size-column", "sort-header", "Size"));
         return columnDecorators;
     }
 
@@ -175,7 +200,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         String image = "";
         String show = ".." + delimiter;
         String dest = getUpOneDirectoryPrefix(prefix, delimiter);
-        String ahref = getHtmlHref(dest, show);
+        String ahref = html.getHref(dest, show);
         String date = "";
         String size = "";
 
@@ -194,10 +219,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     protected DisplayRow getDisplayRow(String commonPrefix, String prefix, String delimiter) {
 
         // Create some UI friendly strings
-        String image = getHtmlImage(getDirectoryImage());
+        String image = html.getImage(getDirectoryImage());
         String show = getShow(commonPrefix, prefix);
         String dest = delimiter + commonPrefix;
-        String ahref = getHtmlHref(dest, show);
+        String ahref = html.getHref(dest, show);
         String date = "-";
         String size = "-";
 
@@ -263,10 +288,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
 
         // Create some UI friendly strings
-        String image = getHtmlImage(getFileImage());
+        String image = html.getImage(getFileImage());
         String show = getShow(key, prefix);
         String dest = delimiter + key;
-        String ahref = getHtmlHref(dest, show);
+        String ahref = html.getHref(dest, show);
         String date = dateFormatter.format(summary.getLastModified());
         String size = nf.format((summary.getSize() / 1024D)) + " KiB";
 
