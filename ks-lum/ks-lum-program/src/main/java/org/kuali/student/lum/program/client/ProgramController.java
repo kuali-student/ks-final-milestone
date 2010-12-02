@@ -312,7 +312,9 @@ public abstract class ProgramController extends MenuSectionController {
         if (programModel.getRoot() != null) {
             ProgramStatus programStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
-            idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
+            if (programStatus.getNextStatus() != null) {
+                idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
+            }
         }
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
