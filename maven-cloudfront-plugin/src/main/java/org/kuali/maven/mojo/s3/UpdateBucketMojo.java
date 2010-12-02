@@ -59,7 +59,7 @@ public class UpdateBucketMojo extends S3Mojo {
     private String prefix;
 
     /**
-     * @parameter expression="${defaultCloudFrontObject}" default-value="index.html";
+     * @parameter expression="${defaultObject}" default-value="index.html";
      */
     private String defaultObject;
 
