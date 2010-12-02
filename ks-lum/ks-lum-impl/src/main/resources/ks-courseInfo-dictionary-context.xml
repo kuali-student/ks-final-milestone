@@ -686,7 +686,7 @@
 
  <bean id="courseInfo.transcriptTitle-parent" abstract="true" parent="cluIdentifierInfo.shortName-parent">
   <property name="name" value="transcriptTitle" />
-  <property name="maxLength" value="20"/>
+  <property name="maxLength" value="24"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -707,7 +707,7 @@
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluIdentifierInfo.shortName-parent">
          <property name="minOccurs" value="1" />
-         <property name="maxLength" value="20"/>
+         <property name="maxLength" value="24"/>
         </bean>
        </property>
       </bean>
