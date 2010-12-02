@@ -1,6 +1,10 @@
 package org.kuali.student.lum.program.client;
 
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import org.kuali.student.core.assembly.data.Data;
+
+import java.util.HashMap;
 
 /**
  * @author Igor
@@ -12,6 +16,8 @@ public class ProgramRegistry {
     private static int row;
 
     private static Enum<?> section;
+
+    private static HashMap<GwtEvent.Type, EventHandler> specializationHandlers = new HashMap<GwtEvent.Type, EventHandler>();
 
     public static Data getData() {
         return data;
@@ -35,5 +41,13 @@ public class ProgramRegistry {
 
     public static void setSection(Enum<?> section) {
         ProgramRegistry.section = section;
+    }
+
+    public static void addHandler(GwtEvent.Type<?> type, EventHandler handler){
+        specializationHandlers.put(type, handler);
+    }
+
+    public static HashMap<GwtEvent.Type, EventHandler> getSpecializationHandlers() {
+        return specializationHandlers;
     }
 }

@@ -1,12 +1,14 @@
 package org.kuali.student.lum.program.client;
 
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -15,9 +17,7 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Igor
@@ -123,6 +123,15 @@ public class ProgramUtils {
                     SectionView sectionView = (SectionView) view;
                     sectionView.updateMetadata(modelDefinition);
                 }
+            }
+        }
+    }
+
+    public static void unregisterUnusedHandlers(HandlerManager eventBus) {
+        HashMap<GwtEvent.Type, EventHandler> eventsMap = ProgramRegistry.getSpecializationHandlers();
+        if (eventsMap != null) {
+            for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
+                eventBus.removeHandler(typeEventHandlerEntry.getKey(), typeEventHandlerEntry.getValue());
             }
         }
     }

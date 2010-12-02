@@ -62,7 +62,7 @@ public class VariationEditController extends VariationController {
                 doCancel();
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+        ModelLoadedEvent.Handler modelLoadedHandler = new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 DataModel dataModel = event.getModel();
@@ -82,8 +82,11 @@ public class VariationEditController extends VariationController {
                     }
                 }
             }
-        });
-        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
+        };
+        ProgramRegistry.addHandler(ModelLoadedEvent.TYPE, modelLoadedHandler);
+        eventBus.addHandler(ModelLoadedEvent.TYPE, modelLoadedHandler);
+
+        ChangeViewEvent.Handler changeViewHandler = new ChangeViewEvent.Handler() {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 Enum<?> viewToken = event.getViewToken();
@@ -91,7 +94,9 @@ public class VariationEditController extends VariationController {
                     showView(viewToken);
                 }
             }
-        });
+        };
+        ProgramRegistry.addHandler(ChangeViewEvent.TYPE, changeViewHandler);
+        eventBus.addHandler(ChangeViewEvent.TYPE, changeViewHandler);
         eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEvent.Handler() {
 
             @Override
@@ -100,7 +105,7 @@ public class VariationEditController extends VariationController {
             }
         });
 
-        eventBus.addHandler(StoreSpecRequirementIDsEvent.TYPE, new StoreSpecRequirementIDsEvent.Handler() {
+        StoreSpecRequirementIDsEvent.Handler requirementsHandler = new StoreSpecRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreSpecRequirementIDsEvent event) {
                 final String programId = event.getProgramId();
@@ -140,7 +145,9 @@ public class VariationEditController extends VariationController {
 
                 });
             }
-        });
+        };
+        ProgramRegistry.addHandler(StoreSpecRequirementIDsEvent.TYPE, requirementsHandler);
+        eventBus.addHandler(StoreSpecRequirementIDsEvent.TYPE, requirementsHandler);
     }
 
     @Override

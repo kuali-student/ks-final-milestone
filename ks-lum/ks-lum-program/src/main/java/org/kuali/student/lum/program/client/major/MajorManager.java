@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.view.MajorViewController;
@@ -56,6 +57,7 @@ public class MajorManager {
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
+        ProgramUtils.unregisterUnusedHandlers(eventBus);
         variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);
         return variationEditController;
     }
