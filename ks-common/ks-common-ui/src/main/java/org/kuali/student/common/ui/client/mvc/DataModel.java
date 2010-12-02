@@ -130,12 +130,22 @@ public class DataModel implements Model {
         }
     }
 
+    /** 
+     * @param path The path in the data model
+     * @return A map containing the path/value pairs for all matching elements, or an empty
+     * map if no matching values found.
+     */
     public Map<QueryPath, Object> query(final QueryPath path) {
         Map<QueryPath, Object> result = new HashMap<QueryPath, Object>();
         queryRelative(root, path, result);
         return result;
     }
 
+    /** 
+     * @param path The path in the data model
+     * @return A map containing the path/value pairs for all matching elements, or an empty
+     * map if no matching values found.
+     */
     public Map<QueryPath, Object> query(final String path) {
         return query(QueryPath.parse(path));
     }
