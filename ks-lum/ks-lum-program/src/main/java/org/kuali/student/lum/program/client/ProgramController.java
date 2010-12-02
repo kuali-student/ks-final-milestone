@@ -1,18 +1,16 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -26,6 +24,7 @@ import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.dto.DtoConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -37,12 +36,8 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Igor
@@ -64,6 +59,10 @@ public abstract class ProgramController extends MenuSectionController {
     protected ProgramSideBar sideBar;
 
     private boolean needToLoadOldModel = false;
+
+    private ProgramStatus lastLoadedStatus;
+
+    protected boolean reloadMetadata = false;
 
     /**
      * Constructor.
@@ -199,28 +198,31 @@ public abstract class ProgramController extends MenuSectionController {
             public void onSuccess(Data result) {
                 super.onSuccess(result);
                 programModel.setRoot(result);
-                setHeaderTitle();
-                setStatus();
                 callback.onModelReady(programModel);
-                configurer.applyPermissions();
-                //We don't want to throw ModelLoadedEvent when we just want to rollback the model
-                if (needToLoadOldModel) {
-                    needToLoadOldModel = false;
-                } else {
-                    if (null != programModel.get(ProgramConstants.ID)) {
-                        // add to recently viewed
-                        ViewContext docContext = new ViewContext();
-                        docContext.setId((String) programModel.get(ProgramConstants.ID));
-                        docContext.setIdType(IdType.OBJECT_ID);
-                        String pgmType = (String) programModel.get(ProgramConstants.TYPE);
-                        docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
-                        RecentlyViewedHelper.addDocument(getProgramName(), 
-                                HistoryManager.appendContext(getProgramViewLocation(pgmType) , docContext));
-                    }
-                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
-                }
             }
         });
+    }
+
+    private void setModelData() {
+        setHeaderTitle();
+        setStatus();
+        configurer.applyPermissions();
+        //We don't want to throw ModelLoadedEvent when we just want to rollback the model
+        if (needToLoadOldModel) {
+            needToLoadOldModel = false;
+        } else {
+            if (null != programModel.get(ProgramConstants.ID)) {
+                // add to recently viewed
+                ViewContext docContext = new ViewContext();
+                docContext.setId((String) programModel.get(ProgramConstants.ID));
+                docContext.setIdType(IdType.OBJECT_ID);
+                String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
+                RecentlyViewedHelper.addDocument(getProgramName(),
+                        HistoryManager.appendContext(getProgramViewLocation(pgmType), docContext));
+            }
+            eventBus.fireEvent(new ModelLoadedEvent(programModel));
+        }
     }
 
     private String getProgramViewLocation(String pgmType) {
@@ -253,15 +255,34 @@ public abstract class ProgramController extends MenuSectionController {
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-        if (!initialized) {
-            if (programModel.getDefinition() == null) {
-                loadMetadata(onReadyCallback);
-            } else {
-                afterMetadataLoaded(onReadyCallback);
-            }
+        if (programModel.getRoot() == null) {
+            loadModel(new ModelRequestCallback<DataModel>() {
+                @Override
+                public void onModelReady(DataModel model) {
+                    if (loadMetadataCondition()) {
+                        loadMetadata(onReadyCallback);
+                    } else {
+                        onReadyCallback.exec(true);
+                    }
+                }
+
+                @Override
+                public void onRequestFail(Throwable cause) {
+                    GWT.log(cause.getMessage());
+                }
+            });
         } else {
-            onReadyCallback.exec(true);
+            afterMetadataLoaded(onReadyCallback);
         }
+    }
+
+    /**
+     * We should only load metadata if the status of model is changed.
+     *
+     * @return
+     */
+    protected boolean loadMetadataCondition() {
+        return lastLoadedStatus == null || ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)) != lastLoadedStatus;
     }
 
     /**
@@ -270,18 +291,22 @@ public abstract class ProgramController extends MenuSectionController {
      * @param onReadyCallback
      */
     protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
-        String idType = null;
+        Map<String, String> idAttributes = new HashMap<String, String>();
+        ViewContext viewContext = getViewContext();
+        IdType idType = viewContext.getIdType();
         String viewContextId = null;
-        if (getViewContext().getIdType() != null) {
-            idType = getViewContext().getIdType().toString();
-            viewContextId = getViewContext().getId();
-            if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID) {
+        if (idType != null) {
+            idAttributes.put(IdAttributes.ID_TYPE, idType.toString());
+            viewContextId = viewContext.getId();
+            if (idType == IdType.COPY_OF_OBJECT_ID) {
                 viewContextId = null;
             }
         }
-        Map<String, String> idAttributes = new HashMap<String, String>();
-        idAttributes.put(IdAttributes.ID_TYPE, idType);
-
+        if (programModel.getRoot() != null) {
+            ProgramStatus programStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+            idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
+            idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
+        }
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
@@ -289,6 +314,7 @@ public abstract class ProgramController extends MenuSectionController {
                 super.onSuccess(result);
                 DataModelDefinition def = new DataModelDefinition(result);
                 programModel.setDefinition(def);
+                lastLoadedStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
                 afterMetadataLoaded(onReadyCallback);
             }
 
@@ -323,9 +349,16 @@ public abstract class ProgramController extends MenuSectionController {
      *
      * @param onReadyCallback
      */
-    private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
-        configureView();
-        onReadyCallback.exec(true);
+    protected void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
+        if (!reloadMetadata) {
+            configureView();
+            onReadyCallback.exec(true);
+            reloadMetadata = true;
+        } else {
+            onReadyCallback.exec(true);
+            ProgramUtils.syncMetadata(configurer, programModel.getDefinition().getMetadata());
+        }
+        setModelData();
     }
 
     protected void setHeaderTitle() {
@@ -349,10 +382,6 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected void doSave() {
     }
-
-   private void updateViewContext(){
-
-   }
 
     public DataModel getProgramModel() {
         return programModel;

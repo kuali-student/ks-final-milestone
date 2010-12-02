@@ -73,7 +73,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                 table.setWidget(row, 0, anchor);
                 if (editable) {
                     KSButton removeButton = new KSButton(ProgramProperties.get().common_remove());
-                    table.setWidget(row, 1, removeButton);
+                    table.setWidget(row, 1, removeButton);                                             
                     removeButton.addClickHandler(new ClickHandler() {
 
                         @Override

@@ -15,20 +15,18 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.core.assembly.data.Metadata;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public abstract class SectionView extends BaseSection implements View {
@@ -37,7 +35,7 @@ public abstract class SectionView extends BaseSection implements View {
     protected DataModel model;
 
     private Enum<?> viewEnum;
-	private String viewName;
+    private String viewName;
 
     private List<View> views = new ArrayList<View>();
 
@@ -55,10 +53,11 @@ public abstract class SectionView extends BaseSection implements View {
     public Enum<?> getViewEnum() {
         return viewEnum;
     }
+
     public void setViewEnum(Enum<?> viewEnum) {
-		this.viewEnum = viewEnum;
-	}
-    
+        this.viewEnum = viewEnum;
+    }
+
 
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
@@ -104,14 +103,14 @@ public abstract class SectionView extends BaseSection implements View {
     }
 
     public String getModelId() {
-		return modelId;
-	}
+        return modelId;
+    }
 
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
+    }
 
-	/**
+    /**
      * Called by the controller before the view is hidden to allow the view to perform cleanup or request confirmation from
      * the user, etc. Can cancel the action by returning false.
      *
@@ -141,7 +140,7 @@ public abstract class SectionView extends BaseSection implements View {
     public String getName() {
         return viewName;
     }
-    
+
     public void setName(String name) {
         this.viewName = name;
     }
@@ -203,5 +202,24 @@ public abstract class SectionView extends BaseSection implements View {
 
     public DataModel getModel() {
         return model;
+    }
+
+    public void updateMetadata(Metadata metadata) {
+        for (Section section : sections) {
+            updateMetadata(metadata, section);
+        }
+    }
+
+    private void updateMetadata(Metadata metadata, Section topSection) {
+        for (Section section : topSection.getSections()) {
+            updateMetadata(metadata, section);
+        }
+        Map<String, Metadata> properties = metadata.getProperties();
+        for (FieldDescriptor field : topSection.getFields()) {
+            Metadata newMetadata = properties.get(field.getFieldKey());
+            if (newMetadata != null) {
+                field.setMetadata(newMetadata);
+            }
+        }
     }
 }

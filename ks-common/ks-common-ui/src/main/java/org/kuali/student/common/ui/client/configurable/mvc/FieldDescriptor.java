@@ -74,7 +74,7 @@ public class FieldDescriptor {
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
     }
-    
+
     protected void addStyleToWidget(Widget w){
     	if(fieldKey != null && !fieldKey.isEmpty() && w != null){
     		String style = this.fieldKey.replaceAll("/", "-");
@@ -102,20 +102,22 @@ public class FieldDescriptor {
 					else if(nextState.equalsIgnoreCase("INACTIVE") ||
 							nextState.equalsIgnoreCase("RETIRED")){
 						fieldElement.setRequiredString("reqDeactivate", "ks-form-required-for-submit");
-					} 
+					}
 					else {
 						fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
-					} 
-    				
+					}
+
     			}
-    		}
+    		} else{
+                fieldElement.clearRequiredText();
+            }
     	}
     }
-    
+
     public void hideLabel(){
     	fieldElement.hideLabel();
     }
-    
+
     public boolean isLabelShown(){
     	return fieldElement.isLabelShown();
     }
@@ -127,7 +129,7 @@ public class FieldDescriptor {
 	public String getFieldKey() {
         return fieldKey;
     }
-	
+
     public void setFieldKey(String fieldKey) {
 		this.fieldKey = fieldKey;
 	}
@@ -174,7 +176,7 @@ public class FieldDescriptor {
             	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding.INSTANCE;
             } else if (fieldElement.getFieldWidget() instanceof HasValue){
             	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
-            } 
+            }
         }
         return modelWidgetBinding;
     }
@@ -209,6 +211,7 @@ public class FieldDescriptor {
 
     public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
+        setupField();
 	}
 
     public void setFieldWidget(Widget fieldWidget) {
@@ -234,7 +237,7 @@ public class FieldDescriptor {
     public void setMessageKey(MessageKeyInfo messageKey) {
         this.messageKey = messageKey;
     }
-    
+
 	/**
 	 * Sets the optional flag
 	 * Fields that are optional should not be displayed if there is no data in some cases,
@@ -244,7 +247,7 @@ public class FieldDescriptor {
 	public void setOptional(boolean optional){
 		this.optional = optional;
 	}
-	
+
 	/**
 	 * Fields that are optional should not be displayed if there is no data in some cases,
 	 * it is up to the section implementation whether or not to honor this flag
@@ -253,7 +256,7 @@ public class FieldDescriptor {
 		return optional;
 	}
 
-	/** 
+	/**
 	 * @return true if this field is visible to the user
 	 */
 	public boolean isVisible() {

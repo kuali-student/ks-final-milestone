@@ -57,4 +57,8 @@ public abstract class AbstractProgramConfigurer extends Configurer {
             }
         }
     }
+
+    public ConfigurationManager getProgramSectionConfigManager() {
+        return programSectionConfigManager;
+    }
 }

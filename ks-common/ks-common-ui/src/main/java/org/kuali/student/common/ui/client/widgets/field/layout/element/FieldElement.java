@@ -219,6 +219,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	required.setVisible(true);
     }
 
+    public void clearRequiredText(){
+        required.setText("");
+    }
+
     public Widget getFieldWidget(){
     	return fieldWidget;
     }

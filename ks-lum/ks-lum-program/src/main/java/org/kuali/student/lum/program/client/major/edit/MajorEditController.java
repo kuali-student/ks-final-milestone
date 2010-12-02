@@ -21,10 +21,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramRegistry;
-import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramUtils;
+import org.kuali.student.lum.program.client.*;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -44,6 +41,8 @@ public class MajorEditController extends MajorController {
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
+
+    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -95,6 +94,40 @@ public class MajorEditController extends MajorController {
                 }
                 doSave(event.getOkCallback());
 
+            }
+        });
+        eventBus.addHandler(StateChangeEvent.TYPE, new StateChangeEvent.Handler() {
+            @Override
+            public void onEvent(final StateChangeEvent event) {
+                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            Callback<Boolean> callback = new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                        reloadMetadata = true;
+                                        loadMetadata(new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition().getMetadata());
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
+                            saveData(callback);
+                        } else {
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                    }
+                });
             }
         });
 
@@ -201,7 +234,6 @@ public class MajorEditController extends MajorController {
         });
     }
 
-
     @Override
     protected void loadModel(ModelRequestCallback<DataModel> callback) {
         ViewContext viewContext = getViewContext();
@@ -254,7 +286,6 @@ public class MajorEditController extends MajorController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            eventBus.fireEvent(new ValidationFailedEvent());
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -283,15 +314,21 @@ public class MajorEditController extends MajorController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
+                Data data = result.getValue();
+                if (data != null) {
+                    programModel.setRoot(result.getValue());
+                }
                 List<ValidationResultInfo> validationResults = result.getValidationResults();
                 if (validationResults != null && !validationResults.isEmpty()) {
+                    if (previousState != null) {
+                        ProgramUtils.setStatus(programModel, previousState.getValue());
+                    }
                     ProgramUtils.retrofitValidationResults(validationResults);
                     isValid(validationResults, false, true);
-                    eventBus.fireEvent(new ValidationFailedEvent());
                     ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
                     okCallback.exec(false);
                 } else {
-                    programModel.setRoot(result.getValue());
+                    previousState = null;
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();

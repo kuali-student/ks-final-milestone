@@ -25,7 +25,6 @@ import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
@@ -157,7 +156,6 @@ public class CredentialEditController extends CredentialController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            eventBus.fireEvent(new ValidationFailedEvent());
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -183,7 +181,6 @@ public class CredentialEditController extends CredentialController {
                     for (ValidationResultInfo vri : result.getValidationResults()) {
                         msg.append(vri.getMessage());
                     }
-                    eventBus.fireEvent(new ValidationFailedEvent());
                     okCallback.exec(false);
                 } else {
                     programModel.setRoot(result.getValue());

@@ -2,10 +2,16 @@ package org.kuali.student.lum.program.client;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
+import org.kuali.student.lum.common.client.configuration.Configuration;
+import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import java.util.List;
@@ -60,12 +66,12 @@ public class ProgramUtils {
     }
 
     private static void setStatus(Data inputData, String status) {
-    	if (inputData != null){
-	        for (Data.Property property : inputData) {
-	            Data data = property.getValue();
-	            data.set(new Data.StringKey(ProgramConstants.STATE), status);
-	        }
-    	}
+        if (inputData != null) {
+            for (Data.Property property : inputData) {
+                Data data = property.getValue();
+                data.set(new Data.StringKey(ProgramConstants.STATE), status);
+            }
+        }
     }
 
     public static void retrofitValidationResults(List<ValidationResultInfo> validationResults) {
@@ -101,6 +107,21 @@ public class ProgramUtils {
                 Window.alert(ProgramProperties.get().major_variationFailed(resultMessage));
             } else {
                 Window.alert(ProgramProperties.get().major_variationsFailed(resultMessage));
+            }
+        }
+    }
+
+
+    public static void syncMetadata(AbstractProgramConfigurer configurer, Metadata metadata) {
+        ConfigurationManager configurationManager = configurer.getProgramSectionConfigManager();
+        for (Configuration conf : configurationManager.getConfigurations()) {
+            if (conf instanceof AbstractSectionConfiguration) {
+                AbstractSectionConfiguration configuration = (AbstractSectionConfiguration) conf;
+                View view = configuration.getView(false);
+                if (view != null && view instanceof SectionView) {
+                    SectionView sectionView = (SectionView) view;
+                    sectionView.updateMetadata(metadata);
+                }
             }
         }
     }
