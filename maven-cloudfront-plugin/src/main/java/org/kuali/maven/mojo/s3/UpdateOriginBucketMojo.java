@@ -18,9 +18,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 /**
- * @goal update
+ * @goal updateorigin
  */
-public class UpdateBucketMojo extends S3Mojo {
+public class UpdateOriginBucketMojo extends S3Mojo {
     SimpleDateFormat dateFormatter;
 
     /**
