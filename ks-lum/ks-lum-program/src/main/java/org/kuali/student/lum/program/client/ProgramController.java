@@ -356,7 +356,7 @@ public abstract class ProgramController extends MenuSectionController {
             reloadMetadata = true;
         } else {
             onReadyCallback.exec(true);
-            ProgramUtils.syncMetadata(configurer, programModel.getDefinition().getMetadata());
+            ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
         }
         setModelData();
     }

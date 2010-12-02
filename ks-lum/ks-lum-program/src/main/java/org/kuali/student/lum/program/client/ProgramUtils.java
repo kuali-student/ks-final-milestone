@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
@@ -112,7 +113,7 @@ public class ProgramUtils {
     }
 
 
-    public static void syncMetadata(AbstractProgramConfigurer configurer, Metadata metadata) {
+    public static void syncMetadata(AbstractProgramConfigurer configurer, ModelDefinition modelDefinition) {
         ConfigurationManager configurationManager = configurer.getProgramSectionConfigManager();
         for (Configuration conf : configurationManager.getConfigurations()) {
             if (conf instanceof AbstractSectionConfiguration) {
@@ -120,7 +121,7 @@ public class ProgramUtils {
                 View view = configuration.getView(false);
                 if (view != null && view instanceof SectionView) {
                     SectionView sectionView = (SectionView) view;
-                    sectionView.updateMetadata(metadata);
+                    sectionView.updateMetadata(modelDefinition);
                 }
             }
         }

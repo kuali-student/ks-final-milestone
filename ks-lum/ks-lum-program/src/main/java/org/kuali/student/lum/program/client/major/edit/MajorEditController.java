@@ -113,7 +113,7 @@ public class MajorEditController extends MajorController {
                                             @Override
                                             public void exec(Boolean result) {
                                                 if (result) {
-                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition().getMetadata());
+                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
                                                 }
                                             }
                                         });

@@ -23,10 +23,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public abstract class SectionView extends BaseSection implements View {
@@ -204,19 +204,16 @@ public abstract class SectionView extends BaseSection implements View {
         return model;
     }
 
-    public void updateMetadata(Metadata metadata) {
-        for (Section section : sections) {
-            updateMetadata(metadata, section);
-        }
+    public void updateMetadata(ModelDefinition modelDefinition) {
+        updateMetadata(modelDefinition, this);
     }
 
-    private void updateMetadata(Metadata metadata, Section topSection) {
+    private void updateMetadata(ModelDefinition modelDefinition, Section topSection) {
         for (Section section : topSection.getSections()) {
-            updateMetadata(metadata, section);
+            updateMetadata(modelDefinition, section);
         }
-        Map<String, Metadata> properties = metadata.getProperties();
         for (FieldDescriptor field : topSection.getFields()) {
-            Metadata newMetadata = properties.get(field.getFieldKey());
+            Metadata newMetadata = modelDefinition.getMetadata(field.getFieldKey());
             if (newMetadata != null) {
                 field.setMetadata(newMetadata);
             }
