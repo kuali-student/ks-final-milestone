@@ -1,12 +1,16 @@
 package org.kuali.maven.mojo.s3;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -21,7 +25,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 /**
- * @goal updateorigin
+ * @goal updateoriginbucket
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
     NumberFormat nf = getNumberFormatInstance();
@@ -66,7 +70,14 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            recurse(client, getPrefix(), getDelimiter());
+            ListObjectsRequest request = new ListObjectsRequest(getBucket(), getPrefix(), null, getDelimiter(), Integer.MAX_VALUE);
+            ObjectListing objectListing = client.listObjects(request);
+            List<String[]> data = getData(objectListing, getPrefix(), getDelimiter());
+            String table = getHtmlTable(data, getColumnDecorators());
+            OutputStream out = new FileOutputStream("c:/temp/table.html");
+            IOUtils.copy(new ByteArrayInputStream(table.getBytes()), out);
+            out.close();
+            // recurse(client, getPrefix(), getDelimiter());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
@@ -143,9 +154,11 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         sb.append(html.getOpenTag(table));
         sb.append(html.getOpenTag(thead));
         sb.append(html.getOpenTag(tr));
+        sb.append(getTableHeaders(columnDecorators));
         sb.append(html.getCloseTag(tr));
         sb.append(html.getCloseTag(thead));
         sb.append(html.getOpenTag(tbody));
+        sb.append(getTableRows(data, columnDecorators));
         sb.append(html.getCloseTag(tbody));
         sb.append(html.getCloseTag(table));
         return sb.toString();
@@ -187,9 +200,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < columnDecorators.size(); i++) {
             ColumnDecorator decorator = columnDecorators.get(i);
-            sb.append(html.getOpenTag(new Tag("th", decorator.getTableDataClass(), 3)));
+            Tag th = new Tag("th", decorator.getTableDataClass(), 3);
+            sb.append(html.getOpenTag(th));
             sb.append(html.getTag(new Tag("span", decorator.getSpanClass(), 4), decorator.getColumnTitle()));
-            sb.append(html.getCloseTag(new Tag("th", 3)));
+            sb.append(html.getCloseTag(th));
         }
         return sb.toString();
     }

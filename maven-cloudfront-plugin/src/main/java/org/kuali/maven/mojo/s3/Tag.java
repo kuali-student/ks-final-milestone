@@ -8,7 +8,7 @@ public class Tag {
     String clazz;
 
     public Tag() {
-        this(null, null, null, 0);
+        this(null, 0);
     }
 
     public Tag(String name) {
@@ -16,7 +16,7 @@ public class Tag {
     }
 
     public Tag(String name, int indent) {
-        this(name, null, null, 0);
+        this(name, null, indent);
     }
 
     public Tag(String name, String clazz) {
@@ -24,7 +24,7 @@ public class Tag {
     }
 
     public Tag(String name, String clazz, int indent) {
-        this(name, null, null, indent);
+        this(name, clazz, null, indent);
     }
 
     public Tag(String name, String clazz, String id, int indent) {

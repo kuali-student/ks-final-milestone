@@ -23,13 +23,12 @@ public class HtmlUtils {
         sb.append(StringUtils.repeat(" ", tag.getIndent()));
         sb.append("<" + tag.getName());
         if (tag.getId() != null) {
-            sb.append(" id=" + tag.getId());
+            sb.append(" id=\"" + tag.getId() + '"');
         }
         if (tag.getClazz() != null) {
-            sb.append(" class=" + tag.getClazz());
+            sb.append(" class=\"" + tag.getClazz() + '"');
         }
         sb.append(">\n");
-        sb.append("</" + tag.getName() + ">\n");
         return sb.toString();
     }
 
@@ -40,7 +39,9 @@ public class HtmlUtils {
     public String getTag(Tag tag, String content) {
         StringBuffer sb = new StringBuffer();
         sb.append(getOpenTag(tag));
+        sb.append(StringUtils.repeat(" ", tag.getIndent() + 1));
         sb.append(content);
+        sb.append("\n");
         sb.append(getCloseTag(tag));
         return sb.toString();
     }
