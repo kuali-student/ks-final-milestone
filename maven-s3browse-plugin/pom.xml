@@ -6,17 +6,17 @@
     <artifactId>kuali-parent</artifactId>
     <version>18-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.maven.s3browse</groupId>
-  <artifactId>maven-s3browse-plugin</artifactId>
+  <groupId>org.kuali.maven.cloudfront</groupId>
+  <artifactId>maven-cloudfront-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <version>1.0.0-SNAPSHOT</version>
-  <name>Maven S3 Browse Plugin</name>
-  <description>Maven plugin for making S3 repositories browseable over http</description>
+  <name>Maven Cloud Front Plugin</name>
+  <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <build>
     <plugins>
       <plugin>
-        <groupId>org.kuali.maven.s3browse</groupId>
-        <artifactId>maven-s3browse-plugin</artifactId>
+        <groupId>org.kuali.maven.cloudfront</groupId>
+        <artifactId>maven-cloudfront-plugin</artifactId>
         <version>${project.version}</version>
       </plugin>
     </plugins>
@@ -114,12 +114,12 @@
     <site>
       <id>kuali.site</id>
       <name>Kuali Maven Site</name>
-      <url>s3://foobar.ks.kuali.org/maven/${kuali.project.id}/${project.version}/</url>
+      <url>s3://foobar.ks.kuali.org/maven/${project.artifactId}/${project.version}/</url>
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-s3browse-plugin</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-s3browse-plugin</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/maven-s3browse-plugin</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/${project.artifactId}</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/${project.artifactId}</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/${project.artifactId}</url>
   </scm>
 </project>
