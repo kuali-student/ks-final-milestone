@@ -2,34 +2,24 @@ package org.kuali.maven.mojo.s3;
 
 public class Tag {
 
-    int indent;
     String name;
     String id;
     String clazz;
 
     public Tag() {
-        this(null, 0);
+        this(null);
     }
 
     public Tag(String name) {
-        this(name, 0);
-    }
-
-    public Tag(String name, int indent) {
-        this(name, null, indent);
+        this(name, null);
     }
 
     public Tag(String name, String clazz) {
-        this(name, null, clazz, 0);
+        this(name, clazz, null);
     }
 
-    public Tag(String name, String clazz, int indent) {
-        this(name, clazz, null, indent);
-    }
-
-    public Tag(String name, String clazz, String id, int indent) {
+    public Tag(String name, String clazz, String id) {
         super();
-        this.indent = indent;
         this.name = name;
         this.id = id;
         this.clazz = clazz;
@@ -59,11 +49,4 @@ public class Tag {
         this.clazz = clazz;
     }
 
-    public int getIndent() {
-        return indent;
-    }
-
-    public void setIndent(int indent) {
-        this.indent = indent;
-    }
 }

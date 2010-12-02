@@ -11,7 +11,7 @@ public class HtmlUtils {
     }
 
     public String getIndent() {
-        return StringUtils.repeat(" ", (indent + 1));
+        return StringUtils.repeat(" ", indent);
     }
 
     /**
@@ -30,7 +30,8 @@ public class HtmlUtils {
 
     public String openTag(Tag tag) {
         StringBuffer sb = new StringBuffer();
-        sb.append(StringUtils.repeat(" ", indent++));
+        sb.append(getIndent());
+        indent++;
         sb.append("<" + tag.getName());
         if (tag.getId() != null) {
             sb.append(" id=\"" + tag.getId() + '"');
@@ -43,13 +44,14 @@ public class HtmlUtils {
     }
 
     public String closeTag(Tag tag) {
-        return StringUtils.repeat(" ", --indent) + "</" + tag.getName() + ">\n";
+        indent--;
+        return getIndent() + "</" + tag.getName() + ">\n";
     }
 
     public String getTag(Tag tag, String content) {
         StringBuffer sb = new StringBuffer();
         sb.append(openTag(tag));
-        sb.append(StringUtils.repeat(" ", (indent + 1)));
+        sb.append(getIndent());
         sb.append(content);
         sb.append("\n");
         sb.append(closeTag(tag));
