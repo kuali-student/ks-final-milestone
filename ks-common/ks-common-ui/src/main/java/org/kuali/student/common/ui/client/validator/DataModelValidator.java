@@ -237,13 +237,17 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 			
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-
-			String s = (values.get(element) == null) ? "" : values.get(element).toString();
-			doValidateString(s,element,meta,results);
-								
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {
+		    Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				String s = (values.get(element) == null) ? "" : values.get(element).toString();
+				doValidateString(s,element,meta,results);
+									
+			}
 		}
 	}
 	
@@ -315,37 +319,41 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 	    
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				Integer i = null;
-				try {
-					i = (o instanceof Integer) ? (Integer) o : Integer.valueOf(o.toString());
-				} catch (Exception ex) {
-					addError(results, element, INTEGER);
-				}
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {
+			Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				Object o = values.get(element);
 				
-				if (i != null) {
-    				Long min = getLargestMinValue(meta);
-    				Long max = getSmallestMaxValue(meta);
-    				
-    				if (min != null && max != null) {
-    					if (i < min || i > max) {
-    						addRangeError(results, element, OUT_OF_RANGE, min, max);
-    					}
-    				} else if (min != null && i < min) {
-    					addError(results, element, MIN_VALUE, min);
-    				} else if (max != null && i > max) {
-    					addError(results, element, MAX_VALUE, max);
-    				}
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					Integer i = null;
+					try {
+						i = (o instanceof Integer) ? (Integer) o : Integer.valueOf(o.toString());
+					} catch (Exception ex) {
+						addError(results, element, INTEGER);
+					}
+					
+					if (i != null) {
+	    				Long min = getLargestMinValue(meta);
+	    				Long max = getSmallestMaxValue(meta);
+	    				
+	    				if (min != null && max != null) {
+	    					if (i < min || i > max) {
+	    						addRangeError(results, element, OUT_OF_RANGE, min, max);
+	    					}
+	    				} else if (min != null && i < min) {
+	    					addError(results, element, MIN_VALUE, min);
+	    				} else if (max != null && i > max) {
+	    					addError(results, element, MAX_VALUE, max);
+	    				}
+					}
 				}
 			}
 		}
@@ -356,38 +364,42 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				Long i = null;
-				try {
-					i = (o instanceof Long) ? (Long) o : Long.valueOf(o.toString());
-				} catch (Exception ex) {
-					addError(results, element, LONG);
-				}
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {
+		    Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				Object o = values.get(element);
 				
-				
-				if (i != null) {
-    				Long min = getLargestMinValue(meta);
-    				Long max = getSmallestMaxValue(meta);
-    				
-    				if (min != null && max != null) {
-    					if (i < min || i > max) {
-    						addRangeError(results, element, OUT_OF_RANGE, min, max);
-    					}
-    				} else if (min != null && i < min) {
-    					addError(results, element, MIN_VALUE, min);
-    				} else if (max != null && i > max) {
-    					addError(results, element, MAX_VALUE, max);
-    				}
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					Long i = null;
+					try {
+						i = (o instanceof Long) ? (Long) o : Long.valueOf(o.toString());
+					} catch (Exception ex) {
+						addError(results, element, LONG);
+					}
+					
+					
+					if (i != null) {
+	    				Long min = getLargestMinValue(meta);
+	    				Long max = getSmallestMaxValue(meta);
+	    				
+	    				if (min != null && max != null) {
+	    					if (i < min || i > max) {
+	    						addRangeError(results, element, OUT_OF_RANGE, min, max);
+	    					}
+	    				} else if (min != null && i < min) {
+	    					addError(results, element, MIN_VALUE, min);
+	    				} else if (max != null && i > max) {
+	    					addError(results, element, MAX_VALUE, max);
+	    				}
+					}
 				}
 			}
 		}
@@ -397,42 +409,46 @@ public class DataModelValidator {
 			QueryPath path, List<ValidationResultInfo> results) {
 		
 	    Map<QueryPath, Object> values = model.query(path);
-		
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
 
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				Double d = null;
-				try {
-					d = (o instanceof Double) ? (Double) o : Double.valueOf(o.toString());
-				} catch (Exception ex) {
-					addError(results, element, DOUBLE);
-				}
+	    if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+	    } else {
+			Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				Object o = values.get(element);
 				
-				
-				if (d != null) {
-    				Double min = getLargestMinValueDouble(meta);
-    				Double max = getSmallestMaxValueDouble(meta);
-    				    				
-    				if (min != null && max != null) {
-    					if (d < min || d > max) {
-    						addRangeError(results, element, OUT_OF_RANGE,  min, max);
-    					}
-    				} else if (min != null && d < min) {
-    					addError(results, element, MIN_VALUE, min);
-    				} else if (max != null && d > max) {
-    					addError(results, element, MAX_VALUE, max);
-    				}
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					Double d = null;
+					try {
+						d = (o instanceof Double) ? (Double) o : Double.valueOf(o.toString());
+					} catch (Exception ex) {
+						addError(results, element, DOUBLE);
+					}
+					
+					
+					if (d != null) {
+	    				Double min = getLargestMinValueDouble(meta);
+	    				Double max = getSmallestMaxValueDouble(meta);
+	    				    				
+	    				if (min != null && max != null) {
+	    					if (d < min || d > max) {
+	    						addRangeError(results, element, OUT_OF_RANGE,  min, max);
+	    					}
+	    				} else if (min != null && d < min) {
+	    					addError(results, element, MIN_VALUE, min);
+	    				} else if (max != null && d > max) {
+	    					addError(results, element, MAX_VALUE, max);
+	    				}
+					}
 				}
 			}
-		}
+	    }
 	}
 	
 	private void doValidateFloat(DataModel model, Metadata meta,
@@ -440,38 +456,42 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-		Object[] keys = values.keySet().toArray();		
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				Float d = null;
-				try {
-					d = (o instanceof Float) ? (Float) o : Float.valueOf(o.toString());
-				} catch (Exception ex) {
-					addError(results, element, FLOAT);
-				}
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {	    
+			Object[] keys = values.keySet().toArray();		
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				Object o = values.get(element);
 				
-
-				if (d != null) {
-    				Double min = getLargestMinValueDouble(meta);
-    				Double max = getSmallestMaxValueDouble(meta);
-    				
-    				if (min != null && max != null) {
-    					if (d < min || d > max) {
-    						addRangeError(results, element, OUT_OF_RANGE,  min, max);
-    					}
-    				} else if (min != null && d < min) {
-    					addError(results, element, MIN_VALUE, min);
-    				} else if (max != null && d > max) {
-    					addError(results, element, MAX_VALUE, max);
-    				}
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					Float d = null;
+					try {
+						d = (o instanceof Float) ? (Float) o : Float.valueOf(o.toString());
+					} catch (Exception ex) {
+						addError(results, element, FLOAT);
+					}
+					
+	
+					if (d != null) {
+	    				Double min = getLargestMinValueDouble(meta);
+	    				Double max = getSmallestMaxValueDouble(meta);
+	    				
+	    				if (min != null && max != null) {
+	    					if (d < min || d > max) {
+	    						addRangeError(results, element, OUT_OF_RANGE,  min, max);
+	    					}
+	    				} else if (min != null && d < min) {
+	    					addError(results, element, MIN_VALUE, min);
+	    				} else if (max != null && d > max) {
+	    					addError(results, element, MAX_VALUE, max);
+	    				}
+					}
 				}
 			}
 		}
@@ -482,38 +502,42 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				Date d = null;
-				try {
-					d = (o instanceof Date) ? (Date) o : dateParser.parseDate(o.toString());
-				} catch (Exception ex) {
-					addError(results, element, DATE);
-				}
-			
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {
+		    Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+				Object o = values.get(element);
 				
-				if (d != null) {
-					//Get defined min/max value constraint
-    				Date min = getLargestMinValueDate(meta, dateParser, getCrossFieldMinValue(model, element, meta));
-    				Date max = getSmallestMaxValueDate(meta, dateParser, getCrossFieldMaxValue(model, element, meta));
-    				    				
-    				if (min != null && max != null) {
-    					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
-    						addRangeError(results, element, OUT_OF_RANGE,  asDateString(min), asDateString(max));
-    					}
-    				} else if (min != null && d.getTime() < min.getTime()) {
-    					addError(results, element, MIN_VALUE, asDateString(min));
-    				} else if (max != null && d.getTime() > max.getTime()) {
-    					addError(results, element, MAX_VALUE, asDateString(max));
-    				}
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					Date d = null;
+					try {
+						d = (o instanceof Date) ? (Date) o : dateParser.parseDate(o.toString());
+					} catch (Exception ex) {
+						addError(results, element, DATE);
+					}
+				
+					
+					if (d != null) {
+						//Get defined min/max value constraint
+	    				Date min = getLargestMinValueDate(meta, dateParser, getCrossFieldMinValue(model, element, meta));
+	    				Date max = getSmallestMaxValueDate(meta, dateParser, getCrossFieldMaxValue(model, element, meta));
+	    				    				
+	    				if (min != null && max != null) {
+	    					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
+	    						addRangeError(results, element, OUT_OF_RANGE,  asDateString(min), asDateString(max));
+	    					}
+	    				} else if (min != null && d.getTime() < min.getTime()) {
+	    					addError(results, element, MIN_VALUE, asDateString(min));
+	    				} else if (max != null && d.getTime() > max.getTime()) {
+	    					addError(results, element, MAX_VALUE, asDateString(max));
+	    				}
+					}
 				}
 			}
 		}
@@ -525,19 +549,24 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-		Object[] keys = values.keySet().toArray();
-		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			QueryPath element = (QueryPath)keys[keyIndex];
-
-			Object o = values.get(element);
-			
-			if (o == null) {
-				if (isRequiredCheck(meta)) {
-					addError(results, element, REQUIRED);
-				}
-			} else {
-				if (o instanceof Boolean == false) {
-					addError(results, element, BOOLEAN);
+		if (values.isEmpty() && isRequiredCheck(meta)) {
+			addError(results, path, REQUIRED);
+		} else {
+	
+		    Object[] keys = values.keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				QueryPath element = (QueryPath)keys[keyIndex];
+	
+				Object o = values.get(element);
+				
+				if (o == null) {
+					if (isRequiredCheck(meta)) {
+						addError(results, element, REQUIRED);
+					}
+				} else {
+					if (o instanceof Boolean == false) {
+						addError(results, element, BOOLEAN);
+					}
 				}
 			}
 		}
