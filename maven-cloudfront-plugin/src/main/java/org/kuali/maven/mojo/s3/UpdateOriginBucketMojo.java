@@ -1,10 +1,12 @@
 package org.kuali.maven.mojo.s3;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
@@ -21,6 +23,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * @goal updateorigin
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
+    NumberFormat nf = getNumberFormatInstance();
     SimpleDateFormat dateFormatter;
 
     /**
@@ -49,25 +52,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     private String dateFormat;
 
     /**
-     * @parameter expression="${delimiter}" default-value="/"
-     */
-    private String delimiter;
-
-    /**
-     * @parameter expression="${prefix}"
-     */
-    private String prefix;
-
-    /**
      * @parameter expression="${defaultObject}" default-value="index.html";
      */
     private String defaultObject;
-
-    protected SimpleDateFormat getSimpleDateFormatInstance() {
-        SimpleDateFormat sdf = new SimpleDateFormat(getDateFormat());
-        sdf.setTimeZone(TimeZone.getTimeZone(getTimezone()));
-        return sdf;
-    }
 
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
@@ -83,22 +70,37 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
+    protected NumberFormat getNumberFormatInstance() {
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(1);
+        nf.setMinimumFractionDigits(1);
+        nf.setGroupingUsed(false);
+        return nf;
+    }
+
+    protected SimpleDateFormat getSimpleDateFormatInstance() {
+        SimpleDateFormat sdf = new SimpleDateFormat(getDateFormat());
+        sdf.setTimeZone(TimeZone.getTimeZone(getTimezone()));
+        return sdf;
+    }
+
     protected String getIndexHtml(ObjectListing objectListing) {
         StringBuffer sb = new StringBuffer();
         return sb.toString();
     }
 
+    /**
+     * Return an HTML ahref tag
+     */
     protected String getHtmlHref(String dest, String show) {
         return "<a href=\"" + dest + "\">" + show + "</a>";
     }
 
+    /**
+     * Return an HTML img tag
+     */
     protected String getHtmlImage(String image) {
         return "<img src=\"" + image + "\">";
-    }
-
-    protected String getS3ObjectSummariesHtml(List<S3ObjectSummary> summaries) {
-        StringBuffer sb = new StringBuffer();
-        return sb.toString();
     }
 
     /**
@@ -114,28 +116,94 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return s;
     }
 
+    protected String getUpOneDirectoryPrefix(String prefix, String delimiter) {
+        if (prefix.endsWith(delimiter)) {
+            prefix = prefix.substring(0, prefix.length() - 1);
+        }
+        int pos = prefix.lastIndexOf(delimiter);
+        if (pos == -1) {
+            return delimiter;
+        } else {
+            return prefix.substring(0, pos + 1);
+        }
+    }
+
+    /**
+     * Convert a commonPrefix into a DisplayRow object for the UI
+     */
+    protected DisplayRow getUpOneDirectoryDisplayRow(String prefix, String delimiter) {
+        if (StringUtils.isEmpty(prefix)) {
+            return null;
+        }
+
+        // Create some UI friendly strings
+        String image = "";
+        String show = ".." + delimiter;
+        String dest = getUpOneDirectoryPrefix(prefix, delimiter);
+        String ahref = getHtmlHref(dest, show);
+        String date = "";
+        String size = "";
+
+        // Store them in an object
+        DisplayRow displayRow = new DisplayRow();
+        displayRow.setImage(image);
+        displayRow.setAhref(ahref);
+        displayRow.setDate(date);
+        displayRow.setSize(size);
+        return displayRow;
+    }
+
+    /**
+     * Convert a commonPrefix into a DisplayRow object for the UI
+     */
+    protected DisplayRow getDisplayRow(String commonPrefix, String prefix, String delimiter) {
+
+        // Create some UI friendly strings
+        String image = getHtmlImage(getDirectoryImage());
+        String show = getShow(commonPrefix, prefix);
+        String dest = delimiter + commonPrefix;
+        String ahref = getHtmlHref(dest, show);
+        String date = "-";
+        String size = "-";
+
+        // Store them in an object
+        DisplayRow displayRow = new DisplayRow();
+        displayRow.setImage(image);
+        displayRow.setAhref(ahref);
+        displayRow.setDate(date);
+        displayRow.setSize(size);
+        return displayRow;
+    }
+
     /**
      * Convert an S3ObjectSummary into a DisplayRow object for the UI
      */
-    protected DisplayRow getS3ObjectDisplayRow(S3ObjectSummary summary, String prefix, String delimiter) {
+    protected DisplayRow getDisplayRow(S3ObjectSummary summary, String prefix, String delimiter) {
+        // Skip displaying "css" as a file if we are in the css directory
         String key = summary.getKey();
         if (key.equals(prefix)) {
             return null;
         }
+
+        // Skip displaying "css/" as a file also
         if ((key + delimiter).equals(prefix)) {
             return null;
         }
 
+        // Create some UI friendly strings
         String image = getHtmlImage(getFileImage());
         String show = getShow(key, prefix);
         String dest = delimiter + key;
         String ahref = getHtmlHref(dest, show);
         String date = dateFormatter.format(summary.getLastModified());
+        String size = nf.format((summary.getSize() / 1024D)) + " KiB";
 
+        // Store them in an object
         DisplayRow displayRow = new DisplayRow();
         displayRow.setImage(image);
         displayRow.setAhref(ahref);
         displayRow.setDate(date);
+        displayRow.setSize(size);
         return displayRow;
     }
 
@@ -189,22 +257,6 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
         PutObjectRequest request2 = getPutObjectRequest("/dir.htm", prefix.substring(0, prefix.length() - 1));
         client.putObject(request2);
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getDelimiter() {
-        return delimiter;
-    }
-
-    public void setDelimiter(String delimiter) {
-        this.delimiter = delimiter;
     }
 
     public String getTimezone() {
