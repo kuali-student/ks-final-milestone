@@ -141,19 +141,21 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			//Get an array of the jpql results
 			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
 			int fromIndex = queryString.toLowerCase().indexOf(" from ");
-			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
-			for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
-				if(results.getKey().equals(searchRequest.getSortColumn())){
-					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
-					if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
-						orderByClause += "DESC ";
-					}else{
-						orderByClause += "ASC ";
-					}
-				}
-				i++;
-			}
 			
+			if (selectIndex >= 0 && fromIndex > selectIndex){
+				String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
+				for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
+					if(results.getKey().equals(searchRequest.getSortColumn())){
+						orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
+						if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
+							orderByClause += "DESC ";
+						}else{
+							orderByClause += "ASC ";
+						}
+					}
+					i++;
+				}
+			}			
 		}
 		
 		//Create the query
