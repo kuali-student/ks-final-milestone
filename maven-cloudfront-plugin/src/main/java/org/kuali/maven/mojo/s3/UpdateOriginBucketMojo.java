@@ -114,6 +114,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return s;
     }
 
+    /**
+     * Convert an S3ObjectSummary into a DisplayRow object for the UI
+     */
     protected DisplayRow getS3ObjectDisplayRow(S3ObjectSummary summary, String prefix, String delimiter) {
         String key = summary.getKey();
         if (key.equals(prefix)) {
@@ -123,7 +126,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             return null;
         }
 
-        String image = getHtmlImage("http://s3browse.ks.kuali.org/images/page_white.png");
+        String image = getHtmlImage(getFileImage());
         String show = getShow(key, prefix);
         String dest = delimiter + key;
         String ahref = getHtmlHref(dest, show);
