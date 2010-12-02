@@ -79,12 +79,14 @@ public class CategoryDataUtil {
             MetaInfo metaInfo = new MetaInfo();
             MetaInfoHelper metaHelper = MetaInfoHelper.wrap(catHelper.getMetaInfo());
 
-            metaInfo.setCreateId(metaHelper.getCreateId());
-            metaInfo.setCreateTime(metaHelper.getCreateTime());
-            metaInfo.setUpdateId(metaHelper.getUpdateId());
-            metaInfo.setUpdateTime(metaHelper.getUpdateTime());
-            metaInfo.setVersionInd(metaHelper.getVersionInd());
-            catInfo.setMetaInfo(metaInfo);
+            if (metaHelper != null) {
+	            metaInfo.setCreateId(metaHelper.getCreateId());
+	            metaInfo.setCreateTime(metaHelper.getCreateTime());
+	            metaInfo.setUpdateId(metaHelper.getUpdateId());
+	            metaInfo.setUpdateTime(metaHelper.getUpdateTime());
+	            metaInfo.setVersionInd(metaHelper.getVersionInd());
+	            catInfo.setMetaInfo(metaInfo);
+            }
         }
         return catInfo;
     }
