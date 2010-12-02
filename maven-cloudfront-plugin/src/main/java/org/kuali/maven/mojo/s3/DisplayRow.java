@@ -7,7 +7,7 @@ package org.kuali.maven.mojo.s3;
 public class DisplayRow {
     String image;
     String ahref;
-    String date;
+    String lastModified;
     String size;
 
     public String getImage() {
@@ -26,12 +26,12 @@ public class DisplayRow {
         this.ahref = ahref;
     }
 
-    public String getDate() {
-        return date;
+    public String getLastModified() {
+        return lastModified;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setLastModified(String date) {
+        this.lastModified = date;
     }
 
     public String getSize() {

@@ -3,6 +3,7 @@ package org.kuali.maven.mojo.s3;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -128,6 +129,40 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
+    protected List<String[]> getData(ObjectListing objectListing, String prefix, String delimiter) {
+        DisplayRow upOneDirectory = getUpOneDirectoryDisplayRow(prefix, delimiter);
+        List<DisplayRow> objectDisplayRows = getObjectDisplayRows(objectListing, prefix, delimiter);
+        List<DisplayRow> directoryDisplayRows = getDirectoryDisplayRows(objectListing, prefix, delimiter);
+        List<String[]> data = new ArrayList<String[]>();
+        addDisplayRow(upOneDirectory, data);
+        addDisplayRows(objectDisplayRows, data);
+        addDisplayRows(directoryDisplayRows, data);
+        return data;
+    }
+
+    protected List<ColumnDecorator> getColumnDecorators() {
+        List<ColumnDecorator> columnDecorators = new ArrayList<ColumnDecorator>();
+        return columnDecorators;
+    }
+
+    protected void addDisplayRows(List<DisplayRow> displayRows, List<String[]> data) {
+        for (DisplayRow displayRow : displayRows) {
+            addDisplayRow(displayRow, data);
+        }
+    }
+
+    protected void addDisplayRow(DisplayRow displayRow, List<String[]> data) {
+        if (displayRow == null) {
+            return;
+        }
+        String[] row = new String[4];
+        row[0] = displayRow.getImage();
+        row[1] = displayRow.getAhref();
+        row[2] = displayRow.getLastModified();
+        row[3] = displayRow.getSize();
+        data.add(row);
+    }
+
     /**
      * Convert a commonPrefix into a DisplayRow object for the UI
      */
@@ -148,7 +183,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         DisplayRow displayRow = new DisplayRow();
         displayRow.setImage(image);
         displayRow.setAhref(ahref);
-        displayRow.setDate(date);
+        displayRow.setLastModified(date);
         displayRow.setSize(size);
         return displayRow;
     }
@@ -170,9 +205,46 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         DisplayRow displayRow = new DisplayRow();
         displayRow.setImage(image);
         displayRow.setAhref(ahref);
-        displayRow.setDate(date);
+        displayRow.setLastModified(date);
         displayRow.setSize(size);
         return displayRow;
+    }
+
+    protected List<DisplayRow> getDirectoryDisplayRows(ObjectListing objectListing, String prefix, String delimiter) {
+        List<DisplayRow> displayRows = new ArrayList<DisplayRow>();
+        for (String commonPrefix : objectListing.getCommonPrefixes()) {
+            DisplayRow displayRow = getDisplayRow(commonPrefix, prefix, delimiter);
+            if (displayRow == null) {
+                continue;
+            }
+            displayRows.add(displayRow);
+        }
+        return displayRows;
+    }
+
+    protected boolean isDirectory(S3ObjectSummary summary, List<String> commonPrefixes, String delimiter) {
+        String key = summary.getKey();
+        for (String commonPrefix : commonPrefixes) {
+            if ((delimiter + key).equals(commonPrefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected List<DisplayRow> getObjectDisplayRows(ObjectListing objectListing, String prefix, String delimiter) {
+        List<DisplayRow> displayRows = new ArrayList<DisplayRow>();
+        for (S3ObjectSummary summary : objectListing.getObjectSummaries()) {
+            if (isDirectory(summary, objectListing.getCommonPrefixes(), delimiter)) {
+                continue;
+            }
+            DisplayRow displayRow = getDisplayRow(summary, prefix, delimiter);
+            if (displayRow == null) {
+                continue;
+            }
+            displayRows.add(displayRow);
+        }
+        return displayRows;
     }
 
     /**
@@ -202,7 +274,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         DisplayRow displayRow = new DisplayRow();
         displayRow.setImage(image);
         displayRow.setAhref(ahref);
-        displayRow.setDate(date);
+        displayRow.setLastModified(date);
         displayRow.setSize(size);
         return displayRow;
     }
