@@ -74,8 +74,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             ObjectListing objectListing = client.listObjects(request);
             List<String[]> data = getData(objectListing, getPrefix(), getDelimiter());
             String table = getHtmlTable(data, getColumnDecorators());
+            String html = getHtml(getPrefix(), table);
             OutputStream out = new FileOutputStream("c:/temp/table.html");
-            IOUtils.copy(new ByteArrayInputStream(table.getBytes()), out);
+            IOUtils.copy(new ByteArrayInputStream(html.getBytes()), out);
             out.close();
             // recurse(client, getPrefix(), getDelimiter());
         } catch (Exception e) {
@@ -142,25 +143,45 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return list == null || list.size() == 0;
     }
 
+    protected String getHtml(String prefix, String table) {
+        Tag html = new Tag("html");
+        Tag title = new Tag("title");
+        Tag head = new Tag("head");
+        Tag body = new Tag("body");
+        Tag div1 = new Tag("div", "title");
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.html.openTag(html));
+        sb.append(this.html.getTag(title, "Directory listing for " + prefix));
+        sb.append(this.html.openTag(head));
+        sb.append(this.html.getIndentedContent("<link href=\"" + getCss() + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
+        sb.append(this.html.closeTag(head));
+        sb.append(this.html.openTag(body));
+        sb.append(this.html.getTag(div1, table));
+        sb.append(this.html.closeTag(body));
+        sb.append(this.html.closeTag(html));
+        return sb.toString();
+    }
+
     protected String getHtmlTable(List<String[]> data, List<ColumnDecorator> columnDecorators) {
         if (isEmpty(data)) {
             return "";
         }
         StringBuffer sb = new StringBuffer();
         Tag table = new Tag("table", "mainTable");
-        Tag thead = new Tag("thead", 1);
-        Tag tr = new Tag("tr", 2);
-        Tag tbody = new Tag("tbody", 1);
-        sb.append(html.getOpenTag(table));
-        sb.append(html.getOpenTag(thead));
-        sb.append(html.getOpenTag(tr));
+        Tag thead = new Tag("thead");
+        Tag tr = new Tag("tr");
+        Tag tbody = new Tag("tbody");
+        sb.append(html.openTag(table));
+        sb.append(html.openTag(thead));
+        sb.append(html.openTag(tr));
         sb.append(getTableHeaders(columnDecorators));
-        sb.append(html.getCloseTag(tr));
-        sb.append(html.getCloseTag(thead));
-        sb.append(html.getOpenTag(tbody));
+        sb.append(html.closeTag(tr));
+        sb.append(html.closeTag(thead));
+        sb.append(html.openTag(tbody));
         sb.append(getTableRows(data, columnDecorators));
-        sb.append(html.getCloseTag(tbody));
-        sb.append(html.getCloseTag(table));
+        sb.append(html.closeTag(tbody));
+        sb.append(html.closeTag(table));
         return sb.toString();
     }
 
@@ -180,11 +201,11 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     protected String getTableRow(int row, String[] data, List<ColumnDecorator> columnDecorators) {
         StringBuffer sb = new StringBuffer();
         Tag tr = getTableRowTag(row);
-        sb.append(html.getOpenTag(tr));
+        sb.append(html.openTag(tr));
         for (int i = 0; i < data.length; i++) {
             sb.append(getTableCell(data[i], columnDecorators.get(i)));
         }
-        sb.append(html.getCloseTag(tr));
+        sb.append(html.closeTag(tr));
         return sb.toString();
     }
 
@@ -201,9 +222,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         for (int i = 0; i < columnDecorators.size(); i++) {
             ColumnDecorator decorator = columnDecorators.get(i);
             Tag th = new Tag("th", decorator.getTableDataClass(), 3);
-            sb.append(html.getOpenTag(th));
+            sb.append(html.openTag(th));
             sb.append(html.getTag(new Tag("span", decorator.getSpanClass(), 4), decorator.getColumnTitle()));
-            sb.append(html.getCloseTag(th));
+            sb.append(html.closeTag(th));
         }
         return sb.toString();
     }
