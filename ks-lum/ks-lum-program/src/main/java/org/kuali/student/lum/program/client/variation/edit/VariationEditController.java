@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -22,11 +24,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -87,7 +86,10 @@ public class VariationEditController extends VariationController {
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
             @Override
             public void onEvent(ChangeViewEvent event) {
-                showView(event.getViewToken());
+                Enum<?> viewToken = event.getViewToken();
+                if (!viewToken.name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
+                    showView(viewToken);
+                }
             }
         });
         eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEvent.Handler() {
@@ -97,7 +99,7 @@ public class VariationEditController extends VariationController {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
             }
         });
-               
+
         eventBus.addHandler(StoreSpecRequirementIDsEvent.TYPE, new StoreSpecRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreSpecRequirementIDsEvent event) {
@@ -111,13 +113,13 @@ public class VariationEditController extends VariationController {
 
                         // find the specialization that we need to update
                         //for (Data.Property property : model.getRoot()) {
-                            Data variationData = model.getRoot();
-                            if (variationData.get(ProgramConstants.ID).equals(programId)) {
-                                variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
-                                programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
-                               // break;
-                            }
-                       // }
+                        Data variationData = model.getRoot();
+                        if (variationData.get(ProgramConstants.ID).equals(programId)) {
+                            variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+                            programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                            // break;
+                        }
+                        // }
 
                         if (programRequirements == null) {
                             Window.alert("Cannot find program requirements in data model.");
@@ -128,7 +130,7 @@ public class VariationEditController extends VariationController {
                         for (String id : ids) {
                             programRequirements.add(id);
                         }
-                        doSave();                        
+                        doSave();
                     }
 
                     @Override
