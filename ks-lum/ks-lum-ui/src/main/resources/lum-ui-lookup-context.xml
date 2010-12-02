@@ -3357,6 +3357,11 @@
   <property name="path" value="reqCompFieldInfo.value" />
   <property name="type" value="kuali.reqComponent.field.type.program.clu.id" />
   <property name="initialLookup" ref="kuali.lu.lookup.findProgram.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.findMajor.advanced" />
+   </list>
+  </property>
  </bean>
 
  <bean id="ReqCompFieldInfo.value.test.clu.id" parent="uilookupconfig-parent">
