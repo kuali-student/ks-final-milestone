@@ -449,13 +449,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        Data data = new Data();
-        
-        // empty proposal data required to show highlighting on review proposal page
-        // other sub datas that may need empty data initialized if they become required: description, duration, outofclasshours 
-        Data proposalData = new Data();
-        data.set(new Data.StringKey("proposal"), proposalData);
-        
         cluProposalModel.setRoot(new Data());
         isNew = true;
         setProposalHeaderTitle();
