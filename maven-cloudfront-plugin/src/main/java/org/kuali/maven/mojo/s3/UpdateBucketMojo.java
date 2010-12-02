@@ -21,7 +21,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * @goal update
  */
 public class UpdateBucketMojo extends S3Mojo {
-    private SimpleDateFormat dateFormatter;
+    SimpleDateFormat dateFormatter;
 
     /**
      * @parameter expression="${css}" default-value="http://s3browse.ks.kuali.org/css/style.css"
@@ -61,7 +61,7 @@ public class UpdateBucketMojo extends S3Mojo {
     /**
      * @parameter expression="${defaultCloudFrontObject}" default-value="index.html";
      */
-    private String defaultCloudFrontObject;
+    private String defaultObject;
 
     protected SimpleDateFormat getSimpleDateFormatInstance() {
         SimpleDateFormat sdf = new SimpleDateFormat(getDateFormat());
@@ -167,7 +167,7 @@ public class UpdateBucketMojo extends S3Mojo {
     }
 
     protected void updateDir(AmazonS3Client client, String bucket, String prefix, String delimiter) throws IOException {
-        String defaultFileKey = prefix + getDefaultCloudFrontObject();
+        String defaultFileKey = prefix + getDefaultObject();
         if (isExistingKey(client, bucket, prefix, defaultFileKey, delimiter)) {
             getLog().info("###################");
             getLog().info("###################");
@@ -220,12 +220,12 @@ public class UpdateBucketMojo extends S3Mojo {
         this.dateFormat = dateFormat;
     }
 
-    public String getDefaultCloudFrontObject() {
-        return defaultCloudFrontObject;
+    public String getDefaultObject() {
+        return defaultObject;
     }
 
-    public void setDefaultCloudFrontObject(String defaultCloudFrontObject) {
-        this.defaultCloudFrontObject = defaultCloudFrontObject;
+    public void setDefaultObject(String defaultCloudFrontObject) {
+        this.defaultObject = defaultCloudFrontObject;
     }
 
     public String getFileImage() {
