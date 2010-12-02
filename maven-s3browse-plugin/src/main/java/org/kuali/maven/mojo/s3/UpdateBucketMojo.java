@@ -1,7 +1,9 @@
 package org.kuali.maven.mojo.s3;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -19,6 +21,37 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * @goal update
  */
 public class UpdateBucketMojo extends S3Mojo {
+    private SimpleDateFormat dateFormatter;
+
+    /**
+     * @parameter expression="${css}" default-value="http://s3browse.ks.kuali.org/css/style.css"
+     */
+    private String css;
+
+    /**
+     * @parameter expression="${fileImage}" default-value="http://s3browse.ks.kuali.org/images/page_white.png"
+     */
+    private String fileImage;
+
+    /**
+     * @parameter expression="${directoryImage}" default-value="http://s3browse.ks.kuali.org/images/folder.png"
+     */
+    private String directoryImage;
+
+    /**
+     * @parameter expression="${timezone}" default-value="GMT"
+     */
+    private String timezone;
+
+    /**
+     * @parameter expression="${dateFormat}" default-value="EEE, dd MMM yyyy HH:mm:ss z"
+     */
+    private String dateFormat;
+
+    /**
+     * @parameter expression="${delimiter}" default-value="/"
+     */
+    private String delimiter;
 
     /**
      * @parameter expression="${prefix}"
@@ -26,36 +59,96 @@ public class UpdateBucketMojo extends S3Mojo {
     private String prefix;
 
     /**
-     * @parameter expression="${welcomeFile}" default-value="index.html";
+     * @parameter expression="${defaultCloudFrontObject}" default-value="index.html";
      */
-    private String welcomeFile;
+    private String defaultCloudFrontObject;
+
+    protected SimpleDateFormat getSimpleDateFormatInstance() {
+        SimpleDateFormat sdf = new SimpleDateFormat(getDateFormat());
+        sdf.setTimeZone(TimeZone.getTimeZone(getTimezone()));
+        return sdf;
+    }
 
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
+        dateFormatter = getSimpleDateFormatInstance();
         try {
             updateCredentials();
             validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            recurse(client, getPrefix());
+            recurse(client, getPrefix(), getDelimiter());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
     }
 
-    protected void recurse(AmazonS3Client client, String prefix) throws IOException {
-        ListObjectsRequest request = new ListObjectsRequest(getBucket(), prefix, null, "/", Integer.MAX_VALUE);
+    protected String getIndexHtml(ObjectListing objectListing) {
+        StringBuffer sb = new StringBuffer();
+        return sb.toString();
+    }
+
+    protected String getHtmlHref(String dest, String show) {
+        return "<a href=\"" + dest + "\">" + show + "</a>";
+    }
+
+    protected String getHtmlImage(String image) {
+        return "<img src=\"" + image + "\">";
+    }
+
+    protected String getS3ObjectSummariesHtml(List<S3ObjectSummary> summaries) {
+        StringBuffer sb = new StringBuffer();
+        return sb.toString();
+    }
+
+    /**
+     * Trim the prefix off of the text we display for this object.<br>
+     * Display "style.css" instead of "css/style.css"
+     */
+    protected String getShow(String key, String prefix) {
+        if (prefix == null) {
+            return key;
+        }
+        int index = prefix.length();
+        String s = key.substring(index);
+        return s;
+    }
+
+    protected DisplayRow getS3ObjectDisplayRow(S3ObjectSummary summary, String prefix, String delimiter) {
+        String key = summary.getKey();
+        if (key.equals(prefix)) {
+            return null;
+        }
+        if ((key + delimiter).equals(prefix)) {
+            return null;
+        }
+
+        String image = getHtmlImage("http://s3browse.ks.kuali.org/images/page_white.png");
+        String show = getShow(key, prefix);
+        String dest = delimiter + key;
+        String ahref = getHtmlHref(dest, show);
+        String date = dateFormatter.format(summary.getLastModified());
+
+        DisplayRow displayRow = new DisplayRow();
+        displayRow.setImage(image);
+        displayRow.setAhref(ahref);
+        displayRow.setDate(date);
+        return displayRow;
+    }
+
+    protected void recurse(AmazonS3Client client, String prefix, String delimiter) throws IOException {
+        ListObjectsRequest request = new ListObjectsRequest(getBucket(), prefix, null, delimiter, Integer.MAX_VALUE);
         ObjectListing objectListing = client.listObjects(request);
         List<String> commonPrefixes = objectListing.getCommonPrefixes();
         for (String commonPrefix : commonPrefixes) {
             getLog().info("Updating: " + commonPrefix);
-            updateDir(client, getBucket(), commonPrefix);
-            recurse(client, commonPrefix);
+            updateDir(client, getBucket(), commonPrefix, delimiter);
+            recurse(client, commonPrefix, delimiter);
         }
     }
 
-    protected boolean isExistingKey(AmazonS3Client client, String bucket, String prefix, String key) {
-        ListObjectsRequest request = new ListObjectsRequest(bucket, prefix, null, "/", Integer.MAX_VALUE);
+    protected boolean isExistingKey(AmazonS3Client client, String bucket, String prefix, String key, String delimiter) {
+        ListObjectsRequest request = new ListObjectsRequest(bucket, prefix, null, delimiter, Integer.MAX_VALUE);
         ObjectListing objectListing = client.listObjects(request);
         List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
         for (S3ObjectSummary objectSummary : objectSummaries) {
@@ -73,9 +166,9 @@ public class UpdateBucketMojo extends S3Mojo {
         return request;
     }
 
-    protected void updateDir(AmazonS3Client client, String bucket, String prefix) throws IOException {
-        String defaultFileKey = prefix + getWelcomeFile();
-        if (isExistingKey(client, bucket, prefix, defaultFileKey)) {
+    protected void updateDir(AmazonS3Client client, String bucket, String prefix, String delimiter) throws IOException {
+        String defaultFileKey = prefix + getDefaultCloudFrontObject();
+        if (isExistingKey(client, bucket, prefix, defaultFileKey, delimiter)) {
             getLog().info("###################");
             getLog().info("###################");
             getLog().info("###################");
@@ -84,8 +177,9 @@ public class UpdateBucketMojo extends S3Mojo {
             getLog().info("###################");
             getLog().info("###################");
             client.copyObject(getCopyObjectRequest(bucket, defaultFileKey, prefix));
-            // client.copyObject(getCopyObjectRequest(bucket, defaultFileKey,
-            // prefix.substring(0, prefix.length() - 1)));
+            // PutObjectRequest request2 = getPutObjectRequest("/redirect.htm",
+            // prefix.substring(0, prefix.length() - 1));
+            // client.putObject(request2);
         } else {
             PutObjectRequest request1 = getPutObjectRequest("/dir.htm", prefix);
             client.putObject(request1);
@@ -102,12 +196,60 @@ public class UpdateBucketMojo extends S3Mojo {
         this.prefix = prefix;
     }
 
-    public String getWelcomeFile() {
-        return welcomeFile;
+    public String getDelimiter() {
+        return delimiter;
     }
 
-    public void setWelcomeFile(String welcomeFile) {
-        this.welcomeFile = welcomeFile;
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public String getDefaultCloudFrontObject() {
+        return defaultCloudFrontObject;
+    }
+
+    public void setDefaultCloudFrontObject(String defaultCloudFrontObject) {
+        this.defaultCloudFrontObject = defaultCloudFrontObject;
+    }
+
+    public String getFileImage() {
+        return fileImage;
+    }
+
+    public void setFileImage(String fileImage) {
+        this.fileImage = fileImage;
+    }
+
+    public String getDirectoryImage() {
+        return directoryImage;
+    }
+
+    public void setDirectoryImage(String directoryImage) {
+        this.directoryImage = directoryImage;
+    }
+
+    public String getCss() {
+        return css;
+    }
+
+    public void setCss(String css) {
+        this.css = css;
     }
 
 }

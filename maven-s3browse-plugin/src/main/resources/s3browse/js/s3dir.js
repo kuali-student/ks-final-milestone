@@ -338,11 +338,11 @@
 		log("upOneDirectory=" + upOneDirectory);
         var s3Dirs = getS3Dirs(listBucketResult);
         var s3Objects = getS3Objects(listBucketResult,s3Dirs);
-        var defaultS3Object = getDefaultS3Object(s3Objects);
-        if (defaultS3Object != null) {
-			var href = defaultS3Object.key;
-			window.location.href = "/" + href;
-		}
+        //var defaultS3Object = getDefaultS3Object(s3Objects);
+        //if (defaultS3Object != null) {
+			//var href = defaultS3Object.key;
+			//window.location.href = "/" + href;
+		//}
         var dirDisplayRows = getDirDisplayRows(s3Dirs);
         var fileDisplayRows = getFileDisplayRows(s3Objects);
         var dirData = getArrayData(dirDisplayRows);
