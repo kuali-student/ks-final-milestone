@@ -16,6 +16,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
@@ -122,7 +123,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             if (LUConstants.LU_STATE_APPROVED.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
 
             	// if current version's state is not active then we can set this course as the active course
-            	if (!LUConstants.LU_STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
+            	if (!LUConstants.LU_STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
             		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null);
             	}
             }
