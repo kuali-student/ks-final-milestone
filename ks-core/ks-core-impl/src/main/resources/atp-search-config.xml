@@ -609,13 +609,13 @@
 						atp.startDate,
 						atp.type.name,
 						atp.descr.plain
-						FROM Atp atp</value>
+                        FROM Atp atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
 					<value>SELECT
 						atp.id,
 						concat(concat(concat(concat(seasonaltype.name, ' '), durtype.name), ', '), atptype.name)
-						FROM Atp atp
+                        FROM Atp atp
 						JOIN atp.type atptype
 						JOIN atptype.seasonalType seasonaltype
 						JOIN atptype.durationType durtype
