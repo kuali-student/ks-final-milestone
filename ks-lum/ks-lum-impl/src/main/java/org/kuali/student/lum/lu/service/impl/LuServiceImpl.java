@@ -61,6 +61,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -3057,7 +3058,7 @@ public class LuServiceImpl implements LuService {
 
     private void clearCluIds(CluInfo clu) {
 	    // Clear out all ids so a copy can be made
-    	clu.setState("draft");//TODO check if this should be set from outside/or switch to constant
+        clu.setState(LUConstants.LU_STATE_DRAFT);// TODO check if this should be set from outside
     	clu.setId(null);
 	    	    	    
 	    if(clu.getAccountingInfo()!=null){
