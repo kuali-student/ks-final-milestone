@@ -3175,7 +3175,7 @@
   <property name="desc" value="Get enumerated UniversityClassification lists of values given context" />
   <property name="widget" value="DROP_DOWN" />
   <property name="resultDisplayKey" value="enumeration.resultColumn.code" />
-  <property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+  <property name="resultSortKey" value="enumeration.resultColumn.code" />
   <property name="results">
    <list>
     <bean parent="result">
