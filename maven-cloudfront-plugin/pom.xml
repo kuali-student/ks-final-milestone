@@ -26,6 +26,15 @@
           <bucket>${kuali.s3.bucket}</bucket>
           <serverId>kuali.site</serverId>
         </configuration>
+        <executions>
+          <execution>
+            <id>update-bucket</id>
+            <phase>site-deploy</phase>
+            <goals>
+              <goal>updateoriginbucket</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
