@@ -9,19 +9,19 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.programset.completed.nof"
-        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;program&quot;) from $programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;program&quot;) from $programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1002" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.programset.notcompleted.nof"
-        TEMPLATE="Must not have successfully completed #if($programCluSet.getCluList().size() > 1)any of #end$programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must not have successfully completed #if($programCluSet.getCluList().size() > 1)any of #end$programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1003" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.programset.completed.all"
-        TEMPLATE="Must have successfully completed #if($programCluSet.getCluList().size() != 1)all of #end$programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed #if($programCluSet.getCluList().size() != 1)all of #end$programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1004" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.programset.coursecompleted.nof"
-        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1005" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.admitted.credits"
@@ -109,19 +109,19 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1101" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.programset.completed.nof"
-        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;program&quot;) from $programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;program&quot;) from $programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1102" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.programset.notcompleted.nof"
-        TEMPLATE="Must not have successfully completed #if($programCluSet.getCluList().size() > 1)any of #end$programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must not have successfully completed #if($programCluSet.getCluList().size() > 1)any of #end$programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1103" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.programset.completed.all"
-        TEMPLATE="Must have successfully completed #if($programCluSet.getCluList().size() != 1)all of #end$programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed #if($programCluSet.getCluList().size() != 1)all of #end$programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1104" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.programset.coursecompleted.nof"
-        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
+        TEMPLATE="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $programCluSet.getCluSetAsLongName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), &quot;program&quot;)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1105" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.admitted.credits"
@@ -205,11 +205,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="120" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.program.admitted.org.duration"
-        TEMPLATE="Students admitted to $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
+        TEMPLATE="Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="121" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.program.notadmitted.org.duration"
-        TEMPLATE="Students not admitted to $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
+        TEMPLATE="Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="122" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.org.program.admitted"
@@ -217,7 +217,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="123" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.program.notadmitted"
-        TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) program" VER_NBR="0"/>
+        TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="124" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.credits.repeat.max"
@@ -229,7 +229,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="126" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.program.admitted"
-        TEMPLATE="Must have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) program" VER_NBR="0"/>
+        TEMPLATE="Must have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="127" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.completed"
@@ -277,7 +277,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="20" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.admitted.org.duration"
-        TEMPLATE="Students admitted to $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
+        TEMPLATE="Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
         OWNER="kuali.reqComponent.type.program.programset.completed.nof"
@@ -381,7 +381,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="21" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.notadmitted.org.duration"
-        TEMPLATE="Students not admitted to $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
+        TEMPLATE="Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="213" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min"
@@ -457,7 +457,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="23" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.notadmitted"
-        TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) program" VER_NBR="0"/>
+        TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="24" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.credits.repeat.max"
@@ -469,7 +469,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="26" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.admitted"
-        TEMPLATE="Must have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($programClu,$programCluSet) program" VER_NBR="0"/>
+        TEMPLATE="Must have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="27" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.completed"
