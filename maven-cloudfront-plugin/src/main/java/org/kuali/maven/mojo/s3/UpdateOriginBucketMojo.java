@@ -3,17 +3,18 @@ package org.kuali.maven.mojo.s3;
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -21,13 +22,16 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CopyObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 /**
  * @goal updateoriginbucket
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
+    private static final String S3_INDEX_METADATA_KEY = "maven-cloudfront-plugin-index";
     NumberFormat nf = getNumberFormatInstance();
     SimpleDateFormat dateFormatter;
     HtmlUtils html = new HtmlUtils();
@@ -70,17 +74,22 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             validateCredentials();
             AWSCredentials credentials = getCredentials();
             AmazonS3Client client = new AmazonS3Client(credentials);
-            ListObjectsRequest request = new ListObjectsRequest(getBucket(), getPrefix(), null, getDelimiter(), Integer.MAX_VALUE);
-            ObjectListing objectListing = client.listObjects(request);
-            List<String[]> data = getData(objectListing, getPrefix(), getDelimiter());
-            String html = getHtml(data, getPrefix(), getDelimiter());
-            OutputStream out = new FileOutputStream("c:/temp/table.html");
-            IOUtils.copy(new ByteArrayInputStream(html.getBytes()), out);
-            out.close();
-            // recurse(client, getPrefix(), getDelimiter());
+            recurse(client, getPrefix(), getDelimiter());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
+    }
+
+    protected PutObjectRequest getPutIndexObjectRequest(String html, String key) throws IOException {
+        InputStream in = new ByteArrayInputStream(html.getBytes());
+        ObjectMetadata om = new ObjectMetadata();
+        String contentType = "text/html";
+        om.setContentType(contentType);
+        om.setContentLength(html.length());
+        om.addUserMetadata("maven-cloudfront-plugin-index", "true");
+        PutObjectRequest request = new PutObjectRequest(getBucket(), key, in, om);
+        request.setCannedAcl(CannedAccessControlList.PublicRead);
+        return request;
     }
 
     protected NumberFormat getNumberFormatInstance() {
@@ -110,6 +119,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         if (prefix == null) {
             return key;
         }
+        getLog().info("key=" + key + " prefix=" + prefix);
         int index = prefix.length();
         String s = key.substring(index);
         return s;
@@ -133,8 +143,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         List<DisplayRow> directoryDisplayRows = getDirectoryDisplayRows(objectListing, prefix, delimiter);
         List<String[]> data = new ArrayList<String[]>();
         addDisplayRow(upOneDirectory, data);
-        addDisplayRows(objectDisplayRows, data);
         addDisplayRows(directoryDisplayRows, data);
+        addDisplayRows(objectDisplayRows, data);
         return data;
     }
 
@@ -142,15 +152,29 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return list == null || list.size() == 0;
     }
 
+    protected String getDirectory(String prefix, String delimiter) {
+        if (prefix == null) {
+            return delimiter;
+        }
+        if (prefix.endsWith(delimiter)) {
+            return delimiter + prefix.substring(0, prefix.length() - delimiter.length());
+        } else {
+            return delimiter + prefix;
+        }
+    }
+
     protected String getHtml(List<String[]> data, String prefix, String delimiter) {
-        String directory = (prefix == null) ? delimiter : prefix;
+        String directory = getDirectory(prefix, delimiter);
+
         Tag html = new Tag("html");
         Tag title = new Tag("title");
         Tag head = new Tag("head");
         Tag body = new Tag("body");
         Tag div1 = new Tag("div", "title");
+        Tag span1 = new Tag("span", null, "title");
         Tag div2 = new Tag("div", "data");
         Tag div3 = new Tag("div", "footer", "footer-left");
+        Tag span2 = new Tag("span", null, "footer-text");
 
         StringBuffer sb = new StringBuffer();
         sb.append(this.html.openTag(html));
@@ -159,14 +183,32 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         sb.append(this.html.getIndentedContent("<link href=\"" + getCss() + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
         sb.append(this.html.closeTag(head));
         sb.append(this.html.openTag(body));
-        sb.append(this.html.getTag(div1, "Directory listing for " + directory));
+        sb.append(this.html.openTag(div1));
+        sb.append(this.html.getTag(span1, "Directory listing for " + directory));
+        sb.append(this.html.closeTag(div1));
+        sb.append(this.html.getIndentedContent("<hr>\n"));
         sb.append(this.html.openTag(div2));
         sb.append(getHtmlTable(data, getColumnDecorators()));
         sb.append(this.html.closeTag(div2));
-        sb.append(this.html.getTag(div3, "Index generated by " + getProject().getArtifactId()));
+        sb.append(this.html.getIndentedContent("<hr>\n"));
+        sb.append(this.html.openTag(div3));
+        sb.append(this.html.getTag(span2, getPoweredBy()));
+        sb.append(this.html.closeTag(div3));
         sb.append(this.html.closeTag(body));
         sb.append(this.html.closeTag(html));
         return sb.toString();
+    }
+
+    protected String getPoweredBy() {
+        PluginDescriptor descriptor = (PluginDescriptor) this.getPluginContext().get("pluginDescriptor");
+        if (descriptor == null) {
+            // Maven 2.2.1 on is returning a null descriptor
+            return "Powered by the maven-cloudfront-plugin";
+        } else {
+            String name = descriptor.getArtifactId();
+            String version = descriptor.getVersion();
+            return "Powered by the " + name + " v" + version;
+        }
     }
 
     protected String getHtmlTable(List<String[]> data, List<ColumnDecorator> columnDecorators) {
@@ -381,25 +423,44 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     protected void recurse(AmazonS3Client client, String prefix, String delimiter) throws IOException {
         ListObjectsRequest request = new ListObjectsRequest(getBucket(), prefix, null, delimiter, Integer.MAX_VALUE);
         ObjectListing objectListing = client.listObjects(request);
-        List<String> commonPrefixes = objectListing.getCommonPrefixes();
-        for (String commonPrefix : commonPrefixes) {
-            getLog().info("Updating: " + commonPrefix);
-            updateDir(client, getBucket(), commonPrefix, delimiter);
-            recurse(client, commonPrefix, delimiter);
+        List<String[]> data = getData(objectListing, prefix, delimiter);
+        String html = getHtml(data, prefix, delimiter);
+        String defaultFileKey = (prefix == null) ? getDefaultObject() : prefix + getDefaultObject();
+        if (isUpdateIndex(client, objectListing, defaultFileKey)) {
+            client.putObject(getPutIndexObjectRequest(html, defaultFileKey));
         }
+        /*
+         * List<String> commonPrefixes = objectListing.getCommonPrefixes(); for (String commonPrefix : commonPrefixes) { getLog().info("prefix=" + prefix + " commonPrefix=" + commonPrefix); updateDir(client, objectListing, getBucket(), commonPrefix,
+         * delimiter); recurse(client, commonPrefix, delimiter); }
+         */
     }
 
-    protected boolean isExistingKey(AmazonS3Client client, String bucket, String prefix, String key, String delimiter) {
-        ListObjectsRequest request = new ListObjectsRequest(bucket, prefix, null, delimiter, Integer.MAX_VALUE);
-        ObjectListing objectListing = client.listObjects(request);
-        List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-        for (S3ObjectSummary objectSummary : objectSummaries) {
-            String objectKey = objectSummary.getKey();
-            if (key.equals(objectKey)) {
+    protected boolean isExistingObject(ObjectListing objectListing, String key) {
+        List<S3ObjectSummary> summaries = objectListing.getObjectSummaries();
+        for (S3ObjectSummary summary : summaries) {
+            if (key.equals(summary.getKey())) {
                 return true;
             }
         }
         return false;
+    }
+
+    protected boolean isUpdateIndex(AmazonS3Client client, ObjectListing objectListing, String indexKey) {
+        if (!isExistingObject(objectListing, indexKey)) {
+            return true;
+        }
+        S3Object object = client.getObject(getBucket(), indexKey);
+        ObjectMetadata metadata = object.getObjectMetadata();
+        Map<String, String> userMetadata = metadata.getUserMetadata();
+        String value = userMetadata.get(S3_INDEX_METADATA_KEY);
+        boolean isOurIndex = "true".equals(value);
+        getLog().info("##############");
+        getLog().info("##############");
+        getLog().info("isOurIndex=" + isOurIndex);
+        getLog().info("##############");
+        getLog().info("##############");
+        // If it is our index, we need to update it
+        return isOurIndex;
     }
 
     protected CopyObjectRequest getCopyObjectRequest(String bucket, String sourceKey, String destKey) {
@@ -408,26 +469,15 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         return request;
     }
 
-    protected void updateDir(AmazonS3Client client, String bucket, String prefix, String delimiter) throws IOException {
+    protected void updateDir(AmazonS3Client client, ObjectListing objectListing, String bucket, String prefix, String delimiter) throws IOException {
+        List<String[]> data = getData(objectListing, prefix, delimiter);
+        String html = getHtml(data, prefix, delimiter);
         String defaultFileKey = prefix + getDefaultObject();
-        if (isExistingKey(client, bucket, prefix, defaultFileKey, delimiter)) {
-            getLog().info("###################");
-            getLog().info("###################");
-            getLog().info("###################");
-            getLog().info("Copying " + defaultFileKey + " to " + prefix);
-            getLog().info("###################");
-            getLog().info("###################");
-            getLog().info("###################");
-            client.copyObject(getCopyObjectRequest(bucket, defaultFileKey, prefix));
-            // PutObjectRequest request2 = getPutObjectRequest("/redirect.htm",
-            // prefix.substring(0, prefix.length() - 1));
-            // client.putObject(request2);
-        } else {
-            PutObjectRequest request1 = getPutObjectRequest("/dir.htm", prefix);
-            client.putObject(request1);
-        }
-        PutObjectRequest request2 = getPutObjectRequest("/dir.htm", prefix.substring(0, prefix.length() - 1));
-        client.putObject(request2);
+        /*
+         * if (isExistingKey(objectListing, bucket, prefix, defaultFileKey, delimiter)) { getLog().info("###################"); getLog().info("###################"); getLog().info("###################"); getLog().info("Copying " + defaultFileKey + " to "
+         * + prefix); getLog().info("###################"); getLog().info("###################"); getLog().info("###################"); client.copyObject(getCopyObjectRequest(bucket, defaultFileKey, prefix)); } else { PutObjectRequest request1 =
+         * getPutIndexObjectRequest(html, prefix); client.putObject(request1); } PutObjectRequest request2 = getPutIndexObjectRequest(html, prefix.substring(0, prefix.length() - 1)); client.putObject(request2);
+         */
     }
 
     public String getTimezone() {
