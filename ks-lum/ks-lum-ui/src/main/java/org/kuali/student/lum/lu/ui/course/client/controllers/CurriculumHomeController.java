@@ -125,6 +125,7 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                        majorManager = new MajorManager();
                         callback.exec(majorManager.getProgramEditController());
                     }
                 });

@@ -32,9 +32,10 @@ public class MajorManager {
 
     private ViewContext viewContext = new ViewContext();
 
-    private static HandlerManager eventBus = new HandlerManager(null);
+    private static HandlerManager eventBus;
 
     public MajorManager() {
+        eventBus = new HandlerManager(null);
         programModel = new DataModel();
     }
 
