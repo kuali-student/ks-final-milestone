@@ -11,6 +11,7 @@
   <packaging>maven-plugin</packaging>
   <version>1.0.1-SNAPSHOT</version>
   <name>Maven Cloud Front Plugin</name>
+  <url>http://site.ks.kuali.org/${project.artifactId}/${project.version}</url>
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <dependencies>
     <dependency>
