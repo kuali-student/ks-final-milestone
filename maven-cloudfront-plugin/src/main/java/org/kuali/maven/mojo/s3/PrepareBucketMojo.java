@@ -12,7 +12,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 /**
- * @goal prepare
+ * 
  */
 public class PrepareBucketMojo extends S3Mojo {
 
