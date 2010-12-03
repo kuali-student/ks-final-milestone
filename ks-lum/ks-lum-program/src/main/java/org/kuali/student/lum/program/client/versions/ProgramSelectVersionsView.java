@@ -28,6 +28,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 
 public class ProgramSelectVersionsView extends ViewComposite{
 
@@ -35,7 +36,7 @@ public class ProgramSelectVersionsView extends ViewComposite{
 	private ButtonLayout buttons = new ButtonLayout();
 	SearchResultsTable table = new SearchResultsTable();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
-	
+
 	private ProgramVersionsController parent;
 	private DataModel programModel;
 
@@ -58,31 +59,32 @@ public class ProgramSelectVersionsView extends ViewComposite{
 				if(table.getSelectedIds().size() == 1){
 					String id = table.getSelectedIds().get(0);
 			    	ViewContext viewContext = parent.getViewContext();
-			    	viewContext.setId(id);				
+			    	viewContext.setId(id);
 			    	navigateToProgramView(viewContext);
 				}
 			}
 		}));
-		
+
 		buttons.addButton(new KSButton("Return to Selected Program", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
 		    	ViewContext viewContext = parent.getViewContext();
 		    	viewContext.setId((String)programModel.get(ProgramConstants.ID));
-		    	navigateToProgramView(viewContext);		    	
+		    	navigateToProgramView(viewContext);
 			}
 		}));
 	}
 
 	private void navigateToProgramView(ViewContext viewContext){
+        ProgramRegistry.setCreateNew(true);
     	switch (parent.getType()){
 			case MAJOR: HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext); break;
 			case CORE: HistoryManager.navigate(AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation(), viewContext); break;
 			case CREDENTIAL: HistoryManager.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), viewContext); break;
-    	}		
+    	}
 	}
-	
+
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	Metadata searchMetadata = programModel.getDefinition().getMetadata(QueryPath.concat("searchProgramVersions"));
@@ -90,7 +92,7 @@ public class ProgramSelectVersionsView extends ViewComposite{
 		table.performSearch(generateRequest(versionSearch), versionSearch.getResults(), versionSearch.getResultReturnKey(), false);
     	onReadyCallback.exec(true);
 	}
-	
+
 	private SearchRequest generateRequest(LookupMetadata versionSearch){
     	SearchRequest sr = new SearchRequest();
         List<SearchParam> params = new ArrayList<SearchParam>();
@@ -108,6 +110,6 @@ public class ProgramSelectVersionsView extends ViewComposite{
         }
         return sr;
 	}
-	
-	
+
+
 }
