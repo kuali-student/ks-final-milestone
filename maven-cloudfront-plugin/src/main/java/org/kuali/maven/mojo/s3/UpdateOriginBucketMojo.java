@@ -458,9 +458,11 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         String defaultObjectKey = (prefix == null) ? getDefaultObject() : prefix + getDefaultObject();
         // Create a default object for this bucket
         boolean isRoot = prefix == null;
-        boolean createOrUpdateDefaultObject = isCreateOrUpdateDefaultObject(client, objectListing, defaultObjectKey, delimiter);
-        if (createOrUpdateDefaultObject) {
-            client.putObject(getPutIndexObjectRequest(html, defaultObjectKey));
+        if (isRoot) {
+            boolean createOrUpdateDefaultObject = isCreateOrUpdateDefaultObject(client, objectListing, defaultObjectKey, delimiter);
+            if (createOrUpdateDefaultObject) {
+                client.putObject(getPutIndexObjectRequest(html, defaultObjectKey));
+            }
         }
 
         // If we are in the root directory, there is nothing more to do
@@ -485,10 +487,6 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     }
 
     protected boolean isCreateOrUpdateDefaultObject(AmazonS3Client client, ObjectListing objectListing, String defaultObjectKey, String delimiter) {
-        boolean isRoot = delimiter.equals(defaultObjectKey);
-        if (!isRoot) {
-            return false;
-        }
         if (!isExistingObject(objectListing, defaultObjectKey)) {
             // We are in the root, and there is no default object, we will create one
             return true;
