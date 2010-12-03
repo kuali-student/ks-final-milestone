@@ -13,6 +13,11 @@
  * permissions and limitations under the License.
  */
 
+/*
+ *  OrgTreeInfo is not defined in the service contract. This is currently
+ *  an implementation-specific class.
+ */
+
 package org.kuali.student.core.organization.dto;
 
 import java.io.Serializable;
