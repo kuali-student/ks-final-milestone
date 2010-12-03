@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.client.events;
 
+import org.kuali.student.core.assembly.data.Data;
+
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
@@ -10,9 +12,19 @@ public class SpecializationUpdateEvent extends GwtEvent<SpecializationUpdateEven
 
     public static Type<Handler> TYPE = new Type<Handler>();
 
+    private final Data specializations;
+
+    public SpecializationUpdateEvent(Data specs) {
+        this.specializations = specs;
+    }
+
     @Override
     public Type<Handler> getAssociatedType() {
         return TYPE;
+    }
+
+    public Data getSpecializations() {
+        return specializations;
     }
 
     @Override
