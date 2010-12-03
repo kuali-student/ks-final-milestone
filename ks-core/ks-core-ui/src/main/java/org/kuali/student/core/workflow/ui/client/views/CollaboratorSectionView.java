@@ -144,6 +144,9 @@ public class CollaboratorSectionView extends SectionView {
 							
 							personPicker.clear();
 							authorCheckbox.setValue(false);
+							actionRequestList.clear();
+							permissionList.clear();
+							refreshActionRequestListItems();
 						}
 					}
 				}
@@ -264,8 +267,8 @@ public class CollaboratorSectionView extends SectionView {
 		section.addField(actionRequests);
 		section.addField(authorNotation);
 		
-		permissionList.setBlankFirstItem(false);
-		actionRequestList.setBlankFirstItem(false);
+		permissionList.setBlankFirstItem(true);
+		actionRequestList.setBlankFirstItem(true);
 	}
 	
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
