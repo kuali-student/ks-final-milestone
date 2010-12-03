@@ -28,6 +28,15 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 /**
+ * This mojo updates a bucket serving as an origin for a Cloud Front distribution. It generates directory listings for each
+ * "directory" in the bucket and stores them under a key in such a way that a regular http request for a directory returns the
+ * html instead of the "object does not exist" XML Amazon would normally return. For example: The url
+ * "http://www.mybucket.com/foo/bar" returns an html page containing a listing of all the files and directories under foo/css in
+ * the bucket.<br>
+ * 
+ * It also generates a listing for the default object at the root of the bucket hierarchy unless a default object already
+ * exists.
+ * 
  * @goal updateoriginbucket
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
@@ -38,31 +47,45 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     HtmlUtils html = new HtmlUtils();
 
     /**
+     * The stylesheet to use for the directory listing
+     * 
      * @parameter expression="${css}" default-value="http://s3browse.ks.kuali.org/css/style.css"
      */
     private String css;
 
     /**
+     * Image representing a file
+     * 
      * @parameter expression="${fileImage}" default-value="http://s3browse.ks.kuali.org/images/page_white.png"
      */
     private String fileImage;
 
     /**
+     * Image representing a directory
+     * 
      * @parameter expression="${directoryImage}" default-value="http://s3browse.ks.kuali.org/images/folder.png"
      */
     private String directoryImage;
 
     /**
+     * When displaying the last modified timestamp, use this timezone
+     * 
      * @parameter expression="${timezone}" default-value="GMT"
      */
     private String timezone;
 
     /**
+     * When displaying the last modified timestamp use this format
+     * 
      * @parameter expression="${dateFormat}" default-value="EEE, dd MMM yyyy HH:mm:ss z"
      */
     private String dateFormat;
 
     /**
+     * The name of the key for the default object for the Cloud Front distribution. If this default object already exists, the
+     * plugin will not modify it. If there is no object in the bucket under this key, the plugin will generate a directory
+     * listing and place the directory listing into the bucket under this key.
+     * 
      * @parameter expression="${defaultObject}" default-value="index.html";
      */
     private String defaultObject;
