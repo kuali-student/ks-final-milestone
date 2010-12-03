@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSFooter;
+import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
@@ -46,6 +47,7 @@ public class LUMMainEntryPoint implements EntryPoint{
 
     private ApplicationController manager = null;
     private AppLocations locations = new AppLocations();
+    private ApplicationHeader header = GWT.create(ApplicationHeader.class);
     @Override
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();
@@ -62,7 +64,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
 
     private void initScreen(){
-        manager = new ApplicationController("KualiStudent", new ApplicationHeader());
+        manager = new ApplicationController("KualiStudent", header);
         WindowTitleUtils.setApplicationTitle(Application.getApplicationContext().getMessage("applicationName"));
         ApplicationPanel.get().add(manager);
         ApplicationPanel.get().add(new KSFooter());

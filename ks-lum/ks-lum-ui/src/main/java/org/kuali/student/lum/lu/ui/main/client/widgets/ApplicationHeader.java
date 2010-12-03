@@ -71,7 +71,7 @@ public class ApplicationHeader extends Composite{
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
-	private KSHeader ksHeader = new KSHeader();
+	private KSHeader ksHeader = GWT.create(KSHeader.class);
 
 	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
