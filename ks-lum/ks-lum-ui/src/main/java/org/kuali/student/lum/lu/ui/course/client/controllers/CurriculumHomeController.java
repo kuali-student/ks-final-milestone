@@ -14,8 +14,9 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.credential.CredentialManager;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.core.CoreManager;
+import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
 public class CurriculumHomeController extends LayoutController {
@@ -27,9 +28,9 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
-    private final MajorManager majorManager = new MajorManager();
-    private final CredentialManager credentialManager = new CredentialManager();
-    private final CoreManager coreManager = new CoreManager();
+    private MajorManager majorManager = new MajorManager();
+    private CredentialManager credentialManager = new CredentialManager();
+    private CoreManager coreManager = new CoreManager();
 
     private abstract class RunAsyncGetView implements RunAsyncCallback {
         public void onFailure(Throwable reason) {
@@ -100,6 +101,10 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                        if (ProgramRegistry.isCreateNew()) {
+                            ProgramRegistry.setCreateNew(false);
+                            majorManager = new MajorManager();
+                        }
                         callback.exec(majorManager.getProgramViewController());
                     }
                 });
@@ -108,6 +113,10 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                        if (ProgramRegistry.isCreateNew()) {
+                            ProgramRegistry.setCreateNew(false);
+                            majorManager = new MajorManager();
+                        }
                         callback.exec(majorManager.getProgramEditController());
                     }
                 });

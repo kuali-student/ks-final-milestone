@@ -19,6 +19,8 @@ public class ProgramRegistry {
 
     private static HashMap<GwtEvent.Type, EventHandler> specializationHandlers = new HashMap<GwtEvent.Type, EventHandler>();
 
+    private static boolean createNew = false;
+
     public static Data getData() {
         return data;
     }
@@ -43,11 +45,19 @@ public class ProgramRegistry {
         ProgramRegistry.section = section;
     }
 
-    public static void addHandler(GwtEvent.Type<?> type, EventHandler handler){
+    public static void addHandler(GwtEvent.Type<?> type, EventHandler handler) {
         specializationHandlers.put(type, handler);
     }
 
     public static HashMap<GwtEvent.Type, EventHandler> getSpecializationHandlers() {
         return specializationHandlers;
+    }
+
+    public static boolean isCreateNew() {
+        return createNew;
+    }
+
+    public static void setCreateNew(boolean createNew) {
+        ProgramRegistry.createNew = createNew;
     }
 }

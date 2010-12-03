@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 
@@ -201,6 +202,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
                         viewContext.setAttribute(ProgramConstants.VARIATION_ID, variationId);
                     }
                     viewContext.setIdType(IdType.OBJECT_ID);
+                    ProgramRegistry.setCreateNew(true);
                     Application.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
                     ((KSPicker) searchWidget).getSearchWindow().hide();
                 }
