@@ -56,12 +56,12 @@
     <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
     <ref bean="majorDisciplineInfo.unitsDeployment"/>
     <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
-    <ref bean="majorDisciplineInfo.unitsFinancialControl"/>    
+    <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
 
     <ref bean="majorDisciplineInfo.type"/>
     <ref bean="majorDisciplineInfo.state"/>
     <ref bean="majorDisciplineInfo.id"/>
-    
+
     <ref bean="majorDisciplineInfo.versionInfo"/>
 
     <!-- Dynamic Attributes -->
@@ -70,7 +70,7 @@
     <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
     <ref bean="majorDisciplineInfo.durationNotes"/>
     <ref bean="majorDisciplineInfo.coreFaculties"/>
-    
+
     <ref bean="majorDisciplineInfo.searchProgramVersions"/>
    </list>
   </property>
@@ -1307,7 +1307,7 @@
  <bean id="majorDisciplineInfo.coreFaculties" parent="majorDisciplineInfo.coreFaculties-parent"/>
 
  <bean id="majorDisciplineInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
- 
+
  <bean id="programVariationInfo.coreFaculties-parent" abstract="true" parent="baseStringLong">
   <property name="name" value="coreFaculties"/>
   <property name="dynamic" value="true"/>
@@ -1348,7 +1348,7 @@
     <ref bean="coreProgramInfo.unitsContentOwner"/>
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
-    
+
     <ref bean="coreProgramInfo.searchProgramVersions"/>
    </list>
   </property>
@@ -1358,7 +1358,7 @@
        parent="org.kuali.student.lum.program.dto.CoreProgramInfo-parent"/>
 
  <bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
-	
+
  <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
  </bean>
@@ -1509,8 +1509,8 @@
     <ref bean="credentialProgramInfo.unitsContentOwner"/>
     <ref bean="credentialProgramInfo.unitsStudentOversight"/>
     <ref bean="credentialProgramInfo.universityClassification"/>
-    
-    <ref bean="credentialProgramInfo.searchProgramVersions"/>    
+
+    <ref bean="credentialProgramInfo.searchProgramVersions"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1651,7 +1651,7 @@
        parent="credentialProgramInfo.universityClassification-parent"/>
 
  <bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
- 
+
  <!-- MinorDisciplineInfo-->
  <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent" abstract="true"
        parent="objectStructureDefinition">
@@ -1719,11 +1719,84 @@
  <bean id="org.kuali.student.lum.program.dto.ProgramRequirementInfo"
        parent="org.kuali.student.lum.program.dto.ProgramRequirementInfo-parent"/>
 
- <bean id="programRequirementInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+ <bean id="programRequirementInfo.descr-parent" abstract="true" parent="cluInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="programRequirementInfo.descr.RichTextInfo" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.descr-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
+
+ <bean id="programRequirementInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="programRequirementInfo.descr.formatted" />
+    <ref bean="programRequirementInfo.descr.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="programRequirementInfo.descr.RichTextInfo" parent="programRequirementInfo.descr.RichTextInfo-parent" />
+
+ <bean id="programRequirementInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+ </bean>
+ <bean id="programRequirementInfo.descr.formatted" parent="programRequirementInfo.descr.formatted-parent" />
+
+ <bean id="programRequirementInfo.descr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
+  <property name="name" value="plain" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding maxLength = 300 -->
+        <bean parent="richTextInfo.plain-parent">
+         <property name="maxLength" value="300" />
+         <property name="minLength" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+ </bean>
+ <bean id="programRequirementInfo.descr.plain" parent="programRequirementInfo.descr.plain-parent" />
 
  <bean id="programRequirementInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
   <property name="name" value="id"/>
@@ -1751,11 +1824,13 @@
  <bean id="programRequirementInfo.minCredits-parent" abstract="true" parent="baseInteger">
   <property name="name" value="minCredits"/>
   <property name="minOccurs" value="1"/>
+  <property name="maxLength" value="5"/>
  </bean>
  <bean id="programRequirementInfo.minCredits" parent="programRequirementInfo.minCredits-parent"/>
  <bean id="programRequirementInfo.maxCredits-parent" abstract="true" parent="baseInteger">
   <property name="name" value="maxCredits"/>
   <property name="minOccurs" value="1"/>
+  <property name="maxLength" value="5"/>
  </bean>
  <bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
  <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">

@@ -50,7 +50,7 @@
 	text-align: left;
 	font-size: 11px;
 	padding-bottom: 20px;
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 .KS-FormLayout-Field {
@@ -63,7 +63,7 @@
 }
 
 .KS-Course-Save-Button{
-	margin-left: 100px;	
+	margin-left: 100px;
 }
 
 .KS-Course-Number {
@@ -90,17 +90,17 @@
 .KS-LOBuilder-Spacer-Panel {
 	padding: 10px;
 	width: 250px;
-	
+
 }
 .KS-LOBuilder-Search-Image {
 	cursor: pointer;
-	
+
 }
 .KS-LOBuilder-Search-Link {
 	color: blue;
 	font-size: 70%;
 	cursor: pointer;
-	
+
 }
 
 .KS-LOBuilder-Instructions {
@@ -291,7 +291,7 @@ margin-bottom: 15px;
 }
 
 .KS-LOSelectedCategories {
-    margin-left: 0px;	
+    margin-left: 0px;
 }
 .KS-LOSelectedCategories .ks-selected-list-value {
                       border-bottom: #cdcdcd 1px solid;
@@ -548,6 +548,14 @@ padding:10px
 	font-weight: bold;
 	width: 130px;
 	text-align:left
+}
+
+.KS-Program-Rule-ObjectView-Button{
+    padding-top: 16px;
+}
+
+a.KS-Program-Rule-ObjectView-Button{
+    padding-top: 16px;
 }
 
 .acknowledgements{

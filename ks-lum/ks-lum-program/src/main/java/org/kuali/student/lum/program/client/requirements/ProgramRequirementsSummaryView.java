@@ -1,13 +1,27 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -23,11 +37,16 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.statement.dto.*;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
@@ -53,10 +72,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
-    private Map<String, KSLabel> noRuleTextMap = new HashMap<String, KSLabel>();
     private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
     private BasicLayout reqCompController;
-    private FlowPanel holdFieldsPanel = new FlowPanel();    
+    private FlowPanel holdFieldsPanel = new FlowPanel();
 
     //view's data
     private ProgramRequirementsViewController parentController;
@@ -95,7 +113,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         this.isReadOnly = isReadOnly;
         rules = new ProgramRequirementsDataModel(eventBus);
 
-        if (!isReadOnly) {        
+        if (!isReadOnly) {
             setupSaveCancelButtons();
         }
     }
@@ -125,17 +143,17 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             });
             return;
         }
-        onReadyCallback.exec(true);        
+        onReadyCallback.exec(true);
     }
 
     public void storeRules(final Callback<Boolean> callback) {
         rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
             @Override
-            public void exec(List<ProgramRequirementInfo> programReqInfos) {                
+            public void exec(List<ProgramRequirementInfo> programReqInfos) {
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
                 }
-                callback.exec(true);                
+                callback.exec(true);
             }
         });
     }
@@ -167,10 +185,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                         break;
                 }
             }
-        }       
-    }    
+        }
+    }
 
-    public void displayRules() {       
+    public void displayRules() {
         remove(layout);
         layout.clear();
 
@@ -179,10 +197,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
             //pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
             pageTitle.addStyleName("ks-layout-header");// change the header to green
-            
+
             layout.add(pageTitle);
         }
-        
+
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
         perProgramRequirementTypePanel.clear();
@@ -192,7 +210,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             SpanPanel requirementsPanel = new SpanPanel();
             perProgramRequirementTypePanel.put(stmtTypeInfo.getId(), requirementsPanel);
             displayRequirementSectionForGivenType(requirementsPanel, stmtTypeInfo, firstRequirement);
-            updateTotalCreditPerType(stmtTypeInfo.getId());            
+            updateTotalCreditPerType(stmtTypeInfo.getId());
             firstRequirement = false;
 
             //now display each requirement for this Program Requirement type
@@ -213,7 +231,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, boolean firstRequirement) {
 
         //display header for this Program Requirement type e.g. Entrance Requirements; make the header plural
-        SectionTitle title = SectionTitle.generateH4Title(stmtTypeInfo.getName());
+        SectionTitle title = SectionTitle.generateH3Title(stmtTypeInfo.getName());
         title.setStyleName((firstRequirement ? "KS-Program-Requirements-Preview-Rule-Type-First-Header" : "KS-Program-Requirements-Preview-Rule-Type-Header"));
         layout.add(title);
 
@@ -221,6 +239,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         KSLabel totalCredits = new KSLabel();
         totalCredits.addStyleName("KS-Program-Requirements-Preview-Rule-Type-Credits");
         perProgramRequirementTypeTotalCredits.put(stmtTypeInfo.getId(), totalCredits);
+        totalCredits.setVisible(false);
         layout.add(totalCredits);
 
         //add rule description
@@ -243,16 +262,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         }
 
         layout.add(requirementsPanel);
-        
-        //add widget for displaying "No entrance requirement currently exist for this program"
-        String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule(stmtTypeInfo.getName().toLowerCase());
-        KSLabel ruleDesc = new KSLabel(noRuleText);
-        if (!isReadOnly) {    //TODO we need 2 different styles
-            ruleDesc.addStyleName("KS-Program-Requirements-Preview-No-Rule-Text");
-        }
-        noRuleTextMap.put(stmtTypeInfo.getId(), ruleDesc);
-        setupNoRuleText(stmtTypeInfo.getId());
-        layout.add(ruleDesc);
     }
 
     private RulePreviewWidget addProgramRequirement(final SpanPanel requirementsPanel, final ProgramRequirementInfo progReqInfo) {
@@ -264,7 +273,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         int maxCredits = (progReqInfo.getMaxCredits() == null ? 0 : progReqInfo.getMaxCredits());
         String plainDesc =  (progReqInfo.getDescr() == null ? "" : progReqInfo.getDescr().getPlain());
         final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(internalProgReqID, progReqInfo.getShortTitle(),
-                                                            getTotalCreditsString(minCredits, maxCredits), 
+                                                            getTotalCreditsString(minCredits, maxCredits),
                                                             plainDesc, progReqInfo.getStatement(),
                                                             isReadOnly, getCluSetWidgetList(progReqInfo.getStatement()));
         addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeId, internalProgReqID);
@@ -293,7 +302,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
                         //remove rule from display
                         requirementsPanel.remove(rulePreviewWidget);
-                        setupNoRuleText(stmtTypeId);
                         updateTotalCreditPerType(stmtTypeId);
                         dialog.hide();
                     }
@@ -417,7 +425,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
 
         createAddProgramReqDialog(dialog, actionCancelButtons, internalProgReqID);
-    }    
+    }
 
     private void createAddProgramReqDialog(final KSLightBox dialog, final ActionCancelGroup actionCancelButtons, final Integer internalProgReqID) {
 
@@ -433,7 +441,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             public void onModelReady(Model model) {
 
                 //program has to be in the database before we can save program requirements
-                String programId = ((DataModel)model).getRoot().get(ProgramConstants.ID);                
+                String programId = ((DataModel)model).getRoot().get(ProgramConstants.ID);
                 if (programId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Save Program Key Info", "Before saving rules please save program key info");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){
@@ -469,30 +477,35 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
+    private static FieldDescriptor createInputField(final String id, final Metadata metadata, final Map<String, Metadata> fieldDefinitionMetadata, final Map<String, FieldDescriptor> fields) {
+    	FieldDescriptor fd = new FieldDescriptor(id, new MessageKeyInfo("program", "program", "draft", id), metadata);
+        fields.put(id, fd);
+
+        //add field to the data model metadata
+        fieldDefinitionMetadata.put(id, metadata);
+
+        return fd;
+    }
     //TODO rework to use Configurer if possible
     private void showDialog(final KSLightBox dialog, final ActionCancelGroup actionCancelButtons, Metadata metadata, Integer internalProgReqID) {
 
-        String[] fieldIds = {"shortTitle", "minCredits", "maxCredits", "descr"};
-        String[] fieldLabels = {"Name", "Minimum expected credits", "Maximum expected credits", "Description"};        
         Map<String, Metadata> fieldDefinitionMetadata = new HashMap<String,Metadata>();
-        Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();        
+        Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();
         VerticalSectionView dialogPanel = new VerticalSectionView(ProgramReqDialogView.VIEW, "", PROG_REQ_MODEL_ID, false);
         holdFieldsPanel.clear();
 
-        for (int i = 0; i < 4; i++) {
+        dialogPanel.addField(createInputField("shortTitle", metadata.getProperties().get("shortTitle"), fieldDefinitionMetadata, fields));
+        FieldDescriptor minFd = createInputField("minCredits", metadata.getProperties().get("minCredits"), fieldDefinitionMetadata, fields);
+        FieldDescriptor maxFd = createInputField("maxCredits", metadata.getProperties().get("maxCredits"), fieldDefinitionMetadata, fields);
+        GroupSection credits = new GroupSection();
+        credits.addField(minFd);
+        credits.addField(maxFd);
+        dialogPanel.addSection(credits);
+        final Metadata descrMetadata = metadata.getProperties().get("descr").getProperties().get("plain");
+		dialogPanel.addField(createInputField("descr", descrMetadata, fieldDefinitionMetadata, fields));
 
-            Metadata fieldMetadata = metadata.getProperties().get(fieldIds[i]);
-            if (fieldIds[i].equals("descr")) {
-                fieldMetadata = fieldMetadata.getProperties().get("plain");                
-            }
-            String fieldPath = fieldIds[i];
-            FieldDescriptor fd = new FieldDescriptor(fieldPath, new MessageKeyInfo(fieldLabels[i]), fieldMetadata);
-            dialogPanel.addField(fd);
-            fields.put(fieldPath, fd);
-
-            //add field to the data model metadata
-            fieldDefinitionMetadata.put(fieldPath, fieldMetadata);
-        }
+        List<ConstraintMetadata> constraints = descrMetadata.getConstraints();
+        dialogPanel.addWidget(new KSLabel(constraints.get(0).getMaxLength() + getUILabel("descrLimit")));
 
         //setup data model
         Metadata modelDefinitionMetadata = new Metadata();
@@ -508,7 +521,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             ProgramRequirementInfo progReq = rules.getProgReqByInternalId(internalProgReqID);
             progReqData.set(QueryPath.parse("shortTitle"), progReq.getShortTitle());
             progReqData.set(QueryPath.parse("minCredits"), progReq.getMinCredits());
-            progReqData.set(QueryPath.parse("maxCredits"), progReq.getMaxCredits());    
+            progReqData.set(QueryPath.parse("maxCredits"), progReq.getMaxCredits());
             progReqData.set(QueryPath.parse("descr"), (progReq.getDescr() == null ? "" : progReq.getDescr().getPlain()));
         }
 
@@ -533,6 +546,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         dialog.setWidget(holdFieldsPanel);
         dialog.show();
     }
+
+	private String getUILabel(final String id) {
+		return Application.getApplicationContext().getUILabel("program", null, null, id);
+	}
 
     private void updateProgramInfo(SpanPanel requirementsPanel, String stmtTypeId, Integer internalProgReqID) {
 
@@ -561,7 +578,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         text.setPlain((String)(progReqData.getRoot().get("descr")));
         progReqInfo.setDescr(text);
         progReqInfo.setShortTitle((String)progReqData.getRoot().get("shortTitle"));
-        progReqInfo.setLongTitle((String)progReqData.getRoot().get("shortTitle"));        
+        progReqInfo.setLongTitle((String)progReqData.getRoot().get("shortTitle"));
         progReqInfo.setMinCredits((Integer)progReqData.getRoot().get("minCredits"));
         progReqInfo.setMaxCredits((Integer)progReqData.getRoot().get("maxCredits"));
 
@@ -584,10 +601,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         updateTotalCreditPerType(stmtTypeId);
     }
 
-    private void setupNoRuleText(String stmtTypeId) {
-        noRuleTextMap.get(stmtTypeId).setVisible(rules.isRuleExists(stmtTypeId));
-    }
-
     private String getTotalCreditsString(int min, int max) {
         return "Expected Total Credits:" + min + "-" + max;
     }
@@ -600,8 +613,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             max += ruleInfo.getMaxCredits();
         }
 
-        //update total
-        perProgramRequirementTypeTotalCredits.get(stmtTypeId).setText(getTotalCreditsString(min, max));
+        if (min != 0 || max != 0) {
+        	//update total
+        	perProgramRequirementTypeTotalCredits.get(stmtTypeId).setVisible(true);
+        	perProgramRequirementTypeTotalCredits.get(stmtTypeId).setText(getTotalCreditsString(min, max));
+        }
     }
 
     private void setupSaveCancelButtons() {

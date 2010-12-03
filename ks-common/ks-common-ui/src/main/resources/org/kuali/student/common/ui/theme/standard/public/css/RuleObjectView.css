@@ -20,37 +20,45 @@
 }
 
 .KS-Program-Rule-ObjectView-ButtonPanel{
-    padding: 10px;    
+    padding: 10px;
 }
 
 .KS-Program-Rule-ObjectView-OR-Button {
+	background: url("images/RuleOr.png") no-repeat center top;
     margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-AND-Button {
+	background: url("images/RuleAnd.png") no-repeat center top;
     margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-Group-Button {
+	background: url("images/RuleGroup.png") no-repeat center top;
     margin-left: 20px;
 }
 
 .KS-Program-Rule-ObjectView-Down-Button {
+	background: url("images/RuleDown.png") no-repeat center top;
     margin-left: 20px;
 }
 
 .KS-Program-Rule-ObjectView-Up-Button {
+	background: url("images/RuleUp.png") no-repeat center top;
     margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-Undo-Button {
+	background: url("images/RuleUndo.png") no-repeat center top;
     margin-left: 50px;
 }
 
 .KS-Program-Rule-ObjectView-Redo-Button {
+	background: url("images/RuleRedo.png") no-repeat center top;
     margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-Delete-Button {
+	background: url("images/RuleDelete.png") no-repeat center top;
     margin-left: 50px;
 }

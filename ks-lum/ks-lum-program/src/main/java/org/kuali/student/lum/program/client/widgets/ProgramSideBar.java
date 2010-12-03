@@ -42,12 +42,12 @@ public class ProgramSideBar extends Composite {
 
     private Label versionLabel;
     private Anchor viewVersion;
-    private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());    
+    private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
     private Label lastUpdatedDate = new Label();
     private SimplePanel scheduledReviewDate = new SimplePanel();
     private Label lastReviewDate = new Label();
     private final HandlerManager eventBus;
-    
+
     private ViewContext viewContext;
 
     private final SideBarDialogManager dialogManager;
@@ -100,9 +100,9 @@ public class ProgramSideBar extends Composite {
             lastUpdatedDate.setText("");
         }
     }
-    
+
     private void setVersion(Long version, Label versionaLabel){
-    	if (version != null){    		
+    	if (version != null){
        		viewVersion.setVisible(version >= 1);
     		versionLabel.setText(ProgramProperties.get().sideBar_version(String.valueOf(version)));
     	} else {
@@ -126,12 +126,17 @@ public class ProgramSideBar extends Composite {
 
     private void buildLayout() {
         content.clear();
+        Label history = new Label(ProgramProperties.get().sideBar_history());
+        history.addStyleName("KS-Program-History");
+        content.add(history);
+
         content.add(createVersionPanel());
         content.add(createDatePanel(ProgramProperties.get().sideBar_programLastUpdated(), lastUpdatedDate, false));
         if (type == Type.MAJOR) {
             content.add(createDatePanel(ProgramProperties.get().sideBar_scheduledReviewDate(), scheduledReviewDate, true));
             content.add(createDatePanel(ProgramProperties.get().sideBar_lastReviewDate(), lastReviewDate, true));
         }
+        content.add(createVersionHistoryPanel());
     }
 
     private Widget createDatePanel(String title, Widget widget, boolean showEdit) {
@@ -155,9 +160,22 @@ public class ProgramSideBar extends Composite {
         return verticalPanel;
     }
 
+    private Widget createHistoryPanel(){
+    	VerticalPanel  verticalPanel = new VerticalPanel();
+    	versionLabel = new Label(ProgramProperties.get().sideBar_version(""));
+    	verticalPanel.add(versionLabel);
+    	return verticalPanel;
+    }
+
     private Widget createVersionPanel(){
     	VerticalPanel  verticalPanel = new VerticalPanel();
     	versionLabel = new Label(ProgramProperties.get().sideBar_version(""));
+    	verticalPanel.add(versionLabel);
+    	return verticalPanel;
+    }
+
+    private Widget createVersionHistoryPanel(){
+    	VerticalPanel  verticalPanel = new VerticalPanel();
     	viewVersion = new Anchor(ProgramProperties.get().sideBar_viewHistory());
     	viewVersion.addClickHandler(new ClickHandler(){
 			@Override
@@ -167,19 +185,18 @@ public class ProgramSideBar extends Composite {
 					case CORE: HistoryManager.navigate(AppLocations.Locations.VIEW_CORE_VERSIONS.getLocation()); break;
 					case CREDENTIAL: HistoryManager.navigate(AppLocations.Locations.VIEW_BACC_VERSIONS.getLocation()); break;
 				}
-					
+
 
 			}
-    		
+
     	});
     	//viewVersion.setVisible(false);
-    	
-    	verticalPanel.add(versionLabel);
+
     	verticalPanel.add(viewVersion);
-    	
+
     	return verticalPanel;
     }
-    
+
     public void setState(State state) {
         this.state = state;
         buildLayout();
@@ -187,6 +204,7 @@ public class ProgramSideBar extends Composite {
 
     private void setStyles() {
         content.addStyleName("sideBar");
+        content.addStyleName("KS-Program-History-Sidebar");
         historyLabel.addStyleName("history");
     }
 
