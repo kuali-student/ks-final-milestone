@@ -206,6 +206,8 @@ public class DataModel implements Model {
                     if (relativePath.contains("/")) {
                         relativePath = relativePath.substring(parentPath.length());
                         result.put(QueryPath.parse(relativePath), resultValue);
+                    }else{
+                       result.put(resultPath, resultValue); 
                     }
                 } else {
                     result.put(resultPath, resultValue);
