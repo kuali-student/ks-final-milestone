@@ -1,11 +1,10 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -18,11 +17,7 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
+import java.util.*;
 
 /**
  * @author Igor
@@ -36,9 +31,9 @@ public class ProgramUtils {
 
     public static void addCredentialProgramDataToVariation(Data variationData, DataModel model) {
         Data credentialProgram = new Data();
-        credentialProgram.set(ProgramConstants.INSTITUTION, model.<Data> get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION));
+        credentialProgram.set(ProgramConstants.INSTITUTION, model.<Data>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION));
         credentialProgram.set(ProgramConstants.PROGRAM_LEVEL, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL));
-        credentialProgram.set(ProgramConstants.SHORT_TITLE, model.<String> get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.SHORT_TITLE));
+        credentialProgram.set(ProgramConstants.SHORT_TITLE, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.SHORT_TITLE));
 
         variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credentialProgram);
     }
@@ -131,6 +126,7 @@ public class ProgramUtils {
             for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
                 eventBus.removeHandler(typeEventHandlerEntry.getKey(), typeEventHandlerEntry.getValue());
             }
+            eventsMap.clear();
         }
     }
 }
