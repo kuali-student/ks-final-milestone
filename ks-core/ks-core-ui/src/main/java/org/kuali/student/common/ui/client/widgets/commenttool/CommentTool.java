@@ -217,6 +217,8 @@ public class CommentTool implements HasReferenceId {
                             RichTextInfo text = new RichTextInfo();
                             text.setFormatted(commentTextArea.getText());
                             text.setPlain(commentTextArea.getText());
+                            selectedComment.setReferenceId(referenceId);
+                            selectedComment.setReferenceTypeKey(referenceTypeKey);
                             selectedComment.setCommentText(text);
 //                            selectedComment.setType("commentType." + referenceType + "." + referenceState);
                             selectedComment.setType(commentTypeKey);
