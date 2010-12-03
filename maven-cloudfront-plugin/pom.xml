@@ -11,8 +11,22 @@
   <packaging>maven-plugin</packaging>
   <version>1.0.1-SNAPSHOT</version>
   <name>Maven Cloud Front Plugin</name>
-  <url>http://site.ks.kuali.org/${project.artifactId}/${project.version}</url>
+  <url>http://${kuali.s3.bucket}/${project.artifactId}/${project.version}</url>
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
+  <properties>
+    <kuali.s3.bucket>site.ks.kuali.org</kuali.s3.bucket>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.cloudfront</groupId>
+        <artifactId>maven-cloudfront-plugin</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -111,7 +125,7 @@
     <site>
       <id>kuali.site</id>
       <name>Kuali Maven Site</name>
-      <url>s3://site.ks.kuali.org/${project.artifactId}/${project.version}/</url>
+      <url>s3://${kuali.s3.bucket}/${project.artifactId}/${project.version}/</url>
     </site>
   </distributionManagement>
   <scm>
