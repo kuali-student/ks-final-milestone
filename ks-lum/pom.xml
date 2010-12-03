@@ -88,7 +88,7 @@
       </modules>
     </profile>
     <profile>
-      <id>skip-gwt</id>
+      <id>skip-ui</id>
       <modules>
         <module>ks-lum-sql</module>
         <module>ks-lum-api</module>

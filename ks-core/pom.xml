@@ -81,7 +81,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
       </modules>
     </profile>
     <profile>
-      <id>skip-gwt</id>
+      <id>skip-ui</id>
       <modules>
         <module>ks-core-rice</module>
         <module>ks-core-api</module>

@@ -65,7 +65,7 @@
       </modules>
     </profile>
     <profile>
-      <id>skip-gwt</id>
+      <id>skip-ui</id>
       <modules>
         <module>ks-common</module>
         <module>ks-security</module>
