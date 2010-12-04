@@ -124,6 +124,7 @@ public class VariationEditController extends VariationController {
                     if (null != specId && specId.equals(currSpecializationId) && prop.getValueType().equals(Data.class)) {
                         // found it
                         programModel.setRoot((Data) prop.getValue());
+                        showView(getCurrentViewEnum());
                     }
                 }
             }
