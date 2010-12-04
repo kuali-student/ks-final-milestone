@@ -37,6 +37,7 @@ public class MajorManager {
     public MajorManager() {
         eventBus = new HandlerManager(null);
         programModel = new DataModel();
+        ProgramRegistry.getSpecializationHandlers().clear();
     }
 
     public MajorViewController getProgramViewController() {

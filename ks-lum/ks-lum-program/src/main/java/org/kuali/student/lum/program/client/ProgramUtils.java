@@ -126,7 +126,6 @@ public class ProgramUtils {
             for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
                 eventBus.removeHandler(typeEventHandlerEntry.getKey(), typeEventHandlerEntry.getValue());
             }
-            eventsMap.clear();
         }
     }
 }
