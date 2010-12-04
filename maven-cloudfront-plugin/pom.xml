@@ -11,15 +11,15 @@
   <packaging>maven-plugin</packaging>
   <version>1.0.1-SNAPSHOT</version>
   <name>Maven Cloud Front Plugin</name>
-  <url>${kuali.site.public.url}</url>
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <properties>
     <kuali.site.path>/maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
   </properties>
+  <url>${kuali.site.public.url}</url>
   <distributionManagement>
     <site>
       <id>kuali.site</id>
-      <name>Kuali Maven Site</name>
+      <name>Maven Site</name>
       <url>${kuali.site.publish.url}</url>
     </site>
   </distributionManagement>
