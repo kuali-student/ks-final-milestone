@@ -15,9 +15,14 @@
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <properties>
     <kuali.site.path>/maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
-    <kuali.site.public.url>http://${kuali.cloudfront.distribution.cname}${kuali.site.path}</kuali.site.public.url>
-    <kuali.site.publish.url>s3://${kuali.s3.origin.bucket}${kuali.site.path}</kuali.site.publish.url>
   </properties>
+  <distributionManagement>
+    <site>
+      <id>kuali.site</id>
+      <name>Kuali Maven Site</name>
+      <url>${kuali.site.publish.url}</url>
+    </site>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -112,13 +117,6 @@
       </plugin>
     </plugins>
   </reporting>
-  <distributionManagement>
-    <site>
-      <id>kuali.site</id>
-      <name>Kuali Maven Site</name>
-      <url>${kuali.site.publish.url}</url>
-    </site>
-  </distributionManagement>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-cloudfront-plugin</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-cloudfront-plugin</developerConnection>
