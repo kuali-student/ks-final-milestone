@@ -163,7 +163,7 @@
         <plugin>
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
-          <version>${clover2.plugin.version}</version>
+          <version>${kuali.clover.plugin.version}</version>
           <configuration>
             <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
 mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
@@ -435,7 +435,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>${clover2.plugin.version}</version>
+        <version>${kuali.clover.plugin.version}</version>
         <configuration>
           <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
 mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]>
