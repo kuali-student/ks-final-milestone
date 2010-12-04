@@ -44,7 +44,7 @@
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
   </organization>
-  <url>http://maven.kuali.org/</url>
+  <url>${kuali.site.public.url}</url>
   <properties>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,8 +54,9 @@
     <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
     <javadoc.plugin.version>2.7</javadoc.plugin.version>
+    <clover2.plugin.version>3.0.2</clover2.plugin.version>
 
-    <kuali.extra.release.arguments />
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -65,6 +66,15 @@
 
     <!-- Overriding this to "initialize" will add Subversion info to jar's and war's (eg revision number, repository, etc) -->
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
+    
+    <!-- These properties are used when generating/deploying the maven generated site -->
+    <kuali.site.s3.origin.bucket>site.ks.kuali.org</kuali.site.s3.origin.bucket>
+    <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
+    <kuali.site.cloudfront.update.phase>site-deploy</kuali.site.cloudfront.update.phase>
+    <kuali.site.path></kuali.site.path>
+    <kuali.site.public.url>http://${kuali.site.cloudfront.cname}${kuali.site.path}</kuali.site.public.url>
+    <kuali.site.publish.url>s3://${kuali.site.s3.origin.bucket}${kuali.site.path}</kuali.site.publish.url>
+    <kuali.site.server.id>kuali.site</kuali.site.server.id>
   </properties>
   <repositories>
     <repository>
@@ -94,9 +104,9 @@
   </pluginRepositories>
   <distributionManagement>
     <site>
-      <id>kuali.site</id>
-      <name>Kuali Maven Site</name>
-      <url>s3://maven.kuali.org</url>
+      <id>${kuali.site.server.id}</id>
+      <name>Maven Site</name>
+      <url>${kuali.site.publish.url}</url>
     </site>
     <repository>
       <id>kuali.release</id>
@@ -153,11 +163,10 @@
         <plugin>
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>${clover2.plugin.version}</version>
           <configuration>
             <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
 mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
-            <generateHistorical>true</generateHistorical>
             <historyDir>${clover.history.dir}</historyDir>
           </configuration>
         </plugin>
@@ -270,7 +279,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>2.1-kuali-breadcrumbs-1</version>
+          <version>2.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -286,15 +295,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
           <artifactId>maven-svn-revision-number-plugin</artifactId>
           <version>1.5</version>
-          <executions>
-            <execution>
-              <id>svn-info</id>
-              <phase>${kuali.svn.info.phase}</phase>
-              <goals>
-                <goal>revision</goal>
-              </goals>
-            </execution>
-          </executions>
           <configuration>
             <entries>
               <entry>
@@ -346,9 +346,42 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.kuali.maven.cloudfront</groupId>
+        <artifactId>maven-cloudfront-plugin</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <configuration>
+          <bucket>${kuali.site.s3.origin.bucket}</bucket>
+          <serverId>${kuali.site.server.id}</serverId>
+          <forceMojoExecution>true</forceMojoExecution>
+        </configuration>
+        <executions>
+          <execution>
+            <id>update-bucket</id>
+            <phase>${kuali.site.cloudfront.update.phase}</phase>
+            <goals>
+              <goal>updateoriginbucket</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-clover-info</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>instrument</goal>
+              <goal>aggregate</goal>
+              <goal>save-history</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -402,10 +435,11 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>${clover2.plugin.version}</version>
         <configuration>
           <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]>
+          </license>
           <generateHistorical>true</generateHistorical>
           <historyDir>${clover.history.dir}</historyDir>
         </configuration>
