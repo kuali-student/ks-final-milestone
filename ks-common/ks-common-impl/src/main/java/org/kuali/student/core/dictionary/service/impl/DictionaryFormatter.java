@@ -386,6 +386,8 @@ public class DictionaryFormatter
    char c = str.charAt (i);
    switch (c)
    {
+    case '{':
+    case '}':
     case '[':
     case ']':
     case '|':
