@@ -6,7 +6,6 @@ package org.kuali.maven.mojo.s3;
 import junit.framework.TestCase;
 
 /**
- * @author jcaddel2
  * 
  */
 public class TagTest extends TestCase {
