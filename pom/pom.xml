@@ -69,13 +69,13 @@
     
     <!-- These properties are used when generating/deploying the maven generated site -->
     <!-- Note: The only reason this is "site.ks.kuali.org" instead of "site.kuali.org" is due to some kind of momentary issue deleting buckets on AWS at the moment -->
-    <kuali.site.origin.bucket>site.ks.kuali.org</kuali.site.origin.bucket>
+    <kuali.site.bucket>site.ks.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
-    <!-- <kuali.site.origin.bucket.update.phase>site-deploy</kuali.site.origin.bucket.update.phase> -->
+    <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
     <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.cloudfront.cname}/${kuali.site.path}</kuali.site.public.url>
-    <kuali.site.publish.url>s3://${kuali.site.origin.bucket}/${kuali.site.path}</kuali.site.publish.url>
+    <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
   </properties>
   <repositories>
@@ -167,7 +167,7 @@
           <artifactId>maven-cloudfront-plugin</artifactId>
           <version>1.0.1-SNAPSHOT</version>
           <configuration>
-            <bucket>${kuali.site.origin.bucket}</bucket>
+            <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
             <forceMojoExecution>true</forceMojoExecution>
           </configuration>
@@ -364,7 +364,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <execution>
             <id>update-bucket</id>
             <!-- Maven is not resolving this property correctly for some reason -->
-            <!-- <phase>site-deploy</phase> -->
+            <!-- <phase>${kuali.site.bucket.update.phase}</phase> -->
             <phase>site-deploy</phase>
             <goals>
               <goal>updateoriginbucket</goal>
