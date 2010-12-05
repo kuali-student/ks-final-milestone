@@ -69,6 +69,7 @@
     
     <!-- These properties are used when generating/deploying the maven generated site -->
     <kuali.site.s3.origin.bucket>site.ks.kuali.org</kuali.site.s3.origin.bucket>
+    <kuali.site.s3.bucket.update.phase>site-deploy</kuali.site.s3.bucket.update.phase>
     <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.cloudfront.cname}/${kuali.site.path}</kuali.site.public.url>
@@ -356,7 +357,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <executions>
           <execution>
             <id>update-bucket</id>
-            <phase>site-deploy</phase>
+            <phase>${kuali.site.s3.bucket.update.phase}</phase>
             <goals>
               <goal>updateoriginbucket</goal>
             </goals>
