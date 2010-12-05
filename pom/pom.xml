@@ -71,7 +71,7 @@
     <kuali.site.s3.origin.bucket>site.ks.kuali.org</kuali.site.s3.origin.bucket>
     <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
     <kuali.site.cloudfront.update.phase>site-deploy</kuali.site.cloudfront.update.phase>
-    <kuali.site.path></kuali.site.path>
+    <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.cloudfront.cname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.s3.origin.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
@@ -357,7 +357,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <executions>
           <execution>
             <id>update-bucket</id>
-            <phase>${kuali.site.cloudfront.update.phase}</phase>
+            <phase>site-deploy</phase>
             <goals>
               <goal>updateoriginbucket</goal>
             </goals>
