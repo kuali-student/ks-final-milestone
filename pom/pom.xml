@@ -45,6 +45,15 @@
     <url>http://www.kuali.org/</url>
   </organization>
   <url>${kuali.site.public.url}</url>
+  <developers>
+    <developer>
+      <id>jcaddel</id>
+      <name>Jeff Caddel</name>
+      <email>jcaddel@kuali.org</email>
+      <organization>rSmart</organization>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
   <properties>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
