@@ -68,10 +68,11 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
-    <kuali.site.origin.bucket>site.kuali.org</kuali.site.origin.bucket>
+    <!-- Note: The only reason this is "site.ks.kuali.org" instead of "site.kuali.org" is due to some kind of momentary issue deleting buckets on AWS at the moment -->
+    <kuali.site.origin.bucket>site.ks.kuali.org</kuali.site.origin.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.origin.bucket.update.phase>site-deploy</kuali.site.origin.bucket.update.phase> -->
-    <kuali.site.cloudfront.cname>site.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
+    <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.cloudfront.cname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.origin.bucket}/${kuali.site.path}</kuali.site.publish.url>
