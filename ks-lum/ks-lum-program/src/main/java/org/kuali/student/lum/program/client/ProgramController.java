@@ -362,7 +362,9 @@ public abstract class ProgramController extends MenuSectionController {
             onReadyCallback.exec(true);
             ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
         }
-        setModelData();
+        if (programModel.getRoot() != null) {
+            setModelData();
+        }
     }
 
     protected void setHeaderTitle() {
