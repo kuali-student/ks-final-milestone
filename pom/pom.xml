@@ -72,7 +72,7 @@
     <kuali.site.bucket>site.ks.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
-    <kuali.site.hostname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.hostname>
+    <kuali.site.hostname>${kuali.site.bucket}</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
