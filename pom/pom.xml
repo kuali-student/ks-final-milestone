@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>18-SNAPSHOT</version>
+  <version>18</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -65,7 +65,7 @@
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
 
-    <kuali.extra.release.arguments/>
+    <kuali.extra.release.arguments />
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -131,9 +131,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-18</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-18</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-18</url>
   </scm>
   <build>
     <extensions>
