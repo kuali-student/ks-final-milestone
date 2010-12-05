@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -237,6 +238,12 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
+    protected String getHtmlComment() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");
+        String date = sdf.format(new Date());
+        return "<!-- Generated on " + date + " -->\n";
+    }
+
     /**
      * Generate the full html page
      */
@@ -255,6 +262,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
 
         StringBuffer sb = new StringBuffer();
         sb.append(this.html.openTag(html));
+        sb.append(this.html.getIndentedContent(getHtmlComment()));
         sb.append(this.html.getTag(title, "Directory listing for " + directory));
         sb.append(this.html.openTag(head));
         sb.append(this.html.getIndentedContent("<link href=\"" + getCss() + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
