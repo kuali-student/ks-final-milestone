@@ -187,7 +187,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * If prefix is "foo/" and delimiter is "/" return "/"<br>
      * If prefix is "foo/bar/" and delimiter is "/" return "foo/"
      */
-    protected String getUpOneDirectoryPrefix(String prefix, String delimiter) {
+    protected String getUpOneDirectoryDest(String prefix, String delimiter) {
         if (prefix.endsWith(delimiter)) {
             prefix = prefix.substring(0, prefix.length() - 1);
         }
@@ -195,7 +195,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         if (pos == -1) {
             return delimiter;
         } else {
-            return prefix.substring(0, pos + 1);
+            return delimiter + prefix.substring(0, pos + 1);
         }
     }
 
@@ -422,7 +422,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         // Create some UI friendly strings
         String image = "";
         String show = ".." + delimiter;
-        String dest = getUpOneDirectoryPrefix(prefix, delimiter);
+        String dest = getUpOneDirectoryDest(prefix, delimiter);
         String ahref = html.getHref(dest, show);
         String date = "";
         String size = "";
