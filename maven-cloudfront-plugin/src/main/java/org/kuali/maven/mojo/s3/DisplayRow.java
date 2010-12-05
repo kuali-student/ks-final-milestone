@@ -1,8 +1,7 @@
 package org.kuali.maven.mojo.s3;
 
 /**
- * 
- *
+ * Pojo that represents one row in the directory listing of the contents of a directory in an S3 bucket
  */
 public class DisplayRow {
     String image;

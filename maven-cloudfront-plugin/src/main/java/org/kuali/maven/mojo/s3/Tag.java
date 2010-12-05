@@ -1,5 +1,8 @@
 package org.kuali.maven.mojo.s3;
 
+/**
+ * Lightweight pojo for helping generate html
+ */
 public class Tag {
 
     String name;

@@ -1,5 +1,8 @@
 package org.kuali.maven.mojo.s3;
 
+/**
+ * Helper pojo for marking up the html for a column in an html table
+ */
 public class ColumnDecorator {
 
     String tableDataClass;

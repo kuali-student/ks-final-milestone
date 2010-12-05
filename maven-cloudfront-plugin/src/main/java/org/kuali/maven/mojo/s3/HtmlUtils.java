@@ -2,6 +2,9 @@ package org.kuali.maven.mojo.s3;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Utility methods for generating html
+ */
 public class HtmlUtils {
 
     int indent = 0;
