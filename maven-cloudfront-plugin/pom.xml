@@ -16,6 +16,15 @@
     <kuali.site.path>maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
   </properties>
   <url>${kuali.site.public.url}</url>
+  <developers>
+    <developer>
+      <id>jcaddel</id>
+      <name>Jeff Caddel</name>
+      <email>jcaddel@kuali.org</email>
+      <organization>rSmart</organization>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
   <distributionManagement>
     <site>
       <id>${kuali.site.server.id}</id>
