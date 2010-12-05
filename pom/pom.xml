@@ -70,7 +70,6 @@
     <!-- These properties are used when generating/deploying the maven generated site -->
     <kuali.site.s3.origin.bucket>site.ks.kuali.org</kuali.site.s3.origin.bucket>
     <kuali.site.cloudfront.cname>site.ks.kuali.org.s3.amazonaws.com</kuali.site.cloudfront.cname>
-    <kuali.site.cloudfront.update.phase>site-deploy</kuali.site.cloudfront.update.phase>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.cloudfront.cname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.s3.origin.bucket}/${kuali.site.path}</kuali.site.publish.url>
