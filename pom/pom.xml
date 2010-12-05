@@ -174,7 +174,7 @@
         <plugin>
           <groupId>org.kuali.maven.cloudfront</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.1-SNAPSHOT</version>
+          <version>1.0.0</version>
           <configuration>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
