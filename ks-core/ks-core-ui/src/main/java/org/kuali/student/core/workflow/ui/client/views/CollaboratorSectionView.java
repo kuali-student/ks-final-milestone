@@ -289,7 +289,6 @@ public class CollaboratorSectionView extends SectionView {
             actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
 			
 		}
-		actionRequestList.selectItem(ActionRequestType.FYI.getActionRequestCode());
 		actionRequestList.setListItems(actionRequestListItems);		
 		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
 	}
