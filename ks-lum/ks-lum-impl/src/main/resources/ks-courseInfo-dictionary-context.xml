@@ -403,6 +403,34 @@
  <bean id="courseInfo.descr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="1000" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+		 <value>SUBMITTED</value>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="richTextInfo.plain-parent">
+         <property name="minOccurs" value="1" />
+         <property name="minLength" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>  
  </bean>
  <bean id="courseInfo.descr.plain" parent="courseInfo.descr.plain-parent" />
 
