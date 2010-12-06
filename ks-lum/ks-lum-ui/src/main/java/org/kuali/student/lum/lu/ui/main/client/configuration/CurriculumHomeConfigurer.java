@@ -1,7 +1,13 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import java.util.List;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -19,18 +25,11 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
-public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
+import java.util.List;
+
+public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
     protected Metadata searchMetadata;
 
@@ -46,7 +45,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
                 getMessage(CREATE_DESC));
         create.addNavLinkWidget(getMessage(CREATE_COURSE), AppLocations.Locations.COURSE_PROPOSAL.getLocation());
         create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-        
+
 
         //View + Modify
         LinkContentBlock viewModify = new LinkContentBlock(
@@ -64,13 +63,13 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
-        
+
         //RecentlyViewed
         RecentlyViewedBlock recent = new RecentlyViewedBlock(
                 getMessage(RECENTLY_VIEWED),
                 getMessage(RV_DESC));
         recent.addStyleName("recentlyViewed-block");
-        
+
         //Tools
         LinkContentBlock tools = new LinkContentBlock(
                 getMessage(TOOLS),
@@ -101,6 +100,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                ProgramRegistry.setCreateNew(true);
                 ViewContext baccViewContext = new ViewContext();
                 baccViewContext.setId(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM);
                 Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), baccViewContext);
@@ -114,6 +114,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                ProgramRegistry.setCreateNew(true);
                 Application.navigate(AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation());
             }
         });
@@ -231,7 +232,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
         widget.setStyleName("contentBlock-navLink");
         return widget;
     }
-    
+
     protected Widget getActionListLink() {
         Hyperlink widget = new Hyperlink(getMessage(ACTIONLIST), AppLocations.Locations.HOME.getLocation());
         widget.setStyleName("contentBlock-navLink");

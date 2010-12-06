@@ -17,16 +17,17 @@ public class CoreManager {
     private CoreViewController viewController;
 
     private CoreEditController editController;
-    
+
     private ProgramVersionsController programVersionsController;
 
     protected DataModel model;
 
     private ViewContext viewContext = new ViewContext();
 
-    private static HandlerManager eventBus = new HandlerManager(null);
+    private static HandlerManager eventBus;
 
     public CoreManager() {
+        eventBus = new HandlerManager(null);
         model = new DataModel();
     }
 
@@ -48,12 +49,12 @@ public class CoreManager {
     }
 
     public ProgramVersionsController getProgramVersionsController() {
-    	if (programVersionsController == null){
-    		programVersionsController = new ProgramVersionsController(model, ProgramSideBar.Type.CORE, viewContext, eventBus);
-    	}
-		return programVersionsController;
-	}
-    
+        if (programVersionsController == null) {
+            programVersionsController = new ProgramVersionsController(model, ProgramSideBar.Type.CORE, viewContext, eventBus);
+        }
+        return programVersionsController;
+    }
+
     public static HandlerManager getEventBus() {
         return eventBus;
     }

@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.credential.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -16,24 +18,15 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramRegistry;
-import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.program.client.*;
 import org.kuali.student.lum.program.client.credential.CredentialController;
-import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
-import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -42,6 +35,8 @@ public class CredentialEditController extends CredentialController {
 
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+
+    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -133,6 +128,41 @@ public class CredentialEditController extends CredentialController {
                 }
             }
         });
+        eventBus.addHandler(StateChangeEvent.TYPE, new StateChangeEvent.Handler() {
+            @Override
+            public void onEvent(final StateChangeEvent event) {
+                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            Callback<Boolean> callback = new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                        reloadMetadata = true;
+                                        loadMetadata(new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
+                                                    HistoryManager.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), context);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
+                            saveData(callback);
+                        } else {
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void doCancel() {
@@ -177,6 +207,9 @@ public class CredentialEditController extends CredentialController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
+                    if (previousState != null) {
+                        ProgramUtils.setStatus(programModel, previousState.getValue());
+                    }
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
@@ -184,6 +217,7 @@ public class CredentialEditController extends CredentialController {
                     }
                     okCallback.exec(false);
                 } else {
+                    previousState = null;
                     programModel.setRoot(result.getValue());
                     setHeaderTitle();
                     setStatus();

@@ -174,6 +174,10 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                        if (ProgramRegistry.isCreateNew()) {
+                            ProgramRegistry.setCreateNew(false);
+                            coreManager = new CoreManager();
+                        }
                         callback.exec(coreManager.getViewController());
                     }
                 });
@@ -198,6 +202,10 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                        if (ProgramRegistry.isCreateNew()) {
+                            ProgramRegistry.setCreateNew(false);
+                            credentialManager = new CredentialManager();
+                        }
                         callback.exec(credentialManager.getBaccViewController());
                     }
                 });
