@@ -105,7 +105,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				View view = result;
 				if (view == null) {
 		        	onReadyCallback.exec(false);
-		            throw new ControllerException("View not registered: " + viewType.toString());
+		            //throw new ControllerException("View not registered: " + viewType.toString());
 		        }
 		        beginShowView(view, viewType, onReadyCallback);
 				
