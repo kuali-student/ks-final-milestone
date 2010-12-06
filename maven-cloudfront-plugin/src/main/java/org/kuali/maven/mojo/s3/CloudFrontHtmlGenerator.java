@@ -53,14 +53,21 @@ public class CloudFrontHtmlGenerator {
     }
 
     protected String getHtmlComment() {
-        String date = sdf.format(new Date());
-        return "<!-- Generated on " + date + " -->\n";
+        return "<!-- Generated on " + sdf.format(new Date()) + " -->\n";
+    }
+
+    protected String getDocType() {
+        return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
+    }
+
+    protected String getMeta() {
+        return "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>";
     }
 
     /**
      * Generate the full html page
      */
-    protected String getHtml(List<String[]> data, String prefix, String delimiter) {
+    public String getHtml(List<String[]> data, String prefix, String delimiter) {
         String directory = getDirectory(prefix, delimiter);
 
         Tag html = new Tag("html");
@@ -74,8 +81,10 @@ public class CloudFrontHtmlGenerator {
         Tag span2 = new Tag("span", null, "footer-text");
 
         StringBuffer sb = new StringBuffer();
+        sb.append(getDocType());
         sb.append(this.html.openTag(html));
         sb.append(this.html.getIndentedContent(getHtmlComment()));
+        sb.append(this.html.getIndentedContent(getMeta()));
         sb.append(this.html.getTag(title, "Directory listing for " + directory));
         sb.append(this.html.openTag(head));
         sb.append(this.html.getIndentedContent("<link href=\"" + context.getCss() + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
