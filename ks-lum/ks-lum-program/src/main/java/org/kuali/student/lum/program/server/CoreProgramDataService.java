@@ -1,11 +1,20 @@
 package org.kuali.student.lum.program.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
@@ -20,7 +29,7 @@ public class CoreProgramDataService extends AbstractDataService {
     
     private ProgramService programService;
     private LuService luService;
-    
+
     @Override
     protected String getDefaultWorkflowDocumentType() {
         return null;
@@ -34,11 +43,7 @@ public class CoreProgramDataService extends AbstractDataService {
     @Override
     protected Object get(String id) throws Exception {
     	if (id==null || id.isEmpty()){
-	        List<String> coreIds = luService.getCluIdsByLuType(ProgramClientConstants.CORE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
-	        if (null == coreIds || coreIds.size() != 1) {
-	            throw new OperationFailedException("A single core program is required; database contains " + (null == coreIds ? "0" : coreIds.size() + "."));
-	        }
-	        return programService.getCoreProgram(coreIds.get(0));
+            return findCurrentCoreProgram();
     	} else {
     		return programService.getCoreProgram(id);
     	}
@@ -66,6 +71,43 @@ public class CoreProgramDataService extends AbstractDataService {
     @Override
     protected Class<?> getDtoClass() {
         return CoreProgramInfo.class;
+    }
+
+    private CoreProgramInfo findCurrentCoreProgram() throws MissingParameterException, InvalidParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        	    SearchRequest request = new SearchRequest();
+
+        //TODO find a better way to get this search, param and resultcolumn names
+        
+        CoreProgramInfo core = new CoreProgramInfo();
+        String coreProgramId = null;
+	    request.setSearchKey("lu.search.mostCurrent.union");
+
+        List<SearchParam> searchParams = new ArrayList<SearchParam>();
+        SearchParam qpv1 = new SearchParam();
+        qpv1.setKey("lu.queryParam.luOptionalType");
+        qpv1.setValue(ProgramClientConstants.CORE_PROGRAM);
+        searchParams.add(qpv1);
+
+        request.setParams(searchParams);
+
+        SearchResult searchResult = luService.search(request);
+        if (searchResult.getRows().size() > 0) {
+            for(SearchResultRow srrow : searchResult.getRows()){
+                List<SearchResultCell> srCells = srrow.getCells();
+                if(srCells != null && srCells.size() > 0){
+                    for(SearchResultCell srcell : srCells){
+                        if (srcell.getKey().equals("lu.resultColumn.cluId")) {
+                            coreProgramId = srcell.getValue();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (coreProgramId != null) {
+            core = programService.getCoreProgram(coreProgramId);
+        }
+        return core;
     }
 
     public void setProgramService(ProgramService programService) {
