@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Generate directory listings in html format that is Amazon CloudFront friendly
+ */
 public class CloudFrontHtmlGenerator {
     HtmlUtils html = new HtmlUtils();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import com.amazonaws.services.s3.AmazonS3Client;
 
 /**
- * 
+ * Holds context information for S3
  */
 public class S3Context {
     AmazonS3Client client;

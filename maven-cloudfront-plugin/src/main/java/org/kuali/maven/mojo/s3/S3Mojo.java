@@ -16,6 +16,9 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+/**
+ * Abstract mojo containing S3 mojo essentials
+ */
 public abstract class S3Mojo extends BaseMojo {
     Mimetypes mimeTypes = Mimetypes.getInstance();
 
