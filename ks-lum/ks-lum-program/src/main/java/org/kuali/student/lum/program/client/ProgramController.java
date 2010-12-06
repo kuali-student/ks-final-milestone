@@ -264,6 +264,7 @@ public abstract class ProgramController extends MenuSectionController {
                     if (loadMetadataCondition()) {
                         loadMetadata(onReadyCallback);
                     } else {
+
                         onReadyCallback.exec(true);
                     }
                 }
@@ -394,6 +395,5 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     public void onModelLoadedEvent() {
-
     }
 }

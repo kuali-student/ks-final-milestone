@@ -111,23 +111,6 @@ public class CoreEditController extends CoreController {
                 doSave(event.getOkCallback());
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
-            @Override
-            public void onEvent(ModelLoadedEvent event) {
-                Enum<?> changeSection = ProgramRegistry.getSection();
-                if (changeSection != null) {
-                    showView(changeSection);
-                    ProgramRegistry.setSection(null);
-                } else {
-                    String id = (String) programModel.get(ProgramConstants.ID);
-                    if (id == null) {
-                        showView(ProgramSections.PROGRAM_DETAILS_EDIT);
-                    } else {
-                        showView(ProgramSections.SUMMARY);
-                    }
-                }
-            }
-        });
         eventBus.addHandler(StateChangeEvent.TYPE, new StateChangeEvent.Handler() {
             @Override
             public void onEvent(final StateChangeEvent event) {
@@ -274,5 +257,21 @@ public class CoreEditController extends CoreController {
 
     private void throwAfterSaveEvent() {
         eventBus.fireEvent(new AfterSaveEvent(programModel, this));
+    }
+
+    @Override
+    public void onModelLoadedEvent() {
+        Enum<?> changeSection = ProgramRegistry.getSection();
+        if (changeSection != null) {
+            showView(changeSection);
+            ProgramRegistry.setSection(null);
+        } else {
+            String id = (String) programModel.get(ProgramConstants.ID);
+            if (id == null) {
+                showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+            } else {
+                showView(ProgramSections.SUMMARY);
+            }
+        }
     }
 }
