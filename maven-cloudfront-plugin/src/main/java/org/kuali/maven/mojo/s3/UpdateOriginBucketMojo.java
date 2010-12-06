@@ -135,13 +135,14 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         AWSCredentials credentials = getCredentials();
         AmazonS3Client client = new AmazonS3Client(credentials);
         S3Context context = new S3Context();
-        context.setClient(client);
-        context.setLastModifiedDateFormatter(getLastModifiedDateFormatter());
         try {
             BeanUtils.copyProperties(context, this);
         } catch (Exception e) {
             throw new MojoExecutionException("Error copying properties", e);
         }
+        context.setClient(client);
+        context.setLastModifiedDateFormatter(getLastModifiedDateFormatter());
+        context.setAbout(getAbout());
         return context;
     }
 
