@@ -39,3 +39,9 @@ puts "Cmd: java -jar ~/ks-loader.jar test #{ENV['KS_LOADER_RESOURCES']}/Standard
 out=`java -jar ~/ks-loader.jar test "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
 puts "Test load:"
 puts out
+
+puts ""
+puts "Cmd: java -jar ~/ks-loader.jar program #{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls #{url}"
+out=`java -jar ~/ks-loader.jar program "#{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls" #{url}`
+puts "Test load:"
+puts out
