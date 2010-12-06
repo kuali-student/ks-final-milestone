@@ -65,7 +65,7 @@
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
 
-    <kuali.extra.release.arguments />
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -174,7 +174,7 @@
         <plugin>
           <groupId>org.kuali.maven.cloudfront</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.1</version>
+          <version>1.0.2</version>
           <configuration>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
