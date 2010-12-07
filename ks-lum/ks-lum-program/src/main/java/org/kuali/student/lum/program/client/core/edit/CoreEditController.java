@@ -180,7 +180,7 @@ public class CoreEditController extends CoreController {
                 super.onSuccess(result);
                 programModel.setRoot(result.getValue());
                 viewContext.setIdType(IdType.OBJECT_ID);
-                viewContext.setId((String) programModel.get(ProgramConstants.VERSION_IND_ID));
+                viewContext.setId((String) programModel.get(ProgramConstants.ID));
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
