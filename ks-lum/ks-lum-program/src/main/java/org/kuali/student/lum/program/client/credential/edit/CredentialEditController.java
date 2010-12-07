@@ -237,8 +237,9 @@ public class CredentialEditController extends CredentialController {
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                viewContext.setIdType(IdType.OBJECT_ID);
                 programModel.setRoot(result.getValue());
+                viewContext.setIdType(IdType.OBJECT_ID);
+                viewContext.setId((String) programModel.get(ProgramConstants.VERSION_IND_ID));
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
