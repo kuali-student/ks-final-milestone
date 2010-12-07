@@ -241,7 +241,7 @@ public class MajorEditController extends MajorController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 programModel.setRoot(result.getValue());
-                viewContext.setId((String) programModel.get(ProgramConstants.VERSION_IND_ID));
+                viewContext.setId((String) programModel.get(ProgramConstants.ID));
                 viewContext.setIdType(IdType.OBJECT_ID);
                 setHeaderTitle();
                 setStatus();
