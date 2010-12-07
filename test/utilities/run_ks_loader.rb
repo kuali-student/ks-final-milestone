@@ -17,31 +17,54 @@ out=`svn up /root/repos/student/tools/ks-loader`
 puts out
 
 # Run ks loader
-puts "Cmd: java -jar ~/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls #{url}"
-out=`java -jar ~/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls" #{url}`
+
+puts ""
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar atp #{ENV['KS_LOADER_RESOURCES']}/ATP Calendar.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar atp "#{ENV['KS_LOADER_RESOURCES']}/ATP Calendar.xls" #{url}`
+puts "ATP load:"
+puts out
+
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/NewReferenceOrganizations.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceOrganizations.xls" #{url}`
+puts "Org load:"
+puts out
+
+
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls" #{url}`
+puts "Org load:"
+puts out
+
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
+puts "Org load:"
+puts out
+
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration #{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls" #{url}`
 puts "Org load:"
 puts out
 
 puts ""
-puts "Cmd: java -jar ~/ks-loader.jar course #{ENV['KS_LOADER_RESOURCES']}/Courses for BSCI program.xls #{url}"
-out=`java -jar ~/ks-loader.jar course "#{ENV['KS_LOADER_RESOURCES']}/Courses for BSCI program.xls" #{url}`
-puts "Course load:"
-puts out
-
-puts ""
-puts "Cmd: java -jar ~/ks-loader.jar atp #{ENV['KS_LOADER_RESOURCES']}/ATP Calendar.xls #{url}"
-out=`java -jar ~/ks-loader.jar atp "#{ENV['KS_LOADER_RESOURCES']}/ATP Calendar.xls" #{url}`
-puts "ATP load:"
-puts out
-
-puts ""
-puts "Cmd: java -jar ~/ks-loader.jar test #{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls #{url}"
-out=`java -jar ~/ks-loader.jar test "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar course #{ENV['KS_LOADER_RESOURCES']}/ReferenceCourses.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar course "#{ENV['KS_LOADER_RESOURCES']}/ReferenceCourses.xls" #{url}`
 puts "Test load:"
 puts out
 
 puts ""
-puts "Cmd: java -jar ~/ks-loader.jar program #{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls #{url}"
-out=`java -jar ~/ks-loader.jar program "#{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls" #{url}`
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar test #{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar test "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
 puts "Test load:"
 puts out
+
+puts ""
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar program #{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar program "#{ENV['KS_LOADER_RESOURCES']}/ReferencePrograms.xls" #{url}`
+puts "Test load:"
+puts out
+
+
+
+
+
+
