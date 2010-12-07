@@ -431,6 +431,11 @@ public class CourseServiceImpl implements CourseService {
 					try {
 						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 						cluSet.setId(null);
+						//Clear clu ids if membership info exists, they will be re-added based on membership info 
+						if (cluSet.getMembershipQuery() != null){
+							cluSet.getCluIds().clear();
+							cluSet.getCluSetIds().clear();
+						}
 						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
 						field.setValue(cluSet.getId());
 					} catch (Exception e) {
