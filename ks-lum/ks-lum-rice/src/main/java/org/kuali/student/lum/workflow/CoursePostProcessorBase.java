@@ -18,17 +18,16 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A base post processor class for Course document types in Workflow.
  *
  */
+@Transactional(readOnly=true, rollbackFor={Throwable.class})
 public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
 
-    // TODO: switch to courseService so validation is correct
     private CourseService courseService;
 
     @Override
@@ -102,6 +101,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         return getStateFromNewState(currentCourseState, newCourseState);
     }
 
+    @Transactional(readOnly=false)
     protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
@@ -116,12 +116,14 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             LOG.info("Running preProcessCluSave with cluId='" + courseInfo.getId() + "'");
         }
         requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
+
         if (requiresSave) {
             getCourseService().updateCourse(courseInfo);
             
             //For a newly approved course (w/no prior active versions), make the new course the current version.
             if (LUConstants.LU_STATE_APPROVED.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
-
+            	// TODO: set states of other approved courses to superseded                
+                
             	// if current version's state is not active then we can set this course as the active course
             	if (!LUConstants.LU_STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
             		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null);

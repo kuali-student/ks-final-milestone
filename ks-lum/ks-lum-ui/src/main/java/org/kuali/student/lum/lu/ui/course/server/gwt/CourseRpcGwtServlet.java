@@ -35,7 +35,9 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true, rollbackFor={Throwable.class})
 public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcService {
 
 	private static final long serialVersionUID = 1L;
@@ -132,7 +134,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 					} else if (currVerState.equals(LUUIConstants.LU_STATE_ACTIVE) ||
 							currVerState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
 						updateCourseVersionStates(thisVerCourse, newState, currVerCourse, LUUIConstants.LU_STATE_SUPERSEDED, true, currentVersionStart);
-					}
+					}					
 
 				} else if (prevState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
 
@@ -158,11 +160,14 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
      * @param currentVersionStart the start date for the new current version to start on and the old current version to end on.  Set to null to use now as the start date.
      * @throws Exception
      */
+    @Transactional(readOnly = false)
     private void updateCourseVersionStates (CourseInfo thisVerCourse, String thisVerNewState, CourseInfo currVerCourse, String currVerNewState, boolean makeCurrent, Date currentVersionStart) throws Exception {
     	String thisVerPrevState = thisVerCourse.getState();
     	String currVerPrevState = currVerCourse.getState();
-
-    	// TODO: need to put this in a transaction
+    	
+    	// if already current, will throw error if you try to make the current version the current version.
+    	makeCurrent &= thisVerCourse.getId() == currVerCourse.getId();
+    	
     	if (thisVerNewState == null) {
     		throw new InvalidParameterException("new state cannot be null");
     	} else {
@@ -179,6 +184,33 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     	if (makeCurrent == true) {
     		courseService.setCurrentCourseVersion(thisVerCourse.getId(), currentVersionStart);
+    	}
+    	
+    	// for all draft and approved courses set the state to superseded.
+    	// we should only need to evaluated versions with sequence number
+    	// higher than previous active course.  If the course you're 
+    	// activating is the current course check all versions. 
+    	if (thisVerPrevState.equals(LUUIConstants.LU_STATE_APPROVED) &&
+    			thisVerNewState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
+
+    		List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse.getVersionInfo().getVersionIndId());		
+    		Long startSeq = new Long(1);
+    		
+			if (currVerCourse.getId() != thisVerCourse.getId()) {
+				startSeq = currVerCourse.getVersionInfo().getSequenceNumber() + 1;
+			}
+			
+			for (VersionDisplayInfo versionInfo: versions) {
+    			if (versionInfo.getSequenceNumber() >= startSeq) {
+    				CourseInfo otherCourse = courseService.getCourse(versionInfo.getId());
+    				if (otherCourse.getState().equals(LUUIConstants.LU_STATE_APPROVED) ||
+    						otherCourse.getState().equals(LUUIConstants.LU_STATE_SUBMITTED) ||
+    						otherCourse.getState().equals(LUUIConstants.LU_STATE_DRAFT)) {
+    					otherCourse.setState(LUUIConstants.LU_STATE_SUPERSEDED);
+    					courseService.updateCourse(otherCourse);
+    				}
+    			}
+    		}  		
     	}
 
     }
