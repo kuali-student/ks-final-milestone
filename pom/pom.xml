@@ -18,7 +18,7 @@
     but may be overridden/configured by individual projects as needed
   -->
   <groupId>org.kuali</groupId>
-  <artifactId>kuali-parent</artifactId>
+  <artifactId>kuali</artifactId>
   <version>20-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
@@ -77,11 +77,11 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
-    <kuali.site.bucket>site.kuali.org</kuali.site.bucket>
+    <kuali.site.bucket>maven.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
     <kuali.site.hostname>${kuali.site.bucket}</kuali.site.hostname>
-    <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
+    <kuali.site.path>site/${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
@@ -178,6 +178,7 @@
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
             <forceMojoExecution>true</forceMojoExecution>
+            <prefix>site/</prefix>
           </configuration>
         </plugin>
         <plugin>
@@ -274,7 +275,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <version>2.0</version>
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
-            <goals>deploy</goals>
+            <goals>clean deploy site-deploy</goals>
             <arguments>-Pkuali-release ${kuali.extra.release.arguments}</arguments>
           </configuration>
         </plugin>
