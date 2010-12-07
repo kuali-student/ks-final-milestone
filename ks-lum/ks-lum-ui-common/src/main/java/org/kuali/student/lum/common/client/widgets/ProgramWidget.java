@@ -17,63 +17,129 @@ package org.kuali.student.lum.common.client.widgets;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
+import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.AccessWidgetValue;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProgramWidget extends Composite implements AccessWidgetValue, HasDataValue {
 
-    private FlowPanel layout = new FlowPanel();
-    KSPicker courseTypeWidget;
-    KSPicker courseWidget = null;
-    Metadata courseMetadata;
+    private CluSetRetriever courseMetadataRetriever  = new CluSetRetrieverImpl();
+    private Callback getCluNameCallback;
 
-    public ProgramWidget(CluSetRetriever courseMetadataRetriever) {
+    //widgets
+    private VerticalSection layout = new VerticalSection();
+    private KSDropDown programTypeWidget;
+    private KSPicker programWidget = null;
+    private KSLabel previousProgramCode;
+    private String previousProgramId;
+
+    //data
+    private Metadata searchProgramMetadata = null;
+    private BlockingTask initializeTask = new BlockingTask("Initializing");
+
+    public ProgramWidget() {
         this.initWidget(layout);
     }
 
     @Override
     public void initWidget(List<Metadata> fieldsMetadata) {
+
+        previousProgramCode = null;
+        previousProgramId = null;
+        
         layout.clear();
-        //first metadata is a drop down
-        courseTypeWidget = (KSPicker) DefaultWidgetFactory.getInstance().getWidget(fieldsMetadata.get(0));
-        layout.add(courseTypeWidget);
-        courseMetadata = fieldsMetadata.get(1);
-        setupHandlers();
+
+        final VerticalSection choosingSection = new VerticalSection();
+        choosingSection.addWidget(new KSLabel("<b>Add a program</b>"));
+
+        //first metadata is a drop down to select type of program
+        createAndAddProgramTypesDropdown();
+
+        retrieveMetadata();
     }
 
-    private void setupHandlers() {
-
-        ((KSRadioButtonList) courseTypeWidget.getInputWidget()).addSelectionChangeHandler(new SelectionChangeHandler() {
+    private void createAndAddProgramTypesDropdown() {
+        programTypeWidget = new KSDropDown();
+        SimpleListItems programTypes = new SimpleListItems();
+        programTypes.addItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD, "Approved Program");
+        programTypes.addItem(CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD, "Proposed Program");
+        programTypeWidget.setListItems(programTypes);
+        programTypeWidget.addSelectionChangeHandler(new SelectionChangeHandler() {
 
             @Override
             public void onSelectionChange(SelectionChangeEvent event) {
-                String courseTypeSelected = ((KSRadioButtonListImpl)event.getWidget()).getSelectedItem();
-                courseMetadata.getInitialLookup().getParams().get(0).setDefaultValueList(null);
-                courseMetadata.getInitialLookup().getParams().get(0).setDefaultValueString(courseTypeSelected);
-                addCourseListWidget(true);
+                String programTypeSelected = ((KSDropDownImpl)event.getWidget()).getSelectedItem();
+                if (programTypeSelected == null) {
+                    if (programWidget != null) {
+                        layout.remove(programWidget);
+                    }                    
+                    return;
+                }
+                addProgramListWidget(true, programTypeSelected);
             }
-        });
+        });        
+        layout.add(programTypeWidget);
     }
 
-    private void addCourseListWidget(boolean enabled) {
-        if (courseWidget != null) {
-            layout.remove(courseWidget);
+    private void retrieveMetadata() {
+        if (searchProgramMetadata == null) {
+            KSBlockingProgressIndicator.addTask(initializeTask);
+            courseMetadataRetriever.getMetadata("programSet", new Callback<Metadata>(){
+                @Override
+                public void exec(Metadata result) {
+                    searchProgramMetadata = result;
+                    searchProgramMetadata.getProperties().get(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD).getConstraints().get(0).setMaxOccurs(1);
+                    searchProgramMetadata.getProperties().get(CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD).getConstraints().get(0).setMaxOccurs(1);
+                    searchProgramMetadata.getProperties().get(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD).getConstraints().get(0).setId("single");
+                    searchProgramMetadata.getProperties().get(CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD).getConstraints().get(0).setId("single");
+                    KSBlockingProgressIndicator.removeTask(initializeTask);
+
+                    if (previousProgramCode == null) {
+                        programTypeWidget.selectItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD);
+                        addProgramListWidget(true, programTypeWidget.getSelectedItem());
+                    }
+                }
+            });
+        } else {
+            if (previousProgramCode == null) {
+                programTypeWidget.selectItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD);
+                addProgramListWidget(true, programTypeWidget.getSelectedItem());
+            }
         }
-        courseWidget = (KSPicker) DefaultWidgetFactory.getInstance().getWidget(courseMetadata);
-        ((KSDropDown) courseWidget.getInputWidget()).setEnabled(enabled);
-        layout.add(courseWidget);
+    }
+
+    private void addProgramListWidget(boolean enabled, String programType) {
+        if (programWidget != null) {
+            layout.remove(programWidget);
+        }
+        if (previousProgramCode != null) {
+            layout.remove(previousProgramCode);
+            previousProgramCode = null;
+            previousProgramId = null;
+        }
+        programWidget = (KSPicker) DefaultWidgetFactory.getInstance().getWidget(searchProgramMetadata.getProperties().get(programType));
+     //   programWidget.getSearchPanel().setMutipleSelect(false);
+    //    ((KSSuggestBox) programWidget.getInputWidget()).setEnabled(enabled);
+        layout.add(programWidget);
+    }
+
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
 
 	@Override
@@ -81,9 +147,7 @@ public class ProgramWidget extends Composite implements AccessWidgetValue, HasDa
 	}
 
 	@Override
-	public void setValue(Data.Value value) {
-        addCourseListWidget(false);
-		courseWidget.setValue(value);
+	public void setValue(Data.Value value) {    
 	}
 
     @Override
@@ -91,11 +155,31 @@ public class ProgramWidget extends Composite implements AccessWidgetValue, HasDa
     }
 
     @Override
-    public void setValue(String id) {
+    public void setValue(final String id) {
+        if (id != null) {
+            getCluNameCallback.exec(id);
+        }        
+    }
+
+    public void setLabelContent(String id, final String code) {
+        layout.clear();
+        previousProgramId = id;
+        previousProgramCode = new KSLabel(code);
+        layout.add(previousProgramCode);
+        createAndAddProgramTypesDropdown();
+    }
+
+    public void addGetCluNameCallback(Callback callback) {
+        this.getCluNameCallback = callback;    
     }
 
     @Override
     public Data.Value getValue() {
-        return (courseWidget != null ? courseWidget.getValue() : null);
+        Data.Value pickerValue = programWidget.getValue();
+        if ((pickerValue.toString().isEmpty()) && (previousProgramCode != null) && (!previousProgramCode.getText().isEmpty())) {
+            return new Data.StringValue(previousProgramId);
+        }
+
+        return pickerValue;
     }
 }

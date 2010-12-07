@@ -371,7 +371,40 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                     customWidgets.put("kuali.reqComponent.field.type.course.clu.id", courseWidget);
                 } else if (RulesUtil.isProgramWidget(fieldTypeInfo.getId())) {
-                    customWidgets.put("kuali.reqComponent.field.type.program.clu.id", new ProgramWidget(new CluSetRetrieverImpl()));
+                    final ProgramWidget programWidget = new ProgramWidget();
+
+                    programWidget.addGetCluNameCallback(new Callback() {
+
+                        @Override
+                        public void exec(Object id) {
+
+                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    Window.alert(throwable.getMessage());
+                                    GWT.log("Failed to retrieve clu for id: '" +  "'", throwable);
+                                }
+
+                                @Override
+                                public void onSuccess(final VersionDisplayInfo versionInfo) {
+                                    statementRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                        @Override
+                                        public void onFailure(Throwable throwable) {
+                                            Window.alert(throwable.getMessage());
+                                            GWT.log("Failed to retrieve clu", throwable);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(CluInfo cluInfo) {
+                                            programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                    customWidgets.put("kuali.reqComponent.field.type.program.clu.id", programWidget);
                 }
             }
         }
@@ -422,12 +455,6 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType, new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, false));
-            } else if (RulesUtil.isCluWidget(fieldType)) {
-                String clusetType = "kuali.cluSet.type.Course";
-                if (fieldType.toLowerCase().indexOf("program") > 0) {
-                    clusetType = "kuali.cluSet.type.Program";
-                }
-                editReqCompWidget.displayCustomWidget(fieldType, new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
             }
         }
     };
