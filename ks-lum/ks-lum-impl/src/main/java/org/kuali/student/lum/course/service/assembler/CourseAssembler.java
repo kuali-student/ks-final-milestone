@@ -565,7 +565,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					Map<String,String> attributes = null;
 					//Depending on the type, set the id, type and result values differently
 					if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getType())){
-						int fixedCreditValue = Integer.parseInt(creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE));
+						float fixedCreditValue = Float.parseFloat(creditOption.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE));
 						id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + fixedCreditValue;
 						type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
 						resultValues = new ArrayList<String>();

@@ -203,8 +203,8 @@ public class TestCourseServiceImpl {
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
 
             assertEquals(2, retrievedCourse.getCreditOptions().size());
-            assertEquals("kuali.creditType.credit.degree.11", retrievedCourse.getCreditOptions().get(0).getId());
-            assertEquals("kuali.creditType.credit.degree.11", retrievedCourse.getCreditOptions().get(1).getId());
+            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(0).getId());
+            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(1).getId());
 
             assertEquals(2, retrievedCourse.getGradingOptions().size());
 
