@@ -77,8 +77,7 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
-    <!-- Note: The only reason this is "site.ks.kuali.org" instead of "site.kuali.org" is due to some kind of momentary issue deleting buckets on AWS at the moment -->
-    <kuali.site.bucket>site.ks.kuali.org</kuali.site.bucket>
+    <kuali.site.bucket>site.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
     <kuali.site.hostname>${kuali.site.bucket}</kuali.site.hostname>
