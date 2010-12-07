@@ -1237,19 +1237,27 @@
 		        </entry>
                 <entry key="lu.search.noncurrent">
 		       		<value>
-		       		SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
-                    officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, clu.studySubjectArea, clu.state,
-                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
-					FROM Clu clu 
-					LEFT JOIN clu.officialIdentifier officialIdentifier
-                    LEFT JOIN clu.descr cludesc
-                    WHERE clu.version.versionIndId IS NOT NULL 
-					AND clu.version.versionIndId NOT IN (
-					        SELECT activeclu.version.versionIndId 
-					        FROM Clu activeclu 
-					        WHERE activeclu.version.versionIndId=clu.version.versionIndId 
-					        AND (activeclu.version.currentVersionStart &lt;= CURRENT_DATE AND (activeclu.version.currentVersionEnd > CURRENT_DATE OR activeclu.version.currentVersionEnd IS NULL)) 											
+					SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+						officialIdentifier.code, officialIdentifier.level,
+						cludesc.plain, clu.studySubjectArea, clu.state,
+						clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
+					FROM Clu clu  
+					LEFT JOIN clu.descr cludesc
+					LEFT JOIN clu.officialIdentifier officialIdentifier		
+					WHERE clu.version.sequenceNumber=(
+						SELECT MAX(mostrecentclu.version.sequenceNumber)
+						FROM Clu mostrecentclu 
+						LEFT JOIN mostrecentclu.officialIdentifier officialIdentifier						
+						WHERE clu.version.versionIndId=mostrecentclu.version.versionIndId
+						AND mostrecentclu.version.versionIndId IS NOT NULL						
+						AND mostrecentclu.version.versionIndId NOT IN (
+						        SELECT activeclu.version.versionIndId 
+						        FROM Clu activeclu 
+						        WHERE activeclu.version.versionIndId=mostrecentclu.version.versionIndId
+						        AND activeclu.version.versionIndId=mostrecentclu.version.versionIndId
+						        AND (activeclu.version.currentVersionStart &lt;= CURRENT_DATE AND (activeclu.version.currentVersionEnd > CURRENT_DATE OR activeclu.version.currentVersionEnd IS NULL)) 											
+						)
+						GROUP BY mostrecentclu.version.versionIndId
 					)
                     </value>
                 </entry>

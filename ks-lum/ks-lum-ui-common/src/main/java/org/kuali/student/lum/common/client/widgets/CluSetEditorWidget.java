@@ -177,11 +177,9 @@ public class CluSetEditorWidget extends VerticalSectionView {
 //                  ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
 //                  CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
 //                  cluSetHelper.setCluRangeParams(value)
-                    final SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
-                    .getSearchRequest();
+                    final SearchRequest searchRequest = cluSetRangePicker.getSearchWindow().getSearchRequest();
                     String selectedSearchKey = searchRequest.getSearchKey();
-                    Data searchRequestData = CluSetRangeModelUtil.INSTANCE.
-                    toData(searchRequest, null);
+                    Data searchRequestData = CluSetRangeModelUtil.INSTANCE.toData(searchRequest, null);
                     LookupMetadata lookupMetadata = null;
 
                     // look for the lookupMetaData corresponding to the searchRequest

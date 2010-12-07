@@ -1474,7 +1474,7 @@
 		
 	<bean id="kuali.common.lookup.advanced.courseRanges.courseNumber" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.advanced.courseRanges.courseNumber" />	
-		<property name="searchTypeId" value="lu.search.generic"/>
+		<property name="searchTypeId" value="lu.search.mostCurrent.union"/>
 		<property name="name" value="Course Number"/>
 		<property name="desc" value="Search used to define course range by Course Number"/>					
 		<property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>									
@@ -1497,6 +1497,23 @@
 					<property name="writeAccess" value="ALWAYS"/>
 					<property name="caseSensitive" value="false"/>
 					<property name="usage" value="ADVANCED"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return approved clus -->
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="CLU State" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>Draft</value>
+							<value>Submitted</value>
+							<value>Active</value>
+							<value>Approved</value>
+							<value>Inactive</value>
+							<!-- do not show retired or superseded-->
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
 				</bean>
 			</list>
 		</property>	
