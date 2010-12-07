@@ -32,7 +32,7 @@
     </repository>
   </repositories>
   <properties>
-    <spring.version>3.0.3.RELEASE</spring.version>
+    <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
   </properties>
   <build>
