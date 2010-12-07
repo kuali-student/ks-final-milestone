@@ -107,6 +107,8 @@ public class SummaryActionPanel extends Composite {
             enableButtons(false, true);
         } else if (programStatus == ProgramStatus.ACTIVE) {
             enableButtons(false, false);
+        } else if (programStatus == ProgramStatus.SUPERSEDED) {
+            enableButtons(false, false);
         }
     }
 
