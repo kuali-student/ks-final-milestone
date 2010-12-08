@@ -491,6 +491,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <version>2.2</version>
         <configuration>
           <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+          <aggregate>true</aggregate>
         </configuration>
       </plugin>
       <plugin>
