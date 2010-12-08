@@ -58,6 +58,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kuali.clover.plugin.version>3.0.2</kuali.clover.plugin.version>
+    <kuali.clover.info.phase>pre-site</kuali.clover.info.phase>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
@@ -386,7 +387,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <executions>
           <execution>
             <id>generate-clover-info</id>
-            <phase>pre-site</phase>
+            <phase>{kuali.clover.info.phase}</phase>
             <goals>
               <goal>instrument</goal>
               <goal>aggregate</goal>
