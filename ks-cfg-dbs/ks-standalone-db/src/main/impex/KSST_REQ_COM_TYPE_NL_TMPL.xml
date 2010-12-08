@@ -53,11 +53,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1011" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.residence.credits.final"
-        TEMPLATE="$programClu.getOfficialIdentifier().getShortName() students must take their final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in residence" VER_NBR="0"/>
+        TEMPLATE="$programClu.getOfficialIdentifier().getLongName() students must take their final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in residence" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1012" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.enrolled.credits.final"
-        TEMPLATE="$programClu.getOfficialIdentifier().getShortName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) taken" VER_NBR="0"/>
+        TEMPLATE="$programClu.getOfficialIdentifier().getLongName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) taken" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1013" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.minors.nof"
@@ -149,11 +149,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1111" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.residence.credits.final"
-        TEMPLATE="$programClu.getOfficialIdentifier().getShortName() students must take their final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in residence" VER_NBR="0"/>
+        TEMPLATE="$programClu.getOfficialIdentifier().getLongName() students must take their final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in residence" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1112" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.enrolled.credits.final"
-        TEMPLATE="$programClu.getOfficialIdentifier().getShortName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) taken" VER_NBR="0"/>
+        TEMPLATE="$programClu.getOfficialIdentifier().getLongName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) taken" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1113" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.minors.nof"
