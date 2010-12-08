@@ -36,7 +36,7 @@
   <licenses>
     <license>
       <name>Educational Community License, Version 2.0</name>
-      <url>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</url>
+      <url>http://www.opensource.org/licenses/ecl2.txt</url>
       <distribution>manual</distribution>
     </license>
   </licenses>
@@ -68,7 +68,7 @@
     <kuali.javadoc.report.javadoc>javadoc</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-javadoc</kuali.javadoc.report.test-javadoc>
 
-    <kuali.extra.release.arguments/>
+    <kuali.extra.release.arguments></kuali.extra.release.arguments>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -83,7 +83,8 @@
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
-    <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
+    <!-- Using site.maven.kuali.org until AWS resolves a ticket with site.kuali.org  -->
+    <kuali.site.hostname>site.maven.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
@@ -375,7 +376,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <id>update-bucket</id>
             <!-- Maven is not resolving this property correctly for some reason -->
             <!-- <phase>${kuali.site.bucket.update.phase}</phase> -->
-            <phase>site-deploy</phase>
+            <phase>none</phase>
             <goals>
               <goal>updateoriginbucket</goal>
             </goals>
@@ -472,14 +473,13 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <show>private</show>
           <quiet>true</quiet>
           <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
-          <excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
           <source>${kuali.compile.source}</source>
         </configuration>
         <reportSets>
           <reportSet>
             <reports>
-              <report>${kuali.javadoc.report.1}</report>
-              <report>${kuali.javadoc.report.2}</report>
+              <report>${kuali.javadoc.report.javadoc}</report>
+              <report>${kuali.javadoc.report.test-javadoc}</report>
             </reports>
           </reportSet>
         </reportSets>
