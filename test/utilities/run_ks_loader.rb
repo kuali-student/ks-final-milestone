@@ -29,16 +29,20 @@ out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['
 puts "Org load:"
 puts out
 
-
 puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls #{url}"
 out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls" #{url}`
 puts "Org load:"
 puts out
 
-puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration #{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls #{url}"
-out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls" #{url}`
-puts "Org load:"
+puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar orgorgrelation #{ENV['KS_LOADER_RESOURCES']}/Organizations.xls #{url}"
+out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar orgorgrelation "#{ENV['KS_LOADER_RESOURCES']}/Organizations.xls" #{url}`
+puts "Org/Org load:"
 puts out
+
+#puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration #{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls #{url}"
+#out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls" #{url}`
+#puts "Org load:"
+#puts out
 
 puts ""
 puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar course #{ENV['KS_LOADER_RESOURCES']}/ReferenceCourses.xls #{url}"
