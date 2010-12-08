@@ -68,6 +68,8 @@
     <kuali.javadoc.report.javadoc>javadoc</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-javadoc</kuali.javadoc.report.test-javadoc>
 
+    <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
+
     <kuali.extra.release.arguments></kuali.extra.release.arguments>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
@@ -505,6 +507,9 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.1.2</version>
+        <configuration>
+          <dependencyLocationsEnabled>${kuali.reporting.dependency.locations}</dependencyLocationsEnabled>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
