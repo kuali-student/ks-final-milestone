@@ -65,6 +65,8 @@
     <kuali.findbugs.plugin.version>2.0.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
+    <kuali.javadoc.report.javadoc>javadoc</kuali.javadoc.report.javadoc>
+    <kuali.javadoc.report.test-javadoc>test-javadoc</kuali.javadoc.report.test-javadoc>
 
     <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
@@ -476,8 +478,8 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <reportSets>
           <reportSet>
             <reports>
-              <report>javadoc</report>
-              <report>test-javadoc</report>
+              <report>${kuali.javadoc.report.1}</report>
+              <report>${kuali.javadoc.report.2}</report>
             </reports>
           </reportSet>
         </reportSets>
