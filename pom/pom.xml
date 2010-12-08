@@ -84,7 +84,7 @@
     <!-- These properties are used when generating/deploying the maven generated site -->
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
-    <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
+    <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
@@ -390,7 +390,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <executions>
           <execution>
             <id>generate-clover-info</id>
-            <phase>{kuali.clover.info.phase}</phase>
+            <phase>${kuali.clover.info.phase}</phase>
             <goals>
               <goal>instrument</goal>
               <goal>aggregate</goal>
