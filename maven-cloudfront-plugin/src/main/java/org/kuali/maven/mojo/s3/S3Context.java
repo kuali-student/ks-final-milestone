@@ -10,7 +10,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 public class S3Context {
     AmazonS3Client client;
     String bucket;
-    String prefix;
     String delimiter;
     String fileImage;
     String directoryImage;
@@ -33,14 +32,6 @@ public class S3Context {
 
     public void setBucket(String bucket) {
         this.bucket = bucket;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public String getDelimiter() {
