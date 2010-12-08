@@ -85,8 +85,7 @@
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <!-- Maven is not resolving this property correctly for some reason  -->
     <!-- <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase> -->
-    <!-- Using site.maven.kuali.org until AWS resolves a ticket with site.kuali.org  -->
-    <kuali.site.hostname>site.maven.kuali.org</kuali.site.hostname>
+    <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
