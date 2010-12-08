@@ -137,11 +137,22 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
+    protected void updatePrefix() {
+        String s = getPrefix();
+        if (s == null) {
+            return;
+        }
+        if (!s.endsWith(getDelimiter())) {
+            setPrefix(getPrefix() + getDelimiter());
+        }
+    }
+
     protected S3Context getS3Context() throws MojoExecutionException {
         updateCredentials();
         validateCredentials();
         AWSCredentials credentials = getCredentials();
         AmazonS3Client client = new AmazonS3Client(credentials);
+        updatePrefix();
         S3Context context = new S3Context();
         try {
             BeanUtils.copyProperties(context, this);
