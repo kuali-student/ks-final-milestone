@@ -13,13 +13,13 @@ public class CloudFrontHtmlGenerator {
     HtmlUtils html = new HtmlUtils();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");
 
-    S3Context context;
+    S3BucketContext context;
 
     public CloudFrontHtmlGenerator() {
         this(null);
     }
 
-    public CloudFrontHtmlGenerator(S3Context context) {
+    public CloudFrontHtmlGenerator(S3BucketContext context) {
         super();
         this.context = context;
     }
@@ -202,11 +202,11 @@ public class CloudFrontHtmlGenerator {
         return sb.toString();
     }
 
-    public S3Context getContext() {
+    public S3BucketContext getContext() {
         return context;
     }
 
-    public void setContext(S3Context context) {
+    public void setContext(S3BucketContext context) {
         this.context = context;
     }
 

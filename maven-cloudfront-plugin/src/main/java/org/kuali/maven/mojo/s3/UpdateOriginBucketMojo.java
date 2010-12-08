@@ -129,7 +129,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
-            S3Context context = getS3Context();
+            S3BucketContext context = getS3Context();
             generator = new CloudFrontHtmlGenerator(context);
             converter = new S3DataConverter(context);
             recurse(context, getPrefix());
@@ -139,7 +139,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
-    protected void goUpTheChain(S3Context context, String startingPrefix) throws IOException {
+    protected void goUpTheChain(S3BucketContext context, String startingPrefix) throws IOException {
         if (StringUtils.isEmpty(startingPrefix)) {
             return;
         }
@@ -169,13 +169,13 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
-    protected S3Context getS3Context() throws MojoExecutionException {
+    protected S3BucketContext getS3Context() throws MojoExecutionException {
         updateCredentials();
         validateCredentials();
         AWSCredentials credentials = getCredentials();
         AmazonS3Client client = new AmazonS3Client(credentials);
         updatePrefix();
-        S3Context context = new S3Context();
+        S3BucketContext context = new S3BucketContext();
         try {
             BeanUtils.copyProperties(context, this);
         } catch (Exception e) {
@@ -244,10 +244,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         boolean containsDefaultObject = isExistingObject(context.getObjectListing(), context.getDefaultObjectKey());
         if (containsDefaultObject && isCopyIfExists) {
             // Copy the contents of the clients default object
-            context.getContext().getClient().copyObject(getCopyObjectRequest(context.getContext().getBucket(), context.getDefaultObjectKey(), copyToKey));
+            context.getBucketContext().getClient().copyObject(getCopyObjectRequest(context.getBucketContext().getBucket(), context.getDefaultObjectKey(), copyToKey));
         } else {
             // Upload our custom content
-            context.getContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), copyToKey));
+            context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), copyToKey));
         }
     }
 
@@ -255,7 +255,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * Update this S3 "directory".
      */
     protected void updateDirectory(S3PrefixContext context) throws IOException {
-        String trimmedPrefix = converter.getTrimmedPrefix(context.getPrefix(), context.getContext().getDelimiter());
+        String trimmedPrefix = converter.getTrimmedPrefix(context.getPrefix(), context.getBucketContext().getDelimiter());
 
         // Handle "http://www.mybucket.com/foo/bar/"
         updateDirectory(context, isCopyDefaultObjectWithDelimiter(), context.getPrefix());
@@ -279,10 +279,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
 
         // Update the default object
-        context.getContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), context.getDefaultObjectKey()));
+        context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), context.getDefaultObjectKey()));
     }
 
-    protected S3PrefixContext getS3PrefixContext(S3Context context, String prefix) {
+    protected S3PrefixContext getS3PrefixContext(S3BucketContext context, String prefix) {
         ListObjectsRequest request = new ListObjectsRequest(context.getBucket(), prefix, null, context.getDelimiter(), 1000);
         ObjectListing objectListing = context.getClient().listObjects(request);
         List<String[]> data = converter.getData(objectListing, prefix, context.getDelimiter());
@@ -303,7 +303,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * Recurse the hierarchy of a bucket starting at "prefix" and create entries in the bucket corresponding to the directory
      * structure of the hierarchy
      */
-    protected void recurse(S3Context context, String prefix) throws IOException {
+    protected void recurse(S3BucketContext context, String prefix) throws IOException {
         S3PrefixContext prefixContext = getS3PrefixContext(context, prefix);
 
         handleRoot(prefixContext);
@@ -343,7 +343,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             // There is no default object, we are free to create one
             return true;
         }
-        S3Context s3Context = context.getContext();
+        S3BucketContext s3Context = context.getBucketContext();
         // There is a default object, but if it was created by this plugin, we still need to update it
         S3Object s3Object = s3Context.getClient().getObject(s3Context.getBucket(), context.getDefaultObjectKey());
         boolean isOurDefaultObject = isOurObject(s3Object);

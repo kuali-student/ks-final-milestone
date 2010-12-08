@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 /**
  * Holds context information for S3
  */
-public class S3Context {
+public class S3BucketContext {
     AmazonS3Client client;
     String bucket;
     String delimiter;

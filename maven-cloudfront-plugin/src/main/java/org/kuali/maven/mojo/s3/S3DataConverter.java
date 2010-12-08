@@ -15,13 +15,13 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class S3DataConverter {
     HtmlUtils html = new HtmlUtils();
     NumberFormat nf = getNumberFormatInstance();
-    S3Context context;
+    S3BucketContext context;
 
     public S3DataConverter() {
         this(null);
     }
 
-    public S3DataConverter(S3Context context) {
+    public S3DataConverter(S3BucketContext context) {
         super();
         this.context = context;
     }
@@ -232,11 +232,11 @@ public class S3DataConverter {
         }
     }
 
-    public void setContext(S3Context context) {
+    public void setContext(S3BucketContext context) {
         this.context = context;
     }
 
-    public S3Context getContext() {
+    public S3BucketContext getContext() {
         return context;
     }
 

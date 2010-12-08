@@ -8,7 +8,7 @@ public class S3PrefixContext {
     ObjectListing objectListing;
     String prefix;
     String html;
-    S3Context context;
+    S3BucketContext bucketContext;
 
     public boolean isRoot() {
         return isRoot;
@@ -50,11 +50,11 @@ public class S3PrefixContext {
         this.html = html;
     }
 
-    public S3Context getContext() {
-        return context;
+    public S3BucketContext getBucketContext() {
+        return bucketContext;
     }
 
-    public void setContext(S3Context context) {
-        this.context = context;
+    public void setBucketContext(S3BucketContext context) {
+        this.bucketContext = context;
     }
 }
