@@ -37,6 +37,7 @@ public enum ProgramSections {
     static{
         viewForUpdate.add(SPECIALIZATIONS_EDIT.name());
         viewForUpdate.add(MANAGE_BODIES_EDIT.name());
+        viewForUpdate.add(LEARNING_OBJECTIVES_EDIT.name());
     }
 
     static {
