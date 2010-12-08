@@ -35,11 +35,6 @@ out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['
 puts "Org load:"
 puts out
 
-puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls #{url}"
-out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/StandardizedTests.xls" #{url}`
-puts "Org load:"
-puts out
-
 puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration #{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls #{url}"
 out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar enumeration "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceSubjectAreaEnumerations.xls" #{url}`
 puts "Org load:"
