@@ -296,6 +296,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         prefixContext.setHtml(html);
         prefixContext.setRoot(isRoot);
         prefixContext.setDefaultObjectKey(defaultObjectKey);
+        prefixContext.setPrefix(prefix);
         return prefixContext;
     }
 
