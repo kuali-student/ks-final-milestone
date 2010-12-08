@@ -706,30 +706,9 @@
                 </goals>
                 <configuration>
                   <sqlCommand>
-                    DECLARE temp NUMBER;
-                    BEGIN
-                    SELECT COUNT(*) INTO temp FROM user_tables WHERE
-                    table_name =
-                    'KS_DB_VERSION';
-                    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KS_DB_VERSION CASCADE
-                    CONSTRAINTS
-                    PURGE'; END IF;
-                    END;
-                    /
-
-                    CREATE TABLE KS_DB_VERSION (VERSION VARCHAR2(255)
-                    , BUILD_ID VARCHAR(255)
-                    ,
-                    BUILD_TIME VARCHAR(255))
-                    /
-
-                    INSERT INTO KS_DB_VERSION (VERSION,BUILD_ID,BUILD_TIME) VALUES
-                    ('${project.version}','${env.BUILD_NUMBER}','${maven.build.timestamp}')
-                    /
-
                     purge recyclebin
                     /
-                    </sqlCommand>
+                  </sqlCommand>
                 </configuration>
               </execution>
             </executions>
