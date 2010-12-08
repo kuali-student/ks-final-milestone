@@ -83,8 +83,6 @@
     
     <!-- These properties are used when generating/deploying the maven generated site -->
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
-    <!-- Maven is not resolving this property correctly for some reason  -->
-    <kuali.site.bucket.update.phase>site-deploy</kuali.site.bucket.update.phase>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
@@ -183,6 +181,7 @@
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
             <forceMojoExecution>true</forceMojoExecution>
+            <prefix>${kuali.site.path}</prefix>
           </configuration>
         </plugin>
         <plugin>
@@ -374,10 +373,8 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <artifactId>maven-cloudfront-plugin</artifactId>
         <executions>
           <execution>
-            <id>update-bucket</id>
-            <!-- Maven is not resolving this property correctly for some reason -->
-            <!-- <phase>${kuali.site.bucket.update.phase}</phase> -->
-            <phase>none</phase>
+            <id>update-origin-bucket</id>
+            <phase>site-deploy</phase>
             <goals>
               <goal>updateoriginbucket</goal>
             </goals>
