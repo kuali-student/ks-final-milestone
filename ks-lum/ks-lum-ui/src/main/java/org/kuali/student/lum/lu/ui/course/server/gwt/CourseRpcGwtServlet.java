@@ -166,7 +166,8 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     	String currVerPrevState = currVerCourse.getState();
     	
     	// if already current, will throw error if you try to make the current version the current version.
-    	makeCurrent &= thisVerCourse.getId() == currVerCourse.getId();
+    	boolean isCurrent = thisVerCourse.getId().equals(currVerCourse.getId());
+    	makeCurrent &= !isCurrent;        	
     	
     	if (thisVerNewState == null) {
     		throw new InvalidParameterException("new state cannot be null");
@@ -196,7 +197,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     		List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse.getVersionInfo().getVersionIndId());		
     		Long startSeq = new Long(1);
     		
-			if (currVerCourse.getId() != thisVerCourse.getId()) {
+			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
 				startSeq = currVerCourse.getVersionInfo().getSequenceNumber() + 1;
 			}
 			
