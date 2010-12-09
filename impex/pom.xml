@@ -8,7 +8,7 @@
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.9-SNAPSHOT</version>
+  <version>1.0.9</version>
   <name>Impex Parent</name>
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <properties>
@@ -16,7 +16,7 @@
     <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
     <!-- The test-javadoc report is throwing a NullPointerException -->
-    <kuali.javadoc.report.test-javadoc/>
+    <kuali.javadoc.report.test-javadoc />
   </properties>
   <developers>
     <developer>
@@ -84,8 +84,8 @@
     </plugins>
   </reporting>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.9</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.9</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.9</url>
   </scm>
 </project>
