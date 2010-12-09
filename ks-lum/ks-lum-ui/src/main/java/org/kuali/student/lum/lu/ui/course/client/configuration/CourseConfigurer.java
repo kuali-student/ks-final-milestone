@@ -133,11 +133,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         PROGRAM_INFO, ASSEMBLER_TEST
     }
 
-    protected DataModelDefinition modelDefinition;
     protected List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
-        this.modelDefinition = modelDefinition;
+        super.modelDefinition = modelDefinition;
     }
 
     public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
@@ -147,7 +146,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     /**
      * Sets up all the views, sections, and views of the CourseProposalController.  This should be called
      * once for initialization and setup per CourseProposalController instance.
-     * If the user cannot edit, it limits the layout to summary.
+     * 
      * @param layout
      */
     public void configure(final CourseProposalController layout) {
@@ -184,11 +183,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
-            documentTool.setModelDefinition(modelDefinition);
+            documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -203,7 +202,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
