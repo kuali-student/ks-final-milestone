@@ -140,23 +140,21 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     }
 
     protected void goUpTheChain(S3BucketContext context, String startingPrefix) throws IOException {
+        handleRoot(getS3PrefixContext(context, null));
+
         if (StringUtils.isEmpty(startingPrefix)) {
             return;
         }
+
         String[] prefixes = StringUtils.splitByWholeSeparator(startingPrefix, context.getDelimiter());
-        StringBuffer sb = new StringBuffer();
-        for (String prefix : prefixes) {
-            sb.append(sb.toString() + prefix + context.getDelimiter());
-            S3PrefixContext prefixContext = getS3PrefixContext(context, sb.toString());
-            handleRoot(prefixContext);
-
-            // If this is not the root, there is more to do
-            if (!prefixContext.isRoot()) {
-                updateDirectory(prefixContext);
-            }
-            updateDirectory(prefixContext);
+        if (prefixes.length == 1) {
+            return;
         }
-
+        String newPrefix = "";
+        for (int i = 0; i < prefixes.length - 1; i++) {
+            newPrefix += prefixes[i] + context.getDelimiter();
+            updateDirectory(getS3PrefixContext(context, newPrefix));
+        }
     }
 
     protected void updatePrefix() {
