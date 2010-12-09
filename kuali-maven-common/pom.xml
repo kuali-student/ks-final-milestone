@@ -8,7 +8,7 @@
   </parent>
   <groupId>org.kuali.maven.mojo</groupId>
   <artifactId>kuali-maven-common</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>Kuali Maven Common</name>
   <description>Contains things that are common to most mojo development.</description>
   <properties>
@@ -32,9 +32,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-maven-common-1.0.2</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-maven-common-1.0.2</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-maven-common-1.0.2</url>
   </scm>
   <repositories>
     <repository>
