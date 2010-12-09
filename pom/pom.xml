@@ -70,7 +70,7 @@
 
     <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
 
-    <kuali.extra.release.arguments />
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -176,7 +176,7 @@
         <plugin>
           <groupId>org.kuali.maven.cloudfront</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.4</version>
+          <version>1.0.5</version>
           <configuration>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
