@@ -53,11 +53,6 @@ public class OrgApplicationManager extends Controller{
         }
         
     }
-
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {        
-        return ORGViews.class;
-    }
     
     @Override
     public Enum<?> getViewEnumValue(String enumValue) {

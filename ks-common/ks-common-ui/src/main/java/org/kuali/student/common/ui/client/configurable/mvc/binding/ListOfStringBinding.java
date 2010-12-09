@@ -10,6 +10,13 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
 
+/**
+ * Model widget binding for list of strings.  This binding only works with data that is known
+ * to be a list of strings.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class ListOfStringBinding implements ModelWidgetBinding<ListOfStringWidget> {
 
 	@Override

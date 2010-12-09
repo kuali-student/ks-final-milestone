@@ -30,6 +30,12 @@ import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Model widget binding for KSSelectItemWidgetAbstract widgets
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectItemWidgetAbstract> {
 
     public static SelectItemWidgetBinding INSTANCE = new SelectItemWidgetBinding();

@@ -10,6 +10,15 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout which lays out fields and other layouts horizontally in a table.  Fields and layouts added will appear
+ * in the order they are added.  Calling nextRow will begin the next row in the table.
+ * Validation will appear above the horizontal layout if hasValidation is true.
+ * The title will appear above all elements and button layout below all elements.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class HorizontalLayout extends FieldLayout{
 	private FlexTable horizontalArea = new FlexTable();
 	private ValidationMessagePanel validationPanel = new ValidationMessagePanel();

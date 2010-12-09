@@ -20,13 +20,31 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalF
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The vertical layout implementation of SectionView.  The ui layout behaves exactly the same as
+ * VerticalSection.
+ * 
+ * A model id can be passed in to specify a model this particular view uses.
+ * 
+ * @author Brian Smith
+ *
+ */
 public class VerticalSectionView extends SectionView {
 
 
+    /**
+     * Same as VerticalSectionView(Enum<?> viewEnum, String name, String modelId, true)
+     */
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {
         this(viewEnum, name, modelId, true);
     }
 
+    /**
+     * @param viewEnum Enumeration of this view - id used for navigation, history, and showing a view
+     * @param name Name of this view - what this view is called in the breadcrumb
+     * @param modelId id of the model to be used for this view when a requestModel call is made on its parent controller
+     * @param showTitle if true, show the view's name as an H2 header
+     */
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId, boolean showTitle) {
         super(viewEnum, name);
         this.modelId = modelId;
@@ -43,9 +61,16 @@ public class VerticalSectionView extends SectionView {
         this.add(layout);
     }
 
-    public VerticalSectionView(Enum<?> viewEnum, String name, String programModelId, Widget titleWidget) {
+    /**
+     * VerticalSectionView with a custom titleWidget defined
+     * @param viewEnum
+     * @param name
+     * @param modelId
+     * @param titleWidget
+     */
+    public VerticalSectionView(Enum<?> viewEnum, String name, String modelId, Widget titleWidget) {
         super(viewEnum, name);
-        this.modelId = programModelId;
+        this.modelId = modelId;
         layout = new VerticalFieldLayout(titleWidget);
         this.add(layout);
     }

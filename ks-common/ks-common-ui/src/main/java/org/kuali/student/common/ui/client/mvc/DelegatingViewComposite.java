@@ -25,11 +25,12 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 /**
  * This is a simple view composite that delegates all view operations to nested
  * controller. Use of this view allows you to nest controllers in the view
- * hierarchy.
+ * hierarchy.  This class is deprecated for all future development.
  * 
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class DelegatingViewComposite extends ViewComposite implements RequiresAuthorization {
     Controller childController;
     

@@ -10,6 +10,13 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CurriculumHomeContr
 import org.kuali.student.lum.lu.ui.main.client.configuration.AcknowledgeView;
 import org.kuali.student.lum.lu.ui.main.client.views.HomeView;
 
+/**
+ * Home controller for the LUM Application, controls its default view, the curriculum home view, and the
+ * Acknowledgments view page.
+ * 
+ * @author Kuali Student Team
+ * @see HomeView
+ */
 public class HomeController extends LayoutController{
 	
 	private final CurriculumHomeController curriculumHomeView;

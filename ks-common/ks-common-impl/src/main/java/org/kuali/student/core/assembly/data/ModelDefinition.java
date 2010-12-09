@@ -24,7 +24,8 @@ import org.kuali.student.core.assembly.data.Data.DataType;
 
 
 /**
- * @author wilj
+ * ModelDefinition contains the metadata for a model
+ * @author Kuali Student Team
  *
  */
 public interface ModelDefinition extends Serializable{

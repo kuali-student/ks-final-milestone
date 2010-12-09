@@ -274,14 +274,6 @@ public class CluSetsManagementController extends BasicLayout {
         }
 
         initialized = true;
-    } 
-
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return ClusetView.CluSetsManagementViews.class;
     }
 
     @Override

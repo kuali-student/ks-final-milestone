@@ -31,6 +31,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+/**
+ * A button wrapped in an abbr tag with a special hover mechanism for help text
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class AbbrButton extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 	
 	public enum AbbrButtonType{HELP, DELETE, VIEW};
