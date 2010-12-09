@@ -50,6 +50,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * </p>
  * 
  * @goal updateoriginbucket
+ * @aggregator
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
     private static final String S3_INDEX_METADATA_KEY = "maven-cloudfront-plugin-index";
