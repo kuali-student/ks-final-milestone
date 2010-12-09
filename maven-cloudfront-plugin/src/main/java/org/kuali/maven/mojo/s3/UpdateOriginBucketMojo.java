@@ -130,7 +130,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
-            S3BucketContext context = getS3Context();
+            S3BucketContext context = getS3BucketContext();
             generator = new CloudFrontHtmlGenerator(context);
             converter = new S3DataConverter(context);
             recurse(context, getPrefix());
@@ -168,7 +168,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
     }
 
-    protected S3BucketContext getS3Context() throws MojoExecutionException {
+    protected S3BucketContext getS3BucketContext() throws MojoExecutionException {
         updateCredentials();
         validateCredentials();
         AWSCredentials credentials = getCredentials();
