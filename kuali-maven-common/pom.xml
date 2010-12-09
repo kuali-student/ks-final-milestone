@@ -3,18 +3,32 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
-    <artifactId>kuali-parent</artifactId>
-    <version>15</version>
+    <artifactId>kuali</artifactId>
+    <version>23</version>
   </parent>
   <groupId>org.kuali.maven.mojo</groupId>
   <artifactId>kuali-maven-common</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
   <description>Contains things that are common to most mojo development.</description>
+  <properties>
+    <kuali.site.path>maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
+  </properties>
+  <developers>
+    <developer>
+      <id>jcaddel</id>
+      <name>Jeff Caddel</name>
+      <email>jcaddel@kuali.org</email>
+      <organization>rSmart</organization>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
+  <url>${kuali.site.public.url}</url>
   <distributionManagement>
     <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/kuali-maven-common/${project.version}</url>
+      <id>${kuali.site.server.id}</id>
+      <name>Maven Site</name>
+      <url>${kuali.site.publish.url}</url>
     </site>
   </distributionManagement>
   <scm>
@@ -35,20 +49,6 @@
       </snapshots>
     </repository>
   </repositories>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
