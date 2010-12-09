@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.maven.impex</groupId>
-    <artifactId>impex-parent</artifactId>
+    <artifactId>impex</artifactId>
     <version>1.0.10-SNAPSHOT</version>
   </parent>
   <artifactId>maven-impex-plugin</artifactId>
