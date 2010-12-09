@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali</artifactId>
-  <version>23-SNAPSHOT</version>
+  <version>23</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -70,7 +70,7 @@
 
     <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
 
-    <kuali.extra.release.arguments/>
+    <kuali.extra.release.arguments />
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -133,9 +133,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-23</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-23</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-23</url>
   </scm>
   <build>
     <extensions>
