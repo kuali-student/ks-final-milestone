@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>25</version>
+    <version>27</version>
   </parent>
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex</artifactId>
@@ -17,7 +17,7 @@
     <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
     <!-- The test-javadoc report is throwing a NullPointerException -->
-    <kuali.javadoc.report.test-javadoc />
+    <kuali.javadoc.report.test-javadoc/>
   </properties>
   <developers>
     <developer>
