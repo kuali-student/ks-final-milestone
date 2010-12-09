@@ -24,11 +24,13 @@ out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar atp "#{ENV['KS_LOADER
 puts "ATP load:"
 puts out
 
+puts ""
 puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/NewReferenceOrganizations.xls #{url}"
 out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/NewReferenceOrganizations.xls" #{url}`
 puts "Org load:"
 puts out
 
+puts ""
 puts "Cmd: java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization #{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls #{url}"
 out=`java -jar #{ENV['KS_LOADER_RESOURCES']}/ks-loader.jar organization "#{ENV['KS_LOADER_RESOURCES']}/Organizations for BSCI program.xls" #{url}`
 puts "Org load:"
