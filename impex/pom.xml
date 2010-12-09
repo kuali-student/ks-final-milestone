@@ -12,11 +12,11 @@
   <name>Impex Parent</name>
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <properties>
-    <kuali.site.path>maven-plugins/impex/${project.version}</kuali.site.path>
+    <kuali.site.path>impex/${project.version}</kuali.site.path>
     <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
     <!-- The test-javadoc report is throwing a NullPointerException -->
-    <kuali.javadoc.report.test-javadoc />
+    <kuali.javadoc.report.test-javadoc/>
   </properties>
   <developers>
     <developer>
