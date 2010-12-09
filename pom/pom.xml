@@ -369,6 +369,10 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.kuali.maven.cloudfront</groupId>
+        <artifactId>maven-cloudfront-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
         <executions>
