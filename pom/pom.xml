@@ -278,7 +278,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <version>2.0</version>
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
-            <goals>clean deploy site-deploy</goals>
+            <goals>clean deploy site-deploy cloudfront:updateoriginbucket</goals>
             <arguments>-Pkuali-release ${kuali.extra.release.arguments}</arguments>
           </configuration>
         </plugin>
