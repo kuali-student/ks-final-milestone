@@ -111,12 +111,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  */
 public class CourseConfigurer extends AbstractCourseConfigurer {
-    protected String groupName;
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
-
-    
+  
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
@@ -153,8 +151,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     	type = "course";
         state = "draft";
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
-
-        groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         if (modelDefinition.getMetadata().isCanEdit()) {
         	addCluStartSection(layout);
