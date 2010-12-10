@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class AbbrButton extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 	
-	public enum AbbrButtonType{HELP, DELETE, VIEW};
+	public enum AbbrButtonType{HELP, DELETE, VIEW, EXAMPLES};
 	
 	private AbbrPanel abbr;
 	private KSButton button;
@@ -61,6 +61,11 @@ public class AbbrButton extends Composite implements HasClickHandlers, HasMouseO
 			case VIEW:
                 abbr = new AbbrPanel("View", "ks-form-module-elements-delete");
                 button = new KSButton("View", ButtonStyle.DEFAULT_ANCHOR);
+                abbr.add(button);
+			    break;
+			case EXAMPLES:
+                abbr = new AbbrPanel("Examples", "ks-form-module-elements-help");
+                button = new KSButton("See examples", ButtonStyle.DEFAULT_ANCHOR);
                 abbr.add(button);
 			    break;
 		}
@@ -87,6 +92,14 @@ public class AbbrButton extends Composite implements HasClickHandlers, HasMouseO
 			}
 		});
 		
+	}
+
+	public PopupPanel getHoverPopup() {
+		return hoverPopup;
+	}
+
+	public void setHoverPopup(PopupPanel hoverPopup) {
+		this.hoverPopup = hoverPopup;
 	}
 
 	@Override
