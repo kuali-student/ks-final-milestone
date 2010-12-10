@@ -193,11 +193,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="117" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.test.score.min"
-        TEMPLATE="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsShortName()" VER_NBR="0"/>
+        TEMPLATE="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="118" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.test.score.max"
-        TEMPLATE="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsShortName()" VER_NBR="0"/>
+        TEMPLATE="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="119" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min"
@@ -261,11 +261,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="17" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.test.score.min"
-        TEMPLATE="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsShortName()" VER_NBR="0"/>
+        TEMPLATE="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="18" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.test.score.max"
-        TEMPLATE="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsShortName()" VER_NBR="0"/>
+        TEMPLATE="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="19" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min"
