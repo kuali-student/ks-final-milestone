@@ -3,9 +3,7 @@
 	<artifactId>ks-lum-sql</artifactId>
 	<packaging>jar</packaging>
 	<name>KS Lum SQL files</name>
-	<description>
-	This pom contains base data to run the ks-lum services
-	</description>
+	<description>This pom contains base data to run the ks-lum services</description>
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
