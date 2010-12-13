@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -1206,53 +1204,69 @@ public class TestProgramServiceImpl {
     public void testUpdateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-            assertNotNull(majorDisciplineInfo);
+        majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+        assertNotNull(majorDisciplineInfo);
 
-            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
-            assertNotNull(pvInfos);
+        List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+        assertNotNull(pvInfos);
 
-            // update variation fields
-            ProgramVariationInfo pvInfo = pvInfos.get(0);
+        // update variation fields
+        ProgramVariationInfo pvInfo = pvInfos.get(0);
 
-            pvInfo.setLongTitle(pvInfo.getLongTitle() + "-updated");
-            pvInfo.setCode(pvInfo.getCode() + "-updated");
-            pvInfo.setShortTitle(pvInfo.getShortTitle() + "-updated");
-            RichTextInfo testDesc = pvInfo.getDescr();
-            testDesc.setPlain(testDesc.getPlain() + "-updated");
-            pvInfo.setDescr(testDesc);
-            pvInfo.setCip2000Code( pvInfo.getCip2000Code() + "-updated");
-            pvInfo.setCip2010Code(pvInfo.getCip2010Code() + "-updated");
-            pvInfo.setTranscriptTitle("transcriptTitle-updated");
-            pvInfo.setDiplomaTitle(pvInfo.getDiplomaTitle() + "-updated");
+        pvInfo.setLongTitle(pvInfo.getLongTitle() + "-updated");
+        pvInfo.setCode(pvInfo.getCode() + "-updated");
+        pvInfo.setShortTitle(pvInfo.getShortTitle() + "-updated");
+        RichTextInfo testDesc = pvInfo.getDescr();
+        testDesc.setPlain(testDesc.getPlain() + "-updated");
+        pvInfo.setDescr(testDesc);
+        pvInfo.setCip2000Code(pvInfo.getCip2000Code() + "-updated");
+        pvInfo.setCip2010Code(pvInfo.getCip2010Code() + "-updated");
+        pvInfo.setTranscriptTitle("transcriptTitle-updated");
+        pvInfo.setDiplomaTitle(pvInfo.getDiplomaTitle() + "-updated");
 
-            List<String> campusLocations = new ArrayList<String>();
-            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH);
-            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
-            pvInfo.setCampusLocations(campusLocations);
+        List<String> campusLocations = new ArrayList<String>();
+        campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH);
+        campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
+        pvInfo.setCampusLocations(campusLocations);
 
-            List<String> testOrgs = new ArrayList<String>();
-            testOrgs.add("testOrgId");
-            if(pvInfo.getDivisionsContentOwner()!= null){
-            	pvInfo.getDivisionsContentOwner().clear();
-                pvInfo.getDivisionsContentOwner().add("testOrgId");
+        List<String> testOrgs = new ArrayList<String>();
+        testOrgs.add("testOrgId");
+        if (pvInfo.getDivisionsContentOwner() != null) {
+            pvInfo.getDivisionsContentOwner().clear();
+            pvInfo.getDivisionsContentOwner().add("testOrgId");
+        }
+        else {
+            pvInfo.setDivisionsContentOwner(testOrgs);
+        }
+
+        // Perform the update
+        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+        List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+        assertNotNull(updatedPvInfos);
+            
+        // Verify the update
+        verifyUpdatedPVinList(pvInfo, updatedPvInfos);
+
+        // Now explicitly get it
+        List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+        assertNotNull(retrievedPVs);
+            
+        // and verify the update
+        verifyUpdatedPVinList(pvInfo, retrievedPVs);
+    }
+
+    private void verifyUpdatedPVinList(ProgramVariationInfo pvInfo, List<ProgramVariationInfo> updatedPvInfos) {
+        boolean found = false;
+        for (ProgramVariationInfo updatedPV : updatedPvInfos) {
+            if (updatedPV.getId().equals(pvInfo.getId()) && updatedPV.getState().equals("Active")) {
+                verifyUpdate(pvInfo, updatedPV); // see comment in verifyUpdate
+                found = true;
+                break;
             }
-            else
-            	pvInfo.setDivisionsContentOwner(testOrgs);
-
-            //Perform the update
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
-            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
-            assertNotNull(updatedPvInfos);
-            ProgramVariationInfo updatedPV = updatedPvInfos.get(0);
-
-            //Verify the update
-            verifyUpdate(pvInfo, updatedPV);
-
-            // Now explicitly get it
-            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
-            assertNotNull(retrievedPVs);
-            verifyUpdate(pvInfo, retrievedPVs.get(0)); // see comment in verifyUpdate
+        }
+        if (!found) {
+            fail("Unable to find updated ProgramVariationInfo for comparison");
+        }
     }
 
     private void verifyUpdate(ProgramVariationInfo source, ProgramVariationInfo target) {
@@ -1282,48 +1296,46 @@ public class TestProgramServiceImpl {
     public void testCreateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, VersionMismatchException, PermissionDeniedException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
-            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-            assertNotNull(majorDisciplineInfo);
+        majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+        assertNotNull(majorDisciplineInfo);
 
-            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
-            assertNotNull(pvInfos);
+        List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+        assertNotNull(pvInfos);
 
-            ProgramVariationInfo pvInfoS = pvInfos.get(0);
-            ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
+        ProgramVariationInfo pvInfoS = pvInfos.get(0);
+        ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
 
-            BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[] { "id" });
+        BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[]{"id"});
 
-            pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
-            pvInfoT.setShortTitle(pvInfoT.getShortTitle() + "-created");
-            RichTextInfo testDesc = pvInfoT.getDescr();
-            testDesc.setPlain(testDesc.getPlain() + "-created");
-            pvInfoT.setDescr(testDesc);
-            pvInfoT.setCip2000Code( pvInfoT.getCip2000Code() + "-created");
-            pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
-            pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
-            pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
+        pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
+        pvInfoT.setShortTitle(pvInfoT.getShortTitle() + "-created");
+        RichTextInfo testDesc = pvInfoT.getDescr();
+        testDesc.setPlain(testDesc.getPlain() + "-created");
+        pvInfoT.setDescr(testDesc);
+        pvInfoT.setCip2000Code(pvInfoT.getCip2000Code() + "-created");
+        pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
+        pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
+        pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
 
-            //Perform the update: adding the new variation
-            pvInfos.add(pvInfoT);
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
-            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
-            assertNotNull(updatedPvInfos);
-            assertEquals(3, updatedPvInfos.size());
-            ProgramVariationInfo createdPV = updatedPvInfos.get(2);
+        // Perform the update: adding the new variation
+        pvInfos.add(pvInfoT);
+        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+        List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+        assertNotNull(updatedPvInfos);
+        assertEquals(3, updatedPvInfos.size());
 
-            //Verify the update
-            verifyUpdate(pvInfoT, createdPV);
+        // Verify the update
+        verifyUpdatedPVinList(pvInfoT, updatedPvInfos);
 
-            // Now explicitly get it
-            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
-            assertEquals(3, retrievedMD.getVariations().size());
+        // Now explicitly get it
+        MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
+        assertEquals(3, retrievedMD.getVariations().size());
 
-            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
-            assertNotNull(retrievedPVs);
-            assertEquals(3, updatedPvInfos.size());
-            verifyUpdate(pvInfoT, retrievedPVs.get(2));
-
-
+        List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+        assertNotNull(retrievedPVs);
+        assertEquals(3, updatedPvInfos.size());
+            
+        verifyUpdatedPVinList(pvInfoT, retrievedPVs);
     }
 
     @Test
@@ -1355,9 +1367,6 @@ public class TestProgramServiceImpl {
             		assertEquals("Inactive", pvi.getState());
             	}
             }
-            
-            verifyUpdate(pvInfos.get(0), retrievedPVs.get(0));
-
     }
 
     @Test(expected=DoesNotExistException.class)
