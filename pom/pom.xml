@@ -64,8 +64,8 @@
     <kuali.findbugs.plugin.version>2.0.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
-    <kuali.javadoc.report.javadoc>javadoc</kuali.javadoc.report.javadoc>
-    <kuali.javadoc.report.test-javadoc>test-javadoc</kuali.javadoc.report.test-javadoc>
+    <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
+    <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
 
     <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
 
@@ -460,7 +460,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <version>${kuali.javadoc.plugin.version}</version>
         <configuration>
           <maxmemory>256m</maxmemory>
-          <aggregate>true</aggregate>
           <show>private</show>
           <quiet>true</quiet>
           <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
@@ -468,6 +467,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         </configuration>
         <reportSets>
           <reportSet>
+            <id>generate-javadocs</id>
             <reports>
               <report>${kuali.javadoc.report.javadoc}</report>
               <report>${kuali.javadoc.report.test-javadoc}</report>
