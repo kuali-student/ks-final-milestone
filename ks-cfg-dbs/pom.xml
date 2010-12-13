@@ -696,6 +696,7 @@
                       <include>upgrades/*/*.sql</include>
                     </includes>
                   </fileset>
+                  <escapeProcessing>false</escapeProcessing>
                 </configuration>
               </execution>
               <execution>
