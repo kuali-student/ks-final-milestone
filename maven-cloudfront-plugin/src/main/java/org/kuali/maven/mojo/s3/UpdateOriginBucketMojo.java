@@ -271,7 +271,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         updateDirectory(context, isCopyDefaultObjectWithoutDelimiter(), trimmedPrefix);
 
         // Handle "http://www.mybucket.com/foo/bar/browse.html"
-        context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), context.getBrowseHtmlKey()));
+        // context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(),
+        // context.getBrowseHtmlKey()));
     }
 
     /**
