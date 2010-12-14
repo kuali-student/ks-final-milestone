@@ -76,7 +76,7 @@
         PLAIN="Explores the formative literature, theories, research approaches, and history of American Studies." VER_NBR="0"/>
     <KSLU_RICH_TEXT_T FORMATTED="Core Program"
         ID="459f2c80-5ed7-4383-a966-fcc8431a535e"
-        OBJ_ID="97128FB4782A85F3E040C60AF05B5CDE" PLAIN="Core Program" VER_NBR="0"/>
+        OBJ_ID="97665BF4ED673D1CE040C60AF05B2C14" PLAIN="Core Program" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="45ffc1f6-324f-4fc8-a403-8343f50e8686"
         OBJ_ID="6CD0397DE7DB4A0D8C25382ECF6F2A64"
         PLAIN="Survey of the twentieth century civil rights movement from the desegregation of UM Law School through the National Black Political Congress in Gary in 1972. Major themes include leadership, legal and constitutional challenges, non-violence, Black Power, Pan-Africanism." VER_NBR="0"/>
@@ -198,7 +198,7 @@
         OBJ_ID="3809AC8C341747F7BEBB2F466558B8EF"
         PLAIN="Bachelor of Science" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T FORMATTED="Bachelor of Music" ID="MAJOR-103"
-        OBJ_ID="97128FB4781585F3E040C60AF05B5CDE"
+        OBJ_ID="97665BF4ED523D1CE040C60AF05B2C14"
         PLAIN="Bachelor of Music" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="NL-RICHTEXT-101"
         OBJ_ID="80AB766B824B47929E3BBEC58E02D576" PLAIN="Desc" VER_NBR="0"/>
