@@ -127,6 +127,13 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      */
     private String defaultObject;
 
+    /**
+     * The html for browsing a directory will be created under this key
+     * 
+     * @parameter expression="${browseHtml}" default-value="browse.html";
+     */
+    private String browseHtml;
+
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
@@ -261,6 +268,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
 
         // Handle "http://www.mybucket.com/foo/bar"
         updateDirectory(context, isCopyDefaultObjectWithoutDelimiter(), trimmedPrefix);
+
+        // Handle "http://www.mybucket.com/foo/bar/browse.html"
+        context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), context.getBrowseHtmlKey()));
     }
 
     /**
@@ -287,6 +297,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         List<String[]> data = converter.getData(objectListing, prefix, context.getDelimiter());
         String html = generator.getHtml(data, prefix, context.getDelimiter());
         String defaultObjectKey = StringUtils.isEmpty(prefix) ? getDefaultObject() : prefix + getDefaultObject();
+        String browseHtmlKey = StringUtils.isEmpty(prefix) ? getBrowseHtml() : prefix + getBrowseHtml();
         // Is this the root of the bucket?
         boolean isRoot = StringUtils.isEmpty(prefix);
 
@@ -297,6 +308,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         prefixContext.setDefaultObjectKey(defaultObjectKey);
         prefixContext.setPrefix(prefix);
         prefixContext.setBucketContext(context);
+        prefixContext.setBrowseHtmlKey(browseHtmlKey);
         return prefixContext;
     }
 
@@ -447,6 +459,14 @@ public class UpdateOriginBucketMojo extends S3Mojo {
 
     public void setCacheControl(String cacheControl) {
         this.cacheControl = cacheControl;
+    }
+
+    public String getBrowseHtml() {
+        return browseHtml;
+    }
+
+    public void setBrowseHtml(String browseHtml) {
+        this.browseHtml = browseHtml;
     }
 
 }
