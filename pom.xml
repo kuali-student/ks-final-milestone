@@ -13,23 +13,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
-    <artifactId>kuali-parent</artifactId>
-    <version>17</version>
+    <artifactId>kuali</artifactId>
+    <version>30</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
   <version>1.1.0-M10-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
-  <organization>
-    <name>The Kuali Foundation</name>
-    <url>http://student.kuali.org/</url>
-  </organization>
-  <url>http://student.kuali.org/site/${project.version}</url>
+  <url>${kuali.site.public.url}</url>
   <distributionManagement>
     <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/${project.version}</url>
+      <id>${kuali.site.server.id}</id>
+      <name>Maven Site</name>
+      <url>${kuali.site.publish.url}</url>
     </site>
   </distributionManagement>
   <repositories>
