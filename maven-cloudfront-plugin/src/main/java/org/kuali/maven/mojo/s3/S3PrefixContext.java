@@ -9,6 +9,7 @@ public class S3PrefixContext {
     String prefix;
     String html;
     S3BucketContext bucketContext;
+    String browseHtmlKey;
 
     public boolean isRoot() {
         return isRoot;
@@ -56,5 +57,13 @@ public class S3PrefixContext {
 
     public void setBucketContext(S3BucketContext context) {
         this.bucketContext = context;
+    }
+
+    public String getBrowseHtmlKey() {
+        return browseHtmlKey;
+    }
+
+    public void setBrowseHtmlKey(String browseHtmlKey) {
+        this.browseHtmlKey = browseHtmlKey;
     }
 }

@@ -16,6 +16,7 @@ public class S3DataConverter {
     HtmlUtils html = new HtmlUtils();
     NumberFormat nf = getNumberFormatInstance();
     S3BucketContext context;
+    String browseHtml;
 
     public S3DataConverter() {
         this(null);
@@ -226,7 +227,7 @@ public class S3DataConverter {
         }
         int pos = prefix.lastIndexOf(delimiter);
         if (pos == -1) {
-            return delimiter;
+            return delimiter + getBrowseHtml();
         } else {
             return delimiter + prefix.substring(0, pos + 1);
         }
@@ -238,6 +239,14 @@ public class S3DataConverter {
 
     public S3BucketContext getContext() {
         return context;
+    }
+
+    public String getBrowseHtml() {
+        return browseHtml;
+    }
+
+    public void setBrowseHtml(String browseHtml) {
+        this.browseHtml = browseHtml;
     }
 
 }

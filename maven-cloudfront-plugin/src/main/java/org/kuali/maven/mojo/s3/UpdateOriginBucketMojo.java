@@ -140,6 +140,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             S3BucketContext context = getS3BucketContext();
             generator = new CloudFrontHtmlGenerator(context);
             converter = new S3DataConverter(context);
+            converter.setBrowseHtml(getBrowseHtml());
             recurse(context, getPrefix());
             goUpTheChain(context, getPrefix());
         } catch (Exception e) {
