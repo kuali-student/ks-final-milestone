@@ -283,6 +283,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             return;
         }
 
+        // Handle "http://www.mybucket.com/browse.html"
+        context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), context.getBrowseHtmlKey()));
+
         boolean isCreateOrUpdateDefaultObject = isCreateOrUpdateDefaultObject(context);
         if (!isCreateOrUpdateDefaultObject) {
             return;
