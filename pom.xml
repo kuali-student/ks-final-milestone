@@ -140,7 +140,6 @@
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
     <ks.java2ws.phase>none</ks.java2ws.phase>
     <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <build>
     <plugins>
