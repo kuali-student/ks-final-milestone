@@ -153,16 +153,6 @@
     </extensions>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${kuali.findbugs.plugin.version}</version>
-          <configuration>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
-            <!-- Optional directory to put findbugs xml report -->
-            <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
-          </configuration>
-        </plugin>
         <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -460,6 +450,16 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <formats>
             <format>html</format>
           </formats>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${kuali.findbugs.plugin.version}</version>
+        <configuration>
+          <findbugsXmlOutput>true</findbugsXmlOutput>
+            <!-- Optional directory to put findbugs xml report -->
+          <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
         </configuration>
       </plugin>
       <plugin>
