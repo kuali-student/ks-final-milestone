@@ -17,55 +17,58 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 /**
- * Abstract mojo containing S3 mojo essentials
+ * Abstract mojo containing S3 mojo essentials.
  */
 public abstract class S3Mojo extends BaseMojo {
+    /**
+     * Helper class for determining the mime types of objects.
+     */
     Mimetypes mimeTypes = Mimetypes.getInstance();
 
     /**
-     * This is the id of the server from settings.xml containing Amazon AWS credentials
+     * This is the id of the server from settings.xml containing Amazon AWS credentials.
      * 
      * @parameter expression="${serverId}"
      */
     private String serverId;
 
     /**
-     * Only update the bucket hierarchy underneath this prefix
+     * Only update the bucket hierarchy underneath this prefix.
      * 
      * @parameter expression="${prefix}"
      */
     private String prefix;
 
     /**
-     * The delimiter used to organize keys into a hierarchy
+     * The delimiter used to organize keys into a hierarchy.
      * 
      * @parameter expression="${delimiter}" default-value="/"
      */
     private String delimiter;
 
     /**
-     * Maximum number of keys to return per query
+     * Maximum number of keys to return per query.
      * 
      * @parameter expression="${maxKeys}"
      */
     private Integer maxKeys;
 
     /**
-     * Amazon AWS Access Key Id. See also <code>serverId</code>
+     * Amazon AWS Access Key Id. See also <code>serverId</code>.
      * 
      * @parameter expression="${accessKeyId}"
      */
     private String accessKeyId;
 
     /**
-     * Amazon AWS Secret Access Key. See also <code>serverId</code>
+     * Amazon AWS Secret Access Key. See also <code>serverId</code>.
      * 
      * @parameter expression="${secretAccessKey}"
      */
     private String secretAccessKey;
 
     /**
-     * The name of the bucket to update
+     * The name of the bucket to update.
      * 
      * @parameter expression="${bucket}"
      * @required
