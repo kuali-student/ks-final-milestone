@@ -36,7 +36,7 @@
   <licenses>
     <license>
       <name>Educational Community License, Version 2.0</name>
-      <url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</url>
+      <url>${kuali.ecl.license.url}</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -67,9 +67,15 @@
     <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
 
+    <!-- 
+      Setting this to true causes Maven to try and contact any url's listed for every dependency in the project.
+      Quite a few of these urls are out of date, which makes the request eventually time out.  This causes the
+      report generation to take a very long time  
+     -->
     <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
 
-    <kuali.extra.release.arguments />
+    <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
@@ -244,7 +250,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <Bundle-Version>${project.version}</Bundle-Version>
                 <Bundle-Name>${project.name}</Bundle-Name>
                 <Bundle-Description>${project.description}</Bundle-Description>
-                <Bundle-License>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</Bundle-License>
+                <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
@@ -339,7 +345,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <Bundle-Version>${project.version}</Bundle-Version>
                 <Bundle-Name>${project.name}</Bundle-Name>
                 <Bundle-Description>${project.description}</Bundle-Description>
-                <Bundle-License>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</Bundle-License>
+                <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
