@@ -22,7 +22,7 @@ public abstract class BaseMojo extends AbstractMojo {
     public static final String FS = System.getProperty("file.separator");
 
     /**
-     * Skip packaging if type is "pom"
+     * Skip packaging if type is "pom".
      */
     public static final String SKIP_PACKAGING_TYPE = "pom";
 
