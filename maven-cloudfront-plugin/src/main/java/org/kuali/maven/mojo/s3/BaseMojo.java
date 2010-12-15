@@ -99,6 +99,13 @@ public abstract class BaseMojo extends AbstractMojo {
         }
     }
 
+    /**
+     * This method is called after logging has been configured and only if mojo
+     * execution should not be skipped
+     *
+     * @throws MojoExecutionException
+     * @throws MojoFailureException
+     */
     protected abstract void executeMojo() throws MojoExecutionException,
             MojoFailureException;
 
@@ -133,63 +140,108 @@ public abstract class BaseMojo extends AbstractMojo {
     }
 
     /**
-     * Returns the maven project.
-     *
-     * @return The maven project where this plugin runs in.
+     * @return the startMavenLogger
+     */
+    public boolean isStartMavenLogger() {
+        return startMavenLogger;
+    }
+
+    /**
+     * @param startMavenLogger
+     * the startMavenLogger to set
+     */
+    public void setStartMavenLogger(boolean startMavenLogger) {
+        this.startMavenLogger = startMavenLogger;
+    }
+
+    /**
+     * @return the skip
+     */
+    public boolean isSkip() {
+        return skip;
+    }
+
+    /**
+     * @param skip
+     * the skip to set
+     */
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    /**
+     * @return the forceMojoExecution
+     */
+    public boolean isForceMojoExecution() {
+        return forceMojoExecution;
+    }
+
+    /**
+     * @param forceMojoExecution
+     * the forceMojoExecution to set
+     */
+    public void setForceMojoExecution(boolean forceMojoExecution) {
+        this.forceMojoExecution = forceMojoExecution;
+    }
+
+    /**
+     * @return the encoding
+     */
+    public String getEncoding() {
+        return encoding;
+    }
+
+    /**
+     * @param encoding
+     * the encoding to set
+     */
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    /**
+     * @return the project
      */
     public MavenProject getProject() {
         return project;
     }
 
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-    public boolean isSkip() {
-        return skip;
-    }
-
-    public void setSkip(boolean skip) {
-        this.skip = skip;
-    }
-
-    public boolean isForceMojoExecution() {
-        return forceMojoExecution;
-    }
-
-    public void setForceMojoExecution(boolean forceMojoExecution) {
-        this.forceMojoExecution = forceMojoExecution;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
-    }
-
-    public MavenSession getMavenSession() {
-        return mavenSession;
-    }
-
-    public void setMavenSession(MavenSession mavenSession) {
-        this.mavenSession = mavenSession;
-    }
-
+    /**
+     * @param project
+     * the project to set
+     */
     public void setProject(MavenProject project) {
         this.project = project;
     }
 
-    public boolean isStartMavenLogger() {
-        return startMavenLogger;
+    /**
+     * @return the settings
+     */
+    public Settings getSettings() {
+        return settings;
     }
 
-    public void setStartMavenLogger(boolean startMavenLogger) {
-        this.startMavenLogger = startMavenLogger;
+    /**
+     * @param settings
+     * the settings to set
+     */
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
+
+    /**
+     * @return the mavenSession
+     */
+    public MavenSession getMavenSession() {
+        return mavenSession;
+    }
+
+    /**
+     * @param mavenSession
+     * the mavenSession to set
+     */
+    public void setMavenSession(MavenSession mavenSession) {
+        this.mavenSession = mavenSession;
+    }
+
 }
