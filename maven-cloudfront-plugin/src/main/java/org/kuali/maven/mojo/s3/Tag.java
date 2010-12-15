@@ -28,80 +28,80 @@ public class Tag {
     }
 
     /**
-     * @param name
-     * the name to set
+     * @param newName
+     * the newName to set
      */
-    public Tag(final String name) {
-        this(name, null);
+    public Tag(final String newName) {
+        this(newName, null);
     }
 
     /**
-     * @param name
-     * the name to set
-     * @param clazz
-     * the clazz to set
+     * @param newName
+     * the newName to set
+     * @param newClazz
+     * the newClazz to set
      */
-    public Tag(final String name, final String clazz) {
-        this(name, clazz, null);
+    public Tag(final String newName, final String newClazz) {
+        this(newName, newClazz, null);
     }
 
     /**
-     * @param name
-     * the name to set
-     * @param clazz
-     * the clazz to set
-     * @param id
-     * the id to set
+     * @param newName
+     * the newName to set
+     * @param newClazz
+     * the newClazz to set
+     * @param newId
+     * the newId to set
      */
-    public Tag(final String name, final String clazz, final String id) {
+    public Tag(final String newName, final String newClazz, final String newId) {
         super();
-        this.name = name;
-        this.id = id;
-        this.clazz = clazz;
+        this.name = newName;
+        this.id = newId;
+        this.clazz = newClazz;
     }
 
     /**
      * @return the name
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     /**
-     * @param name
-     * the name to set
+     * @param newName
+     * the newName to set
      */
-    public void setName(final String name) {
-        this.name = name;
+    public final void setName(final String newName) {
+        this.name = newName;
     }
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
-     * @param id
-     * the id to set
+     * @param newId
+     * the newId to set
      */
-    public void setId(final String id) {
-        this.id = id;
+    public final void setId(final String newId) {
+        this.id = newId;
     }
 
     /**
      * @return the clazz
      */
-    public String getClazz() {
+    public final String getClazz() {
         return clazz;
     }
 
     /**
-     * @param clazz
-     * the clazz to set
+     * @param newClazz
+     * the newClazz to set
      */
-    public void setClazz(final String clazz) {
-        this.clazz = clazz;
+    public final void setClazz(final String newClazz) {
+        this.clazz = newClazz;
     }
 }

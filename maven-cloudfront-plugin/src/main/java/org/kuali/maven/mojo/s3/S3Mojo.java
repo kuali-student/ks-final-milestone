@@ -26,56 +26,58 @@ public abstract class S3Mojo extends BaseMojo {
     Mimetypes mimeTypes = Mimetypes.getInstance();
 
     /**
-     * This is the id of the server from settings.xml containing Amazon AWS credentials.
-     * 
+     * This is the id of the server from settings.xml containing Amazon AWS
+     * credentials.
+     *
      * @parameter expression="${serverId}"
      */
     private String serverId;
 
     /**
      * Only update the bucket hierarchy underneath this prefix.
-     * 
+     *
      * @parameter expression="${prefix}"
      */
     private String prefix;
 
     /**
      * The delimiter used to organize keys into a hierarchy.
-     * 
+     *
      * @parameter expression="${delimiter}" default-value="/"
      */
     private String delimiter;
 
     /**
      * Maximum number of keys to return per query.
-     * 
+     *
      * @parameter expression="${maxKeys}"
      */
     private Integer maxKeys;
 
     /**
      * Amazon AWS Access Key Id. See also <code>serverId</code>.
-     * 
+     *
      * @parameter expression="${accessKeyId}"
      */
     private String accessKeyId;
 
     /**
      * Amazon AWS Secret Access Key. See also <code>serverId</code>.
-     * 
+     *
      * @parameter expression="${secretAccessKey}"
      */
     private String secretAccessKey;
 
     /**
      * The name of the bucket to update.
-     * 
+     *
      * @parameter expression="${bucket}"
      * @required
      */
     private String bucket;
 
-    protected ObjectMetadata getObjectMetadata(String location, Resource resource) throws IOException {
+    protected ObjectMetadata getObjectMetadata(final String location,
+            final Resource resource) throws IOException {
         ObjectMetadata om = new ObjectMetadata();
         String contentType = mimeTypes.getMimetype(location);
         om.setContentType(contentType);
@@ -83,17 +85,20 @@ public abstract class S3Mojo extends BaseMojo {
         return om;
     }
 
-    protected PutObjectRequest getPutObjectRequest(String location, String key) throws IOException {
+    protected PutObjectRequest getPutObjectRequest(final String location, final String key)
+            throws IOException {
         ResourceLoader loader = new DefaultResourceLoader();
         Resource resource = loader.getResource(location);
         InputStream in = resource.getInputStream();
         ObjectMetadata objectMetadata = getObjectMetadata(location, resource);
-        PutObjectRequest request = new PutObjectRequest(getBucket(), key, in, objectMetadata);
+        PutObjectRequest request = new PutObjectRequest(getBucket(), key, in,
+                objectMetadata);
         request.setCannedAcl(CannedAccessControlList.PublicRead);
         return request;
     }
 
-    protected PutObjectRequest getPutObjectRequest(String location) throws IOException {
+    protected PutObjectRequest getPutObjectRequest(final String location)
+            throws IOException {
         String key = location.substring(1);
         return getPutObjectRequest(location, key);
     }
@@ -141,7 +146,7 @@ public abstract class S3Mojo extends BaseMojo {
         return accessKeyId;
     }
 
-    public void setAccessKeyId(String accessKeyId) {
+    public void setAccessKeyId(final String accessKeyId) {
         this.accessKeyId = accessKeyId;
     }
 
@@ -149,7 +154,7 @@ public abstract class S3Mojo extends BaseMojo {
         return secretAccessKey;
     }
 
-    public void setSecretAccessKey(String secretAccessKey) {
+    public void setSecretAccessKey(final String secretAccessKey) {
         this.secretAccessKey = secretAccessKey;
     }
 
@@ -157,7 +162,7 @@ public abstract class S3Mojo extends BaseMojo {
         return bucket;
     }
 
-    public void setBucket(String bucket) {
+    public void setBucket(final String bucket) {
         this.bucket = bucket;
     }
 
@@ -165,7 +170,7 @@ public abstract class S3Mojo extends BaseMojo {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
+    public void setPrefix(final String prefix) {
         this.prefix = prefix;
     }
 
@@ -173,7 +178,7 @@ public abstract class S3Mojo extends BaseMojo {
         return delimiter;
     }
 
-    public void setDelimiter(String delimiter) {
+    public void setDelimiter(final String delimiter) {
         this.delimiter = delimiter;
     }
 
@@ -181,7 +186,7 @@ public abstract class S3Mojo extends BaseMojo {
         return maxKeys;
     }
 
-    public void setMaxKeys(Integer maxKeys) {
+    public void setMaxKeys(final Integer maxKeys) {
         this.maxKeys = maxKeys;
     }
 
@@ -189,7 +194,7 @@ public abstract class S3Mojo extends BaseMojo {
         return serverId;
     }
 
-    public void setServerId(String serverId) {
+    public void setServerId(final String serverId) {
         this.serverId = serverId;
     }
 }

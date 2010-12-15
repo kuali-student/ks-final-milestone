@@ -22,14 +22,15 @@ public class S3DataConverter {
         this(null);
     }
 
-    public S3DataConverter(S3BucketContext context) {
+    public S3DataConverter(final S3BucketContext context) {
         super();
         this.context = context;
     }
 
     /**
-     * Return a NumberFormat that does not using grouping and always displays one fraction digit. This is used to display the
-     * size of S3 objects in kilobytes
+     * Return a NumberFormat that does not using grouping and always displays
+     * one fraction digit. This is used to display the size of S3 objects in
+     * kilobytes
      */
     protected NumberFormat getNumberFormatInstance() {
         NumberFormat nf = NumberFormat.getInstance();
@@ -43,7 +44,7 @@ public class S3DataConverter {
      * Convert "foo/bar/css/" into "foo/bar/css"<br>
      * Convert "foo/bar/css" into "foo/bar"<br>
      */
-    protected String getTrimmedPrefix(String prefix, String delimiter) {
+    protected String getTrimmedPrefix(final String prefix, final String delimiter) {
         int pos = prefix.lastIndexOf(delimiter);
         if (pos == -1) {
             return prefix;
@@ -52,9 +53,11 @@ public class S3DataConverter {
     }
 
     /**
-     * Convert each DisplayRow object in the list to a String[] and add the String[] to the list of data
+     * Convert each DisplayRow object in the list to a String[] and add the
+     * String[] to the list of data
      */
-    protected void addDisplayRows(List<DisplayRow> displayRows, List<String[]> data) {
+    protected void addDisplayRows(final List<DisplayRow> displayRows,
+            final List<String[]> data) {
         for (DisplayRow displayRow : displayRows) {
             addDisplayRow(displayRow, data);
         }
@@ -63,7 +66,7 @@ public class S3DataConverter {
     /**
      * Convert a DisplayRow object to a String[]
      */
-    protected void addDisplayRow(DisplayRow displayRow, List<String[]> data) {
+    protected void addDisplayRow(final DisplayRow displayRow, final List<String[]> data) {
         if (displayRow == null) {
             return;
         }
@@ -79,7 +82,7 @@ public class S3DataConverter {
      * Trim the prefix off of the text we display for this object.<br>
      * Display "style.css" instead of "css/style.css"
      */
-    protected String getShow(String key, String prefix) {
+    protected String getShow(final String key, final String prefix) {
         if (prefix == null) {
             return key;
         }
@@ -91,7 +94,8 @@ public class S3DataConverter {
     /**
      * Convert a commonPrefix into a DisplayRow object for the UI
      */
-    protected DisplayRow getDisplayRow(String commonPrefix, String prefix, String delimiter) {
+    protected DisplayRow getDisplayRow(final String commonPrefix, final String prefix,
+            final String delimiter) {
 
         // Create some UI friendly strings
         String image = html.getImage(context.getDirectoryImage());
@@ -110,10 +114,12 @@ public class S3DataConverter {
         return displayRow;
     }
 
-    protected List<DisplayRow> getDirectoryDisplayRows(ObjectListing objectListing, String prefix, String delimiter) {
+    protected List<DisplayRow> getDirectoryDisplayRows(
+            final ObjectListing objectListing, final String prefix, final String delimiter) {
         List<DisplayRow> displayRows = new ArrayList<DisplayRow>();
         for (String commonPrefix : objectListing.getCommonPrefixes()) {
-            DisplayRow displayRow = getDisplayRow(commonPrefix, prefix, delimiter);
+            DisplayRow displayRow = getDisplayRow(commonPrefix, prefix,
+                    delimiter);
             if (displayRow == null) {
                 continue;
             }
@@ -123,13 +129,17 @@ public class S3DataConverter {
     }
 
     /**
-     * Convert the ObjectListing into a List of String arrays. Each array in the list represents one row in the html table we
-     * will be generating
+     * Convert the ObjectListing into a List of String arrays. Each array in the
+     * list represents one row in the html table we will be generating
      */
-    protected List<String[]> getData(ObjectListing objectListing, String prefix, String delimiter) {
-        DisplayRow upOneDirectory = getUpOneDirectoryDisplayRow(prefix, delimiter);
-        List<DisplayRow> objectDisplayRows = getObjectDisplayRows(objectListing, prefix, delimiter);
-        List<DisplayRow> directoryDisplayRows = getDirectoryDisplayRows(objectListing, prefix, delimiter);
+    protected List<String[]> getData(final ObjectListing objectListing,
+            final String prefix, final String delimiter) {
+        DisplayRow upOneDirectory = getUpOneDirectoryDisplayRow(prefix,
+                delimiter);
+        List<DisplayRow> objectDisplayRows = getObjectDisplayRows(
+                objectListing, prefix, delimiter);
+        List<DisplayRow> directoryDisplayRows = getDirectoryDisplayRows(
+                objectListing, prefix, delimiter);
         List<String[]> data = new ArrayList<String[]>();
         addDisplayRow(upOneDirectory, data);
         addDisplayRows(directoryDisplayRows, data);
@@ -137,7 +147,8 @@ public class S3DataConverter {
         return data;
     }
 
-    protected boolean isDirectory(S3ObjectSummary summary, List<String> commonPrefixes, String prefix, String delimiter) {
+    protected boolean isDirectory(final S3ObjectSummary summary,
+            final List<String> commonPrefixes, final String prefix, final String delimiter) {
         String key = summary.getKey();
         if (key.equals(prefix)) {
             return true;
@@ -157,7 +168,8 @@ public class S3DataConverter {
     /**
      * Convert an S3ObjectSummary into a DisplayRow object for the UI
      */
-    protected DisplayRow getDisplayRow(S3ObjectSummary summary, String prefix, String delimiter) {
+    protected DisplayRow getDisplayRow(final S3ObjectSummary summary, final String prefix,
+            final String delimiter) {
         String key = summary.getKey();
 
         // Create some UI friendly strings
@@ -165,7 +177,8 @@ public class S3DataConverter {
         String show = getShow(key, prefix);
         String dest = delimiter + key;
         String ahref = html.getHref(dest, show);
-        String date = context.getLastModifiedDateFormatter().format(summary.getLastModified());
+        String date = context.getLastModifiedDateFormatter().format(
+                summary.getLastModified());
         String size = nf.format((summary.getSize() / 1024D)) + " KiB";
 
         // Store them in an object
@@ -177,10 +190,12 @@ public class S3DataConverter {
         return displayRow;
     }
 
-    protected List<DisplayRow> getObjectDisplayRows(ObjectListing objectListing, String prefix, String delimiter) {
+    protected List<DisplayRow> getObjectDisplayRows(
+            final ObjectListing objectListing, final String prefix, final String delimiter) {
         List<DisplayRow> displayRows = new ArrayList<DisplayRow>();
         for (S3ObjectSummary summary : objectListing.getObjectSummaries()) {
-            if (isDirectory(summary, objectListing.getCommonPrefixes(), prefix, delimiter)) {
+            if (isDirectory(summary, objectListing.getCommonPrefixes(), prefix,
+                    delimiter)) {
                 continue;
             }
             DisplayRow displayRow = getDisplayRow(summary, prefix, delimiter);
@@ -195,7 +210,8 @@ public class S3DataConverter {
     /**
      * Convert a commonPrefix into a DisplayRow object for the UI
      */
-    protected DisplayRow getUpOneDirectoryDisplayRow(String prefix, String delimiter) {
+    protected DisplayRow getUpOneDirectoryDisplayRow(final String prefix,
+            final String delimiter) {
         if (StringUtils.isEmpty(prefix)) {
             return null;
         }
@@ -221,7 +237,7 @@ public class S3DataConverter {
      * If prefix is "foo/" and delimiter is "/" return "/"<br>
      * If prefix is "foo/bar/" and delimiter is "/" return "foo/"
      */
-    protected String getUpOneDirectoryDest(String prefix, String delimiter) {
+    protected String getUpOneDirectoryDest(String prefix, final String delimiter) {
         if (prefix.endsWith(delimiter)) {
             prefix = prefix.substring(0, prefix.length() - 1);
         }
@@ -233,7 +249,7 @@ public class S3DataConverter {
         }
     }
 
-    public void setContext(S3BucketContext context) {
+    public void setContext(final S3BucketContext context) {
         this.context = context;
     }
 
@@ -245,7 +261,7 @@ public class S3DataConverter {
         return browseHtml;
     }
 
-    public void setBrowseHtml(String browseHtml) {
+    public void setBrowseHtml(final String browseHtml) {
         this.browseHtml = browseHtml;
     }
 

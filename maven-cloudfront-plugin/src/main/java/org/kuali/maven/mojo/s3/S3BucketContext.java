@@ -22,7 +22,7 @@ public class S3BucketContext {
         return client;
     }
 
-    public void setClient(AmazonS3Client client) {
+    public void setClient(final AmazonS3Client client) {
         this.client = client;
     }
 
@@ -30,7 +30,7 @@ public class S3BucketContext {
         return bucket;
     }
 
-    public void setBucket(String bucket) {
+    public void setBucket(final String bucket) {
         this.bucket = bucket;
     }
 
@@ -38,7 +38,7 @@ public class S3BucketContext {
         return delimiter;
     }
 
-    public void setDelimiter(String delimiter) {
+    public void setDelimiter(final String delimiter) {
         this.delimiter = delimiter;
     }
 
@@ -46,7 +46,7 @@ public class S3BucketContext {
         return fileImage;
     }
 
-    public void setFileImage(String fileImage) {
+    public void setFileImage(final String fileImage) {
         this.fileImage = fileImage;
     }
 
@@ -54,7 +54,7 @@ public class S3BucketContext {
         return directoryImage;
     }
 
-    public void setDirectoryImage(String directoryImage) {
+    public void setDirectoryImage(final String directoryImage) {
         this.directoryImage = directoryImage;
     }
 
@@ -62,7 +62,7 @@ public class S3BucketContext {
         return css;
     }
 
-    public void setCss(String css) {
+    public void setCss(final String css) {
         this.css = css;
     }
 
@@ -70,7 +70,7 @@ public class S3BucketContext {
         return defaultObject;
     }
 
-    public void setDefaultObject(String defaultObject) {
+    public void setDefaultObject(final String defaultObject) {
         this.defaultObject = defaultObject;
     }
 
@@ -78,7 +78,7 @@ public class S3BucketContext {
         return lastModifiedDateFormatter;
     }
 
-    public void setLastModifiedDateFormatter(SimpleDateFormat dateFormatter) {
+    public void setLastModifiedDateFormatter(final SimpleDateFormat dateFormatter) {
         this.lastModifiedDateFormatter = dateFormatter;
     }
 
@@ -86,7 +86,7 @@ public class S3BucketContext {
         return about;
     }
 
-    public void setAbout(String about) {
+    public void setAbout(final String about) {
         this.about = about;
     }
 }

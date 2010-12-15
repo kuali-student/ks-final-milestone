@@ -15,7 +15,7 @@ public class S3PrefixContext {
         return isRoot;
     }
 
-    public void setRoot(boolean isRoot) {
+    public void setRoot(final boolean isRoot) {
         this.isRoot = isRoot;
     }
 
@@ -23,7 +23,7 @@ public class S3PrefixContext {
         return defaultObjectKey;
     }
 
-    public void setDefaultObjectKey(String defaultObjectKey) {
+    public void setDefaultObjectKey(final String defaultObjectKey) {
         this.defaultObjectKey = defaultObjectKey;
     }
 
@@ -31,7 +31,7 @@ public class S3PrefixContext {
         return objectListing;
     }
 
-    public void setObjectListing(ObjectListing objectListing) {
+    public void setObjectListing(final ObjectListing objectListing) {
         this.objectListing = objectListing;
     }
 
@@ -39,7 +39,7 @@ public class S3PrefixContext {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
+    public void setPrefix(final String prefix) {
         this.prefix = prefix;
     }
 
@@ -47,7 +47,7 @@ public class S3PrefixContext {
         return html;
     }
 
-    public void setHtml(String html) {
+    public void setHtml(final String html) {
         this.html = html;
     }
 
@@ -55,7 +55,7 @@ public class S3PrefixContext {
         return bucketContext;
     }
 
-    public void setBucketContext(S3BucketContext context) {
+    public void setBucketContext(final S3BucketContext context) {
         this.bucketContext = context;
     }
 
@@ -63,7 +63,7 @@ public class S3PrefixContext {
         return browseHtmlKey;
     }
 
-    public void setBrowseHtmlKey(String browseHtmlKey) {
+    public void setBrowseHtmlKey(final String browseHtmlKey) {
         this.browseHtmlKey = browseHtmlKey;
     }
 }

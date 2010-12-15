@@ -150,7 +150,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param startMavenLogger
      * the startMavenLogger to set
      */
-    public void setStartMavenLogger(boolean startMavenLogger) {
+    public void setStartMavenLogger(final boolean startMavenLogger) {
         this.startMavenLogger = startMavenLogger;
     }
 
@@ -165,7 +165,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param skip
      * the skip to set
      */
-    public void setSkip(boolean skip) {
+    public void setSkip(final boolean skip) {
         this.skip = skip;
     }
 
@@ -180,7 +180,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param forceMojoExecution
      * the forceMojoExecution to set
      */
-    public void setForceMojoExecution(boolean forceMojoExecution) {
+    public void setForceMojoExecution(final boolean forceMojoExecution) {
         this.forceMojoExecution = forceMojoExecution;
     }
 
@@ -195,7 +195,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param encoding
      * the encoding to set
      */
-    public void setEncoding(String encoding) {
+    public void setEncoding(final String encoding) {
         this.encoding = encoding;
     }
 
@@ -210,7 +210,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param project
      * the project to set
      */
-    public void setProject(MavenProject project) {
+    public void setProject(final MavenProject project) {
         this.project = project;
     }
 
@@ -225,7 +225,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param settings
      * the settings to set
      */
-    public void setSettings(Settings settings) {
+    public void setSettings(final Settings settings) {
         this.settings = settings;
     }
 
@@ -240,7 +240,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @param mavenSession
      * the mavenSession to set
      */
-    public void setMavenSession(MavenSession mavenSession) {
+    public void setMavenSession(final MavenSession mavenSession) {
         this.mavenSession = mavenSession;
     }
 

@@ -9,7 +9,7 @@ public class HtmlUtils {
 
     int indent = 0;
 
-    public String getIndentedContent(String content) {
+    public String getIndentedContent(final String content) {
         return getIndent() + content;
     }
 
@@ -20,18 +20,18 @@ public class HtmlUtils {
     /**
      * Return an HTML ahref tag
      */
-    public String getHref(String dest, String show) {
+    public String getHref(final String dest, final String show) {
         return getIndent() + "<a href=\"" + dest + "\">" + show + "</a>";
     }
 
     /**
      * Return an HTML img tag
      */
-    public String getImage(String image) {
+    public String getImage(final String image) {
         return getIndent() + "<img src=\"" + image + "\">";
     }
 
-    public String openTag(Tag tag) {
+    public String openTag(final Tag tag) {
         StringBuffer sb = new StringBuffer();
         sb.append(getIndent());
         indent++;
@@ -46,12 +46,12 @@ public class HtmlUtils {
         return sb.toString();
     }
 
-    public String closeTag(Tag tag) {
+    public String closeTag(final Tag tag) {
         indent--;
         return getIndent() + "</" + tag.getName() + ">\n";
     }
 
-    public String getTag(Tag tag, String content) {
+    public String getTag(final Tag tag, final String content) {
         StringBuffer sb = new StringBuffer();
         sb.append(openTag(tag));
         sb.append(getIndent());

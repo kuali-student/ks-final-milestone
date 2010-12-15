@@ -19,7 +19,7 @@ public class CloudFrontHtmlGenerator {
         this(null);
     }
 
-    public CloudFrontHtmlGenerator(S3BucketContext context) {
+    public CloudFrontHtmlGenerator(final S3BucketContext context) {
         super();
         this.context = context;
     }
@@ -29,10 +29,14 @@ public class CloudFrontHtmlGenerator {
      */
     protected List<ColumnDecorator> getColumnDecorators() {
         List<ColumnDecorator> columnDecorators = new ArrayList<ColumnDecorator>();
-        columnDecorators.add(new ColumnDecorator("image-column", "sort-header", ""));
-        columnDecorators.add(new ColumnDecorator("name-column", "sort-header", "Name"));
-        columnDecorators.add(new ColumnDecorator("last-modified-column", "sort-header", "Last Modified"));
-        columnDecorators.add(new ColumnDecorator("size-column", "sort-header", "Size"));
+        columnDecorators.add(new ColumnDecorator("image-column", "sort-header",
+                ""));
+        columnDecorators.add(new ColumnDecorator("name-column", "sort-header",
+                "Name"));
+        columnDecorators.add(new ColumnDecorator("last-modified-column",
+                "sort-header", "Last Modified"));
+        columnDecorators.add(new ColumnDecorator("size-column", "sort-header",
+                "Size"));
         return columnDecorators;
     }
 
@@ -41,12 +45,13 @@ public class CloudFrontHtmlGenerator {
      * If delimiter is "/" and prefix is "foo/bar" return "/foo/bar"<br>
      * If delimiter is "/" and prefix is "foo/bar/" return "/foo/bar"
      */
-    protected String getDirectory(String prefix, String delimiter) {
+    protected String getDirectory(final String prefix, final String delimiter) {
         if (prefix == null) {
             return delimiter;
         }
         if (prefix.endsWith(delimiter)) {
-            return delimiter + prefix.substring(0, prefix.length() - delimiter.length());
+            return delimiter
+                    + prefix.substring(0, prefix.length() - delimiter.length());
         } else {
             return delimiter + prefix;
         }
@@ -71,7 +76,7 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate the full html page
      */
-    public String getHtml(List<String[]> data, String prefix, String delimiter) {
+    public String getHtml(final List<String[]> data, final String prefix, final String delimiter) {
         String directory = getDirectory(prefix, delimiter);
 
         Tag html = new Tag("html");
@@ -90,7 +95,9 @@ public class CloudFrontHtmlGenerator {
         sb.append(this.html.getIndentedContent(getHtmlComment()));
         sb.append(this.html.getTag(title, "Directory listing for " + directory));
         sb.append(this.html.openTag(head));
-        sb.append(this.html.getIndentedContent("<link href=\"" + context.getCss() + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
+        sb.append(this.html.getIndentedContent("<link href=\""
+                + context.getCss()
+                + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"));
         sb.append(this.html.getIndentedContent(getMeta()));
         sb.append(this.html.getIndentedContent(getGoogleAnalyticsJavascript()));
         sb.append(this.html.closeTag(head));
@@ -114,22 +121,23 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate html representing the contents of one table cell
      */
-    protected String getTableCell(String content, ColumnDecorator decorator) {
+    protected String getTableCell(final String content, final ColumnDecorator decorator) {
         Tag td = new Tag("td", decorator.getTableDataClass());
         return html.getTag(td, content);
     }
 
     /**
-     * Return true if the Collection is null or contains no entries, false otherwise
+     * Return true if the Collection is null or contains no entries, false
+     * otherwise
      */
-    protected boolean isEmpty(Collection<?> c) {
+    protected boolean isEmpty(final Collection<?> c) {
         return c == null || c.size() == 0;
     }
 
     /**
      * Alternate the styling of each row
      */
-    protected Tag getTableRowTag(int row) {
+    protected Tag getTableRowTag(final int row) {
         if ((row % 2) == 0) {
             return new Tag("tr", "table-tr-odd");
         } else {
@@ -140,7 +148,8 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate an html table row for the String[]
      */
-    protected String getTableRow(int row, String[] data, List<ColumnDecorator> columnDecorators) {
+    protected String getTableRow(final int row, final String[] data,
+            final List<ColumnDecorator> columnDecorators) {
         StringBuffer sb = new StringBuffer();
         Tag tr = getTableRowTag(row);
         sb.append(html.openTag(tr));
@@ -154,7 +163,8 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate a table row for each String[] in the list
      */
-    protected String getTableRows(List<String[]> data, List<ColumnDecorator> columnDecorators) {
+    protected String getTableRows(final List<String[]> data,
+            final List<ColumnDecorator> columnDecorators) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < data.size(); i++) {
             sb.append(getTableRow(i, data.get(i), columnDecorators));
@@ -165,13 +175,14 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate the html for the th tags from a list of ColumnDecorator objects
      */
-    protected String getTableHeaders(List<ColumnDecorator> columnDecorators) {
+    protected String getTableHeaders(final List<ColumnDecorator> columnDecorators) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < columnDecorators.size(); i++) {
             ColumnDecorator decorator = columnDecorators.get(i);
             Tag th = new Tag("th", decorator.getTableDataClass());
             sb.append(html.openTag(th));
-            sb.append(html.getTag(new Tag("span", decorator.getSpanClass()), decorator.getColumnTitle()));
+            sb.append(html.getTag(new Tag("span", decorator.getSpanClass()),
+                    decorator.getColumnTitle()));
             sb.append(html.closeTag(th));
         }
         return sb.toString();
@@ -180,7 +191,8 @@ public class CloudFrontHtmlGenerator {
     /**
      * Generate the table representing a directory listing
      */
-    protected String getHtmlTable(List<String[]> data, List<ColumnDecorator> columnDecorators) {
+    protected String getHtmlTable(final List<String[]> data,
+            final List<ColumnDecorator> columnDecorators) {
         if (isEmpty(data)) {
             return "";
         }
@@ -206,7 +218,7 @@ public class CloudFrontHtmlGenerator {
         return context;
     }
 
-    public void setContext(S3BucketContext context) {
+    public void setContext(final S3BucketContext context) {
         this.context = context;
     }
 

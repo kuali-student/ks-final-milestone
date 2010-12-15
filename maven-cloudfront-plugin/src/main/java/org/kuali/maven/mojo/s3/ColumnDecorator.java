@@ -13,7 +13,8 @@ public class ColumnDecorator {
         this(null, null, null);
     }
 
-    public ColumnDecorator(String tableDataClass, String spanClass, String columnTitle) {
+    public ColumnDecorator(final String tableDataClass, final String spanClass,
+            final String columnTitle) {
         super();
         this.tableDataClass = tableDataClass;
         this.spanClass = spanClass;
@@ -24,7 +25,7 @@ public class ColumnDecorator {
         return tableDataClass;
     }
 
-    public void setTableDataClass(String tableDataClass) {
+    public void setTableDataClass(final String tableDataClass) {
         this.tableDataClass = tableDataClass;
     }
 
@@ -32,7 +33,7 @@ public class ColumnDecorator {
         return spanClass;
     }
 
-    public void setSpanClass(String spanClass) {
+    public void setSpanClass(final String spanClass) {
         this.spanClass = spanClass;
     }
 
@@ -40,7 +41,7 @@ public class ColumnDecorator {
         return columnTitle;
     }
 
-    public void setColumnTitle(String columnTitle) {
+    public void setColumnTitle(final String columnTitle) {
         this.columnTitle = columnTitle;
     }
 }
