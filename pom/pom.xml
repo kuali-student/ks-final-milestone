@@ -61,7 +61,7 @@
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
-    <kuali.findbugs.plugin.version>2.0.1</kuali.findbugs.plugin.version>
+    <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
@@ -458,7 +458,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <version>${kuali.findbugs.plugin.version}</version>
         <configuration>
           <findbugsXmlOutput>true</findbugsXmlOutput>
-            <!-- Optional directory to put findbugs xml report -->
+           <!-- Optional directory to put findbugs xml report -->
           <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
         </configuration>
       </plugin>
