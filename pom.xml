@@ -91,6 +91,7 @@
     <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
+    <kuali.site.path>student/${project.version}</kuali.site.path>
     <ks.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</ks.clover.exclude.pattern.1>
     <ks.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</ks.clover.exclude.pattern.2>
     <ks.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</ks.clover.exclude.pattern.3>
