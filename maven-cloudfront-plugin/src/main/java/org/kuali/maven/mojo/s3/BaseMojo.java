@@ -16,6 +16,7 @@ import org.kuali.maven.mojo.MavenLogger;
  * are shown in maven's output
  */
 public abstract class BaseMojo extends AbstractMojo {
+
     /**
      * Convenience reference to System.getProperty("file.separator").
      */
@@ -29,14 +30,14 @@ public abstract class BaseMojo extends AbstractMojo {
     /**
      * When true, redirect logging from Log4j and Jakarta Commons Logging to the
      * Maven logging system.
-     * 
+     *
      * @parameter expression="${startMavenLogger}" default-value="true"
      */
     private boolean startMavenLogger;
 
     /**
      * When <code>true</code>, skip the execution of this mojo.
-     * 
+     *
      * @parameter default-value="false"
      */
     private boolean skip;
@@ -44,7 +45,7 @@ public abstract class BaseMojo extends AbstractMojo {
     /**
      * Setting this parameter to <code>true</code> will force the execution of
      * this mojo, even if it would get skipped usually.
-     * 
+     *
      * @parameter expression="${forceMojoExecution}" default-value="false"
      * @required
      */
@@ -54,15 +55,15 @@ public abstract class BaseMojo extends AbstractMojo {
      * The encoding to use when reading/writing files. If not specified this
      * defaults to the platform specific encoding of whatever machine the build
      * is running on.
-     * 
+     *
      * @parameter expression="${encoding}"
-     *            default-value="${project.build.sourceEncoding}"
+     * default-value="${project.build.sourceEncoding}"
      */
     private String encoding;
 
     /**
      * The Maven project this plugin runs in.
-     * 
+     *
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -111,7 +112,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * <li>if the mojo gets executed on a project with packaging type 'pom' and
      * {@link #forceMojoExecution} is <code>false</code></li>
      * </ul>
-     * 
+     *
      * @return <code>true</code> if the mojo execution should be skipped.
      */
     protected boolean skipMojo() {
@@ -133,7 +134,7 @@ public abstract class BaseMojo extends AbstractMojo {
 
     /**
      * Returns the maven project.
-     * 
+     *
      * @return The maven project where this plugin runs in.
      */
     public MavenProject getProject() {
