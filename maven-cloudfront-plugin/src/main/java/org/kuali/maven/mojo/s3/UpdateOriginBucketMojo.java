@@ -56,7 +56,6 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class UpdateOriginBucketMojo extends S3Mojo {
     private static final String S3_INDEX_METADATA_KEY = "maven-cloudfront-plugin-index";
     private static final String S3_INDEX_CONTENT_TYPE = "text/html";
-    HtmlUtils html = new HtmlUtils();
     CloudFrontHtmlGenerator generator;
     S3DataConverter converter;
 
