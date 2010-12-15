@@ -101,7 +101,7 @@ public abstract class BaseMojo extends AbstractMojo {
 
     /**
      * This method is called after logging has been configured and only if mojo
-     * execution should not be skipped
+     * execution should not be skipped.
      *
      * @throws MojoExecutionException
      * @throws MojoFailureException
