@@ -249,7 +249,7 @@
             <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
             <link>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</link>
             <link>http://site.kuali.org/student/${project.version}/apidocs/</link>
-            <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
+            <link>http://www.kuali.org/rice/docs/${kuali.rice.version}/site/apidocs/</link>
             <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
             <link>http://ws.apache.org/wss4j/apidocs/</link>
           </links>
