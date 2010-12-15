@@ -541,9 +541,14 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                     <matchString>todo</matchString>
                     <matchType>ignoreCase</matchType>
                   </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>FIXME's</displayName>
+                <tags>
                   <tag>
                     <matchString>FIXME</matchString>
-                    <matchType>exact</matchType>
+                    <matchType>ignoreCase</matchType>
                   </tag>
                 </tags>
               </tagClass>
