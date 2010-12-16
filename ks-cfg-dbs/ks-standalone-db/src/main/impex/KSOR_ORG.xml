@@ -11,19 +11,19 @@
     <KSOR_ORG CREATETIME="20100917121400" EFF_DT="20100701000000"
         ID="077ef01e-510f-4932-976a-FIRE"
         LNG_NAME="Maryland Fire and Rescue Institute"
-        OBJ_ID="97665BF4ED4D3D1CE040C60AF05B2C14" SHRT_NAME="FIRE"
+        OBJ_ID="96ED3E513F2BFE1EE040C60AF05B2BC9" SHRT_NAME="FIRE"
         ST="Active" TYPE="kuali.org.CorporateEntity"
         UPDATETIME="20100917121400" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20100917121400" EFF_DT="20100701000000"
         ID="077ef01e-510f-4932-976a-IAA"
         LNG_NAME="Institute of Applied Agriculture"
-        OBJ_ID="97665BF4ED4C3D1CE040C60AF05B2C14" SHRT_NAME="IAA"
+        OBJ_ID="96ED3E513F2AFE1EE040C60AF05B2BC9" SHRT_NAME="IAA"
         ST="Active" TYPE="kuali.org.CorporateEntity"
         UPDATETIME="20100917121400" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20100917121400" EFF_DT="20100701000000"
         ID="077ef01e-510f-4932-976a-UMD"
         LNG_NAME="University of Maryland"
-        OBJ_ID="97665BF4ED4B3D1CE040C60AF05B2C14" SHRT_NAME="UMD"
+        OBJ_ID="96ED3E513F29FE1EE040C60AF05B2BC9" SHRT_NAME="UMD"
         ST="Active" TYPE="kuali.org.CorporateEntity"
         UPDATETIME="20100917121400" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20100917121358" EFF_DT="20100701000000"
@@ -63,7 +63,7 @@
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="101"
-        LNG_DESCR="The charge of the Enrollment Management Council is to give special attention to three areas: ï¿½ Increasing the effectiveness of recruitment, marketing and financial aid programs directed at new freshmen.  ï¿½ Improving success in recruiting transfer students"
+        LNG_DESCR="The charge of the Enrollment Management Council is to give special attention to three areas: ?????? Increasing the effectiveness of recruitment, marketing and financial aid programs directed at new freshmen.  ?????? Improving success in recruiting transfer students"
         LNG_NAME="Enrollment Management Council"
         OBJ_ID="6178390526914DDBAECDF07336E704F7" SHRT_NAME="EMC"
         ST="Active" TYPE="kuali.org.Committee" UPDATEID="TESTUSER"
@@ -89,11 +89,11 @@
         TYPE="kuali.org.Office" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="105"
+        EFF_DT="19991231030000" ID="105"
         LNG_NAME="Advising and Orientation Office"
         OBJ_ID="A59015EAA4374E408008A21CAB6ACF3E" SHRT_NAME="Advising"
-        ST="Active" TYPE="kuali.org.Department" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Department" UPDATEID="admin"
+        UPDATETIME="20101214094153" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="106"
         LNG_NAME="Career Services Department"
@@ -153,7 +153,7 @@
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="113"
-        LNG_DESCR="Allocation of new revenues, final policy for faculty and professional staff compensation increases and, when necessary, assignment of budget reduction targets are made centrally by the universityï¿½s Budget Cabinet. The Budget Cabinet is strictly advisory t"
+        LNG_DESCR="Allocation of new revenues, final policy for faculty and professional staff compensation increases and, when necessary, assignment of budget reduction targets are made centrally by the university??????s Budget Cabinet. The Budget Cabinet is strictly advisory t"
         LNG_NAME="University Budget Advisory Committee (BAC)"
         OBJ_ID="1421769E315C4700A12A3D8D6ECCEA2A" SHRT_NAME="BAC"
         ST="Active" TYPE="kuali.org.Committee" UPDATEID="TESTUSER"
@@ -251,7 +251,7 @@
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="125"
-        LNG_DESCR="The mission of the Council on International Programs (CIP) is to promote, improve, and expand the internationalization/ globalization of the University.   The Councilï¿½s goals are to further internationalization in the following areas: ï¿½ Strengthen undergr"
+        LNG_DESCR="The mission of the Council on International Programs (CIP) is to promote, improve, and expand the internationalization/ globalization of the University.   The Council??????s goals are to further internationalization in the following areas: ?????? Strengthen undergr"
         LNG_NAME="Investment Committee"
         OBJ_ID="C66CAE4643734756B5BE79922FE5A93D"
         SHRT_NAME="InvestmentCommittee" ST="Active"
@@ -259,18 +259,18 @@
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="126"
-        LNG_DESCR="Sponsored by both the Vice President for Student Affairs and the Provost, the Learning Community Advisory Committee exists to ï¿½ Advise the Co-Directors of Learning Communities and the Associate Provost for Academic Programs and the Associate Vice Presiden"
+        LNG_DESCR="Sponsored by both the Vice President for Student Affairs and the Provost, the Learning Community Advisory Committee exists to ?????? Advise the Co-Directors of Learning Communities and the Associate Provost for Academic Programs and the Associate Vice Presiden"
         LNG_NAME="Council on International Programs"
         OBJ_ID="8F4289B284E64019A892DD15C3646274" SHRT_NAME="CIP"
         ST="Active" TYPE="kuali.org.Committee" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="127"
-        LNG_DESCR="The University Orientation Committee, composed of University faculty and staff, is responsible for student orientation programs. The undergraduate colleges of the university, in cooperation with the Office of New Student Programs, have responsibility for "
+        EFF_DT="19991231030000" ID="127"
+        LNG_DESCR="The University Orientation Committee, composed of University faculty and staff, is responsible for student orientation programs. The undergraduate colleges of the university, in cooperation with the Office of New Student Programs, have responsibility for"
         LNG_NAME="Learning Community Advisory Committee"
         OBJ_ID="75B74E6B72174645B051A3AFEF83E61D" SHRT_NAME="LCAC"
-        ST="Active" TYPE="kuali.org.Committee" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Committee" UPDATEID="admin"
+        UPDATETIME="20101214095210" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="128"
         LNG_DESCR="The University Orientation Committee, composed of University faculty and staff, is responsible for student orientation programs. The undergraduate colleges of the university, in cooperation with the Office of New Student Programs, have responsibility for "
@@ -387,12 +387,12 @@
         TYPE="kuali.org.Committee" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="141"
+        EFF_DT="19991231030000" ID="141"
         LNG_DESCR="Recommends and develops policies and procedures for university-wide curricular standards, reviews catalog offerings and degree requirements, and initiates discussions on future curricular matters. The committee reviews college proposals and makes recommen"
         LNG_NAME="Senate Subcommittee on Curricula"
         OBJ_ID="492AC00AFA69424885787E5ABF20C065" SHRT_NAME="COC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101214111047" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="142"
         LNG_NAME="Departmental Representatives to the COC"
@@ -400,184 +400,178 @@
         SHRT_NAME="DeptCOCReps" ST="Active" TYPE="kuali.org.WorkGroup"
         UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="143"
+        EFF_DT="19991231030000" ID="143"
         LNG_NAME="College of Arts and Hum Curriculum Committee"
         OBJ_ID="73C600734E6D4A1D83CD6F25C7395912"
-        SHRT_NAME="Arts&amp;HumCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="Arts&amp;HumCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213113246" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="144"
+        EFF_DT="19991231030000" ID="144"
         LNG_NAME="College of Behavioral and Social Sciences Curriculum Committee"
         OBJ_ID="80B529C5CCED47B188EDEA13C0981DE1" SHRT_NAME="BSOSCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101214105920" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="145"
+        EFF_DT="19991231030000" ID="145"
         LNG_NAME="College of Life and Chemical Sciences Curriculum Committee"
         OBJ_ID="5794572325534298BFABAFFD2E672554"
-        SHRT_NAME="Life&amp;ChemSciencesCOC" ST="Active"
-        TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="Life&amp;ChemSciencesCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101214110923" VER_NBR="4"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="146"
+        EFF_DT="19991231030000" ID="146"
         LNG_NAME="College of Engineering Curriculum Committee"
         OBJ_ID="4B7FB45F7B294B2AB26269309CE3A345"
-        SHRT_NAME="EngineeringCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="EngineeringCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122048" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="147"
+        EFF_DT="19991231030000" ID="147"
         LNG_NAME="English Dept Curriculum Committee"
         OBJ_ID="45E419F42DE8423F8991000B2D90E734" SHRT_NAME="EnglishCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213113108" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="148"
+        EFF_DT="19991231030000" ID="148"
         LNG_NAME="Fine Arts Dept Curriculum Committee"
         OBJ_ID="B2ACB2EA79CE4A588093EF9B5BF217ED"
-        SHRT_NAME="FineArtsCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="FineArtsCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213120958" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="149"
+        EFF_DT="19991231030000" ID="149"
         LNG_NAME="French Dept Curriculum Committee"
         OBJ_ID="249DA83CFCA9482F9AEE2A0BF4538CDF" SHRT_NAME="FrenchCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213120844" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="15"
-        LNG_NAME="Academic Affairs (EVPP)"
+        EFF_DT="19991231030000" ID="15" LNG_NAME="Academic Affairs"
         OBJ_ID="5E7E3AACF7474BA9BF8667B6364531A3" SHRT_NAME="Academics"
-        ST="Active" TYPE="kuali.org.Division" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Division" UPDATEID="admin"
+        UPDATETIME="20101213102017" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="150"
+        EFF_DT="19991231030000" ID="150"
         LNG_NAME="Geography Dept Curriculum Committee"
         OBJ_ID="A999EFE131B7491A9D24C9312A356B57"
-        SHRT_NAME="GeographyCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="GeographyCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101214105538" VER_NBR="3"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="151"
+        EFF_DT="19991231030000" ID="151"
         LNG_NAME="Linguistics Dept Curriculum Committee"
         OBJ_ID="AAF493E272C7469DA19652737D6C6949"
-        SHRT_NAME="LinguisticsCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="LinguisticsCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213120919" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="152"
+        EFF_DT="19991231030000" ID="152"
         LNG_NAME="Music Dept Curriculum Committee"
         OBJ_ID="60393648EC564432A227D0344411C23C" SHRT_NAME="MusicCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213115914" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="153"
+        EFF_DT="19991231030000" ID="153"
         LNG_NAME="History Dept Curriculum Committee"
         OBJ_ID="A71A343F7ED64B9D958E40D8BBD1C3EF" SHRT_NAME="HistoryCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213120002" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="154"
+        EFF_DT="19991231030000" ID="154"
         LNG_NAME="Political Science Dept Curriculum Committee"
         OBJ_ID="8AC91252FA0948C2A358BA9D66EC6A9C" SHRT_NAME="PolySciCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213114957" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="155"
+        EFF_DT="19991231030000" ID="155"
         LNG_NAME="Psychology Dept Curriculum Committee"
         OBJ_ID="FD053A486C084D288C170751F72699BF"
-        SHRT_NAME="PsychologyCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="PsychologyCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213114127" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="156"
+        EFF_DT="19991231030000" ID="156"
         LNG_NAME="Sociology Dept Curriculum Committee"
         OBJ_ID="2E7B5D6A6739414C812358F430BCD96E"
-        SHRT_NAME="SociologyCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="SociologyCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213115256" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="157"
+        EFF_DT="19991231030000" ID="157"
         LNG_NAME="Interdisciplinary BSOS COC"
         OBJ_ID="C7197A632961497380F8BC8D0592BEAC"
-        SHRT_NAME="InterdiscBSOSCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="InterdiscBSOSCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213121649" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="158"
+        EFF_DT="19991231030000" ID="158"
         LNG_NAME="Chemical Engineering Dept Curriculum Committee"
         OBJ_ID="62FC9D7D2F9B45FB9EB36304BA4BFCED"
-        SHRT_NAME="ChemicalCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="ChemicalCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122133" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="159"
+        EFF_DT="19991231030000" ID="159"
         LNG_NAME="Civil Engineering Dept Curriculum Committee"
         OBJ_ID="EF4623B0412C4320AFEBA59BF3A77907" SHRT_NAME="CivilCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122214" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="16"
+        EFF_DT="19991231030000" ID="16"
         LNG_NAME="Administration and Finance"
         OBJ_ID="BD2BDD7508444152BADA0C1025AC6148"
-        SHRT_NAME="Administration" ST="Active" TYPE="kuali.org.Division"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="Administration" TYPE="kuali.org.Division"
+        UPDATEID="admin" UPDATETIME="20101214095427" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="160"
+        EFF_DT="19991231030000" ID="160"
         LNG_NAME="Mechanical Engineering Dept Curriculum Committee"
         OBJ_ID="B4235F9A6D24409D85C76F50F90933EF"
-        SHRT_NAME="MechanicalCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="MechanicalCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122327" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="161"
+        EFF_DT="19991231030000" ID="161"
         LNG_NAME="Computer Science Dept Curriculum Committee"
         OBJ_ID="B1353B8E9D184F749B0935560DEB3DBE" SHRT_NAME="CompSciCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122257" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="162"
+        EFF_DT="19991231030000" ID="162"
         LNG_NAME="Biology Dept Curriculum Committee"
         OBJ_ID="68C2E830DB1F43538058065D57A8CD77" SHRT_NAME="BiologyCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101214110430" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="163"
+        EFF_DT="19991231030000" ID="163"
         LNG_NAME="Biochemistry Dept Curriculum Committee"
         OBJ_ID="C6D6CE03DD524D81B37A85973EF608A8"
-        SHRT_NAME="BiochemistryCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="BiochemistryCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213122736" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="164"
+        EFF_DT="19991231030000" ID="164"
         LNG_NAME="Botany Dept Curriculum Committee"
         OBJ_ID="1ED1A3944DE1461C99627949078C0910" SHRT_NAME="BotanyCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213124640" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="165"
+        EFF_DT="19991231030000" ID="165"
         LNG_NAME="Chemistry Dept Curriculum Committee"
         OBJ_ID="C718CC8050A2459D94979CF303F47454"
-        SHRT_NAME="ChemistryCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="ChemistryCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213122659" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="166"
+        EFF_DT="19991231030000" ID="166"
         LNG_NAME="Geology Dept Curriculum Committee"
         OBJ_ID="A1DA5230AA8C4D79BC3F4125D56D6AA8" SHRT_NAME="GeologyCOC"
-        ST="Active" TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213124713" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="167"
+        EFF_DT="19991231030000" ID="167"
         LNG_NAME="Gender Studies Curriculum Committee"
         OBJ_ID="202712033F234F10A72A59782540F11A"
-        SHRT_NAME="GenderStudiesCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="GenderStudiesCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213115517" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="168"
-        LNG_DESCR="This committee was chartered by the Head of the Geology Department to review and possibly revamp the geology Department's curriculum"
+        EFF_DT="19991231030000" ID="168"
         LNG_NAME="Business School Curriculum Committee"
         OBJ_ID="56FD913852A243749A2F6AE9F2689ACD"
-        SHRT_DESCR="Committee charted by Geology Dept. head to evaluate dept. curriculum"
-        SHRT_NAME="BusinessSchoolCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="BusinessSchoolCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213124842" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="169"
-        LNG_DESCR="This committee was chartered by the Head of the Geology Department to review and possibly revamp the geology Department's curriculum"
-        LNG_NAME="Education School Curriculum Committee"
+        EFF_DT="19991231030000" ID="169"
+        LNG_NAME="College of Education Curriculum Committee"
         OBJ_ID="932E914FF62E4A709B53F3ED44A78D72"
-        SHRT_DESCR="Committee charted by Geology Dept. head to evaluate dept. curriculum"
-        SHRT_NAME="EducationSchoolCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="EducationCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213121854" VER_NBR="1"/>
     <KSOR_ORG CREATETIME="20100917121359" EFF_DT="20100701000000"
         ID="16a70c2b-7ebb-4555-b574-a290ef19f02c"
         LNG_NAME="The National Association of School Psychologists"
@@ -590,13 +584,11 @@
         ST="Active" TYPE="kuali.org.Division" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="170"
-        LNG_DESCR="This committee was chartered by the Head of the Geology Department to review and possibly revamp the geology Department's curriculum"
+        EFF_DT="19991231030000" ID="170"
         LNG_NAME="Medical School Curriculum Committee"
         OBJ_ID="2B0108EF7696432C83D2C376DA0EC878"
-        SHRT_DESCR="Committee charted by Geology Dept. head to evaluate dept. curriculum"
-        SHRT_NAME="MedicalSchoolCOC" ST="Active" TYPE="kuali.org.COC"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="MedicalSchoolCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213125015" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="171"
         LNG_DESCR="This committee was chartered by the Head of the Geology Department to review and possibly revamp the geology Department's curriculum"
@@ -607,21 +599,19 @@
         TYPE="kuali.org.AdhocCommittee" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="172"
+        EFF_DT="19991231030000" ID="172"
         LNG_DESCR="Biological Science Division Coc"
         LNG_NAME="Biological Science Division Coc"
         OBJ_ID="56D565FBEFB249669C1C1EE1CC8AC378"
-        SHRT_NAME="BiologicalScienceDivisionCoc" ST="Active"
-        TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="BiologicalScienceDivisionCoc" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101214112838" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="173"
+        EFF_DT="19991231030000" ID="173"
         LNG_DESCR="Chemical Science Division Coc"
         LNG_NAME="Chemical Science Division Coc"
         OBJ_ID="9A4F2C9352914763A2B0C3A260772777"
-        SHRT_NAME="ChemicalScienceDivisionCoc" ST="Active"
-        TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="ChemicalScienceDivisionCoc" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101214113102" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="174"
         LNG_DESCR="Behavioral Science Division Coc"
@@ -631,20 +621,18 @@
         TYPE="kuali.org.COC" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="175"
+        EFF_DT="19991231030000" ID="175"
         LNG_DESCR="Social Science Division Coc"
         LNG_NAME="Social Science Division Coc"
         OBJ_ID="A72F2574C3B44718AC3DDADDB0C7B895"
-        SHRT_NAME="SocialScienceDivisionCoc" ST="Active"
-        TYPE="kuali.org.COC" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="SocialScienceDivisionCoc" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101214105732" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="176" LNG_DESCR="Publication Office"
+        EFF_DT="19991231030000" ID="176" LNG_DESCR="Publication Office"
         LNG_NAME="Publication Office"
         OBJ_ID="646A51CEDA6A4024B90B79DE7149B58C"
-        SHRT_NAME="PublicationOffice" ST="Active"
-        TYPE="kuali.org.Office" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="PublicationOffice" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101214111226" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="177"
         LNG_DESCR="Undergraduate Program Coc"
@@ -654,21 +642,19 @@
         TYPE="kuali.org.COC" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="178"
+        EFF_DT="19991231030000" ID="178"
         LNG_DESCR="Biological Science Division"
         LNG_NAME="Biological Science Division"
         OBJ_ID="BB7D5E14E0544F638C267206B2A7B95D"
-        SHRT_NAME="BiologicalScienceDivision" ST="Active"
-        TYPE="kuali.org.Division" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="BiologicalScienceDivision" TYPE="kuali.org.Division"
+        UPDATEID="admin" UPDATETIME="20101214112929" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="179"
+        EFF_DT="19991231030000" ID="179"
         LNG_DESCR="Chemical Science Division"
         LNG_NAME="Chemical Science Division"
         OBJ_ID="849F08E5271040FBAF71984C5B6380A6"
-        SHRT_NAME="ChemicalScienceDivision" ST="Active"
-        TYPE="kuali.org.Division" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="ChemicalScienceDivision" TYPE="kuali.org.Division"
+        UPDATEID="admin" UPDATETIME="20101214113026" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="18"
         LNG_NAME="Research and Economic Development"
@@ -694,15 +680,15 @@
     <KSOR_ORG CREATEID="admin" CREATETIME="20101124125626"
         EFF_DT="20101124125626" ID="182"
         LNG_NAME="Office of the Provost"
-        OBJ_ID="97665BF4ED573D1CE040C60AF05B2C14"
+        OBJ_ID="96ED3E513F35FE1EE040C60AF05B2BC9"
         SHRT_NAME="ProvostOffice" ST="Active" TYPE="kuali.org.Office"
         UPDATEID="admin" UPDATETIME="20101124125626" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="19"
+        EFF_DT="19991231030000" ID="19"
         LNG_NAME="Office of the Executive Vice President and Provost"
         OBJ_ID="DC3BD367CAE542ADA982FF2FCAE64887" SHRT_NAME="EVPPOffice"
-        ST="Active" TYPE="kuali.org.Office" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Office" UPDATEID="admin"
+        UPDATETIME="20101214094704" VER_NBR="1"/>
     <KSOR_ORG CREATETIME="20100917121357" EFF_DT="20100701000000"
         ID="1a7c3043-2219-4414-a106-6c6ce2d3bfc7"
         LNG_NAME="The American Library Association"
@@ -740,18 +726,123 @@
         OBJ_ID="F749827FFF5440E0A1E39BC7EBA38935"
         SHRT_NAME="VPAdminOffice" ST="Active" TYPE="kuali.org.Office"
         UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100701000000"
+        ID="201" LNG_NAME="Animal and Avian Sciences Dept"
+        OBJ_ID="8aff8f49-704a-44cb-9e5e-e1141fe86e28"
+        SHRT_NAME="AnimalAvianSciences" ST="Active"
+        TYPE="kuali.org.Department" UPDATETIME="20101210172037" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100630030000"
+        ID="202"
+        LNG_NAME="Animal and Avian Sciences Dept Curriculum Committee"
+        OBJ_ID="8764befb-5359-4ae4-8a27-b575e5b4f5cb"
+        SHRT_NAME="AnimalAvianSciencesCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213122611" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100701000000"
+        ID="203" LNG_NAME="Gemstone Program"
+        OBJ_ID="19606252-559d-40af-9364-52b51d3b92ae"
+        SHRT_NAME="GemstoneProgram" ST="Active" TYPE="kuali.org.Program"
+        UPDATETIME="20101210172037" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100630030000"
+        ID="204" LNG_NAME="Mathematics Dept"
+        OBJ_ID="c3592049-0f98-40d9-98ac-479942aa0c54"
+        SHRT_NAME="Mathematics" TYPE="kuali.org.Department"
+        UPDATEID="admin" UPDATETIME="20101214143242" VER_NBR="4"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100630030000"
+        ID="205" LNG_NAME="Mathematics Dept Curriculum Committee"
+        OBJ_ID="172df04f-2ded-43d1-bedb-3f6df7bfbd70"
+        SHRT_NAME="MathematicsCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101214143432" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100701000000"
+        ID="206" LNG_NAME="Physics Dept"
+        OBJ_ID="8e028589-1c42-4746-b4b5-3fe641ccb85d"
+        SHRT_NAME="Physics" ST="Active" TYPE="kuali.org.Department"
+        UPDATETIME="20101210172037" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100630030000"
+        ID="207" LNG_NAME="Physics Dept Curriculum Committee"
+        OBJ_ID="8da0a314-878a-4a28-9fae-17f4f2b83af2"
+        SHRT_NAME="PhysicsCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213114312" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172037" EFF_DT="20100630030000"
+        ID="208" LNG_NAME="Office of Undergraduate Studies"
+        OBJ_ID="c1069a5a-613c-4f38-b9ba-c465cc02136b"
+        SHRT_NAME="UndergraduateStudies" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101213121036" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="21"
+        EFF_DT="19991231030000" ID="21"
         LNG_NAME="Office of the VP for Student Affairs"
         OBJ_ID="DC0095C363A84264B547D94540587362"
-        SHRT_NAME="VPStudentsOffice" ST="Active" TYPE="kuali.org.Office"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="VPStudentsOffice" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101214095054" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100701000000"
+        ID="210" LNG_NAME="African American Studies Dept"
+        OBJ_ID="d5e2343e-2553-489c-b5cf-41efdde7a8bf"
+        SHRT_NAME="AfricanAmericanStudies" ST="Active"
+        TYPE="kuali.org.Department" UPDATETIME="20101210172030" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="211"
+        LNG_NAME="African American Studies Dept Curriculum Committee"
+        OBJ_ID="c911828d-3610-440d-ad08-72711eca867c"
+        SHRT_NAME="AfricanAmericanStudiesCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213114631" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="212" LNG_NAME="Art History &amp; Archaeology Dept"
+        OBJ_ID="744b8527-f0b8-4453-aa32-4a2d8d012fe0"
+        SHRT_NAME="ArtHistArchaeology" TYPE="kuali.org.Department"
+        UPDATEID="admin" UPDATETIME="20101213123754" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="213"
+        LNG_NAME="Art History &amp; Archaeology Curriculum Committee"
+        OBJ_ID="0e41a4b6-4dbd-48ec-bced-1d8e48b4b9c0"
+        SHRT_NAME="ArtHistArchaeologyCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213113449" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100701000000"
+        ID="214" LNG_NAME="Criminology &amp; Criminal Justice Dept"
+        OBJ_ID="2b02d683-177b-4a3b-9b07-cfcd06013d00"
+        SHRT_NAME="CrimCrimJus" ST="Active" TYPE="kuali.org.Department"
+        UPDATETIME="20101210172030" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="215"
+        LNG_NAME="Criminology &amp; Criminal Justice Dept Curriculum Committee"
+        OBJ_ID="5ce93770-5a4c-42fb-b118-b57ac916aa95"
+        SHRT_NAME="CrimCrimJusCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213114024" VER_NBR="2"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100701000000"
+        ID="216" LNG_NAME="Economics Dept"
+        OBJ_ID="a918a221-796e-4405-947b-be7928342c6e"
+        SHRT_NAME="Economics" ST="Active" TYPE="kuali.org.Department"
+        UPDATETIME="20101210172030" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="217" LNG_NAME="Economics Dept Curriculum Committee"
+        OBJ_ID="ca1a4cf2-e907-4d2a-babe-7609f5e2f3ae"
+        SHRT_NAME="EconomicsCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213114830" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100701000000"
+        ID="218" LNG_NAME="Philosophy Dept"
+        OBJ_ID="06ad6172-56c0-47fc-bc68-c51b27397cf1"
+        SHRT_NAME="Philosophy" ST="Active" TYPE="kuali.org.Department"
+        UPDATETIME="20101210172030" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="219" LNG_NAME="Philosophy Dept Curriculum Committee"
+        OBJ_ID="62c43020-800b-4be3-aab6-6a7e26b98108"
+        SHRT_NAME="PhilosophyCOC" TYPE="kuali.org.COC" UPDATEID="admin"
+        UPDATETIME="20101213115823" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="22"
+        EFF_DT="19991231030000" ID="22"
         LNG_NAME="Office of the VP for Research and Economic Development"
         OBJ_ID="1B783D5FF26B4BD792CEE06742E00875"
-        SHRT_NAME="VPResearchOffice" ST="Active" TYPE="kuali.org.Office"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="VPResearchOffice" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101214094043" VER_NBR="1"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="220" LNG_NAME="Theatre, Dance, and Performance Dept"
+        OBJ_ID="5e744cd9-702e-4bb5-a362-b0e432792b96"
+        SHRT_NAME="TheatreDancePerf" TYPE="kuali.org.Department"
+        UPDATEID="admin" UPDATETIME="20101213095904" VER_NBR="2"/>
+    <KSOR_ORG CREATETIME="20101210172030" EFF_DT="20100630030000"
+        ID="221"
+        LNG_NAME="Theatre, Dance, and Performance Dept Curriculum Committee"
+        OBJ_ID="b4293cdc-dedd-43e4-adbe-c4cb85079766"
+        SHRT_NAME="TheatreDancePerfCOC" TYPE="kuali.org.COC"
+        UPDATEID="admin" UPDATETIME="20101213120811" VER_NBR="4"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="23"
         LNG_NAME="Information Technology"
@@ -765,12 +856,11 @@
         ST="Active" TYPE="kuali.org.AccreditingBody"
         UPDATETIME="20100917121358" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="24"
+        EFF_DT="19991231030000" ID="24"
         LNG_NAME="The Undergraduate Program"
         OBJ_ID="1BC9E15BCA9642E09055DE16365B9AC7"
-        SHRT_NAME="UndergraduateProgram" ST="Active"
-        TYPE="kuali.org.Program" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="UndergraduateProgram" TYPE="kuali.org.Program"
+        UPDATEID="admin" UPDATETIME="20101214091403" VER_NBR="1"/>
     <KSOR_ORG CREATETIME="20100917121400" EFF_DT="20100701000000"
         ID="248a7e5e-45f9-4bda-8b88-e7bd2135775d"
         LNG_NAME="The National Council for Accreditation of Teacher Education"
@@ -785,11 +875,11 @@
         TYPE="kuali.org.Office" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="26"
+        EFF_DT="19991231030000" ID="26"
         LNG_NAME="The College of Graduate and Professional Studies"
         OBJ_ID="D436F33282EC4AD5BD207E113D003194"
-        SHRT_NAME="GraduateSchool" ST="Active" TYPE="kuali.org.Program"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="GraduateSchool" TYPE="kuali.org.Program"
+        UPDATEID="admin" UPDATETIME="20101214090829" VER_NBR="1"/>
     <KSOR_ORG CREATETIME="20100917121359" EFF_DT="20100701000000"
         ID="268980fe-dbfe-400a-b6ef-e149ca1bf794"
         LNG_NAME="The National Association of Schools of Music"
@@ -797,23 +887,23 @@
         ST="Active" TYPE="kuali.org.AccreditingBody"
         UPDATETIME="20100917121359" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="27"
+        EFF_DT="19991231030000" ID="27"
         LNG_NAME="The Graduate School Office"
         OBJ_ID="84CFA1AD905C43D282188DE965A32D73"
-        SHRT_NAME="GraduateOffice" ST="Active" TYPE="kuali.org.Office"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="GraduateOffice" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101214091110" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="28"
+        EFF_DT="19991231030000" ID="28"
         LNG_NAME="The College of Arts and Humanities"
         OBJ_ID="D00C4127E60E4095A829FC1A83F78E38"
-        SHRT_NAME="CollegeArtsHum" ST="Active" TYPE="kuali.org.College"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="CollegeArtsHum" TYPE="kuali.org.College"
+        UPDATEID="admin" UPDATETIME="20101214111300" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="29"
+        EFF_DT="19991231030000" ID="29"
         LNG_NAME="The College of Behavioral and Social Science"
         OBJ_ID="8A41E63679BB49ACB0705ECDCEE212B5"
-        SHRT_NAME="CollegeBSOS" ST="Active" TYPE="kuali.org.College"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="CollegeBSOS" TYPE="kuali.org.College"
+        UPDATEID="admin" UPDATETIME="20101213103351" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="3" LNG_NAME="Chancellor's Office"
         OBJ_ID="6479186CFBE940C580430450BD38D09D"
@@ -821,23 +911,22 @@
         TYPE="kuali.org.Office" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="30"
-        LNG_NAME="The College of Life and Chemical Sciences "
+        EFF_DT="19991231030000" ID="30"
+        LNG_NAME="The College of Life and Chemical Sciences"
         OBJ_ID="92025D01F17F41F0AE47152EB14EE246" SHRT_NAME="CollegeLCS"
-        ST="Active" TYPE="kuali.org.College" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.College" UPDATEID="admin"
+        UPDATETIME="20101213124303" VER_NBR="5"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="31"
+        EFF_DT="19991231030000" ID="31"
         LNG_NAME="The College of Engineering"
         OBJ_ID="4DD9ACD5D08848F786B3226363090CC4" SHRT_NAME="CollegeEng"
-        ST="Active" TYPE="kuali.org.College" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.College" UPDATEID="admin"
+        UPDATETIME="20101213104435" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="32"
-        LNG_NAME="The Kuali School of Business"
+        EFF_DT="19991231030000" ID="32" LNG_NAME="The Business School"
         OBJ_ID="9455C1E43C7C474199E418454A3FD831"
-        SHRT_NAME="BusinessSchool" ST="Active" TYPE="kuali.org.School"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="BusinessSchool" TYPE="kuali.org.School"
+        UPDATEID="admin" UPDATETIME="20101213111301" VER_NBR="3"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="33"
         LNG_NAME="The College of Education"
@@ -852,11 +941,10 @@
         ST="Active" TYPE="kuali.org.AccreditingBody"
         UPDATETIME="20100917121400" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="34"
-        LNG_NAME="The Kuali Medical School"
+        EFF_DT="19991231030000" ID="34" LNG_NAME="The Medical School"
         OBJ_ID="A3C7C5FBB8214B55869064CA9BCE52CE"
-        SHRT_NAME="MedicalSchool" ST="Active" TYPE="kuali.org.School"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="MedicalSchool" TYPE="kuali.org.School"
+        UPDATEID="admin" UPDATETIME="20101213101708" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="35"
         LNG_NAME="Office of the Dean of the College of Arts and Humanities"
@@ -883,16 +971,16 @@
         SHRT_NAME="OfficeOfDeanLCS" ST="Active" TYPE="kuali.org.Office"
         UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="39"
+        EFF_DT="19991231030000" ID="39"
         LNG_NAME="Extended Studies Program"
         OBJ_ID="092DE5AAFDFC42E4856791DF76D7273D"
-        SHRT_NAME="ExtendedStudies" ST="Active" TYPE="kuali.org.Program"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="ExtendedStudies" TYPE="kuali.org.Program"
+        UPDATEID="admin" UPDATETIME="20101213110612" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="4" LNG_NAME="Kuali University"
+        EFF_DT="19991231030000" ID="4" LNG_NAME="Kuali University"
         OBJ_ID="E5B7817C63E94250A74C3B032FB75C72" SHRT_NAME="KU"
-        ST="Active" TYPE="kuali.org.CorporateEntity" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.CorporateEntity" UPDATEID="admin"
+        UPDATETIME="20101214091512" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="40"
         LNG_NAME="College of Distance Education"
@@ -901,12 +989,11 @@
         TYPE="kuali.org.College" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="41"
+        EFF_DT="19991231030000" ID="41"
         LNG_NAME="Learning Communities Programs"
         OBJ_ID="1D85A0D0E8844C7A87FC8397452814DC"
-        SHRT_NAME="LearningCommunities" ST="Active"
-        TYPE="kuali.org.Program" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="LearningCommunities" TYPE="kuali.org.Program"
+        UPDATEID="admin" UPDATETIME="20101214095258" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="42"
         LNG_NAME="Undergraduate Research Program"
@@ -988,10 +1075,10 @@
         ST="Active" TYPE="kuali.org.Department" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="53" LNG_NAME="Geography Dept"
+        EFF_DT="19991231030000" ID="53" LNG_NAME="Geography Dept"
         OBJ_ID="E019511E643C4FDF9C2CA5ED9C701A08" SHRT_NAME="Geography"
-        ST="Active" TYPE="kuali.org.Department" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Department" UPDATEID="admin"
+        UPDATETIME="20101214110048" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="54" LNG_NAME="Linguistics Dept"
         OBJ_ID="5D6F0A7E52C745FAA4A4A2FE67D4DEB3"
@@ -1024,17 +1111,17 @@
         ST="Active" TYPE="kuali.org.Department" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="6"
+        EFF_DT="19991231030000" ID="6"
         LNG_NAME="Office of the President"
         OBJ_ID="17A0D75DB5D84CE1A526EE17512E7930"
-        SHRT_NAME="PresidentsOffice" ST="Active" TYPE="kuali.org.Office"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="PresidentsOffice" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101214093946" VER_NBR="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="60"
-        LNG_NAME="Interdisciplinary Studies in Social Science Program"
+        EFF_DT="19991231030000" ID="60"
+        LNG_NAME="Interdisciplinary Studies in Behavioral and Social Science Program"
         OBJ_ID="A0CF1667BF3A4DB3AFF69B2CB7AED287"
-        SHRT_NAME="InterdiscBSOS" ST="Active" TYPE="kuali.org.Office"
-        UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="InterdiscBSOS" TYPE="kuali.org.Office"
+        UPDATEID="admin" UPDATETIME="20101213121554" VER_NBR="5"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="61"
         LNG_NAME="Chemical Engineering Dept"
@@ -1085,10 +1172,10 @@
         ST="Active" TYPE="kuali.org.AccreditingBody"
         UPDATETIME="20100917121358" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="69" LNG_NAME="Geology Dept"
+        EFF_DT="19991231030000" ID="69" LNG_NAME="Geology Dept"
         OBJ_ID="06E63A44DB084D1AB323B654552A19F1" SHRT_NAME="Geology"
-        ST="Active" TYPE="kuali.org.Department" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        TYPE="kuali.org.Department" UPDATEID="admin"
+        UPDATETIME="20101213143638" VER_NBR="1"/>
     <KSOR_ORG CREATETIME="20100917121357" EFF_DT="20100701000000"
         ID="6d9d8e2b-dd3e-4d00-90b9-9ee2b13ee7ad"
         LNG_NAME="The Commission on Accreditation for Dietetics Education"
@@ -1125,12 +1212,12 @@
         ST="Active" TYPE="kuali.org.Section" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="74"
-        LNG_NAME="Section w/in the Provost Office that deals with all the academic programs"
+        EFF_DT="19991231030000" ID="74"
+        LNG_DESCR="Section w/in the Provost Office that deals with all the academic programs"
+        LNG_NAME="Academic Programs"
         OBJ_ID="DB25C64F723443958123AB0B63270B7D"
-        SHRT_NAME="AcademicPrograms" ST="Active"
-        TYPE="kuali.org.Section" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="AcademicPrograms" TYPE="kuali.org.Section"
+        UPDATEID="admin" UPDATETIME="20101214094518" VER_NBR="2"/>
     <KSOR_ORG CREATETIME="20100917121359" EFF_DT="20100701000000"
         ID="742152a4-4096-45d1-adbe-d7c5932df4d1"
         LNG_NAME="The National Association of Schools for Art and Design"
@@ -1138,12 +1225,12 @@
         ST="Active" TYPE="kuali.org.AccreditingBody"
         UPDATETIME="20100917121359" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
-        EFF_DT="20000101000000" ID="75"
-        LNG_NAME="Section w/in the Provost Office that deals with assessing the quality of the programs"
+        EFF_DT="19991231030000" ID="75"
+        LNG_DESCR="Section w/in the Provost Office that deals with assessing the quality of the programs"
+        LNG_NAME="Outcomes Assessment"
         OBJ_ID="D9AA3ACFCCAD4B7AA4DEE547A5A2B9A9"
-        SHRT_NAME="OutcomesAssessment" ST="Active"
-        TYPE="kuali.org.Section" UPDATEID="TESTUSER"
-        UPDATETIME="20090122000000" VER_NBR="0"/>
+        SHRT_NAME="OutcomesAssessment" TYPE="kuali.org.Section"
+        UPDATEID="admin" UPDATETIME="20101214094945" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="76"
         LNG_NAME="Section w/in the Provost Office that deals with academic services"
@@ -1319,17 +1406,17 @@
         UPDATEID="TESTUSER" UPDATETIME="20090122000000" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20101101000000" EFF_DT="20000101000000"
         ID="ORG-ID-ACT" LNG_NAME="ACT, Inc"
-        OBJ_ID="97665BF4ED513D1CE040C60AF05B2C14" SHRT_NAME="ACT"
+        OBJ_ID="96ED3E513F2FFE1EE040C60AF05B2BC9" SHRT_NAME="ACT"
         ST="Active" TYPE="kuali.org.TestingService"
         UPDATETIME="20101101000000" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20101101000000" EFF_DT="20000101000000"
         ID="ORG-ID-CEEB" LNG_NAME="The College Board"
-        OBJ_ID="97665BF4ED4F3D1CE040C60AF05B2C14" SHRT_NAME="CEEB"
+        OBJ_ID="96ED3E513F2DFE1EE040C60AF05B2BC9" SHRT_NAME="CEEB"
         ST="Active" TYPE="kuali.org.TestingService"
         UPDATETIME="20101101000000" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20101101000000" EFF_DT="20000101000000"
         ID="ORG-ID-ETS" LNG_NAME="Educational Testing Board"
-        OBJ_ID="97665BF4ED503D1CE040C60AF05B2C14" SHRT_NAME="ETS"
+        OBJ_ID="96ED3E513F2EFE1EE040C60AF05B2BC9" SHRT_NAME="ETS"
         ST="Active" TYPE="kuali.org.TestingService"
         UPDATETIME="20101101000000" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20100917121400" EFF_DT="20100701000000"
