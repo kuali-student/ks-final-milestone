@@ -22,11 +22,6 @@ import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * A layout which uses collapsable panel to collapse its content.  Otherwise identical to VerticalFieldLayout.
- * @author Kuali Student Team
- *
- */
 public class CollapsableLayout extends FieldLayout{
 
 	private VerticalFieldLayout verticalLayout = new VerticalFieldLayout();

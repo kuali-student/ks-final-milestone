@@ -2,12 +2,6 @@ package org.kuali.student.common.ui.client.util;
 
 import com.google.gwt.user.client.Window;
 
-/**
- * Provides a variety of helper methods to manipulate page title based on location
- * 
- * @author Kuali Student Team
- *
- */
 public class WindowTitleUtils {
 	
 	private static String contextTitle = "";

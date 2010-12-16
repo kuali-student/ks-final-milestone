@@ -48,14 +48,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
- * The data model for Kuali Student.  Data is stored in a map of maps and is accessed through a QueryPath.
- * 
- * @author Kuali Student Team
- * @see QueryPath
- */
-/**
- * @author Kuali Student Team
- *
+ * @author wilj
  */
 @SuppressWarnings("unchecked")
 public class DataModel implements Model {
@@ -63,6 +56,9 @@ public class DataModel implements Model {
         void onResult(QueryPath path, T result);
     }
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     private String modelName = "";
@@ -276,7 +272,6 @@ public class DataModel implements Model {
     }
 
     /**
-     * Set the top level data for this DataModel
      * @param root the root to set
      */
     public void setRoot(final Data root) {
@@ -330,41 +325,21 @@ public class DataModel implements Model {
         this.parentPath = parentPath;
     }
 
-    /**
-     * Validates this data model against its ModelDefinition/Metadata and returns the result
-     * to the callback
-     * @param callback
-     */
     public void validate(final Callback<List<ValidationResultInfo>> callback) {
         List<ValidationResultInfo> result = validator.validate(this);
         callback.exec(result);
     }
 
-    /**
-     * Validates this data model against the next state in its ModelDefinition and returns the result
-     * to the callback
-     * @param callback
-     */
     public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
         List<ValidationResultInfo> result = validator.validateNextState(this);
         callback.exec(result);
     }
 
-    /**
-     * Validates a single field
-     * @param fd
-     * @param callback
-     */
     public void validateField(FieldDescriptor fd, final Callback<List<ValidationResultInfo>> callback) {
         List<ValidationResultInfo> result = validator.validate(fd, this);
         callback.exec(result);
     }
 
-    /**
-     * Checks to see if data exists for the path passed in
-     * @param sPath
-     * @return
-     */
     public boolean isValidPath(String sPath) {
         QueryPath path = QueryPath.parse(sPath);
         boolean result = false;

@@ -18,11 +18,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 
-/**
- * Simple br element with an assigned style name of "clear"
- * @author Kuali Student Team
- *
- */
 public class ClearBreak extends Composite{
 	public ClearBreak(){
 		HTML html = new HTML("<br class='clear'/>");

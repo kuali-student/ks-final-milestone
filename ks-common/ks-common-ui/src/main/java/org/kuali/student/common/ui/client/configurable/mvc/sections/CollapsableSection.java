@@ -17,12 +17,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.CollapsableLayout;
 
-/**
- * A section that is collapsed with a link and "opens up" when clicked.
- * 
- * @author Kuali Student Team
- *
- */
 public class CollapsableSection extends BaseSection{
 
 	public CollapsableSection(String showLabel){

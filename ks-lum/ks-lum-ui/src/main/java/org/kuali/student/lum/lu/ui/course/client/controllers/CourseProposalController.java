@@ -86,10 +86,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Controller for course proposal screens.  This controller controls all functions of the course proposal process
- * and contains the data model and is responsible for retrieving its data and metadata from the server. In
- * addition, this controller is responsible for course proposal save events and updating its ui accordingly.
- * 
+ * Controller for course proposal screens
  *
  * @author Kuali Student Team
  *
@@ -332,6 +329,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
         });
+    }
+
+	/**
+     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
+     */
+    @Override
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return cfg.getViewsEnum();
     }
 
     @Override

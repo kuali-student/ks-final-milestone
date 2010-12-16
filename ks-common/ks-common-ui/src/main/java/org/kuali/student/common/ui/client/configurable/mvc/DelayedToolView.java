@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.LazyPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A view that delays its generation until it requested to be shown.
  * 
  * @author Kuali Student Team
  *

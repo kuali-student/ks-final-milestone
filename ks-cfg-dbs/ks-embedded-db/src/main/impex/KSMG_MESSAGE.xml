@@ -299,11 +299,6 @@
         MSG_VALUE="Is your course taught differently in the school year than it is in the summer? For example, online in the summer, lecture/lab in the fall. If so, you will need two course formats."
         OBJ_ID="cb529101-d075-4066-a583-fc46d6ff03b5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
-        ID="27494861-d70f-43a0-90e2-8867dea2bb60" LOCALE="en"
-        MSG_ID="kuali.statement.type.course.academicReadiness.coreq"
-        MSG_VALUE="&lt;b>Students must enroll in:&lt;/b>&lt;br/> MATH 102 Mathematics 2\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;3 credits&lt;br/>"
-        OBJ_ID="D1231CDA-ECE8-AEF5-3470-A66D36A12A74" VER_NBR="2"/>
-    <KSMG_MESSAGE GRP_NAME="course"
         ID="2807e6a2-e478-4a68-a5d8-21d0e6ffdb48" LOCALE="en"
         MSG_ID="cluTitle" MSG_VALUE="Course Title"
         OBJ_ID="c5cad124-6d7d-4ebb-b8df-d761c3480a20" VER_NBR="1"/>
@@ -799,11 +794,6 @@
         MSG_ID="cluLearningResultFinalExam" MSG_VALUE="Final Exam"
         OBJ_ID="007af33a-d318-4b33-b8e0-4d15b4a4a64b" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
-        ID="611092d9-5883-42dc-b22b-ed12c24f22bc" LOCALE="en"
-        MSG_ID="kuali.statement.type.course.recommendedPreparation"
-        MSG_VALUE="&lt;b>It is recommended that students have completed:&lt;/b>&lt;br/> MATH 103 Mathematics 3\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;3 credits&lt;br/>"
-        OBJ_ID="06480D18-7A91-8CAE-7F88-493BE59F0C71" VER_NBR="3"/>
-    <KSMG_MESSAGE GRP_NAME="course"
         ID="614e2555-80ee-491a-a998-ee6936c08cda" LOCALE="en"
         MSG_ID="cluFormat" MSG_VALUE="Course Format"
         OBJ_ID="0604624c-dfda-441f-b666-f6f254376dfd" VER_NBR="1"/>
@@ -1076,11 +1066,6 @@
         ID="8167a507-ea83-4da8-b103-a89350b423fc" LOCALE="en"
         MSG_ID="cluEditTab" MSG_VALUE="Edit Proposal"
         OBJ_ID="9a7fc6e0-686d-4276-8be9-3f3cb05bca87" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="course"
-        ID="81d26859-c5bf-463b-b18e-802ca4f2619a" LOCALE="en"
-        MSG_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
-        MSG_VALUE="&lt;b>Students must meet one of the following:&lt;/b>&lt;br/>- Must be registered majors in:&lt;br/>\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;X major&lt;br/>- Must obtian permission of course instructor&lt;br/>- Must be of Junior standing&lt;br/>- Must have earned a GPA of X or above&lt;br/>- Must be students at the following campus(es)&lt;br/>\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;X Campus&lt;/br>&lt;br/>Students must have completed:&lt;br/>MATH 100 Introduction to Mathematics\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;3 credits&lt;br/>"
-        OBJ_ID="4251E3C1-017B-DCBA-5FE9-603C76F486C5" VER_NBR="8"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="81f4ecaa-519c-48d3-8a7d-bb1cf2b6394c" LOCALE="en"
         MSG_ID="recentlyViewedDesc"
@@ -1378,11 +1363,6 @@
         MSG_ID="viewModifyDesc"
         MSG_VALUE="Search for proposals, courses and programs to view, modify or retire."
         OBJ_ID="8a9407b7-a587-407d-b0aa-428e7655bdd5" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="course"
-        ID="a77b63d9-a7e7-467a-bcbf-d499e0f0651f" LOCALE="en"
-        MSG_ID="kuali.statement.type.course.academicReadiness.antireq"
-        MSG_VALUE="&lt;b>Students must not have completed:&lt;/b>&lt;br/> MATH 150 Theoretical Mathematics\&amp;nbsp;\&amp;nbsp;\&amp;nbsp;3 credits&lt;br/>"
-        OBJ_ID="5174A1FF-FA83-56D6-91AD-FE61E4BD4653" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="a8d22920-6e16-4161-8b1f-c437dd760810" LOCALE="en"
         MSG_ID="cancel" MSG_VALUE="Cancel"

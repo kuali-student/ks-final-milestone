@@ -15,12 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
-/**
- * A top level layout that is exactly the same as VerticalFieldLayout except it has a different style name
- * of "ks-page-content" defined.
- * @author Kuali Student Team
- *
- */
 public class TopLevelLayout extends VerticalFieldLayout{
 
 	public TopLevelLayout(){
