@@ -304,6 +304,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		if(view instanceof SectionView){
 			((SectionView) view).setController(this);
 		}
+		else if(view instanceof ToolView){
+			((ToolView) view).setController(this);
+		}
 	}
 	
 	/**
