@@ -46,7 +46,7 @@ delete from KSLU_CLU_RSLT where id ='6199a404-7b3c-4dcc-ba4c-2558f8f3ed25'/
 delete from KSLU_CLU_RSLT where id ='MAJOR-101'/
 delete from KSLU_CLU_RSLT where id ='VAR-201'/
 delete from KSLU_CLU_RSLT where id ='VAR-301'/
-delete from KSLU_CLU_LO_RELTN where id ='97665BF4ED623D1CE040C60AF05B2C14'/
+delete from KSLU_CLU_LO_RELTN where clu_id ='00f5f8c5-fff1-4c8b-92fc-789b891e0849'/
 delete from KSLU_CLU_JN_SUBJ_ORG where id ='SUBJ-ORG-1'/
 delete from KSLU_CLU_JN_SUBJ_ORG where id ='SUBJ-ORG-2'/
 delete from KSLU_CLUCLU_RELTN where id ='521887e2-9ea3-49be-b7c0-cfcedb350b47'/
@@ -71,72 +71,35 @@ delete from KSLU_CLU_JN_CAMP_LOC where id ='VAR-201'/
 delete from KSLU_CLU_JN_CAMP_LOC where id ='VAR-202'/
 delete from KSLU_CLU_JN_CAMP_LOC where id ='VAR-301'/
 delete from KSLU_CLU_JN_CAMP_LOC where id ='VAR-302'/
-delete from KSLU_CLU_ADMIN_ORG where id ='97665BF4ED583D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_ADMIN_ORG where id ='97665BF4ED5A3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_ADMIN_ORG where id ='97665BF4ED5C3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_ADMIN_ORG where id ='97665BF4ED5E3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_ADMIN_ORG where id ='ADMIN-ORG-1'/
-delete from KSLU_CLU_ADMIN_ORG where id ='ADMIN-ORG-2'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-1'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-10'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-11'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-12'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-2'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-3'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-4'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-5'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-6'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-7'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-8'/
-delete from KSLU_CLU_ADMIN_ORG where id ='MAJOR-9'/
-delete from KSLU_CLU_ADMIN_ORG where id ='Maryland'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-201'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-202'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-203'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-204'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-205'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-206'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-207'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-208'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-209'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-210'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-211'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-212'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-301'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-302'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-303'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-304'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-305'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-306'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-307'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-308'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-309'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-310'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-311'/
-delete from KSLU_CLU_ADMIN_ORG where id ='VAR-312'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='2f68e422-a54f-4f10-9cf2-37dd4083ce5d'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='00f5f8c5-fff1-4c8b-92fc-789b891e0849'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='VAR-200'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='d4ea77dd-b492-4554-b104-863e42c5f8b7'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='d02dbbd3-20e2-410d-ab52-1bd6d362748b'/
+delete from KSLU_CLU_ADMIN_ORG where clu_id ='VAR-300'/
 delete from KSLU_CLU_FEE_REC_ATTR where id ='994b14a0-8251-4345-bc19-716473ae6b4e'/
 delete from KSLU_CLU_FEE_REC_ATTR where id ='996b50ac-c09f-4915-b3ad-7e77b940fcf2'/
 delete from KSLU_CLU_FEE_REC_ATTR where id ='99cb8847-d418-4ddc-8ed1-dc9a7e93b46a'/
 delete from KSLU_CLU_FEE_REC_ATTR where id ='99fed894-fe4b-4b8d-9926-2ea166b84a66'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED213D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED233D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED253D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED273D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED293D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED2B3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED2D3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED2F3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED313D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED333D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED353D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED373D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED393D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED3B3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED3D3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED3F3D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED413D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED433D1CE040C60AF05B2C14'/
-delete from KSLU_CLU_SET_JN_CLU where id ='97665BF4ED453D1CE040C60AF05B2C14'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-1'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-3'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-2'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-2'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-3'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='d4ea77dd-b492-4554-b104-863e42c5f8b7'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='00f5f8c5-fff1-4c8b-92fc-789b891e0849'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-1'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-3'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-1'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-2'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-3'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-2'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-3'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-4'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-5'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-6'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-7'/
+delete from KSLU_CLU_SET_JN_CLU where clu_ver_ind_id ='CLU-NL-8'/
 delete from KSLU_CLU_FEE_ATTR where id ='99b8a2eb-1cc5-432c-b41d-4bc864700f4e'/
 delete from KSLU_CLU_JN_CLU_IDENT where CLU_ID ='2f68e422-a54f-4f10-9cf2-37dd4083ce5d' and ALT_CLU_ID='37ecfd9e-b65d-4909-bdc5-6b1300447889'/
 delete from KSLU_CLU_JN_CLU_IDENT where CLU_ID ='2f68e422-a54f-4f10-9cf2-37dd4083ce5d' and ALT_CLU_ID='a47e2d88-cb6d-4c52-901c-cc7b630a0d24'/
@@ -2248,7 +2211,7 @@ INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51aa1903-b72f-4b
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51b730a2-5353-4cad-a92d-c0db4d74f7cf','aeeffd09-ab4d-4051-a145-da72618ef23f','Grading option',0)/
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51bec213-345b-4775-949f-de829ec430f5','5a9a6bb8-8714-4a12-87af-1035f7933714','Grading option',0)/
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51bf80f5-4512-4547-9248-ab0a8811f5cf','414e795a-4bb1-4758-9104-7a99bc4dd178','Grading option',0)/
-INSERT INTO KSLU_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('An exploration of the relationship between law and the social and political order between 1750 and 1950. Discussion of important historical issues--religious liberty, economic development, slavery and the Civil War, the political economy of industrialization, the creation of the modern state--from a legal and constitutional perspective.','51ca7796-22fb-4435-974d-03d247a05716','710a29f2-8069-4235-876c-17c4ea08ad3b','An exploration of the relationship between law and the social and political order between 1750 and 1950. Discussion of important historical issues--religious liberty, economic development, slavery and the Civil War, the political economy of industrialization, the creation of the modern state--from a legal and constitutional perspective.',0)/
+INSERT INTO KSLU_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('An exploration of the relationship between law and the social and political order between 1750 and 1950. Discussion of important historical issues-religious liberty, economic development, slavery and the Civil War, the political economy of industrialization, the creation of the modern state-from a legal and constitutional perspective.','51ca7796-22fb-4435-974d-03d247a05716','710a29f2-8069-4235-876c-17c4ea08ad3b','An exploration of the relationship between law and the social and political order between 1750 and 1950. Discussion of important historical issues-religious liberty, economic development, slavery and the Civil War, the political economy of industrialization, the creation of the modern state-from a legal and constitutional perspective.',0)/
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51cd5589-9af0-4bf0-b1db-5affda258d66','ff75fd3b-260a-4630-8d42-b187cc799503','Grading options',0)/
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51d60839-df13-46d0-998a-2dbe415109de','a59acd90-5363-4d81-9936-afb7a7de5fd2','Grading option',0)/
 INSERT INTO KSLU_RICH_TEXT_T (ID,OBJ_ID,PLAIN,VER_NBR) VALUES ('51d8a259-127a-43fb-9c28-c5c4a5ed5c76','e1cdf323-2518-480c-8b9e-9950041b244e','Result options',0)/

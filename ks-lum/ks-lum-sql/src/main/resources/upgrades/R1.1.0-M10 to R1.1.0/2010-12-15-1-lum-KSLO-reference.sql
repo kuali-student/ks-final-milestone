@@ -1,5 +1,5 @@
 
-delete from KSLO_LO_JN_LOCATEGORY where id='97665BF4ED653D1CE040C60AF05B2C14'/
+delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'/
 
 delete from KSLO_LO where id='4beee444-ac19-4063-85e3-61df2662ceab'/
 
