@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -127,7 +126,7 @@ public class KSWrapper extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
-	                    Application.getApplicationContext().setVersion(appVersion);
+	                    
 	                    if (result.get(CODE_SERVER) != null){
 	                    	codeServer		= result.get(CODE_SERVER);
 	                    }

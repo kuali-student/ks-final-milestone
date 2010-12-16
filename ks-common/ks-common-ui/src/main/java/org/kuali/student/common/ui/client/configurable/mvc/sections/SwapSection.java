@@ -17,13 +17,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
-/**
- * A section that contains sections that can be swapped in based on user selection on a KSSelectItemWidgetAbstract
- * 
- * 
- * @author Kuali Student Team
- *
- */
 public class SwapSection extends BaseSection implements HasSectionDeletion{
 	
 	private HashMap<String, Section> swapSectionMap = new HashMap<String, Section>();

@@ -49,14 +49,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * The LayoutController is a central piece of the UIF.  This controller is also itself a view.
- * As such, LayoutControllers can also have other LayoutControllers as their views.  
- * 
- * @see Controller
- * @author Kuali Student Team
- *
- */
 public abstract class LayoutController extends Controller implements ViewLayoutController, View {
 
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();
@@ -69,11 +61,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     protected View startPopupView;
     protected KSLightBox startViewWindow;
 	
-    /**
-     * Constructor
-     * Sets up event handlers fro section update events and validation request events.
-     * @param controllerId - not used
-     */
     public LayoutController(String controllerId){
         super(controllerId);
         //Global section update Event handling
@@ -174,11 +161,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     	}
     }
     
-    /**
-     * Check to see if the list of validation results have an error.
-     * @param list
-     * @return
-     */
     public ErrorLevel checkForErrors(List<ValidationResultInfo> list){
 		ErrorLevel errorLevel = ErrorLevel.OK;
 		
@@ -195,12 +177,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     	
     }
     
-    /**
-     * Finds the first parent LayoutController of this LayoutController, returns null if this
-     * is the top level LayoutController.
-     * @param w
-     * @return
-     */
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
         while (true) {
@@ -221,9 +197,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
         return result;
     }
     
-	/**
-	 * @see org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController#addStartViewPopup(org.kuali.student.common.ui.client.mvc.View)
-	 */
 	public void addStartViewPopup(final View view){
 	    startPopupView = view;
 	    if(startViewWindow == null){
@@ -262,9 +235,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	    startViewWindow.setWidget(panel);
 	}
 	
-    /**
-     * @return true if the start popup is showing
-     */
     public boolean isStartViewShowing(){
         if(startViewWindow == null){
             return false;
@@ -295,9 +265,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
     /*New methods*/
 	
-	/**
-	 * @see org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController#addView(org.kuali.student.common.ui.client.mvc.View)
-	 */
 	public void addView(View view){
 		viewMap.put(view.getViewEnum(), view);
 		viewEnumMap.put(view.getViewEnum().toString(), view.getViewEnum());
@@ -309,9 +276,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		}
 	}
 	
-	/**
-	 * @see org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController#setDefaultView(java.lang.Enum)
-	 */
 	public <V extends Enum<?>> void setDefaultView(V viewType){
 		this.defaultView = viewType;
 	}
@@ -320,15 +284,8 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return this.defaultView;
 	}
 	
-	/**
-	 * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
-	 */
 	public abstract void updateModel();
 	
-	/**
-	 * Update the model with a single views information
-	 * @param viewType
-	 */
 	public void updateModelFromView(Enum<?> viewType){
 		View v = viewMap.get(viewType);
 		if(v != null){
@@ -336,14 +293,12 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		}
 	}
 	
-	/**
-	 * Update a the model from the view that is currently being shown by this controller
-	 */
 	public void updateModelFromCurrentView(){
         if(this.getCurrentView() != null){
 		    this.getCurrentView().updateModel();
         }
 	}
+
 
 	@Override
 	public <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
@@ -353,6 +308,12 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	@Override
 	public Enum<?> getViewEnumValue(String enumValue) {
 		return viewEnumMap.get(enumValue);
+	}
+
+	//TODO remove this method from controller hierarchy?  its not used
+	@Override
+	public Class<? extends Enum<?>> getViewsEnum() {
+		return null;
 	}
 
 	@Override
@@ -370,12 +331,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		
 	}
 	
-	/**
-	 * Show the view that was the first one added and will likely be the first one in a layout's menu, for
-	 * example.  Note that this is different than show default view.
-	 * 
-	 * @param onReadyCallback
-	 */
 	public void showFirstView(Callback<Boolean> onReadyCallback){
 		HistoryManager.setLogNavigationHistory(false);
 		if(!viewMap.isEmpty()){	
@@ -397,13 +352,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return isValid(validationResults, checkCurrentSectionOnly, true);
 	}
 	
-	/**
-	 * @see LayoutController#isValid(List, boolean)
-	 * @param validationResults
-	 * @param checkCurrentSectionOnly
-	 * @param allFields
-	 * @return
-	 */
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
 		boolean isValid = true;
 
@@ -460,15 +408,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return (status != ErrorLevel.ERROR);
 	}
 	
-	/**
-	 * This particular implementation of beforeViewChange checks to see if all its view contains a Controller
-	 * and if it does checks with that controller to see if it is ok to change the view.  OkToChange callback
-	 * will be exec with true if the view is allowed to be changed at this time.  This method can be overriden
-	 * to provide additional functionality to stop a view from being changed when there is some additional
-	 * processing that needs to occur in the ui before the view changes.
-	 * 
-	 * @see org.kuali.student.common.ui.client.mvc.Controller#beforeViewChange(java.lang.Enum, org.kuali.student.common.ui.client.mvc.Callback)
-	 */
 	@Override
 	public void beforeViewChange(Enum<?> viewChangingTo, Callback<Boolean> okToChange) {
 		if(this.getCurrentView() instanceof Controller){
@@ -489,11 +428,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return true;
 	}
 
-	/**
-	 * Default implementation does nothing on before show.  Override to do other things before THIS view is
-	 * shown.
-	 * @see org.kuali.student.common.ui.client.mvc.View#beforeShow(org.kuali.student.common.ui.client.mvc.Callback)
-	 */
 	@Override
 	public void beforeShow(Callback<Boolean> onReadyCallback) {
 		onReadyCallback.exec(true);
@@ -523,11 +457,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		this.viewType= viewType;
 	}
 	
-	/**
-	 * Sets the name of this LayoutController.  This name is used in the breadcrumb and window's title.
-	 * Setting the name to the empty string will omit the breadcrumb - this is sometimes desired.
-	 * @param name
-	 */
 	public void setName(String name){
 		this.name = name;
 	}

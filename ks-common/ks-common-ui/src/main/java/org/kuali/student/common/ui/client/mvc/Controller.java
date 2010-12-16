@@ -129,6 +129,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				        		tempContext = view.getController().getViewContext();
 				        	}
 				        	
+				        	if (view instanceof DelegatingViewComposite) {
+				        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
+				        	}
+				        	
 				        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
 				        	if (permType != null) {
 				        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
@@ -390,15 +394,11 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * Shows the default view. Must be implemented by subclass, in order to define the default view.
      */
     public abstract void showDefaultView(Callback<Boolean> onReadyCallback);
+
+    public abstract Class<? extends Enum<?>> getViewsEnum();
     
     public abstract Enum<?> getViewEnumValue(String enumValue);
     
-    /**
-     * This particular implementation appends to the history stack the name of the current view shown by
-     * this controller and view context (in string format) to that historyStack and passes the stack to
-     * be processed to the currentView.
-     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#collectHistory(java.lang.String)
-     */
     @Override
     public String collectHistory(String historyStack) {
     	String token = getHistoryToken();
@@ -433,18 +433,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         return historyToken;
     }
 
-    /**
-     * The onHistoryEvent implementation in controller reads the history stack it receives and determines
-     * if the next token/view to be processed is a controller, if it is, it hands off the rest of the history stack
-     * to that controller after showing it.  Otherwise, it shows the view
-     * and allows that view to perform any onHistoryEvent actions it may need to take.
-     * <br><br>For example the historyStack /HOME/CURRICULUM_HOME/COURSE_PROPOSAL would start at the root controller,
-     * and hand it off to the home controller, then the curriculum home controller, then the course proposal controller
-     * and stop there.  Along the way each of those controller would show themselves visually in the UI, 
-     * if they contain any layout (some do not).
-     * 
-     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#onHistoryEvent(java.lang.String)
-     */
     @Override
     public void onHistoryEvent(String historyStack) {
     	final String nextHistoryStack = HistoryManager.nextHistoryStack(historyStack);
@@ -521,13 +509,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         
     }
 
-    /**
-     * Sets the view context.  This is important for determining the permission for seeing views under
-     * this controllers scope, what the id and id type of the model the controller handles are defined here.
-     * Additional attributes that the controller and it's views need to know about are also defined in the
-     * viewContext.
-     * @param viewContext
-     */
     public void setViewContext(ViewContext viewContext){
     	this.context = viewContext;
     }
@@ -535,9 +516,22 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public ViewContext getViewContext() {
     	return this.context;
     }
+
+    public void clearViewContext(){
+        this.context = new ViewContext();
+    }
+
+    public String getControllerId() {
+        return this.controllerId;
+    }
     
     public void resetCurrentView(){
     	currentView = null;
     }
     
+    public void fireNavEvents(boolean fireEvents){
+    	fireNavEvents = fireEvents;
+    }
+    
+
 }

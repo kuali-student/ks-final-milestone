@@ -8,12 +8,6 @@ import org.kuali.student.lum.lu.ui.main.client.widgets.ActionList;
 
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * The default view for the HomeController contains the rice action list in an iFrame.
- * 
- * @author Kuali Student Team
- *
- */
 public class HomeView extends ViewComposite{
 	
 	private SpanPanel container = new SpanPanel();

@@ -18,11 +18,6 @@ package org.kuali.student.common.ui.client.event;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 
-/**
- * Event fired to notify a that validation is requested.  A single field validation can be specified.
- * @author Kuali Student Team
- *
- */
 public class ValidateRequestEvent extends ApplicationEvent<ValidateRequestHandler> {
     public static final Type<ValidateRequestHandler> TYPE = new Type<ValidateRequestHandler>();
     private FieldDescriptor fieldDescriptor;
@@ -50,11 +45,6 @@ public class ValidateRequestEvent extends ApplicationEvent<ValidateRequestHandle
 		return validateSingleField;
 	}
 
-	/**
-	 * Set this event to request to only validate a single field.
-	 * 
-	 * @param validateSingleField
-	 */
 	public void setValidateSingleField(boolean validateSingleField) {
 		this.validateSingleField = validateSingleField;
 	}

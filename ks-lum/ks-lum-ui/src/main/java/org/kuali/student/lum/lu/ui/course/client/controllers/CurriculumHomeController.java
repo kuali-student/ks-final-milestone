@@ -19,32 +19,6 @@ import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
-/**
- * Curriculum home controller which controls the main LayoutController views of the lum application.  The
- * default view of this controller is the Curriculum Home Landing page.  The following views are views within
- * this controller's scope:<br>
- * 		COURSE_PROPOSAL<br>
-        VIEW_COURSE<br>
-        PROGRAM_VIEW<br>
-        PROGRAM_EDIT<br>
-        PROGRAM_CREATE<br>
-        PROGRAM_VERSIONS<br>
-        CLU_SETS<br>
-        VARIATION_VIEW<br>
-        VARIATION_EDIT<br>
-        COURSE_CATALOG<br>
-        LO_CATEGORIES<br>
-        BACC_PROGRAM_VIEW<br>
-        BACC_PROGRAM_EDIT<br>
-        BACC_PROGRAM_VERSIONS<br>
-        CORE_PROGRAM_VIEW<br>
-        CORE_PROGRAM_EDIT<br>
-        CORE_PROGRAM_VERSIONS<br>
- * These views can be accessed through links and searches provided by the CurriculumHomeView (the default view).
- * 
- * @author Kuali Student Team
- * @see CurriculumHomeView
- */
 public class CurriculumHomeController extends LayoutController {
 
     private CurriculumHomeView home;
@@ -300,6 +274,11 @@ public class CurriculumHomeController extends LayoutController {
     @Override
     protected void renderView(View view) {
         ApplicationController.getApplicationViewContainer().add(view.asWidget());
+    }
+
+    @Override
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return LUMViews.class;
     }
 
     @Override

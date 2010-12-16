@@ -29,16 +29,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElem
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * A layout which lays out fields by grouping them.  Fields and child layouts are separated in this layout.  
- * Adding a field will add it to a group of fields which lays out fields horizontally and can contain multiple
- * lines of fields by calling nextLine().  All child layouts of this layout will appear below these fields.  
- * Validation will appear next to the entire field group if hasValidation is true.
- * The title will appear above all elements and button layout below all elements.
- * 
- * @author Kuali Student Team
- *
- */
 public class GroupFieldLayout extends FieldLayout{
 	private SpanPanel top = new SpanPanel();
 	private FlowPanel layout = new FlowPanel();

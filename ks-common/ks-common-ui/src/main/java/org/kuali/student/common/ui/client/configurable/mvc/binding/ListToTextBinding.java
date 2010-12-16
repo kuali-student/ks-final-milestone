@@ -9,15 +9,6 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 
-/**
- * Special model widget binding for displaying a list of data objects in a comma separated string list.
- * If the data object in the list is not a string, the innerObjectKey (that is a string value in the object)
- * can be set to be used instead.
- * <br>This is a read only binding, it does not translate back to the model.
- * 
- * @author Kuali Student Team
- *
- */
 public class ListToTextBinding implements ModelWidgetBinding<HasText> {
 	
 	private String innerObjectKey;
