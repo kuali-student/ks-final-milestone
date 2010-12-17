@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Atp-CRUD-test" searchProperties="true" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:testStep type="request" name="getAtpTypes"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>getAtpTypes</con:operation><con:request name="getAtpTypes"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:getAtpTypes/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains"><con:configuration><token>kuali.atp.type.Summer</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;name>Summer&lt;/name></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://student.kuali.org/wsdl/atp/AtpService/getAtpTypes" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="createAtp"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>createAtp</con:operation><con:request name="createAtp"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:createAtp>
+         <!--Optional:-->
+         <atpTypeKey>kuali.atp.type.Summer</atpTypeKey>
+         <!--Optional:-->
+         <atpKey>2010S</atpKey>
+         <!--Optional:-->
+         <atpInfo type="kuali.atp.type.Summer" state="active" key="2010S">
+            <!--Optional:-->
+            <name>2010S</name>
+            <!--Optional:-->
+            <desc>
+               <!--Optional:-->
+               <plain>2010 Summer Session - Testing purpose</plain>
+               <!--Optional:-->
+               <formatted>2010 Summer Session - Testing purpose</formatted>
+            </desc>
+            <!--Optional:-->
+            <effectiveDate>2009-01-08T00:00:00</effectiveDate>
+            <!--Optional:-->
+            <expirationDate>2010-12-02T00:00:00</expirationDate>
+            <!--Optional:-->
+            <attributes>
+               <!--Zero or more repetitions:-->
+               <attribute key="?">
+                  <!--Optional:-->
+                  <value>?</value>
+               </attribute>
+            </attributes>
+            <!--Optional:-->
+            <metaInfo>
+               <!--Optional:-->
+               <versionInd>?</versionInd>
+               <!--Optional:-->
+               <createTime>?</createTime>
+               <!--Optional:-->
+               <createId>?</createId>
+               <!--Optional:-->
+               <updateTime>?</updateTime>
+               <!--Optional:-->
+               <updateId>?</updateId>
+            </metaInfo>
+         </atpInfo>
+      </atp:createAtp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://student.kuali.org/wsdl/atp/AtpService/createAtp" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="getATP"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>getAtp</con:operation><con:request name="getATP"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:getAtp><atpKey>2010S</atpKey></atp:getAtp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="validateAtp" disabled="true"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>validateAtp</con:operation><con:request name="validateAtp"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:validateAtp><validationType>SYSTEM</validationType></atp:validateAtp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="updateAtp" disabled="true"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>updateAtp</con:operation><con:request name="updateAtp"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:updateAtp><atpKey>2010Summer</atpKey></atp:updateAtp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="deleteAtp"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>AtpServiceSoapBinding</con:interface><con:operation>deleteAtp</con:operation><con:request name="deleteAtp"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-dev/services/AtpService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:atp="http://student.kuali.org/wsdl/atp">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <atp:deleteAtp>
+         <!--Optional:-->
+         
+      <atpKey>2010S</atpKey></atp:deleteAtp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains"><con:configuration><token>true</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://student.kuali.org/wsdl/atp/AtpService/deleteAtp" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase>
