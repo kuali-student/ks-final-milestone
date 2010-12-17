@@ -114,7 +114,7 @@ public class DictionaryFormatter
   builder.append ("Length");
   builder.append (colSeperator);
   builder.append (colSeperator);
-  builder.append ("Dynamic");
+  builder.append ("Dynamic or Hidden");
   builder.append (colSeperator);
   builder.append (colSeperator);
   builder.append ("Default");
@@ -144,7 +144,7 @@ public class DictionaryFormatter
    builder.append (colSeperator);
    builder.append (pad (calcLength (fd), 15));
    builder.append (colSeperator);
-   builder.append (pad (calcDynamic (fd), 7));
+   builder.append (pad (calcDynamicOrHidden (fd), 7));
    builder.append (colSeperator);
    builder.append (pad (calcDefaultValue (fd), 15));
    builder.append (colSeperator);
@@ -288,8 +288,17 @@ public class DictionaryFormatter
   return " ";
  }
 
- private String calcDynamic (FieldDefinition fd)
+
+ private String calcDynamicOrHidden (FieldDefinition fd)
  {
+  if (fd.isHide ())
+  {
+   if (fd.isDynamic ())
+   {
+    return "dynamic and hidden";
+   }
+   return "hidden";
+  }
   if (fd.isDynamic ())
   {
    return "dynamic";
