@@ -94,6 +94,7 @@
     <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
+    <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
   </properties>
   <repositories>
     <repository>
@@ -178,6 +179,7 @@
             <serverId>${kuali.site.server.id}</serverId>
             <forceMojoExecution>true</forceMojoExecution>
             <prefix>${kuali.site.bucket.prefix}</prefix>
+            <recurse>${kuali.site.bucket.recurse}</recurse>
           </configuration>
         </plugin>
         <plugin>
