@@ -56,6 +56,7 @@
   </developers>
   <properties>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
+    <kuali.build.timestamp>${maven.build.timestamp}</kuali.build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kuali.clover.plugin.version>3.0.2</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
@@ -75,7 +76,7 @@
     <kuali.reporting.dependency.locations>false</kuali.reporting.dependency.locations>
 
     <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
-    <kuali.extra.release.arguments />
+    <kuali.extra.release.arguments/>
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
