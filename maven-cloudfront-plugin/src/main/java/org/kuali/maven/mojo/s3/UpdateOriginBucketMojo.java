@@ -74,6 +74,15 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     private String cacheControl;
 
     /**
+     * If true, the complete hierarchy underneath <code>prefix</code> will be
+     * recursively updated. If false, only the directory corresponding to the
+     * prefix will be updated along with the path back to the root of the bucket
+     *
+     * @parameter expression="${recurse}" default-value="true"
+     */
+    private boolean recurse;
+
+    /**
      * If true, "foo/bar/index.html" will get copied to "foo/bar/"
      *
      * @parameter expression="${copyDefaultObjectWithDelimiter}"
@@ -157,15 +166,17 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             generator = new CloudFrontHtmlGenerator(context);
             converter = new S3DataConverter(context);
             converter.setBrowseHtml(getBrowseHtml());
-            recurse(context, getPrefix());
+            if (isRecurse()) {
+                recurse(context, getPrefix());
+            }
             goUpTheChain(context, getPrefix());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
         }
     }
 
-    protected void goUpTheChain(final S3BucketContext context, final String startingPrefix)
-            throws IOException {
+    protected void goUpTheChain(final S3BucketContext context,
+            final String startingPrefix) throws IOException {
         handleRoot(getS3PrefixContext(context, null));
 
         if (StringUtils.isEmpty(startingPrefix)) {
@@ -219,8 +230,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * ACL to PublicRead, and adds some custom metadata so we can positively
      * identify it as an object created by this plugin
      */
-    protected PutObjectRequest getPutIndexObjectRequest(final String html, final String key)
-            throws IOException {
+    protected PutObjectRequest getPutIndexObjectRequest(final String html,
+            final String key) throws IOException {
         InputStream in = new ByteArrayInputStream(html.getBytes());
         ObjectMetadata om = new ObjectMetadata();
         om.setCacheControl(getCacheControl());
@@ -277,7 +288,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * Either use the client's object or upload some html created by this plugin<br>
      */
     protected void updateDirectory(final S3PrefixContext context,
-            final boolean isCopyIfExists, final String copyToKey) throws IOException {
+            final boolean isCopyIfExists, final String copyToKey)
+            throws IOException {
         boolean containsDefaultObject = isExistingObject(
                 context.getObjectListing(), context.getDefaultObjectKey());
         if (containsDefaultObject && isCopyIfExists) {
@@ -301,7 +313,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     /**
      * Update this S3 "directory".
      */
-    protected void updateDirectory(final S3PrefixContext context) throws IOException {
+    protected void updateDirectory(final S3PrefixContext context)
+            throws IOException {
         String trimmedPrefix = converter.getTrimmedPrefix(context.getPrefix(),
                 context.getBucketContext().getDelimiter());
 
@@ -400,7 +413,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     /**
      * Return true if the ObjectListing contains an object under "key"
      */
-    protected boolean isExistingObject(final ObjectListing objectListing, final String key) {
+    protected boolean isExistingObject(final ObjectListing objectListing,
+            final String key) {
         List<S3ObjectSummary> summaries = objectListing.getObjectSummaries();
         for (S3ObjectSummary summary : summaries) {
             if (key.equals(summary.getKey())) {
@@ -417,7 +431,8 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      * plugin.<br>
      * Return false otherwise.<br>
      */
-    protected boolean isCreateOrUpdateDefaultObject(final S3PrefixContext context) {
+    protected boolean isCreateOrUpdateDefaultObject(
+            final S3PrefixContext context) {
         if (!isExistingObject(context.getObjectListing(),
                 context.getDefaultObjectKey())) {
             // There is no default object, we are free to create one
@@ -541,6 +556,21 @@ public class UpdateOriginBucketMojo extends S3Mojo {
 
     public void setBrowseHtml(final String browseHtml) {
         this.browseHtml = browseHtml;
+    }
+
+    /**
+     * @return the recurse
+     */
+    public boolean isRecurse() {
+        return recurse;
+    }
+
+    /**
+     * @param recurse
+     * the recurse to set
+     */
+    public void setRecurse(final boolean recurse) {
+        this.recurse = recurse;
     }
 
 }
