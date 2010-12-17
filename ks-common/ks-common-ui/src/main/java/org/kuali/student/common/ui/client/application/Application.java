@@ -19,8 +19,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 
 
 /**
- * Application contains the instance of the ApplicationContext which contain information about the
- * current context, also a method that does the same thing as HistoryManager.navigate for convenience
+ * TODO read the window location parameters to determine if a particular view should be shown first
  */
 public class Application {
 	private static ApplicationContext applicationContext;

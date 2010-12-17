@@ -86,7 +86,7 @@ public abstract class ViewComposite extends Composite implements View {
     }
 
     /**
-     * Used to clear view - does nothing currently
+     * Used to clear view 
      * 
      * @see org.kuali.student.common.ui.client.mvc.View#clear()
      */

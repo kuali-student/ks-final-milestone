@@ -6,13 +6,6 @@ import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
-/**
- *  A basic implementation of a LayoutController, no navigation, all showView calls must be invoked
- * by the app.  This implementation has a header that can be manipulated.
- * 
- * @author Kuali Student Team
- *
- */
 public class BasicLayoutWithContentHeader extends LayoutController{
 
 	protected FlowPanel viewContainer = new FlowPanel();

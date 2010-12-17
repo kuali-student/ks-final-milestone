@@ -12,13 +12,6 @@ import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * A layout controller which provides tabs for the views added through the addTab method.  If the user
- * clicks on a tab the view is swapped.
- * 
- * @author Kuali Student Team
- *
- */
 public class TabMenuController extends LayoutController{
 
 	protected KSTabPanel tabPanel = new KSTabPanel(TabPanelStyle.SMALL);

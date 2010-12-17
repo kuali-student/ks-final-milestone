@@ -7,13 +7,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * An information message which can change its style to appear with a warning around the
- * content and add additional information to its layout when it needs to warn the user about the contained
- * information/widget functionality before they interact with it.
- * @author Kuali Student Team
- *
- */
 public class WarnContainer extends Composite{
 	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
 	private FlowPanel layout = new FlowPanel();

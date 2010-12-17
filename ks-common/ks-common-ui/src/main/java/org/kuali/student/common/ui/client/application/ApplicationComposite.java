@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.application;
 
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -24,13 +23,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * Application wrapping layout.  Deprecated for all future development.  Use an implementation of
- * LayoutController instead.
- * @author Kuali Student Team
- * @see LayoutController
- */
-@Deprecated
 public class ApplicationComposite  extends Composite {
 	private final Panel body = new VerticalPanel();
 	//private final Header header = GWT.create(Header.class);

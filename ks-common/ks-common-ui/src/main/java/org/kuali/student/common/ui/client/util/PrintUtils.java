@@ -7,10 +7,6 @@ import com.google.gwt.user.client.ui.UIObject;
 
 public class PrintUtils {
     private static int num = 0;
-    /**
-     * Shows the uiObject content in a printable form in a new window
-     * @param uiObject
-     */
     public static void print(UIObject uiObject){
     	String headTag = "";
     	String styleTags = "";

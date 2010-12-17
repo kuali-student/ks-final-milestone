@@ -38,8 +38,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A lightbox which greys out the background when displayed.  By default it is automatically centered
- * and set to take up a large amount of space.  The lightbox can be configured to any size as needed.
  * 
  * */
 public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightBox> */{

@@ -6,12 +6,6 @@ import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * Read only (ui) equivalent of FieldDescriptor.
- * @see FieldDescriptor
- * @author Kuali Student Team
- * 
- */
 public class FieldDescriptorReadOnly extends FieldDescriptor{
 
 	public FieldDescriptorReadOnly(String fieldKey, MessageKeyInfo messageKey,

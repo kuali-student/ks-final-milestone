@@ -48,7 +48,7 @@ public class CourseRequirementsDataModel {
     private Map<Integer, StatementTreeViewInfo> origCourseReqInfos = new LinkedHashMap<Integer, StatementTreeViewInfo>();
     private Map<Integer, requirementState> courseReqState = new HashMap<Integer, requirementState>();
     private Map<Integer, requirementState> origCourseReqState = new HashMap<Integer, requirementState>();
-    private List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();
+    private static List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();
     private boolean isInitialized = false;
     private static Integer courseReqIDs = 111111;
 
@@ -63,7 +63,6 @@ public class CourseRequirementsDataModel {
         origCourseReqInfos = new LinkedHashMap<Integer, StatementTreeViewInfo>();
         courseReqState = new HashMap<Integer, requirementState>();
         origCourseReqState = new HashMap<Integer, requirementState>();
-        stmtTypes = new ArrayList<StatementTypeInfo>();        
         isInitialized = false;
 
         parentController.requestModel(modelId, new ModelRequestCallback() {
@@ -85,22 +84,9 @@ public class CourseRequirementsDataModel {
 
     public void retrieveStatementTypes(final String courseId, final Callback<Boolean> onReadyCallback) {
 
-        //retrieve available course requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
+        getStatementTypes(new Callback<List<StatementTypeInfo>>() {
             @Override
-            public void handleFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
-                onReadyCallback.exec(false);
-            }
-
-            @Override
-            public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
-                //store the statement types
-                for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
-                    stmtTypes.add(stmtInfoType);
-                }
-
+            public void exec(List<StatementTypeInfo> stmtTypes) {
                 //now retrieve the actual rules
                 retrieveRules(courseId, onReadyCallback);
             }
@@ -395,6 +381,12 @@ public class CourseRequirementsDataModel {
 
     public static void getStatementTypes(final Callback<List<StatementTypeInfo>> onReadyCallback) {
 
+        //avoid loading statement types if we retrieved them already before
+        if (!stmtTypes.isEmpty()) {
+            onReadyCallback.exec(stmtTypes);
+            return;
+        }        
+
         StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
 
         //retrieve available course requirement types
@@ -409,7 +401,7 @@ public class CourseRequirementsDataModel {
             @Override
             public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
                 //store the statement types
-                List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();                
+                stmtTypes = new ArrayList<StatementTypeInfo>();
                 for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
                     stmtTypes.add(stmtInfoType);
                 }

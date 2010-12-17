@@ -15,12 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-/**
- * For widgets which use layout controllers - such as sections - to do various things - such as
- * interact with the controller's model
- * @author Kuali Student Team
- *
- */
 public interface HasLayoutController {
 	public LayoutController getLayoutController();
 	public void setLayoutController(LayoutController controller);

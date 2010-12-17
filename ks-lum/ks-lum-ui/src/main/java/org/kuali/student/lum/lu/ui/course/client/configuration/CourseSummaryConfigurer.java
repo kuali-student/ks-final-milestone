@@ -202,6 +202,10 @@ public class CourseSummaryConfigurer implements
 						@Override
 						public void exec(final Boolean result) {
 							if(result){
+								//Make sure workflow actions and status updated before showing.
+								((WorkflowEnhancedNavController)controller).getWfUtilities().refresh();
+								
+								//Show validation error if they exist
 								((WorkflowEnhancedNavController)controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>(){
 
 									@Override

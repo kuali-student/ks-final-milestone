@@ -14,11 +14,11 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>30</version>
+    <version>39</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.0-M10-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>${kuali.site.public.url}</url>

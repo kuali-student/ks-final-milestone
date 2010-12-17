@@ -28,20 +28,11 @@ import org.kuali.student.core.messages.dto.Message;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * The application contains information about who is currently logged in, the security context, and access
- * to messages loaded from the message service in the app.  It provides and a static way to obtain this
- * information across the entire app.
- * 
- * @author Kuali Student
- *
- */
 public class ApplicationContext {
 	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 	
 	private boolean loggedIn = true;
 	private String userId = "testuser";
-	private String version = "KS";
 	private List<String> roles = new ArrayList<String>();
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
@@ -97,10 +88,6 @@ public class ApplicationContext {
 		return roles;
 	}
 
-    /**
-     * Adds the messages in the list of messages to the map of the messages
-     * @param messages
-     */
     public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);
 	    for (Message m : messages) {
@@ -115,24 +102,15 @@ public class ApplicationContext {
 	    }
 	}
 	
-	/**
-	 * Get a message by a unique id
-	 */
 	public String getMessage(String messageId) {
 	    return flatMessages.get(messageId);
     }
     
-	/**
-	 * Returns all the messages in the ApplicationContext
-	 */
 	public List<Message> getMessages() {
 	    return messagesList;
     }
     
 	
-	/**
-	 * Get message by the group it is in and its unique id within that group
-	 */
 	public String getMessage(String groupName, String messageId) {
 			
 	    String result = null;
@@ -173,10 +151,6 @@ public class ApplicationContext {
         
     }
 	 
-	/**
-	 * Same as getUILabel(String groupName, String type, String state, String fieldId) with no
-	 * type and state needed
-	 */
 	public String getUILabel(String groupName, String fieldId) {
 
 	        String label = getMessage(groupName, fieldId);
@@ -188,10 +162,6 @@ public class ApplicationContext {
 	        
 	}
 
-    /**
-     * Get the security context for the app
-     * @return SecurityContext
-     */
     public SecurityContext getSecurityContext() {
         return securityContext;
     }
@@ -200,19 +170,8 @@ public class ApplicationContext {
         this.securityContext = securityContext;
     }
 	
-	/**
-	 * Application URL based on the serverPropertiesRPC service result
-	 */
 	public String getApplicationContextUrl() {
 		return applicationContextUrl;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getVersion() {
-		return version;
 	}
 	
 }
