@@ -78,13 +78,5 @@ public class SearchRequest implements Serializable {
 	public void setNeededTotalResults(Boolean neededTotalResults) {
 		this.neededTotalResults = neededTotalResults;
 	}
-	@Override
-	public String toString() {
-		return "SearchRequest [searchKey=" + searchKey + ", params=" + params
-				+ ", sortColumn=" + sortColumn + ", sortDirection="
-				+ sortDirection + ", startAt=" + startAt + ", maxResults="
-				+ maxResults + ", neededTotalResults=" + neededTotalResults
-				+ "]";
-	}
 	
 }
