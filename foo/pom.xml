@@ -564,22 +564,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-              <goals>deploy</goals>
-              <arguments>-Pkuali-release-perform -Dmaven.test.skip=true</arguments>
-              <useReleaseProfile>false</useReleaseProfile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>kuali-release-perform</id>
-      <build>
-        <plugins>
-          <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <dependencies>
               <dependency>
