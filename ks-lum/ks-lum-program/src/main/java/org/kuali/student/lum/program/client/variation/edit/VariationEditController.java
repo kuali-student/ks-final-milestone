@@ -248,7 +248,8 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void navigateToParent() {
-        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+    	String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PARENT_PROGRAM.getLocation(), getViewContext()) + "/" + ProgramSections.SPECIALIZATIONS_EDIT;
+    	HistoryManager.navigate(path);
     }
 
 }
