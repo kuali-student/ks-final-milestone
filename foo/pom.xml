@@ -83,6 +83,9 @@
 
     <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
     <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
+    <kuali.development.version></kuali.development.version>
+    <kuali.release.version></kuali.release.version>
+    <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
 
@@ -283,7 +286,9 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <configuration>
             <goals>${kuali.release.goals}</goals>
             <arguments>${kuali.release.arguments}</arguments>
-            <useReleaseProfile>false</useReleaseProfile>
+            <useReleaseProfile>${kuali.release.use.maven.default.profile}</useReleaseProfile>
+            <developmentVersion>${kuali.development.version}</developmentVersion>
+            <releaseVersion>${kuali.release.version}</releaseVersion>
           </configuration>
         </plugin>
         <plugin>
