@@ -77,9 +77,6 @@
 
     <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
 
-    <kuali.release.arguments>-Dmaven.test.skip=true</kuali.release.arguments>
-    <kuali.release.goals>deploy</kuali.release.goals>
-
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
