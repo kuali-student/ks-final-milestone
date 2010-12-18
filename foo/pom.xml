@@ -78,8 +78,7 @@
     <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
 
     <kuali.release.arguments>-Dmaven.test.skip=true</kuali.release.arguments>
-    <kuali.release.profiles>-Pkuali-release</kuali.release.profiles>
-    <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
+    <kuali.release.goals>deploy</kuali.release.goals>
 
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
@@ -278,13 +277,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.0</version>
-          <configuration>
-            <useReleaseProfile>false</useReleaseProfile>
-            <goals>${kuali.release.goals}</goals>
-            <arguments>${kuali.release.profiles} ${kuali.release.arguments}</arguments>
-            <developerVersion>${kuali.release.dev.version}</developerVersion>
-            <releaseVersion>${kuali.release.version}</releaseVersion>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -463,11 +455,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>${kuali.findbugs.plugin.version}</version>
-        <configuration>
-          <findbugsXmlOutput>true</findbugsXmlOutput>
-           <!-- Optional directory to put findbugs xml report -->
-          <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -567,13 +554,32 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
   </reporting>
   <profiles>
     <profile>
-      <id>kuali-modules</id>
-      <modules>
-        <module>../../student</module>
-      </modules>
+      <id>kuali-release-prepare</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+              <arguments>${kuali.release.arguments}</arguments>
+              <developerVersion>${kuali.developer.version}</developerVersion>
+              <releaseVersion>${kuali.release.version}</releaseVersion>
+            </configuration>
+            <executions>
+              <execution>
+                <id>prepare-release</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>prepare</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
-      <id>kuali-release</id>
+      <id>kuali-release-perform</id>
       <build>
         <plugins>
           <plugin>
