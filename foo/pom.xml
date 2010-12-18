@@ -96,6 +96,7 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
+    <kuali.site.plugin.version>3.0-beta-3</kuali.site.plugin.version>
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
@@ -312,7 +313,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.0-beta-3</version>
+          <version>${kuali.site.plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
