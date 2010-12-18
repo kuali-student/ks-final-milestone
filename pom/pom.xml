@@ -282,7 +282,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <useReleaseProfile>false</useReleaseProfile>
             <goals>${kuali.release.goals}</goals>
             <arguments>${kuali.release.profiles} ${kuali.release.arguments}</arguments>
-            <developerVersion>${kuali.dev.version}</developerVersion>
+            <developerVersion>${kuali.release.dev.version}</developerVersion>
             <releaseVersion>${kuali.release.version}</releaseVersion>
           </configuration>
         </plugin>
