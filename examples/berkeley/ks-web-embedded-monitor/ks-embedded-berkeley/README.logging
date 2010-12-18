@@ -1,0 +1,20 @@
+This deployment adds instrumentation to help identify performance issues.
+
+The RequestTimer filter is configured to log request and stack information for all requests
+that exceed a specified time threshold.  It is set to 3 seconds.  Daily log directories
+are placed in $TOMCAT_USER_HOME/kuali/ks-request-timer-log , the format is currently .txt
+
+SessionHistory is also logged.  Daily log directories are placed in $TOMCAT_USER_HOME/kuali/ks-session-history-log.  The format is comma-separated-values suitable for examining in a spreadsheet app.   The following information is captured at the end of each session:
+
+_______, ________Session Info,________, ________
+
+    Session Start ,    Session End: ,    Total Requests
+2010.05.03 12:23:19,2010.05.03 12:27:34,36
+________, ________Request Details,________, ________
+
+Start Time, Request URI, Elapsed Time (ms.), Request Interval (ms.)
+2010.05.03 12:23:19, /ks-embedded-dev/index.html, 1, 0
+2010.05.03 12:23:19, /ks-embedded-dev/kru_banner2.jpg, 0, 80
+2010.05.03 12:23:23, /ks-embedded-dev/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp, 1729, 3818
+
+Logging configuration parameters are set in web.xml.
