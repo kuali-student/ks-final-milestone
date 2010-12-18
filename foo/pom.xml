@@ -563,7 +563,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <configuration>
                   <arguments>-Dmaven.test.skip=true</arguments>
                 </configuration>
-                <phase>install</phase>
+                <phase>${kuali.release.prepare.phase}</phase>
                 <goals>
                   <goal>prepare</goal>
                 </goals>
@@ -572,7 +572,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <id>perform-release</id>
                 <configuration>
                   <goals>deploy</goals>
-                  <arguments>-Pkuali-release-perform -Dmaven.test.skip=true</arguments>
+                  <arguments>-Pkuali-release-perform -Dmaven.test.skip=true -Dkuali.release.prepare.phase=none</arguments>
                   <useReleaseProfile>false</useReleaseProfile>
                 </configuration>
                 <phase>install</phase>
