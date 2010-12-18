@@ -81,6 +81,9 @@
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
 
+    <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
+    <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
+
     <!-- Overriding this to "verify" will cause sources to be bundled as jar's in addition to the binaries -->
     <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
 
@@ -275,6 +278,11 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.0</version>
+          <configuration>
+            <goals>deploy</goals>
+            <arguments>${kuali.release.arguments}</arguments>
+            <useReleaseProfile>false</useReleaseProfile>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
