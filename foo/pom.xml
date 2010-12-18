@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-foo</artifactId>
-  <version>1005</version>
+  <version>1006-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -142,9 +142,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-foo-1005</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-foo-1005</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-foo-1005</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/foo</url>
   </scm>
   <build>
     <extensions>
