@@ -83,6 +83,8 @@
 
     <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
     <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
+    <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
+    <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
 
     <!-- Overriding this to "verify" will cause sources to be bundled as jar's in addition to the binaries -->
     <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
@@ -279,7 +281,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <artifactId>maven-release-plugin</artifactId>
           <version>2.0</version>
           <configuration>
-            <goals>deploy</goals>
+            <goals>${kuali.release.goals}</goals>
             <arguments>${kuali.release.arguments}</arguments>
             <useReleaseProfile>false</useReleaseProfile>
           </configuration>
