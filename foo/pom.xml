@@ -551,29 +551,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
   </reporting>
   <profiles>
     <profile>
-      <id>kuali-release-prepare</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-              <arguments>${kuali.release.arguments}</arguments>
-            </configuration>
-            <executions>
-              <execution>
-                <id>prepare-release</id>
-                <phase>install</phase>
-                <goals>
-                  <goal>prepare</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>kuali-release-perform</id>
       <build>
         <plugins>
@@ -582,18 +559,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <artifactId>maven-release-plugin</artifactId>
             <configuration>
               <useReleaseProfile>false</useReleaseProfile>
-              <arguments>${kuali.release.arguments}</arguments>
-              <goals>${kuali.release.goals}</goals>
             </configuration>
-            <executions>
-              <execution>
-                <id>perform-release</id>
-                <phase>install</phase>
-                <goals>
-                  <goal>perform</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
