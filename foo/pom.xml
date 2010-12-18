@@ -58,7 +58,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <kuali.build.timestamp>${maven.build.timestamp}</kuali.build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kuali.clover.plugin.version>3.0.2</kuali.clover.plugin.version>
+    <kuali.clover.plugin.version>2.2</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
@@ -83,8 +83,8 @@
 
     <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
     <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
-    <kuali.development.version />
-    <kuali.release.version />
+    <kuali.development.version/>
+    <kuali.release.version/>
     <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
@@ -567,6 +567,17 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
     </plugins>
   </reporting>
   <profiles>
+    <profile>
+      <id>maven3</id>
+      <activation>
+        <file>
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <properties>
+        <kuali.site.plugin.version>3.0-beta-3</kuali.site.plugin.version>
+      </properties>
+    </profile>
     <profile>
       <id>kuali-release</id>
       <build>
