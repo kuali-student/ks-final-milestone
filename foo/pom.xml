@@ -583,6 +583,24 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <build>
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+              <useReleaseProfile>false</useReleaseProfile>
+              <arguments>${kuali.release.arguments}</arguments>
+              <goals>${kuali.release.goals}</goals>
+            </configuration>
+            <executions>
+              <execution>
+                <id>perform-release</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>perform</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <dependencies>
               <dependency>
