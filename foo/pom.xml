@@ -58,7 +58,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <kuali.build.timestamp>${maven.build.timestamp}</kuali.build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kuali.clover.plugin.version>2.2</kuali.clover.plugin.version>
+    <kuali.clover.plugin.version>3.0.2</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
@@ -96,7 +96,7 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
-    <kuali.site.plugin.version>3.0-beta-3</kuali.site.plugin.version>
+    <kuali.site.plugin.version>2.2</kuali.site.plugin.version>
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
