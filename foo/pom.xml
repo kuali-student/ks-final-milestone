@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-foo</artifactId>
-  <version>1007-SNAPSHOT</version>
+  <version>1006-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -558,30 +558,11 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>prepare-release</id>
-                <configuration>
-                  <arguments>-Dmaven.test.skip=true</arguments>
-                </configuration>
-                <phase>${kuali.release.prepare.phase}</phase>
-                <goals>
-                  <goal>prepare</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>perform-release</id>
-                <configuration>
-                  <goals>deploy</goals>
-                  <arguments>-Pkuali-release-perform -Dmaven.test.skip=true -Dkuali.release.prepare.phase=none</arguments>
-                  <useReleaseProfile>false</useReleaseProfile>
-                </configuration>
-                <phase>install</phase>
-                <goals>
-                  <goal>perform</goal>
-                </goals>
-              </execution>
-            </executions>
+            <configuration>
+              <goals>deploy</goals>
+              <arguments>-Pkuali-release-perform -Dmaven.test.skip=true</arguments>
+              <useReleaseProfile>false</useReleaseProfile>
+            </configuration>
           </plugin>
         </plugins>
       </build>
