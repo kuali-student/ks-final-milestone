@@ -96,6 +96,7 @@
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
+    <kuali.release.prepare.phase>install</kuali.release.prepare.phase>
   </properties>
   <repositories>
     <repository>
