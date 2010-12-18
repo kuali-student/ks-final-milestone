@@ -18,7 +18,7 @@
     but may be overridden/configured by individual projects as needed
   -->
   <groupId>org.kuali</groupId>
-  <artifactId>kuali</artifactId>
+  <artifactId>kuali-foo</artifactId>
   <version>41-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
@@ -145,9 +145,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/foo</url>
   </scm>
   <build>
     <extensions>
