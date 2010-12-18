@@ -562,8 +562,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <artifactId>maven-release-plugin</artifactId>
             <configuration>
               <arguments>${kuali.release.arguments}</arguments>
-              <developerVersion>${kuali.developer.version}</developerVersion>
-              <releaseVersion>${kuali.release.version}</releaseVersion>
             </configuration>
             <executions>
               <execution>
