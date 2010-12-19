@@ -8,7 +8,7 @@
   </parent>
   <groupId>org.kuali.build</groupId>
   <artifactId>build-tools</artifactId>
-  <version>1.0.9</version>
+  <version>1.0.10-SNAPSHOT</version>
   <name>Build Tools</name>
   <description>Tools to assist with building, deploying Kuali software</description>
   <properties>
@@ -33,9 +33,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/build-tools-1.0.9</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/build-tools-1.0.9</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/tags/build-tools-1.0.9</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/build-tools</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/build-tools</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/build-tools</url>
   </scm>
   <dependencies>
     <dependency>
