@@ -106,6 +106,9 @@
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
     <kuali.release.prepare.phase>install</kuali.release.prepare.phase>
+    <!-- This is the same as groupId after replacing "." with "/" -->
+    <kuali.site.download.dirs>org/kuali</kuali.site.download.dirs>
+    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/release/${kuali.site.download.dirs}/${project.artifactId}/${project.version}</kuali.site.download.url>
   </properties>
   <repositories>
     <repository>
@@ -134,7 +137,7 @@
     </pluginRepository>
   </pluginRepositories>
   <distributionManagement>
-    <downloadUrl>http://s3browse.springsource.com/browse/maven.kuali.org/release/${project.groupId}/${project.artifactId}/${project.version}/</downloadUrl>
+    <downloadUrl>http://s3browse.springsource.com/browse/maven.kuali.org/release/</downloadUrl>
     <site>
       <id>${kuali.site.server.id}</id>
       <name>Maven Site</name>
