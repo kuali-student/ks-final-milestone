@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="validateStructureData" bindingOperationName="validateStructureData" type="Request-Response" outputName="validateStructureDataResponse" inputName="validateStructureData" receivesAttachments="false" sendsAttachments="false" id="3a11e3b2-1688-4e6a-b254-577f955ff781" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

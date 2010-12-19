@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getDeliveryMethodType" bindingOperationName="getDeliveryMethodType" type="Request-Response" outputName="getDeliveryMethodTypeResponse" inputName="getDeliveryMethodType" receivesAttachments="false" sendsAttachments="false" id="5fb8d9b6-33ba-416e-a848-fc9af3157789" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

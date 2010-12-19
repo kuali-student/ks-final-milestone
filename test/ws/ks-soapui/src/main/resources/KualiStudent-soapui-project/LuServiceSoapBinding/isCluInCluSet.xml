@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="isCluInCluSet" bindingOperationName="isCluInCluSet" type="Request-Response" outputName="isCluInCluSetResponse" inputName="isCluInCluSet" receivesAttachments="false" sendsAttachments="false" id="8977d1b3-6107-464f-856d-e79228bfce29" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
