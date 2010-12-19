@@ -77,12 +77,17 @@
 
     <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
 
-    <kuali.release.arguments>-Dmaven.test.skip=true</kuali.release.arguments>
-    <kuali.release.goals>deploy</kuali.release.goals>
-
     <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
+
+    <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
+    <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
+    <kuali.development.version/>
+    <kuali.release.version/>
+    <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
+    <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
+    <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
 
     <!-- Overriding this to "verify" will cause sources to be bundled as jar's in addition to the binaries -->
     <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
@@ -91,6 +96,7 @@
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
+    <kuali.site.plugin.version>2.2</kuali.site.plugin.version>
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
     <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
@@ -99,6 +105,7 @@
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
+    <kuali.release.prepare.phase>install</kuali.release.prepare.phase>
   </properties>
   <repositories>
     <repository>
@@ -277,6 +284,13 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.0</version>
+          <configuration>
+            <goals>${kuali.release.goals}</goals>
+            <arguments>${kuali.release.arguments}</arguments>
+            <useReleaseProfile>${kuali.release.use.maven.default.profile}</useReleaseProfile>
+            <developmentVersion>${kuali.development.version}</developmentVersion>
+            <releaseVersion>${kuali.release.version}</releaseVersion>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -299,7 +313,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>2.2</version>
+          <version>${kuali.site.plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -554,60 +568,9 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
   </reporting>
   <profiles>
     <profile>
-      <id>kuali-release-prepare</id>
+      <id>kuali-release</id>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-              <arguments>${kuali.release.arguments}</arguments>
-              <developerVersion>${kuali.developer.version}</developerVersion>
-              <releaseVersion>${kuali.release.version}</releaseVersion>
-            </configuration>
-            <executions>
-              <execution>
-                <id>prepare-release</id>
-                <phase>install</phase>
-                <goals>
-                  <goal>prepare</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>kuali-release-perform</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.apache.resources</groupId>
-                <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                <version>1.0.2</version>
-              </dependency>
-            </dependencies>
-            <executions>
-              <execution>
-                <id>source-release-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-                <configuration>
-                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-                  <descriptorRefs>
-                    <descriptorRef>${kuali.source.release.assembly.descriptor}</descriptorRef>
-                  </descriptorRefs>
-                  <tarLongFileFormat>gnu</tarLongFileFormat>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
           <plugin>
             <inherited>true</inherited>
@@ -623,6 +586,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <executions>
               <execution>
                 <id>attach-sources</id>
+                <phase>verify</phase>
                 <goals>
                   <goal>jar-no-fork</goal>
                 </goals>
