@@ -58,7 +58,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
     <kuali.build.timestamp>${maven.build.timestamp}</kuali.build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kuali.clover.plugin.version>3.0.2</kuali.clover.plugin.version>
+    <kuali.clover.plugin.version>3.0.4</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
@@ -83,8 +83,8 @@
 
     <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
     <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
-    <kuali.development.version />
-    <kuali.release.version />
+    <kuali.development.version/>
+    <kuali.release.version/>
     <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
@@ -134,6 +134,7 @@
     </pluginRepository>
   </pluginRepositories>
   <distributionManagement>
+    <downloadUrl>http://s3browse.springsource.com/browse/maven.kuali.org/release/${project.groupId}/${project.artifactId}/${project.version}/</downloadUrl>
     <site>
       <id>${kuali.site.server.id}</id>
       <name>Maven Site</name>
@@ -314,6 +315,119 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${kuali.site.plugin.version}</version>
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>${kuali.cobertura.plugin.version}</version>
+                <configuration>
+                  <formats>
+                    <format>html</format>
+                  </formats>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${kuali.findbugs.plugin.version}</version>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.6</version>
+              </plugin>
+              <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover2-plugin</artifactId>
+                <version>${kuali.clover.plugin.version}</version>
+                <configuration>
+                  <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]>
+                  </license>
+                  <generateHistorical>true</generateHistorical>
+                  <historyDir>${kuali.clover.history.dir}</historyDir>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${kuali.javadoc.plugin.version}</version>
+                <configuration>
+                  <maxmemory>256m</maxmemory>
+                  <show>private</show>
+                  <quiet>true</quiet>
+                  <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
+                  <source>${kuali.compile.source}</source>
+                </configuration>
+                <reportSets>
+                  <reportSet>
+                    <id>generate-javadocs</id>
+                    <reports>
+                      <report>${kuali.javadoc.report.javadoc}</report>
+                      <report>${kuali.javadoc.report.test-javadoc}</report>
+                    </reports>
+                  </reportSet>
+                </reportSets>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                  <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+                  <aggregate>true</aggregate>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <targetJdk>${kuali.compile.source}</targetJdk>
+                  <aggregate>true</aggregate>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                  <dependencyLocationsEnabled>${kuali.reporting.dependency.locations}</dependencyLocationsEnabled>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <aggregate>true</aggregate>
+                  <tagListOptions>
+                    <tagClasses>
+                      <tagClass>
+                        <displayName>TODO's</displayName>
+                        <tags>
+                          <tag>
+                            <matchString>todo</matchString>
+                            <matchType>ignoreCase</matchType>
+                          </tag>
+                        </tags>
+                      </tagClass>
+                      <tagClass>
+                        <displayName>FIXME's</displayName>
+                        <tags>
+                          <tag>
+                            <matchString>FIXME</matchString>
+                            <matchType>ignoreCase</matchType>
+                          </tag>
+                        </tags>
+                      </tagClass>
+                    </tagClasses>
+                  </tagListOptions>
+                </configuration>
+              </plugin>
+            </reportPlugins>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -453,119 +567,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       </plugin>
     </plugins>
   </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${kuali.cobertura.plugin.version}</version>
-        <configuration>
-          <formats>
-            <format>html</format>
-          </formats>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${kuali.findbugs.plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <version>${kuali.clover.plugin.version}</version>
-        <configuration>
-          <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]>
-          </license>
-          <generateHistorical>true</generateHistorical>
-          <historyDir>${kuali.clover.history.dir}</historyDir>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${kuali.javadoc.plugin.version}</version>
-        <configuration>
-          <maxmemory>256m</maxmemory>
-          <show>private</show>
-          <quiet>true</quiet>
-          <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
-          <source>${kuali.compile.source}</source>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <id>generate-javadocs</id>
-            <reports>
-              <report>${kuali.javadoc.report.javadoc}</report>
-              <report>${kuali.javadoc.report.test-javadoc}</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <targetJdk>${kuali.compile.source}</targetJdk>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1.2</version>
-        <configuration>
-          <dependencyLocationsEnabled>${kuali.reporting.dependency.locations}</dependencyLocationsEnabled>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <aggregate>true</aggregate>
-          <tagListOptions>
-            <tagClasses>
-              <tagClass>
-                <displayName>TODO's</displayName>
-                <tags>
-                  <tag>
-                    <matchString>todo</matchString>
-                    <matchType>ignoreCase</matchType>
-                  </tag>
-                </tags>
-              </tagClass>
-              <tagClass>
-                <displayName>FIXME's</displayName>
-                <tags>
-                  <tag>
-                    <matchString>FIXME</matchString>
-                    <matchType>ignoreCase</matchType>
-                  </tag>
-                </tags>
-              </tagClass>
-            </tagClasses>
-          </tagListOptions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
   <profiles>
     <profile>
       <id>kuali-release</id>
