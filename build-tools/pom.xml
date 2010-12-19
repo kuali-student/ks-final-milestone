@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
-    <artifactId>kuali-foo</artifactId>
-    <version>1021</version>
+    <artifactId>kuali</artifactId>
+    <version>42-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.build</groupId>
   <artifactId>build-tools</artifactId>
