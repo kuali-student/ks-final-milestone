@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="createLuiLuiRelation" bindingOperationName="createLuiLuiRelation" type="Request-Response" outputName="createLuiLuiRelationResponse" inputName="createLuiLuiRelation" receivesAttachments="false" sendsAttachments="false" id="131b7696-19ad-4003-91d3-bc064f6f97fe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
