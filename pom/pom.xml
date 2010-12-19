@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali</artifactId>
-  <version>44-SNAPSHOT</version>
+  <version>44</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -83,8 +83,8 @@
 
     <kuali.release.prepare.arguments>-Dmaven.test.skip=true</kuali.release.prepare.arguments>
     <kuali.release.perform.arguments>-Pkuali-release -Dmaven.test.skip=true</kuali.release.perform.arguments>
-    <kuali.development.version/>
-    <kuali.release.version/>
+    <kuali.development.version />
+    <kuali.release.version />
     <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>${kuali.release.perform.arguments}</kuali.release.arguments>
@@ -152,9 +152,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-44</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-44</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-44</url>
   </scm>
   <build>
     <extensions>
