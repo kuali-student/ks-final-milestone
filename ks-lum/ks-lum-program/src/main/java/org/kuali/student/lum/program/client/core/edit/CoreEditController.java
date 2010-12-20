@@ -244,6 +244,7 @@ public class CoreEditController extends CoreController {
                     setHeaderTitle();
                     setStatus();
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        processBeforeShow = false;
                         showView(getCurrentViewEnum());
                     }
                     resetFieldInteractionFlag();

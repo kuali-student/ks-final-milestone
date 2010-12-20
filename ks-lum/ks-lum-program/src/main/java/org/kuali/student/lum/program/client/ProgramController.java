@@ -64,6 +64,8 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected boolean reloadMetadata = false;
 
+    protected boolean processBeforeShow = true;
+
     /**
      * Constructor.
      *
@@ -88,46 +90,50 @@ public abstract class ProgramController extends MenuSectionController {
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
-        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
+        if (processBeforeShow) {
+            super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
-            @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
-                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
-                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
-                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+                @Override
+                public void exec(Boolean result) {
+                    if (result) {
+                        if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
+                            ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                            final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                            buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
 
-                            @Override
-                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
-                                switch (result) {
-                                    case YES:
-                                        dialog.hide();
-                                        fireUpdateEvent(okToChange);
-                                        break;
-                                    case NO:
-                                        dialog.hide();
-                                        resetModel();
-                                        needToLoadOldModel = true;
-                                        resetFieldInteractionFlag();
-                                        okToChange.exec(true);
-                                        break;
-                                    case CANCEL:
-                                        okToChange.exec(false);
-                                        dialog.hide();
-                                        break;
+                                @Override
+                                public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                                    switch (result) {
+                                        case YES:
+                                            dialog.hide();
+                                            fireUpdateEvent(okToChange);
+                                            break;
+                                        case NO:
+                                            dialog.hide();
+                                            resetModel();
+                                            needToLoadOldModel = true;
+                                            resetFieldInteractionFlag();
+                                            okToChange.exec(true);
+                                            break;
+                                        case CANCEL:
+                                            okToChange.exec(false);
+                                            dialog.hide();
+                                            break;
+                                    }
                                 }
-                            }
-                        });
-                        dialog.show();
+                            });
+                            dialog.show();
+                        } else {
+                            okToChange.exec(true);
+                        }
                     } else {
-                        okToChange.exec(true);
+                        okToChange.exec(false);
                     }
-                } else {
-                    okToChange.exec(false);
                 }
-            }
-        });
+            });
+        } else {
+            processBeforeShow = true;
+        }
     }
 
     protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
@@ -171,7 +177,7 @@ public abstract class ProgramController extends MenuSectionController {
             referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
             referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
             Map<String, String> attributes = new HashMap<String, String>();
-            attributes.put("name",getStringProperty("name"));
+            attributes.put("name", getStringProperty("name"));
             referenceModel.setReferenceAttributes(attributes);
             callback.onModelReady(referenceModel);
         } else {
@@ -218,7 +224,7 @@ public abstract class ProgramController extends MenuSectionController {
                 ViewContext docContext = new ViewContext();
                 docContext.setId(id);
                 docContext.setIdType(IdType.OBJECT_ID);
-                String pgmType =getStringProperty(ProgramConstants.TYPE);
+                String pgmType = getStringProperty(ProgramConstants.TYPE);
                 docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                 RecentlyViewedHelper.addDocument(getProgramName(),
                         HistoryManager.appendContext(getProgramViewLocation(pgmType), docContext));
@@ -402,7 +408,7 @@ public abstract class ProgramController extends MenuSectionController {
         return programModel.get(key);
     }
 
-     protected Data getDataProperty(String key) {
+    protected Data getDataProperty(String key) {
         return programModel.get(key);
     }
 }
