@@ -16,9 +16,13 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
+import java.util.Iterator;
+
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -30,16 +34,17 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A lightbox which greys out the background when displayed.  By default it is automatically centered
- * and set to take up a large amount of space.  The lightbox can be configured to any size as needed.
  * 
  * */
 public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightBox> */{
@@ -92,6 +97,8 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
                hide();
             }
         });
+        
+        
     }
     public KSLightBox(boolean addCloseLink) {
     	((Widget) this.getCaption()).setVisible(false);
@@ -159,7 +166,66 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         installResizeHandler();
         super.show();
         super.center();
+        grabFocus();
     }
+    private void grabFocus(){
+        Widget mainContent = verticalPanel.getWidget(0, 0);
+        
+        NodeList<Element> nodeList = mainContent.getElement().getElementsByTagName("*");
+        for(int i=0;i<nodeList.getLength();i++){
+            Element e = nodeList.getItem(i);
+            System.out.println(e.getTagName());
+            if("A".equalsIgnoreCase(e.getTagName())){
+             e.focus();
+             return ;
+            }else if("INPUT".equalsIgnoreCase(e.getTagName())){
+                e.focus();
+                return ;
+            }else if("SELECT".equalsIgnoreCase(e.getTagName())){
+                e.focus();
+                return ;
+            }else if("BUTTON".equalsIgnoreCase(e.getTagName())){
+                e.focus();
+                return ;
+            }
+        }
+
+
+/*
+        Widget mainContent = verticalPanel.getWidget(0, 0);
+        if(mainContent instanceof HasWidgets){
+            HasWidgets hasWidget = (HasWidgets) mainContent;
+            Iterator<Widget> iter =  hasWidget.iterator();
+            
+            for(;iter.hasNext();){
+                Widget w = iter.next();
+              //  if(w instanceof Composite ){
+                //    Composite c = (Composite)w;
+                  //  c.
+               // }
+                if(w instanceof FocusWidget){
+                    ((FocusWidget)w).setFocus(true);
+                    return;
+                }else if(w instanceof HasWidgets){
+                    grabFocus((HasWidgets) w);
+                }
+            }
+        }
+*/
+    }
+/*    private void grabFocus(HasWidgets hasWidgets){
+        Iterator<Widget> iter =  hasWidgets.iterator();
+        for(;iter.hasNext();){
+            Widget w = iter.next();
+            if(w instanceof FocusWidget){
+                ((FocusWidget)w).setFocus(true);
+                return;
+            }else if(w instanceof HasWidgets){
+                grabFocus((HasWidgets) w);
+            }
+        }
+    }
+*/    
     @Override
     protected void onPreviewNativeEvent(NativePreviewEvent preview) {
         super.onPreviewNativeEvent(preview);
