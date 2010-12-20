@@ -65,6 +65,7 @@
     <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
+    <kuali.javadoc.maxmemory>1g</kuali.javadoc.maxmemory>
     <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
 
@@ -352,7 +353,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${kuali.javadoc.plugin.version}</version>
                 <configuration>
-                  <maxmemory>256m</maxmemory>
+                  <maxmemory>${kuali.javadoc.maxmemory}</maxmemory>
                   <show>private</show>
                   <quiet>true</quiet>
                   <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
