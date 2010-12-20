@@ -279,6 +279,16 @@ public class TestCourseServiceImpl {
         FormatInfo newFormat = new FormatInfo();
         newFormat.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
         newFormat.setState("DRAFT");
+        
+        TimeAmountInfo timeInfo = new TimeAmountInfo();
+        timeInfo.setAtpDurationTypeKey("kuali.atp.duration.Semester");
+        timeInfo.setTimeQuantity(12);        
+        newFormat.setDuration(timeInfo);
+        
+        List<String> termsOfferedList = new ArrayList<String>();
+        termsOfferedList.add("FALL2010");        
+        newFormat.setTermsOffered(termsOfferedList);
+        
         Map<String, String> attrMap = new HashMap<String, String>();
         attrMap.put("FRMT", "value");
         newFormat.setAttributes(attrMap);
@@ -363,6 +373,13 @@ public class TestCourseServiceImpl {
                 assertEquals(2, uFrmt.getActivities().size());
                 String actType = uFrmt.getActivities().get(0).getActivityType();
                 assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));
+
+                assertEquals(1, uFrmt.getTermsOffered().size());
+                assertEquals("FALL2010", uFrmt.getTermsOffered().get(0));
+                
+                TimeAmountInfo tIfo = uFrmt.getDuration();
+                assertNotNull(tIfo);
+                assertEquals((int)12, (int) tIfo.getTimeQuantity());
             }
 
             // Check to see if activity is deleted from an existing format
@@ -466,6 +483,11 @@ public class TestCourseServiceImpl {
         }
     }
 
+    /**
+     * 
+     * This method tests setting code in course cross listing
+     *
+     */
     @Test
     public void testCourseCrossListing() {
         CourseDataGenerator generator = new CourseDataGenerator();

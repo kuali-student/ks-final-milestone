@@ -31,6 +31,7 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -51,6 +52,12 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<ActivityInfo> activities;
 
     @XmlElement
+    private List<String> termsOffered;
+
+    @XmlElement
+    private TimeAmountInfo duration;
+    
+    @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
@@ -66,6 +73,7 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
     @XmlAttribute
     private String id;
 
+    
     /**
      * 
      */
@@ -78,6 +86,22 @@ public class FormatInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setActivities(List<ActivityInfo> activities) {
         this.activities = activities;
+    }
+    
+    public List<String> getTermsOffered() {
+        return termsOffered;
+    }
+
+    public void setTermsOffered(List<String> termsOffered) {
+        this.termsOffered = termsOffered;
+    }
+
+    public TimeAmountInfo getDuration() {
+        return duration;
+    }
+
+    public void setDuration(TimeAmountInfo duration) {
+        this.duration = duration;
     }
 
     /**

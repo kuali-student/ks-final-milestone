@@ -68,6 +68,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		format.setState(clu.getState());
 		format.setMetaInfo(clu.getMetaInfo());
 		format.setAttributes(clu.getAttributes());
+	    format.setDuration(clu.getStdDuration());
+	    format.setTermsOffered(clu.getOfferedAtpTypes());
 		
 		// Don't make any changes to nested datastructures if this is
 		if (!shallowBuild) {
@@ -122,7 +124,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		clu.setState(format.getState());
 		clu.setMetaInfo(format.getMetaInfo());
 		clu.setAttributes(format.getAttributes());
-
+		clu.setStdDuration(format.getDuration());
+		clu.setOfferedAtpTypes(format.getTermsOffered());
+		
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
