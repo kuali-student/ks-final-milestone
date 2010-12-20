@@ -68,7 +68,7 @@
 
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.maxmemory>1g</kuali.javadoc.maxmemory>
-    <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256</kuali.javadoc.additional.joption>
+    <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256 -J-verbose:gc -J-XX:+PrintGCDetails -J-XX:+PrintGCDateStamps -J-XX:+PrintHeapAtGC -J-XX:+PrintTenuringDistribution -J-Xloggc:${project.build.directory}/javadoc-heap.log</kuali.javadoc.additional.joption>
     <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
@@ -364,9 +364,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                   <javadocVersion>${kuali.javadoc.tool.version}</javadocVersion>
                   <show>private</show>
                   <quiet>true</quiet>
-                  <!-- 
-                  <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
-                   -->
+                  <debug>true</debug>
                   <source>${kuali.compile.source}</source>
                 </configuration>
                 <reportSets>
