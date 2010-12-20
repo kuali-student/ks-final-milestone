@@ -14,11 +14,11 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>39</version>
+    <version>48</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>${kuali.site.public.url}</url>
@@ -86,12 +86,14 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.1-perf</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.1-perf</developerConnection>
-    <url>https://test.kuali.org/svn/student/branches/ks-1.1-perf</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
+    <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
     <kuali.site.path>student/${project.version}</kuali.site.path>
+    <!-- Remove this property once Maven3 is the officially supported version to use -->
+    <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
     <ks.javadoc.url>${kuali.site.public.url}/apidocs/</ks.javadoc.url>
     <ks.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</ks.clover.exclude.pattern.1>
     <ks.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</ks.clover.exclude.pattern.2>
@@ -123,16 +125,12 @@
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
     <mysql.connector.version>5.1.13</mysql.connector.version>
-    <site.plugin.version>2.0.1</site.plugin.version>
 
     <!-- plugin versions -->
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
-    <javadoc.plugin.version>2.7</javadoc.plugin.version>
-    <site.plugin.version>2.0.1</site.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
-    <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
@@ -147,6 +145,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
+        <version>${kuali.clover.plugin.version}</version>
         <configuration>
           <excludes>
             <exclude>${ks.clover.exclude.pattern.1}</exclude>
@@ -161,7 +160,41 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>${site.plugin.version}</version>
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover2-plugin</artifactId>
+                <version>${kuali.clover.plugin.version}</version>
+                <configuration>
+                  <excludes>
+                    <exclude>${ks.clover.exclude.pattern.1}</exclude>
+                    <exclude>${ks.clover.exclude.pattern.2}</exclude>
+                    <exclude>${ks.clover.exclude.pattern.3}</exclude>
+                  </excludes>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${kuali.javadoc.plugin.version}</version>
+                <configuration>
+                  <excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
+                  <links>
+                    <link>http://cxf.apache.org/javadoc/${ks.cxf.javadoc.version}/</link>
+                    <link>http://download.oracle.com/javase/6/docs/api/</link>
+                    <link>http://download.oracle.com/javaee/5/api/</link>
+                    <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
+                    <link>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</link>
+                    <link>${ks.javadoc.url}</link>
+                    <link>http://www.kuali.org/rice/docs/${kuali.rice.version}/site/apidocs/</link>
+                    <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
+                    <link>http://ws.apache.org/wss4j/apidocs/</link>
+                  </links>
+                </configuration>
+              </plugin>
+            </reportPlugins>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -225,42 +258,8 @@
       </plugins>
     </pluginManagement>
   </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>${ks.clover.exclude.pattern.1}</exclude>
-            <exclude>${ks.clover.exclude.pattern.2}</exclude>
-            <exclude>${ks.clover.exclude.pattern.3}</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
-          <links>
-            <link>http://cxf.apache.org/javadoc/${ks.cxf.javadoc.version}/</link>
-            <link>http://download.oracle.com/javase/6/docs/api/</link>
-            <link>http://download.oracle.com/javaee/5/api/</link>
-            <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
-            <link>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</link>
-            <link>${ks.javadoc.url}</link>
-            <link>http://www.kuali.org/rice/docs/${kuali.rice.version}/site/apidocs/</link>
-            <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
-            <link>http://ws.apache.org/wss4j/apidocs/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
   <dependencyManagement>
     <dependencies>
-
       <!-- Test Framework Dependencies -->
       <dependency>
         <groupId>junit</groupId>

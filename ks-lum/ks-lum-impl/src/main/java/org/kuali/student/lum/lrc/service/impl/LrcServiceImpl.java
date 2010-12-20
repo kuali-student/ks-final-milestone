@@ -19,6 +19,10 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -34,6 +38,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
@@ -59,6 +64,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class LrcServiceImpl implements LrcService {
 	private LrcDao lrcDao;
     private SearchManager searchManager;
+    private DictionaryService dictionaryServiceDelegate;
+    private ValidatorFactory validatorFactory;
+    
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#compareGrades(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -85,6 +93,15 @@ public class LrcServiceImpl implements LrcService {
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
 	    checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
 
+	    // Validate Result component
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+                
 	    ResultComponent rc = LrcServiceAssembler.toResultComponent(resultComponentTypeKey, resultComponentInfo, lrcDao);
 	    lrcDao.create(rc);
 	    return LrcServiceAssembler.toResultComponentInfo(rc);
@@ -358,7 +375,16 @@ public class LrcServiceImpl implements LrcService {
 			VersionMismatchException {
 	    checkForMissingParameter(resultComponentId, "resultComponentId");
         checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
+        
+        // Validate Result component
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
 
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
         ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
         
 		if (!String.valueOf(entity.getVersionNumber()).equals(resultComponentInfo.getMetaInfo().getVersionInd())){
@@ -473,4 +499,34 @@ public class LrcServiceImpl implements LrcService {
         return searchManager.search(searchRequest, lrcDao);
 	}
 
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+    @Override
+    public List<String> getObjectTypes() {
+        return dictionaryServiceDelegate.getObjectTypes();
+    }
+
+    /**
+     * @return the validatorFactory
+     */
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
+
+    /**
+     * @param validatorFactory the validatorFactory to set
+     */
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
+
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
+    }
+
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+    }
 }

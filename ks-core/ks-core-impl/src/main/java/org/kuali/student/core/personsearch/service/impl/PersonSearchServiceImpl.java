@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -46,7 +45,7 @@ import org.kuali.student.core.search.service.SearchService;
 public class PersonSearchServiceImpl implements SearchService {
     protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 
-    private IdentityManagementService identityService;
+    private IdentityService identityService;
 
     public static final String PERSON_ENTITY_TYPE = "PERSON";
 
@@ -159,10 +158,10 @@ public class PersonSearchServiceImpl implements SearchService {
 
     //
 
-    public IdentityManagementService getIdentityService() {
+    public IdentityService getIdentityService() {
         return identityService;
     }
-    public void setIdentityService(IdentityManagementService identityService) {
+    public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
 

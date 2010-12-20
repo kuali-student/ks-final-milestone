@@ -66,11 +66,11 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 	final Logger LOG = Logger.getLogger(OrgRpcGwtServlet.class);
 	private static final long serialVersionUID = 1L;
 	public static final String CONFIGURE_XML_PATH = "C:/org_configure.xml";
-	private IdentityService identityServiceNonCached;
+	private IdentityService identityService;
 	private OrganizationService service;
 
-	public void setIdentityServiceNonCached(IdentityService identityServiceNonCached) {
-		this.identityServiceNonCached = identityServiceNonCached;
+	public void setIdentityService(IdentityService identityService){
+	    this.identityService=identityService;
 	}
 	
 	public void setService(OrganizationService service){
@@ -473,7 +473,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
-        Map<String, KimEntityNamePrincipalNameInfo> kimIdentities = identityServiceNonCached.getDefaultNamesForPrincipalIds(personIds);
+        Map<String, KimEntityNamePrincipalNameInfo> kimIdentities = identityService.getDefaultNamesForPrincipalIds(personIds);
         Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
         for(String pId:personIds ){
             KimEntityNamePrincipalNameInfo kimEntity = kimIdentities.get(pId);

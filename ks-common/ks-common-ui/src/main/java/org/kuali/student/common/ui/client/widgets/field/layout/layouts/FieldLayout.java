@@ -33,6 +33,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Abstract class for field layouts.  Areas which contain fields for user data entry should use an
+ * implementation of this class for visual and behavior consistency
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public abstract class FieldLayout extends FlowPanel implements FieldLayoutComponent{
 	protected Map<String, FieldElement> fieldMap = new HashMap<String, FieldElement>();
 	protected Map<String, FieldLayout> layoutMap = new HashMap<String, FieldLayout>();
@@ -53,6 +60,10 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		return "fieldComponent" + (generatedKeyNum++);
 	}
 
+	/**
+	 * Add or remove underline from the layout's title
+	 * @param underline
+	 */
 	public void underlineTitle(boolean underline){
 		if(layoutTitle != null){
 			if(underline){
@@ -72,6 +83,12 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		this.parentLayout = parentLayout;
 	}
 
+	/**
+	 * Adds a field to this layout - how it is added in the ui is up to the implementation
+	 * of addFieldToLayout
+	 * @param field
+	 * @return
+	 */
 	public String addField(FieldElement field){
 		String key = null;
 		if(field != null){
@@ -89,6 +106,12 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		return key;
 	}
 
+	/**
+	 * Adds a layout as a child of this layout - how it is added in the ui is up to the implementation
+	 * of addLayoutToLayout
+	 * @param layout
+	 * @return key to identify the layout added
+	 */
 	public String addLayout(FieldLayout layout){
 		String key = null;
 		if(layout != null){
@@ -106,10 +129,21 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		return key;
 	}
 
+	/**
+	 * Adds a widget to the layout - how it is added in the ui is up to the implementation of addWidgetToLayout
+	 * @param widget
+	 * @return key to identify the widget added
+	 */
 	public String addWidget(Widget widget){
 		return this.addWidget(null, widget);
 	}
 
+	/**
+	 * Adds a widget to the layout - how it is added in the ui is up to the implementation of addWidgetToLayout
+	 * @param key
+	 * @param widget
+	 * @return key to identify the widget added
+	 */
 	public String addWidget(String key, Widget widget){
 		if(widget != null){
 			if(key == null){
@@ -124,6 +158,11 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		return key;
 	}
 
+	/**
+	 * Remove an element of this layout by key
+	 * @param key
+	 * @return
+	 */
 	public boolean removeLayoutElement(String key){
 		Widget w = drawOrder.get(key);
 		if(w != null){
@@ -144,6 +183,11 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		}
 	}
 
+	/**
+	 * Remove an element of this layout by widget reference
+	 * @param widget
+	 * @return
+	 */
 	public boolean removeLayoutElement(Widget widget){
 		if(drawOrder.containsValue(widget)){
 			Iterator<String> it = drawOrder.keySet().iterator();
@@ -172,6 +216,11 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		}
 	}
 
+	/**
+	 * Sets the instructions for this layout, whether or not they appear or where they appear is up
+	 * to the layout's implementation
+	 * @param instructions
+	 */
 	public void setInstructions(String instructions) {
 		if(instructions != null && !instructions.equals("")){
 			this.instructions.addStyleName("ks-section-instuctions");
@@ -183,6 +232,12 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		}
 	}
 
+	/**
+	 * Sets a message for this layout, whether or not it appears or where they appears is up
+	 * to the layout's implementation
+	 * @param html
+	 * @param show
+	 */
 	public void setMessage(String html, boolean show) {
 		if(messagePanel == null){
 			messagePanel = new HTML(html);
@@ -232,6 +287,12 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 	public abstract void removeWidgetFromLayout(Widget widget);
 	public abstract void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component);
 
+	/**
+	 * Processes the validation result for the FieldElement specified by key, which will likely show
+	 * the validation message next to the field
+	 * @param fieldElementKey
+	 * @param validationResult
+	 */
 	public void processValidationResults(String fieldElementKey, ValidationResultInfo validationResult){
 		FieldElement field = fieldMap.get(fieldElementKey);
 		if(field != null && hasValidation){
@@ -246,6 +307,9 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		}
 	}
 
+	/**
+	 * Clear all validation in this layout and child layouts
+	 */
 	public void clearValidation(){
 		//fieldMap.
 		for(FieldElement e: fieldMap.values()){
@@ -263,6 +327,10 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 		return layoutTitle;
 	}
 
+	/**
+	 * Adds a button layout to this layout which will appear below all layouts and fields
+	 * @param buttonLayout
+	 */
 	public void addButtonLayout(ButtonLayout buttonLayout){
 		this.buttonLayout = buttonLayout;
 		addButtonLayoutToLayout(buttonLayout);
@@ -274,6 +342,11 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 
 	public abstract void addButtonLayoutToLayout(ButtonLayout buttonLayout);
 	
+	/**
+	 * Sets a help message hover icon to display the html passed in and will appear next to the layout's
+	 * title, if shown
+	 * @param html
+	 */
 	public void setHelp(String html){
 		if(layoutTitle != null){
 			if(help == null){

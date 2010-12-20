@@ -919,15 +919,19 @@
   <property name="name"
             value="org.kuali.student.lum.course.dto.CourseCrossListingInfo" />
   <property name="attributes">
-   <list>
+   <list>   
     <ref bean="courseCrossListingInfo.courseNumberSuffix" />
     <ref bean="courseCrossListingInfo.department" />
     <ref bean="courseCrossListingInfo.id" />
+    <ref bean="courseCrossListingInfo.code" />
     <ref bean="courseCrossListingInfo.subjectArea" />
     <ref bean="courseCrossListingInfo.type" />
    </list>
   </property>
  </bean>
+ 
+  <bean id="courseCrossListingInfo.code" parent="courseInfo.code-parent" /> 
+ 
  <bean id="org.kuali.student.lum.course.dto.CourseCrossListingInfo"
        parent="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent" />
 

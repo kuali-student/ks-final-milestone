@@ -31,9 +31,15 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+/**
+ * A button wrapped in an abbr tag with a special hover mechanism for help text
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class AbbrButton extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 	
-	public enum AbbrButtonType{HELP, DELETE, VIEW};
+	public enum AbbrButtonType{HELP, DELETE, VIEW, EXAMPLES};
 	
 	private AbbrPanel abbr;
 	private KSButton button;
@@ -55,6 +61,11 @@ public class AbbrButton extends Composite implements HasClickHandlers, HasMouseO
 			case VIEW:
                 abbr = new AbbrPanel("View", "ks-form-module-elements-delete");
                 button = new KSButton("View", ButtonStyle.DEFAULT_ANCHOR);
+                abbr.add(button);
+			    break;
+			case EXAMPLES:
+                abbr = new AbbrPanel("Examples", "ks-form-module-elements-help");
+                button = new KSButton("See examples", ButtonStyle.DEFAULT_ANCHOR);
                 abbr.add(button);
 			    break;
 		}
@@ -81,6 +92,14 @@ public class AbbrButton extends Composite implements HasClickHandlers, HasMouseO
 			}
 		});
 		
+	}
+
+	public PopupPanel getHoverPopup() {
+		return hoverPopup;
+	}
+
+	public void setHoverPopup(PopupPanel hoverPopup) {
+		this.hoverPopup = hoverPopup;
 	}
 
 	@Override

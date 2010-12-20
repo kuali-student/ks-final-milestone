@@ -52,6 +52,7 @@ import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -465,6 +466,61 @@ public class TestCourseServiceImpl {
         }
     }
 
+    @Test
+    public void testCourseCrossListing() {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        try {
+            CourseInfo cInfo = generator.getCourseTestData();
+            assertNotNull(cInfo);
+
+            CourseCrossListingInfo ccInfo = new CourseCrossListingInfo();
+            ccInfo.setCourseNumberSuffix("100");
+            ccInfo.setSubjectArea("CHEM");
+            
+            CourseCrossListingInfo ccInfo1 = new CourseCrossListingInfo();
+            ccInfo1.setCourseNumberSuffix("200");
+            ccInfo1.setSubjectArea("MATH");
+            ccInfo1.setCode("LIFE042");
+
+            List<CourseCrossListingInfo> ccList = new ArrayList<CourseCrossListingInfo>();
+            ccList.add(ccInfo);
+            ccList.add(ccInfo1);
+
+            cInfo.setCrossListings(ccList);
+            
+            try {
+                cInfo = courseService.createCourse(cInfo);
+            } catch (DataValidationErrorException e) {
+                dumpValidationErrors(cInfo);
+                fail("DataValidationError: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("failed creating course:" + e.getMessage());
+            }
+            
+            CourseInfo rcInfo = courseService.getCourse(cInfo.getId());
+            
+            assertEquals(2,rcInfo.getCrossListings().size());
+            
+            for(CourseCrossListingInfo rcc : rcInfo.getCrossListings()) {
+                
+                if("100".equals(rcc.getCourseNumberSuffix())) {
+                    assertEquals("CHEM100", rcc.getCode());
+                } else {
+                    assertEquals("LIFE042", rcc.getCode());
+                }                
+            }
+            
+        } catch (Exception e) {
+            System.out.println("caught exception: " + e.getClass().getName());
+            System.out.println("message: " + e.getMessage());
+            e.printStackTrace(System.out);
+            e.printStackTrace();
+            fail(e.getMessage());
+        }        
+            
+    }
+    
     @Test
     public void testCreditOptions() {
         CourseDataGenerator generator = new CourseDataGenerator();

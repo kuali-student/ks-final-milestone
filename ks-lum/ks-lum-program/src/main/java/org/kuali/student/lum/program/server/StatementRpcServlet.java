@@ -44,23 +44,61 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     private static final long serialVersionUID = 822326113643828855L;
 
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
-    
-        List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
 
-        List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
 
-        // loop through top statement types like enrollment eligibility and credit constraints
-        for (String topStatementType : topStatementTypes) {           
-            allStatementTypes.add(statementService.getStatementType(topStatementType));
-            List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType);
+        String[] desiredSequenceEnrollmentElig = {"kuali.statement.type.course.academicReadiness.studentEligibilityPrereq",
+                                                    "kuali.statement.type.course.academicReadiness.coreq",
+                                                    "kuali.statement.type.course.recommendedPreparation",
+                                                    "kuali.statement.type.course.academicReadiness.antireq"};
 
-            // loop through statement types belonging to the top statement types
-            for (String subStatementTypeName : subStatementTypeNames) {
-                allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
-            }
+        String[] desiredSequenceCreditConstraints = {"kuali.statement.type.course.credit.restriction",
+                                                        "kuali.statement.type.course.credit.repeatable"};        
+
+        List<StatementTypeInfo> statementTypesSorted = new ArrayList<StatementTypeInfo>();
+
+        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
+
+        for (String statementTypeName : statementTypeNames) {
+            StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
+
+            statementTypesSorted.add(statementService.getStatementType(statementTypeName));
+
+            //true if we found sub statement type
+            List<String> subStmtInfos = stmtInfo.getAllowedStatementTypes();
+            List<StatementTypeInfo> statementTypesOrig = new ArrayList<StatementTypeInfo>();
+            if ((subStmtInfos != null) && !subStmtInfos.isEmpty()) {
+                List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(statementTypeName);
+                for (String subStatementTypeName : subStatementTypeNames) {
+                    statementTypesOrig.add(statementService.getStatementType(subStatementTypeName));
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.enrollmentEligibility")) {
+                    for (String stmtType : desiredSequenceEnrollmentElig) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.creditConstraints")) {
+                    for (String stmtType : desiredSequenceCreditConstraints) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }            
         }
         
-        return allStatementTypes;
+        return statementTypesSorted;
     }
     
     @Override

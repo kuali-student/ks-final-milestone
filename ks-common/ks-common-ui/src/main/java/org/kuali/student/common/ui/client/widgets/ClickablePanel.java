@@ -42,6 +42,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A panel that handles all click, key, and mouse events
+ * @author Kuali Student Team
+ *
+ */
 public class ClickablePanel extends SimplePanel implements HasAllMouseHandlers, HasClickHandlers, HasAllKeyHandlers{
 	  
 	public ClickablePanel(Widget child){

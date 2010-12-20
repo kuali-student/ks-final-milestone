@@ -43,12 +43,6 @@ public abstract class ViewLayout extends Controller{
 		return viewEnumMap.get(enumValue);
 	}
 
-	//TODO remove this method from controller hierarchy?  its not used
-	@Override
-	public Class<? extends Enum<?>> getViewsEnum() {
-		return null;
-	}
-
 	@Override
 	public void showDefaultView(Callback<Boolean> onReadyCallback) {
 		if(!viewMap.isEmpty()){		

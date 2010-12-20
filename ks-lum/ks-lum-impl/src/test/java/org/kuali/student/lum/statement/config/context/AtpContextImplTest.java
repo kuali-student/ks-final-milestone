@@ -18,6 +18,7 @@ import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -490,6 +491,18 @@ public class AtpContextImplTest {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+        @Override
+        public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+            // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
+
+        @Override
+        public List<String> getObjectTypes() {
+            // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
 		
 	}
 }

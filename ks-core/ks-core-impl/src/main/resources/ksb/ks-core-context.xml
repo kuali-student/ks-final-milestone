@@ -144,6 +144,8 @@
         class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
+        <property name="validatorFactory" ref="coreValidatorFactory"/>                
     </bean>
 
     <bean id="atpSearchManager"
@@ -164,16 +166,16 @@
         </property>
     </bean>
 
-    <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
-        <property name="serviceQName" value="{KIM}kimIdentityManagementServiceSOAP"/>
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
 
 
     <!-- personsearchService -->
     <bean id="personServiceImpl"
         class="org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl">
-        <property name="identityService" ref="coreIdentityServiceClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
     </bean>
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -264,8 +266,8 @@
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
+        <property name="searchManager" ref="commentSearchManager" />        
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
-        <property name="searchManager" ref="commentSearchManager" />
         <property name="validatorFactory" ref="coreValidatorFactory"/>        
     </bean>
 

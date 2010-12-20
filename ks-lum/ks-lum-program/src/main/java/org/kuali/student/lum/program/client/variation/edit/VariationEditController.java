@@ -47,7 +47,7 @@ public class VariationEditController extends VariationController {
         super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
-        if (programModel.get("id") != null) {
+        if (getStringProperty(ProgramConstants.ID) != null) {
             setDefaultView(ProgramSections.SUMMARY);
         }
         initHandlers();
@@ -225,7 +225,7 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void resetModel() {
-        currentId = programModel.get(ProgramConstants.ID);
+        currentId = getStringProperty(ProgramConstants.ID);
         programModel.resetRoot();
     }
 
@@ -239,7 +239,7 @@ public class VariationEditController extends VariationController {
     }
 
     private void saveData(DataModel model) {
-        currentId = model.get("id");
+        currentId = model.get(ProgramConstants.ID);
         eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
         setContentTitle(getProgramName());
         setName(getProgramName());
@@ -248,7 +248,8 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void navigateToParent() {
-        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+    	String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext()) + "/" + ProgramSections.SPECIALIZATIONS_EDIT;
+    	HistoryManager.navigate(path);
     }
 
 }

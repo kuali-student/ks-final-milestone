@@ -27,6 +27,14 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout which lays out fields and other layouts vertically.  Fields and layouts added will appear
+ * in the order they are added.  Validation will appear next to appropriate fields if hasValidation is true.
+ * The title will appear above all elements and button layout below all elements.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class VerticalFieldLayout extends FieldLayout {
     private Map<String, FlowPanel> fieldContainers = new HashMap<String, FlowPanel>();
 

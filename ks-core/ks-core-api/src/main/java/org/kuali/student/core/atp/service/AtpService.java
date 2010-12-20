@@ -30,6 +30,7 @@ import org.kuali.student.core.atp.dto.DateRangeInfo;
 import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -50,7 +51,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  */
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService extends SearchService {
+public interface AtpService extends SearchService, DictionaryService {
     /** 
      * Retrieves the list of academic time period types known by this service
      * @return list of academic time period types

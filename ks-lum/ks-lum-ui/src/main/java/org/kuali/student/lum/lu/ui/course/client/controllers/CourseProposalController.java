@@ -86,7 +86,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Controller for course proposal screens
+ * Controller for course proposal screens.  This controller controls all functions of the course proposal process
+ * and contains the data model and is responsible for retrieving its data and metadata from the server. In
+ * addition, this controller is responsible for course proposal save events and updating its ui accordingly.
+ * 
  *
  * @author Kuali Student Team
  *
@@ -114,7 +117,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
 	private static final String MODIFY_TYPE = "kuali.proposal.type.course.modify";
 	public static final String CREATE_TYPE = "kuali.proposal.type.course.create";
-	public static final String INITIAL_SAVE_VERSION = "1";
 	private String currentDocType = CREATE_TYPE;
 	private String proposalPath = "";
 	private String currentTitle;
@@ -330,14 +332,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
         });
-    }
-
-	/**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return cfg.getViewsEnum();
     }
 
     @Override
@@ -598,13 +592,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				ViewContext context = CourseProposalController.this.getViewContext();
 	    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
-	    				
-	    				//Ensure workflow doc status gets updated from draft, only done on intial save
-	    				//to reduce workflow rpc calls.
-	    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
-	    				if (INITIAL_SAVE_VERSION.equals(proposalVersion)){
-	    					workflowUtil.refresh();
-	    				}
+	    				workflowUtil.refresh();
 	    				
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();

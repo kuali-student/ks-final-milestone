@@ -48,7 +48,7 @@ public class CredentialViewController extends CredentialController {
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_BACC_PROGRAM.getLocation(), getViewContext());
                 } else if (actionType == ActionType.MODIFY_VERSION) {
-                    String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                    String versionIndId =getStringProperty(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
@@ -79,8 +79,8 @@ public class CredentialViewController extends CredentialController {
 
     protected void resetActionList() {
         //Only allow modify with version option for an active course that id also the latest version
-        ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
-        String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+        ProgramStatus status = ProgramStatus.of(programModel);
+        String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
         Long sequenceNumber = programModel.get(ProgramConstants.VERSION_SEQUENCE_NUMBER);
 
         actionBox.clear();

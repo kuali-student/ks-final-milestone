@@ -39,6 +39,9 @@ public class CourseCrossListingInfo implements Serializable, Idable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private String code;
+    
+    @XmlElement
     private String subjectArea;
 
     @XmlElement
@@ -53,9 +56,16 @@ public class CourseCrossListingInfo implements Serializable, Idable {
     @XmlAttribute
     private String id;
 
-    /**
-     * 
-     */
+
+    
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getSubjectArea() {
         return subjectArea;
     }
@@ -64,9 +74,6 @@ public class CourseCrossListingInfo implements Serializable, Idable {
         this.subjectArea = subjectArea;
     }
 
-    /**
-     * 
-     */
     public String getDepartment() {
         return department;
     }

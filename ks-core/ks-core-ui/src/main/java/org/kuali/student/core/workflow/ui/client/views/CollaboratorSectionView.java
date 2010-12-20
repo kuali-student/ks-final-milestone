@@ -129,24 +129,26 @@ public class CollaboratorSectionView extends SectionView {
 						personName = personPicker.getDisplayValue();
 												
 						if (personId != null && !personId.isEmpty()){
-							String permissionCode = "";
+							String permissionCode = null;
 							if(permissions != null){
 								permissionCode = permissionList.getSelectedItem();
 							}
-							String actionRequestCode = "";
+							String actionRequestCode = null;
 							if(actionRequests != null){
 								actionRequestCode = actionRequestList.getSelectedItem();
 							}
 							KSCheckBox authorCheckbox = (KSCheckBox)authorNotation.getFieldWidget(); 
 							boolean isAuthor = authorCheckbox.getValue();						
 							
-							addCollaborator(personId, personName, permissionCode, actionRequestCode, isAuthor);
-							
-							personPicker.clear();
-							authorCheckbox.setValue(false);
-							actionRequestList.clear();
-							permissionList.clear();
-							refreshActionRequestListItems();
+							if (permissionCode != null && actionRequestCode != null){
+								addCollaborator(personId, personName, permissionCode, actionRequestCode, isAuthor);
+								
+								personPicker.clear();
+								authorCheckbox.setValue(false);
+								actionRequestList.clear();
+								permissionList.clear();
+								refreshActionRequestListItems();
+							}
 						}
 					}
 				}
@@ -304,7 +306,7 @@ public class CollaboratorSectionView extends SectionView {
 	private void refreshPermissionList(String selectedAction){
 		permissionListItems.clear();
 		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
-		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
+		if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
             permissionListItems.addItem(PermissionType.EDIT.getCode(),"Edit, Comment, View");					
 		}
 

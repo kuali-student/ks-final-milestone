@@ -51,7 +51,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 public class TestAtpService extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestAtpService.class);
 	
-	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl")
+	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
 	public AtpService client;
 
 	public static final String atpType_fallSemester = "atp.atpType.fallSemester";

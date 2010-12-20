@@ -122,7 +122,7 @@ public class MajorEditController extends MajorController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            previousState = ProgramStatus.of(programModel);
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
@@ -137,7 +137,7 @@ public class MajorEditController extends MajorController {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
 
-                Data currentVariations = (Data) programModel.get(ProgramConstants.VARIATIONS);
+                Data currentVariations = getDataProperty(ProgramConstants.VARIATIONS);
 
                 existingVariationIds.clear();
 
@@ -180,8 +180,8 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEvent.Handler() {
             @Override
             public void onEvent(AddSpecializationEvent event) {
-                String id = (String) programModel.get(ProgramConstants.ID);
-                ProgramRegistry.setRow(programModel.<Data>get(ProgramConstants.VARIATIONS).size());
+                String id = getStringProperty(ProgramConstants.ID);
+                ProgramRegistry.setRow((getDataProperty(ProgramConstants.VARIATIONS)).size());
                 ProgramRegistry.setData(ProgramUtils.createNewSpecializationBasedOnMajor(programModel));
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
@@ -241,7 +241,7 @@ public class MajorEditController extends MajorController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 programModel.setRoot(result.getValue());
-                viewContext.setId((String) programModel.get(ProgramConstants.ID));
+                viewContext.setId(ProgramUtils.getProgramId(programModel));
                 viewContext.setIdType(IdType.OBJECT_ID);
                 setHeaderTitle();
                 setStatus();
@@ -322,12 +322,12 @@ public class MajorEditController extends MajorController {
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     ViewContext viewContext = getViewContext();
-                    viewContext.setId((String) programModel.get(ProgramConstants.ID));
+                    viewContext.setId(getStringProperty(ProgramConstants.ID));
                     viewContext.setIdType(IdType.OBJECT_ID);
 
                     // add to recently viewed now that we're sure to know the program's id
                     ViewContext docContext = new ViewContext();
-                    docContext.setId((String) programModel.get(ProgramConstants.ID));
+                    docContext.setId(getStringProperty(ProgramConstants.ID));
                     docContext.setIdType(IdType.OBJECT_ID);
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
@@ -381,7 +381,7 @@ public class MajorEditController extends MajorController {
             showView(changeSection);
             ProgramRegistry.setSection(null);
         } else {
-            String id = (String) programModel.get(ProgramConstants.ID);
+            String id = getStringProperty(ProgramConstants.ID);
             if (id == null) {
                 showView(ProgramSections.PROGRAM_DETAILS_EDIT);
             } else {

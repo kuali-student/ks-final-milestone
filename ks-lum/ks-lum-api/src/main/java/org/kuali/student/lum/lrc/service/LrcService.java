@@ -21,6 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -51,7 +52,7 @@ import org.kuali.student.lum.lrc.dto.ScaleInfo;
  */
 @WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LrcService extends SearchService {
+public interface LrcService extends SearchService, DictionaryService {
     /**
      * Retrieves information on all credential types.
      * @return list of credential type information

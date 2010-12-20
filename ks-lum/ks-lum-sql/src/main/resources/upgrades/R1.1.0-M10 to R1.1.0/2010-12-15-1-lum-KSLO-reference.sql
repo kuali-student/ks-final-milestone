@@ -1,6 +1,10 @@
+
 delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'/
+
 delete from KSLO_LO where id='4beee444-ac19-4063-85e3-61df2662ceab'/
+
 delete from KSLO_RICH_TEXT_T where id='969f654a-16d0-4bf6-9255-dded24c6b8bc'/
+
 delete from KSLO_LO_CATEGORY where id ='b76e8153-f04b-4ce5-a560-a90d93aa07a8'/
 
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)

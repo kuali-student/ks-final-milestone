@@ -5,10 +5,10 @@ package org.kuali.student.lum.program.client.properties;
  * 	D:/programming/projects/exadel_projects/berkeley/kuali/trunk/ks-lum/ks-lum-program/src/main/java/org/kuali/student/lum/program/client/properties/program.properties'.
  */
 public interface Program extends com.google.gwt.i18n.client.Messages {
-
+  
   /**
    * Translated "Activate".
-   *
+   * 
    * @return translated "Activate"
    */
   @DefaultMessage("Activate")
@@ -17,7 +17,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Approve".
-   *
+   * 
    * @return translated "Approve"
    */
   @DefaultMessage("Approve")
@@ -26,7 +26,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Catalog Description".
-   *
+   * 
    * @return translated "Catalog Description"
    */
   @DefaultMessage("Catalog Description")
@@ -35,7 +35,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Publication Targets".
-   *
+   * 
    * @return translated "Publication Targets"
    */
   @DefaultMessage("Publication Targets")
@@ -44,7 +44,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Description".
-   *
+   * 
    * @return translated "Program Description"
    */
   @DefaultMessage("Program Description")
@@ -53,7 +53,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Duration Count".
-   *
+   * 
    * @return translated "Duration Count"
    */
   @DefaultMessage("Duration Count")
@@ -62,7 +62,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Duration Notes".
-   *
+   * 
    * @return translated "Duration Notes"
    */
   @DefaultMessage("Duration Notes")
@@ -71,7 +71,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Full Time / Part Time".
-   *
+   * 
    * @return translated "Full Time / Part Time"
    */
   @DefaultMessage("Full Time / Part Time")
@@ -80,7 +80,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Core Faculty Members".
-   *
+   * 
    * @return translated "Core Faculty Members"
    */
   @DefaultMessage("Core Faculty Members")
@@ -89,7 +89,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "More Info".
-   *
+   * 
    * @return translated "More Info"
    */
   @DefaultMessage("More Info")
@@ -98,7 +98,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Duration".
-   *
+   * 
    * @return translated "Duration"
    */
   @DefaultMessage("Duration")
@@ -107,7 +107,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Comments".
-   *
+   * 
    * @return translated "Comments"
    */
   @DefaultMessage("Comments")
@@ -116,7 +116,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Cancel".
-   *
+   * 
    * @return translated "Cancel"
    */
   @DefaultMessage("Cancel")
@@ -125,7 +125,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Edit".
-   *
+   * 
    * @return translated "Edit"
    */
   @DefaultMessage("Edit")
@@ -134,7 +134,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Save Failed. There were validation errors: {0}".
-   *
+   * 
    * @return translated "Save Failed. There were validation errors: {0}"
    */
   @DefaultMessage("Save Failed. There were validation errors: {0}")
@@ -142,8 +142,17 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_failedSave(String arg0);
 
   /**
+   * Translated "New Program".
+   * 
+   * @return translated "New Program"
+   */
+  @DefaultMessage("New Program")
+  @Key("common.newProgram")
+  String common_newProgram();
+
+  /**
    * Translated "Remove".
-   *
+   * 
    * @return translated "Remove"
    */
   @DefaultMessage("Remove")
@@ -152,7 +161,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Retrieving Data...".
-   *
+   * 
    * @return translated "Retrieving Data..."
    */
   @DefaultMessage("Retrieving Data...")
@@ -161,7 +170,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Save".
-   *
+   * 
    * @return translated "Save"
    */
   @DefaultMessage("Save")
@@ -170,7 +179,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Saving Data...".
-   *
+   * 
    * @return translated "Saving Data..."
    */
   @DefaultMessage("Saving Data...")
@@ -179,7 +188,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Status: {0}".
-   *
+   * 
    * @return translated "Status: {0}"
    */
   @DefaultMessage("Status: {0}")
@@ -188,7 +197,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Save Successful".
-   *
+   * 
    * @return translated "Save Successful"
    */
   @DefaultMessage("Save Successful")
@@ -197,7 +206,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Do you want to save data?".
-   *
+   * 
    * @return translated "Do you want to save data?"
    */
   @DefaultMessage("Do you want to save data?")
@@ -206,7 +215,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Save".
-   *
+   * 
    * @return translated "Program Save"
    */
   @DefaultMessage("Program Save")
@@ -215,7 +224,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Return to Curriculum Management".
-   *
+   * 
    * @return translated "Return to Curriculum Management"
    */
   @DefaultMessage("Return to Curriculum Management")
@@ -224,7 +233,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Exit".
-   *
+   * 
    * @return translated "Exit"
    */
   @DefaultMessage("Exit")
@@ -233,7 +242,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Learning Objectives".
-   *
+   * 
    * @return translated "Learning Objectives"
    */
   @DefaultMessage("Learning Objectives")
@@ -242,7 +251,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Validation has failed for {0} specialization".
-   *
+   * 
    * @return translated "Validation has failed for {0} specialization"
    */
   @DefaultMessage("Validation has failed for {0} specialization")
@@ -251,7 +260,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Validation has failed for following specializations: {0}".
-   *
+   * 
    * @return translated "Validation has failed for following specializations: {0}"
    */
   @DefaultMessage("Validation has failed for following specializations: {0}")
@@ -260,7 +269,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Curriculum Oversight Division".
-   *
+   * 
    * @return translated "Curriculum Oversight Division"
    */
   @DefaultMessage("Curriculum Oversight Division")
@@ -269,7 +278,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Curriculum Oversight Unit".
-   *
+   * 
    * @return translated "Curriculum Oversight Unit"
    */
   @DefaultMessage("Curriculum Oversight Unit")
@@ -278,7 +287,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Deployment Division".
-   *
+   * 
    * @return translated "Deployment Division"
    */
   @DefaultMessage("Deployment Division")
@@ -287,7 +296,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Deployment Unit".
-   *
+   * 
    * @return translated "Deployment Unit"
    */
   @DefaultMessage("Deployment Unit")
@@ -296,7 +305,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Financial Control Division".
-   *
+   * 
    * @return translated "Financial Control Division"
    */
   @DefaultMessage("Financial Control Division")
@@ -305,7 +314,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Financial Control Unit".
-   *
+   * 
    * @return translated "Financial Control Unit"
    */
   @DefaultMessage("Financial Control Unit")
@@ -314,7 +323,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Financial Resources Division".
-   *
+   * 
    * @return translated "Financial Resources Division"
    */
   @DefaultMessage("Financial Resources Division")
@@ -323,7 +332,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Financial Resources Unit".
-   *
+   * 
    * @return translated "Financial Resources Unit"
    */
   @DefaultMessage("Financial Resources Unit")
@@ -332,7 +341,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "See All Managing Bodies".
-   *
+   * 
    * @return translated "See All Managing Bodies"
    */
   @DefaultMessage("See All Managing Bodies")
@@ -341,7 +350,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Student Oversight Division".
-   *
+   * 
    * @return translated "Student Oversight Division"
    */
   @DefaultMessage("Student Oversight Division")
@@ -350,7 +359,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Student Oversight Unit".
-   *
+   * 
    * @return translated "Student Oversight Unit"
    */
   @DefaultMessage("Student Oversight Unit")
@@ -359,7 +368,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Actions".
-   *
+   * 
    * @return translated "Actions"
    */
   @DefaultMessage("Actions")
@@ -368,7 +377,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "History".
-   *
+   * 
    * @return translated "History"
    */
   @DefaultMessage("History")
@@ -377,7 +386,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Sections".
-   *
+   * 
    * @return translated "Program Sections"
    */
   @DefaultMessage("Program Sections")
@@ -386,7 +395,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Description and Catalog Information".
-   *
+   * 
    * @return translated "Description and Catalog Information"
    */
   @DefaultMessage("Description and Catalog Information")
@@ -395,7 +404,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Learning Objectives".
-   *
+   * 
    * @return translated "Learning Objectives"
    */
   @DefaultMessage("Learning Objectives")
@@ -404,7 +413,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Managing Bodies".
-   *
+   * 
    * @return translated "Program Managing Bodies"
    */
   @DefaultMessage("Program Managing Bodies")
@@ -413,7 +422,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Key Program Information".
-   *
+   * 
    * @return translated "Key Program Information"
    */
   @DefaultMessage("Key Program Information")
@@ -422,7 +431,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Requirements".
-   *
+   * 
    * @return translated "Program Requirements"
    */
   @DefaultMessage("Program Requirements")
@@ -431,7 +440,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Specializations".
-   *
+   * 
    * @return translated "Specializations"
    */
   @DefaultMessage("Specializations")
@@ -439,17 +448,17 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_specializations();
 
   /**
-   * Translated "Program Proposal Summary".
-   *
-   * @return translated "Program Proposal Summary"
+   * Translated "Program Summary".
+   * 
+   * @return translated "Program Summary"
    */
-  @DefaultMessage("Program Proposal Summary")
+  @DefaultMessage("Program Summary")
   @Key("program.menu.sections.summary")
   String program_menu_sections_summary();
 
   /**
    * Translated "Supporting Documents".
-   *
+   * 
    * @return translated "Supporting Documents"
    */
   @DefaultMessage("Supporting Documents")
@@ -458,7 +467,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "View All Sections".
-   *
+   * 
    * @return translated "View All Sections"
    */
   @DefaultMessage("View All Sections")
@@ -467,7 +476,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Modify (no version)".
-   *
+   * 
    * @return translated "Modify (no version)"
    */
   @DefaultMessage("Modify (no version)")
@@ -476,7 +485,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Modify (with new version)".
-   *
+   * 
    * @return translated "Modify (with new version)"
    */
   @DefaultMessage("Modify (with new version)")
@@ -485,7 +494,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Actions: Modify, Retire...".
-   *
+   * 
    * @return translated "Program Actions: Modify, Retire..."
    */
   @DefaultMessage("Program Actions: Modify, Retire...")
@@ -494,7 +503,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Accreditation".
-   *
+   * 
    * @return translated "Accreditation"
    */
   @DefaultMessage("Accreditation")
@@ -503,7 +512,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Accreditations".
-   *
+   * 
    * @return translated "Accreditations"
    */
   @DefaultMessage("Accreditations")
@@ -512,7 +521,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.".
-   *
+   * 
    * @return translated "You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program."
    */
   @DefaultMessage("You have indicated that you intend to activate this version of the program. This will replace the currently active version. If you choose to proceed you must update the following items in the previous version of this program.")
@@ -521,7 +530,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Activate Program".
-   *
+   * 
    * @return translated "Activate Program"
    */
   @DefaultMessage("Activate Program")
@@ -530,7 +539,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Add Accreditation".
-   *
+   * 
    * @return translated "Add Accreditation"
    */
   @DefaultMessage("Add Accreditation")
@@ -539,7 +548,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "End Inst Admit Term".
-   *
+   * 
    * @return translated "End Inst Admit Term"
    */
   @DefaultMessage("End Inst Admit Term")
@@ -548,7 +557,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Approval Date".
-   *
+   * 
    * @return translated "Program Approval Date"
    */
   @DefaultMessage("Program Approval Date")
@@ -557,7 +566,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "CIP 2000".
-   *
+   * 
    * @return translated "CIP 2000"
    */
   @DefaultMessage("CIP 2000")
@@ -566,7 +575,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "CIP 2010".
-   *
+   * 
    * @return translated "CIP 2010"
    */
   @DefaultMessage("CIP 2010")
@@ -575,7 +584,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Classification".
-   *
+   * 
    * @return translated "Classification"
    */
   @DefaultMessage("Classification")
@@ -584,7 +593,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Code".
-   *
+   * 
    * @return translated "Code"
    */
   @DefaultMessage("Code")
@@ -593,7 +602,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Credential Program".
-   *
+   * 
    * @return translated "Credential Program"
    */
   @DefaultMessage("Credential Program")
@@ -602,7 +611,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Dates".
-   *
+   * 
    * @return translated "Dates"
    */
   @DefaultMessage("Dates")
@@ -611,7 +620,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Degree Type".
-   *
+   * 
    * @return translated "Degree Type"
    */
   @DefaultMessage("Degree Type")
@@ -620,7 +629,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "End Program Enroll Term".
-   *
+   * 
    * @return translated "End Program Enroll Term"
    */
   @DefaultMessage("End Program Enroll Term")
@@ -629,7 +638,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "End Program Entry Term".
-   *
+   * 
    * @return translated "End Program Entry Term"
    */
   @DefaultMessage("End Program Entry Term")
@@ -638,7 +647,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "HEGIS".
-   *
+   * 
    * @return translated "HEGIS"
    */
   @DefaultMessage("HEGIS")
@@ -647,7 +656,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Identifying Details".
-   *
+   * 
    * @return translated "Identifying Details"
    */
   @DefaultMessage("Identifying Details")
@@ -656,7 +665,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Institution".
-   *
+   * 
    * @return translated "Institution"
    */
   @DefaultMessage("Institution")
@@ -665,7 +674,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Level".
-   *
+   * 
    * @return translated "Level"
    */
   @DefaultMessage("Level")
@@ -674,7 +683,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Location".
-   *
+   * 
    * @return translated "Location"
    */
   @DefaultMessage("Location")
@@ -683,7 +692,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Other Information".
-   *
+   * 
    * @return translated "Other Information"
    */
   @DefaultMessage("Other Information")
@@ -692,7 +701,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Title".
-   *
+   * 
    * @return translated "Program Title"
    */
   @DefaultMessage("Program Title")
@@ -701,7 +710,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Start Term".
-   *
+   * 
    * @return translated "Start Term"
    */
   @DefaultMessage("Start Term")
@@ -710,7 +719,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Key Program Information".
-   *
+   * 
    * @return translated "Key Program Information"
    */
   @DefaultMessage("Key Program Information")
@@ -719,7 +728,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Title Diploma".
-   *
+   * 
    * @return translated "Title Diploma"
    */
   @DefaultMessage("Title Diploma")
@@ -728,7 +737,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Title Full".
-   *
+   * 
    * @return translated "Title Full"
    */
   @DefaultMessage("Title Full")
@@ -737,7 +746,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Title Short".
-   *
+   * 
    * @return translated "Title Short"
    */
   @DefaultMessage("Title Short")
@@ -746,7 +755,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Title Transcript".
-   *
+   * 
    * @return translated "Title Transcript"
    */
   @DefaultMessage("Title Transcript")
@@ -755,7 +764,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Step 1: Build and Add Rules".
-   *
+   * 
    * @return translated "Step 1: Build and Add Rules"
    */
   @DefaultMessage("Step 1: Build and Add Rules")
@@ -764,7 +773,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Step 2: Combine Rules with Logic".
-   *
+   * 
    * @return translated "Step 2: Combine Rules with Logic"
    */
   @DefaultMessage("Step 2: Combine Rules with Logic")
@@ -773,7 +782,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Add <*> Rule".
-   *
+   * 
    * @return translated "Add <*> Rule"
    */
   @DefaultMessage("Add <*> Rule")
@@ -782,7 +791,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Add {0}".
-   *
+   * 
    * @return translated "Add {0}"
    */
   @DefaultMessage("Add {0}")
@@ -791,7 +800,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Are you sure you want to delete this rule?".
-   *
+   * 
    * @return translated "Are you sure you want to delete this rule?"
    */
   @DefaultMessage("Are you sure you want to delete this rule?")
@@ -800,7 +809,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Delete Rule".
-   *
+   * 
    * @return translated "Delete Rule"
    */
   @DefaultMessage("Delete Rule")
@@ -809,7 +818,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "No {0} currently exist for this program".
-   *
+   * 
    * @return translated "No {0} currently exist for this program"
    */
   @DefaultMessage("No {0} currently exist for this program")
@@ -818,7 +827,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program Requirements".
-   *
+   * 
    * @return translated "Program Requirements"
    */
   @DefaultMessage("Program Requirements")
@@ -827,7 +836,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Completion of a specialization is required for this program".
-   *
+   * 
    * @return translated "Completion of a specialization is required for this program"
    */
   @DefaultMessage("Completion of a specialization is required for this program")
@@ -836,7 +845,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Edit Dates".
-   *
+   * 
    * @return translated "Edit Dates"
    */
   @DefaultMessage("Edit Dates")
@@ -845,7 +854,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Last review date".
-   *
+   * 
    * @return translated "Last review date"
    */
   @DefaultMessage("Last review date")
@@ -854,7 +863,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Scheduled review date".
-   *
+   * 
    * @return translated "Scheduled review date"
    */
   @DefaultMessage("Scheduled review date")
@@ -863,7 +872,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "HISTORY".
-   *
+   * 
    * @return translated "HISTORY"
    */
   @DefaultMessage("HISTORY")
@@ -872,7 +881,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Last review date:".
-   *
+   * 
    * @return translated "Last review date:"
    */
   @DefaultMessage("Last review date:")
@@ -881,7 +890,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Program last updated:".
-   *
+   * 
    * @return translated "Program last updated:"
    */
   @DefaultMessage("Program last updated:")
@@ -890,7 +899,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Scheduled review date:".
-   *
+   * 
    * @return translated "Scheduled review date:"
    */
   @DefaultMessage("Scheduled review date:")
@@ -898,17 +907,8 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String sideBar_scheduledReviewDate();
 
   /**
-   * Translated "History".
-   *
-   * @return translated "History"
-   */
-  @DefaultMessage("History")
-  @Key("sidebar.history")
-  String sidebar_history();
-
-  /**
    * Translated "Version: {0}".
-   *
+   * 
    * @return translated "Version: {0}"
    */
   @DefaultMessage("Version: {0}")
@@ -917,7 +917,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "View version history".
-   *
+   * 
    * @return translated "View version history"
    */
   @DefaultMessage("View version history")
@@ -926,7 +926,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Active".
-   *
+   * 
    * @return translated "Active"
    */
   @DefaultMessage("Active")
@@ -935,7 +935,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Approved".
-   *
+   * 
    * @return translated "Approved"
    */
   @DefaultMessage("Approved")
@@ -944,7 +944,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Draft".
-   *
+   * 
    * @return translated "Draft"
    */
   @DefaultMessage("Draft")
@@ -953,7 +953,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Superseded".
-   *
+   * 
    * @return translated "Superseded"
    */
   @DefaultMessage("Superseded")
@@ -962,7 +962,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Variation Sections".
-   *
+   * 
    * @return translated "Variation Sections"
    */
   @DefaultMessage("Variation Sections")
@@ -971,7 +971,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Key Specialization Information".
-   *
+   * 
    * @return translated "Key Specialization Information"
    */
   @DefaultMessage("Key Specialization Information")
@@ -980,7 +980,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "New Variation".
-   *
+   * 
    * @return translated "New Variation"
    */
   @DefaultMessage("New Variation")
@@ -989,7 +989,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Parent Program:".
-   *
+   * 
    * @return translated "Parent Program:"
    */
   @DefaultMessage("Parent Program:")
@@ -998,7 +998,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Specialization Summary".
-   *
+   * 
    * @return translated "Specialization Summary"
    */
   @DefaultMessage("Specialization Summary")
@@ -1007,7 +1007,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Specialization of {0}".
-   *
+   * 
    * @return translated "Specialization of {0}"
    */
   @DefaultMessage("Specialization of {0}")
@@ -1016,7 +1016,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Specialization Description".
-   *
+   * 
    * @return translated "Specialization Description"
    */
   @DefaultMessage("Specialization Description")
@@ -1025,7 +1025,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Add Specialization".
-   *
+   * 
    * @return translated "Add Specialization"
    */
   @DefaultMessage("Add Specialization")
@@ -1034,7 +1034,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Key Specialization Information".
-   *
+   * 
    * @return translated "Key Specialization Information"
    */
   @DefaultMessage("Key Specialization Information")
@@ -1043,7 +1043,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Specialization Title".
-   *
+   * 
    * @return translated "Specialization Title"
    */
   @DefaultMessage("Specialization Title")

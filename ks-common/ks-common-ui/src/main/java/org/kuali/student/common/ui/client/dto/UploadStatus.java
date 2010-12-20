@@ -19,6 +19,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple class used to store upload progress information for the UploadServlet
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class UploadStatus implements Serializable{
 
 	private static final long serialVersionUID = 1L;

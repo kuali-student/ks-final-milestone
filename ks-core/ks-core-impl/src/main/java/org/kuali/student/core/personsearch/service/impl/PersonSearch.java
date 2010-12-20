@@ -23,7 +23,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeDefaultInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.IdentityService;
 
 /**
  * Utility methods for dealing with Person searches
@@ -34,7 +34,7 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 public class PersonSearch {
 
     @SuppressWarnings("unchecked")
-    protected List<Person> findPeopleInternal(IdentityManagementService identityService, Map<String, String> criteria, boolean unbounded) {
+    protected List<Person> findPeopleInternal(IdentityService identityService, Map<String, String> criteria, boolean unbounded) {
 
         List<Person> people = new ArrayList<Person>();
 

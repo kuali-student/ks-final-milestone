@@ -29,6 +29,12 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Adds the appropriate handler to the widget contained within the FieldDescriptor for when
+ * to set that the field has had focus/user interaction based on what type of widget
+ * @author Kuali Student Team
+ *
+ */
 public class ValidationEventBindingImpl  implements ValidationEventBinding {
     
     public void bind(final FieldDescriptor fd) {

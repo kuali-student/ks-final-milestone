@@ -105,15 +105,6 @@ public class CatalogBrowserController extends TabMenuController
 		cfg.configureCatalogBrowser (this);
 	}
 	
-
-	/**
-	 * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-	 */
-	@Override
-	public Class<? extends Enum<?>> getViewsEnum (){
-		return CatalogBrowserConfigurer.Sections.class;
-	}
-	
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
 		WindowTitleUtils.setContextTitle(name);

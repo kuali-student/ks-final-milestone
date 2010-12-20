@@ -266,13 +266,6 @@ public class OrgProposalController extends TabbedSectionLayout{
         initialized = true;
     }
 
-
-	@Override
-	public Class<? extends Enum<?>> getViewsEnum() {
-		return null;
-	}
-
-
 	@SuppressWarnings("unchecked")
 	private void createNewOrgModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
 	    orgProposalModel.setRoot(new Data());
