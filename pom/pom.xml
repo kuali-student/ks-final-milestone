@@ -44,6 +44,7 @@
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
   </organization>
+  <inceptionYear>2007</inceptionYear>
   <url>${kuali.site.public.url}</url>
   <developers>
     <developer>
@@ -64,11 +65,15 @@
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
     <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
+
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.maxmemory>1g</kuali.javadoc.maxmemory>
+    <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256</kuali.javadoc.additional.joption>
     <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
     <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
-
+    <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
+    <kuali.javadoc.tool.version>1.6</kuali.javadoc.tool.version>
+    
     <!-- 
       Setting this to true causes Maven to try and contact any url's listed for every dependency in the project.
       Quite a few of these urls are out of date, which makes the request eventually time out.  This causes the
@@ -353,10 +358,15 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${kuali.javadoc.plugin.version}</version>
                 <configuration>
+                  <additionalJOption>${kuali.javadoc.additional.joption}</additionalJOption>
                   <maxmemory>${kuali.javadoc.maxmemory}</maxmemory>
+                  <linksource>${kuali.javadoc.linksource}</linksource>
+                  <javadocVersion>${kuali.javadoc.tool.version}</javadocVersion>
                   <show>private</show>
                   <quiet>true</quiet>
+                  <!-- 
                   <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
+                   -->
                   <source>${kuali.compile.source}</source>
                 </configuration>
                 <reportSets>
