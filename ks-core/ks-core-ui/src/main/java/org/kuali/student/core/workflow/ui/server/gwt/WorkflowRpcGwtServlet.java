@@ -20,8 +20,7 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.rice.StudentIdentityConstants;
@@ -39,8 +38,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
-	private IdentityService identityService;
-	private PermissionService permissionService;
+	private IdentityManagementService identityService;
+	private IdentityManagementService permissionService;
 
 	@Override
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException {
@@ -517,11 +516,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		return workflowUtilityService;
 	}
 
-	public void setIdentityService(IdentityService identityService) {
+	public void setIdentityService(IdentityManagementService identityService) {
 		this.identityService = identityService;
 	}
 
-	public IdentityService getIdentityService() throws OperationFailedException{
+	public IdentityManagementService getIdentityService() throws OperationFailedException{
 		if(identityService==null){
         	throw new OperationFailedException("Identity Service is unavailable");
         }
@@ -529,11 +528,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		return identityService;
 	}
 
-	public void setPermissionService(PermissionService permissionService) {
+	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;
 	}
 
-	public PermissionService getPermissionService()throws OperationFailedException{
+	public IdentityManagementService getPermissionService()throws OperationFailedException{
 		if(permissionService==null){
         	throw new OperationFailedException("Permission Service is unavailable");
         }

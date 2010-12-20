@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -37,7 +37,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
     protected final Logger LOG = Logger.getLogger(getClass());
 
-    protected PermissionService permissionService;
+    protected IdentityManagementService permissionService;
     protected MetadataServiceImpl metadataService;
     
     public enum Permission {
@@ -69,7 +69,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
             String principalId = SecurityUtils.getCurrentUserId();
             AttributeSet qualification = getQualification(idType, id);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
-            List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
             		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
             if (permissions != null) {
@@ -220,7 +220,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      */
     protected abstract AttributeSet getQualification(String idType, String id);
     
-    public void setPermissionService(PermissionService permissionService) {
+    public void setPermissionService(IdentityManagementService permissionService) {
         this.permissionService = permissionService;
     }
     

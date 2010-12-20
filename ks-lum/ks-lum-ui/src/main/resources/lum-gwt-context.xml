@@ -564,7 +564,7 @@
           class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
         <property name="service" ref="orgClient"/>
         <property name="identityService" ref="identityServiceClient"/>
-        
+        <property name="identityServiceNonCached" ref="identityServiceClientNonCached"/>
     </bean>
 
     <bean id="atpRpcGwtServlet"
@@ -698,13 +698,18 @@
     </bean>
 
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService"/>
-        <property name="serviceQName" value="{KIM}kimPermissionService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
+        <property name="serviceQName" value="{KIM}kimIdentityManagementServiceSOAP"/>
     </bean>
 
     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
+        <property name="serviceQName" value="{KIM}kimIdentityManagementServiceSOAP"/>
+    </bean>
+    
+    <bean id="identityServiceClientNonCached" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
 
     <bean id="enumServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

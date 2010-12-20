@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -27,7 +27,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
  *
  */
 public class AuthorizationFilter extends AbstractDataFilter implements MetadataFilter{
-    protected PermissionService permissionService;
+    protected IdentityManagementService permissionService;
         
     public static final String DOC_LEVEL_PERM_CHECK = "AuthorizationFilter.DocLevelPermCheck";
     	
@@ -202,7 +202,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
             String principalId = SecurityUtils.getCurrentUserId();
             AttributeSet qualification = getQualification(idType, id, docType);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
-            List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
             		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
             if (permissions != null) {
@@ -251,11 +251,11 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         return qualification;
     }
 
-	public PermissionService getPermissionService() {
+	public IdentityManagementService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(PermissionService permissionService) {
+	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;
 	}
 }

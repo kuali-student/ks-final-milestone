@@ -164,16 +164,16 @@
         </property>
     </bean>
 
-    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+    <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
+        <property name="serviceQName" value="{KIM}kimIdentityManagementServiceSOAP"/>
     </bean>
 
 
     <!-- personsearchService -->
     <bean id="personServiceImpl"
         class="org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl">
-        <property name="identityService" ref="identityServiceClient"/>
+        <property name="identityService" ref="coreIdentityServiceClient"/>
     </bean>
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.messaging.KSBExporter">

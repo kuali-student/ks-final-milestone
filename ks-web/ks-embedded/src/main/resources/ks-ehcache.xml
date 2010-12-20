@@ -1,0 +1,7 @@
+<ehcache>
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true" />
+	<cache name="enumCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="atpCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="orgCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+</ehcache>

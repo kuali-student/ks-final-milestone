@@ -18,9 +18,9 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleUpdateService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.rice.StudentIdentityConstants;
@@ -29,11 +29,11 @@ import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
 
 public class CollaboratorHelper implements Serializable {
-	protected IdentityService identityService;
+	protected IdentityManagementService identityService;
 	protected RoleUpdateService roleUpdateService;
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
-	private PermissionService permissionService;
+	private IdentityManagementService permissionService;
 	
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CollaboratorHelper.class);
@@ -232,14 +232,14 @@ public class CollaboratorHelper implements Serializable {
 		return Boolean.FALSE;
     }
 	
-	public IdentityService getIdentityService() throws OperationFailedException {
+	public IdentityManagementService getIdentityService() throws OperationFailedException {
 	    if (identityService == null) {
 	        throw new OperationFailedException("unable to find valid identityService");
 	    }
 		return identityService;
 	}
 
-	public void setIdentityService(IdentityService identityService) {
+	public void setIdentityService(IdentityManagementService identityService) {
 		this.identityService = identityService;
 	}
 	
@@ -276,14 +276,14 @@ public class CollaboratorHelper implements Serializable {
 		this.workflowUtilityService = workflowUtilityService;
 	}
 
-	public PermissionService getPermissionService() throws OperationFailedException {
+	public IdentityManagementService getPermissionService() throws OperationFailedException {
         if (permissionService == null) {
             throw new OperationFailedException("unable to find valid permissionService");
         }
 		return permissionService;
 	}
 
-	public void setPermissionService(PermissionService permissionService) {
+	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;
 	}
 }

@@ -114,6 +114,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
 	private static final String MODIFY_TYPE = "kuali.proposal.type.course.modify";
 	public static final String CREATE_TYPE = "kuali.proposal.type.course.create";
+	public static final String INITIAL_SAVE_VERSION = "1";
 	private String currentDocType = CREATE_TYPE;
 	private String proposalPath = "";
 	private String currentTitle;
@@ -597,7 +598,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				ViewContext context = CourseProposalController.this.getViewContext();
 	    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
-	    				workflowUtil.refresh();
+	    				
+	    				//Ensure workflow doc status gets updated from draft, only done on intial save
+	    				//to reduce workflow rpc calls.
+	    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
+	    				if (INITIAL_SAVE_VERSION.equals(proposalVersion)){
+	    					workflowUtil.refresh();
+	    				}
 	    				
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();

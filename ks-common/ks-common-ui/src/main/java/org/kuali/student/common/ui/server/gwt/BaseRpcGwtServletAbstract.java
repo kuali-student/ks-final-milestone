@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
@@ -49,7 +49,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     private static final long serialVersionUID = 1L;
     
     protected SEI service;
-    protected PermissionService permissionService;
+    protected IdentityManagementService permissionService;
         
     
     public SEI getService(){
@@ -60,11 +60,11 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         this.service = service;
     };
 
-    public PermissionService getPermissionService() {
+    public IdentityManagementService getPermissionService() {
     	return permissionService;
     }
 
-	public void setPermissionService(PermissionService permissionService) {
+	public void setPermissionService(IdentityManagementService permissionService) {
     	this.permissionService = permissionService;
     }
 

@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -32,13 +32,13 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
 	private static final long serialVersionUID = 1L;
-	private IdentityService identityService;
+	private IdentityManagementService identityService;
 	
-	public IdentityService getIdentityService() {
+	public IdentityManagementService getIdentityService() {
         return identityService;
     }
 
-    public void setIdentityService(IdentityService identityService) {
+    public void setIdentityService(IdentityManagementService identityService) {
         this.identityService = identityService;
     }
 

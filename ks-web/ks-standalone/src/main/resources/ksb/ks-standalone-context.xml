@@ -73,7 +73,41 @@
         <property name="allowCustomIsolationLevels" value="true"/>
     </bean> 
 
-	
+	<bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+		<constructor-arg index="0" type="java.net.URL" value="classpath:ks-ehcache.xml" />
+	</bean>
 
+	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+		<property name="cacheName" value="enumCache" />
+		<property name="cacheManager" ref="ksCacheManager"/>
+	</bean>
+
+	<bean id="atpMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+		<property name="cacheName" value="atpCache" />
+		<property name="cacheManager" ref="ksCacheManager"/>
+	</bean>
+
+	<bean id="orgMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+		<property name="cacheName" value="orgCache" />
+		<property name="cacheManager" ref="ksCacheManager"/>
+	</bean>
+
+	<aop:config>
+		<aop:aspect id="enumCacheAroundSearch" ref="enumMethodCacheAdvisor">
+			<aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.addEnumeratedValue*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.updateEnumeratedValue*(..))" method="invalidateCache" />
+		</aop:aspect>
+		<aop:aspect id="atpCacheAroundSearch" ref="atpMethodCacheAdvisor">
+			<aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.addEnumeratedValue*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.updateEnumeratedValue*(..))" method="invalidateCache" />
+		</aop:aspect>
+		<aop:aspect id="orgCacheAroundSearch" ref="orgMethodCacheAdvisor">
+			<aop:around pointcut="execution(*  org.kuali.student.core.organization.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.organization.service.impl.*.addEnumeratedValue*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.organization.service.impl.*.updateEnumeratedValue*(..))" method="invalidateCache" />
+		</aop:aspect>
+	</aop:config>
 
 </beans>

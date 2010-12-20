@@ -37,6 +37,18 @@
 			</bean>
 		</property>
 	</bean>
+
+	<bean id="ks.exp.kimIdentityManagementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+		<property name="serviceDefinition">
+			<bean parent="kimSoapService" p:service-ref="kimIdentityManagementService"
+				p:localServiceName="kimIdentityManagementServiceSOAP">
+				<property name="busSecurity" value="${ks.core.bus.security}" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
+
 	<!-- <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
