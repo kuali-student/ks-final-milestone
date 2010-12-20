@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
@@ -77,13 +78,13 @@ public class SummaryActionPanel extends Composite {
         exitAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HistoryManager.navigate("/HOME/CURRICULUM_HOME");
+                HistoryManager.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
             }
         });
     }
 
     private void processStatus() {
-        processStatus(ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE)));
+        processStatus(ProgramStatus.of(dataModel));
     }
 
     private void processButtonClick(ProgramStatus status) {
@@ -130,7 +131,7 @@ public class SummaryActionPanel extends Composite {
 
         panel.add((Widget) activateSection);
 
-        KSButton activate = new KSButton("Activate", new ClickHandler() {
+        KSButton activate = new KSButton(ProgramProperties.get().button_activate(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 activateSection.updateModel(dataModel);
                 ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERSEDED.getValue());
@@ -140,7 +141,7 @@ public class SummaryActionPanel extends Composite {
         });
         activateDialog.addButton(activate);
 
-        KSButton cancel = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler() {
+        KSButton cancel = new KSButton(ProgramProperties.get().common_cancel(), ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler() {
             public void onClick(ClickEvent event) {
                 activateDialog.hide();
             }
@@ -153,9 +154,5 @@ public class SummaryActionPanel extends Composite {
     private void enableButtons(boolean enableApprove, boolean enableActivate) {
         approveButton.setEnabled(enableApprove);
         activateButton.setEnabled(enableActivate);
-    }
-
-    private ProgramStatus getStatus() {
-        return ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE));
     }
 }

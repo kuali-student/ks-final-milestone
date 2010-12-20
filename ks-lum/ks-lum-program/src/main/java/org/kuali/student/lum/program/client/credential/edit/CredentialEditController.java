@@ -85,7 +85,7 @@ public class CredentialEditController extends CredentialController {
                 List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
-                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                Data programRequirements = getDataProperty(ProgramConstants.PROGRAM_REQUIREMENTS);
 
                 if (programRequirements == null) {
                     Window.alert("Cannot find program requirements in data model.");
@@ -136,7 +136,7 @@ public class CredentialEditController extends CredentialController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            previousState = ProgramStatus.of(programModel);
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
@@ -265,7 +265,7 @@ public class CredentialEditController extends CredentialController {
             showView(changeSection);
             ProgramRegistry.setSection(null);
         } else {
-            String id = (String) programModel.get(ProgramConstants.ID);
+            String id = getStringProperty(ProgramConstants.ID);
             if (id == null) {
                 showView(ProgramSections.PROGRAM_DETAILS_EDIT);
             } else {

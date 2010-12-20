@@ -128,4 +128,12 @@ public class ProgramUtils {
             }
         }
     }
+
+    public static String getProgramId(DataModel programModel) {
+        return programModel.get(ProgramConstants.ID);
+    }
+
+    public static String getProgramState(DataModel programModel) {
+        return programModel.get(                ProgramConstants.STATE);
+    }
 }

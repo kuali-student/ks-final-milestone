@@ -24,7 +24,7 @@ public class SupportingDocsViewConfiguration extends AbstractSectionConfiguratio
 
     @Override
     protected void buildLayout() {
-       configurer.addReadOnlyField(rootSection, "id", new MessageKeyInfo(""), new DocumentList(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,false, false)).setWidgetBinding(new DocumentListBinding("id"));
+       configurer.addReadOnlyField(rootSection, ProgramConstants.ID, new MessageKeyInfo(""), new DocumentList(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,false, false)).setWidgetBinding(new DocumentListBinding("id"));
     }
 
     public static SupportingDocsViewConfiguration createSpecial() {
