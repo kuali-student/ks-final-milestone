@@ -125,7 +125,7 @@
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <site.plugin.version>2.0.1</site.plugin.version>
   	<backport-util-concurrent.version>3.1</backport-util-concurrent.version>
-   	<jsr107cache.version.version>1.0</jsr107cache.version.version>
+   	<jsr107cache.version>1.0</jsr107cache.version>
    	
     <!-- plugin versions -->
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
