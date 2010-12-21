@@ -1084,16 +1084,6 @@
 			<list>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="proposal.queryParam.proposalId" />
-					<property name="name" value="Id" />
-					<property name="desc" value="Unique identifier for a proposal." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="false" />
-					<property name="usage" value="DEFAULT" />
-				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="proposal.queryParam.proposalOptionalName" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Name." />
