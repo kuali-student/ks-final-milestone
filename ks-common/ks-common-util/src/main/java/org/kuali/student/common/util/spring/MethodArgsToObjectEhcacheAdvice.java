@@ -28,6 +28,7 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 	private CacheManager cacheManager;
 	private String cacheName;
+	private boolean enabled;
 
 	/**
 	 * 
@@ -46,20 +47,26 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 	public Object invalidateCache(ProceedingJoinPoint pjp) throws Throwable {
 		Object result = pjp.proceed();
-		if (cacheManager == null) {
-			cacheManager = CacheManager.getInstance();
-			try {
-				cacheManager.addCache(cacheName);
-			} catch (ObjectExistsException e) {
-
+		if(enabled){
+			if (cacheManager == null) {
+				cacheManager = CacheManager.getInstance();
+				try {
+					cacheManager.addCache(cacheName);
+				} catch (ObjectExistsException e) {
+	
+				}
 			}
+			LOG.info("Invalidating Cache");
+			cacheManager.getCache(cacheName).removeAll();
 		}
-		LOG.info("Invalidating Cache");
-		cacheManager.getCache(cacheName).removeAll();
 		return result;
 	}
 
 	public Object getFromCache(ProceedingJoinPoint pjp) throws Throwable {
+		if(!enabled){
+			return pjp.proceed();
+		}
+		
 		if (cacheManager == null) {
 			cacheManager = CacheManager.getInstance();
 			try {
@@ -114,6 +121,14 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
