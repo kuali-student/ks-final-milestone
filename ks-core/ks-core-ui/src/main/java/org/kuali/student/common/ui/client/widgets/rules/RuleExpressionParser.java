@@ -113,12 +113,12 @@ public class RuleExpressionParser {
             } else if (token.type == Token.Condition) {
                 if (seenConditonValues.contains(token.value)) {
                     errorMessages.add("Condition " + token.value + " is duplicated.");
-                    continue; //return false;
+                    return false;
                 } else {
                     seenConditonValues.add(token.value);
                 }
                 if (!checkCondition(errorMessages, tokens, i, validRCs)) {
-                    continue; //return false;
+                    return false;
                 }
             }
         }
