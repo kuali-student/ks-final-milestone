@@ -61,18 +61,49 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kuali.clover.plugin.version>3.0.4</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
+    <!-- Placeholders for clover exclude patterns.  Add more as needed -->
+    <kuali.clover.exclude.pattern.1></kuali.clover.exclude.pattern.1>
+    <kuali.clover.exclude.pattern.2></kuali.clover.exclude.pattern.2>
+    <kuali.clover.exclude.pattern.3></kuali.clover.exclude.pattern.3>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
     <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
 
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
-    <kuali.javadoc.maxmemory>1g</kuali.javadoc.maxmemory>
-    <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256 -J-verbose:gc -J-XX:+PrintGCDetails -J-XX:+PrintGCDateStamps -J-XX:+PrintHeapAtGC -J-XX:+PrintTenuringDistribution -J-Xloggc:${project.build.directory}/javadoc-heap.log</kuali.javadoc.additional.joption>
-    <kuali.javadoc.report.javadoc>aggregate</kuali.javadoc.report.javadoc>
-    <kuali.javadoc.report.test-javadoc>test-aggregate</kuali.javadoc.report.test-javadoc>
-    <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
+    <kuali.javadoc.quiet>true</kuali.javadoc.quiet>
+    <kuali.javadoc.show>private</kuali.javadoc.show>
     <kuali.javadoc.tool.version>1.6</kuali.javadoc.tool.version>
+    <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
+
+    <!-- Placeholder for packages to exclude from javadoc coverage -->
+    <kuali.javadoc.exclude.package.names></kuali.javadoc.exclude.package.names>
+
+    <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
+    <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
+    <!-- <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256m -J-verbose:gc -J-XX:+PrintGCDetails -J-XX:+PrintGCDateStamps -J-XX:+PrintHeapAtGC -J-XX:+PrintTenuringDistribution -J-Xloggc:${project.build.directory}/javadoc-heap.log</kuali.javadoc.additional.joption> -->
+    <!-- Setting this to true will generate javadoc.bat in target/site/apidocs.  This allows you to see the exact javadoc command being issued during the build -->
+    <kuali.javadoc.debug>false</kuali.javadoc.debug>
+
+    <!-- These 2 should be "aggregate" and "test-aggregate", but with the latest version of the relevant tools (Maven 3.0.1, maven-site-plugin 3.0-beta-3 and 
+         maven-javadoc-plugin 2.7), those 2 reports cause a heap error regardless of how large the heap is set.  I set the overall heap to 4 gb's with a MaxPermGen 
+         of 512m before switching back to "javadoc" and "test-javadoc" -->
+    <kuali.javadoc.report.1>javadoc</kuali.javadoc.report.1>
+    <kuali.javadoc.report.2>test-javadoc</kuali.javadoc.report.2>
+    <!-- Once the heap error with aggregate and test-aggregate is worked out, set this to false -->
+    <kuali.javadoc.aggregate>true</kuali.javadoc.aggregate>
+    <kuali.project.javadoc.url>${kuali.site.public.url}/apidocs/</kuali.project.javadoc.url>
+
+    <!-- Placeholders for javadoc link locations.  Add more as needed -->
+    <kuali.javadoc.link.1>${kuali.project.javadoc.url}</kuali.javadoc.link.1>
+    <kuali.javadoc.link.2>http://download.oracle.com/javase/6/docs/api/</kuali.javadoc.link.2>
+    <kuali.javadoc.link.3></kuali.javadoc.link.3>
+    <kuali.javadoc.link.4></kuali.javadoc.link.4>
+    <kuali.javadoc.link.5></kuali.javadoc.link.5>
+    <kuali.javadoc.link.6></kuali.javadoc.link.6>
+    <kuali.javadoc.link.7></kuali.javadoc.link.7>
+    <kuali.javadoc.link.8></kuali.javadoc.link.8>
+    <kuali.javadoc.link.9></kuali.javadoc.link.9>
     
     <!-- 
       Setting this to true causes Maven to try and contact any url's listed for every dependency in the project.
@@ -107,9 +138,12 @@
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
+    <!-- This is set to release by default so that release builds work without having to configure anything 
+         Override this to "snapshot" for snapshot builds -->
+    <kuali.site.download.prefix>release</kuali.site.download.prefix>
     <!-- Make this the same as groupId after replacing "." with "/" -->
     <kuali.site.download.dirs>org/kuali</kuali.site.download.dirs>
-    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/release/${kuali.site.download.dirs}/${project.artifactId}/${project.version}/</kuali.site.download.url>
+    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/${kuali.site.download.prefix}/${kuali.site.download.dirs}/${project.artifactId}/${project.version}/</kuali.site.download.url>
   </properties>
   <repositories>
     <repository>
@@ -206,6 +240,11 @@
             <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
 mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <historyDir>${kuali.clover.history.dir}</historyDir>
+            <excludes>
+              <exclude>${kuali.clover.exclude.pattern.1}</exclude>
+              <exclude>${kuali.clover.exclude.pattern.2}</exclude>
+              <exclude>${kuali.clover.exclude.pattern.3}</exclude>
+            </excludes>
           </configuration>
         </plugin>
         <plugin>
@@ -358,21 +397,34 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${kuali.javadoc.plugin.version}</version>
                 <configuration>
+                  <excludePackageNames>${kuali.javadoc.exclude.package.names}</excludePackageNames>
+                  <links>
+                    <link>${kuali.javadoc.link.1}</link>
+                    <link>${kuali.javadoc.link.2}</link>
+                    <link>${kuali.javadoc.link.3}</link>
+                    <link>${kuali.javadoc.link.4}</link>
+                    <link>${kuali.javadoc.link.5}</link>
+                    <link>${kuali.javadoc.link.6}</link>
+                    <link>${kuali.javadoc.link.7}</link>
+                    <link>${kuali.javadoc.link.8}</link>
+                    <link>${kuali.javadoc.link.9}</link>
+                  </links>
                   <additionalJOption>${kuali.javadoc.additional.joption}</additionalJOption>
                   <maxmemory>${kuali.javadoc.maxmemory}</maxmemory>
                   <linksource>${kuali.javadoc.linksource}</linksource>
                   <javadocVersion>${kuali.javadoc.tool.version}</javadocVersion>
-                  <show>private</show>
-                  <quiet>true</quiet>
-                  <debug>true</debug>
+                  <show>${kuali.javadoc.show}</show>
+                  <debug>${kuali.javadoc.debug}</debug>
                   <source>${kuali.compile.source}</source>
+                  <quiet>${kuali.javadoc.quiet}</quiet>
+                  <aggregate>${kuali.javadoc.aggregate}</aggregate>
                 </configuration>
                 <reportSets>
                   <reportSet>
                     <id>generate-javadocs</id>
                     <reports>
-                      <report>${kuali.javadoc.report.javadoc}</report>
-                      <report>${kuali.javadoc.report.test-javadoc}</report>
+                      <report>${kuali.javadoc.report.1}</report>
+                      <report>${kuali.javadoc.report.2}</report>
                     </reports>
                   </reportSet>
                 </reportSets>
@@ -415,7 +467,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                         <displayName>TODO's</displayName>
                         <tags>
                           <tag>
-                            <matchString>todo</matchString>
+                            <matchString>TODO</matchString>
                             <matchType>ignoreCase</matchType>
                           </tag>
                         </tags>
