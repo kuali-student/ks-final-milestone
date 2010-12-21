@@ -39,6 +39,7 @@
 		
 		<search:subSearch searchkey="lu.search.current" key="currentclu">
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalVersionIndId" subSearchParam="lu.queryParam.luOptionalVersionIndId"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
@@ -54,6 +55,7 @@
 		</search:subSearch>
 		<search:subSearch searchkey="lu.search.noncurrent" key="recentclu">
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalVersionIndId" subSearchParam="lu.queryParam.luOptionalVersionIndId"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
