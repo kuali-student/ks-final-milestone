@@ -10,9 +10,6 @@
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
-  <properties>
-    <kuali.site.download.dirs>org/kuali/student/db</kuali.site.download.dirs>
-  </properties>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
@@ -27,6 +24,7 @@
     </repository>
   </repositories>
   <properties>
+    <kuali.site.download.dirs>org/kuali/student/db</kuali.site.download.dirs>
     <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
     <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
@@ -304,6 +302,45 @@
                 </goals>
                 <configuration>
                   <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>generate-rice-oracle-sql-jar</id>
+      <modules>
+        <module>ks-rice-db</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
                 </configuration>
               </execution>
             </executions>
