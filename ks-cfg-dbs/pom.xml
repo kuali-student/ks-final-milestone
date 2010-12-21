@@ -761,6 +761,41 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <version>1.1</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <driver>${ks.masterdb.driver}</driver>
+              <url>${ks.masterdb.url}</url>
+              <username>${ks.masterdb.username}</username>
+              <password>${ks.masterdb.password}</password>
+              <delimiter>/</delimiter>
+              <orderFile>ascending</orderFile>
+            </configuration>
+            <executions>
+              <execution>
+                <id>execute-pre-export-sql</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <sqlCommand>
+                    UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
+                    /
+                    </sqlCommand>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
