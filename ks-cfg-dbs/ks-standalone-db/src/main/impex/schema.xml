@@ -3507,7 +3507,9 @@
     <table name="KS_DB_VERSION">
         <column name="VERSION" size="255" type="VARCHAR"/>
         <column name="MODULE_NAME" size="255" type="VARCHAR"/>
-        <column name="UPGRADE_TIME" type="TIMESTAMP"/>
+        <column default="SYSDATE" name="UPGRADE_TIME" type="TIMESTAMP"/>
+        <column name="BUILD_ID" size="255" type="VARCHAR"/>
+        <column name="BUILD_TIMESTAMP" size="255" type="VARCHAR"/>
     </table>
     <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, mg.GRP_NM AS mbr_grp_nm&#xa;, mg.GRP_ID AS mbr_grp_id&#xa;FROM KRIM_GRP_MBR_T gm&#xa;LEFT JOIN krim_grp_t g&#xa;ON g.GRP_ID = gm.GRP_ID&#xa;LEFT OUTER JOIN krim_grp_t mg&#xa;ON mg.GRP_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'G'&#xa;LEFT OUTER JOIN krim_prncpl_t p&#xa;ON p.PRNCPL_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'P'&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON en.ENTITY_ID = p.ENTITY_ID&#xa;AND en.DFLT_IND = 'Y'&#xa;AND en.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#xa;&#xa;&#xa;&#xa;"/>
     <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, t.NM AS grp_typ_nm&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM krim_grp_t g&#xa;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#xa;ON d.grp_id = g.GRP_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T t&#xa;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;"/>
