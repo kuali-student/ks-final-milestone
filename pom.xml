@@ -137,7 +137,6 @@
     <mysql.connector.version>5.1.13</mysql.connector.version>
 
     <!-- plugin versions -->
-    <cobertura.plugin.version>2.4</cobertura.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
