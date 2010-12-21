@@ -62,9 +62,9 @@
     <kuali.clover.plugin.version>3.0.4</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
     <!-- Placeholders for clover exclude patterns.  Add more as needed -->
-    <kuali.clover.exclude.pattern.1></kuali.clover.exclude.pattern.1>
-    <kuali.clover.exclude.pattern.2></kuali.clover.exclude.pattern.2>
-    <kuali.clover.exclude.pattern.3></kuali.clover.exclude.pattern.3>
+    <kuali.clover.exclude.pattern.1>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.1>
+    <kuali.clover.exclude.pattern.2>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.2>
+    <kuali.clover.exclude.pattern.3>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.3>
 
     <kuali.war.plugin.version>2.1-beta-1</kuali.war.plugin.version>
     <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
