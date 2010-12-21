@@ -61,7 +61,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kuali.clover.plugin.version>3.0.4</kuali.clover.plugin.version>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
-    <!-- Placeholders for clover exclude patterns.  Add more as needed -->
+    <!-- Placeholders for clover exclude patterns.  Override these in child poms as needed. -->
     <kuali.clover.exclude.pattern.1>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.3>
@@ -94,16 +94,17 @@
     <kuali.javadoc.aggregate>true</kuali.javadoc.aggregate>
     <kuali.project.javadoc.url>${kuali.site.public.url}/apidocs/</kuali.project.javadoc.url>
 
-    <!-- Placeholders for javadoc link locations.  Add more as needed -->
+    <!-- Placeholders for javadoc link locations.  Override these in child poms needed -->
     <kuali.javadoc.link.1>${kuali.project.javadoc.url}</kuali.javadoc.link.1>
     <kuali.javadoc.link.2>http://download.oracle.com/javase/6/docs/api/</kuali.javadoc.link.2>
-    <kuali.javadoc.link.3></kuali.javadoc.link.3>
-    <kuali.javadoc.link.4></kuali.javadoc.link.4>
-    <kuali.javadoc.link.5></kuali.javadoc.link.5>
-    <kuali.javadoc.link.6></kuali.javadoc.link.6>
-    <kuali.javadoc.link.7></kuali.javadoc.link.7>
-    <kuali.javadoc.link.8></kuali.javadoc.link.8>
-    <kuali.javadoc.link.9></kuali.javadoc.link.9>
+    <kuali.javadoc.link.3>${kuali.javadoc.link.2}</kuali.javadoc.link.3>
+    <kuali.javadoc.link.4>${kuali.javadoc.link.2}</kuali.javadoc.link.4>
+    <kuali.javadoc.link.5>${kuali.javadoc.link.2}</kuali.javadoc.link.5>
+    <kuali.javadoc.link.6>${kuali.javadoc.link.2}</kuali.javadoc.link.6>
+    <kuali.javadoc.link.7>${kuali.javadoc.link.2}</kuali.javadoc.link.7>
+    <kuali.javadoc.link.8>${kuali.javadoc.link.2}</kuali.javadoc.link.8>
+    <kuali.javadoc.link.9>${kuali.javadoc.link.2}</kuali.javadoc.link.9>
+    <kuali.javadoc.link.10>${kuali.javadoc.link.2}</kuali.javadoc.link.10>
     
     <!-- 
       Setting this to true causes Maven to try and contact any url's listed for every dependency in the project.
@@ -114,7 +115,6 @@
 
     <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
 
-    <kuali.source.release.assembly.descriptor>source-release</kuali.source.release.assembly.descriptor>
     <kuali.compile.source>1.6</kuali.compile.source>
     <kuali.compile.target>1.6</kuali.compile.target>
 
@@ -138,7 +138,7 @@
     <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
-    <!-- This is set to release by default so that release builds work without having to configure anything 
+    <!-- This is set to release by default so that release show the correct url without having to configure anything 
          Override this to "snapshot" for snapshot builds -->
     <kuali.site.download.prefix>release</kuali.site.download.prefix>
     <!-- Make this the same as groupId after replacing "." with "/" -->
@@ -408,6 +408,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                     <link>${kuali.javadoc.link.7}</link>
                     <link>${kuali.javadoc.link.8}</link>
                     <link>${kuali.javadoc.link.9}</link>
+                    <link>${kuali.javadoc.link.10}</link>
                   </links>
                   <additionalJOption>${kuali.javadoc.additional.joption}</additionalJOption>
                   <maxmemory>${kuali.javadoc.maxmemory}</maxmemory>
