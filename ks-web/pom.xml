@@ -43,7 +43,6 @@
   </profiles>
   <properties>
     <derby.version>10.4.2.0</derby.version>
-    <kuali.rice.version>1.0.3.1-SNAPSHOT</kuali.rice.version>
   </properties>
   <repositories>
     <repository>

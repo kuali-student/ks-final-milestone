@@ -133,6 +133,13 @@
     <!-- Set all services to /services instead of /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
     
+    <!-- KS caching config -->
+    <param name="ks.cache.config.file">classpath:ks-ehcache.xml</param>
+    <param name="ks.enum.enable.caching">true</param>
+    <param name="ks.atp.enable.caching">true</param>
+    <param name="ks.org.enable.caching">true</param>
+    <param name="ks.lrc.enable.caching">true</param>
+    
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
