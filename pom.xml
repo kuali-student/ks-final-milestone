@@ -110,7 +110,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.3</kuali.rice.version>
+    <kuali.rice.version>1.0.3.1-SNAPSHOT</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -124,7 +124,9 @@
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <site.plugin.version>2.0.1</site.plugin.version>
-
+  	<backport-util-concurrent.version>3.1</backport-util-concurrent.version>
+   	<jsr107cache.version.version>1.0</jsr107cache.version.version>
+   	
     <!-- plugin versions -->
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
     <javadoc.plugin.version>2.7</javadoc.plugin.version>
@@ -980,6 +982,17 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
+      </dependency>
+      <!-- Caching dependencies -->
+      <dependency>
+    	<groupId>backport-util-concurrent</groupId>
+    	<artifactId>backport-util-concurrent</artifactId>
+    	<version>${backport-util-concurrent.version}</version>
+      </dependency>
+      <dependency>
+    	<groupId>net.sf.jsr107cache</groupId>
+    	<artifactId>jsr107cache</artifactId>
+    	<version>${jsr107cache.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
