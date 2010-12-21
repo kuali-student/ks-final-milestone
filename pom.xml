@@ -94,6 +94,7 @@
     <!-- Remove this property once Maven3 is the officially supported version to use -->
     <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
     <kuali.site.path>student/${project.version}</kuali.site.path>
+    <kuali.site.download.dirs>org/kuali/student</kuali.site.download.dirs>
 
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>

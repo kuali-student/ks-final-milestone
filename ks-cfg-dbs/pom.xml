@@ -10,6 +10,9 @@
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
+  <properties>
+    <kuali.site.download.dirs>org/kuali/student/db</kuali.site.download.dirs>
+  </properties>
   <repositories>
     <repository>
       <id>kuali.nexus</id>

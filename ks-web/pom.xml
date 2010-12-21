@@ -5,6 +5,9 @@
   <packaging>pom</packaging>
   <name>KS Web</name>
   <description>Project for building KS Reference Wars</description>
+  <properties>
+    <kuali.site.download.dirs>org/kuali/student/web</kuali.site.download.dirs>
+  </properties>
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>

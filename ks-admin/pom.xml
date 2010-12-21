@@ -15,22 +15,18 @@
  limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
     <version>1.1.1-SNAPSHOT</version>
   </parent>
-
-
   <groupId>org.kuali.student.admin</groupId>
   <artifactId>ks-admin</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <name>KS Admin</name>
-
+  <properties>
+    <kuali.site.download.dirs>org/kuali/student/admin</kuali.site.download.dirs>
+  </properties>
   <!-- skipping tests until integrated with ks test environment -->
   <build>
     <plugins>
@@ -137,7 +133,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <repositories>
     <repository>
       <id>kuali.nexus</id>
@@ -151,5 +146,4 @@
       </snapshots>
     </repository>
   </repositories>
-
 </project>
