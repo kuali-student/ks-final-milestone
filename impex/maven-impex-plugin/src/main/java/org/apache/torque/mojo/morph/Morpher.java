@@ -1,6 +1,8 @@
 package org.apache.torque.mojo.morph;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -28,7 +30,9 @@ public abstract class Morpher {
 
 	public void executeMorph() throws IOException {
 		// Read the "old" data into a string
-		String contents = IOUtils.toString(morphRequest.getInputStream(), morphRequest.getEncoding());
+		InputStream in = morphRequest.getInputStream();
+		String contents = IOUtils.toString(in, morphRequest.getEncoding());
+		IOUtils.closeQuietly(in);
 
 		// May not need to morph
 		if (isMorphNeeded(contents)) {
@@ -38,7 +42,9 @@ public abstract class Morpher {
 		}
 
 		// Write the morphed data to the output stream
-		IOUtils.write(contents, morphRequest.getOutputStream(), morphRequest.getEncoding());
+		OutputStream out = morphRequest.getOutputStream();
+		IOUtils.write(contents, out, morphRequest.getEncoding());
+		IOUtils.closeQuietly(out);
 	}
 
 	public MorphRequest getMorphRequest() {

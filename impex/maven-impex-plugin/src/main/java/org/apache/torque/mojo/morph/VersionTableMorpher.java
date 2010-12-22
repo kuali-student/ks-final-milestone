@@ -1,8 +1,13 @@
 package org.apache.torque.mojo.morph;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class VersionTableMorpher extends Morpher {
+	private static final Log log = LogFactory.getLog(VersionTableMorpher.class);
+
+	String projectVersion;
 
 	public VersionTableMorpher() {
 		this(null, null);
@@ -13,9 +18,10 @@ public class VersionTableMorpher extends Morpher {
 	}
 
 	protected String getMorphedContents(String contents) {
-		String version = StringUtils.substringBetween(contents, "VERSION=\"", "\"");
-		String searchString = "VERSION=\"" + version + "\"";
-		String replacement = "VERSION=\"${project.version}\"";
+		log.debug("contents=" + contents);
+		String oldVersion = StringUtils.substringBetween(contents, "VERSION=\"", "\"");
+		String searchString = "VERSION=\"" + oldVersion + "\"";
+		String replacement = "VERSION=\"" + getProjectVersion() + "\"";
 		String s = StringUtils.replace(contents, searchString, replacement);
 		return s;
 	}
@@ -25,6 +31,14 @@ public class VersionTableMorpher extends Morpher {
 	 */
 	protected boolean isMorphNeeded(String contents) {
 		return true;
+	}
+
+	public String getProjectVersion() {
+		return projectVersion;
+	}
+
+	public void setProjectVersion(String projectVersion) {
+		this.projectVersion = projectVersion;
 	}
 
 }

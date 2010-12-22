@@ -47,26 +47,20 @@ public abstract class AbstractMorphSingleMojo extends BaseMojo {
 	}
 
 	protected boolean isMorphNeeded() {
-		getLog().info("oldFile=" + getOldFile().getAbsolutePath());
-		getLog().info("newFile=" + getNewFile().getAbsolutePath());
-		getLog().info("1");
 		// The file they asked to morph does not exist
 		if (!getOldFile().exists()) {
-			getLog().info("file:" + getOldFile().getAbsolutePath() + " does not exist");
+			getLog().debug("file:" + getOldFile().getAbsolutePath() + " does not exist");
 			return false;
 		}
-		getLog().info("2");
 
 		// The new file does not exist, we need to morph
 		if (!getNewFile().exists()) {
 			return true;
 		}
-		getLog().info("3");
 
 		// Extract the last modified timestamps
 		long oldLastModified = getOldFile().lastModified();
 		long newLastModified = getNewFile().lastModified();
-		getLog().info("4");
 
 		// If old file has been modified since the new file was last modified,
 		// we need to morph
