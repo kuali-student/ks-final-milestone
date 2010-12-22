@@ -62,6 +62,17 @@
       </modules>
     </profile>
     <profile>
+      <id>db-only</id>
+      <modules>
+        <module>ks-core</module>
+        <module>ks-lum</module>
+        <module>ks-cfg-dbs</module>
+      </modules>
+      <properties>
+        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
+      </properties>
+    </profile>
+    <profile>
       <id>skip-ui</id>
       <modules>
         <module>ks-common</module>

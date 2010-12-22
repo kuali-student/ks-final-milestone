@@ -31,6 +31,12 @@
       </modules>
     </profile>
     <profile>
+      <id>db-only</id>
+      <modules>
+        <module>ks-lum-sql</module>
+      </modules>
+    </profile>
+    <profile>
       <id>embedded-only-war</id>
       <modules>
         <module>ks-lum-sql</module>
