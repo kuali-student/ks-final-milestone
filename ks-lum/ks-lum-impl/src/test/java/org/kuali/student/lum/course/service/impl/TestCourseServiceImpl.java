@@ -485,7 +485,7 @@ public class TestCourseServiceImpl {
 
     /**
      * 
-     * This method tests setting code in course cross listing
+     * This method tests setting code, attributes in course cross listing
      *
      */
     @Test
@@ -495,9 +495,15 @@ public class TestCourseServiceImpl {
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
 
+           
             CourseCrossListingInfo ccInfo = new CourseCrossListingInfo();
             ccInfo.setCourseNumberSuffix("100");
             ccInfo.setSubjectArea("CHEM");
+            
+            Map<String, String> da = new HashMap<String, String>();
+            da.put("KEY1", "VALUE1");
+            
+            ccInfo.setAttributes(da);
             
             CourseCrossListingInfo ccInfo1 = new CourseCrossListingInfo();
             ccInfo1.setCourseNumberSuffix("200");
@@ -527,7 +533,8 @@ public class TestCourseServiceImpl {
             for(CourseCrossListingInfo rcc : rcInfo.getCrossListings()) {
                 
                 if("100".equals(rcc.getCourseNumberSuffix())) {
-                    assertEquals("CHEM100", rcc.getCode());
+                    assertEquals("CHEM100", rcc.getCode());                    
+                    assertEquals("VALUE1", rcc.getAttributes().get("KEY1"));
                 } else {
                     assertEquals("LIFE042", rcc.getCode());
                 }                

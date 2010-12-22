@@ -362,6 +362,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
 			cluIdentifier.setState(course.getState());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
+			cluIdentifier.setAttributes(crossListing.getAttributes());
 
 	        //Custom logic to set the code as the concatenation of division and course number suffix if code not provided
 	        if (StringUtils.hasText(crossListing.getCode())){
@@ -1092,6 +1093,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
 					crosslisting.setId(cluIdent.getId());
 					crosslisting.setCode(cluIdent.getCode());
+					crosslisting.setAttributes(cluIdent.getAttributes());
 					crosslisting.setType(cluIdent.getType());
 					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
 					crosslisting.setSubjectArea(cluIdent.getDivision());

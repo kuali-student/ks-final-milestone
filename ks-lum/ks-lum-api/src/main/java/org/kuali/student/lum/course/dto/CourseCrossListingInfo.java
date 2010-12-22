@@ -16,13 +16,18 @@
 package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Detailed information about the human readable form of a Variation
@@ -34,7 +39,7 @@ import org.kuali.student.core.dto.Idable;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseCrossListingInfo implements Serializable, Idable {
+public class CourseCrossListingInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,6 +55,10 @@ public class CourseCrossListingInfo implements Serializable, Idable {
     @XmlElement
     private String courseNumberSuffix;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+    private Map<String, String> attributes;
+    
     @XmlAttribute
     private String type;
 
@@ -93,6 +102,20 @@ public class CourseCrossListingInfo implements Serializable, Idable {
         this.courseNumberSuffix = courseNumberSuffix;
     }
 
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public Map<String, String> getAttributes() {
+        if (attributes == null) {
+            attributes = new HashMap<String, String>();
+        }
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+    
     /**
      * This is the CluIdentifier Type. It can only have a single value for VariationType
      */
