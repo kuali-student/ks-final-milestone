@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>33</version>
+    <version>50</version>
   </parent>
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex</artifactId>
@@ -14,6 +14,7 @@
   <properties>
     <!-- This property is required for multi-module builds -->
     <kuali.site.path>impex/${project.version}</kuali.site.path>
+    <kuali.site.download.path>org/kuali/maven/impex</kuali.site.download.path>
     <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
     <!-- The test-javadoc report is throwing a NullPointerException -->
