@@ -14,6 +14,9 @@
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
   </issueManagement>
+  <properties>
+    <kuali.site.download.dirs>org/kuali/student/common</kuali.site.download.dirs>
+  </properties>
   <profiles>
     <profile>
       <id>default</id>

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-common-util</artifactId>
   <name>KS Common Util</name>
-  <description>KS common utilitiy classes</description>
+  <description>KS common utility classes</description>
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
