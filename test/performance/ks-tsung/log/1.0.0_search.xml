@@ -1,0 +1,151 @@
+<?xml version='1.0'?>
+<!DOCTYPE tsung SYSTEM "/opt/local/share/tsung/tsung-1.0.dtd">
+<tsung loglevel='notice' version='1.0'>
+  <clients>
+    <client use_controller_vm='true' host='localhost'/>
+  </clients>
+  <servers>
+    <server port='80' type='tcp' host='appserv-1.ks.kuali.net'/>
+  </servers>
+  <load>
+    <arrivalphase duration='15' unit='minute' phase='1'>
+      <users unit='second' interarrival='0.0625' maxnumber='960'/>
+    </arrivalphase>
+  </load>
+  <options>
+    <option name='user_agent' type='ts_http'>
+      <user_agent probability='100'>
+        Mozilla/5.0 (Windows; MSIE 7.0; Windows NT 6.0; en-US)
+      </user_agent>
+    </option>
+  </options>
+  <sessions>
+    <session name='course_search' type='ts_http' probability='100'>
+      <transaction name='login'>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/spring_security_login' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http content_type='application/x-www-form-urlencoded' method='POST' url='/ks-standalone/j_spring_security_check' version='1.1' contents='j_username=fishdptcoc1&amp;j_password=fishdptcoc1&amp;submit=Submit'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/index.html' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService' version='1.1' contents='5|0|4|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|29F4EA1240F157649C12466F01F46F60|org.kuali.student.common.ui.client.service.SecurityRpcService|getPrincipalUsername|1|2|3|4|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService' version='1.1' contents='5|0|13|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.util.List|java.util.Arrays$ArrayList/1243019747|[Ljava.lang.String;/2600011424|application.url|ks.rice.docSearch.serviceAddress|lum.application.url|ks.rice.url|ks.rice.label|ks.application.version|1|2|3|4|1|5|6|7|6|8|9|10|11|12|13|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.util.List|java.util.Arrays$ArrayList/1243019747|[Ljava.lang.String;/2600011424|ks.rice.actionList.serviceAddress|1|2|3|4|1|5|6|7|1|8|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService' version='1.1' contents='5|0|6|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.lum.ui.displayOnlyActiveLoCategories|1|2|3|4|1|5|6|'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='http://appserv-2.ks.kuali.net:9080/ks-rice/kew/ActionList.do' version='1.1'/>
+        </request>
+      </transaction>
+      <transaction name='course_nav'>
+        <request subst='false'>
+          <http method='GET' url='http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService' version='1.1' contents='5|0|4|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|29F4EA1240F157649C12466F01F46F60|org.kuali.student.common.ui.client.service.SecurityRpcService|getPrincipalUsername|1|2|3|4|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService' version='1.1' contents='5|0|13|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.util.List|java.util.Arrays$ArrayList/1243019747|[Ljava.lang.String;/2600011424|application.url|ks.rice.docSearch.serviceAddress|lum.application.url|ks.rice.url|ks.rice.label|ks.application.version|1|2|3|4|1|5|6|7|6|8|9|10|11|12|13|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService' version='1.1' contents='5|0|6|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.lum.ui.displayOnlyActiveLoCategories|1|2|3|4|1|5|6|'/>
+        </request>
+      </transaction>
+      <transaction name='no_match'>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService' version='1.1' contents='5|0|15|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLongName|Never find this madeup course|lu.queryParam.luOptionalType|kuali.lu.type.CreditCourse|lu.search.generic|org.resultColumn.orgShortName|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|15|0|0|'/>
+        </request>
+      </transaction>
+      <transaction name='full_match'>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService' version='1.1' contents='5|0|15|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLongName|Film Analysis|lu.queryParam.luOptionalType|kuali.lu.type.CreditCourse|lu.search.generic|org.resultColumn.orgShortName|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|15|0|0|'/>
+        </request>
+      </transaction>
+      <transaction name='partial_match'>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService' version='1.1' contents='5|0|15|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLongName|AM|lu.queryParam.luOptionalType|kuali.lu.type.CreditCourse|lu.search.generic|org.resultColumn.orgShortName|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|15|0|0|'/>
+        </request>
+      </transaction>
+      <transaction name='wilcard'>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService' version='1.1' contents='5|0|8|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|8|8|0|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService' version='1.1' contents='5|0|7|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|5BB403B24C034C0D25EA15EE021E0D0E|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String|search||1|2|3|4|3|5|5|5|6|7|7|'/>
+        </request>
+        <request subst='false'>
+          <http content_type='text/x-gwt-rpc; charset=utf-8' method='POST' url='/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService' version='1.1' contents='5|0|13|http://appserv-1.ks.kuali.net:80/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalType|kuali.lu.type.CreditCourse|lu.search.generic|org.resultColumn.orgShortName|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|13|0|0|'/>
+        </request>
+      </transaction>
+      <transaction name='logout'>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/j_spring_security_logout' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/' version='1.1'/>
+        </request>
+        <request subst='false'>
+          <http method='GET' url='/ks-standalone/spring_security_login' version='1.1'/>
+        </request>
+      </transaction>
+    </session>
+  </sessions>
+</tsung>
