@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.maven.impex</groupId>
     <artifactId>impex</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14-SNAPSHOT</version>
   </parent>
   <artifactId>torque-generator</artifactId>
   <name>Torque Generator</name>
@@ -136,8 +136,8 @@
     </dependency>
   </dependencies>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-1.0.13/torque-generator</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-1.0.13/torque-generator</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/tags/impex-1.0.13/torque-generator</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-generator</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-generator</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-generator</url>
   </scm>
 </project>
