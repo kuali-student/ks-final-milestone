@@ -9,16 +9,19 @@ import org.apache.maven.settings.Settings;
 import org.kuali.maven.mojo.MavenLogger;
 
 /**
- * Mojo essentials. Contains the "skip" logic that is the de facto standard for maven plugins. Contains a number of
- * maven related properties that are common to most mojos. Also sets up logging so that if libraries called by a mojo
- * issue log statements to Jakarta Commons Logging or Log4j, those log messages are shown in maven's output
+ * Mojo essentials. Contains the "skip" logic that is the de facto standard for
+ * maven plugins. Contains a number of maven related properties that are common
+ * to most mojos. Also sets up logging so that if libraries called by a mojo
+ * issue log statements to Jakarta Commons Logging or Log4j, those log messages
+ * are shown in maven's output
  */
 public abstract class BaseMojo extends AbstractMojo {
 	public static final String FS = System.getProperty("file.separator");
 	public static final String SKIP_PACKAGING_TYPE = "pom";
 
 	/**
-	 * When true, redirect logging from Log4j and Jakarta Commons Logging to the Maven logging system
+	 * When true, redirect logging from Log4j and Jakarta Commons Logging to the
+	 * Maven logging system
 	 * 
 	 * @parameter expression="${startMavenLogger}" default-value="true"
 	 */
@@ -32,8 +35,8 @@ public abstract class BaseMojo extends AbstractMojo {
 	private boolean skip;
 
 	/**
-	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
-	 * usually.
+	 * Setting this parameter to <code>true</code> will force the execution of
+	 * this mojo, even if it would get skipped usually.
 	 * 
 	 * @parameter expression="${forceMojoExecution}" default-value="false"
 	 * @required
@@ -41,10 +44,12 @@ public abstract class BaseMojo extends AbstractMojo {
 	private boolean forceMojoExecution;
 
 	/**
-	 * The encoding to use when reading/writing files. If not specified this defaults to the platform specific encoding
-	 * of whatever machine the build is running on.
+	 * The encoding to use when reading/writing files. If not specified this
+	 * defaults to the platform specific encoding of whatever machine the build
+	 * is running on.
 	 * 
-	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+	 * @parameter expression="${encoding}"
+	 *            default-value="${project.build.sourceEncoding}"
 	 */
 	private String encoding;
 
@@ -72,8 +77,15 @@ public abstract class BaseMojo extends AbstractMojo {
 	 */
 	private MavenSession mavenSession;
 
+	protected void beforeExecution() throws MojoExecutionException, MojoFailureException {
+	}
+
+	protected void afterExecution() throws MojoExecutionException, MojoFailureException {
+	}
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		beforeExecution();
 		if (isStartMavenLogger()) {
 			MavenLogger.startPluginLog(this);
 		}
@@ -84,6 +96,7 @@ public abstract class BaseMojo extends AbstractMojo {
 		if (isStartMavenLogger()) {
 			MavenLogger.endPluginLog(this);
 		}
+		afterExecution();
 	}
 
 	protected abstract void executeMojo() throws MojoExecutionException, MojoFailureException;
@@ -95,8 +108,8 @@ public abstract class BaseMojo extends AbstractMojo {
 	 * This is the case if:
 	 * <ul>
 	 * <li>{@link #skip} is <code>true</code></li>
-	 * <li>if the mojo gets executed on a project with packaging type 'pom' and {@link #forceMojoExecution} is
-	 * <code>false</code></li>
+	 * <li>if the mojo gets executed on a project with packaging type 'pom' and
+	 * {@link #forceMojoExecution} is <code>false</code></li>
 	 * </ul>
 	 * 
 	 * @return <code>true</code> if the mojo execution should be skipped.
