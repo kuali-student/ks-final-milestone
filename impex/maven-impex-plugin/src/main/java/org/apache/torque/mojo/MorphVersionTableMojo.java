@@ -26,7 +26,7 @@ public class MorphVersionTableMojo extends AbstractMorphSingleMojo {
 	private File newVersionXMLFile;
 
 	/**
-	 * The path to the directory where the schema XML files are located
+	 * The XML file that will contain placeholders for the updated information
 	 * 
 	 * @parameter expression="${oldVersionXMLFile}"
 	 *            default-value="${basedir}/src/main/impex/KS_DB_VERSION.xml"
