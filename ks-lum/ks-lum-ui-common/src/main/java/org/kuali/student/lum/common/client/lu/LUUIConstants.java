@@ -165,7 +165,8 @@ public class LUUIConstants {
     public static final String CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeFixedCredits";
     public static final String CREDIT_OPTION_MIN_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMinCredits";
     public static final String CREDIT_OPTION_MAX_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMaxCredits";
-
+    public static final String CREDIT_HOURS_LABEL_KEY = "cluCreditHours";
+    
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";  
     public static final String FORMATS_LABEL_KEY = "cluFormats";
     public static final String FORMAT_LABEL_KEY = "cluFormat";
