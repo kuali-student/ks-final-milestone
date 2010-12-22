@@ -1,14 +1,0 @@
-String dir = System.getProperty("user.home");
-System.out.println("tmp dir is: " + dir);
-String sep = "/";
-String logDirPath = dir + sep + "kuali" + sep + "ks-request-timer-log";String parentPath = dir + sep + "kuali";
-System.out.println("logDirPath: " + logDirPath);
-java.io.File logDir = new java.io.File(parentPath, "ks-request-timer-log");
-boolean exists = logDir.exists();
-System.out.println("logDir exists: " + exists);
-
-if (!exists) {
-	logDir.mkdir();
-	boolean created = logDir.createNewFile();
-	System.out.println("created dir: " + created);	boolean exists0 = logDir.exists();	System.out.println("logDir exists: " + exists0);
-}java.util.Calendar cal = java.util.Calendar.getInstance();int year = cal.get(java.util.Calendar.YEAR);int month = cal.get(java.util.Calendar.MONTH);int day = cal.get(java.util.Calendar.DAY_OF_MONTH);String dailyLogDir = String.format("%d-%02d-%02d", year, month, day);System.out.println("Daily Log Dir:  " + dailyLogDir);boolean ex = false;boolean notExists = !ex;System.out.println( "exists: " + notExists);
