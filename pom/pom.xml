@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -142,8 +142,8 @@
          Override this to "snapshot" for snapshot builds -->
     <kuali.site.download.prefix>release</kuali.site.download.prefix>
     <!-- Make this the same as groupId after replacing "." with "/" -->
-    <kuali.site.download.dirs>org/kuali</kuali.site.download.dirs>
-    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/${kuali.site.download.prefix}/${kuali.site.download.dirs}/${project.artifactId}/${project.version}/</kuali.site.download.url>
+    <kuali.site.download.path>org/kuali</kuali.site.download.path>
+    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/${kuali.site.download.prefix}/${kuali.site.download.path}/${project.artifactId}/${project.version}/</kuali.site.download.url>
   </properties>
   <repositories>
     <repository>
