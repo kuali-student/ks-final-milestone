@@ -24,7 +24,7 @@
     </repository>
   </repositories>
   <properties>
-    <kuali.site.download.dirs>org/kuali/student/db</kuali.site.download.dirs>
+    <kuali.site.download.path>org/kuali/student/db</kuali.site.download.path>
     <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
     <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>

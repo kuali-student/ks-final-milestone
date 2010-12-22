@@ -16,7 +16,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
   </issueManagement>
   <properties>
-    <kuali.site.download.dirs>org/kuali/student/core</kuali.site.download.dirs>
+    <kuali.site.download.path>org/kuali/student/core</kuali.site.download.path>
   </properties>
   <profiles>
     <profile>
