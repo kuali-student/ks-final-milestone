@@ -1724,6 +1724,10 @@
         MSG_ID="orgMembersTableFirstName" MSG_VALUE="First Name"
         OBJ_ID="269bc0d1-2639-4289-9835-5bef415deab9" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="d21d163d-15d3-4214-bb84-5508163e98a9" LOCALE="en"
+        MSG_ID="cluCreditHours" MSG_VALUE="Credit Hours"
+        OBJ_ID="7DC78B74-0C73-C4C5-0360-4C007690F25C" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="d275e59c-295b-4ba1-aef9-d35533463aea" LOCALE="en"
         MSG_ID="cluCredit" MSG_VALUE="Credit"
         OBJ_ID="7e93849e-620b-4133-a4a1-66036435d4d6" VER_NBR="1"/>
