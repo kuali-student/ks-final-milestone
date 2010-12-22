@@ -518,7 +518,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     	}
                     	else{
                     		//saveActionEvent.doActionComplete();
-                    		Window.alert("Save failed.  Please check fields for errors.");
+                    		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                     	}
 
                     }
@@ -557,7 +557,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			public void exec(Throwable caught) {
 				 GWT.log("Save Failed.", caught);
 				 KSBlockingProgressIndicator.removeTask(saving);
-                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, 5000));
+                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
 			}
 
         };
