@@ -25,7 +25,7 @@
   <artifactId>ks-admin</artifactId>
   <name>KS Admin</name>
   <properties>
-    <kuali.site.download.dirs>org/kuali/student/admin</kuali.site.download.dirs>
+    <kuali.site.download.path>org/kuali/student/admin</kuali.site.download.path>
   </properties>
   <!-- skipping tests until integrated with ks test environment -->
   <build>

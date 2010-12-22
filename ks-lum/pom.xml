@@ -11,7 +11,7 @@
   <name>KS LUM</name>
   <description>KS Learning Unit Management</description>
   <properties>
-    <kuali.site.download.dirs>org/kuali/student/lum</kuali.site.download.dirs>
+    <kuali.site.download.path>org/kuali/student/lum</kuali.site.download.path>
   </properties>
   <profiles>
     <profile>
