@@ -32,18 +32,17 @@
     <ks.masterdb.dba.username>KSDBA</ks.masterdb.dba.username>
     <ks.masterdb.dba.password>KSDBA</ks.masterdb.dba.password>
 
-    <!-- Oracle JDBC url's don't contain a database name -->
     <ks.impex.jdbc.driver.oracle>oracle.jdbc.driver.OracleDriver</ks.impex.jdbc.driver.oracle>
 
     <!-- Oracle JDBC url's don't contain a database name -->
     <ks.impex.url.oracle>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url.oracle>
-    <ks.impex.dba.username.oracle>system</ks.impex.dba.username.oracle>
-    <ks.impex.dba.password.oracle></ks.impex.dba.password.oracle>
+    <ks.impex.dba.username.oracle>KSDBA</ks.impex.dba.username.oracle>
+    <ks.impex.dba.password.oracle>KSDBA</ks.impex.dba.password.oracle>
 
     <!-- MySQL JDBC url's do contain a database name -->
     <ks.impex.url.mysql>jdbc:mysql://localhost/ksembedded</ks.impex.url.mysql>
-    <ks.impex.dba.username.mysql>root</ks.impex.dba.username.mysql>
-    <ks.impex.dba.password.mysql></ks.impex.dba.password.mysql>
+    <ks.impex.dba.username.mysql>ksdba</ks.impex.dba.username.mysql>
+    <ks.impex.dba.password.mysql>ksdba</ks.impex.dba.password.mysql>
 
     <!-- *** Start REQUIRED properties *** -->
     <!-- JDBC url -->
@@ -138,22 +137,6 @@
       </modules>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.properties</groupId>
-            <artifactId>maven-properties-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <id>properties</id>
-                <goals>
-                  <goal>properties</goal>
-                </goals>
-                <configuration>
-                  <properties>${ks.impex.properties}</properties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
