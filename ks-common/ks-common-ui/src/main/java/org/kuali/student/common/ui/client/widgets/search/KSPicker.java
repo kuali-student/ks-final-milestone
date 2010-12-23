@@ -275,19 +275,17 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 searchPanel.setActionLabel("Preview");
             }
 
-            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>() {
                 public void exec(List<SelectedResults> results) {
-                    if (advancedSearchCallback != null) {
-                        advancedSearchCallback.exec(results);
-                        if (results.size() > 0) {
-                        	advSearchWindow.hide();
-                        }
-                    } else {
-                        if (results.size() > 0) {
-                            basicWidget.setResults(results);
-                            advSearchWindow.hide();
-                        }
-                    }
+                	if (results != null && results.size() > 0) {
+	                    if (advancedSearchCallback != null) {
+	                        advancedSearchCallback.exec(results);
+	                    }
+	                    else {
+	                        basicWidget.setResults(results);
+	                    }
+                        advSearchWindow.hide();
+                	}
                 }
             });
 

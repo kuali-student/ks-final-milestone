@@ -1,13 +1,7 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -27,7 +21,14 @@ import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
-import java.util.List;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
@@ -135,13 +136,15 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
                 @Override
                 public void exec(List<SelectedResults> result) {
-                    SelectedResults value = result.get(0);
-                    ViewContext viewContext = new ViewContext();
-                    viewContext.setId(value.getResultRow().getId());
-                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
-                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                	if (result != null && result.size() > 0) {
+	                    SelectedResults value = result.get(0);
+	                    ViewContext viewContext = new ViewContext();
+	                    viewContext.setId(value.getResultRow().getId());
+	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+	                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                	}
                 }
             });
         } else {
