@@ -34,7 +34,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
       </modules>
     </profile>
     <profile>
-      <id>db-only</id>
+      <id>sql-only</id>
       <modules>
         <module>ks-core-sql</module>
       </modules>

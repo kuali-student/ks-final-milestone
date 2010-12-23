@@ -98,7 +98,7 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.14</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
@@ -124,6 +124,112 @@
     <profile>
       <id>skip-impex</id>
       <!-- Don't include any modules -->
+      <activation>
+        <property>
+          <name>ks.impex.skip</name>
+        </property>
+      </activation>
+    </profile>
+    <profile>
+      <id>sql-only</id>
+      <modules>
+        <module>ks-rice-db</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>impex-only</id>
+      <modules>
+        <module>ks-rice-db</module>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                  <goal>morphversiontable</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>default</id>
@@ -153,6 +259,26 @@
                 <goals>
                   <goal>datadtd</goal>
                 </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -760,7 +886,6 @@
               <username>${ks.masterdb.username}</username>
               <password>${ks.masterdb.password}</password>
               <delimiter>/</delimiter>
-              <orderFile>ascending</orderFile>
             </configuration>
             <executions>
               <execution>

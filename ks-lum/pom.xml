@@ -31,7 +31,7 @@
       </modules>
     </profile>
     <profile>
-      <id>db-only</id>
+      <id>sql-only</id>
       <modules>
         <module>ks-lum-sql</module>
       </modules>
