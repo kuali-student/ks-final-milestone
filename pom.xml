@@ -95,7 +95,6 @@
       <modules>
         <module>ks-core</module>
         <module>ks-lum</module>
-        <module>ks-cfg-dbs</module>
       </modules>
     </profile>
   </profiles>

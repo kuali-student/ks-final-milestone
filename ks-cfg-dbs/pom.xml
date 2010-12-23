@@ -180,58 +180,6 @@
       </build>
     </profile>
     <profile>
-      <id>impex-only</id>
-      <modules>
-        <module>ks-rice-db</module>
-        <module>ks-embedded-db</module>
-        <module>ks-standalone-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                  <goal>morphversiontable</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>default</id>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -419,7 +367,7 @@
       </build>
     </profile>
     <profile>
-      <id>generate-rice-oracle-sql-jar</id>
+      <id>generate-rice-impex-jar</id>
       <modules>
         <module>ks-rice-db</module>
       </modules>
@@ -450,6 +398,16 @@
                 </goals>
                 <configuration>
                   <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
                 </configuration>
               </execution>
             </executions>
@@ -898,7 +856,7 @@
                   <sqlCommand>
                     UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
                     /
-                    </sqlCommand>
+                  </sqlCommand>
                 </configuration>
               </execution>
             </executions>
