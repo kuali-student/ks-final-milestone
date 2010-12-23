@@ -69,8 +69,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     protected void showConfiguration() {
         super.showConfiguration();
         log("Exporting to: " + getDataXMLDir().getAbsolutePath());
-        log("Date format: \"" + dateFormat + "\" - "
-                + dateFormatter.format(new Date()));
+        log("Date format: \"" + dateFormat + "\" - " + dateFormatter.format(new Date()));
     }
 
     @Override
@@ -103,13 +102,11 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Generate a SQL statement that selects all data from the table
      */
-    protected String getDataSelectStatement(final TableHelper helper, final String tableName)
-            throws SQLException {
+    protected String getDataSelectStatement(final TableHelper helper, final String tableName) throws SQLException {
         StringBuffer sb = new StringBuffer("SELECT * FROM ");
         sb.append(tableName);
         sb.append(" ORDER BY 'x'");
-        List<String> pkFields = helper.getPlatform().getPrimaryKeys(
-                helper.getDbMetaData(), getSchema(), tableName);
+        List<String> pkFields = helper.getPlatform().getPrimaryKeys(helper.getDbMetaData(), getSchema(), tableName);
         for (String field : pkFields) {
             sb.append(", ").append(field);
         }
@@ -133,8 +130,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Extract a column value from the result set, converting as needed
      */
-    protected Object getColumnValue(final ResultSet rs, final int index, final Column column,
-            final int rowCount, final String tableName) {
+    protected Object getColumnValue(final ResultSet rs, final int index, final Column column, final int rowCount,
+            final String tableName) {
         // Extract a raw object
         Object columnValue = null;
         try {
@@ -161,10 +158,9 @@ public class KualiTorqueDataDumpTask extends DumpTask {
             // Don't let an issue extracting a value from one column in one row
             // stop the process
             // Log the row/column and continue
-            log("Problem reading row " + rowCount + " column "
-                    + column.getName() + " from " + tableName, Project.MSG_ERR);
-            log(e.getClass().getName() + " : " + e.getMessage(),
+            log("Problem reading row " + rowCount + " column " + column.getName() + " from " + tableName,
                     Project.MSG_ERR);
+            log(e.getClass().getName() + " : " + e.getMessage(), Project.MSG_ERR);
 
         }
         return null;
@@ -202,9 +198,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Convert a row from the result set into an Element
      */
-    protected Element getRow(final DocumentImpl doc, final String tableName,
-            final ResultSetMetaData md, final ResultSet rs, final Column[] columns, final int rowCount)
-            throws SQLException {
+    protected Element getRow(final DocumentImpl doc, final String tableName, final ResultSetMetaData md,
+            final ResultSet rs, final Column[] columns, final int rowCount) throws SQLException {
         // Generate a row object
         Element row = doc.createElement(tableName);
 
@@ -212,8 +207,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
         for (int i = 1; i <= md.getColumnCount(); i++) {
 
             // Extract a column value
-            Object columnValue = getColumnValue(rs, i, columns[i], rowCount,
-                    tableName);
+            Object columnValue = getColumnValue(rs, i, columns[i], rowCount, tableName);
 
             // Null values can be omitted from the XML
             if (columnValue == null) {
@@ -221,8 +215,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
             }
 
             // Otherwise, escape the String and add it to the row Element
-            row.setAttribute(columns[i].getName(),
-                    xmlEscape(columnValue.toString()));
+            row.setAttribute(columns[i].getName(), xmlEscape(columnValue.toString()));
         }
 
         // Return an Element representing one row of data from the ResultSet
@@ -232,16 +225,15 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Generate and return the dataset Element
      */
-    protected Element getDatasetNode(final TableHelper helper, final DocumentImpl document,
-            final String tableName) throws SQLException {
+    protected Element getDatasetNode(final TableHelper helper, final DocumentImpl document, final String tableName)
+            throws SQLException {
         Element datasetNode = document.createElement("dataset");
         Statement stmt = null;
         ResultSet rs = null;
         try {
             // This query selects everything from the table
             String query = getDataSelectStatement(helper, tableName);
-            stmt = helper.getConnection().createStatement(
-                    ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            stmt = helper.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(query);
             ResultSetMetaData md = rs.getMetaData();
             Column[] columns = getColumns(md);
@@ -249,10 +241,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
             // Process the ResultSet
             while (rs.next()) {
                 count++;
-                log("Processing row " + count + " of " + tableName,
-                        Project.MSG_DEBUG);
-                Element row = getRow(document, tableName, md, rs, columns,
-                        count);
+                log("Processing row " + count + " of " + tableName, Project.MSG_DEBUG);
+                Element row = getRow(document, tableName, md, rs, columns, count);
                 datasetNode.appendChild(row);
             }
             helper.setRowCount(count);
@@ -285,11 +275,9 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Return the XML Document object that we will serialize to disk
      */
-    protected DocumentImpl getDocument(final TableHelper helper, final String tableName)
-            throws SQLException {
+    protected DocumentImpl getDocument(final TableHelper helper, final String tableName) throws SQLException {
         // Generate the document type
-        DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null,
-                getSystemId());
+        DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null, getSystemId());
         // Generate an empty document
         DocumentImpl doc = new DocumentImpl(docType);
         // Append a comment
@@ -348,8 +336,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
             log("Table Count: " + tableNames.size());
             int completeSize = tableNames.size();
 
-            StringFilter filterer = new StringFilter(includePatterns,
-                    excludePatterns);
+            StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
             filterer.filter(tableNames.iterator());
 
             int filteredSize = tableNames.size();
@@ -373,11 +360,9 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     }
 
     /**
-     * Process the tables, keeping track of which tables had at least one row of
-     * data
+     * Process the tables, keeping track of which tables had at least one row of data
      */
-    protected void processTables(final TableHelper helper) throws IOException,
-            SQLException {
+    protected void processTables(final TableHelper helper) throws IOException, SQLException {
         long start = System.currentTimeMillis();
         int exportCount = 0;
         int skipCount = 0;
@@ -390,42 +375,32 @@ public class KualiTorqueDataDumpTask extends DumpTask {
             }
         }
         long elapsed = System.currentTimeMillis() - start;
-        log(utils.pad("Processed " + helper.getTableNames().size() + " tables",
-                elapsed));
+        log(utils.pad("Processed " + helper.getTableNames().size() + " tables", elapsed));
         log("Exported data from " + exportCount + " tables to XML");
         log("Skipped " + skipCount + " tables that had zero rows");
     }
 
     /**
-     * Process one table. Only create an XML file if there is at least one row
-     * of data
+     * Process one table. Only create an XML file if there is at least one row of data
      */
-    protected boolean processTable(final TableHelper helper, final String tableName)
-            throws SQLException, IOException {
+    protected boolean processTable(final TableHelper helper, final String tableName) throws SQLException, IOException {
         log("Processing: " + tableName, Project.MSG_DEBUG);
         long ts1 = System.currentTimeMillis();
         DocumentImpl doc = getDocument(helper, tableName);
         long ts2 = System.currentTimeMillis();
-        log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1),
-                Project.MSG_DEBUG);
+        log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1), Project.MSG_DEBUG);
         boolean exported = false;
         if (doc != null) {
             serialize(tableName, doc);
             exported = true;
         }
         long ts3 = System.currentTimeMillis();
-        log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2),
-                Project.MSG_DEBUG);
+        log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2), Project.MSG_DEBUG);
         if (!exported) {
-            log(utils.pad(
-                    "Rows: "
-                            + StringUtils.leftPad(helper.getRowCount() + "", 5)
-                            + " " + tableName, (ts3 - ts1)), Project.MSG_DEBUG);
+            log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 5) + " " + tableName, (ts3 - ts1)),
+                    Project.MSG_DEBUG);
         } else {
-            log(utils.pad(
-                    "Rows: "
-                            + StringUtils.leftPad(helper.getRowCount() + "", 5)
-                            + " " + tableName, (ts3 - ts1)));
+            log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 5) + " " + tableName, (ts3 - ts1)));
         }
         return exported;
     }
@@ -443,15 +418,13 @@ public class KualiTorqueDataDumpTask extends DumpTask {
      * This is the XMLSerializer responsible for outputting the XML document
      */
     protected XMLSerializer getSerializer(final Writer out) {
-        return new XMLSerializer(out, new OutputFormat(Method.XML,
-                getEncoding(), true));
+        return new XMLSerializer(out, new OutputFormat(Method.XML, getEncoding(), true));
     }
 
     /**
      * Serialize the document
      */
-    protected void serialize(final String tableName, final DocumentImpl doc)
-            throws IOException {
+    protected void serialize(final String tableName, final DocumentImpl doc) throws IOException {
         Writer out = null;
         try {
             out = getWriter(tableName);
@@ -494,16 +467,14 @@ public class KualiTorqueDataDumpTask extends DumpTask {
     /**
      * Get the names of all the tables in our schema
      */
-    public List<String> getJDBCTableNames(final DatabaseMetaData dbMeta)
-            throws SQLException {
+    public List<String> getJDBCTableNames(final DatabaseMetaData dbMeta) throws SQLException {
         // these are the entity types we want from the database
         String[] types = { "TABLE" }; // JHK: removed views from list
         List<String> tables = new ArrayList<String>();
         ResultSet tableNames = null;
         try {
             // JHK: upper-cased schema name (required by Oracle)
-            tableNames = dbMeta.getTables(null, getSchema().toUpperCase(),
-                    null, types);
+            tableNames = dbMeta.getTables(null, getSchema().toUpperCase(), null, types);
             while (tableNames.next()) {
                 String name = tableNames.getString(3);
                 tables.add(name);
