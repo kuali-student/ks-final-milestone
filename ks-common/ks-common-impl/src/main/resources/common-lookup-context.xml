@@ -698,6 +698,7 @@
 					<property name="defaultValueList">
 						<list> <!-- this list is not complete -->
 							<value>kuali.atp.type.Spring</value>
+							<value>kuali.atp.type.Summer</value>
 							<value>kuali.atp.type.Fall</value>
 							<value>kuali.atp.type.Session1</value>
 							<value>kuali.atp.type.Session2</value>
