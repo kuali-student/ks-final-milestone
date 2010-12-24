@@ -40,16 +40,6 @@ public class PrintUtils {
     	doc.write(html);
     	doc.write("</DIV></BODY></HTML>");
     	doc.close();
-    	var inputs = $doc.getElementsByTagName('input');
-    	for(i = 0; i < inputs.length; i++){
-    		var v = inputs[i].value;
-    		doc.getElementById(inputs[i].id).value = v;
-    	}
-    	inputs = $doc.getElementsByTagName('textarea');
-    	for(i = 0; i < inputs.length; i++){
-    		var v = inputs[i].value;
-    		doc.getElementById(inputs[i].id).value = v;
-    	}
     	win.print();
     }-*/;
 }
