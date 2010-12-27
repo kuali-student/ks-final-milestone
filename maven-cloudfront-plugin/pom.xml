@@ -14,6 +14,7 @@
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <properties>
     <kuali.site.path>maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
+    <kuali.site.download.path>org/kuali/maven/cloudfront</kuali.site.download.path>
   </properties>
   <developers>
     <developer>
