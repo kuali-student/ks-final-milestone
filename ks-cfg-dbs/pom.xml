@@ -25,8 +25,9 @@
   </repositories>
   <properties>
     <kuali.site.download.path>org/kuali/student/db</kuali.site.download.path>
-    <ks.impex.oracle.phase>generate-sources</ks.impex.oracle.phase>
-    <ks.impex.mysql.phase>generate-sources</ks.impex.mysql.phase>
+    <ks.impex.sql.phase>generate-sources</ks.impex.sql.phase>
+    <ks.impex.oracle.phase>${ks.impex.sql.phase}</ks.impex.oracle.phase>
+    <ks.impex.mysql.phase>${ks.impex.sql.phase}</ks.impex.mysql.phase>
     <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
     <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
