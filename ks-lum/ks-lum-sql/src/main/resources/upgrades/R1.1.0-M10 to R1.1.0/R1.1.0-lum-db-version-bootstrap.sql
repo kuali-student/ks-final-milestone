@@ -15,5 +15,5 @@ IF temp <= 0 THEN EXECUTE IMMEDIATE 'CREATE
 END;
 /
 
-insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('${project.version}', '${project.artifactId}', '${env.BUILD_TAG}','${kuali.build.timestamp}')
+insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('${project.version}', '${project.artifactId}', '${env.JOB_NAME}-build-${env.BUILD_NUMBER}','${kuali.build.timestamp}')
 /
