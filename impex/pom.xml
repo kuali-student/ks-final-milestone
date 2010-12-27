@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>50</version>
+    <version>51-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex</artifactId>
@@ -65,15 +65,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.5.1</version>
-      </plugin>
-    </plugins>
-  </reporting>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
