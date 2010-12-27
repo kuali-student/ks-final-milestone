@@ -8,8 +8,8 @@
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-db</artifactId>
   <packaging>pom</packaging>
-  <name>KS Databases</name>
-  <description>Kuali Student Databases</description>
+  <name>KS Impex</name>
+  <description>Kuali Student Impex</description>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
@@ -25,6 +25,8 @@
   </repositories>
   <properties>
     <kuali.site.download.path>org/kuali/student/db</kuali.site.download.path>
+    <ks.impex.oracle.phase>generate-sources</ks.impex.oracle.phase>
+    <ks.impex.mysql.phase>generate-sources</ks.impex.mysql.phase>
     <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
     <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
@@ -126,58 +128,9 @@
       <!-- Don't include any modules -->
       <activation>
         <property>
-          <name>ks.impex.skip</name>
+          <name>!ks.impex.include</name>
         </property>
       </activation>
-    </profile>
-    <profile>
-      <id>sql-only</id>
-      <modules>
-        <module>ks-rice-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
       <id>default</id>
@@ -210,6 +163,7 @@
               </execution>
               <execution>
                 <id>generate-oracle-sql</id>
+                <phase>${ks.impex.oracle.phase}</phase>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
@@ -220,139 +174,7 @@
               </execution>
               <execution>
                 <id>generate-mysql-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>generate-oracle-sql</id>
-      <modules>
-        <module>ks-rice-db</module>
-        <module>ks-embedded-db</module>
-        <module>ks-standalone-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>generate-mysql-sql</id>
-      <modules>
-        <module>ks-rice-db</module>
-        <module>ks-embedded-db</module>
-        <module>ks-standalone-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>generate-sql</id>
-      <modules>
-        <module>ks-rice-db</module>
-        <module>ks-embedded-db</module>
-        <module>ks-standalone-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
+                <phase>${ks.impex.mysql.phase}</phase>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
@@ -392,6 +214,7 @@
               </execution>
               <execution>
                 <id>generate-oracle-sql</id>
+                <phase>${ks.impex.oracle.phase}</phase>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
@@ -402,6 +225,7 @@
               </execution>
               <execution>
                 <id>generate-mysql-sql</id>
+                <phase>${ks.impex.mysql.phase}</phase>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
