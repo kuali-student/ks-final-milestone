@@ -15,86 +15,89 @@ import org.codehaus.plexus.util.FileUtils;
  */
 public abstract class AbstractMorphSingleMojo extends BaseMojo {
 
-	/**
-	 * The file that will contain the morphed contents
-	 */
-	private File newFile;
+    /**
+     * The file that will contain the morphed contents
+     */
+    private File newFile;
 
-	/**
-	 * The file containing the contents to be morphed
-	 */
-	private File oldFile;
+    /**
+     * The file containing the contents to be morphed
+     */
+    private File oldFile;
 
-	/**
-	 * Add logic to the basic skip() method for skipping based on a morph being
-	 * needed
-	 */
-	@Override
-	protected boolean skipMojo() {
-		// We may be skipping based on packaging of type 'pom'
-		if (super.skipMojo()) {
-			return true;
-		}
+    /**
+     * Add logic to the basic skip() method for skipping based on a morph being needed
+     */
+    @Override
+    protected boolean skipMojo() {
+        // We may be skipping based on packaging of type 'pom'
+        if (super.skipMojo()) {
+            return true;
+        }
 
-		// If a morph is needed, we can't skip
-		boolean morphNeeded = isMorphNeeded();
-		if (morphNeeded) {
-			return false;
-		} else {
-			getLog().info("Skipping morph.  Nothing has changed");
-			return true;
-		}
-	}
+        // If a morph is needed, we can't skip
+        boolean morphNeeded = isMorphNeeded();
+        if (morphNeeded) {
+            return false;
+        } else {
+            getLog().info("Skipping morph.  Nothing has changed");
+            return true;
+        }
+    }
 
-	protected boolean isMorphNeeded() {
-		// The file they asked to morph does not exist
-		if (!getOldFile().exists()) {
-			getLog().debug("file:" + getOldFile().getAbsolutePath() + " does not exist");
-			return false;
-		}
+    protected boolean isMorphNeeded() {
+        // The file they asked to morph does not exist
+        if (!getOldFile().exists()) {
+            getLog().debug("file:" + getOldFile().getAbsolutePath() + " does not exist");
+            return false;
+        }
 
-		// The new file does not exist, we need to morph
-		if (!getNewFile().exists()) {
-			return true;
-		}
+        // The new file does not exist, we need to morph
+        if (!getNewFile().exists()) {
+            return true;
+        }
 
-		// Extract the last modified timestamps
-		long oldLastModified = getOldFile().lastModified();
-		long newLastModified = getNewFile().lastModified();
+        // Extract the last modified timestamps
+        long oldLastModified = getOldFile().lastModified();
+        long newLastModified = getNewFile().lastModified();
 
-		// If old file has been modified since the new file was last modified,
-		// we need to morph
-		return oldLastModified > newLastModified;
-	}
+        // If old file has been modified since the new file was last modified,
+        // we need to morph
+        return oldLastModified > newLastModified;
+    }
 
-	protected abstract Morpher getMorpher(MorphRequest request, String artifactId);
+    protected abstract Morpher getMorpher(MorphRequest request, String artifactId);
 
-	@Override
-	protected void executeMojo() throws MojoExecutionException {
-		try {
-			FileUtils.forceMkdir(new File(FileUtils.getPath(newFile.getAbsolutePath())));
-			MorphRequest request = new MorphRequest(oldFile.getName(), new FileInputStream(oldFile), new FileOutputStream(newFile));
-			request.setEncoding(getEncoding());
-			Morpher morpher = getMorpher(request, getProject().getArtifactId());
-			morpher.executeMorph();
-		} catch (IOException e) {
-			throw new MojoExecutionException("Unexpected error while attempting to morph " + oldFile.getAbsolutePath(), e);
-		}
-	}
+    @Override
+    protected void executeMojo() throws MojoExecutionException {
+        try {
+            getLog().info("From: " + oldFile.getAbsolutePath());
+            getLog().info("  To: " + newFile.getAbsolutePath());
+            FileUtils.forceMkdir(new File(FileUtils.getPath(newFile.getAbsolutePath())));
+            MorphRequest request = new MorphRequest(oldFile.getName(), new FileInputStream(oldFile),
+                    new FileOutputStream(newFile));
+            request.setEncoding(getEncoding());
+            Morpher morpher = getMorpher(request, getProject().getArtifactId());
+            morpher.executeMorph();
+        } catch (IOException e) {
+            throw new MojoExecutionException("Unexpected error while attempting to morph " + oldFile.getAbsolutePath(),
+                    e);
+        }
+    }
 
-	public File getNewFile() {
-		return newFile;
-	}
+    public File getNewFile() {
+        return newFile;
+    }
 
-	public void setNewFile(File newFile) {
-		this.newFile = newFile;
-	}
+    public void setNewFile(final File newFile) {
+        this.newFile = newFile;
+    }
 
-	public File getOldFile() {
-		return oldFile;
-	}
+    public File getOldFile() {
+        return oldFile;
+    }
 
-	public void setOldFile(File oldFile) {
-		this.oldFile = oldFile;
-	}
+    public void setOldFile(final File oldFile) {
+        this.oldFile = oldFile;
+    }
 }
