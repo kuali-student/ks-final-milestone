@@ -97,6 +97,9 @@
         <module>ks-core</module>
         <module>ks-lum</module>
       </modules>
+      <properties>
+        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
+      </properties>
     </profile>
   </profiles>
   <scm>
