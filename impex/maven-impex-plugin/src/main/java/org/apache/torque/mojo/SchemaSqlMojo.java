@@ -19,64 +19,72 @@ import org.apache.torque.util.ChangeDetector;
  * the data set is consistent and correct, all the relationships will get created correctly.<br>
  * <br>
  * The database platform to generate SQL for is determined by ${targetDatabase}. See also <code>impex:datasql</code>
- * 
+ *
  * @goal schemasql
  * @phase generate-sources
  */
 public class SchemaSqlMojo extends SqlMojoBase {
 
-	/**
-	 * The directory in which the SQL will be generated.
-	 * 
-	 * @parameter property="outputDir" expression="${outputDir}" default-value="${project.build.directory}/classes/sql"
-	 */
-	@SuppressWarnings("unused")
-	private String dummy1;
+    /**
+     * The directory in which the SQL will be generated.
+     *
+     * @parameter property="outputDir" expression="${outputDir}" default-value="${project.build.directory}/classes/sql"
+     */
+    @SuppressWarnings("unused")
+    private String dummy1;
 
-	/**
-	 * The location where the report file will be generated.
-	 * 
-	 * @parameter property="reportFile" expression="${reportFile}" default-value=
-	 *            "../../../reports/report.${project.artifactId}.sql.generation"
-	 */
-	@SuppressWarnings("unused")
-	private String dummy2;
+    /**
+     * The location where the report file will be generated.
+     *
+     * @parameter property="reportFile" expression="${reportFile}" default-value=
+     * "../../../reports/report.${project.artifactId}.sql.generation"
+     */
+    @SuppressWarnings("unused")
+    private String dummy2;
 
-	/**
-	 * The location where the context property file for velocity will be generated.
-	 * 
-	 * @parameter property="contextPropertiesPath" expression="${contextPropertiesPath}"
-	 *            default-value="${project.build.directory}/reports/context.sql.properties"
-	 */
-	@SuppressWarnings("unused")
-	private String dummy3;
+    /**
+     * The location where the context property file for velocity will be generated.
+     *
+     * @parameter property="contextPropertiesPath" expression="${contextPropertiesPath}"
+     * default-value="${project.build.directory}/reports/context.sql.properties"
+     */
+    @SuppressWarnings("unused")
+    private String dummy3;
 
-	/**
-	 * The suffix of the generated sql files.
-	 * 
-	 * @parameter property="suffix" expression="${suffix}"
-	 */
-	@SuppressWarnings("unused")
-	private String dummy4;
+    /**
+     * The suffix of the generated sql files.
+     *
+     * @parameter property="suffix" expression="${suffix}"
+     */
+    @SuppressWarnings("unused")
+    private String dummy4;
 
-	/**
-	 * Generate SQL from schema XML files
-	 */
-	public void executeMojo() throws MojoExecutionException {
-		updateConfiguration();
-		validateConfiguration();
-		generateContextProperties();
-		configureTask();
-		addTargetDatabaseToOutputDir();
-		addTargetDatabaseToReportFile();
-		ChangeDetector detector = new ChangeDetector(getCanonicalReportFile(), getSchemaFiles());
-		if (!detector.isChanged() && isRunOnlyOnSchemaChange()) {
-			getLog().info("Schema has not changed.  Skipping generation");
-			return;
-		}
-		getLog().info("------------------------------------------------------------------------");
-		getLog().info("Generating SQL for " + getTargetDatabase() + " from schema XML files");
-		getLog().info("------------------------------------------------------------------------");
-		getAntTask().execute();
-	}
+    protected void showConfig() {
+        getLog().info("Schema Dir: " + getSchemaDir());
+        getLog().info("Includes: " + getSchemaIncludes());
+        getLog().info("Excludes: " + getSchemaExcludes());
+    }
+
+    /**
+     * Generate SQL from schema XML files
+     */
+    @Override
+    public void executeMojo() throws MojoExecutionException {
+        updateConfiguration();
+        validateConfiguration();
+        generateContextProperties();
+        configureTask();
+        addTargetDatabaseToOutputDir();
+        addTargetDatabaseToReportFile();
+        showConfig();
+        ChangeDetector detector = new ChangeDetector(getCanonicalReportFile(), getSchemaFiles());
+        if (!detector.isChanged() && isRunOnlyOnSchemaChange()) {
+            getLog().info("Schema has not changed.  Skipping generation");
+            return;
+        }
+        getLog().info("------------------------------------------------------------------------");
+        getLog().info("Generating SQL for " + getTargetDatabase() + " from schema XML files");
+        getLog().info("------------------------------------------------------------------------");
+        getAntTask().execute();
+    }
 }
