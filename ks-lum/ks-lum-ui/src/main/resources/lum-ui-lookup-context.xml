@@ -2719,7 +2719,7 @@
   </property>
  </bean>
 
- <bean id="majorDisciplineInfo.accreditingAgencies.orgId" parent="accreditingAgencies-lookup-binding-parent">
+<bean id="majorDisciplineInfo.accreditingAgencies.orgId" parent="accreditingAgencies-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.accreditingAgencies.orgId" />
  </bean>
 
@@ -4511,22 +4511,8 @@
      <property name="widget" value="DROPDOWN_LIST"/>
     </bean>
 
-           <!--<bean parent="param">-->
-     <!--<property name="key" value="lu.queryParam.luOptionalDivision" />-->
-     <!--<property name="childLookup" ref="kuali.lu.browse.AllSubjectAreas" />-->
-     <!--<property name="writeAccess" value="ALWAYS" />-->
-     <!--<property name="dataType" value="STRING" />-->
-     <!--<property name="optional" value="true" />-->
-     <!--<property name="name" value="Division" />-->
-     <!--<property name="desc" value="Division or Subject Area" />-->
-     <!--<property name="caseSensitive" value="true" />-->
-     <!--<property name="usage" value="ADVANCED" />-->
-     <!--<property name="widget" value="TEXT_BOX" />-->
-    <!--</bean>-->
-
-
       <bean parent="param">
-           <property name="key" value="lu.queryParam.luOptionalCurrentState" />
+           <property name="key" value="lu.queryParam.luOptionalCurrentVersion" />
            <property name="name" value="Program Status" />
            <property name="desc" value="CLU State" />
            <property name="dataType" value="STRING"/>
@@ -4534,11 +4520,8 @@
            <property name="optional" value="true"/>
            <property name="caseSensitive" value="false" />
            <property name="usage" value="ADVANCED"/>
-           <property name="defaultValueList">
-               <list>
-                   <value>Active</value>
-               </list>
-           </property>
+          <!-- Hack to get the correct SQL generated in AbstractSearchableCrudDaoImpl -->
+           <property name="defaultValueString" value="1"/>
        </bean>
    </list>
   </property>
