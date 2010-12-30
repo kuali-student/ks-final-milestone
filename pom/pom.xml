@@ -223,7 +223,7 @@
         <plugin>
           <groupId>org.kuali.maven.cloudfront</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.9</version>
+          <version>1.0.12</version>
           <configuration>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
