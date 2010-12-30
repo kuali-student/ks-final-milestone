@@ -18,6 +18,7 @@
     <spring.version>3.0.5.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
     <!-- The test-javadoc report is throwing a NullPointerException -->
+    <kuali.javadoc.project.url>${kuali.site.public.url}/apidocs/</kuali.javadoc.project.url>
     <kuali.javadoc.report.2>javadoc</kuali.javadoc.report.2>
   </properties>
   <developers>
