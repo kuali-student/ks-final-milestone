@@ -1,6 +1,0 @@
-<config>
-  <param name="s">standalone-config1</param>
-  <param name="config.location">classpath:001.xml</param>
-  <param name="config.location">classpath:${environment}.xml</param>
-  <param name="s">standalone-config2</param>
-</config>
