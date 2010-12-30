@@ -84,6 +84,7 @@ public abstract class BaseMojo extends AbstractMojo {
         if (skipMojo()) {
             return;
         }
+        executeMojo();
     }
 
     /**
