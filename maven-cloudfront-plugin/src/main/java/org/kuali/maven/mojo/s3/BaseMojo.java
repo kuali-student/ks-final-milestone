@@ -25,13 +25,6 @@ public abstract class BaseMojo extends AbstractMojo {
     public static final String SKIP_PACKAGING_TYPE = "pom";
 
     /**
-     * When true, redirect logging from Log4j and Jakarta Commons Logging to the Maven logging system.
-     *
-     * @parameter expression="${startMavenLogger}" default-value="true"
-     */
-    private boolean startMavenLogger;
-
-    /**
      * When <code>true</code>, skip the execution of this mojo.
      *
      * @parameter default-value="false"
@@ -120,21 +113,6 @@ public abstract class BaseMojo extends AbstractMojo {
         }
 
         return false;
-    }
-
-    /**
-     * @return the startMavenLogger
-     */
-    public boolean isStartMavenLogger() {
-        return startMavenLogger;
-    }
-
-    /**
-     * @param startMavenLogger
-     * the startMavenLogger to set
-     */
-    public void setStartMavenLogger(final boolean startMavenLogger) {
-        this.startMavenLogger = startMavenLogger;
     }
 
     /**
