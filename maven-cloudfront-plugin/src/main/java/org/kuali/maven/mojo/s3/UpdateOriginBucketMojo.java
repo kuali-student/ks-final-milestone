@@ -52,6 +52,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * @aggregator
  */
 public class UpdateOriginBucketMojo extends S3Mojo {
+
     private static final String S3_INDEX_METADATA_KEY = "maven-cloudfront-plugin-index";
     private static final String S3_INDEX_CONTENT_TYPE = "text/html";
     CloudFrontHtmlGenerator generator;
@@ -144,13 +145,16 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     @Override
     public void executeMojo() throws MojoExecutionException, MojoFailureException {
         try {
+            getLog().info("Updating S3 bucket - " + getBucket());
             S3BucketContext context = getS3BucketContext();
             generator = new CloudFrontHtmlGenerator(context);
             converter = new S3DataConverter(context);
             converter.setBrowseHtml(getBrowseHtml());
             if (isRecurse()) {
+                getLog().info("Recursing into " + getPrefix());
                 recurse(context, getPrefix());
             }
+            getLog().info("Updating " + getPrefix());
             goUpTheChain(context, getPrefix());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
@@ -169,7 +173,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             return;
         }
         String newPrefix = "";
-        for (int i = 0; i < prefixes.length - 1; i++) {
+        for (int i = 0; i < prefixes.length - 2; i++) {
             newPrefix += prefixes[i] + context.getDelimiter();
             updateDirectory(getS3PrefixContext(context, newPrefix));
         }
@@ -260,17 +264,23 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      */
     protected void updateDirectory(final S3PrefixContext context, final boolean isCopyIfExists, final String copyToKey)
             throws IOException {
+        S3BucketContext bucketContext = context.getBucketContext();
+        AmazonS3Client client = context.getBucketContext().getClient();
+        String bucket = bucketContext.getBucket();
+
         boolean containsDefaultObject = isExistingObject(context.getObjectListing(), context.getDefaultObjectKey());
         if (containsDefaultObject && isCopyIfExists) {
             // Copy the contents of the clients default object
-            context.getBucketContext()
-                    .getClient()
-                    .copyObject(
-                            getCopyObjectRequest(context.getBucketContext().getBucket(), context.getDefaultObjectKey(),
-                                    copyToKey));
+            String sourceKey = context.getDefaultObjectKey();
+            String destKey = copyToKey;
+            CopyObjectRequest request = getCopyObjectRequest(bucket, sourceKey, destKey);
+            getLog().info("Copy: " + sourceKey + " to " + destKey);
+            client.copyObject(request);
         } else {
             // Upload our custom content
-            context.getBucketContext().getClient().putObject(getPutIndexObjectRequest(context.getHtml(), copyToKey));
+            PutObjectRequest request = getPutIndexObjectRequest(context.getHtml(), copyToKey);
+            getLog().info("Put: " + copyToKey);
+            client.putObject(request);
         }
     }
 
@@ -301,9 +311,12 @@ public class UpdateOriginBucketMojo extends S3Mojo {
             return;
         }
 
+        AmazonS3Client client = context.getBucketContext().getClient();
+
         // Handle "http://www.mybucket.com/browse.html"
-        context.getBucketContext().getClient()
-                .putObject(getPutIndexObjectRequest(context.getHtml(), context.getBrowseHtmlKey()));
+        PutObjectRequest request1 = getPutIndexObjectRequest(context.getHtml(), context.getBrowseHtmlKey());
+        getLog().info("Put: " + context.getBrowseHtmlKey());
+        client.putObject(request1);
 
         boolean isCreateOrUpdateDefaultObject = isCreateOrUpdateDefaultObject(context);
         if (!isCreateOrUpdateDefaultObject) {
@@ -311,8 +324,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         }
 
         // Update the default object
-        context.getBucketContext().getClient()
-                .putObject(getPutIndexObjectRequest(context.getHtml(), context.getDefaultObjectKey()));
+        PutObjectRequest request2 = getPutIndexObjectRequest(context.getHtml(), context.getDefaultObjectKey());
+        getLog().info("Put: " + context.getDefaultObjectKey());
+        client.putObject(request2);
     }
 
     protected S3PrefixContext getS3PrefixContext(final S3BucketContext context, final String prefix) {
