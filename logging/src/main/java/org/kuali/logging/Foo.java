@@ -9,13 +9,4 @@ public class Foo {
     public void bar() {
         log.info("hello world");
     }
-
-    public static void main(final String[] args) {
-        try {
-            Log log = LogFactory.getLog(Foo.class);
-            log.info(log.getClass().getCanonicalName());
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
 }
