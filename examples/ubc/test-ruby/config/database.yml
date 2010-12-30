@@ -1,0 +1,32 @@
+# SQLite version 3.x
+#   gem install sqlite3-ruby (not necessary on OS X Leopard)
+development:
+  adapter: oracle_enhanced
+  host: 127.0.0.1
+  port: 1521
+  database: xe
+  username: ks_dev
+  password: ks_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &TEST
+  adapter: oracle_enhanced
+  host: 127.0.0.1
+  port: 1521
+
+
+
+  database: xe
+  username: ks_m8
+  password: ks_m8
+
+production:
+  adapter: jdbcsqlite3
+  database: db/production.sqlite3
+  pool: 5
+  timeout: 5000
+
+cucumber:
+  <<: *TEST
