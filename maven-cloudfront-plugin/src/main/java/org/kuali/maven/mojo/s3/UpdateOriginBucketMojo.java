@@ -154,7 +154,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
                 getLog().info("Recursing into " + getPrefix());
                 recurse(context, getPrefix());
             }
-            getLog().info("Updating " + getPrefix());
+            getLog().info("Updating hierarchy underneath " + getPrefix());
             goUpTheChain(context, getPrefix());
         } catch (Exception e) {
             throw new MojoExecutionException("Unexpected error: ", e);
