@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Faculty"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Office"/>
+</dataset>

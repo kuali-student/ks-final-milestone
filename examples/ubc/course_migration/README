@@ -1,0 +1,21 @@
+Kuali Student Course Migration Application
+This application is intended to migrate courses from UBC's Student Information System (SIS) into Kuali Student.
+The application will create a log file (create_courses-???.log) that logs the results of any courses migrated into Kuali Student.
+
+
+Instructions to get started:
+1. This Rails project was originally run with JRuby version 1.4.0.  Ruby has not been tested with this project but should work, if not some minor tweaks with getting the correct plugins may be required.  Most of the required gems have been vendored (included with the project) but the project has not been tested for portability.
+2. Edit the environment files (development.rb, test.rb, etc) to point to correct URL for Kuali Student.
+3. Edit the database.yml file to point to your database for retrieving course information
+
+To Use Different Course Sources
+1. A course model can be created for your specific course information.  Then by extending CourseAdapter and overriding set_course_data and course_error_message, your course model can be used to insert course information into Kuali Student.
+
+Usage Instructions:
+1. start a Rails console from the project root directory
+   jruby -S script/console
+2. find the appropriate courses from the catalog using the CrrcCrsCatalogt finders
+   CrrcCrsCatalogt.find(:all, :conditions => ["crs_code = ?", "CHEM100"])
+3. feed those courses into the course adapter
+   ca = CourseAdapter.new
+   ca.create_courses courses

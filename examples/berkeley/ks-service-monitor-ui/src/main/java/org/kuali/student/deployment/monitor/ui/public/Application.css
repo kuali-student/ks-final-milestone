@@ -1,0 +1,57 @@
+/** Add css rules here for your application. */
+button {
+  display: block;
+  font-size: medium
+}
+
+.widePanel {
+  width: 100%
+}
+
+img {
+  margin-top: 20px;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   background: #cecece;
+}
+
+.titlebar{
+   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+   font-size: medium;
+   color: #000044;
+   background:  #dedede;
+   font-weight: bold;
+   padding-right: 10px;
+}
+.stat-name {
+   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+   font-size: small;
+   color: #030303;
+   font-weight: bold;
+   padding-right: 10px;
+   text-align: right;
+
+}
+.stat-value {
+   font-family:  Verdana, Geneva, Arial, Helvetica, sans-serif;
+   font-size: small;
+   color: #030303;
+   padding-right: 10px;
+
+}
+
+
+
+
+.pc-template-btn {
+  display: block;
+  font-size: 16pt
+}
+
+#pc-template-img {
+  margin-top: 20px;
+}
+
