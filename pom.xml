@@ -117,6 +117,7 @@
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
 
+    <kuali.project.javadoc.url>${kuali.site.public.url}/apidocs/</kuali.project.javadoc.url>
     <kuali.javadoc.exclude.package.names>*.service.jaxws:*.exceptions.jaxws</kuali.javadoc.exclude.package.names>
     <kuali.javadoc.link.3>http://cxf.apache.org/javadoc/${ks.cxf.javadoc.version}/</kuali.javadoc.link.3>
     <kuali.javadoc.link.4>http://download.oracle.com/javaee/5/api/</kuali.javadoc.link.4>
