@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="deleteCluSet" bindingOperationName="deleteCluSet" type="Request-Response" outputName="deleteCluSetResponse" inputName="deleteCluSet" receivesAttachments="false" sendsAttachments="false" id="619ea569-8490-46a8-9104-736e506c942d" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
