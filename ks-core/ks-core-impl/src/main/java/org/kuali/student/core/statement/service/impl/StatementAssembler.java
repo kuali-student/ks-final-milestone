@@ -324,10 +324,11 @@ public class StatementAssembler extends BaseAssembler {
 
     public Statement toStatementFromTree(Statement stmt, StatementTreeViewInfo treeView, Set<String> statementIdsToDelete, List<Statement> statementsToUpdate, List<ReqComponent> reqCompsToCreate) throws DoesNotExistException, VersionMismatchException, InvalidParameterException{
 
+        // copy any non-transactional fields from treeview to statement, ignoring the properties in the array parameter
     	BeanUtils.copyProperties(treeView, stmt, new String[]{"cluIds", "statementIds",
                  "reqComponentIds", "attributes", "metaInfo", "type",
-                 "parent", "children", "requiredComponents", "statementType"});
-
+                 "parent", "children", "requiredComponents", "statementType", "id"});
+        
         // Copy generic attributes
         stmt.setAttributes(toGenericAttributes(StatementAttribute.class, treeView.getAttributes(), stmt, this.statementDao));
 
@@ -429,56 +430,22 @@ public class StatementAssembler extends BaseAssembler {
         stmt.setStatementType(stmtType);
 
         // Copy nested statements
-        if (false) {
-        	List<Statement> stmtList = new ArrayList<Statement>(stmtInfo.getStatementIds().size());
-        	for(String stmtId : stmtInfo.getStatementIds()) {
-        		if(stmtId.equals(stmtInfo.getId())) {
-        			throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
-        		}
+        
+       	List<Statement> stmtList = new ArrayList<Statement>();
+       	for(String stmtId : stmtInfo.getStatementIds()) {
+       		if(stmtId.equals(stmtInfo.getId())) {
+       			throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
+       		}
 
-        		boolean exists = false;
-        		if (stmt.getChildren() != null) {
-        			for (Statement child : stmt.getChildren()) {
-        				if (child.getId().equals(stmtId)) {
-        					stmtList.add(child);
-        					exists = true;
-        					break;
-        				}
-        			}
-        		}
-        		if (!exists) {
-        			try {
-        				Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
-        				stmtList.add(nestedStmt);
-        			} catch (DoesNotExistException e) {
-        				throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId(), e);
-        			}
-        		}
-        	}
-        	if (stmt.getChildren() != null) {
-        		stmt.getChildren().clear();
-        		stmt.getChildren().addAll(stmtList);
-        	} else {
-        		stmt.setChildren(stmtList);
-        	}
-
-        } else {
-        	List<Statement> stmtList = new ArrayList<Statement>();
-        	for(String stmtId : stmtInfo.getStatementIds()) {
-        		if(stmtId.equals(stmtInfo.getId())) {
-        			throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
-        		}
-
-        		Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
-        		if (null == nestedStmt) {
-        			throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId());
-        		}
-
-        		stmtList.add(nestedStmt);
-        	}
-        	stmt.setChildren(stmtList);
+       		Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
+       		if (null == nestedStmt) {
+       			throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId());
+       		}
+       		
+        	stmtList.add(nestedStmt);
         }
-
+        stmt.setChildren(stmtList);
+        
         // Copy nested requirements
         List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
         for(String reqId: stmtInfo.getReqComponentIds()) {
