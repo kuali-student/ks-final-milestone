@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -199,7 +199,7 @@
       <extension>
         <groupId>org.kuali.maven</groupId>
         <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.9</version>
+        <version>1.0.12</version>
       </extension>
     </extensions>
     <pluginManagement>
