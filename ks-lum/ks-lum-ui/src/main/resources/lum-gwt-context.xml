@@ -241,9 +241,14 @@
     <bean id="CourseRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
         <property name="courseService" ref="courseClient"/>
         <property name="dataService" ref="CourseDataService"/>
-        <property name="statementService" ref="statementServiceClient"/>          
+        <property name="statementService" ref="statementServiceClient"/> 
+        <property name="stateChangeService" ref="stateChangeService"/>         
     </bean>
-
+	
+	<bean id="stateChangeService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseStateChangeServiceImpl">
+		<property name="courseService" ref="courseClient"/>
+	</bean>
+	
     <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="dataService" ref="CourseProposalDataService"/>
@@ -301,9 +306,14 @@
     
     <!--Program Servlet Declaration-->
     <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
+        <property name="statmentDataService" ref="statementDataService"/>
+    </bean>
+    
+    <bean id="statementDataService" class="org.kuali.student.lum.program.server.StatementDataService">
         <property name="luService" ref="luClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
+    
 
     <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
 		<property name="dataService" ref="majorDisciplineDataService"/>
