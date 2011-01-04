@@ -148,7 +148,8 @@
     <param name="ks.atp.enable.caching">true</param>
     <param name="ks.org.enable.caching">true</param>
     <param name="ks.lrc.enable.caching">true</param>
-    
+    <param name="ks.statement.enable.caching">true</param>
+        
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>

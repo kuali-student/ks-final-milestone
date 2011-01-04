@@ -139,6 +139,7 @@
     <param name="ks.atp.enable.caching">true</param>
     <param name="ks.org.enable.caching">true</param>
     <param name="ks.lrc.enable.caching">true</param>
+    <param name="ks.statement.enable.caching">true</param>
     
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>

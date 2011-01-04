@@ -37,7 +37,7 @@
 	<bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
 	</bean>
-
+	
 	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
 		<property name="cacheName" value="enumCache" />
 		<property name="cacheManager" ref="ksCacheManager"/>
@@ -60,6 +60,12 @@
 		<property name="cacheName" value="lrcCache" />
 		<property name="cacheManager" ref="ksCacheManager"/>
 		<property name="enabled" value="${ks.lrc.enable.caching}"/>
+	</bean>
+
+	<bean id="statementMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+		<property name="cacheName" value="statementCache" />
+		<property name="cacheManager" ref="ksCacheManager"/>
+		<property name="enabled" value="${ks.statement.enable.caching}"/>
 	</bean>
 
 	<aop:config>
@@ -91,6 +97,14 @@
 			<aop:around pointcut="execution(*  org.kuali.student.lum.lrc.service.impl.*.create*(..))" method="invalidateCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.lum.lrc.service.impl.*.delete*(..))" method="invalidateCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.lum.lrc.service.impl.*.remove*(..))" method="invalidateCache" />
+		</aop:aspect>
+		<aop:aspect id="statementCacheAroundSearch" ref="statementMethodCacheAdvisor">
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.translate*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.getNaturalLanguageFor*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.update*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.create*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.delete*(..))" method="invalidateCache" />
 		</aop:aspect>
 	</aop:config>
 	
