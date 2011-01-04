@@ -79,10 +79,11 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                 	}
                     
                     if(currentSuggestion == null){
-                    	currentSuggestion = new IdableSuggestion();
+                    	/*currentSuggestion = new IdableSuggestion();
                     	currentSuggestion.setId("");
                     	currentSuggestion.setDisplayString("");
-                    	currentSuggestion.setReplacementString("");
+                    	currentSuggestion.setReplacementString("");*/
+                        KSSuggestBox.this.setText("");
                     }
                 }
                 else if(currentText == null || currentText.equals("")){

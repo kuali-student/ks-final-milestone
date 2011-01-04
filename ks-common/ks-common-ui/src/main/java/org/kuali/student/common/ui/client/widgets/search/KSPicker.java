@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.dom.client.Element;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -341,9 +342,16 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
 		public BasicWidget(Widget basicWidget){
 			this.basicWidget = basicWidget;
+            initAccessibility();
 		}
 
-		public void setResults(List<SelectedResults> results) {
+        private void initAccessibility() {
+            Element element = basicWidget.getElement();
+            element.setAttribute("role", "combobox");
+            element.setAttribute("aria-autocomplete", "list");
+        }
+
+        public void setResults(List<SelectedResults> results) {
 			if (basicWidget instanceof KSTextBox) {
 				((KSTextBox)basicWidget).setText(results.get(0).getDisplayKey());  //FIXME: what about the result id?
 			} else if (basicWidget.getClass().getName().contains("ContainerWidget")) {
