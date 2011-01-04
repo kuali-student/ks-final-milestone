@@ -635,7 +635,6 @@
 					 	<value>kuali.lu.type.CoreProgram</value>
 					 	<value>kuali.lu.type.Honors</value>
 					 	<value>kuali.lu.type.LivingLearning</value>
-					 	<value>kuali.lu.type.Requirement</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -1079,7 +1078,6 @@
 					 	<value>kuali.lu.type.CoreProgram</value>
 					 	<value>kuali.lu.type.Honors</value>
 					 	<value>kuali.lu.type.LivingLearning</value>
-					 	<value>kuali.lu.type.Requirement</value>
 						</list>
 					</property>
 					<property name="optional" value="true"/>
@@ -1173,7 +1171,6 @@
 					 	<value>kuali.lu.type.CoreProgram</value>
 					 	<value>kuali.lu.type.Honors</value>
 					 	<value>kuali.lu.type.LivingLearning</value>
-					 	<value>kuali.lu.type.Requirement</value>
 						</list>
 					</property>
 					<property name="optional" value="true"/>
