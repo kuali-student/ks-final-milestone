@@ -16,7 +16,8 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
@@ -45,10 +46,13 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * 
+ *
  * */
 public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightBox> */{
 //  private final HandlerManager handlers = new HandlerManager(this);
+
+    private static final List<String> FOCUSABLE_TAGS = Arrays.asList("INPUT", "SELECT", "BUTTON", "TEXTAREA");
+
     private int maxWidth = 800;
     private int maxHeight = 0;
     private int minWidth = 400;
@@ -58,13 +62,13 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
     private FlowPanel mainPanel = new FlowPanel();
     private FlowPanel titlePanel = new FlowPanel();
     private ScrollPanel scrollPanel = new ScrollPanel();
-    
+
     private Anchor closeLink = new Anchor();
     private KSDialogResizeHandler resizeHandler = new KSDialogResizeHandler();
     private HandlerRegistration resizeHandlerRegistrater;
-    
+
     private FlexTable verticalPanel = new FlexTable();
-    private HorizontalPanel buttonPanel = new HorizontalPanel();    
+    private HorizontalPanel buttonPanel = new HorizontalPanel();
     public KSLightBox() {
     	((Widget) this.getCaption()).setVisible(false);
         init();
@@ -76,18 +80,18 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         titlePanel.setStyleName("ks-lightbox-titlePanel");
         closeLink.setStyleName("ks-lightbox-title-closeLink");
         scrollPanel.setStyleName("ks-lightbox-title-scrollPanel");
-         
+
         setGlassEnabled(true);
         super.setWidget(mainPanel);
         mainPanel.add(titlePanel);
         mainPanel.add(scrollPanel);
         titlePanel.add(closeLink);
-        
+
         verticalPanel.setStyleName("ks-lightbox-layoutTable");
         verticalPanel.setWidget(1, 0, buttonPanel);
         verticalPanel.getRowFormatter().setStyleName(1, "ks-lightbox-buttonRow");
         scrollPanel.add(verticalPanel);
-        
+
         installResizeHandler();
         //super.
         closeLink.addClickHandler(new ClickHandler(){
@@ -97,8 +101,8 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
                hide();
             }
         });
-        
-        
+
+
     }
     public KSLightBox(boolean addCloseLink) {
     	((Widget) this.getCaption()).setVisible(false);
@@ -113,7 +117,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         if(resizeHandlerRegistrater != null){
             resizeHandlerRegistrater.removeHandler();
             resizeHandlerRegistrater = null;
-            
+
         }
     }
     public void installResizeHandler(){
@@ -128,12 +132,12 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
     	button.addStyleName("ks-button-spacing");
         buttonPanel.add(button);
     }
-    
+
     @SuppressWarnings("unchecked")
 	public void addButtonGroup(ButtonGroup group){
     	buttonPanel.add(group);
     }
-    
+
     public void setWidget(Widget content){
         verticalPanel.setWidget(0, 0, content);
         verticalPanel.getRowFormatter().setStyleName(0, "ks-lightbox-contentRow");
@@ -150,11 +154,11 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         this.permWidth = width;
         scrollPanel.setSize((width+10)+"px", (height+10)+"px");
     }
-    
+
     public void showButtons(boolean show){
     	buttonPanel.setVisible(show);
     }
-    
+
     @Override
     public void hide(){
         super.hide();
@@ -168,25 +172,15 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         super.center();
         grabFocus();
     }
-    private void grabFocus(){
+
+    private void grabFocus() {
         Widget mainContent = verticalPanel.getWidget(0, 0);
-        
         NodeList<Element> nodeList = mainContent.getElement().getElementsByTagName("*");
-        for(int i=0;i<nodeList.getLength();i++){
+        for (int i = 0; i < nodeList.getLength(); i++) {
             Element e = nodeList.getItem(i);
-            System.out.println(e.getTagName());
-            if("A".equalsIgnoreCase(e.getTagName())){
-             e.focus();
-             return ;
-            }else if("INPUT".equalsIgnoreCase(e.getTagName())){
+            if (FOCUSABLE_TAGS.contains(e.getTagName().toUpperCase())) {
                 e.focus();
-                return ;
-            }else if("SELECT".equalsIgnoreCase(e.getTagName())){
-                e.focus();
-                return ;
-            }else if("BUTTON".equalsIgnoreCase(e.getTagName())){
-                e.focus();
-                return ;
+                return;
             }
         }
 
@@ -225,7 +219,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
             }
         }
     }
-*/    
+*/
     @Override
     protected void onPreviewNativeEvent(NativePreviewEvent preview) {
         super.onPreviewNativeEvent(preview);
@@ -237,7 +231,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
                 break;
             }
         }
-    }    
+    }
     public Widget getWidget() {
     	return verticalPanel.getWidget(0, 0);
     }
@@ -250,10 +244,10 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
    // }
 
     private void resizeDialog(){
-    	
+
     	int width = maxWidth;
         int height = maxHeight;
-        
+
         //Width calculation
         if(permWidth != -1){
     		width = permWidth;
@@ -269,7 +263,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         		width = minWidth;
         	}
         }
-        
+
         //Height calculation
         if(permHeight != -1){
     		height = permHeight;
@@ -289,7 +283,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
             super.setSize(width + "px", height + "px");
             scrollPanel.setSize((width+10)+"px", (height+10)+"px");
         }
-        
+
 /*        DeferredCommand.addCommand(new Command(){
 
             @Override
@@ -300,7 +294,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
                 setPopupPosition(Math.max(Window.getScrollLeft() + left, 0), Math.max(
                     Window.getScrollTop() + top, 0));
             }
-        });  */      
+        });  */
     }
 
     class KSDialogResizeHandler implements ResizeHandler{
@@ -319,5 +313,5 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
             });
         }
     }
-   
+
 }
