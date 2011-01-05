@@ -64,4 +64,8 @@ public class TableCellWidget extends Composite implements  HasClickHandlers, Has
 		}
 		return null;
 	}
+
+    public Widget getDefaultTableEditor() {
+        return defaultTableEditor;
+    }
 }

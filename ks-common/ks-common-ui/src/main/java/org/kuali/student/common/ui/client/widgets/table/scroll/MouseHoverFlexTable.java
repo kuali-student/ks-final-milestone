@@ -42,6 +42,7 @@ public class MouseHoverFlexTable extends FlexTable {
                 }
                 break;
             }
+
         }
 
     }

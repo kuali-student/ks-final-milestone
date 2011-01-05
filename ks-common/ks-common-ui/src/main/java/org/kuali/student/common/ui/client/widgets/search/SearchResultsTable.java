@@ -112,7 +112,7 @@ public class SearchResultsTable extends Composite{
                  //tableModel.fireTableDataChanged();
 			}
 		});
-        
+
         redraw();
         layout.add(table);
   }   
@@ -160,7 +160,6 @@ public class SearchResultsTable extends Composite{
 
             @Override
             public void onSuccess(SearchResult results) {
-
                 if(results != null && results.getRows() != null && results.getRows().size() != 0){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
@@ -175,6 +174,7 @@ public class SearchResultsTable extends Composite{
                 } else {
                 	tableModel.setMoreData(false);
                 }
+                tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
                 table.displayLoading(false);
             }

@@ -3,17 +3,12 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -21,21 +16,18 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 /**
  * A table with UiBinder.
- * 
+ *
  * */
 public class Table extends Composite implements HasRetrieveAdditionalDataHandlers{
 
 	private static TableUiBinder uiBinder = GWT.create(TableUiBinder.class);
 	private List<RetrieveAdditionalDataHandler> retrieveDataHandlers = new ArrayList<RetrieveAdditionalDataHandler>();
+
+     private ArrayList<TableCellWidget> tableWidgets = new ArrayList<TableCellWidget>();
 
 	interface TableUiBinder extends UiBinder<Widget, Table> {
 	}
@@ -54,6 +46,8 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 	SelectionStyle selectionStyle;
 	@UiField
 	ScrollPanel scrollPanel;
+    @UiField
+    FocusPanel focusPanel;
 	@UiField
 	HTMLPanel panel;
 
@@ -62,7 +56,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 
 	public Table() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		scrollPanel.addScrollHandler(new ScrollHandler(){
 			@Override
 			public void onScroll(ScrollEvent event) {
@@ -76,9 +70,73 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 				}
 			}
 		});
-			
-
+       addHandlers();
 	}
+
+    private static interface Predicate{
+        boolean tableRowCondition(int row, int rowCount);
+        int nextRow(int row);
+    }
+
+    private void addHandlers() {
+       focusPanel.addKeyDownHandler(new KeyDownHandler() {
+
+           @Override
+           public void onKeyDown(KeyDownEvent event) {
+              int code = event.getNativeKeyCode();
+               if(code == KeyCodes.KEY_DOWN){
+                 processKeyUpAndDownEvent(new Predicate() {
+                     @Override
+                     public boolean tableRowCondition(int row, int rowCount) {
+                         return row+ 1 < rowCount;
+                     }
+
+                     @Override
+                     public int nextRow(int row) {
+                         return row + 1;
+                     }
+                 });
+               }else if(code == KeyCodes.KEY_UP){
+                  processKeyUpAndDownEvent(new Predicate() {
+                       @Override
+                       public boolean tableRowCondition(int row, int rowCount) {
+                           return row> 0;
+                       }
+
+                       @Override
+                       public int nextRow(int row) {
+                           return row - 1;
+                       }
+                   });
+               }else if(code == ' '){
+                   processSpaceClick();
+               }
+           }
+       });
+    }
+
+    private void processSpaceClick() {
+        if (tableModel.isMultipleSelectable()) {
+          /*  int index = tableModel.getCurrentIndex();
+            CheckBox checkBox = (CheckBox)tableWidgets.get(index).getDefaultTableEditor();
+            checkBox.setValue(!checkBox.getValue());
+            tableModel.getRow(index).setSelected(!checkBox.getValue());
+            updateTableSelection();*/
+        }
+    }
+
+    private void processKeyUpAndDownEvent(Predicate rowPredicate) {
+        int currentIndex = tableModel.getCurrentIndex();
+        Row currentRow = tableModel.getRow(currentIndex);
+        if (currentRow.isSelected() && rowPredicate.tableRowCondition(currentIndex, tableModel.getRowCount())) {
+            currentRow.setSelected(false);
+            currentIndex = rowPredicate.nextRow(currentIndex);
+            tableModel.getRow(currentIndex).setSelected(true);
+            tableModel.setCurrentIndex(currentIndex);
+            updateTableSelection();
+        }
+    }
+
     public FlexTable getHeader(){
         return header;
     }
@@ -112,6 +170,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 		}
 		int cellIndex = cell.getCellIndex();
 		int rowIndex = cell.getRowIndex();
+        tableModel.setCurrentIndex(rowIndex);
 		Row row = tableModel.getRow(rowIndex);
 
 	    if(tableModel.isMultipleSelectable() == false){
@@ -122,15 +181,17 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             }
 	        row.setSelected(!row.isSelected());
 	        updateTableSelection();
+            tableWidgets.clear();
             for (int r = 0; r < tableModel.getRowCount(); r++) {
-                updateTableCell(r, 0);                    
-            }	        
+                updateTableCell(r, 0);
+            }
 	    }else{
 			if(cellIndex == 0){
 				return;
 			}
 	        row.setSelected(!row.isSelected());
 	        updateTableSelection();
+            tableWidgets.clear();
 	        updateTableCell(rowIndex, 0);
 	    }
 	}
@@ -151,7 +212,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 
 	private void onTableCellChanged(int rowIndex, String columnId,
 			TableCellWidget cellWidget) {
-		Row row =tableModel.getRow(rowIndex); 
+		Row row =tableModel.getRow(rowIndex);
 		if ("RowHeader".equals(columnId)) {
 			row.setSelected(!row.isSelected());
 			updateTableSelection();
@@ -168,8 +229,9 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
                DOM.setStyleAttribute(tr, "backgroundColor", "#C6D9FF");
            }else{
                DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
-           }   
+           }
 	    }
+        focusPanel.setFocus(true);
 	}
 
 	public void updateTable(TableModelEvent event) {
@@ -179,11 +241,13 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 		} else if (event.getType() == TableModelEvent.TableData) {
 			updateTableData();
 		} else if (event.getType() == TableModelEvent.CellUpdate) {
+            tableWidgets.clear();
 			updateTableCell(event.getFirstRow(), event.getColumn());
 		}
 	}
 
 	private void updateTableData() {
+        tableWidgets.clear();
 		for (int r = 0; r < tableModel.getRowCount(); r++) {
 			int columnCount = tableModel.getColumnCount();
 			for (int c = 0; c < columnCount; c++) {
@@ -203,9 +267,9 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 		Row row = tableModel.getRow(r );
 		Object v = null;
 		if("RowHeader".equals(columnId)){
-		  v = row.isSelected() ;	
+		  v = row.isSelected() ;
 		}else{
-			v = row.getCellData(columnId);			
+			v = row.getCellData(columnId);
 		}
 		if("RowHeader".equals(columnId) == false){
 			if(v != null){
@@ -216,8 +280,11 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 			}
 			return;
 		}
-		final TableCellWidget widget = new TableCellWidget(v);
-		widget.setCellEditorValue(v);
+        final TableCellWidget widget = new TableCellWidget(v);
+            if (widget.getDefaultTableEditor() instanceof CheckBox) {
+                tableWidgets.add(widget);
+            }
+        widget.setCellEditorValue(v);
 		if (widget instanceof HasClickHandlers) {
 			((HasClickHandlers) widget)
 					.addClickHandler(new ClickHandler() {
@@ -261,7 +328,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 			}else if(col.getSortDirection() == Column.Descending){
 				header.getCellFormatter().addStyleName(0, i, selectionStyle.columnDescending());
 			}else{
-				
+
 			}
 			header.getColumnFormatter().setWidth(i, col.getWidth());
 		}
@@ -278,9 +345,9 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
         };
         return result;
 	}
-	
+
 	public void displayLoading(boolean isLoading){
-		
+
 		final int x = scrollPanel.getAbsoluteLeft() + scrollPanel.getOffsetWidth();
 		final int y = scrollPanel.getAbsoluteTop() + scrollPanel.getOffsetHeight();
 		if(isLoading){

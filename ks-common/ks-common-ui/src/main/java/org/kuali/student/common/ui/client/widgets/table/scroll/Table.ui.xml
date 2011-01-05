@@ -83,8 +83,10 @@
           </td> -->
       </tr>
       </table>
+      <g:FocusPanel ui:field='focusPanel'>
       <g:ScrollPanel ui:field='scrollPanel'>
         <kuali:MouseHoverFlexTable ui:field='table' styleName='{style.table}' cellSpacing='0' cellPadding='0'/>
       </g:ScrollPanel>
+      </g:FocusPanel>
   </g:HTMLPanel>
 </ui:UiBinder> 

@@ -16,15 +16,17 @@ public class DefaultTableModel extends AbstractTableModel {
 	private int sortableColumnCount = 1;
 	private boolean moreData = true;
 	private boolean multipleSelectable = true;
-	
-	Column rowHeader = new Column();
+    private int currentRowIndex;
+
+
+
+    Column rowHeader = new Column();
     public void installCheckBoxRowHeaderColumn(){
-        columnList.remove(rowHeader);	
-        
+        columnList.remove(rowHeader);
 		rowHeader.setId("RowHeader");
 		rowHeader.setName("RowHeader");
 		final CheckBox checkBox = new CheckBox();
-	    DOM.setStyleAttribute(checkBox.getElement(), "style", "padding-right: 0.8em");		
+	    DOM.setStyleAttribute(checkBox.getElement(), "style", "padding-right: 0.8em");
 		checkBox.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
@@ -32,13 +34,13 @@ public class DefaultTableModel extends AbstractTableModel {
 				for(int i=0;i<count;i++){
 					getRow(i).setSelected(checkBox.getValue());
 				}
-				fireTableDataChanged();	
+				fireTableDataChanged();
 			}
 		});
 		rowHeader.setColumnTitleWidget(checkBox);
 		rowHeader.setWidth("40px");
 		rowHeader.setVisible(true);
-		
+
 		columnList.add(0,rowHeader);
     }
 	public void addRow(Row row){
@@ -47,7 +49,7 @@ public class DefaultTableModel extends AbstractTableModel {
 	public void insertRow(int index,Row row){
 		rowList.add(index,row);
 	}
-	
+
 	public void addColumn(Column col){
 		columnList.add(col);
 	}
@@ -55,16 +57,27 @@ public class DefaultTableModel extends AbstractTableModel {
 		columnList.add(index, col);
 	}
 	public boolean isMultipleSelectable(){
-	    return multipleSelectable;	    
+	    return multipleSelectable;
 	}
+
+    @Override
+    public void setCurrentIndex(int index) {
+       currentRowIndex = index;
+    }
+
+    @Override
+    public int getCurrentIndex() {
+        return currentRowIndex;
+    }
+
     public void setMultipleSelectable(boolean value){
-        multipleSelectable = value;      
+        multipleSelectable = value;
     }
 	public void setMoreData(boolean hasMoreData){
 		moreData	 = hasMoreData;
 	}
 	public boolean getMoreData(){
-	  return moreData;	
+	  return moreData;
 	}
 
 	public int getRowCount() {
@@ -81,9 +94,9 @@ public class DefaultTableModel extends AbstractTableModel {
 				removed.setSortDirection(Column.NotOrdered);
 			}
 			sortedColumnList.add(column);
-			
+
 		}
-		
+
 		column.changeSortDirection();
 		RowComparator comparator = column.getComparator();
 		if(comparator != null){
@@ -95,7 +108,7 @@ public class DefaultTableModel extends AbstractTableModel {
 	public Row getRow(int rowIndex) {
 		return rowList.get(rowIndex);
 	}
-	
+
     public List<Row> getSelectedRows() {
         ArrayList<Row> selectedRows = new ArrayList<Row>();
         for (Row row: rowList) {
@@ -104,23 +117,23 @@ public class DefaultTableModel extends AbstractTableModel {
             }
         }
         return selectedRows;
-    }	
-	
+    }
+
 	public Column getColumn(int columnIndex) {
 		ArrayList<Column> list = new ArrayList<Column>();
 		for(Column col:columnList){
 			if(col.isVisible()){
 				list.add(col);
-			}	
+			}
 		}
-		return list.get(columnIndex);		
+		return list.get(columnIndex);
 	}
 	public int getColumnCount(){
 		int count = 0;
 		for(Column col:columnList){
 			if(col.isVisible()){
 				count++;
-			}	
+			}
 		}
 		return count;
 	}
@@ -128,5 +141,12 @@ public class DefaultTableModel extends AbstractTableModel {
 	public void clearRows(){
 	     rowList = new ArrayList<Row>();
 	     super.fireTableDataChanged();
-	 }	
+	 }
+
+    public void selectFirstRow() {
+       if(!rowList.isEmpty()){
+           currentRowIndex = 0;
+           rowList.get(0).setSelected(true);
+       }
+    }
 }
