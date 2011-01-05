@@ -141,6 +141,7 @@
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.search*(..))" method="getFromCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.translate*(..))" method="getFromCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.getNaturalLanguageFor*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.getReqComponentTypesForStatementType*(..))" method="getFromCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.update*(..))" method="invalidateCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.create*(..))" method="invalidateCache" />
 			<aop:around pointcut="execution(*  org.kuali.student.core.statement.service.impl.*.delete*(..))" method="invalidateCache" />
