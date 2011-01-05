@@ -656,7 +656,7 @@ class Curriculum
     end
     
     
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoCategoryRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
@@ -665,7 +665,7 @@ class Curriculum
       {'subst' => 'true'}
     )
     
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoCategoryRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
@@ -700,7 +700,7 @@ class Curriculum
 
     @request.add_thinktime(2)
 
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoCategoryRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
