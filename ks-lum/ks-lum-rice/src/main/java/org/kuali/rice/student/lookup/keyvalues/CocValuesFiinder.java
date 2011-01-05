@@ -43,12 +43,14 @@ public abstract class CocValuesFiinder extends StudentKeyValuesBase {
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 		SearchParam qpOrgType = new SearchParam();
 		qpOrgType.setKey("org.queryParam.relationType");
-		qpOrgType.setValue("kuali.org.CurriculumChild");
+		qpOrgType.setValue("kuali.org.CurriculumParent");
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
-		qpOrgType.setKey("org.queryParam.orgType");
-		qpOrgType.setValue(orgType);
+        qpOrgType.setKey("org.queryParam.orgTypeList");
+        List<String> types = new ArrayList<String>();
+        types.add(orgType);
+        qpOrgType.setValue(types);
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
@@ -58,8 +60,8 @@ public abstract class CocValuesFiinder extends StudentKeyValuesBase {
 		
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setParams(queryParamValues);
-		searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
-		
+        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr");
+
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
 
@@ -73,7 +75,7 @@ public abstract class CocValuesFiinder extends StudentKeyValuesBase {
 					} else if ("org.resultColumn.orgShortName"
 							.equals(resultCell.getKey())) {
 						orgShortName = resultCell.getValue();
-					}
+					}					
 				}
 				departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
 			}
