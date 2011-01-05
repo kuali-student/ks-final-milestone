@@ -131,7 +131,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
         //load requirements from database if they haven't been loaded yet
-        if (!rules.isInitialized() || isReadOnly) {
+        if (!rules.isInitialized() || !isReadOnly) {
             rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
