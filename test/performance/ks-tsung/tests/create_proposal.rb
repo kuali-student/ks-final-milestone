@@ -27,8 +27,8 @@ sesh = Session.new(config, 'create_proposal', probability)
 # Login is department COC
 #username = config.directory["department_coc"]["member"]["username"]
 #password = config.directory["department_coc"]["member"]["password"]
-username = 'admin'
-password = 'admin'
+username = '%%_username%%'
+password = '%%_user_password%%'
 
 li_txn = sesh.add_transaction("login")
 li_req = li_txn.add_requests
@@ -48,7 +48,7 @@ Curriculum.new(cp_req).create_proposal(
   #config.directory["department"]["name"],,
   'Psychology Dept',
   'The College of Arts and Humanities',
-  username, {:submit => true}
+  {:submit => true}
 )
 
 # Logout

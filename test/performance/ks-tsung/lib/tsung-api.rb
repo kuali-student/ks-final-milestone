@@ -58,6 +58,23 @@ class Session < TsungSessions
       config.log.debug_msg("Session-> entering write_xml_elements...")
       @@session_element[@name][:element] = self.config.sessions_element.add_element('session', {"name" => @name, "probability" => @probability, "type" => @type})
       @@session_element[@name][:written] = true
+      
+      # User db
+      # Dyn vars
+      #dynvars = @@session_element[@name][:element].add_element('setdynvars', {"sourcetype" => "file", "fileid" => "userdb", "delimiter" => ",", "order" => "iter"})
+      #dynvars.add_element('var', {"name" => "username"})
+      #dynvars.add_element('var', {"name" => "user_password"})
+      
+      # Add elements for each import file
+      config.import_files.each_key do |import_file|
+        
+        dynvars = @@session_element[@name][:element].add_element('setdynvars', 
+          {"sourcetype" => "file", "fileid" => config.import_files[import_file][:id], "delimiter" => ",", "order" => config.import_files[import_file][:order]})
+        
+        config.import_files[import_file][:vars].each { |var| dynvars.add_element('var', {"name" => var}) }
+        
+      end
+      
     end
     
     @transactions = []

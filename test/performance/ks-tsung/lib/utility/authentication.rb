@@ -34,11 +34,9 @@ class Authentication
     
     if(@request.config.sso == false)
       
-      @request.add('/spring_security_login')
-      @request.add_thinktime(opts[:thinktime])
-      @request.add('/j_spring_security_check', {"contents" => "j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}&amp;submit=Submit",
-      "content_type" => "application/x-www-form-urlencoded", "method" => "POST"})
-    
+      @request.add("/j_spring_security_check?j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}",
+        {}, {'subst' => 'true'})
+            
       @request.add('/index.html')
       @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp')
       @request.add('org.kuali.student.lum.lu.ui.main.LUMMain/org.kuali.student.lum.lu.ui.main.LUMMain.nocache.js')
@@ -64,7 +62,7 @@ class Authentication
         {
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|063131BF3C7CD9299BE6BC86D4D8C72F|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search|1|2|3|4|3|5|5|5|6|0|0|"
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|BEF72464C7539342249BDD54EB52F711|org.kuali.student.common.ui.client.service.MetadataRpcService|getMetadata|java.lang.String/2004016611|search|1|2|3|4|3|5|5|5|6|0|0|"
         }
       )
       
@@ -85,14 +83,15 @@ class Authentication
       )
       
       
+      @request.add_thinktime(opts[:thinktime])
       
       # Rice
       @request.add('/kew/ActionList.do', {}, {:rice_req => true, :external => true})
-      @request.add('/spring_security_login', {}, {:rice_req => true, :external => true})
-      @request.add('/j_spring_security_check', {"contents" => "j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}&amp;submit=Submit",
-      "content_type" => "application/x-www-form-urlencoded", "method" => "POST"}, {:rice_req => true, :external => true})
-      #<request><http url='http://appserv-2.ks.kuali.net:9080/ks-rice/spring_security_login;jsessionid=7D49071C57E9E4D5375F71B934D9216D' version='1.1' method='GET'></http></request>
-      
+      #@request.add('/login.jsp', {}, {:rice_req => true, :external => true})
+      @request.add("/j_spring_security_check?j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}", 
+        {}, {'subst' => 'true', :rice_req => true, :external => true})
+
+      @request.add('/kew/ActionList.do', {}, {:rice_req => true, :external => true})
       
     else
       ks_url_escaped = URI.escape("#{@request.url}/j_spring_cas_security_check", Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
@@ -104,10 +103,8 @@ class Authentication
   # Logout of KS
   def logout
     
-    @request.add('j_spring_security_logout')
-    @request.add('org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp')
-    # loading login page
-    @request.add('/spring_security_login')
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/j_spring_security_logout')
+    @request.add('/login.jsp')
     
   end
   

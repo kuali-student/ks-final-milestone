@@ -18,7 +18,7 @@ class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
     :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose,
-    :tsung_log_level, :directory, :rice_server, :rice_context, :tsung_element, :sessions_element, :sso, :thinktime
+    :tsung_log_level, :directory, :rice_server, :rice_context, :tsung_element, :sessions_element, :sso, :thinktime, :import_files
 
   
   def initialize
@@ -41,7 +41,7 @@ class AutoConfig
     xml_fn = ""
     while(xml_fn == "")
       print "What do you want to name your output xml file? "
-      xml_fn = gets.chomp
+      xml_fn = gets.strip
     end
     # If they specify a path then store that, otherwise stick it in config dir
     self.output = (xml_fn =~ /^(\.|\/)/ ? xml_fn : "#{self.log_dir}/#{xml_fn}")
@@ -340,6 +340,13 @@ class AutoConfig
       ua.add_text(agent)
     end
     
+    # BUG -HARDCODED
+    #options.add_element('option', {"name" => "file_server", "id" => "userdb", "value" => "#{@config_dir}/import/users.csv"})
+    parse_import_files
+    self.import_files.each_key do |import_file|
+      options.add_element('option', {"name" => "file_server", "id" => self.import_files[import_file][:id], "value" => "#{@config_dir}/import/#{import_file}"})
+    end
+    
     # DEBUG
     #self.log.debug_msg "XML doc"
     #xml_doc.write($stdout, 2)
@@ -373,7 +380,37 @@ class AutoConfig
     #  end
     #end
     
-    return dtd_path
+    dtd_path
+  end
+  
+  
+  # Gather all import files and store in hash with properties
+  def parse_import_files
+    
+    self.import_files = {}
+    
+    Dir.foreach("#{@config_dir}/import") do |file|
+      next if (file !~ /.+\.format$/) #skip if anything other than a format file
+      
+      csv_file = file.sub('.format', '.csv')
+      self.import_files[csv_file] = {}
+      file =~ /([^\.]+)/ # Get filename ahead of extension
+      self.import_files[csv_file][:id] = $1
+      
+      # Read/store format of file, which should be first 2 lines of .format file
+      # variables
+      # 
+      file_info = `head -n 2 #{@config_dir}/import/#{file}`
+      file_info =~ /(.+)\n(.+)/
+      format = $1
+      self.import_files[csv_file][:order] = $2.gsub(' ','')
+      self.import_files[csv_file][:vars] = format.gsub(' ','').split(',')
+      
+      
+    end
+    
+    self.import_files
+    
   end
 
 end
