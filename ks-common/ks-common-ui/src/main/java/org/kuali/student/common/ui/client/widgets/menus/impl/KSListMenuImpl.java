@@ -29,12 +29,17 @@ import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
 import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
 import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -133,7 +138,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
         //add style
     }
 
-    private class EventHandler implements ClickHandler, MouseOverHandler, MouseOutHandler{
+    private class EventHandler implements ClickHandler, MouseOverHandler, MouseOutHandler, FocusHandler, BlurHandler{
 
         @Override
         public void onClick(ClickEvent event) {
@@ -168,7 +173,29 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 }
             }
         }
+        
+        @Override
+        public void onFocus(FocusEvent event) {
+            Widget sender = (Widget) event.getSource();
+            if(sender instanceof MenuItemPanel){
+                if(((MenuItemPanel) sender).isSelectable() && !((MenuItemPanel) sender).isSelected()){
+                    sender.addStyleName("KS-Basic-Menu-Item-Panel-Hover");
+                    ((MenuItemPanel) sender).getItemLabel().addStyleName("KS-Basic-Menu-Item-Label-Hover");
+                }
+            }
+        }
+        
+        @Override
+        public void onBlur(BlurEvent event) {
+        	 Widget sender = (Widget) event.getSource();
+             if(sender instanceof MenuItemPanel){
+                 if(((MenuItemPanel) sender).isSelectable()){
+                     sender.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+                     ((MenuItemPanel) sender).getItemLabel().removeStyleName("KS-Basic-Menu-Item-Label-Hover");
+                 }
+             }
 
+        }
     }
 
     private void selectMenuItemPanel(MenuItemPanel toBeSelected) {
@@ -219,6 +246,9 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             this.addClickHandler(handler);
             this.addMouseOverHandler(handler);
             this.addMouseOutHandler(handler);
+            this.addFocusHandler(handler);
+            this.addBlurHandler(handler);
+            
 
             contentPanel.add(itemLabel);
             if(item.getShownIcon() != null){
