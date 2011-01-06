@@ -135,6 +135,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             currentIndex = rowPredicate.nextRow(currentIndex);
             tableModel.getRow(currentIndex).setHighlighted(true);
             tableModel.setCurrentIndex(currentIndex);
+            scrollPanel.ensureVisible(table.getWidget(currentIndex, 0));
             updateTableSelection();
         }
     }
@@ -277,7 +278,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 		}
 		if("RowHeader".equals(columnId) == false){
 			if(v != null){
-				table.setText(r, c, v.toString());
+				table.setWidget(r, c, new Label(v.toString()));
 			}
 			else{
 				table.setHTML(r, c, "&nbsp;");
