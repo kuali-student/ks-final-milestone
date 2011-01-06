@@ -45,10 +45,8 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
-        qpOrgType.setKey("org.queryParam.orgTypeList");
-        List<String> types = new ArrayList<String>();
-        types.add(orgType);
-        qpOrgType.setValue(types);
+        qpOrgType.setKey("org.queryParam.orgType");
+        qpOrgType.setValue(orgType);
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
@@ -58,7 +56,7 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setParams(queryParamValues);
-        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr");
+        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
 
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
