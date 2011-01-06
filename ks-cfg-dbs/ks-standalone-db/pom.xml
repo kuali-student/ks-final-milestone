@@ -8,4 +8,25 @@
   <artifactId>ks-standalone-db</artifactId>
   <name>KS Standalone Impex</name>
   <description>Kuali Student Standalone Impex</description>
+  <profiles>
+    <profile>
+      <id>export-impex</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>export-impex</id>
+                <configuration>
+                  <includes>^KS.*</includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

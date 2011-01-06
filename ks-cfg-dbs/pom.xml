@@ -101,7 +101,7 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.14</version>
+        <version>1.0.15-SNAPSHOT</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
@@ -129,7 +129,7 @@
       <!-- Don't include any modules -->
       <activation>
         <property>
-          <name>!ks.impex.include</name>
+          <name>skipImpex</name>
         </property>
       </activation>
     </profile>
@@ -190,10 +190,13 @@
       </build>
     </profile>
     <profile>
-      <id>generate-rice-impex-jar</id>
+      <id>generate-impex-jar</id>
       <modules>
-        <module>ks-rice-db</module>
+        <module>${ks.impex.module}</module>
       </modules>
+      <properties>
+        <ks.impex.module>ks-embedded-db</ks.impex.module>
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -337,8 +340,11 @@
     <profile>
       <id>reset-db</id>
       <modules>
-        <module>ks-embedded-db</module>
+        <module>${ks.impex.module}</module>
       </modules>
+      <properties>
+        <ks.impex.module>ks-embedded-db</ks.impex.module>
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -650,6 +656,10 @@
     </profile>
     <profile>
       <id>export-impex</id>
+      <modules>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -690,7 +700,6 @@
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
-              <forceMojoExecution>true</forceMojoExecution>
               <url>${ks.masterdb.url}</url>
               <username>${ks.masterdb.username}</username>
               <password>${ks.masterdb.password}</password>
@@ -708,7 +717,7 @@
                 <phase>none</phase>
               </execution>
               <execution>
-                <id>export-impex-for-ks-embedded-db</id>
+                <id>export-impex</id>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>exportschema</goal>
@@ -716,27 +725,9 @@
                   <goal>datadtd</goal>
                 </goals>
                 <configuration>
-                  <includes>^KS.*,^KR.*</includes>
-                  <schemaXMLFile>${basedir}/ks-embedded-db/src/main/impex/schema.xml</schemaXMLFile>
-                  <dataXMLDir>${basedir}/ks-embedded-db/src/main/impex</dataXMLDir>
-                  <copyToFile>${basedir}/ks-embedded-db/src/main/impex/data.dtd</copyToFile>
-                  <artifactId>ks-embedded-db</artifactId>
-                </configuration>
-              </execution>
-              <execution>
-                <id>export-impex-for-ks-standalone-db</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>exportschema</goal>
-                  <goal>exportdata</goal>
-                  <goal>datadtd</goal>
-                </goals>
-                <configuration>
-                  <includes>^KS.*</includes>
-                  <schemaXMLFile>${basedir}/ks-standalone-db/src/main/impex/schema.xml</schemaXMLFile>
-                  <dataXMLDir>${basedir}/ks-standalone-db/src/main/impex</dataXMLDir>
-                  <copyToFile>${basedir}/ks-standalone-db/src/main/impex/data.dtd</copyToFile>
-                  <artifactId>ks-standalone-db</artifactId>
+                  <schemaXMLFile>${basedir}/src/main/impex/schema.xml</schemaXMLFile>
+                  <dataXMLDir>${basedir}/src/main/impex</dataXMLDir>
+                  <copyToFile>${basedir}/src/main/impex/data.dtd</copyToFile>
                 </configuration>
               </execution>
             </executions>

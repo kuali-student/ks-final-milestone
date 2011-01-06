@@ -58,7 +58,6 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
-        <module>ks-cfg-dbs</module>
         <module>ks-web</module>
       </modules>
     </profile>
@@ -108,7 +107,7 @@
     <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
-    <!-- Remove this property once Maven3 is the officially supported version to use -->
+    <!-- Remove this property as soon as the devs are comfortable with Maven 3 -->
     <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
     <kuali.site.path>student/${project.version}</kuali.site.path>
     <kuali.site.download.path>org/kuali/student</kuali.site.download.path>
