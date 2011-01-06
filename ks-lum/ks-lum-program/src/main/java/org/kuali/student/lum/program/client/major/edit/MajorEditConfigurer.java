@@ -11,9 +11,9 @@ public class MajorEditConfigurer extends AbstractProgramConfigurer {
     public MajorEditConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(new MajorInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration(null));
         programSectionConfigManager.registerConfiguration(new SpecializationsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration(null));
         programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
         programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
