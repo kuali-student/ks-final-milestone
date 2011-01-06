@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 
@@ -24,10 +23,11 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
  * */
 public class Table extends Composite implements HasRetrieveAdditionalDataHandlers{
 
+    static final String SELECTED_COLOR = "#C6D9FF";
+    static final String HIGHLIGHTED_COLOR = "#2b60ec"; 
+
 	private static TableUiBinder uiBinder = GWT.create(TableUiBinder.class);
 	private List<RetrieveAdditionalDataHandler> retrieveDataHandlers = new ArrayList<RetrieveAdditionalDataHandler>();
-
-     private ArrayList<TableCellWidget> tableWidgets = new ArrayList<TableCellWidget>();
 
 	interface TableUiBinder extends UiBinder<Widget, Table> {
 	}
@@ -116,22 +116,24 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     }
 
     private void processSpaceClick() {
-        if (tableModel.isMultipleSelectable()) {
-          /*  int index = tableModel.getCurrentIndex();
-            CheckBox checkBox = (CheckBox)tableWidgets.get(index).getDefaultTableEditor();
-            checkBox.setValue(!checkBox.getValue());
-            tableModel.getRow(index).setSelected(!checkBox.getValue());
-            updateTableSelection();*/
-        }
+        int index = tableModel.getCurrentIndex();
+        Row currentRow = tableModel.getRow(index);
+        boolean selected =currentRow.isSelected();
+       if(selected){
+           currentRow.setSelected(false);
+       }else{
+           tableModel.setSelectedRow(index);
+       }
+        updateTableSelection();
     }
 
     private void processKeyUpAndDownEvent(Predicate rowPredicate) {
         int currentIndex = tableModel.getCurrentIndex();
         Row currentRow = tableModel.getRow(currentIndex);
-        if (currentRow.isSelected() && rowPredicate.tableRowCondition(currentIndex, tableModel.getRowCount())) {
-            currentRow.setSelected(false);
+        if (currentRow.isHighlighted() && rowPredicate.tableRowCondition(currentIndex, tableModel.getRowCount())) {
+            currentRow.setHighlighted(false);
             currentIndex = rowPredicate.nextRow(currentIndex);
-            tableModel.getRow(currentIndex).setSelected(true);
+            tableModel.getRow(currentIndex).setHighlighted(true);
             tableModel.setCurrentIndex(currentIndex);
             updateTableSelection();
         }
@@ -181,7 +183,6 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             }
 	        row.setSelected(!row.isSelected());
 	        updateTableSelection();
-            tableWidgets.clear();
             for (int r = 0; r < tableModel.getRowCount(); r++) {
                 updateTableCell(r, 0);
             }
@@ -191,7 +192,6 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 			}
 	        row.setSelected(!row.isSelected());
 	        updateTableSelection();
-            tableWidgets.clear();
 	        updateTableCell(rowIndex, 0);
 	    }
 	}
@@ -221,33 +221,37 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 				cellWidget.getCellEditorValue());
 	}
 
-	private void updateTableSelection() {
-		int count = tableModel.getRowCount();
-	    for (int i = 0; i < count; i++) {
-           Element tr = table.getRowFormatter().getElement(i);
-           if (tableModel.getRow(i).isSelected()) {
-               DOM.setStyleAttribute(tr, "backgroundColor", "#C6D9FF");
-           }else{
-               DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
-           }
-	    }
+    private void updateTableSelection() {
+        int count = tableModel.getRowCount();
+        for (int i = 0; i < count; i++) {
+            Element tr = table.getRowFormatter().getElement(i);
+            if (tableModel.getRow(i).isSelected()) {
+                DOM.setStyleAttribute(tr, "backgroundColor", SELECTED_COLOR);
+            } else {
+                DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
+            }
+            if (tableModel.getRow(i).isHighlighted()) {
+                DOM.setStyleAttribute(tr, "backgroundColor", HIGHLIGHTED_COLOR);
+            }
+            if (tableModel.isMultipleSelectable()) {
+                updateTableCell(i, 0);
+            }
+        }
         focusPanel.setFocus(true);
-	}
+    }
 
-	public void updateTable(TableModelEvent event) {
+    public void updateTable(TableModelEvent event) {
 		if (event.getType() == TableModelEvent.TableStructure) {
 			updateTableStructure();
 			updateTableData();
 		} else if (event.getType() == TableModelEvent.TableData) {
 			updateTableData();
 		} else if (event.getType() == TableModelEvent.CellUpdate) {
-            tableWidgets.clear();
 			updateTableCell(event.getFirstRow(), event.getColumn());
 		}
 	}
 
 	private void updateTableData() {
-        tableWidgets.clear();
 		for (int r = 0; r < tableModel.getRowCount(); r++) {
 			int columnCount = tableModel.getColumnCount();
 			for (int c = 0; c < columnCount; c++) {
@@ -281,9 +285,6 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
 			return;
 		}
         final TableCellWidget widget = new TableCellWidget(v);
-            if (widget.getDefaultTableEditor() instanceof CheckBox) {
-                tableWidgets.add(widget);
-            }
         widget.setCellEditorValue(v);
 		if (widget instanceof HasClickHandlers) {
 			((HasClickHandlers) widget)

@@ -12,4 +12,5 @@ public interface TableModel {
 
     void setCurrentIndex(int index);
     int getCurrentIndex();
+    void setSelectedRow(int index);
 }

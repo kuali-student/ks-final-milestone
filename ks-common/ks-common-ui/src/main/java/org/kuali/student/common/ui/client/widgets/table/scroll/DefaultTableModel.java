@@ -70,6 +70,18 @@ public class DefaultTableModel extends AbstractTableModel {
         return currentRowIndex;
     }
 
+    @Override
+    public void setSelectedRow(int index) {
+           for(int rowIndex = 0; rowIndex < getRowCount(); rowIndex++){
+               Row currentRow = rowList.get(rowIndex);
+               if(rowIndex == index){
+                 currentRow.setSelected(true);
+               } else if(!isMultipleSelectable()){
+                   currentRow.setSelected(false);
+               }
+           }
+    }
+
     public void setMultipleSelectable(boolean value){
         multipleSelectable = value;
     }
@@ -146,7 +158,7 @@ public class DefaultTableModel extends AbstractTableModel {
     public void selectFirstRow() {
        if(!rowList.isEmpty()){
            currentRowIndex = 0;
-           rowList.get(0).setSelected(true);
+           rowList.get(0).setHighlighted(true);
        }
     }
 }
