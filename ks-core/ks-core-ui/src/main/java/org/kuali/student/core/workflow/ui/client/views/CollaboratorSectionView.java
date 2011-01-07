@@ -64,13 +64,14 @@ public class CollaboratorSectionView extends SectionView {
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
-        
+    private InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
     private SimpleListItems permissionListItems = new SimpleListItems();
     private SimpleListItems actionRequestListItems = new SimpleListItems();
     
     private KSDropDown permissionList = new KSDropDown();
     private KSDropDown actionRequestList = new KSDropDown();
 
+    private boolean canRemoveCollaborators = false;
 	private boolean loaded = false;
 	
     private String workflowId;
@@ -78,8 +79,6 @@ public class CollaboratorSectionView extends SectionView {
 	private int numCollabs = 0;
 	
 	List<Data> newCollaborators = new ArrayList<Data>();
-    List<Data> removedCollaborators = new ArrayList<Data>();
-    private boolean canRemoveCollaborators = false;
 
     public CollaboratorSectionView(Enum<?> viewEnum, String name, String modelId) {
     	this(viewEnum, name, modelId, true);
@@ -112,6 +111,7 @@ public class CollaboratorSectionView extends SectionView {
         table = new SimpleWidgetTable(columns);
     	
 		layout.add(saveWarning);
+        layout.add(addWarning);
 		layout.add(section);
 		layout.add(addButton);
 		addButton.addStyleName("ks-section-widget");
@@ -148,7 +148,11 @@ public class CollaboratorSectionView extends SectionView {
 								actionRequestList.clear();
 								permissionList.clear();
 								refreshActionRequestListItems();
+                                addWarning.setVisible(false);
 							}
+                            else{
+                                addWarning.setVisible(true);
+                            }
 						}
 					}
 				}
