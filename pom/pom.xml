@@ -92,7 +92,7 @@
     <kuali.javadoc.report.2>test-javadoc</kuali.javadoc.report.2>
     <!-- Once the heap error with aggregate and test-aggregate is worked out, set this to false -->
     <kuali.javadoc.aggregate>true</kuali.javadoc.aggregate>
-    <kuali.project.javadoc.url>${kuali.site.public.url}apidocs/</kuali.project.javadoc.url>
+    <kuali.javadoc.project.url>${kuali.site.public.url}apidocs/</kuali.javadoc.project.url>
 
     <!-- Placeholders for javadoc link locations.  Override these in child poms needed -->
     <kuali.javadoc.link.1>${kuali.project.javadoc.url}</kuali.javadoc.link.1>
