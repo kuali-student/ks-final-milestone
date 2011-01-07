@@ -418,7 +418,7 @@ public class CourseSummaryConfigurer implements
         		LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(CreditCourseConstants.TYPE, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
-		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CREDIT_HOURS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CREDIT_VALUE_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MIN_CREDITS, LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MAX_CREDITS, LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList("resultValues", LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY, OPTIONAL)),
