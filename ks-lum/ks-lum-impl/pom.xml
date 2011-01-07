@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.1.0-BX-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -67,7 +67,7 @@
       <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
-<!-- org.kuali.student.common:ks-jta:pom:1.1.0-BX-SNAPSHOT -->
+<!-- org.kuali.student.common:ks-jta:pom:1.1.0-SNAPSHOT -->
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-jta</artifactId>
