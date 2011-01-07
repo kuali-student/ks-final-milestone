@@ -349,6 +349,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             Element element = basicWidget.getElement();
             element.setAttribute("role", "combobox");
             element.setAttribute("aria-autocomplete", "list");
+            element.setAttribute("aria-haspopup", "true");
         }
 
         public void setResults(List<SelectedResults> results) {
