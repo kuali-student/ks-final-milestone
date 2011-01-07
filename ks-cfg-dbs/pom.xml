@@ -101,7 +101,7 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.15-SNAPSHOT</version>
+        <version>1.0.17</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
@@ -119,6 +119,7 @@
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
           <dateFormat>${ks.impex.date.format}</dateFormat>
+          <includeVersionInComment>false</includeVersionInComment>
         </configuration>
       </plugin>
     </plugins>
