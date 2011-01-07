@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>53</version>
+    <version>54-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex</artifactId>
@@ -12,15 +12,16 @@
   <name>Impex Parent</name>
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <properties>
-    <!-- These 2 properties are required for multi-module builds -->
+    <!-- These 3 properties are required for multi-module builds -->
     <kuali.site.path>impex/${project.version}</kuali.site.path>
     <kuali.javadoc.project.url>${kuali.site.public.url}/apidocs/</kuali.javadoc.project.url>
-
     <kuali.site.download.path>org/kuali/maven/impex</kuali.site.download.path>
-    <spring.version>3.0.5.RELEASE</spring.version>
-    <junit.version>4.8.1</junit.version>
+
     <!-- The test-javadoc report is throwing a NullPointerException -->
     <kuali.javadoc.report.2>javadoc</kuali.javadoc.report.2>
+
+    <spring.version>3.0.5.RELEASE</spring.version>
+    <junit.version>4.8.1</junit.version>
   </properties>
   <developers>
     <developer>
