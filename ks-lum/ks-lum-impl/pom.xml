@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-BX-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -28,12 +28,12 @@
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
@@ -54,17 +54,25 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
+      <scope>test</scope>
+    </dependency>
+<!-- org.kuali.student.common:ks-jta:pom:1.1.0-BX-SNAPSHOT -->
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-jta</artifactId>
+      <version>${project.parent.version}</version>
+      <type>pom</type>
       <scope>test</scope>
     </dependency>
     <!-- This is a temp fix for SecurityContextHolder -->
@@ -84,6 +92,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-hibernate</artifactId>
+          <version>${project.parent.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
@@ -95,6 +104,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-eclipselink</artifactId>
+          <version>${project.parent.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
@@ -109,6 +119,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-cxf</artifactId>
+          <version>${project.parent.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
@@ -120,6 +131,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-metro</artifactId>
+          <version>${project.parent.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
