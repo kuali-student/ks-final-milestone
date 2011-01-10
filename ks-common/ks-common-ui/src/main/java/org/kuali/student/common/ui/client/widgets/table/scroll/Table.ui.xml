@@ -71,12 +71,18 @@
 	  background-repeat:no-repeat;
   }
 
+  .selectedHeaderCell{
+        background: #686868;
+      }
+
   </ui:style>
   <!-- background-image:url("./images/up_arrow_white.png"); -->
   <g:HTMLPanel ui:field='panel' styleName='{style.outer}'>
       <table  cellSpacing='0' cellPadding='0'>
-        <tr><td class='{style.tableColumnHeader}'> 
+        <tr><td class='{style.tableColumnHeader}'>
+          <g:FocusPanel ui:field='headerFocusPanel'>
 	      <g:FlexTable ui:field='header' styleName='{style.header}' cellSpacing='0' cellPadding='0'/>
+           </g:FocusPanel>
 	      </td>
 <!-- 	      <td>
 	      <g:Label styleName='{style.tableHeaderControllerButton}'/>
