@@ -287,8 +287,17 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
-        choosingSection.addWidget(
-                new HTML("<b>Add a course, course set, or course range</b>"));
+        HTML prompt;
+        if(cluSetType.equals("kuali.cluSet.type.Program")){
+            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
+            prompt = new HTML("Add program or program sets. You may  <br/>"
+                    + "add any combination of programs or program sets.");
+        }
+        else{
+            choosingSection.addWidget(new HTML("<b>Add a course, course set, or course range</b>"));
+            prompt = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets.");
+        }
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -303,9 +312,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
-        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
-            "add any combination of courses, dynamic course ranges, or Course sets. ");
-        this.addWidget(html);
+        this.addWidget(prompt);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }
