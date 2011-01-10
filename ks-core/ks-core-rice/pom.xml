@@ -6,7 +6,7 @@
   <parent>
     <artifactId>ks-core</artifactId>
     <groupId>org.kuali.student.core</groupId>
-    <version>1.1.1-FOO</version>
+    <version>1.1.1-FOO-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
