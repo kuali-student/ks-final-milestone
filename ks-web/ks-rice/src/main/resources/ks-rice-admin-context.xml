@@ -19,9 +19,9 @@
     <bean id="ksAdminDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="coreDataSource" />
-    <property name="maxPoolSize" value="${ks.core.datasource.maxSize}" />
+    <property name="maxPoolSize" value="${ks.core.datasource.pool.maxSize}" />
     <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${ks.core.datasource.validationQuery}" />
+    <property name="testQuery" value="${ks.core.datasource.pool.validationQuery}" />
     <property name="allowLocalTransactions" value="true" />
     <property name="driverProperties">
         <props>
