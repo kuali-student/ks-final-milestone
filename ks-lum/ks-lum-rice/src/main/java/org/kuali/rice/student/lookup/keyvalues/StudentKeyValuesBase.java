@@ -52,11 +52,16 @@ public abstract class StudentKeyValuesBase extends KeyValuesBase {
 	 * @param orgType
 	 * @return
 	 */
+	
+	//** question from Bonnie: Why the input parameters have orgId, orgShortName, orgLongName and orgType,
+	//** but the output of KeyLabelPair is constructed with orgShortName for both key and label?
+	//** This looks weird for me.
 	protected static KeyLabelPair buildKeyLabelPair(String orgId, String orgShortName, String orgLongName, String orgType) {
 		if (StringUtils.isBlank(orgShortName)) {
 			throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
 		}
-		return new KeyLabelPair(orgShortName, orgShortName);
+		//	return new KeyLabelPair(orgShortName, orgShortName);
+		return new KeyLabelPair(orgId, orgShortName);
 	}
 
 }
