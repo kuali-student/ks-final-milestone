@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.1-FOO-SNAPSHOT</version>
+  <version>1.1.1-FOO</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>${kuali.site.public.url}</url>
@@ -102,9 +102,9 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/ks-1.1-automated-release-testing</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/deploymentlab/branches/ks-1.1-automated-release-testing</developerConnection>
-    <url>https://test.kuali.org/svn/deploymentlab/branches/ks-1.1-automated-release-testing</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/student-1.1.1-FOO</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/deploymentlab/tags/student-1.1.1-FOO</developerConnection>
+    <url>https://test.kuali.org/svn/deploymentlab/tags/student-1.1.1-FOO</url>
   </scm>
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3 -->
