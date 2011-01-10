@@ -462,7 +462,7 @@
     </bean>
 
     <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
+        <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
