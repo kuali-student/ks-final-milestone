@@ -583,19 +583,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>${kuali.gpg.sign.phase}</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <version>2.2</version>
         <configuration>
