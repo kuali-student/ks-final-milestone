@@ -56,7 +56,7 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 	
 				}
 			}
-			LOG.info("Invalidating Cache");
+			LOG.info("Invalidating Cache: " + cacheName);
 			cacheManager.getCache(cacheName).removeAll();
 		}
 		return result;
@@ -77,15 +77,14 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 		}
 		String cacheKey = getCacheKey(pjp);
 
-		LOG.info("Looking in Cache");
 		Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
 		Object result = null;
 		if (cachedResult == null) {
 			result = pjp.proceed();
-			LOG.info("Not Found so Storing to Cache");
+			LOG.info("Storing to Cache: " + cacheName);
 			cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
 		} else {
-			LOG.info("Found in Cache");
+			LOG.info("Found in Cache: " + cacheName);
 			result = cachedResult.getValue();
 		}
 
