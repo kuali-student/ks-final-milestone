@@ -665,7 +665,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <properties>
         <kuali.nexus.sonatype.url>https://oss.sonatype.org</kuali.nexus.sonatype.url>
         <kuali.repository.release.id>sonatype-nexus-staging</kuali.repository.release.id>
-        <kuali.repository.release.name>Nexus Release Repository</kuali.repository.release.name>
+        <kuali.repository.release.name>Sonatype Nexus Release Repository</kuali.repository.release.name>
         <kuali.repository.release.url>${kuali.nexus.sonatype.url}/service/local/staging/deploy/maven2/</kuali.repository.release.url>
       </properties>
       <build>
