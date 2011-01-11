@@ -172,6 +172,12 @@ class AutoConfig
     end while (add_agent == 'y')
     
     #
+    # Thinktime
+    #
+    print "Do you want to insert user thinktime? [y/n] "
+    self.thinktime = (gets.chomp == 'y' ? true : false)
+    
+    #
     # Execute
     #
     print "Do you want to execute tsung now? [y/n] "
