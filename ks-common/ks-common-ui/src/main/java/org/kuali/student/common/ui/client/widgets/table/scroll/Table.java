@@ -107,7 +107,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             @Override
             public void onKeyDown(KeyDownEvent event) {
                 int code = event.getNativeKeyCode();
-                 if (code == KeyCodes.KEY_RIGHT) {
+                if (code == KeyCodes.KEY_RIGHT) {
                     processKeyLeftRight(TablePredicateFactory.DOWN_RIGHT_PREDICATE);
                 } else if (code == KeyCodes.KEY_LEFT) {
                     processKeyLeftRight(TablePredicateFactory.UP_LEFT_PREDICATE);
@@ -250,7 +250,20 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     }
 
     private void onTableHeaderClicked(int cellIndex) {
-        removeHeaderSelection();
+        if (cellIndex == 0 && tableModel.isMultipleSelectable()) {
+            Widget widget = header.getWidget(0, 0);
+            if (widget instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) widget;
+                boolean correctValue = !checkBox.getValue();
+                checkBox.setValue(correctValue);
+                for (int row = 0; row < tableModel.getRowCount(); row++) {
+                    tableModel.getRow(row).setSelected(correctValue);
+                    updateTableSelection();
+                }
+            }
+        } else {
+            removeHeaderSelection();
+        }
         headerSelectedCellIndex = cellIndex;
         Column col = tableModel.getColumn(cellIndex);
         tableModel.sort(col);
