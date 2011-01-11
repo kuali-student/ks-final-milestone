@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -146,6 +146,15 @@
     <!-- Make this the same as groupId after replacing "." with "/" -->
     <kuali.site.download.path>org/kuali</kuali.site.download.path>
     <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/${kuali.site.download.prefix}/${kuali.site.download.path}/${project.artifactId}/${project.version}/</kuali.site.download.url>
+
+
+    <kuali.repository.release.id>kuali.release</kuali.repository.release.id>
+    <kuali.repository.release.name>Kuali Release Repository</kuali.repository.release.name>
+    <kuali.repository.release.url>s3://maven.kuali.org/release</kuali.repository.release.url>
+
+    <kuali.repository.snapshot.id>kuali.snapshot</kuali.repository.snapshot.id>
+    <kuali.repository.snapshot.name>Kuali Snapshot Repository</kuali.repository.snapshot.name>
+    <kuali.repository.snapshot.url>s3://maven.kuali.org/snapshot</kuali.repository.snapshot.url>
   </properties>
   <repositories>
     <repository>
@@ -181,14 +190,14 @@
       <url>${kuali.site.publish.url}</url>
     </site>
     <repository>
-      <id>kuali.release</id>
-      <name>Kuali Release Repository</name>
-      <url>s3://maven.kuali.org/release</url>
+      <id>${kuali.repository.release.id}</id>
+      <name>${kuali.repository.release.name}</name>
+      <url>${kuali.repository.release.url}</url>
     </repository>
     <snapshotRepository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>s3://maven.kuali.org/snapshot</url>
+      <id>${kuali.repository.snapshot.id}</id>
+      <name>${kuali.repository.snapshot.name}</name>
+      <url>${kuali.repository.snapshot.url}</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
@@ -651,6 +660,18 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
     </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>sonatype-oss-release</id>
+      <properties>
+        <kuali.repository.release.id>sonatype-nexus-staging</kuali.repository.release.id>
+        <kuali.repository.release.name>Nexus Release Repository</kuali.repository.release.name>
+        <kuali.repository.release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</kuali.repository.release.url>
+
+        <kuali.repository.snapshot.id>sonatype-nexus-snapshots</kuali.repository.snapshot.id>
+        <kuali.repository.snapshot.name>Sonatype Nexus Snapshots</kuali.repository.snapshot.name>
+        <kuali.repository.snapshot.url>https://oss.sonatype.org/content/repositories/snapshots/</kuali.repository.snapshot.url>
+      </properties>
+    </profile>
     <profile>
       <id>kuali-release</id>
       <build>
