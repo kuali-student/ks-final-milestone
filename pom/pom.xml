@@ -95,16 +95,16 @@
     <kuali.javadoc.project.url>${kuali.site.public.url}apidocs/</kuali.javadoc.project.url>
 
     <!-- Placeholders for javadoc link locations.  Override these in child poms needed -->
-    <kuali.javadoc.link.1>${kuali.javadoc.project.url}</kuali.javadoc.link.1>
-    <kuali.javadoc.link.2>http://download.oracle.com/javase/6/docs/api/</kuali.javadoc.link.2>
-    <kuali.javadoc.link.3>${kuali.javadoc.link.2}</kuali.javadoc.link.3>
-    <kuali.javadoc.link.4>${kuali.javadoc.link.2}</kuali.javadoc.link.4>
-    <kuali.javadoc.link.5>${kuali.javadoc.link.2}</kuali.javadoc.link.5>
-    <kuali.javadoc.link.6>${kuali.javadoc.link.2}</kuali.javadoc.link.6>
-    <kuali.javadoc.link.7>${kuali.javadoc.link.2}</kuali.javadoc.link.7>
-    <kuali.javadoc.link.8>${kuali.javadoc.link.2}</kuali.javadoc.link.8>
-    <kuali.javadoc.link.9>${kuali.javadoc.link.2}</kuali.javadoc.link.9>
-    <kuali.javadoc.link.10>${kuali.javadoc.link.2}</kuali.javadoc.link.10>
+    <kuali.javadoc.link.1>http://download.oracle.com/javase/6/docs/api/</kuali.javadoc.link.1>
+    <kuali.javadoc.link.2>${kuali.javadoc.link.1}</kuali.javadoc.link.2>
+    <kuali.javadoc.link.3>${kuali.javadoc.link.1}</kuali.javadoc.link.3>
+    <kuali.javadoc.link.4>${kuali.javadoc.link.1}</kuali.javadoc.link.4>
+    <kuali.javadoc.link.5>${kuali.javadoc.link.1}</kuali.javadoc.link.5>
+    <kuali.javadoc.link.6>${kuali.javadoc.link.1}</kuali.javadoc.link.6>
+    <kuali.javadoc.link.7>${kuali.javadoc.link.1}</kuali.javadoc.link.7>
+    <kuali.javadoc.link.8>${kuali.javadoc.link.1}</kuali.javadoc.link.8>
+    <kuali.javadoc.link.9>${kuali.javadoc.link.1}</kuali.javadoc.link.9>
+    <kuali.javadoc.link.10>${kuali.javadoc.link.1}</kuali.javadoc.link.10>
     
     <!-- 
       Setting this to true causes Maven to try and contact any url's listed for every dependency in the project.
