@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -667,6 +667,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <kuali.repository.release.id>sonatype-nexus-staging</kuali.repository.release.id>
         <kuali.repository.release.name>Sonatype Nexus Release Repository</kuali.repository.release.name>
         <kuali.repository.release.url>${kuali.nexus.sonatype.url}/service/local/staging/deploy/maven2/</kuali.repository.release.url>
+        <kuali.nexus.sonatype.description>Releasing version ${project.version} of ${project.artifactId}</kuali.nexus.sonatype.description>
       </properties>
       <build>
         <plugins>
@@ -678,6 +679,28 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
               <nexusUrl>${kuali.nexus.sonatype.url}</nexusUrl>
               <serverAuthId>${kuali.repository.release.id}</serverAuthId>
             </configuration>
+            <executions>
+              <execution>
+                <id>sonatype-nexus-close</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>staging-close</goal>
+                </goals>
+                <configuration>
+                  <description>Staging Close: ${kuali.nexus.sonatype.description}</description>
+                </configuration>
+              </execution>
+              <execution>
+                <id>sonatype-nexus-release</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>staging-release</goal>
+                </goals>
+                <configuration>
+                  <description>Staging Release: ${kuali.nexus.sonatype.description}</description>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
