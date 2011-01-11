@@ -27,6 +27,16 @@ public class DefaultTableModel extends AbstractTableModel {
         rowHeader.setName("RowHeader");
         final CheckBox checkBox = new CheckBox();
         checkBox.setTabIndex(-1);
+        checkBox.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                int count = getRowCount();
+                for (int i = 0; i < count; i++) {
+                    getRow(i).setSelected(checkBox.getValue());
+                }
+                fireTableDataChanged();
+            }
+        });
         DOM.setStyleAttribute(checkBox.getElement(), "style", "padding-right: 0.8em");
         rowHeader.setColumnTitleWidget(checkBox);
         rowHeader.setWidth("40px");

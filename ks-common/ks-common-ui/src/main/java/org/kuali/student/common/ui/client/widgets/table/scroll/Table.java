@@ -114,7 +114,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
                 } else if (code == KeyCodes.KEY_DOWN) {
                     processKeyDownOnHeader();
                 } else if (code == ' ') {
-                    onTableHeaderClicked(headerSelectedCellIndex);
+                    onTableHeaderClicked(headerSelectedCellIndex, true);
                 }
             }
         });
@@ -245,12 +245,12 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     void onTableHeaderClicked(ClickEvent event) {
         Cell cell = header.getCellForEvent(event);
         if (cell != null) {
-            onTableHeaderClicked(cell.getCellIndex());
+            onTableHeaderClicked(cell.getCellIndex(), false);
         }
     }
 
-    private void onTableHeaderClicked(int cellIndex) {
-        if (cellIndex == 0 && tableModel.isMultipleSelectable()) {
+    private void onTableHeaderClicked(int cellIndex, boolean propagateEventIfNotSortingColumn) {
+        if (cellIndex == 0 && tableModel.isMultipleSelectable() && propagateEventIfNotSortingColumn) {
             Widget widget = header.getWidget(0, 0);
             if (widget instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) widget;
