@@ -22,9 +22,6 @@ import java.util.List;
  */
 public class Table extends Composite implements HasRetrieveAdditionalDataHandlers {
 
-    static final String SELECTED_COLOR = "#C6D9FF";
-    static final String HIGHLIGHTED_COLOR = "#2b60ec";
-
     private int headerSelectedCellIndex = -1;
 
     private FocusType focusType = FocusType.NONE;
@@ -290,12 +287,12 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
         for (int i = 0; i < count; i++) {
             Element tr = table.getRowFormatter().getElement(i);
             if (tableModel.getRow(i).isSelected()) {
-                DOM.setStyleAttribute(tr, "backgroundColor", SELECTED_COLOR);
+            	tr.setAttribute("class", "table-row-selected");
             } else {
-                DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
+                tr.setAttribute("class", "table-row");
             }
             if (tableModel.getRow(i).isHighlighted()) {
-                DOM.setStyleAttribute(tr, "backgroundColor", HIGHLIGHTED_COLOR);
+            	tr.setAttribute("class", "table-row-hover");
             }
             if (tableModel.isMultipleSelectable()) {
                 updateTableCell(i, 0);

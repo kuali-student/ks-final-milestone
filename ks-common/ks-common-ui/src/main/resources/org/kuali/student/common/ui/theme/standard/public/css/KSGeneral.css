@@ -364,3 +364,18 @@ position:relative;
 .bold{
 	font-weight: bold;
 }
+
+.table-row{
+	background-color: white;
+	color: black;
+}
+
+.table-row-hover{
+	background-color: #024FD0;
+	color: white;
+}
+
+.table-row-selected{
+	background-color: #C6D9FF;
+	color: black;
+}

@@ -24,7 +24,7 @@ public class MouseHoverFlexTable extends FlexTable {
         switch (DOM.eventGetType(event)) {
             case Event.ONMOUSEOVER: {
                 Element tr = DOM.getParent(td);
-                DOM.setStyleAttribute(tr, "backgroundColor", "#2b60ec");
+                tr.setAttribute("class", "table-row-hover");
 
                 break;
             }
@@ -33,9 +33,9 @@ public class MouseHoverFlexTable extends FlexTable {
                 for (int r = 0; r < count; r++) {
                     Element tr = getRowFormatter().getElement(r);
                     if (tableModel.getRow(r).isSelected()) {
-                        DOM.setStyleAttribute(tr, "backgroundColor", Table.SELECTED_COLOR);
+                    	tr.setAttribute("class", "table-row-selected");
                     }else{
-                        DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
+                    	tr.setAttribute("class", "table-row");
                     }
                 }
                 break;
