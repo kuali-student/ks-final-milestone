@@ -29,7 +29,7 @@ public class DivisionCommitteeQualifierResolver extends AbstractCocOrgQualifierR
 		if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
 			orgId = getAttribute(attributeSets, KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		}
-		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_DIVISION,KualiStudentKimAttributes.QUALIFICATION_DIVISION,KualiStudentKimAttributes.QUALIFICATION_DIVISION_ID);
+		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_DIVISION, KualiStudentKimAttributes.QUALIFICATION_DIVISION_ID);
 	}
 
 }
