@@ -121,7 +121,7 @@
     <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>-Pkuali-release</kuali.release.arguments>
-    <!-- Overriding this to "verify" will cause artficats to be signed by the maven-gpg-plugin -->
+    <!-- Overriding this to "verify" will cause artifacts to be signed by the maven-gpg-plugin -->
     <kuali.gpg.sign.phase>none</kuali.gpg.sign.phase>
 
     <!-- Overriding this to "verify" will cause sources to be bundled as jar's in addition to the binaries -->
