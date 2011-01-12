@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -205,4 +206,13 @@ public class SearchResultListItems implements ListItems{
         return null;
     }
     
+    /**
+     * 
+     * This method returns an unmodifiable view of the SearchResultRow list
+     * 
+     * @return
+     */
+    public List<SearchResultRow> getReadOnlyResults() {
+        return Collections.unmodifiableList(resultDataMap);
+    }
 }
