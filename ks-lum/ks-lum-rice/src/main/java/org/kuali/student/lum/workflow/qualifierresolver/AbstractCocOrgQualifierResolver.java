@@ -145,8 +145,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 		return results;
 	}
 
-	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,
-			String orgShortNameKey, String orgIdKey) {
+	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		if(results!=null){
 			for(SearchResultRow result:results){
@@ -162,9 +161,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 						resolvedOrgShortName = resultCell.getValue();
 					}
 				}
-				if(orgShortNameKey!=null){
-					attributeSet.put(orgShortNameKey, resolvedOrgShortName);
-				}
+
 				if(orgIdKey!=null){
 					attributeSet.put(orgIdKey, resolvedOrgId);
 				}
@@ -176,7 +173,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 		return returnAttrSetList;
 	}
 	
-	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey,String orgIdKey){
+	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey){
 		List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
 		List<OrgInfo> orgsForRouting = null;
 		
@@ -195,7 +192,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 				for(OrgInfo orgForRouting:orgsForRouting){
 					if(orgType!=null && orgType.equals(orgForRouting.getType())){
 						List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
-						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
+						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgIdKey));
 					}
 				}
 			}
