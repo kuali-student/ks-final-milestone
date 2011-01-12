@@ -670,6 +670,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <kuali.nexus.sonatype.description>Releasing version ${project.version} of ${project.artifactId}</kuali.nexus.sonatype.description>
         <kuali.nexus.sonatype.phase>deploy</kuali.nexus.sonatype.phase>
         <kuali.nexus.sonatype.automatic>true</kuali.nexus.sonatype.automatic>
+        <kuali.nexus.sonatype.release.repository.id>releases</kuali.nexus.sonatype.release.repository.id>
       </properties>
       <build>
         <plugins>
@@ -701,6 +702,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 </goals>
                 <configuration>
                   <description>Staging Release: ${kuali.nexus.sonatype.description}</description>
+                  <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
                 </configuration>
               </execution>
             </executions>
