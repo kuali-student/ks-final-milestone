@@ -674,8 +674,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <kuali.repository.release.name>Sonatype Nexus Release Repository</kuali.repository.release.name>
         <kuali.repository.release.url>${kuali.nexus.sonatype.url}/service/local/staging/deploy/maven2/</kuali.repository.release.url>
 
-        <!-- Flip this to true once the nexus-maven-plugin starts behaving properly -->
-
         <!-- These are for reference only.  Not currently publishing snapshots to Sonatype's Nexus instance 
         <kuali.repository.snapshot.id>sonatype-nexus-snapshots</kuali.repository.snapshot.id>
         <kuali.repository.snapshot.name>Sonatype Nexus Snapshots</kuali.repository.snapshot.name>
