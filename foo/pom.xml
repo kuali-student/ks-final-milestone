@@ -18,8 +18,8 @@
     but may be overridden/configured by individual projects as needed
   -->
   <groupId>org.kuali</groupId>
-  <artifactId>kuali-foo</artifactId>
-  <version>100000-SNAPSHOT</version>
+  <artifactId>kuali-test</artifactId>
+  <version>900-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -201,9 +201,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/foo</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/foo</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
   </scm>
   <build>
     <extensions>
@@ -669,7 +669,16 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <kuali.repository.release.url>${kuali.nexus.sonatype.url}/service/local/staging/deploy/maven2/</kuali.repository.release.url>
         <kuali.nexus.sonatype.description>Releasing version ${project.version} of ${project.artifactId}</kuali.nexus.sonatype.description>
         <kuali.nexus.sonatype.phase>deploy</kuali.nexus.sonatype.phase>
-        <kuali.nexus.sonatype.automatic>true</kuali.nexus.sonatype.automatic>
+
+        <!-- Flip this to true once the nexus-maven-plugin starts behaving properly -->
+        <kuali.nexus.sonatype.automatic>false</kuali.nexus.sonatype.automatic>
+        <kuali.nexus.sonatype.release.repository.id>releases</kuali.nexus.sonatype.release.repository.id>
+
+        <!-- These are for reference only.  Not currently publishing snapshots to Sonatype's Nexus instance 
+        <kuali.repository.snapshot.id>sonatype-nexus-snapshots</kuali.repository.snapshot.id>
+        <kuali.repository.snapshot.name>Sonatype Nexus Snapshots</kuali.repository.snapshot.name>
+        <kuali.repository.snapshot.url>https://oss.sonatype.org/content/repositories/snapshots/</kuali.repository.snapshot.url>
+        -->
       </properties>
       <build>
         <plugins>
@@ -701,6 +710,17 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 </goals>
                 <configuration>
                   <description>Staging Release: ${kuali.nexus.sonatype.description}</description>
+                  <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
+                </configuration>
+              </execution>
+              <execution>
+                <id>sonatype-nexus-drop</id>
+                <phase>${kuali.nexus.sonatype.phase}</phase>
+                <goals>
+                  <goal>staging-drop</goal>
+                </goals>
+                <configuration>
+                  <description>Staging Drop: ${kuali.nexus.sonatype.description}</description>
                 </configuration>
               </execution>
             </executions>
