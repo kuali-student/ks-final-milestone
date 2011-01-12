@@ -30,7 +30,7 @@ public class CollegeCommitteeQualifierResolver extends AbstractCocOrgQualifierRe
 		if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
 			orgId = getAttribute(attributeSets, KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		}
-		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_COLLEGE,KualiStudentKimAttributes.QUALIFICATION_COLLEGE,KualiStudentKimAttributes.QUALIFICATION_COLLEGE_ID);
+		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_COLLEGE,KualiStudentKimAttributes.QUALIFICATION_COLLEGE_ID);
 	}
 
 }
