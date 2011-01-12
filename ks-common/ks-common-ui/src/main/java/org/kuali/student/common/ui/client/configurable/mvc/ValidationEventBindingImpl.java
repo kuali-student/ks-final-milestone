@@ -15,6 +15,11 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
@@ -23,59 +28,49 @@ import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandler
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.HasBlurHandlers;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
  * Adds the appropriate handler to the widget contained within the FieldDescriptor for when
  * to set that the field has had focus/user interaction based on what type of widget
- * @author Kuali Student Team
  *
+ * @author Kuali Student Team
  */
-public class ValidationEventBindingImpl  implements ValidationEventBinding {
-    
+public class ValidationEventBindingImpl implements ValidationEventBinding {
+
     public void bind(final FieldDescriptor fd) {
-    	Widget w = fd.getFieldWidget();
-        
-        if (w instanceof HasSelectionChangeHandlers){
-        	((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler(){
-				@Override
-				public void onSelectionChange(SelectionChangeEvent event) {
-					if(event.isUserInitiated()){
-						fd.setHasHadFocus(true);
-	                	fd.getValidationRequestCallback().exec(true);
-					}
-				}
-			});
-        }
-        else if (w instanceof HasBlurHandlers) {
-            ((HasBlurHandlers)w).addBlurHandler(new BlurHandler() {
-                public void onBlur(BlurEvent event) {
-                	fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
+        Widget w = fd.getFieldWidget();
+
+        if (w instanceof HasSelectionChangeHandlers) {
+            ((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    if (event.isUserInitiated()) {
+                        fd.setHasHadFocus(true);
+                        fd.getValidationRequestCallback().exec(true);
+                    }
                 }
             });
-        }
-        else if(w instanceof HasFocusLostCallbacks){
-        	((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>(){
-				@Override
-				public void exec(Boolean result) {
-					fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
-				}
-			});
-        }
-        else if(w instanceof KSLabel 
-        		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite
-        		|| w instanceof MultiplicityGroup){
-        	//Do nothing these are valid but do not fire validation events (maybe?)
-        }
-        else {
-        	GWT.log("The field with key: " + fd.getFieldKey() +
-        			" does not use a widget which implements an interface that can perform on the fly validation", null);
+        } else if (w instanceof HasBlurHandlers) {
+            ((HasBlurHandlers) w).addBlurHandler(new BlurHandler() {
+                public void onBlur(BlurEvent event) {
+                    fd.setHasHadFocus(true);
+                    fd.getValidationRequestCallback().exec(true);
+                }
+            });
+        } else if (w instanceof HasFocusLostCallbacks) {
+            ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    fd.setHasHadFocus(true);
+                    fd.getValidationRequestCallback().exec(true);
+                }
+            });
+        } else if (w instanceof KSLabel
+                || w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite
+                || w instanceof MultiplicityGroup) {
+            //Do nothing these are valid but do not fire validation events (maybe?)
+        } else {
+            GWT.log("The field with key: " + fd.getFieldKey() +
+                    " does not use a widget which implements an interface that can perform on the fly validation", null);
         }
 
     }
