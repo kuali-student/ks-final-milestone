@@ -222,7 +222,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                             cluInformation.setCredits(credits);
                         }
-                        cluInformation.setVerIndependentId(cluInfo.getVersionInfo().getVersionIndId());
+                        cluInformation.setVerIndependentId(cluInfo.getId());
                         result.add(cluInformation);
                     }
                 } catch (Exception e) {
