@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 /**
  * ValidatorFactory provides a mechanism to 
  *  
@@ -14,7 +16,7 @@ import java.util.Map;
  */
 
 public class ValidatorFactory {
-
+	private static final Logger LOG = Logger.getLogger(ValidatorFactory.class);
 	private Map<String,Validator> customValidators = null; 
 	private DefaultValidatorImpl defaultValidator;
 	
@@ -38,7 +40,7 @@ public class ValidatorFactory {
 	
 	public Validator getValidator(String customValidator) {
 	
-	    System.out.println("Retrieving validatior:" + customValidator);
+		LOG.info("Retrieving validatior:" + customValidator);
 	    if(null == customValidators) {
 	        initializeMap();
 	    }

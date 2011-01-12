@@ -20,6 +20,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Kuali Rice Standalone</display-name>
 
+    <context-param>
+      <param-name>log4j.config.file.location</param-name>
+      <param-value>${user.home}/kuali/main/dev/ks-embedded-log4j.properties</param-value>
+    </context-param>
+
     <listener>
       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
     </listener>

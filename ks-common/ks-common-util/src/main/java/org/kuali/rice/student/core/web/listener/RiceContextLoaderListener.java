@@ -16,7 +16,10 @@
 package org.kuali.rice.student.core.web.listener;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -49,6 +52,7 @@ public class RiceContextLoaderListener implements ServletContextListener {
 	public static final String RICE_STANDALONE_EXECUTE_MESSAGE_FETCHER = "rice.standalone.execute.messageFetcher";
 
 	private static final String DEFAULT_LOG4J_CONFIG = "org/kuali/rice/core/logging/default-log4j.properties";
+	private static final String LOG4J_CONFIG_PARAM = "log4j.config.file.location";
 	private static final String DEFAULT_SPRING_BEANS = "classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml";
 	private static final String DEFAULT_SPRING_BEANS_REPLACEMENT_VALUE = "${bootstrap.spring.file}";
 
@@ -62,7 +66,7 @@ public class RiceContextLoaderListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		long startInit = System.currentTimeMillis();
 
-		initLog4j();
+		initLog4j(sce);
 
 		LOG.info("Initializing Kuali Rice Standalone...");
 
@@ -99,10 +103,25 @@ public class RiceContextLoaderListener implements ServletContextListener {
 
 	}
 
-	protected void initLog4j() {
+	protected void initLog4j(ServletContextEvent sce) {
 		try {
 			Properties p = new Properties();
-			p.load(getClass().getClassLoader().getResourceAsStream(DEFAULT_LOG4J_CONFIG));
+			InputStream log4jProperties = null;
+			String log4jConfigFile = sce.getServletContext().getInitParameter(LOG4J_CONFIG_PARAM);
+			
+			if(log4jConfigFile != null){
+				try{
+					log4jProperties = new FileInputStream(log4jConfigFile);
+				}catch(FileNotFoundException e){
+					System.out.println("Context Parameter "+LOG4J_CONFIG_PARAM+" was set to '"+log4jConfigFile+"', but not file was found. Using default logging properties instead.");
+				}
+			}
+
+			if(log4jProperties == null){
+				log4jProperties = getClass().getClassLoader().getResourceAsStream(DEFAULT_LOG4J_CONFIG);
+			}
+			
+			p.load(log4jProperties);
 			PropertyConfigurator.configure(p);
 		} catch (Exception e) {
 			// if there is an issue initializing logging system, let's be sure to print the stack trace so we can debug!

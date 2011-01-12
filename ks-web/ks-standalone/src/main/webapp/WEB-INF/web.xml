@@ -18,6 +18,11 @@
 
 <web-app>
 
+    <context-param>
+      <param-name>log4j.config.file.location</param-name>
+      <param-value>${user.home}/kuali/main/dev/ks-standalone-log4j.properties</param-value>
+    </context-param>
+
     <listener>
       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
     </listener>

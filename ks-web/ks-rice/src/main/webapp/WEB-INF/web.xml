@@ -20,6 +20,22 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>Kuali Rice Standalone</display-name>
 
+    <context-param>
+      <param-name>environment</param-name>
+      <param-value>dev</param-value>
+    </context-param>
+
+    <!-- Change this if you want to use a different Spring file -->
+    <context-param>
+      <param-name>kew.bootstrap.spring.file</param-name>
+      <param-value>${bootstrap.spring.file}</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>log4j.config.file.location</param-name>
+      <param-value>${user.home}/kuali/main/dev/ks-rice-log4j.properties</param-value>
+    </context-param>
+
     <listener>
       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
     </listener>
@@ -33,17 +49,6 @@
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-    <context-param>
-      <param-name>environment</param-name>
-      <param-value>dev</param-value>
-    </context-param>
-
-    <!-- Change this if you want to use a different Spring file -->
-    <context-param>
-      <param-name>kew.bootstrap.spring.file</param-name>
-      <param-value>${bootstrap.spring.file}</param-value>
-    </context-param>
 
     <filter>
         <filter-name>HideWebInfFilter</filter-name>
