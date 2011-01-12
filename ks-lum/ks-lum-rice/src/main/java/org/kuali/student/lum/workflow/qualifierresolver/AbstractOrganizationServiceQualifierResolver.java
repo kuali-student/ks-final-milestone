@@ -136,8 +136,11 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         }
         return results;
     }
-
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgShortNameKey, String orgIdKey) {
+    
+    /*
+     *  Add attributes for derived role and adhoc routing participants to the results
+     */
+    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
         List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
         if (results != null) {
             for (SearchResultRow result : results) {
@@ -150,9 +153,6 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
                     } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
                         resolvedOrgShortName = resultCell.getValue();
                     }
-                }
-                if (orgShortNameKey != null) {
-                    attributeSet.put(orgShortNameKey, resolvedOrgShortName);
                 }
                 if (orgIdKey != null) {
                     attributeSet.put(orgIdKey, resolvedOrgId);
