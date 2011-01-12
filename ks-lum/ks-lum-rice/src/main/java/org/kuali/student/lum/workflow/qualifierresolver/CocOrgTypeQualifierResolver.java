@@ -94,7 +94,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
               attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
-        }      
+        }
         return attributeSets;
     }
 
@@ -168,39 +168,6 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         } catch (XPathExpressionException e) {
             throw new RuntimeException("Encountered an issue executing XPath.", e);
         }
-    }
-
-    protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-        List<SearchResultRow> results = null;
-        if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
-            SearchParam qpRelType = new SearchParam();
-            qpRelType.setKey("org.queryParam.relationType");
-            qpRelType.setValue(relationType);
-            queryParamValues.add(qpRelType);
-
-            SearchParam qpOrgId = new SearchParam();
-            qpOrgId.setKey("org.queryParam.orgId");
-            qpOrgId.setValue(orgId);
-            queryParamValues.add(qpOrgId);
-
-            SearchParam qpRelOrgType = new SearchParam();
-            qpRelOrgType.setKey("org.queryParam.relatedOrgType");
-            qpRelOrgType.setValue(relatedOrgType);
-            queryParamValues.add(qpRelOrgType);
-
-            SearchRequest searchRequest = new SearchRequest();
-            searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
-            searchRequest.setParams(queryParamValues);
-            try {
-                SearchResult result = getOrganizationService().search(searchRequest);
-                results = result.getRows();
-            } catch (Exception e) {
-                LOG.error("Error calling org service");
-                throw new RuntimeException(e);
-            }
-        }
-        return results;
     }
 
     protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
