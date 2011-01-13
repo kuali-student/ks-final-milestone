@@ -27,7 +27,7 @@ public class PublicationQualifierResolver extends AbstractCocOrgQualifierResolve
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		AttributeSet attributeSet = new AttributeSet();
-		attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, "Publication Office");
+//		attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, "Publication Office");
 		attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, "176");
 		returnAttrSetList.add(attributeSet);
 		return returnAttrSetList;

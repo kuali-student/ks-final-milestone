@@ -34,7 +34,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public static final String QUALIFICATION_DIVISION_ID            = "divisionId";
 	public static final String QUALIFICATION_COLLEGE_ID             = "collegeId";
 	public static final String QUALIFICATION_ORG_ID                 = "orgId";
-	public static final String QUALIFICATION_ORG                    = "org";
+//	public static final String QUALIFICATION_ORG                    = "org";
 
 	public static final String QUALIFICATION_DATA_ID                = "dataId";
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";

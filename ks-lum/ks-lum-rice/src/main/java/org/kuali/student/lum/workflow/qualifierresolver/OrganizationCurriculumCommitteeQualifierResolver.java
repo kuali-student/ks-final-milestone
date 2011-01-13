@@ -67,7 +67,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
                                 LOG.debug("---- Related Org Relation: " + nextNodeOrgInfo.getId() + " - " + nextNodeOrgInfo.getShortName() + " (" + nextNodeOrgInfo.getLongName() + ")");
                             }
                             AttributeSet attributeSet = new AttributeSet();
-                            attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, nextNodeOrgInfo.getShortName());
+//                          attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, nextNodeOrgInfo.getShortName());
                             attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, nextNodeOrgInfo.getId());
                             attributeSets.add(attributeSet);
                         }
@@ -78,7 +78,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
             if (attributeSets.isEmpty()) {
                 OrgInfo currentNodeOrg = getOrganization(orgIdValue);
                 AttributeSet attributeSet = new AttributeSet();
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, currentNodeOrg.getShortName());
+//              attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, currentNodeOrg.getShortName());
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, currentNodeOrg.getId());
                 attributeSets.add(attributeSet);
             }

@@ -157,7 +157,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
                 if (orgIdKey != null) {
                     attributeSet.put(orgIdKey, resolvedOrgId);
                 }
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
+//              attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
                 returnAttrSetList.add(attributeSet);
             }

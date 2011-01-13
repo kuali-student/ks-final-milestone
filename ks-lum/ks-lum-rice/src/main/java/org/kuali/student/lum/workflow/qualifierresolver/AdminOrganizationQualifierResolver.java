@@ -51,7 +51,7 @@ public class AdminOrganizationQualifierResolver extends AbstractCocOrgQualifierR
 				}
 				else {
 					AttributeSet attributeSet = new AttributeSet();
-					attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName());
+//					attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName());
 					attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
 					returnList.add(attributeSet);
 				}
