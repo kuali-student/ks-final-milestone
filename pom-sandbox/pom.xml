@@ -7,11 +7,11 @@
   </parent>
   <groupId>org.kuali.maven.pom</groupId>
   <artifactId>pom-sandbox</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>Sandbox area for POM testing</name>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/pom-sandbox-1.0.1</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/pom-sandbox-1.0.1</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/pom-sandbox-1.0.1</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom-sandbox</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom-sandbox</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom-sandbox</url>
   </scm>
 </project>
