@@ -671,7 +671,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
      */
     private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId)
             throws MissingParameterException, DataValidationErrorException {
-
+    if (loCategoryInfo.getName() == null)
+    {
+     return false;
+    }
         boolean exists = false;
 	    SearchRequest request = new SearchRequest();
 	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
@@ -833,7 +836,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 	    
 	    if (null == loLoRelationInfo.getState()) {
