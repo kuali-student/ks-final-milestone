@@ -699,7 +699,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                   <goal>staging-close</goal>
                 </goals>
                 <configuration>
-                  <description>Staging Close: ${kuali.nexus.sonatype.description}</description>
+                  <description>Staging Close - ${kuali.nexus.sonatype.description}</description>
                 </configuration>
               </execution>
               <execution>
@@ -710,7 +710,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 </goals>
                 <configuration>
                   <promoteAutoSelectOverride>${kuali.nexus.sonatype.promote.auto.select.override}</promoteAutoSelectOverride>
-                  <description>Staging Release: ${kuali.nexus.sonatype.description}</description>
+                  <description>Staging Release - ${kuali.nexus.sonatype.description}</description>
                   <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
                 </configuration>
               </execution>
