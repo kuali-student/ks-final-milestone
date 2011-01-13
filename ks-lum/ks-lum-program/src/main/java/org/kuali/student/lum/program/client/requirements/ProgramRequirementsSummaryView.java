@@ -302,7 +302,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
                         //remove rule from display
                         requirementsPanel.remove(rulePreviewWidget);
-                        updateTotalCreditPerType(stmtTypeId);
+                        perProgramRequirementTypeTotalCredits.get(stmtTypeId).setVisible(false);
                         dialog.hide();
                     }
                 });
