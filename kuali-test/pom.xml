@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-test</artifactId>
-  <version>905-SNAPSHOT</version>
+  <version>1000-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -121,7 +121,7 @@
     <kuali.release.use.maven.default.profile>false</kuali.release.use.maven.default.profile>
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.arguments>-Pkuali-release</kuali.release.arguments>
-    <!-- Overriding this to "verify" will cause artficats to be signed by the maven-gpg-plugin -->
+    <!-- Overriding this to "verify" will cause artifacts to be signed by the maven-gpg-plugin -->
     <kuali.gpg.sign.phase>none</kuali.gpg.sign.phase>
 
     <!-- Overriding this to "verify" will cause sources to be bundled as jar's in addition to the binaries -->
@@ -210,7 +210,7 @@
       <extension>
         <groupId>org.kuali.maven</groupId>
         <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.14</version>
+        <version>1.0.15</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -664,15 +664,15 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
       <id>sonatype-oss-release</id>
       <properties>
         <kuali.nexus.sonatype.url>https://oss.sonatype.org</kuali.nexus.sonatype.url>
+        <kuali.nexus.sonatype.description>Releasing version ${project.version} of ${project.artifactId}</kuali.nexus.sonatype.description>
+        <kuali.nexus.sonatype.phase>deploy</kuali.nexus.sonatype.phase>
+        <kuali.nexus.sonatype.automatic>true</kuali.nexus.sonatype.automatic>
+        <kuali.nexus.sonatype.promote.auto.select.override>true</kuali.nexus.sonatype.promote.auto.select.override>
+        <kuali.nexus.sonatype.release.repository.id>releases</kuali.nexus.sonatype.release.repository.id>
+
         <kuali.repository.release.id>sonatype-nexus-staging</kuali.repository.release.id>
         <kuali.repository.release.name>Sonatype Nexus Release Repository</kuali.repository.release.name>
         <kuali.repository.release.url>${kuali.nexus.sonatype.url}/service/local/staging/deploy/maven2/</kuali.repository.release.url>
-        <kuali.nexus.sonatype.description>Releasing version ${project.version} of ${project.artifactId}</kuali.nexus.sonatype.description>
-        <kuali.nexus.sonatype.phase>deploy</kuali.nexus.sonatype.phase>
-
-        <!-- Flip this to true once the nexus-maven-plugin starts behaving properly -->
-        <kuali.nexus.sonatype.automatic>false</kuali.nexus.sonatype.automatic>
-        <kuali.nexus.sonatype.release.repository.id>releases</kuali.nexus.sonatype.release.repository.id>
 
         <!-- These are for reference only.  Not currently publishing snapshots to Sonatype's Nexus instance 
         <kuali.repository.snapshot.id>sonatype-nexus-snapshots</kuali.repository.snapshot.id>
@@ -709,18 +709,9 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                   <goal>staging-release</goal>
                 </goals>
                 <configuration>
+                  <promoteAutoSelectOverride>${kuali.nexus.sonatype.promote.auto.select.override}</promoteAutoSelectOverride>
                   <description>Staging Release: ${kuali.nexus.sonatype.description}</description>
                   <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
-                </configuration>
-              </execution>
-              <execution>
-                <id>sonatype-nexus-drop</id>
-                <phase>${kuali.nexus.sonatype.phase}</phase>
-                <goals>
-                  <goal>staging-drop</goal>
-                </goals>
-                <configuration>
-                  <description>Staging Drop: ${kuali.nexus.sonatype.description}</description>
                 </configuration>
               </execution>
             </executions>
