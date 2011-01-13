@@ -45,7 +45,11 @@ public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
         try {
             QueryPath qPath = QueryPath.parse(path);
             DataType type = model.getType(qPath);
-            String newValue = object.getText().trim();
+            
+            String newValue = null;
+            if(object.getText() != null) {
+                newValue = object.getText().trim();
+            }
 
             try {
                 switch (type) {
