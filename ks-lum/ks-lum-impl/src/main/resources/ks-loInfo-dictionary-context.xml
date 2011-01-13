@@ -23,6 +23,7 @@
 
  <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loCategoryInfoList" />
+  <property name="minOccurs" value="1" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
  </bean>
  <bean id="loDisplayInfo.loCategoryInfoList" parent="loDisplayInfo.loCategoryInfoList-parent" />
@@ -36,9 +37,39 @@
 
  <bean id="loDisplayInfo.loInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="loInfo" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoInfo" />
+  <property name="minOccurs" value="1" />
+  <property name="dataObjectStructure" ref="loDisplayInfo.LoInfo" />
  </bean>
  <bean id="loDisplayInfo.loInfo" parent="loDisplayInfo.loInfo-parent" />
+
+ <bean id="loDisplayInfo.LoInfo-parent" abstract="true"
+       parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.lum.lo.dto.LoInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="loInfo.desc" />
+    <ref bean="loInfo.effectiveDate" />
+    <ref bean="loInfo.expirationDate" />
+    <ref bean="loInfo.id" />
+    <ref bean="loDisplayInfo.loInfo.loRepositoryKey" />
+    <ref bean="loInfo.name" />
+    <ref bean="loInfo.state" />
+    <ref bean="loInfo.type" />
+    <!-- dynamic attributes -->
+    <ref bean="loInfo.sequence" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="loDisplayInfo.LoInfo" parent="loDisplayInfo.LoInfo-parent" />
+
+<!-- This makes the repository key not required on the display info because the assembler provides that value-->
+ <bean id="loDisplayInfo.loInfo.loRepositoryKey-parent" abstract="true"
+       parent="loInfo.loRepositoryKey-parent">
+  <property name="name" value="loRepositoryKey" />
+  <property name="minOccurs" value="0" />
+ </bean>
+ <bean id="loDisplayInfo.loInfo.loRepositoryKey" parent="loDisplayInfo.loInfo.loRepositoryKey-parent" />
 
  <bean id="loDisplayInfo.parentLoRelationid-parent" abstract="true" parent="baseKualiId">
   <property name="name" value="parentLoRelationid" />
@@ -72,9 +103,32 @@
 
  <bean id="loCategoryInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc" />
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
+  <property name="dataObjectStructure" ref="loCategoryInfo.desc.RichTextInfo" />
  </bean>
  <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent" />
+
+ <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="loCategoryInfo.desc.formatted" />
+    <ref bean="loCategoryInfo.desc.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="loCategoryInfo.desc.RichTextInfo" parent="loCategoryInfo.desc.RichTextInfo-parent" />
+
+ <bean id="loCategoryInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+  <property name="maxLength" value="250" />
+ </bean>
+ <bean id="loCategoryInfo.desc.formatted" parent="loCategoryInfo.desc.formatted-parent" />
+
+ <bean id="loCategoryInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="plain" />
+  <property name="maxLength" value="250" />
+  <property name="minOccurs" value="0" />
+ </bean>
+ <bean id="loCategoryInfo.desc.plain" parent="loCategoryInfo.desc.plain-parent" />
 
  <bean id="loCategoryInfo.effectiveDate-parent" abstract="true"
        parent="baseKualiEffectiveDate">
@@ -100,6 +154,7 @@
 
  <bean id="loCategoryInfo.name-parent" abstract="true" parent="baseString">
   <property name="name" value="name" />
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="loCategoryInfo.name" parent="loCategoryInfo.name-parent" />
 
@@ -137,6 +192,7 @@
 
  <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc" />
+  <property name="minOccurs" value="1" />
   <property name="dataObjectStructure" ref="loInfo.desc.RichTextInfo" />
  </bean>
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
@@ -160,6 +216,7 @@
  <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="250" />
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="loInfo.desc.plain" parent="loInfo.desc.plain-parent" />
 
@@ -182,6 +239,7 @@
  <bean id="loInfo.loRepositoryKey-parent" abstract="true"
        parent="baseString">
   <property name="name" value="loRepositoryKey" />
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="loInfo.loRepositoryKey" parent="loInfo.loRepositoryKey-parent" />
 
@@ -241,11 +299,13 @@
 
  <bean id="loLoRelationInfo.loId-parent" abstract="true" parent="baseKualiLoId">
   <property name="name" value="loId"/>
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="loLoRelationInfo.loId" parent="loLoRelationInfo.loId-parent"/>
 
  <bean id="loLoRelationInfo.relatedLoId-parent" abstract="true" parent="baseKualiLoId">
   <property name="name" value="relatedLoId"/>
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="loLoRelationInfo.relatedLoId" parent="loLoRelationInfo.relatedLoId-parent"/>
 

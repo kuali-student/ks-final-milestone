@@ -573,13 +573,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loInfo, "loInfo");
-	    
-	    try{
-	    	String loDesc = loInfo.getDesc().getPlain(); 
-	    	checkForEmptyString(loDesc, "loInfo.Desc");
-	    } catch (NullPointerException e){
-			//do not checkForEmptyString
-		}
+
+     // this is the job of the validator not some hard coded value
+//	    try{
+//	    	String loDesc = loInfo.getDesc().getPlain();
+//	    	checkForEmptyString(loDesc, "loInfo.Desc");
+//	    } catch (NullPointerException e){
+//			//do not checkForEmptyString
+//		}
 	    
 	    ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName());
 	    Validator validator = validatorFactory.getValidator();
@@ -596,13 +597,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
-	    
-	    try{
-	    	String catDesc = loCategoryInfo.getDesc().getPlain(); 
-	    	checkForEmptyString(catDesc, "loCategoryInfo.Desc");
-	    } catch (NullPointerException e){
-			//do not checkForEmptyString
-		}
+
+     // this is the job of the validator not some hard coded logic
+//	    try{
+//	    	String catDesc = loCategoryInfo.getDesc().getPlain();
+//	    	checkForEmptyString(catDesc, "loCategoryInfo.Desc");
+//	    } catch (NullPointerException e){
+//			//do not checkForEmptyString
+//		}
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName());
         Validator validator = validatorFactory.getValidator();
@@ -647,18 +649,20 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         }
     }
 
-    /**
-     * @param param
-     * @param paramName
-     * @throws MissingParameterException
-     */
-    private void checkForEmptyString(String param, String paramName)
-            throws MissingParameterException {
-        if (param != null && "".equals(param.trim())) {
-            throw new MissingParameterException(paramName + " can not be empty");
-        }
-    }
-    
+    // this is the job of the validator not some hard coded logic
+    // besides it should create a validation result not a missing parameter exeception
+//    /**
+//     * @param param
+//     * @param paramName
+//     * @throws MissingParameterException
+//     */
+//    private void checkForEmptyString(String param, String paramName)
+//            throws MissingParameterException {
+//        if (param != null && "".equals(param.trim())) {
+//            throw new MissingParameterException(paramName + " can not be empty");
+//        }
+//    }
+//
     /**
      * @param loRepositoryKey
      * @param loCategoryInfo

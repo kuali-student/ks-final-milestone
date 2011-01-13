@@ -146,7 +146,12 @@ public class TestCourseInfoDictionary {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
 		assertTrue(rtInfo.getPlain().matches("[A-Za-z0-9.\\\\\\-;:&#34;,'&amp;%$#@!\t\n\r ]*"));
-		assertEquals(3, validationResults.size());
+//courseSpecificLOs/0/loCategoryInfoList/0/name validation.required
+//courseSpecificLOs/0/loInfo validation.required
+///descr validation.required
+///finalExamStatus validation.validCharsFailed
+///finalExamRationale validation.required
+		assertEquals(5, validationResults.size());
 
 		
 		// Test custom validation 

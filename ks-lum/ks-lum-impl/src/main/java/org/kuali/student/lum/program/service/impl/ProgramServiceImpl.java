@@ -787,11 +787,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure));
-        }
+//        }
 
         return validationResults;
     }
@@ -812,11 +812,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
-        }
+//        }
         validateMajorDisciplineAtps(majorDisciplineInfo,validationResults);
         return validationResults;
     }
@@ -1187,11 +1187,11 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
 	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
 	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure));
-        }
+//        }
         return validationResults;
     }
         
