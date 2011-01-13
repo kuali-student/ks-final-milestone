@@ -39,9 +39,7 @@ public class VariationEditController extends VariationController {
 
     public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
         super(programModel, viewContext, eventBus, majorController);
-        VariationEditConfigurer vec = GWT.create(VariationEditConfigurer.class);
-        vec.setRow (ProgramRegistry.getRow ());
-        configurer = vec;
+        configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         if (getStringProperty(ProgramConstants.ID) != null) {
             setDefaultView(ProgramSections.SUMMARY);
