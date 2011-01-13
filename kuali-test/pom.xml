@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-test</artifactId>
-  <version>903</version>
+  <version>904-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -201,9 +201,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-903</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-903</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-903</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</url>
   </scm>
   <build>
     <extensions>
