@@ -513,8 +513,7 @@
     <bean id="programMetadataServiceImpl" class="org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl">
         <constructor-arg>
             <list>
-                <ref bean="courseClient"/>
-                <ref bean="proposalClient"/>
+                <ref bean="programClient"/>
             </list>
         </constructor-arg>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
