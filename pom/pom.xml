@@ -77,7 +77,7 @@
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -690,31 +690,10 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
               <nexusUrl>${kuali.nexus.sonatype.url}</nexusUrl>
               <serverAuthId>${kuali.repository.release.id}</serverAuthId>
               <automatic>${kuali.nexus.sonatype.automatic}</automatic>
+              <promoteAutoSelectOverride>${kuali.nexus.sonatype.promote.auto.select.override}</promoteAutoSelectOverride>
+              <description>${kuali.nexus.sonatype.description}</description>
+              <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
             </configuration>
-            <executions>
-              <execution>
-                <id>sonatype-nexus-close</id>
-                <phase>${kuali.nexus.sonatype.phase}</phase>
-                <goals>
-                  <goal>staging-close</goal>
-                </goals>
-                <configuration>
-                  <description>Staging Close - ${kuali.nexus.sonatype.description}</description>
-                </configuration>
-              </execution>
-              <execution>
-                <id>sonatype-nexus-release</id>
-                <phase>${kuali.nexus.sonatype.phase}</phase>
-                <goals>
-                  <goal>staging-release</goal>
-                </goals>
-                <configuration>
-                  <promoteAutoSelectOverride>${kuali.nexus.sonatype.promote.auto.select.override}</promoteAutoSelectOverride>
-                  <description>Staging Release - ${kuali.nexus.sonatype.description}</description>
-                  <targetRepositoryId>${kuali.nexus.sonatype.release.repository.id}</targetRepositoryId>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>
