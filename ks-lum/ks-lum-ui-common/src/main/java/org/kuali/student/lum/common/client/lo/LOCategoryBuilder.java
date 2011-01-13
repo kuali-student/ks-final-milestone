@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
@@ -140,27 +141,22 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement(true,SelectionPolicy.MULTI_ROW);
+                final CategoryManagement categoryManagement = new CategoryManagement(true, true);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
                 
                 final KSLightBox pop = new KSLightBox();
-                pop.setSize(600, 500);
+                pop.setSize(750, 600);
                 KSButton addButton = new KSButton("Add");
-                addButton.addStyleName("KSLOLightBoxButton");
-                KSButton cancelButton = new KSButton("Cancel");
-                cancelButton.addStyleName("KSLOLightBoxButtonSecondary");
-                HorizontalPanel buttonPanel = new HorizontalPanel();
-                buttonPanel.addStyleName("KSLOLightBoxButtonPanel");
-                buttonPanel.add(addButton);
-                buttonPanel.add(cancelButton);
+                KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
+
+                pop.addButton(addButton);
+                pop.addButton(cancelButton);
                 
-                
-                VerticalPanel mainPanel = new VerticalPanel();
-                //mainPanel.addStyleName("KSLOLightBoxMainPanel");
+                FlowPanel mainPanel = new FlowPanel();
+                mainPanel.add(SectionTitle.generateH2Title("Select Categories"));
                 mainPanel.add(categoryManagement);
-                mainPanel.add(buttonPanel);
                 
                 addButton.addClickHandler(new ClickHandler(){
                     @Override

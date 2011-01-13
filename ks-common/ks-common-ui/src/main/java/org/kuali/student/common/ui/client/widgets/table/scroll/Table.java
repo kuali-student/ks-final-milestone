@@ -12,6 +12,10 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+
+import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 
 import java.util.ArrayList;
@@ -20,7 +24,7 @@ import java.util.List;
 /**
  * A table with UiBinder.
  */
-public class Table extends Composite implements HasRetrieveAdditionalDataHandlers {
+public class Table extends Composite implements HasRetrieveAdditionalDataHandlers, HasSelectionChangeHandlers {
 
     private int headerSelectedCellIndex = -1;
 
@@ -83,6 +87,10 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             }
         });
         addHandlers();
+    }
+    
+    public void removeAllRows(){
+    	table.removeAllRows();
     }
 
     private void addHandlers() {
@@ -202,6 +210,10 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             ((AbstractTableModel) tableModel).fireTableStructureChanged();
         }
     }
+    
+    public TableModel getTableModel(){
+    	return tableModel;
+    }
 
     @UiHandler("table")
     void onTableClicked(ClickEvent event) {
@@ -298,6 +310,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
                 updateTableCell(i, 0);
             }
         }
+        SelectionChangeEvent.fire(this);
     }
 
     private void changeFocus(FocusType focusType) {
@@ -432,4 +445,13 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             loading.hide();
         }
     }
+
+	/**
+	 * @see org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers#addSelectionChangeHandler(org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler)
+	 */
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return addHandler(handler, SelectionChangeEvent.getType());
+	}
 }

@@ -334,11 +334,12 @@ margin-bottom: 15px;
     margin-left: 0px;
 }
 .KSLOCategoryManagementFilterPanel {
-	padding-right: 20px;
+	margin-bottom: 1.2em;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
 	font-size: 1.5em;
+	margin-top: 5px;
 }
 
 .KS-Action-List{
@@ -484,40 +485,33 @@ padding:10px
 .SummaryTable-OddRow{background-color: #F0F0F0;}
 
 .KS-LOSecondaryButton {
-	line-height:1.93em;
-	text-decoration:none;
-
-	background-color: #EEEEEE;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 3px 8px 2px 8px;
-	color: #2C61E6;
-	font-size: 1em;
-	margin-left: 10px;
+	margin-right: 10px;
 }
-.KS-LOSecondaryButtonDisabled {
-	line-height:1.93em;
-	text-decoration:none;
 
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 3px 8px 2px 8px;
-	color: #999999;
-	font-size: 1em;
-	margin-left: 10px;
+.LOCategoryDialogSpacing{
+	margin-top: 1.5em;
 }
+
+.LOCategoryDelete .ks-table-plain td{
+	border-bottom: none;
+	vertical-align: bottom;
+}
+
+.KSLOCategoryManagementTablePanel{
+	margin-top: 2em;
+}
+
+.KSLOCategoryManagementTable{
+	margin-top: .5em;
+}
+
 .KS-LOSelectAllHyperlink {
 	margin-right: 7px;
+	font-size: 1.1em;
 }
 .KS-LOClearHyperlink {
 	margin-left: 7px;
+	font-size: 1.1em;
 }
 .KS-LOFunnelImg{
     background: url("images/funnel-small.png") no-repeat 2px 2px;

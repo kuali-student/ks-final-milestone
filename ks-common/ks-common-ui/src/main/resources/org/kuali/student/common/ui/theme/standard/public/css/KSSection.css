@@ -598,7 +598,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 .ks-form-module-elements input[type="checkbox"] + label { 
     display:inline;
     font-weight:normal;
-    line-height:1.5em;
+    line-height: 2em;
     white-space:nowrap;
 } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */

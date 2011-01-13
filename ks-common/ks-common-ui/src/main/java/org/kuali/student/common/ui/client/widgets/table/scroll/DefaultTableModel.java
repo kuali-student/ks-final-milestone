@@ -67,8 +67,11 @@ public class DefaultTableModel extends AbstractTableModel {
 
     @Override
     public void setCurrentIndex(int index) {
-        if (index != currentRowIndex && currentRowIndex != -1)
-            rowList.get(currentRowIndex).setHighlighted(false);
+        if (index != currentRowIndex && currentRowIndex != -1){
+        	if(currentRowIndex < rowList.size()){
+        		rowList.get(currentRowIndex).setHighlighted(false);
+        	}
+        }
         currentRowIndex = index;
     }
 

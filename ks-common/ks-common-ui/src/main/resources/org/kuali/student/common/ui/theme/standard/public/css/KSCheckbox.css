@@ -21,6 +21,7 @@
 .KS-Checkbox label {
     font-size: 1em;
     font-weight: normal;
+    line-height: 2em;
 }
 .KS-Checkbox-Checked{
 	color: #9B251C;

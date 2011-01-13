@@ -119,7 +119,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	}
 
 	public FieldElement(String title, Widget widget) {
-    	generateLayout(null, title, null, null, null, widget);
+    	generateLayout(title, title, null, null, null, widget);
 
     }
 
