@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
@@ -44,24 +45,21 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
                 @Override
                 public void onSelectionChange(SelectionChangeEvent event) {
                     if (event.isUserInitiated()) {
-                        fd.setHasHadFocus(true);
-                        fd.getValidationRequestCallback().exec(true);
+                        processValidationEvent(fd);
                     }
                 }
             });
         } else if (w instanceof HasBlurHandlers) {
             ((HasBlurHandlers) w).addBlurHandler(new BlurHandler() {
                 public void onBlur(BlurEvent event) {
-                    fd.setHasHadFocus(true);
-                    fd.getValidationRequestCallback().exec(true);
+                    processValidationEvent(fd);
                 }
             });
         } else if (w instanceof HasFocusLostCallbacks) {
             ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
-                    fd.setHasHadFocus(true);
-                    fd.getValidationRequestCallback().exec(true);
+                    processValidationEvent(fd);
                 }
             });
         } else if (w instanceof KSLabel
@@ -72,6 +70,19 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
             GWT.log("The field with key: " + fd.getFieldKey() +
                     " does not use a widget which implements an interface that can perform on the fly validation", null);
         }
+        if (w instanceof KSSelectedList) {
+            ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    processValidationEvent(fd);
+                }
+            });
+        }
 
+    }
+
+    private void processValidationEvent(FieldDescriptor fieldDescriptor) {
+        fieldDescriptor.setHasHadFocus(true);
+        fieldDescriptor.getValidationRequestCallback().exec(true);
     }
 }

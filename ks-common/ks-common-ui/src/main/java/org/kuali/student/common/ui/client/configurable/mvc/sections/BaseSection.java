@@ -105,7 +105,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	                        			@Override
 	                        			public void onModelReady(DataModel model) {
 	                        				validateField(fieldDescriptor, model, parent);
-	
+	                                                                                           
 	                        			}
 	
 	                        			@Override

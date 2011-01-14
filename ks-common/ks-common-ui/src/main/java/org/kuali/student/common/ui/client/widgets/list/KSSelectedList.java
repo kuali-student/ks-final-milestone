@@ -15,22 +15,24 @@
 
 package org.kuali.student.common.ui.client.widgets.list;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
-import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
@@ -43,18 +45,13 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.data.Data.Value;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget {
+public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks {
     private static final String VALUE = "value";
     private static final String DISPLAY = "display";
 
@@ -77,15 +74,15 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     private boolean hasDetails = false;
 
     private WidgetConfigInfo config;
-    
+
     public KSSelectedList(WidgetConfigInfo config, boolean hasDetails) {
         init(config, hasDetails);
     }
-    
+
     public KSSelectedList(WidgetConfigInfo config) {
         init(config, false);
     }
-    
+
     public WidgetConfigInfo getConfig() {
         return config;
     }
@@ -103,7 +100,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             picker = new KSPicker(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());
             addSelectionChangeHandler();
-            
+
             addItemButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -114,7 +111,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                     while (iter.hasNext()) {
                         Property p = iter.next();
                         String s = p.getValue();
-                        KSItemLabel selectedItem = createItem(s, picker.getDisplayValue(), 
+                        KSItemLabel selectedItem = createItem(s, picker.getDisplayValue(),
                                 hasDetails);
                         addItem(selectedItem);
                     }
@@ -133,17 +130,16 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
 
         valuesPanel = new KSListPanel(ListType.UNORDERED);
-        if(config.canEdit){
+        if (config.canEdit) {
             valuesPanel.setStyleName("ks-selected-list");
-        }
-        else{
+        } else {
             valuesPanel.setStyleName("ks-selected-list-readOnly");
         }
         mainPanel.add(valuesPanel);
         initialized = true;
         widgetReady();
     }
-    
+
     public KSListPanel separateValuesPanel() {
         mainPanel.remove(valuesPanel);
         return valuesPanel;
@@ -175,25 +171,25 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
     /**
      * Adds handler when suggest box selection change event is fired and enables/disables the the
-     * Add item button accordingly. 
+     * Add item button accordingly.
      */
     private void addSelectionChangeHandler() {
-        if (picker.getInputWidget() instanceof KSSuggestBox){
-        	KSSuggestBox suggestBox = (KSSuggestBox)picker.getInputWidget();
-        	suggestBox.addSelectionChangeHandler(new SelectionChangeHandler(){
-				@Override
-				public void onSelectionChange(SelectionChangeEvent event) {
-					//Compare the user entered value in picker's input textbox with the current display value
-					//from the picker suggest list, if they are the same (ie. user has selected item from list)
-					//then enable the add to list button. NOTE: This comparison should not be required if the picker
-					//ONLY fired selection change event when an actual selection change took place, but doesn't seem
-					//to be doing that.
-					String userValue = ((KSSuggestBox)picker.getInputWidget()).getText();
-	                String displayValue = picker.getDisplayValue();
-	                boolean enabled = displayValue != null && !displayValue.isEmpty() && displayValue.equals(userValue);
+        if (picker.getInputWidget() instanceof KSSuggestBox) {
+            KSSuggestBox suggestBox = (KSSuggestBox) picker.getInputWidget();
+            suggestBox.addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    //Compare the user entered value in picker's input textbox with the current display value
+                    //from the picker suggest list, if they are the same (ie. user has selected item from list)
+                    //then enable the add to list button. NOTE: This comparison should not be required if the picker
+                    //ONLY fired selection change event when an actual selection change took place, but doesn't seem
+                    //to be doing that.
+                    String userValue = ((KSSuggestBox) picker.getInputWidget()).getText();
+                    String displayValue = picker.getDisplayValue();
+                    boolean enabled = displayValue != null && !displayValue.isEmpty() && displayValue.equals(userValue);
                     addItemButton.setEnabled(enabled);
-				}
-        	});
+                }
+            });
         }
     }
 
@@ -289,11 +285,13 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         for (KSItemLabel item : selectedItems) {
             data.add(item.getKey());
         }
-
+        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+            data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
+        }
         DataValue result = new DataValue(data);
         return result;
     }
-    
+
     public List<KSItemLabel> getSelectedItems() {
         return selectedItems;
     }
@@ -311,6 +309,12 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             data.add(item.getKey());
             Data displayData = new Data();
             displayData.set("id-translation", item.getDisplayText());
+            _runtimeData.add(displayData);
+        }
+        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+            data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
+            Data displayData = new Data();
+            displayData.set("id-translation", UtilConstants.IMPOSSIBLE_CHARACTERS);
             _runtimeData.add(displayData);
         }
         data.set(new StringKey("_runtimeData"), _runtimeData);
@@ -358,6 +362,11 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                 addItem(item);
             }
         }
+    }
+
+    @Override
+    public void addFocusLostCallback(Callback<Boolean> callback) {
+      picker.addFocusLostCallback(callback);
     }
 
     public static class ItemDataHelper implements DataHelper {
