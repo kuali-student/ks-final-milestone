@@ -366,7 +366,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
     @Override
     public void addFocusLostCallback(Callback<Boolean> callback) {
-      picker.addFocusLostCallback(callback);
+        if (picker != null)
+            picker.addFocusLostCallback(callback);
     }
 
     public static class ItemDataHelper implements DataHelper {
