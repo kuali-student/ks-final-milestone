@@ -165,7 +165,6 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 				if(orgIdKey!=null){
 					attributeSet.put(orgIdKey, resolvedOrgId);
 				}
-//				attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
 				attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
 				returnAttrSetList.add(attributeSet);
 			}

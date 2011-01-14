@@ -28,7 +28,6 @@ public class SenateCommitteeQualifierResolver extends
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		AttributeSet attributeSet = new AttributeSet();
-//		attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, "COC");
 		attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, "141");
 		returnAttrSetList.add(attributeSet);
 		return returnAttrSetList;
