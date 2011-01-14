@@ -1320,6 +1320,10 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
+        ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
+        MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
+        OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
         OBJ_ID="F541325E-D4A2-FAD3-52A6-129460B02DAB" VER_NBR="1"/>
