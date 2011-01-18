@@ -60,6 +60,7 @@
     <kuali.build.timestamp>${maven.build.timestamp}</kuali.build.timestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kuali.clover.plugin.version>3.0.4</kuali.clover.plugin.version>
+    <kuali.clover.generate.info.phase>pre-site</kuali.clover.generate.info.phase>
     <kuali.clover.history.dir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</kuali.clover.history.dir>
     <!-- Placeholders for clover exclude patterns.  Override these in child poms as needed. -->
     <kuali.clover.exclude.pattern.1>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.clover.exclude.pattern.1>
@@ -582,7 +583,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <executions>
           <execution>
             <id>generate-clover-info</id>
-            <phase>pre-site</phase>
+            <phase>${kuali.clover.generate.info.phase}</phase>
             <goals>
               <goal>instrument</goal>
               <goal>aggregate</goal>
