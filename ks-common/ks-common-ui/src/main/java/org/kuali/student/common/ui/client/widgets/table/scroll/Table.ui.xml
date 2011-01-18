@@ -34,6 +34,11 @@
                padding:2px 0 1px 10px;
                vertical-align: middle;
   }
+  
+  .header td:hover {
+               background-color: #686868;
+  }
+  
   .table {
     table-layout: fixed;
     word-wrap:break-word;

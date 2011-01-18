@@ -399,7 +399,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             Column col = tableModel.getColumn(i);
             header.getColumnFormatter().setWidth(i, col.getWidth());
         }
-        for (int i = 0; i < columnCount - 1; i++) {
+        for (int i = 0; i < columnCount; i++) {
             Column col = tableModel.getColumn(i);
 
             header.getCellFormatter().removeStyleName(0, i, selectionStyle.columnAscending());
@@ -409,10 +409,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
                 header.getCellFormatter().addStyleName(0, i, selectionStyle.columnAscending());
             } else if (col.getSortDirection() == Column.Descending) {
                 header.getCellFormatter().addStyleName(0, i, selectionStyle.columnDescending());
-            } else {
-
             }
-            header.getColumnFormatter().setWidth(i, col.getWidth());
         }
     }
 
