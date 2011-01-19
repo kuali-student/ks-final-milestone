@@ -1434,7 +1434,7 @@
   <property name="name" value="Find Organizations" />
   <property name="desc"
             value="Search for administrative department organization" />
-  <property name="title" value="Find Organization" />
+  <property name="title" value="Organization" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
   <property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -1479,7 +1479,7 @@
   <property name="id" value="kuali.lu.lookup.admin.departments.advanced" />
   <property name="name" value="Find Organizations" />
   <property name="desc" value="Search for administrative department organization" />
-  <property name="title" value="Find Organization" />
+  <property name="title" value="Organization" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
   <property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -2020,7 +2020,7 @@
   <property name="id" value="kuali.proposal.lookup.Proposals" />
   <property name="name" value="Find Proposal" />
   <property name="desc" value="Find Proposal" />
-  <property name="title" value="Find Proposal" />
+  <property name="title" value="Course Proposal" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="proposal.resultColumn.proposalOptionalName" />
   <property name="resultSortKey" value="proposal.resultColumn.proposalOptionalName" />
@@ -2171,7 +2171,7 @@
   <property name="id" value="kuali.lu.lookup.advanced.reusableCluSets" />
   <property name="name" value="Find Clu Set" />
   <property name="desc" value="Search for Clu Set" />
-  <property name="title" value="Advanced CLU Set Search" />
+  <property name="title" value="CLU Sets" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultSortKey" value="cluset.resultColumn.name" />
@@ -2200,7 +2200,7 @@
   <property name="id" value="kuali.lu.lookup.advanced.reusableCourseCluSets" />
   <property name="name" value="Find Course Set" />
   <property name="desc" value="Search for Course Set" />
-  <property name="title" value="Advanced Course Set Search" />
+  <property name="title" value="Course Sets" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultSortKey" value="cluset.resultColumn.name" />
@@ -2418,7 +2418,7 @@
   <property name="id" value="kuali.lu.lookup.advanced.courseRanges.courseNumber"/>
   <property name="name" value="Course Number"/>
   <property name="desc" value="Search used to define course range by Course Number"/>
-  <property name="title" value="Add Course Range"/>
+  <property name="title" value="Course Range"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>
   <property name="widgetOptions">
    <map>
@@ -2554,7 +2554,7 @@
   <property name="searchTypeId" value="lu.search.generic"/>
   <property name="name" value="Effective Date Range"/>
   <property name="desc" value="Search used to define course range by effective dates"/>
-  <property name="title" value="Add Course Range"/>
+  <property name="title" value="Course Range"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>
   <property name="widgetOptions">
    <map>
@@ -2587,6 +2587,7 @@
  <bean id="ks.lookup.person.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="ks.common.lookup.person.advanced">
   <property name="name" value="Person Search" />
+  <property name="title" value="Person"/>
   <property name="desc" value="Searches for People by Name or username" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="results">
@@ -2860,7 +2861,7 @@
         <property name="id" value="kuali.lu.lookup.accreditingAgencies.advanced" />
         <property name="name" value="Find Accrediting Body" />
         <property name="desc"  value="Search for accrediting agencies organization" />
-        <property name="title" value="Find Accrediting Body" />
+        <property name="title" value="Accrediting Body" />
         <property name="widget" value="ADVANCED_LIGHTBOX" />
         <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
         <property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -3230,6 +3231,7 @@
 		<property name="id" value="kuali.enumeration.management.search.advanced.cip2000Code" />
 		<property name="name" value="Get cip2000code enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="title" value="CIP Code" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
@@ -3329,6 +3331,7 @@
 		<property name="id" value="kuali.enumeration.management.search.advanced.cip2010Code" />
 		<property name="name" value="Get cip2010code enumerations" />
 		<property name="desc" value="Get enumerated cip2010code lists of values given context" />
+		<property name="title" value="CIP Code" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
@@ -4511,7 +4514,7 @@
   <property name="searchTypeId" value="lu.search.union.majors"/>
   <property name="name" value="Find Undergrad Programs"/>
   <property name="desc" value="Search for Major Disciplines"/>
-  <property name="title" value="Find Major"/>
+  <property name="title" value="Undergraduate Major"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>
   <property name="params">
    <list>
