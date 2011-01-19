@@ -72,7 +72,6 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     private MavenSession mavenSession;
 
-    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skipMojo()) {
             return;
