@@ -391,6 +391,14 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>${kuali.cobertura.plugin.version}</version>
                 <configuration>
+                  <instrumentation>
+                    <ignores>
+                      <ignore>${kuali.cobertura.instrumentation.ignore}</ignore>
+                    </ignores>
+                    <excludes>
+                      <exclude>${kuali.cobertura.instrumentation.exclude}</exclude>
+                    </excludes>
+                  </instrumentation>
                   <formats>
                     <format>html</format>
                   </formats>
