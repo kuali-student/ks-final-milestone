@@ -74,7 +74,7 @@
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.quiet>true</kuali.javadoc.quiet>
     <kuali.javadoc.show>private</kuali.javadoc.show>
-    <kuali.javadoc.tool.version>1.6</kuali.javadoc.tool.version>
+    <kuali.javadoc.tool.version/>
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
@@ -212,7 +212,7 @@
       <extension>
         <groupId>org.kuali.maven</groupId>
         <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.21</version>
+        <version>1.0.22</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -241,7 +241,7 @@
         <plugin>
           <groupId>org.kuali.maven.cloudfront</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.14</version>
+          <version>1.0.15</version>
           <configuration>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
@@ -639,27 +639,6 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
-        <artifactId>maven-svn-revision-number-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>svn-info</id>
-            <phase>${kuali.svn.info.phase}</phase>
-            <goals>
-              <goal>revision</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <entries>
-            <entry>
-              <prefix>svn</prefix>
-            </entry>
-          </entries>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -763,7 +742,9 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <executions>
               <execution>
                 <id>svn-info</id>
-                <phase>initialize</phase>
+                <goals>
+                  <goal>revision</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
