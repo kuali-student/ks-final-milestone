@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali</artifactId>
-  <version>72-SNAPSHOT</version>
+  <version>72</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -78,11 +78,11 @@
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.quiet>true</kuali.javadoc.quiet>
     <kuali.javadoc.show>private</kuali.javadoc.show>
-    <kuali.javadoc.tool.version/>
+    <kuali.javadoc.tool.version />
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names/>
+    <kuali.javadoc.exclude.package.names />
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
@@ -127,8 +127,8 @@
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.dryrun>false</kuali.release.dryrun>
     <kuali.release.arguments>-Pkuali-release</kuali.release.arguments>
-    <kuali.release.username/>
-    <kuali.release.password/>
+    <kuali.release.username />
+    <kuali.release.password />
     <!-- Overriding this to "verify" will cause artifacts to be signed by the maven-gpg-plugin -->
     <kuali.gpg.sign.phase>none</kuali.gpg.sign.phase>
 
@@ -209,9 +209,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/pom</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/pom</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-72</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-72</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-72</url>
   </scm>
   <build>
     <extensions>
