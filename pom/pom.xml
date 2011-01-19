@@ -69,16 +69,20 @@
 
     <kuali.war.plugin.version>2.1</kuali.war.plugin.version>
     <kuali.findbugs.plugin.version>2.3.1</kuali.findbugs.plugin.version>
+
     <kuali.cobertura.plugin.version>2.4</kuali.cobertura.plugin.version>
+    <!-- Placeholders for ignore/exclude patterns.  Override these in child poms as needed. -->
+    <kuali.cobertura.instrumentation.ignore>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.cobertura.instrumentation.ignore>
+    <kuali.cobertura.instrumentation.exclude>DO_NOT_MATCH_ANYTHING_PATTERN</kuali.cobertura.instrumentation.exclude>
 
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.quiet>true</kuali.javadoc.quiet>
     <kuali.javadoc.show>private</kuali.javadoc.show>
-    <kuali.javadoc.tool.version />
+    <kuali.javadoc.tool.version/>
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
     <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
