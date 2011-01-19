@@ -127,6 +127,8 @@
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.dryrun>false</kuali.release.dryrun>
     <kuali.release.arguments>-Pkuali-release</kuali.release.arguments>
+    <kuali.release.username/>
+    <kuali.release.password/>
     <!-- Overriding this to "verify" will cause artifacts to be signed by the maven-gpg-plugin -->
     <kuali.gpg.sign.phase>none</kuali.gpg.sign.phase>
 
@@ -360,6 +362,8 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <useReleaseProfile>${kuali.release.use.maven.default.profile}</useReleaseProfile>
             <developmentVersion>${kuali.development.version}</developmentVersion>
             <releaseVersion>${kuali.release.version}</releaseVersion>
+            <username>${kuali.release.username}</username>
+            <password>${kuali.release.password}</password>
           </configuration>
         </plugin>
         <plugin>
