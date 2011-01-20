@@ -114,7 +114,7 @@ public class CommentTool implements HasReferenceId {
     });
     
     private void init() {
-        commentLightBox = new KSLightBox("Comments");
+        commentLightBox = new KSLightBox();
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
