@@ -27,7 +27,9 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 	
 	private void setupLayout(String titleText, String message){
 		//title.setText();
-		dialog = new KSLightBox(titleText);		
+		dialog = new KSLightBox();	
+		SectionTitle sectionTitle = SectionTitle.generateH2Title(titleText);
+		layout.add(sectionTitle);
 		messageLabel.setText(message);
 		layout.add(messageLabel);
 		dialog.addButtonGroup(buttons);
