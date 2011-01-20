@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -54,8 +55,11 @@ public class AdvancedSearchWindow {
         searchPanel.setActionCancelButtonGroup(actionCancelButtons);
         searchPanel.setupButtons();
         
-	    dialog = new KSLightBox(title);	    
+	    //dialog = new KSLightBox(title);	 
+	    dialog = new KSLightBox();	 
 	    layout.addStyleName("KS-Advanced-Search-Window");
+	    SectionTitle sectionTitle = SectionTitle.generateH2Title(title);
+	    layout.add(sectionTitle);
 		layout.add(panel);
 		layout.add(actionCancelButtons);
 		//dialog.setWidget(layout);
