@@ -37,7 +37,7 @@ class SideBarDialogManager {
         dialog = new KSLightBox();
         dialog.setWidget(dialogView.asWidget());
         dialog.addButtonGroup(buttonGroup);
-        dialog.setSize(300, 170);
+        dialog.setSize(300, 190);
         dialog.setModal(false);
         bind();
     }
