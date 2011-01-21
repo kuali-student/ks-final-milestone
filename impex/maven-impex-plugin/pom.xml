@@ -103,7 +103,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>3.0.3.RELEASE</version>
+      <version>${impex.spring.version}</version>
     </dependency>
   </dependencies>
 </project>

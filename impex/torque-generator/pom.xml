@@ -10,13 +10,6 @@
   <description>This is the Kuali version of ASF's torque generator</description>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.kuali.maven.impex</groupId>
       <artifactId>jdbc-support</artifactId>
       <version>${project.version}</version>
@@ -130,7 +123,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>${spring.version}</version>
+      <version>${impex.spring.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
