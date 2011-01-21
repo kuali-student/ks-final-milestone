@@ -1,6 +1,6 @@
 package org.apache.torque.mojo;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.torque.util.JdbcConfigurer;
