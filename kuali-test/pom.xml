@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.test</groupId>
   <artifactId>kuali-test</artifactId>
-  <version>1008</version>
+  <version>1009-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Testing</name>
   <url>${kuali.site.public.url}</url>
@@ -43,8 +43,8 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-1008</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-1008</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-test-1008</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-test</url>
   </scm>
 </project>
