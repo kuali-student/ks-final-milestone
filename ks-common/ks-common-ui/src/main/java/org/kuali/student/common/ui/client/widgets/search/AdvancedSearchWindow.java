@@ -63,7 +63,7 @@ public class AdvancedSearchWindow {
 		layout.add(panel);
 		layout.add(actionCancelButtons);
 		//dialog.setWidget(layout);
-		dialog.setMaxHeight(600);
+		dialog.setMaxHeight(620);
 		ButtonGroup buttons = panel.getButtons();
 		buttons.removeFromParent();
 		dialog.addButtonGroup(buttons);

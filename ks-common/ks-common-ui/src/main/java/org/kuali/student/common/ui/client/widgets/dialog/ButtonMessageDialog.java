@@ -36,7 +36,7 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 		layout.addStyleName("ks-confirmation-message-layout");
 		messageLabel.setStyleName("ks-confirmation-message-label");
 		dialog.setWidget(layout);
-		dialog.setSize(600, 100);
+		dialog.setSize(600, 120);
 	}
 	
 	public void show(){
