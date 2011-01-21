@@ -1,15 +1,12 @@
 package org.kuali.db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import org.junit.Test;
 import org.springframework.util.PropertyPlaceholderHelper;
-
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.JAXBConfigImpl;
 
 public class PropertyPlaceholderHelperTest {
 
@@ -38,13 +35,13 @@ public class PropertyPlaceholderHelperTest {
 
 	@Test
 	public void configContext() throws IOException {
-		JAXBConfigImpl config = new JAXBConfigImpl("classpath:standalone-config.xml", ConfigContext.getCurrentContextConfig());
-		config.setSystemOverride(true);
-		config.parseConfig();
-		ConfigContext.init(config);
-		Properties properties = config.getProperties();
-		System.out.println(properties.getProperty("environment"));
-		System.out.println(properties.getProperty("s"));
+		//JAXBConfigImpl config = new JAXBConfigImpl("classpath:standalone-config.xml", ConfigContext.getCurrentContextConfig());
+		//config.setSystemOverride(true);
+		//config.parseConfig();
+		//ConfigContext.init(config);
+		//Properties properties = config.getProperties();
+		//System.out.println(properties.getProperty("environment"));
+		//System.out.println(properties.getProperty("s"));
 	}
 
 }

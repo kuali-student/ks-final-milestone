@@ -34,15 +34,5 @@
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
-      <version>1.0.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-impl</artifactId>
-      <version>1.0.2.1</version>
-    </dependency>
   </dependencies>
 </project>

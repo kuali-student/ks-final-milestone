@@ -2,16 +2,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang.StringUtils;
 
 public class Deploy {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hhmmss");
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Deploy deploy = new Deploy();
 		deploy.run();
 	}
@@ -26,14 +22,15 @@ public class Deploy {
 	}
 
 	protected String getCurlUrl() throws Exception {
-		String url = getUrl("maven-metadata.xml");
-		String xml = getContents(url);
-		BuildInfo bi = getBuildInfo(xml);
-		String filename = getFilename(bi);
-		return getUrl(filename);
+	    return null;
+		//String url = getUrl("maven-metadata.xml");
+		//String xml = getContents(url);
+		//BuildInfo bi = getBuildInfo(xml);
+		//String filename = getFilename(bi);
+		//return getUrl(filename);
 	}
 
-	protected String getFilename(BuildInfo bi) {
+	protected String getFilename(final BuildInfo bi) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(bi.getArtifactId());
 		sb.append("-");
@@ -50,7 +47,7 @@ public class Deploy {
 		return sb.toString();
 	}
 
-	protected BuildInfo getBuildInfo(String contents) throws ParseException {
+	protected BuildInfo getBuildInfo(final String contents) throws ParseException {
 		String artifactId = StringUtils.substringBetween(contents, "<artifactId>", "</artifactId>");
 		String version = StringUtils.substringBetween(contents, "<version>", "</version>");
 		String buildNumber = StringUtils.substringBetween(contents, "<buildNumber>", "</buildNumber>");
@@ -64,16 +61,17 @@ public class Deploy {
 		return bi;
 	}
 
-	protected String getUrl(String filename) {
+	protected String getUrl(final String filename) {
 		String base = "http://maven.kuali.org/snapshot/org/kuali/student/web/ks-embedded/1.1.0-M9-SNAPSHOT/";
 		return base + filename;
 	}
 
-	protected String getContents(String url) throws IOException, HttpException {
-		HttpClient client = new HttpClient();
-		HttpMethod method = new GetMethod(url);
-		client.executeMethod(method);
-		return method.getResponseBodyAsString();
+	protected String getContents(final String url) throws IOException { // HttpException {
+	    return null;
+		//HttpClient client = new HttpClient();
+		//HttpMethod method = new GetMethod(url);
+		//client.executeMethod(method);
+		//return method.getResponseBodyAsString();
 	}
 
 }
