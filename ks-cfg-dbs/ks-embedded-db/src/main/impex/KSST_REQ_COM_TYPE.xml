@@ -167,4 +167,9 @@
         NAME="Program final credits in residence"
         TYPE_DESC="&lt;program> students must take their final &lt;n> credits in residence"
         TYPE_KEY="kuali.reqComponent.type.program.residence.credits.final" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
+    	NAME="Enrolled in all required courses"
+    	TYPE_DESC="Must be concurrently enrolled in all courses from &lt;courses>"
+    	TYPE_KEY="kuali.reqComponent.type.course.courseset.enrolled.all"
+    	VER_NBR="0"/>
 </dataset>
