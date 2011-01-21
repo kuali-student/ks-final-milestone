@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
@@ -418,6 +419,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		documentList.setVisible(false);
 		buttonPanel.setVisible(false);
 
+		SectionTitle sectionTitle = SectionTitle.generateH2Title("Upload Status");
+		progressPanel.add(sectionTitle);
 		progressPanel.add(progressLabel);
 		progressPanel.add(progressBar);
 		progressPanel.add(fileProgressTable);
