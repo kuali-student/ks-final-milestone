@@ -279,8 +279,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         layoutTable.setWidget(1, 0, nameTextBox);
         layoutTable.setWidget(1, 1, typesDropDown);
 
-        KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
-        main.add(titleBar);
+        SectionTitle sectionTitle = SectionTitle.generateH2Title("Create New Category");
+        //KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
+        main.add(sectionTitle);
         main.add(layoutTable);
         
         loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
