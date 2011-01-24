@@ -16,6 +16,8 @@ class TomcatUtils
 		
 		@deployPath = @deployConfig.tomcatDeployPath
 		@warfilePath = @deployConfig.warfilePath
+		
+		@unzipCommand = @deployConfig.properties[:unzipCommand]
 	end
 	
 	# number of seconds to wait for tomcat to stop
@@ -46,20 +48,23 @@ class TomcatUtils
 		FileUtils.mkdir @deployPath
 		
 		# unzip the war file to the deploy path
-		counter = 0
-		zipper = Zip::ZipFile.foreach(@warfilePath) { |zipEntry|
-			zipEntryPath = @deployPath + File::SEPARATOR + zipEntry.name
-			
-			# ensure that the directory for the extracted file already exists
-			dirName = File.dirname(zipEntryPath)
-			FileUtils.mkdir_p(dirName)
-			
-			# extract the entry
-			zipEntry.extract(zipEntryPath)
-			counter = counter.next
-		}
+		unzipLine = @unzipCommand + ' ' +  @warfilePath + ' -d ' + @deployPath
+		@deployConfig.runCommand(unzipLine)
 		
-		@deployConfig.log 'Extracted ' + counter.to_s + ' entries to ' + @deployPath
+		#counter = 0
+		#zipper = Zip::ZipFile.foreach(@warfilePath) { |zipEntry|
+		#	zipEntryPath = @deployPath + File::SEPARATOR + zipEntry.name
+		#	
+		#	# ensure that the directory for the extracted file already exists
+		#	dirName = File.dirname(zipEntryPath)
+		#	FileUtils.mkdir_p(dirName)
+		#	
+		#	# extract the entry
+		#	zipEntry.extract(zipEntryPath)
+		#	counter = counter.next
+		#}
+		
+		@deployConfig.log 'Extracted ' + @warfilePath + ' to ' + @deployPath
 	end
 	
 	# clean up tomcat log files and working directory
