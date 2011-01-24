@@ -198,6 +198,7 @@
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
 
  <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="name" value="org.kuali.student.lo.dto.RichTextInfo" />
   <property name="attributes">
    <list>
     <ref bean="loInfo.desc.formatted" />
@@ -213,7 +214,7 @@
  </bean>
  <bean id="loInfo.desc.formatted" parent="loInfo.desc.formatted-parent" />
 
- <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+ <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="250" />
   <property name="minOccurs" value="1" />

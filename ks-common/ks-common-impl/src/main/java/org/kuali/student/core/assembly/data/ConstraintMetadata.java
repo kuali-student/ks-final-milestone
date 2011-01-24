@@ -191,4 +191,51 @@ public class ConstraintMetadata implements Serializable {
 	public void setNextState(String nextState) {
 		this.nextState = nextState;
 	}	
+	
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        _toString(sb);
+        return sb.toString();
+    }
+    
+    protected void _toString(StringBuilder sb) {
+        sb.append("comments: ");
+        sb.append(comments);
+        sb.append(", desc: ");
+        sb.append(desc);
+        sb.append(", id: ");
+        sb.append(id);
+        sb.append(", maxLength: ");
+        sb.append(null != maxLength ? maxLength.toString() : "null");
+        sb.append(", maxOccurs: ");
+        sb.append(null != maxOccurs ? maxOccurs.toString() : "null");
+        sb.append(", maxValue: ");
+        sb.append(maxValue);
+        sb.append(", minLength: ");
+        sb.append(null != minLength ? minLength.toString() : "null");
+        sb.append(", minOccurs: ");
+        sb.append(null != minOccurs ? minOccurs.toString() : "null");
+        sb.append(", minValue: ");
+        sb.append(minValue);
+        sb.append(", serverSide: ");
+        sb.append(Boolean.toString(serverSide));
+        sb.append(", specialValidator: ");
+        sb.append(specialValidator);
+        sb.append(", validCharsMessageId: ");
+        sb.append(validCharsMessageId);
+        sb.append(", validChars: ");
+        sb.append(validChars);
+        sb.append(", requiredForNextState: ");
+        sb.append(Boolean.toString(requiredForNextState));
+        sb.append(", nextState: ");
+        sb.append(nextState);
+        sb.append(", ChildConstraints: {");
+        if (null != childConstraints) {
+            for (ConstraintMetadata constraint : childConstraints) {
+                constraint._toString(sb);
+            }
+        }
+        sb.append("}");
+    }
 }

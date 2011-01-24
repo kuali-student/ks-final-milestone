@@ -1,12 +1,16 @@
 package org.kuali.student.lum.common.client.lo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-
-import java.util.*;
 
 /**
  * @author Igor
@@ -25,7 +29,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         Data losData = new Data();
         Map<Integer, Data> parentStore = new HashMap<Integer, Data>();
         int sequence = 0; // the ordering information of DisplayInfo
-        List<OutlineNode<LOPicker>> value = stripeOutEmptyInput(builder.getValue());
+        List<OutlineNode<LOPicker>> value = stripOutEmptyInput(builder.getValue());
         if (value != null) {
             for (OutlineNode<LOPicker> node : value) {
                 if (node.getIndentLevel() == 0) {
@@ -62,17 +66,15 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         builder.setValue(loOutlineNodes);
     }
 
-    private List<OutlineNode<LOPicker>> stripeOutEmptyInput(List<OutlineNode<LOPicker>> input) {
+    private List<OutlineNode<LOPicker>> stripOutEmptyInput(List<OutlineNode<LOPicker>> input) {
         List<OutlineNode<LOPicker>> value = new ArrayList<OutlineNode<LOPicker>>();
         boolean allEmptyNodes = true;
         if (input != null) {
             for (OutlineNode<LOPicker> node : input) {
                 String desc = node.getUserObject().getLOText();
-                int identLevel = node.getIndentLevel();
+                int indentLevel = node.getIndentLevel();
                 List<LoCategoryInfo> categories = node.getUserObject().getLoCategories();
-                if (desc != null && desc.trim().length() > 0 ||
-                        identLevel > 0 ||
-                        categories != null && !categories.isEmpty()) {
+                if (desc != null && desc.trim().length() > 0 || indentLevel > 0 || categories != null && !categories.isEmpty()) {
                     allEmptyNodes = false;
                     value.add(node);
                 }

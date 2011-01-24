@@ -213,7 +213,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+            throw new DataValidationErrorException("Validation error!", val);
 		}
 		
 	    // make sure LoType and LoRepository exist before trying to create

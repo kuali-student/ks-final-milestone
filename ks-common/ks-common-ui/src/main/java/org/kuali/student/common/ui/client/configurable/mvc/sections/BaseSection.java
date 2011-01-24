@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
+import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
@@ -307,7 +307,10 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            		}
 	            	}
 				}
-				//TODO Can we do this without checking for instanceof  MG??
+				// TODO Can we do this without checking for instanceof  MG??
+				// TODO Since Section's now a CanProcessValidationResults, maybe we could push this logic down into MultiplicityGroup
+				// (and maybe into MultiplicityComposite, if we don't get rid of it), and then we could treat all these the same as
+				// Section
 				if(f.getFieldWidget() instanceof MultiplicityGroup ){
 					MultiplicityGroup mg = (MultiplicityGroup) f.getFieldWidget();
 
@@ -321,7 +324,12 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            		}
 	            	}
 				}
-
+                if (f.getFieldWidget() instanceof CanProcessValidationResults) {
+                    ErrorLevel fieldStatus = ((CanProcessValidationResults) f.getFieldWidget()).processValidationResults(f, results, clearAllValidation);
+                    if (fieldStatus.getLevel() > status.getLevel()) {
+                        status = fieldStatus;
+                    }
+                }
 			}
 
 	        for(Section s: sections){

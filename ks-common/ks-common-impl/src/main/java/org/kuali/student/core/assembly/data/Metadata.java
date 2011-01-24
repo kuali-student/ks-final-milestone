@@ -108,15 +108,21 @@ public class Metadata implements Serializable {
     }
     
     protected void _toString(StringBuilder sb) {
-        Data.DataType type = (dataType == null) ? Data.DataType.DATA : dataType;
-        sb.append("Type: ");
-        sb.append(type.toString());
-        sb.append(", Default: ");
+        Data.DataType type = (null == dataType) ? Data.DataType.DATA : dataType;
+        sb.append("type: " + type.toString());
         sb.append(", canEdit: " + canEdit);
         sb.append(", canView: " + canView);
-        sb.append(defaultValue == null ? "null" : defaultValue.toString());
+        sb.append(", defaultValue: ");
+        sb.append(null == defaultValue ? "null" : defaultValue.toString());
+        sb.append(", constraints: {");
+        if (null != constraints) {
+            for (ConstraintMetadata constraint : constraints) {
+                sb.append(constraint.toString());
+            }
+        }
+        sb.append("}");
         sb.append(", Properties: {");
-        if (childProperties != null) {
+        if (null != childProperties) {
             for (Entry<String, Metadata> e : childProperties.entrySet()) {
                 sb.append("(");
                 sb.append(e.getKey());
@@ -131,11 +137,9 @@ public class Metadata implements Serializable {
             }
         }
         sb.append("}");
-        // TODO dump lookup/constraint/etc info as well
+        // TODO dump lookup/etc info as well
     }
 
-    
-    
     public List<ConstraintMetadata> getConstraints() {
         if (constraints == null) {
             constraints = new ArrayList<ConstraintMetadata>();
