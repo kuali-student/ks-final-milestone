@@ -53,6 +53,7 @@
 
     <!-- KIM -->
     <param name="kim.soapExposedService.jaxws.security">false</param>
+    <param name="kimRoleUpdateServiceSOAP.expose">true</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
