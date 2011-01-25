@@ -146,7 +146,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
 
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
@@ -982,6 +982,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluInfo createClu(String luTypeKey, CluInfo cluInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -1170,6 +1171,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluInfo updateClu(String cluId, CluInfo cluInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1518,6 +1520,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteClu(String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			DependentObjectsExistException, OperationFailedException,
@@ -1533,6 +1536,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluInfo updateCluState(String cluId, String luState)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1562,6 +1566,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluCluRelationInfo createCluCluRelation(String cluId,
 			String relatedCluId, String luLuRelationTypeKey,
 			CluCluRelationInfo cluCluRelationInfo)
@@ -1615,6 +1620,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluCluRelationInfo updateCluCluRelation(
 			final String cluCluRelationId,
 			final CluCluRelationInfo cluCluRelationInfo)
@@ -1658,6 +1664,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteCluCluRelation(String cluCluRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1688,6 +1695,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluPublicationInfo createCluPublication(String cluId,
 			String luPublicationType, CluPublicationInfo cluPublicationInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
@@ -1741,6 +1749,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluPublicationInfo updateCluPublication(String cluPublicationId,
 			CluPublicationInfo cluPublicationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -1831,6 +1840,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteCluPublication(String cluPublicationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
@@ -1859,6 +1869,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluResultInfo createCluResult(String cluId, String cluResultTypeKey,
 			CluResultInfo cluResultInfo) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException,
@@ -1914,6 +1925,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluResultInfo updateCluResult(String cluResultId,
 			CluResultInfo cluResultInfo) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -1989,6 +2001,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteCluResult(String cluResultId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
@@ -2020,6 +2033,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluLoRelationInfo createCluLoRelation(String cluId, String loId,
 			String cluLoRelationType, CluLoRelationInfo cluLoRelationInfo)
 			throws AlreadyExistsException, DoesNotExistException,
@@ -2073,6 +2087,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluLoRelationInfo updateCluLoRelation(String cluLoRelationId,
 			CluLoRelationInfo cluLoRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -2122,6 +2137,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteCluLoRelation(String cluLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2143,6 +2159,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2151,6 +2168,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2174,6 +2192,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -2265,6 +2284,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2382,6 +2402,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2398,6 +2419,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo addCluSetToCluSet(String cluSetId, String addedCluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2428,6 +2450,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeCluSetFromCluSet(String cluSetId,
 			String removedCluSetId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2461,6 +2484,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo addCluToCluSet(String cluId, String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2494,6 +2518,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeCluFromCluSet(String cluId, String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2539,6 +2564,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -2569,6 +2595,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2608,6 +2635,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteLui(String luiId)
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2624,6 +2652,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public LuiInfo updateLuiState(String luiId, String luiState)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2653,6 +2682,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
 			String relatedLuiId, String luLuRelationTypeKey,
 			LuiLuiRelationInfo luiLuiRelationInfo)
@@ -2701,6 +2731,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
 			LuiLuiRelationInfo luiLuiRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -2758,6 +2789,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2956,6 +2988,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo addCluSetsToCluSet(String cluSetId, List<String> cluSetIdList)
 		throws CircularRelationshipException,
 			DoesNotExistException, InvalidParameterException,
@@ -2982,6 +3015,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo addClusToCluSet(List<String> cluIdList, String cluSetId)
 		throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -3014,7 +3048,8 @@ public class LuServiceImpl implements LuService {
 	/********* Versioning Methods ***************************/
 	
 	@Override
-    public CluInfo createNewCluVersion(String versionIndCluId, String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {	    
+    @Transactional(readOnly=false)
+	public CluInfo createNewCluVersion(String versionIndCluId, String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {	    
 		Clu latestClu;
 		Clu currentClu; 
 		try{
@@ -3104,6 +3139,7 @@ public class LuServiceImpl implements LuService {
 	 * You can set this to a future date as well. 
 	 */
 	@Override
+	@Transactional(readOnly=false)
     public StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
         //Check params
 		Date currentDbDate = new Date();//FIXME, this should be DB time

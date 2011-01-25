@@ -28,7 +28,7 @@ import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public abstract class AbstractDataService implements DataService{
 
 	private static final long serialVersionUID = 1L;
@@ -110,6 +110,7 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);

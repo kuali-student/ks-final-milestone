@@ -70,7 +70,7 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
@@ -89,7 +89,8 @@ public class ProgramServiceImpl implements ProgramService {
     
     
     @Override
-    public CredentialProgramInfo createCredentialProgram(
+    @Transactional(readOnly=false)
+	public CredentialProgramInfo createCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
@@ -112,7 +113,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public HonorsProgramInfo createHonorsProgram(
+    @Transactional(readOnly=false)
+	public HonorsProgramInfo createHonorsProgram(
             HonorsProgramInfo honorsProgramInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -122,7 +124,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ProgramRequirementInfo createProgramRequirement(
+    @Transactional(readOnly=false)
+	public ProgramRequirementInfo createProgramRequirement(
             ProgramRequirementInfo programRequirementInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
@@ -144,7 +147,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public MajorDisciplineInfo createMajorDiscipline(
+    @Transactional(readOnly=false)
+	public MajorDisciplineInfo createMajorDiscipline(
             MajorDisciplineInfo majorDisciplineInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
@@ -167,6 +171,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
     
     @Override
+	@Transactional(readOnly=false)
 	public MajorDisciplineInfo createNewMajorDisciplineVersion(
 			String majorDisciplineVerIndId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -411,6 +416,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo setCurrentMajorDisciplineVersion(
 			String majorDisciplineId, Date currentVersionStart)
 			throws DoesNotExistException, InvalidParameterException,
@@ -432,7 +438,8 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-    public MinorDisciplineInfo createMinorDiscipline(
+    @Transactional(readOnly=false)
+	public MinorDisciplineInfo createMinorDiscipline(
             MinorDisciplineInfo minorDisciplineInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
@@ -442,7 +449,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public StatusInfo deleteCredentialProgram(String credentialProgramId)
+    @Transactional(readOnly=false)
+	public StatusInfo deleteCredentialProgram(String credentialProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -462,7 +470,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public StatusInfo deleteHonorsProgram(String honorsProgramId)
+    @Transactional(readOnly=false)
+	public StatusInfo deleteHonorsProgram(String honorsProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -471,7 +480,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public StatusInfo deleteMajorDiscipline(String majorDisciplineId)
+    @Transactional(readOnly=false)
+	public StatusInfo deleteMajorDiscipline(String majorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -490,7 +500,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public StatusInfo deleteMinorDiscipline(String minorDisciplineId)
+    @Transactional(readOnly=false)
+	public StatusInfo deleteMinorDiscipline(String minorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -499,7 +510,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public StatusInfo deleteProgramRequirement(String programRequirementId)
+    @Transactional(readOnly=false)
+	public StatusInfo deleteProgramRequirement(String programRequirementId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -686,7 +698,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public CredentialProgramInfo updateCredentialProgram(
+    @Transactional(readOnly=false)
+	public CredentialProgramInfo updateCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -712,7 +725,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public HonorsProgramInfo updateHonorsProgram(
+    @Transactional(readOnly=false)
+	public HonorsProgramInfo updateHonorsProgram(
             HonorsProgramInfo honorsProgramInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -723,7 +737,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public MajorDisciplineInfo updateMajorDiscipline(
+    @Transactional(readOnly=false)
+	public MajorDisciplineInfo updateMajorDiscipline(
             MajorDisciplineInfo majorDisciplineInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -749,7 +764,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public MinorDisciplineInfo updateMinorDiscipline(
+    @Transactional(readOnly=false)
+	public MinorDisciplineInfo updateMinorDiscipline(
             MinorDisciplineInfo minorDisciplineInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -760,7 +776,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ProgramRequirementInfo updateProgramRequirement(
+    @Transactional(readOnly=false)
+	public ProgramRequirementInfo updateProgramRequirement(
             ProgramRequirementInfo programRequirementInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -1060,7 +1077,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
@@ -1078,6 +1096,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
 	@Override
+	@Transactional(readOnly=false)
 	public CoreProgramInfo createNewCoreProgramVersion(
 			String coreProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1125,7 +1144,8 @@ public class ProgramServiceImpl implements ProgramService {
 
 
 	@Override
-    public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 //        try {
 //        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
 //
@@ -1165,7 +1185,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public CoreProgramInfo updateCoreProgram(CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public CoreProgramInfo updateCoreProgram(CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
@@ -1197,6 +1218,7 @@ public class ProgramServiceImpl implements ProgramService {
         
         
 	@Override
+	@Transactional(readOnly=false)
 	public CredentialProgramInfo createNewCredentialProgramVersion(
 			String credentialProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1243,6 +1265,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo setCurrentCoreProgramVersion(String coreProgramId,
 			Date currentVersionStart) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1254,6 +1277,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo setCurrentCredentialProgramVersion(
 			String credentialProgramId, Date currentVersionStart)
 			throws DoesNotExistException, InvalidParameterException,

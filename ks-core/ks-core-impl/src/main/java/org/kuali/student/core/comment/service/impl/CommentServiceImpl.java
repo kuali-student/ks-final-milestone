@@ -58,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
     
     final Logger logger = Logger.getLogger(CommentServiceImpl.class);
@@ -74,7 +74,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#addComment(java.lang.String, java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         commentInfo.setReferenceTypeKey(referenceTypeKey);
         commentInfo.setReferenceId(referenceId);
     	
@@ -123,7 +124,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#addTag(java.lang.String, java.lang.String, org.kuali.student.core.comment.dto.TagInfo)
      */
     @Override
-    public TagInfo addTag(String referenceId, String referenceTypeKey, TagInfo tagInfo) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public TagInfo addTag(String referenceId, String referenceTypeKey, TagInfo tagInfo) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Validate Tag
         List<ValidationResultInfo> validationResults = null;
@@ -289,7 +291,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#removeComment(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try{
             checkForMissingParameter(commentId, "commentId");
             commentDao.delete(Comment.class, commentId);
@@ -318,7 +321,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#removeComments(java.lang.String)
      */
     @Override
-    public StatusInfo removeComments(String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo removeComments(String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<Comment> comments = commentDao.getCommentsByRefId(referenceId);
         for(Comment comment:comments){
             commentDao.delete(comment);
@@ -333,7 +337,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#removeTag(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    @Transactional(readOnly=false)
+	public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         try{
             checkForMissingParameter(tagId, "tagId");
             commentDao.delete(Tag.class, tagId);
@@ -361,7 +366,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#removeTags(java.lang.String)
      */
     @Override
-    public StatusInfo removeTags(String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo removeTags(String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //tagId sould be referenceId like in removeComments() method
         List<Tag> tags = commentDao.getTagsByRefId(tagId);
         for(Tag tag:tags){
@@ -377,7 +383,8 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#updateComment(java.lang.String, java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+    @Transactional(readOnly=false)
+	public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
 
         // Validate Comment
         List<ValidationResultInfo> validationResults = validateComment("OBJECT", commentInfo);

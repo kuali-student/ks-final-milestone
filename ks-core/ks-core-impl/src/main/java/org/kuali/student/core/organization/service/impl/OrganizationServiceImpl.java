@@ -65,7 +65,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
 
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
@@ -76,6 +76,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private Validator validator;
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
 			String orgPersonRelationTypeKey,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
@@ -110,6 +111,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgOrgRelationInfo createOrgOrgRelation(String orgId,
 			String relatedOrgId, String orgOrgRelationTypeKey,
 			OrgOrgRelationInfo orgOrgRelationInfo)
@@ -146,6 +148,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
 			String personId, String orgPersonRelationTypeKey,
 			OrgPersonRelationInfo orgPersonRelationInfo)
@@ -187,6 +190,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgInfo createOrganization(String orgTypeKey, OrgInfo orgInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -234,6 +238,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteOrganization(String orgId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -572,6 +577,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -583,6 +589,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -594,6 +601,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removePositionRestrictionFromOrg(String orgId,
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -615,6 +623,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -643,6 +652,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgPersonRelationInfo updateOrgPersonRelation(
 			String orgPersonRelationId,
 			OrgPersonRelationInfo orgPersonRelationInfo)
@@ -676,6 +686,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgInfo updateOrganization(String orgId, OrgInfo orgInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -704,6 +715,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(
 			String orgId, String orgPersonRelationTypeKey,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)

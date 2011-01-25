@@ -57,13 +57,14 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AtpServiceImpl implements AtpService {
 
 	private AtpDao atpDao;
     private SearchManager searchManager;
 
 	@Override
+	@Transactional(readOnly=false)
 	public DateRangeInfo addDateRange(String atpKey, String dateRangeKey,
 			DateRangeInfo dateRangeInfo) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException,
@@ -104,6 +105,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public MilestoneInfo addMilestone(String atpKey, String milestoneKey,
 			MilestoneInfo milestoneInfo) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException,
@@ -129,6 +131,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public AtpInfo createAtp(String atpTypeKey, String atpKey, AtpInfo atpInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -154,6 +157,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteAtp(String atpKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -396,6 +400,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeDateRange(String dateRangeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -410,6 +415,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo removeMilestone(String milestoneKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -424,6 +430,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -447,6 +454,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public DateRangeInfo updateDateRange(String dateRangeKey,
 			DateRangeInfo dateRangeInfo) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -467,6 +475,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public MilestoneInfo updateMilestone(String milestoneKey,
 			MilestoneInfo milestoneInfo) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,

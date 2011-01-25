@@ -47,7 +47,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(readOnly=true,rollbackFor={Throwable.class})
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //  TODO Split out CluInfo assembly to its own class
 
@@ -146,6 +146,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
+	@Transactional(readOnly=false)
     public SaveResult<Data> save(Data input)     throws AssemblyException {
 
         try {

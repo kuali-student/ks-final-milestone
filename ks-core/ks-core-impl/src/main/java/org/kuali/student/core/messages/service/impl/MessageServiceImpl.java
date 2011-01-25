@@ -20,6 +20,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.messages.dao.MessageManagementDAO;
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
@@ -32,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-@Transactional
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService{
     
@@ -112,6 +113,7 @@ public class MessageServiceImpl implements MessageService{
 		}
 	}
 
+	@Transactional(readOnly=false)
 	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
 		
 		if(localeKey == null || messageGroupKey == null || messageKey == null || messageInfo == null){
@@ -126,6 +128,7 @@ public class MessageServiceImpl implements MessageService{
 		}        
 	}
 
+	@Transactional(readOnly=false)
 	public Message addMessage(Message messageInfo) {
 		if(messageInfo != null)	{
 			MessageEntity messageEntity = new MessageEntity();    

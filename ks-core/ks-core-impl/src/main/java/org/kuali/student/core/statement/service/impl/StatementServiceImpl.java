@@ -71,7 +71,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class StatementServiceImpl implements StatementService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
@@ -398,7 +398,8 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    public ReqComponentInfo createReqComponent(final String reqComponentType, final ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public ReqComponentInfo createReqComponent(final String reqComponentType, final ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentType, "reqComponentType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
@@ -416,7 +417,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementInfo createStatement(final String statementType, final StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatementInfo createStatement(final String statementType, final StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementType, "statementType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
@@ -436,7 +438,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
+    @Transactional(readOnly=false)
+	public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
     	try {
             // insert statements and reqComponents if they do not already exists in database
             updateSTVHelperCreateStatements(statementTreeViewInfo);
@@ -452,7 +455,8 @@ public class StatementServiceImpl implements StatementService {
 
     
     @Override
-    public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
 
         ReqComponent reqComp = statementDao.fetch(ReqComponent.class, reqComponentId);
@@ -470,7 +474,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatusInfo deleteStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementId, "statementId");
 
         Statement stmt = statementDao.fetch(Statement.class, statementId);
@@ -502,7 +507,8 @@ public class StatementServiceImpl implements StatementService {
     }
     
     @Override
-    public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
+    @Transactional(readOnly=false)
+	public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
         Statement stmt = statementDao.fetch(Statement.class, statementId);
         
         try{
@@ -532,7 +538,7 @@ public class StatementServiceImpl implements StatementService {
         return statusInfo;
     }
 
-    private void deleteRecursively(Statement stmt) {
+	private void deleteRecursively(Statement stmt) {
     	if(stmt.getChildren()!=null){
     		List<Statement> childStmts = new ArrayList<Statement>(stmt.getChildren());
 	    	stmt.getChildren().clear();
@@ -601,7 +607,8 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    public StatementInfo updateStatement(final String statementId, final StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    @Transactional(readOnly=false)
+	public StatementInfo updateStatement(final String statementId, final StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(statementId, "statementId");
         checkForMissingParameter(statementInfo, "statementInfo");
@@ -744,7 +751,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ReqComponentInfo updateReqComponent(final String reqComponentId, final ReqComponentInfo reqComponentInfo)
+    @Transactional(readOnly=false)
+	public ReqComponentInfo updateReqComponent(final String reqComponentId, final ReqComponentInfo reqComponentInfo)
     		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(reqComponentId, "reqComponentId");
@@ -766,6 +774,7 @@ public class StatementServiceImpl implements StatementService {
         return updReqCompInfo;
     }
 
+	@Transactional(readOnly=false)
 	public RefStatementRelationInfo createRefStatementRelation(final RefStatementRelationInfo refStatementRelationInfo)
 			throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
@@ -795,6 +804,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public RefStatementRelationInfo updateRefStatementRelation(final String refStatementRelationId, final RefStatementRelationInfo refStatementRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
@@ -809,6 +819,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo deleteRefStatementRelation(final String refStatementRelationId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
@@ -933,7 +944,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
+    @Transactional(readOnly=false)
+	public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		
 		Statement stmt = this.statementDao.fetch(Statement.class, statementTreeViewInfo.getId());
@@ -1009,7 +1021,7 @@ public class StatementServiceImpl implements StatementService {
         statementIds.add(statementTreeViewInfo.getId());
     }*/
 
-    private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         if (statementTreeViewInfo.getStatements() != null) {
             for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
                 updateStatementTreeViewHelper(subStatement);
@@ -1028,7 +1040,7 @@ public class StatementServiceImpl implements StatementService {
         statementAssembler.copyValues(statementTreeViewInfo, updatedStatementInfo);
     }
 
-    private void updateSTVHelperCreateStatements(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	private void updateSTVHelperCreateStatements(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         String statementId = null;
         StatementInfo origStatementInfo = null;
         StatementInfo newStatementInfo = null;

@@ -58,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/documentService")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;
@@ -75,7 +75,8 @@ public class DocumentServiceImpl implements DocumentService {
     
     
     @Override
-    public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    @Transactional(readOnly=false)
+	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         StatusInfo statusInfo = new StatusInfo();
@@ -85,7 +86,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         checkForMissingParameter(documentInfo, "documentInfo");
@@ -119,7 +121,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public StatusInfo deleteDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         dao.delete(Document.class, documentId);
         return new StatusInfo();
@@ -212,7 +215,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
     
     @Override
-    public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         StatusInfo statusInfo = new StatusInfo();
@@ -224,7 +228,8 @@ public class DocumentServiceImpl implements DocumentService {
      * Does not update Type or categories
      */
     @Override
-    public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    @Transactional(readOnly=false)
+	public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(documentInfo, "documentInfo");
         
@@ -269,7 +274,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public RefDocRelationInfo createRefDocRelation(String refObjectTypeKey, String refObjectId, String documentId, String refDocRelationTypeKey, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public RefDocRelationInfo createRefDocRelation(String refObjectTypeKey, String refObjectId, String documentId, String refDocRelationTypeKey, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         checkForMissingParameter(refObjectId, "refObjectId");
         checkForMissingParameter(refDocRelationTypeKey, "refDocRelationTypeKey");
@@ -295,7 +301,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public RefDocRelationInfo updateRefDocRelation(String refDocRelationId, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException {
+    @Transactional(readOnly=false)
+	public RefDocRelationInfo updateRefDocRelation(String refDocRelationId, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
         
@@ -318,7 +325,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public StatusInfo deleteRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         dao.delete(RefDocRelation.class, refDocRelationId);
         return new StatusInfo();

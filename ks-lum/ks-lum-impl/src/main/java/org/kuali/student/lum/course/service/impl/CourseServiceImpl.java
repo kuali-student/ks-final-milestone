@@ -72,7 +72,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseServiceImpl implements CourseService {
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
@@ -84,7 +84,8 @@ public class CourseServiceImpl implements CourseService {
     private StatementService statementService;
 
     @Override
-    public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    @Transactional(readOnly=false)
+	public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
         checkForMissingParameter(courseInfo, "CourseInfo");
 
@@ -106,7 +107,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    @Transactional(readOnly=false)
+	public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         checkForMissingParameter(courseInfo, "CourseInfo");
         
@@ -127,7 +129,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         try {
             CourseInfo course = getCourse(courseId);
@@ -206,7 +209,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+    @Transactional(readOnly=false)
+	public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
@@ -236,7 +240,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
 	@Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=false)
+	public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
@@ -252,7 +257,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+    @Transactional(readOnly=false)
+	public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
@@ -355,6 +361,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public CourseInfo createNewCourseVersion(String versionIndCourseId,
 			String versionComment) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -476,6 +483,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public StatusInfo setCurrentCourseVersion(String courseVersionId,
 			Date currentVersionStart) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

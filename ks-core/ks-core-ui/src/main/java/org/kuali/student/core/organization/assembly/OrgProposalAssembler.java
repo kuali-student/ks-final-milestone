@@ -53,7 +53,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(readOnly=true,rollbackFor={Throwable.class})
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
@@ -141,6 +141,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
 
     @Override
+	@Transactional(readOnly=false)
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
