@@ -26,4 +26,9 @@
       <ref bean="impexCredentials"/>
     </property>
   </bean>
+  <bean id="impexDbaConnectionHandler" class="org.kuali.db.ConnectionHandler" p:url="${ks.impex.url}">
+    <property name="credentials">
+      <ref bean="impexDbaCredentials"/>
+    </property>
+  </bean>
 </beans>
