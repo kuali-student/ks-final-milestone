@@ -14,6 +14,11 @@
                            http://www.springframework.org/schema/util 
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>classpath:impex.properties</value>
+    </property>
+  </bean>
   <bean id="impexCredentials" class="org.kuali.db.Credentials" p:username="${ks.impex.username}" p:password="${ks.impex.password}"/>
   <bean id="impexDbaCredentials" class="org.kuali.db.Credentials" p:username="${ks.impex.dba.username}" p:password="${ks.impex.dba.password}"/>
   <bean id="impexConnectionHandler" class="org.kuali.db.ConnectionHandler" p:url="${ks.impex.url}">
