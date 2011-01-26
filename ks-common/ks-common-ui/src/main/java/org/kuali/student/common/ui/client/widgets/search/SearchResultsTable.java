@@ -22,6 +22,10 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
@@ -53,9 +57,19 @@ public class SearchResultsTable extends Composite{
     private String resultIdColumnKey;
     private SearchRequest searchRequest;
     private Table table = new Table();
-    private boolean isMultiSelect = true;
+	private boolean isMultiSelect = true;
+    private KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
-    public SearchResultsTable(){
+	
+    public KSButton getMslabel() {
+		return mslabel;
+	}
+
+	public void setMslabel(KSButton mslabel) {
+		this.mslabel = mslabel;
+	}
+
+	public SearchResultsTable(){
         super();
         redraw();
         layout.setWidth("100%");
@@ -164,6 +178,8 @@ public class SearchResultsTable extends Composite{
 
             @Override
             public void onSuccess(SearchResult results) {
+            	table.addContent();
+            	
                 if(results != null && results.getRows() != null && results.getRows().size() != 0){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
@@ -177,6 +193,14 @@ public class SearchResultsTable extends Composite{
                     }
                 } else {
                 	tableModel.setMoreData(false);
+                	
+                	//add no matches found if no search results
+                	table.removeContent();
+                	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
+                	noResultsPanel.add(new KSLabel("No matches found"));
+                	noResultsPanel.add(mslabel);
+                	noResultsPanel.addStyleName("ks-no-results-message");
+                	table.getScrollPanel().add(noResultsPanel);
                 }
                 tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();

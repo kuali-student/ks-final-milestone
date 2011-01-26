@@ -379,3 +379,11 @@ position:relative;
 	background-color: #C6D9FF;
 	color: black;
 }
+
+.ks-no-results-message{
+	margin:100px; 
+	padding:0;
+	text-align: center;
+	font-weight: bold;
+	font-size:10pt;
+}

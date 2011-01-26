@@ -93,6 +93,14 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     	table.removeAllRows();
     }
 
+    public void removeContent(){
+    	getScrollPanel().clear();
+    }
+ 
+    public void addContent(){
+    	removeContent();
+    	getScrollPanel().add(getContent());
+    }
     private void addHandlers() {
         focusPanel.addKeyDownHandler(new KeyDownHandler() {
 
