@@ -7,10 +7,9 @@
     <version>72</version>
   </parent>
   <groupId>org.kuali.maven</groupId>
-  <artifactId>kuali-maven-common</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
-  <name>Kuali Maven Common</name>
-  <description>Contains things that are common to most mojo development.</description>
+  <artifactId>maven-inherit-plugintest</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Testing plugin inheritance</name>
   <properties>
     <kuali.site.path>maven/${project.artifactId}/${project.version}/</kuali.site.path>
   </properties>
@@ -32,9 +31,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-inherit-plugintest</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-inherit-plugintest</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven-inherit-plugintest</url>
   </scm>
   <repositories>
     <repository>
@@ -51,69 +50,9 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-artifact</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-settings</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-descriptor</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-core</artifactId>
-      <version>2.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-filtering</artifactId>
-      <version>1.0-beta-3</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.5.8</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <groupId>org.kuali.maven</groupId>
+      <artifactId>kuali-maven-common</artifactId>
+      <version>1.0.4-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
