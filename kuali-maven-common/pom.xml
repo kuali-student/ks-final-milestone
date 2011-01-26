@@ -4,15 +4,15 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>51</version>
+    <version>72</version>
   </parent>
-  <groupId>org.kuali.maven.mojo</groupId>
+  <groupId>org.kuali.maven</groupId>
   <artifactId>kuali-maven-common</artifactId>
   <version>1.0.4-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
   <description>Contains things that are common to most mojo development.</description>
   <properties>
-    <kuali.site.path>maven-plugins/${project.artifactId}/${project.version}/</kuali.site.path>
+    <kuali.site.path>maven/${project.artifactId}/${project.version}/</kuali.site.path>
   </properties>
   <developers>
     <developer>
