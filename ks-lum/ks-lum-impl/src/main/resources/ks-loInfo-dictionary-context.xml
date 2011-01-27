@@ -23,7 +23,9 @@
 
  <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loCategoryInfoList" />
+<!--  per jira KSLAB-1745
   <property name="minOccurs" value="1" />
+  -->
   <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
  </bean>
  <bean id="loDisplayInfo.loCategoryInfoList" parent="loDisplayInfo.loCategoryInfoList-parent" />

@@ -448,7 +448,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 		
 	    Lo lo = loDao.fetch(Lo.class, loId);
@@ -920,14 +920,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 		
-		// TODO - this is never called; why does it exist?
-		/*
+
 		// Validate LoLoRelation
 		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
-		*/
+
 	    
 		return null;
 	}
