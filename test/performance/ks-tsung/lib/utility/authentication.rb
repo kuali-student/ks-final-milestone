@@ -83,11 +83,8 @@ class Authentication
       )
       
       
-      @request.add_thinktime(opts[:thinktime])
-      
       # Rice
       @request.add('/kew/ActionList.do', {}, {:rice_req => true, :external => true})
-      #@request.add('/login.jsp', {}, {:rice_req => true, :external => true})
       @request.add("/j_spring_security_check?j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}", 
         {}, {'subst' => 'true', :rice_req => true, :external => true})
 
