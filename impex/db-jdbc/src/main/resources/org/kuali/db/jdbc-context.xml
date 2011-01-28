@@ -14,7 +14,16 @@
                            http://www.springframework.org/schema/util 
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-  <bean id="oracleResetSql" class="org.kuali.db.ResetSql">
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:org/kuali/db/jdbc.properties</value>
+      </list>
+    </property>
+    <property name="systemPropertiesMode" value="2"/>
+  </bean>
+
+  <bean id="oracleResetSql" class="org.kuali.db.jdbc.ResetSql">
     <property name="createSql" value="
       -- Create a user, give them a password and set a quota for the default tablespace
       CREATE USER ${impex.username}
@@ -48,7 +57,7 @@
       END;
       /"/>
   </bean>
-  <bean id="mysqlResetSql" class="org.kuali.db.ResetSql">
+  <bean id="mysqlResetSql" class="org.kuali.db.jdbc.ResetSql">
     <property name="createSql" value="
       CREATE DATABASE IF NOT EXISTS ${impex.database}
       DEFAULT CHARACTER SET '${mysql.character.set}'
@@ -71,29 +80,29 @@
       /"/>
   </bean>
 
-  <bean id="mysqlConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver">
+  <bean id="mysqlConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver">
     <property name="resetSql" ref="mysqlResetSql"/>
   </bean>
 
-  <bean id="oracleConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="ORACLE" p:urlFragment=":oracle:" p:driver="oracle.jdbc.driver.OracleDriver">
+  <bean id="oracleConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="ORACLE" p:urlFragment=":oracle:" p:driver="oracle.jdbc.driver.OracleDriver">
     <property name="resetSql" ref="oracleResetSql"/>
   </bean>
 
-  <bean id="postgresConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="POSTGRESQL" p:urlFragment=":postgresql:" p:driver="org.postgresql.Driver"/>
+  <bean id="postgresConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="POSTGRESQL" p:urlFragment=":postgresql:" p:driver="org.postgresql.Driver"/>
 
-  <bean id="hsqlConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="HSQL" p:urlFragment=":hsqldb:" p:driver="org.hsqldb.jdbcDriver"/>
+  <bean id="hsqlConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="HSQL" p:urlFragment=":hsqldb:" p:driver="org.hsqldb.jdbcDriver"/>
 
-  <bean id="h2Configuration" class="org.kuali.db.JDBCConfiguration" p:type="H2" p:urlFragment=":h2:" p:driver="org.h2.Driver"/>
+  <bean id="h2Configuration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="H2" p:urlFragment=":h2:" p:driver="org.h2.Driver"/>
 
-  <bean id="jtdsSqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":jtds:sqlserver:" p:driver="net.sourceforge.jtds.jdbc.Driver"/>
+  <bean id="jtdsSqlServerConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":jtds:sqlserver:" p:driver="net.sourceforge.jtds.jdbc.Driver"/>
 
-  <bean id="ms2000SqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":microsoft:sqlserver:" p:driver="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
+  <bean id="ms2000SqlServerConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":microsoft:sqlserver:" p:driver="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
 
-  <bean id="ms2005SqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":sqlserver:" p:driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+  <bean id="ms2005SqlServerConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":sqlserver:" p:driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 
-  <bean id="db2Configuration" class="org.kuali.db.JDBCConfiguration" p:type="DB2" p:urlFragment=":db2:" p:driver="com.ibm.db2.jcc.DB2Driver"/>
+  <bean id="db2Configuration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="DB2" p:urlFragment=":db2:" p:driver="com.ibm.db2.jcc.DB2Driver"/>
 
-  <bean id="derbyConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="DERBY" p:urlFragment=":derby:" p:driver="org.apache.derby.jdbc.EmbeddedDriver"/>
+  <bean id="derbyConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="DERBY" p:urlFragment=":derby:" p:driver="org.apache.derby.jdbc.EmbeddedDriver"/>
 
 
   <util:list id="jdbcConfigurations">
