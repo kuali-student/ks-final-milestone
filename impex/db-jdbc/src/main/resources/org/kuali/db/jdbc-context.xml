@@ -24,6 +24,14 @@
     <property name="systemPropertiesMode" value="2"/>
   </bean>
 
+  <bean id="impexCredentials" class="org.kuali.db.jdbc.Credentials" p:username="${impex.username}" p:password="${impex.password}"/>
+  <bean id="impexDbaCredentials" class="org.kuali.db.jdbc.Credentials" p:username="${impex.dba.username}" p:password="${impex.dba.password}"/>
+  <bean id="databaseManager" class="org.kuali.db.jdbc.DatabaseManager">
+    <property name="credentials" ref="impexCredentials"/>
+    <property name="dbaCredentials" ref="impexDbaCredentials"/>
+    <property name="mode" value="${impex.mode}"/>
+  </bean>
+
   <bean id="oracleResetSql" class="org.kuali.db.jdbc.ResetSql">
     <property name="createSql" value="
       -- Create a user, give them a password and set a quota for the default tablespace

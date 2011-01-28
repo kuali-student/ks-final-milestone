@@ -3,6 +3,7 @@ package org.kuali.db.jdbc;
 public class DatabaseManager {
     Credentials credentials;
     Credentials dbaCredentials;
+    DatabaseManagerMode mode;
 
     /**
      * @return the credentials
@@ -32,6 +33,21 @@ public class DatabaseManager {
      */
     public void setDbaCredentials(final Credentials dbaCredentials) {
         this.dbaCredentials = dbaCredentials;
+    }
+
+    /**
+     * @return the mode
+     */
+    public DatabaseManagerMode getMode() {
+        return mode;
+    }
+
+    /**
+     * @param mode
+     * the mode to set
+     */
+    public void setMode(final DatabaseManagerMode mode) {
+        this.mode = mode;
     }
 
 }
