@@ -10,7 +10,7 @@ public class Application {
         try {
             ApplicationContext context = new ClassPathXmlApplicationContext("org/kuali/db/jdbc-context.xml");
             DatabaseManager dbm = (DatabaseManager) context.getBean("databaseManager");
-            System.out.println("hello world");
+            dbm.dropDatabase();
         } catch (Throwable t) {
             t.printStackTrace();
         }

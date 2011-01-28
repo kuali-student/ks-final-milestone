@@ -2,7 +2,11 @@ package org.kuali.db.jdbc;
 
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class DatabaseManager {
+    private static final Log log = LogFactory.getLog(DatabaseManager.class);
     Credentials credentials;
     Credentials dbaCredentials;
     DatabaseManagerMode mode;
@@ -11,11 +15,13 @@ public class DatabaseManager {
 
     public void dropDatabase() throws SQLException {
         JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
-        ConnectionHandler connectionHandler = new ConnectionHandler();
-        connectionHandler.setCredentials(getDbaCredentials());
-        SQLExecutor executor = new SQLExecutor();
-        executor.setConn(connectionHandler.getConnection());
-        executor.executeSql(config.getResetSql().getDropSql());
+        String sql = config.getResetSql().getDropSql();
+        log.info(sql);
+        /*
+         * ConnectionHandler connectionHandler = new ConnectionHandler();
+         * connectionHandler.setCredentials(getDbaCredentials()); SQLExecutor executor = new SQLExecutor();
+         * executor.setConn(connectionHandler.getConnection()); executor.executeSql(config.getResetSql().getDropSql());
+         */
     }
 
     public void createDatabase() {

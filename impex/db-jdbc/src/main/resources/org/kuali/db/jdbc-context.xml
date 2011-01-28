@@ -121,7 +121,7 @@
   </util:list>
 
   <bean id="jdbcUtils" class="org.kuali.db.jdbc.JDBCUtils">
-    <property name="jdbcConfigurations" ref="jdbcConfigurations"/>
+    <property name="jdbcConfigs" ref="jdbcConfigurations"/>
   </bean>
 
   <bean id="impexCredentials" class="org.kuali.db.jdbc.Credentials" p:username="${impex.username}" p:password="${impex.password}"/>
