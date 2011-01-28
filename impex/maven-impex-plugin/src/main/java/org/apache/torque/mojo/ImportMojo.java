@@ -29,7 +29,7 @@ import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.torque.util.SimpleScanner;
 import org.apache.torque.util.TransactionComparator;
-import org.kuali.db.Transaction;
+import org.kuali.db.jdbc.Transaction;
 
 /**
  * Executes SQL for creating tables, primary keys, constraints, indexes, relationships, and views inside a database.

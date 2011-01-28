@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import static org.apache.commons.lang.StringUtils.*;
 
-import org.kuali.db.Transaction;
+import org.kuali.db.jdbc.Transaction;
 
 /**
  * 

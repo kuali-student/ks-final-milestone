@@ -2,8 +2,8 @@ package org.apache.torque.util;
 
 import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
-import org.kuali.db.DatabaseEvent;
-import org.kuali.db.DatabaseListener;
+import org.kuali.db.jdbc.DatabaseEvent;
+import org.kuali.db.jdbc.DatabaseListener;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 

@@ -6,7 +6,7 @@ import java.util.Vector;
 
 import org.apache.torque.util.TransactionComparator;
 import org.junit.Test;
-import org.kuali.db.Transaction;
+import org.kuali.db.jdbc.Transaction;
 
 public class TransactionComparatorTest {
 

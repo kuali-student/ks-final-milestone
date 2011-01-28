@@ -1,6 +1,6 @@
 package org.kuali.core.db.torque;
 
-import static org.kuali.db.JDBCUtils.closeQuietly;
+import static org.kuali.db.jdbc.JDBCUtils.closeQuietly;
 
 import java.io.File;
 import java.io.FileOutputStream;

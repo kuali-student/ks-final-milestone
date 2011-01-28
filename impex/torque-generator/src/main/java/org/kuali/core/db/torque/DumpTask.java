@@ -8,8 +8,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tools.ant.Task;
 import org.apache.torque.engine.platform.Platform;
-import org.kuali.db.ConnectionHandler;
-import org.kuali.db.Credentials;
+import org.kuali.db.jdbc.ConnectionHandler;
+import org.kuali.db.jdbc.Credentials;
 
 public class DumpTask extends Task {
 

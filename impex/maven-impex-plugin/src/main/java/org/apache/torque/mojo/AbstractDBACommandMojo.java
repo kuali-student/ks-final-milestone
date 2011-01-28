@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
-import org.kuali.db.DatabaseCommand;
+import org.kuali.db.jdbc.DatabaseCommand;
 
 import static org.apache.commons.lang.StringUtils.*;
 

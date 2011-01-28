@@ -42,11 +42,11 @@ import org.apache.torque.util.JdbcConfigurer;
 import org.apache.torque.util.MojoDatabaseListener;
 import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.core.db.torque.Utils;
-import org.kuali.db.ConnectionHandler;
-import org.kuali.db.Credentials;
-import org.kuali.db.JDBCUtils;
-import org.kuali.db.SQLExecutor;
-import org.kuali.db.Transaction;
+import org.kuali.db.jdbc.ConnectionHandler;
+import org.kuali.db.jdbc.Credentials;
+import org.kuali.db.jdbc.JDBCUtils;
+import org.kuali.db.jdbc.SQLExecutor;
+import org.kuali.db.jdbc.Transaction;
 
 /**
  * Abstract mojo for making use of SQLExecutor

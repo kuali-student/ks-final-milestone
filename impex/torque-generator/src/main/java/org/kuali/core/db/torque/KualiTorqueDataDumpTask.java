@@ -3,7 +3,7 @@ package org.kuali.core.db.torque;
 import static java.sql.Types.CLOB;
 import static java.sql.Types.DATE;
 import static java.sql.Types.TIMESTAMP;
-import static org.kuali.db.JDBCUtils.closeQuietly;
+import static org.kuali.db.jdbc.JDBCUtils.closeQuietly;
 
 import java.io.File;
 import java.io.FileNotFoundException;

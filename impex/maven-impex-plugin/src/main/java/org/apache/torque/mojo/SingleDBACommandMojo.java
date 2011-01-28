@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.kuali.db.DatabaseCommand;
-import org.kuali.db.SQLGenerator;
-import org.kuali.db.Transaction;
+import org.kuali.db.jdbc.DatabaseCommand;
+import org.kuali.db.jdbc.SQLGenerator;
+import org.kuali.db.jdbc.Transaction;
 
 /**
  * Runs a command that performs a single operation on a database (create,drop etc)

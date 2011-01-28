@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.core.db.torque.PropertyHandlingException;
-import org.kuali.db.DatabaseType;
-import org.kuali.db.JDBCConfiguration;
-import org.kuali.db.JDBCUtils;
+import org.kuali.db.jdbc.DatabaseType;
+import org.kuali.db.jdbc.JDBCConfiguration;
+import org.kuali.db.jdbc.JDBCUtils;
 
 public class JdbcConfigurer {
 	JDBCUtils jdbcUtils = new JDBCUtils();

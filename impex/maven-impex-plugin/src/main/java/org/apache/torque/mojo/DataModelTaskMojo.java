@@ -11,7 +11,7 @@ import org.apache.torque.task.TorqueDataModelTask;
 import org.apache.torque.util.JdbcConfigurer;
 import org.apache.torque.util.SimpleScanner;
 import org.kuali.core.db.torque.PropertyHandlingException;
-import org.kuali.db.DatabaseType;
+import org.kuali.db.jdbc.DatabaseType;
 
 /**
  * The base class for mojos that wrap DataModelTasks
