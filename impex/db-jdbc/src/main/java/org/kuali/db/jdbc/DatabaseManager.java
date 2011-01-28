@@ -14,6 +14,15 @@ public class DatabaseManager {
     String url;
     JDBCUtils jdbcUtils;
 
+    public void execute() throws SQLException {
+        if (mode.equals(DatabaseManagerMode.DROP_CREATE)) {
+            dropDatabase();
+            createDatabase();
+        } else {
+
+        }
+    }
+
     protected void executeDbaSql(final JDBCConfiguration config, final String sql) throws SQLException {
         ConnectionHandler connectionHandler = new ConnectionHandler();
         connectionHandler.setCredentials(getDbaCredentials());
