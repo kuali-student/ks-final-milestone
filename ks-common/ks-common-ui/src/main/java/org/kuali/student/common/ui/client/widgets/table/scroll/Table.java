@@ -98,9 +98,9 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     }
  
     public void addContent(){
-    	removeContent();
     	getScrollPanel().add(getContent());
     }
+    
     private void addHandlers() {
         focusPanel.addKeyDownHandler(new KeyDownHandler() {
 

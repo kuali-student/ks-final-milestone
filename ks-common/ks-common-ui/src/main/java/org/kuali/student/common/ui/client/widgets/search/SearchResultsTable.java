@@ -69,6 +69,9 @@ public class SearchResultsTable extends Composite{
 		this.mslabel = mslabel;
 	}
 
+	public Table getContentTable(){
+		return table;
+	}
 	public SearchResultsTable(){
         super();
         redraw();

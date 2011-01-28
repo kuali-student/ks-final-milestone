@@ -126,6 +126,7 @@ public class SearchPanel extends Composite{
                 @Override
                public void exec(ButtonEnum result) {
                     if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+                    	table.getContentTable().removeContent();
                         getActionCompleteCallback().exec(true);                                 
                     }
                }
