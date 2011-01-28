@@ -145,6 +145,7 @@
     <property name="dbaCredentials" ref="impexDbaCredentials"/>
     <property name="mode" value="${impex.mode}"/>
     <property name="url" value="${impex.url}"/>
+    <property name="dbaUrl" value="${impex.dba.url}"/>
     <property name="jdbcUtils" ref="jdbcUtils"/>
   </bean>
 
