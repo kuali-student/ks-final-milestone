@@ -16,16 +16,17 @@ public class DatabaseManager {
 
     public void dropDatabase() throws SQLException {
         JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
-        String sql = config.getResetSql().getDropSql();
+        String sql = config.getDbaSql().getDropSql();
         log.debug("DROP DATABASE SQL: " + sql);
         ConnectionHandler connectionHandler = new ConnectionHandler();
         connectionHandler.setCredentials(getDbaCredentials());
+        connectionHandler.setUrl(getUrl());
         Connection conn = null;
         try {
             connectionHandler.getConnection();
             SQLExecutor executor = new SQLExecutor();
             executor.setConn(conn);
-            executor.executeSql(config.getResetSql().getDropSql());
+            executor.executeSql(config.getDbaSql().getDropSql());
         } finally {
             JDBCUtils.closeQuietly(conn);
         }

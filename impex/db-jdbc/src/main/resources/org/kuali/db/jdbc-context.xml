@@ -24,7 +24,7 @@
     <property name="systemPropertiesMode" value="2"/>
   </bean>
 
-  <bean id="oracleResetSql" class="org.kuali.db.jdbc.DbaSql">
+  <bean id="oracleDbaSql" class="org.kuali.db.jdbc.DbaSql">
     <property name="createSql">
       <value><![CDATA[
         -- Create a user, give them a password and set a quota for the default tablespace
@@ -66,7 +66,7 @@
       </value>
     </property>
   </bean>
-  <bean id="mysqlResetSql" class="org.kuali.db.jdbc.DbaSql">
+  <bean id="mysqlDbaSql" class="org.kuali.db.jdbc.DbaSql">
     <property name="createSql">
       <value><![CDATA[
         CREATE DATABASE IF NOT EXISTS ${impex.database}
@@ -98,11 +98,11 @@
   </bean>
 
   <bean id="mysqlConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver">
-    <property name="resetSql" ref="mysqlResetSql"/>
+    <property name="dbaSql" ref="mysqlDbaSql"/>
   </bean>
 
   <bean id="oracleConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="ORACLE" p:urlFragment=":oracle:" p:driver="oracle.jdbc.driver.OracleDriver">
-    <property name="resetSql" ref="oracleResetSql"/>
+    <property name="dbaSql" ref="oracleDbaSql"/>
   </bean>
 
   <bean id="postgresConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="POSTGRESQL" p:urlFragment=":postgresql:" p:driver="org.postgresql.Driver"/>

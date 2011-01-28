@@ -9,7 +9,7 @@ public class JDBCConfiguration {
     DatabaseType type;
     String urlFragment;
     String driver;
-    DbaSql resetSql;
+    DbaSql dbaSql;
 
     public JDBCConfiguration() {
         this(null);
@@ -47,15 +47,15 @@ public class JDBCConfiguration {
     /**
      * @return the resetSql
      */
-    public DbaSql getResetSql() {
-        return resetSql;
+    public DbaSql getDbaSql() {
+        return dbaSql;
     }
 
     /**
      * @param resetSql
      * the resetSql to set
      */
-    public void setResetSql(final DbaSql resetSql) {
-        this.resetSql = resetSql;
+    public void setDbaSql(final DbaSql resetSql) {
+        this.dbaSql = resetSql;
     }
 }
