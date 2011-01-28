@@ -4,6 +4,7 @@ public class DatabaseManager {
     Credentials credentials;
     Credentials dbaCredentials;
     DatabaseManagerMode mode;
+    String url;
 
     /**
      * @return the credentials
@@ -48,6 +49,21 @@ public class DatabaseManager {
      */
     public void setMode(final DatabaseManagerMode mode) {
         this.mode = mode;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url
+     * the url to set
+     */
+    public void setUrl(final String url) {
+        this.url = url;
     }
 
 }
