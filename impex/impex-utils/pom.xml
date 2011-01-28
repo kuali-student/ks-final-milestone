@@ -5,9 +5,9 @@
     <artifactId>impex</artifactId>
     <version>1.0.21-SNAPSHOT</version>
   </parent>
-  <artifactId>jdbc-support</artifactId>
-  <name>JDBC Support Utilities</name>
-  <description>Various utility methods for JDBC</description>
+  <artifactId>impex-utils</artifactId>
+  <name>Import/Export Utilities</name>
+  <description>Various utility methods for Importing/Exporting data from a JDBC accessible database</description>
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>
