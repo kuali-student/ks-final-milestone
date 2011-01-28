@@ -449,7 +449,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             }
 		}
 		public String getDisplayValue() {
-		    String result = null;
+		    String result = "";
 		    if (basicWidget instanceof KSTextBox) {
                 result = ((KSTextBox)basicWidget).getText();
             } else if (basicWidget instanceof KSSuggestBox) {
