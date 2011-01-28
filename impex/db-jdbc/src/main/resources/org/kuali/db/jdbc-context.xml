@@ -18,6 +18,7 @@
     <property name="locations">
       <list>
         <value>classpath:org/kuali/db/jdbc.properties</value>
+        <value>classpath:impex.properties</value>
       </list>
     </property>
     <property name="systemPropertiesMode" value="2"/>
