@@ -36,7 +36,7 @@ import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver;
+import org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver;
 import org.kuali.student.lum.workflow.qualifierresolver.OrganizationCurriculumCommitteeQualifierResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -171,7 +171,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         XPath xPath = XPathHelper.newXPath();
         try {
             List<String> orgIds = new ArrayList<String>();
-            NodeList orgElements = (NodeList) xPath.evaluate("/documentContent/applicationContent/" + AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "/orgId", xmlContent,
+            NodeList orgElements = (NodeList) xPath.evaluate("/documentContent/applicationContent/" + AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "/orgId", xmlContent,
                     XPathConstants.NODESET);
             for (int index = 0; index < orgElements.getLength(); index++) {
                 Element attributeElement = (Element) orgElements.item(index);
@@ -217,7 +217,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      * The default implementation retrieves the organization from the previous route node and uses the
      * {@link OrganizationService#getOrgOrgRelationsByRelatedOrg(String)} method to find all organization relations for
      * it. That list is then parsed to find all organization relations that are both active and of the relation type
-     * that matches {@link AbstractCocOrgQualifierResolver#KUALI_ORG_TYPE_CURRICULUM_PARENT}. A unique list of those
+     * that matches {@link AbstractOrganizationServiceQualifierResolver#KUALI_ORG_TYPE_CURRICULUM_PARENT}. A unique list of those
      * organization ids is returned.
      * 
      * @param context
@@ -240,7 +240,7 @@ public class OrganizationDynamicNode implements DynamicNode {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
-                    if (StringUtils.equals(AbstractCocOrgQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
+                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
                         LOG.debug("---- Related Org Relation:");
                         OrgInfo referenceOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId());
                         OrgInfo nextNodeOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId());
