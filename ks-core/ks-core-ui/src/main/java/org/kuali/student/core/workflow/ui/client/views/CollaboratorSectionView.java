@@ -14,15 +14,18 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
@@ -43,21 +46,21 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This view can be used to add collaborators to a proposal. This view can only be used when 
+ * This view can be used to add collaborators to a proposal. This view can only be used when
  * both a ProposalWorkflowFilter and a CollaboratorFilter is configured on the server. It
  * expects the data model to have both the proposal and collaborators elements.
- * 
+ *
  * @author Will
  *
  */
 public class CollaboratorSectionView extends SectionView {
 	private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
-	
+
 	private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
-	
+
 	private final GroupSection section;
     private FieldDescriptor person;
-    private FieldDescriptor permissions;    
+    private FieldDescriptor permissions;
     private FieldDescriptor actionRequests;
     private FieldDescriptor authorNotation;
     private KSButton addButton = new KSButton("Add Collaborator",ButtonStyle.SECONDARY);
@@ -67,17 +70,17 @@ public class CollaboratorSectionView extends SectionView {
     private InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
     private SimpleListItems permissionListItems = new SimpleListItems();
     private SimpleListItems actionRequestListItems = new SimpleListItems();
-    
+
     private KSDropDown permissionList = new KSDropDown();
     private KSDropDown actionRequestList = new KSDropDown();
 
     private boolean canRemoveCollaborators = false;
 	private boolean loaded = false;
-	
+
     private String workflowId;
 	private String documentStatus = null;
 	private int numCollabs = 0;
-	
+
 	List<Data> newCollaborators = new ArrayList<Data>();
 
     public CollaboratorSectionView(Enum<?> viewEnum, String name, String modelId) {
@@ -89,27 +92,27 @@ public class CollaboratorSectionView extends SectionView {
         this.modelId = modelId;
         if(name != null && !name.isEmpty() && showTitle){
 	        SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
-        	layout = new GroupFieldLayout(sectionTitle);  
+        	layout = new GroupFieldLayout(sectionTitle);
     	} else{
         	layout = new GroupFieldLayout();
         }
         section = new GroupSection();
         section.addStyleName("KS-Add-Collaborator-Box");
-        this.add(layout);   		    	
+        this.add(layout);
     }
-    	   
+
 	public void init(){
 		createAddCollabSection();
-		
+
         List<String> columns = new ArrayList<String>();
         columns.add("Name");
         columns.add("Permissions");
         columns.add("Action Request");
         columns.add("Request Status");
         columns.add("Delete");
-        
+
         table = new SimpleWidgetTable(columns);
-    	
+
 		layout.add(saveWarning);
         layout.add(addWarning);
 		layout.add(section);
@@ -127,8 +130,8 @@ public class CollaboratorSectionView extends SectionView {
 						KSPicker personPicker = (KSPicker) w;
 						personId = (String)personPicker.getValue().get();
 						personName = personPicker.getDisplayValue();
-												
-						if (personId != null && !personId.isEmpty()){
+
+						if (personId != null && !personId.isEmpty() && !personId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
 							String permissionCode = null;
 							if(permissions != null){
 								permissionCode = permissionList.getSelectedItem();
@@ -137,12 +140,12 @@ public class CollaboratorSectionView extends SectionView {
 							if(actionRequests != null){
 								actionRequestCode = actionRequestList.getSelectedItem();
 							}
-							KSCheckBox authorCheckbox = (KSCheckBox)authorNotation.getFieldWidget(); 
-							boolean isAuthor = authorCheckbox.getValue();						
-							
+							KSCheckBox authorCheckbox = (KSCheckBox)authorNotation.getFieldWidget();
+							boolean isAuthor = authorCheckbox.getValue();
+
 							if (permissionCode != null && actionRequestCode != null){
 								addCollaborator(personId, personName, permissionCode, actionRequestCode, isAuthor);
-								
+
 								personPicker.clear();
 								authorCheckbox.setValue(false);
 								actionRequestList.clear();
@@ -162,23 +165,23 @@ public class CollaboratorSectionView extends SectionView {
 		actionRequestList.addSelectionChangeHandler(new SelectionChangeHandler(){
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				String selectedAction = actionRequestList.getSelectedItem(); 
+				String selectedAction = actionRequestList.getSelectedItem();
 				refreshPermissionList(selectedAction);
 			}
-			
+
 		});
-		
-		layout.add(createTableSection());	
-		
+
+		layout.add(createTableSection());
+
 		loaded = true;
 	}
 
 
 	@Override
-	public void beforeShow(final Callback<Boolean> onReadyCallback) {				
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
 		super.beforeShow(new Callback<Boolean>(){
 			@Override
-			public void exec(Boolean result) {								
+			public void exec(Boolean result) {
 				if (!loaded){
 					init();
 				}
@@ -201,7 +204,7 @@ public class CollaboratorSectionView extends SectionView {
 			}
 		});
 	}
-	
+
 	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
 		workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
 			@Override
@@ -215,10 +218,10 @@ public class CollaboratorSectionView extends SectionView {
 				documentStatus = result;
 				refreshActionRequestListItems();
 				checkAuthorization(onReadyCallback);
-			}									
-		});		
+			}
+		});
 	}
-	
+
     private void checkAuthorization(final Callback<Boolean> onReadyCallback) {
         workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>() {
             @Override
@@ -249,19 +252,36 @@ public class CollaboratorSectionView extends SectionView {
         				refreshCollaboratorsTable();
                         onReadyCallback.exec(true);
                     }
-                });                
+                });
             }
         });
 
     }
 
 	private void createAddCollabSection(){
-		Metadata personIdMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/principalId"));
+        String principalIdKey = "collaboratorInfo/collaborators/*/principalId";
+		Metadata personIdMeta = model.getMetadata(QueryPath.parse(principalIdKey));
 		Metadata permissionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/permission"));
 		Metadata actionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/action"));
-		
+
 		//TODO use real keys here
-		person = new FieldDescriptor(null, generateMessageInfo("Name"), personIdMeta);		
+		//person = new FieldDescriptor("collaboratorInfo", generateMessageInfo("Name"), personIdMeta);
+		person = new FieldDescriptor(null, generateMessageInfo("Name"), personIdMeta);
+        final KSPicker personPicker = (KSPicker) person.getFieldElement().getFieldWidget();
+        personPicker.addFocusLostCallback(new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+                Data.Value value = personPicker.getValue();
+                if (value instanceof Data.StringValue) {
+                    String stringValue = ((Data.StringValue) value).get();
+                    FieldElement fieldElement = person.getFieldElement();
+                    fieldElement.clearValidationPanel();
+                    if (stringValue.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+                        fieldElement.addValidationErrorMessage("Invalid Value");
+                    }
+                }
+            }
+        });
 		permissions = new FieldDescriptor(null, generateMessageInfo("Permission"), permissionMeta);
 		permissions.setFieldWidget(permissionList);
 		actionRequests = new FieldDescriptor(null, generateMessageInfo("Action Request"), actionMeta);
@@ -272,19 +292,19 @@ public class CollaboratorSectionView extends SectionView {
 		section.addField(permissions);
 		section.addField(actionRequests);
 		section.addField(authorNotation);
-		
+
 		permissionList.setBlankFirstItem(true);
 		actionRequestList.setBlankFirstItem(true);
 	}
-	
+
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(null, null, null, labelKey);
     }
-	
+
 	private boolean isDocumentPreRoute() {
 		return "I".equals(documentStatus) || "S".equals(documentStatus);
 	}
-	
+
 	private void refreshActionRequestListItems(){
 		actionRequestListItems.clear();
 		if (isDocumentPreRoute()){
@@ -293,12 +313,12 @@ public class CollaboratorSectionView extends SectionView {
             actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
             actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
             actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
-			
+
 		}
-		actionRequestList.setListItems(actionRequestListItems);		
+		actionRequestList.setListItems(actionRequestListItems);
 		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
 	}
-	
+
 	/**
 	 * If this code is changed or overriden to allow non-APPROVE adhoc requests
 	 * to have the EDIT permission then the Kuali Student Post Processor classes
@@ -311,15 +331,15 @@ public class CollaboratorSectionView extends SectionView {
 		permissionListItems.clear();
 		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
 		if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
-            permissionListItems.addItem(PermissionType.EDIT.getCode(),"Edit, Comment, View");					
+            permissionListItems.addItem(PermissionType.EDIT.getCode(),"Edit, Comment, View");
 		}
 
         permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),"Comment, View");
         permissionListItems.addItem(PermissionType.OPEN.getCode(),"View");
 
-		permissionList.setListItems(permissionListItems);		
+		permissionList.setListItems(permissionListItems);
 	}
-	
+
 	/**
 	 * Is this translation necessary, does it make sense to use these labels in the PermissonType itself?
 	 * @param permCode
@@ -328,28 +348,28 @@ public class CollaboratorSectionView extends SectionView {
 	private String translatePermissionCode(String permCode){
 		PermissionType permType = PermissionType.getByCode(permCode);
 		switch (permType){
-			case ADD_COMMENT: 
+			case ADD_COMMENT:
 				return "Comment, View";
 			case EDIT:
 				return "Edit, Comment, View";
 			case OPEN:
-				return "View";				
+				return "View";
 		}
 		return "";
 	}
-	
+
 	private Widget createTableSection(){
 		tableSection = new VerticalSection(SectionTitle.generateH3Title("Added People"));
 		tableSection.addWidget(table);
-		
+
 		return tableSection;
 	}
 
-	    
+
     private void addCollaborator(final String recipientPrincipalId, final String recipientPersonName, final String selectedPermissionCode, final String selectedActionRequest, boolean isAuthor){
     	//TODO: Is there a way to get first, last name from picker w/o parsing display value
     	String firstName = "";
-    	String lastName = "";    	
+    	String lastName = "";
     	String[] nameTokens = recipientPersonName.split("[,\\(]");
     	if (nameTokens.length >= 3){
     		lastName = nameTokens[0].trim();
@@ -357,8 +377,8 @@ public class CollaboratorSectionView extends SectionView {
     	} else {
     		firstName = recipientPersonName;
     	}
-    	    					
-		//Add person to new collaborators list 
+
+		//Add person to new collaborators list
     	if (!prinicipalExists(recipientPrincipalId)){
 			Data personData = new Data();
 			personData.set("principalId", recipientPrincipalId);
@@ -368,7 +388,7 @@ public class CollaboratorSectionView extends SectionView {
 			personData.set("lastName", lastName);
 			personData.set("actionRequestStatus", "New");
 			personData.set("author",isAuthor);
-		
+
 			newCollaborators.add(personData);
 			refreshCollaboratorsTable();
 
@@ -378,7 +398,7 @@ public class CollaboratorSectionView extends SectionView {
 			}
     	}
     }
-    
+
     public boolean prinicipalExists(String principalId){
 		Map<QueryPath, Object> collabs = model.query("collaboratorInfo/collaborators/*");
 
@@ -396,16 +416,16 @@ public class CollaboratorSectionView extends SectionView {
 				return true;
 			}
 		}
-		
+
 		return false;
     }
-        
+
 	@Override
 	public void updateModel() {
 		//Just copying code from VerticalSectionView, why is the isValidationEnabledCheck here?
 		if (model != null && isValidationEnabled()){
 			updateModel(model);
-		}		
+		}
 	}
 
 
@@ -416,7 +436,7 @@ public class CollaboratorSectionView extends SectionView {
 		numCollabs = 0;
 		for (int i=0; i < newCollaborators.size(); i++){
 			addPersonRow(newCollaborators.get(i), new Integer(i));
-			numCollabs++;			
+			numCollabs++;
 		}
 
         for (Object personData : collabs.values()) {
@@ -425,15 +445,15 @@ public class CollaboratorSectionView extends SectionView {
                 numCollabs++;
             }
         }
-		
+
 		if(numCollabs > 0){
 			tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added Collaborators (" + numCollabs + ")"));
 		} else {
 			tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added Collaborators"));
 		}
-		
+
 	}
-	
+
 	private void addPersonRow(final Data personData, final Integer deleteIndex){
 	    final String personName;
 		if (personData.query("lastName") != null){
@@ -443,15 +463,15 @@ public class CollaboratorSectionView extends SectionView {
 		}
 
 		Boolean isAuthor = personData.query("author");
-		Boolean canRevokeRequest = personData.query("canRevokeRequest");		
-		
+		Boolean canRevokeRequest = personData.query("canRevokeRequest");
+
 		//Add person to table widget
-    	List<Widget> rowWidgets = new ArrayList<Widget>();				
+    	List<Widget> rowWidgets = new ArrayList<Widget>();
 		rowWidgets.add(new KSLabel(personName + (isAuthor!=null && isAuthor?" (Author)":"")));
 		rowWidgets.add(new KSLabel(translatePermissionCode((String)personData.query("permission"))));
 		rowWidgets.add(new KSLabel(ActionRequestType.getByCode((String)personData.query("action")).getActionRequestLabel()));
 		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
-				
+
 		if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {
             //Add delete widget
             AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
@@ -486,10 +506,10 @@ public class CollaboratorSectionView extends SectionView {
 	        // add a dummy label for table placeholder
               rowWidgets.add(new KSLabel());
 	    }
-		
+
 		table.addRow(rowWidgets);
 	}
-	
+
 	@Override
 	public void updateModel(DataModel model) {
 		super.updateModel(model);
