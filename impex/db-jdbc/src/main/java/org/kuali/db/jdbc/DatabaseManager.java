@@ -16,7 +16,8 @@ public class DatabaseManager {
     public void dropDatabase() throws SQLException {
         JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
         String sql = config.getResetSql().getDropSql();
-        log.info(sql);
+        // log.info(sql);
+        System.out.println(sql);
         /*
          * ConnectionHandler connectionHandler = new ConnectionHandler();
          * connectionHandler.setCredentials(getDbaCredentials()); SQLExecutor executor = new SQLExecutor();
