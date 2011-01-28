@@ -131,5 +131,26 @@ public class IdTranslator {
         return result;
         
     }
-    
+
+    public String getTranslationForAtp(String value) {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("atp.search.advancedAtpSearch");
+        ArrayList<SearchParam> searchParams = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("atp.advancedAtpSearchParam.atpId");
+        searchParam.setValue(value);
+        searchParams.add(searchParam);
+        searchRequest.setParams(searchParams);
+        SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
+        if(searchResult!= null){
+            for (SearchResultRow resultRow : searchResult.getRows()) {
+                for (SearchResultCell searchResultCell : resultRow.getCells()) {
+                    if(searchResultCell.getKey().equals("atp.resultColumn.atpDescrPlain")){
+                        return searchResultCell.getValue();
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

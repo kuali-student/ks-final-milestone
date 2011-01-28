@@ -17,9 +17,12 @@ package org.kuali.student.common.ui.server.gwt;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.core.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.service.SearchDispatcher;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -27,6 +30,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService{
 
 	private static final long serialVersionUID = 1L;
+
+    private IdTranslatorFilter idTranslatorFilter;
 
 	final Logger LOG = Logger.getLogger(SearchDispatchRpcGwtServlet.class);
 	private SearchDispatcher searchDispatcher;
@@ -42,10 +47,28 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	 */
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
-		return searchDispatcher.dispatchSearch(searchRequest);
+        SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
+        doIdTranslation(searchResult);
+		return searchResult;
 	}
 
-	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    private void doIdTranslation(SearchResult searchResult) {
+        for (SearchResultRow searchResultRow : searchResult.getRows()) {
+            for (SearchResultCell searchResultCell : searchResultRow.getCells()) {
+               String value = searchResultCell.getValue();
+               if(value != null && value.startsWith("kuali.atp")){
+                   String newValue = idTranslatorFilter.getTranslationForAtp(value);
+                   searchResultCell.setValue(newValue);
+               }
+            }
+        }
+    }
+
+    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
+
+    public void setIdTranslatorFilter(IdTranslatorFilter idTranslatorFilter) {
+        this.idTranslatorFilter = idTranslatorFilter;
+    }
 }

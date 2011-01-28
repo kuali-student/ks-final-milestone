@@ -9,8 +9,11 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.UILookupData;
 import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ContextLoader;
 
 public class IdTranslatorFilter extends AbstractDataFilter {
     final Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
@@ -147,5 +150,8 @@ public class IdTranslatorFilter extends AbstractDataFilter {
             }
         }
     }
-	
+
+    public String getTranslationForAtp(String value) {
+        return idTranslator.getTranslationForAtp(value);
+    }
 }

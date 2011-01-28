@@ -590,6 +590,7 @@
 
     <bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
         <property name="searchDispatcher" ref="searchDispatcher"/>
+        <property name="idTranslatorFilter" ref="idTranslatorFilter"/>
     </bean>
     <bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl"
           init-method="init">
