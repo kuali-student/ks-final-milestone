@@ -12,6 +12,7 @@ public class DatabaseManager {
     Credentials dbaCredentials;
     DatabaseManagerMode mode;
     String url;
+    String dbaUrl;
     JDBCUtils jdbcUtils;
 
     public void execute() throws SQLException {
@@ -40,14 +41,14 @@ public class DatabaseManager {
     }
 
     public void dropDatabase() throws SQLException {
-        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
+        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getDbaUrl());
         String sql = config.getDbaSql().getDropSql();
         log.info("-- Dropping database --");
         executeDbaSql(config, sql);
     }
 
     public void createDatabase() throws SQLException {
-        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
+        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getDbaUrl());
         String sql = config.getDbaSql().getCreateSql();
         log.info("-- Creating database --");
         executeDbaSql(config, sql);
@@ -126,6 +127,21 @@ public class DatabaseManager {
      */
     public void setJdbcUtils(final JDBCUtils jdbcUtils) {
         this.jdbcUtils = jdbcUtils;
+    }
+
+    /**
+     * @return the dbaUrl
+     */
+    public String getDbaUrl() {
+        return dbaUrl;
+    }
+
+    /**
+     * @param dbaUrl
+     * the dbaUrl to set
+     */
+    public void setDbaUrl(final String dbaUrl) {
+        this.dbaUrl = dbaUrl;
     }
 
 }
