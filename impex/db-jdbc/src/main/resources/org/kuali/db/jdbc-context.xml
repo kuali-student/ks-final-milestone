@@ -18,7 +18,6 @@
     <property name="locations">
       <list>
         <value>classpath:org/kuali/db/jdbc.properties</value>
-        <value>classpath:impex.properties</value>
       </list>
     </property>
     <property name="systemPropertiesMode" value="2"/>
@@ -51,9 +50,9 @@
     </property>
     <property name="dropSql">
       <value><![CDATA[
-      -- Drop the user and ignore the Oracle 'user does not exist' error
+      -- Drop the user and ignore the error for 'user does not exist'
       -- Dropping the user removes all objects associated with this schema (tables, views, indexes, sequences, etc)
-      -- This is roughly the equivalent to MySQL's: DROP DATABASE [databaseName] IF EXISTS
+      -- This is roughly the equivalent to DROP DATABASE [databaseName] IF EXISTS in MySQL
       BEGIN
       EXECUTE IMMEDIATE 'DROP USER ${impex.username} CASCADE';
       EXCEPTION WHEN OTHERS THEN
