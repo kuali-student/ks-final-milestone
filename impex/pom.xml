@@ -5,7 +5,7 @@
     <artifactId>kuali</artifactId>
     <version>72</version>
   </parent>
-  <groupId>org.kuali.maven.impex</groupId>
+  <groupId>org.kuali.db.impex</groupId>
   <artifactId>impex</artifactId>
   <packaging>pom</packaging>
   <version>1.0.21-SNAPSHOT</version>
@@ -43,6 +43,7 @@
     <module>jdbc-support</module>
     <module>torque-generator</module>
     <module>torque-templates</module>
+    <module>impex-utils</module>
     <module>maven-impex-plugin</module>
   </modules>
   <repositories>
