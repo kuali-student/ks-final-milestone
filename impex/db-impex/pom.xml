@@ -5,13 +5,13 @@
     <artifactId>impex</artifactId>
     <version>1.0.21-SNAPSHOT</version>
   </parent>
-  <artifactId>impex-utils</artifactId>
+  <artifactId>db-impex</artifactId>
   <name>Import/Export Utilities</name>
   <description>Various utility methods for Importing/Exporting data from a JDBC accessible database</description>
   <dependencies>
     <dependency>
       <groupId>org.kuali.db.impex</groupId>
-      <artifactId>jdbc-support</artifactId>
+      <artifactId>db-jdbc</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

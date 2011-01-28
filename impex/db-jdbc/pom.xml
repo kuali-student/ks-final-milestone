@@ -5,7 +5,7 @@
     <artifactId>impex</artifactId>
     <version>1.0.21-SNAPSHOT</version>
   </parent>
-  <artifactId>jdbc-support</artifactId>
+  <artifactId>db-jdbc</artifactId>
   <name>JDBC Support Utilities</name>
   <description>Various utility methods for JDBC</description>
   <dependencies>

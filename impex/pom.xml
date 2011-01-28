@@ -40,10 +40,10 @@
     </site>
   </distributionManagement>
   <modules>
-    <module>jdbc-support</module>
+    <module>db-jdbc</module>
     <module>torque-generator</module>
     <module>torque-templates</module>
-    <module>impex-utils</module>
+    <module>db-impex</module>
     <module>maven-impex-plugin</module>
   </modules>
   <repositories>

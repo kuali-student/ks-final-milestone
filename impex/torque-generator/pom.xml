@@ -11,7 +11,7 @@
   <dependencies>
     <dependency>
       <groupId>org.kuali.db.impex</groupId>
-      <artifactId>jdbc-support</artifactId>
+      <artifactId>db-jdbc</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -126,7 +126,7 @@
       <version>${impex.spring.version}</version>
       <type>jar</type>
       <scope>compile</scope>
-      
+
     </dependency>
   </dependencies>
   <scm>
