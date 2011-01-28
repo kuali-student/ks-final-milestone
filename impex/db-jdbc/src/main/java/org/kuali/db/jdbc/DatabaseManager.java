@@ -1,10 +1,26 @@
 package org.kuali.db.jdbc;
 
+import java.sql.SQLException;
+
 public class DatabaseManager {
     Credentials credentials;
     Credentials dbaCredentials;
     DatabaseManagerMode mode;
     String url;
+    JDBCUtils jdbcUtils;
+
+    public void dropDatabase() throws SQLException {
+        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
+        ConnectionHandler connectionHandler = new ConnectionHandler();
+        connectionHandler.setCredentials(getDbaCredentials());
+        SQLExecutor executor = new SQLExecutor();
+        executor.setConn(connectionHandler.getConnection());
+        executor.executeSql(config.getResetSql().getDropSql());
+    }
+
+    public void createDatabase() {
+
+    }
 
     /**
      * @return the credentials
@@ -64,6 +80,21 @@ public class DatabaseManager {
      */
     public void setUrl(final String url) {
         this.url = url;
+    }
+
+    /**
+     * @return the jdbcUtils
+     */
+    public JDBCUtils getJdbcUtils() {
+        return jdbcUtils;
+    }
+
+    /**
+     * @param jdbcUtils
+     * the jdbcUtils to set
+     */
+    public void setJdbcUtils(final JDBCUtils jdbcUtils) {
+        this.jdbcUtils = jdbcUtils;
     }
 
 }
