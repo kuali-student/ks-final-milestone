@@ -30,6 +30,7 @@
     <property name="credentials" ref="impexCredentials"/>
     <property name="dbaCredentials" ref="impexDbaCredentials"/>
     <property name="mode" value="${impex.mode}"/>
+    <property name="url" value="${impex.url}"/>
   </bean>
 
   <bean id="oracleResetSql" class="org.kuali.db.jdbc.ResetSql">
