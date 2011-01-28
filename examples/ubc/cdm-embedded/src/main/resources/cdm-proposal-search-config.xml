@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+    xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+    xsi:schemaLocation="
+    http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+    http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!-- 
+	<import resource="classpath:proposal-search-config.xml"/>
+
+	<dict:constraintDescriptor key="rationale" id="dict.all.course.proposals.rationale.cd" parent="dict.all.course.proposals.rationale.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>	  	
+	</dict:constraintDescriptor> 
+	<dict:constraintDescriptor key="rationale" id="dict.all.course.proposals.rationale.draft.cd" parent="dict.all.course.proposals.rationale.draft.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>
+	</dict:constraintDescriptor>	
+	<dict:constraintDescriptor key="rationale" id="dict.all.program.proposals.rationale.cd" parent="dict.all.program.proposals.rationale.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>
+	</dict:constraintDescriptor>
+	<dict:constraintDescriptor key="rationale" id="dict.all.program.proposals.rationale.draft.cd" parent="dict.all.program.proposals.rationale.draft.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>
+	</dict:constraintDescriptor>
+	<dict:constraintDescriptor key="rationale" id="dict.group.proposal.rationale.cd" parent="dict.group.proposal.rationale.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>	
+	</dict:constraintDescriptor>
+	<dict:constraintDescriptor key="rationale" id="dict.group.proposal.rationale.draft.cd" parent="dict.group.proposal.rationale.draft.cd.abstract">
+	  <dict:constraintRef bean="constraint.required"/>
+	  <dict:constraint key="maxCharacters">
+	    <dict:maxLength>5</dict:maxLength>
+	  </dict:constraint>	
+	</dict:constraintDescriptor>
+	-->
+</beans>
