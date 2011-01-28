@@ -79,6 +79,7 @@
   <param name="impex.username">${datasource.username}</param>
   <param name="impex.password">${datasource.password}</param>
   <param name="impex.url">${datasource.url}</param>
+  <param name="impex.dba.url">${datasource.url}</param>
   <param name="impex.dba.username">KSDBA</param>
   <param name="impex.dba.password">KSDBA</param>
 

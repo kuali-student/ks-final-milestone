@@ -24,8 +24,8 @@
 
   <bean id="propertyPlaceholder" class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config"/>
 
-  <bean id="impexCredentials" class="org.kuali.db.Credentials" p:username="${impex.username}" p:password="${ks.impex.password}"/>
-  <bean id="impexDbaCredentials" class="org.kuali.db.Credentials" p:username="${impex.dba.username}" p:password="${ks.impex.dba.password}"/>
+  <bean id="impexCredentials" class="org.kuali.db.Credentials" p:username="${impex.username}" p:password="${impex.password}"/>
+  <bean id="impexDbaCredentials" class="org.kuali.db.Credentials" p:username="${impex.dba.username}" p:password="${impex.dba.password}"/>
   <bean id="impexConnectionHandler" class="org.kuali.db.ConnectionHandler" p:url="${impex.url}">
     <property name="credentials">
       <ref bean="impexCredentials"/>
