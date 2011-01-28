@@ -17,7 +17,7 @@
   <bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
     <property name="configLocations">
       <list>
-        <value>classpath:standalone-config2.xml</value>
+        <value>classpath:standalone-config-impex.xml</value>
       </list>
     </property>
   </bean>
@@ -38,7 +38,7 @@
   </bean>
 
   <bean id="oracleResetSql" class="org.kuali.db.ResetSql">
-    <property name="createSql">
+    <property name="createSql" value="
       -- Create a user, give them a password and set a quota for the default tablespace
       CREATE USER ${impex.username}
       IDENTIFIED BY ${impex.password}
@@ -57,9 +57,8 @@
       , CREATE TYPE
       , CREATE VIEW
       TO ${impex.username}
-      /
-    </property>
-    <property name="dropSql">
+      /"/>
+    <property name="dropSql" value="
       -- Drop the user and ignore the Oracle 'user does not exist' error
       -- Dropping the user removes all objects associated with this schema (tables, views, indexes, sequences, etc)
       -- This is roughly the equivalent to MySQL's: DROP DATABASE [databaseName] IF EXISTS
@@ -70,11 +69,10 @@
       RAISE;
       END IF;
       END;
-      /
-    </property>
+      /"/>
   </bean>
   <bean id="mysqlResetSql" class="org.kuali.db.ResetSql">
-    <property name="createSql">
+    <property name="createSql" value="
       CREATE DATABASE IF NOT EXISTS ${impex.database}
       DEFAULT CHARACTER SET '${mysql.character.set}'
       DEFAULT COLLATE '${mysql.collate}';
@@ -84,9 +82,8 @@
       TO '${impex.username}'@'%'
       IDENTIFIED BY '${impex.password}'
       WITH GRANT OPTION
-      /
-    </property>
-    <property name="dropSql">
+      /"/>
+    <property name="dropSql" value="
       DROP DATABASE IF EXISTS ${impex.database}
       /
 
@@ -94,8 +91,7 @@
       /
 
       DROP USER ${impex.username}
-      /
-    </property>
+      /"/>
   </bean>
 
 </beans>
