@@ -17,8 +17,8 @@
   <bean id="oracleResetSql" class="org.kuali.db.ResetSql">
     <property name="createSql" value="
       -- Create a user, give them a password and set a quota for the default tablespace
-      CREATE USER ${username}
-      IDENTIFIED BY ${password}
+      CREATE USER ${impex.username}
+      IDENTIFIED BY ${impex.password}
       DEFAULT TABLESPACE ${oracle.tablespace.default}
       TEMPORARY TABLESPACE ${oracle.tablespace.temporary}
       QUOTA ${oracle.tablespace.default.quota} ON ${oracle.tablespace.default}
@@ -33,14 +33,14 @@
       , CREATE TRIGGER
       , CREATE TYPE
       , CREATE VIEW
-      TO ${username}
+      TO ${impex.username}
       /"/>
     <property name="dropSql" value="
       -- Drop the user and ignore the Oracle 'user does not exist' error
       -- Dropping the user removes all objects associated with this schema (tables, views, indexes, sequences, etc)
       -- This is roughly the equivalent to MySQL's: DROP DATABASE [databaseName] IF EXISTS
       BEGIN
-      EXECUTE IMMEDIATE 'DROP USER ${username} CASCADE';
+      EXECUTE IMMEDIATE 'DROP USER ${impex.username} CASCADE';
       EXCEPTION WHEN OTHERS THEN
       IF SQLCODE != ${oracle.error.sqlcode.userDoesNotExist} THEN
       RAISE;
@@ -50,24 +50,24 @@
   </bean>
   <bean id="mysqlResetSql" class="org.kuali.db.ResetSql">
     <property name="createSql" value="
-      CREATE DATABASE IF NOT EXISTS ${database}
+      CREATE DATABASE IF NOT EXISTS ${impex.database}
       DEFAULT CHARACTER SET '${mysql.character.set}'
       DEFAULT COLLATE '${mysql.collate}';
       /
 
-      GRANT ALL ON ${database}.*
-      TO '${username}'@'%'
-      IDENTIFIED BY '${password}'
+      GRANT ALL ON ${impex.database}.*
+      TO '${impex.username}'@'%'
+      IDENTIFIED BY '${impex.password}'
       WITH GRANT OPTION
       /"/>
     <property name="dropSql" value="
-      DROP DATABASE IF EXISTS ${database}
+      DROP DATABASE IF EXISTS ${impex.database}
       /
 
-      GRANT USAGE ON *.* TO '${username}'@'%' IDENTIFIED BY '${password}'
+      GRANT USAGE ON *.* TO '${impex.username}'@'%' IDENTIFIED BY '${impex.password}'
       /
 
-      DROP USER ${username}
+      DROP USER ${impex.username}
       /"/>
   </bean>
 
