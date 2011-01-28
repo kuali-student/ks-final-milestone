@@ -4,41 +4,58 @@ package org.kuali.db.jdbc;
  * A pojo containing JDBC related configuration information. eg JDBC drivers, url fragments and type
  */
 public class JDBCConfiguration {
-	public static final JDBCConfiguration UNKNOWN_CONFIG = new JDBCConfiguration(DatabaseType.UNKNOWN);
+    public static final JDBCConfiguration UNKNOWN_CONFIG = new JDBCConfiguration(DatabaseType.UNKNOWN);
 
-	public JDBCConfiguration() {
-		this(null);
-	}
+    DatabaseType type;
+    String urlFragment;
+    String driver;
+    ResetSql resetSql;
 
-	public JDBCConfiguration(DatabaseType type) {
-		super();
-		this.type = type;
-	}
+    public JDBCConfiguration() {
+        this(null);
+    }
 
-	DatabaseType type;
-	String urlFragment;
-	String driver;
-	public DatabaseType getType() {
-		return type;
-	}
+    public JDBCConfiguration(final DatabaseType type) {
+        super();
+        this.type = type;
+    }
 
-	public void setType(DatabaseType type) {
-		this.type = type;
-	}
+    public DatabaseType getType() {
+        return type;
+    }
 
-	public String getUrlFragment() {
-		return urlFragment;
-	}
+    public void setType(final DatabaseType type) {
+        this.type = type;
+    }
 
-	public void setUrlFragment(String urlFragment) {
-		this.urlFragment = urlFragment;
-	}
+    public String getUrlFragment() {
+        return urlFragment;
+    }
 
-	public String getDriver() {
-		return driver;
-	}
+    public void setUrlFragment(final String urlFragment) {
+        this.urlFragment = urlFragment;
+    }
 
-	public void setDriver(String driver) {
-		this.driver = driver;
-	}
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(final String driver) {
+        this.driver = driver;
+    }
+
+    /**
+     * @return the resetSql
+     */
+    public ResetSql getResetSql() {
+        return resetSql;
+    }
+
+    /**
+     * @param resetSql
+     * the resetSql to set
+     */
+    public void setResetSql(final ResetSql resetSql) {
+        this.resetSql = resetSql;
+    }
 }
