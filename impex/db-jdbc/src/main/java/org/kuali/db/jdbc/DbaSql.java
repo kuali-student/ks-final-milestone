@@ -1,6 +1,6 @@
 package org.kuali.db.jdbc;
 
-public class ResetSql {
+public class DbaSql {
 	String dropSql;
 	String createSql;
 

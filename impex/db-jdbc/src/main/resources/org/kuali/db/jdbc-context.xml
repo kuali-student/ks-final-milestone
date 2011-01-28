@@ -24,28 +24,33 @@
     <property name="systemPropertiesMode" value="2"/>
   </bean>
 
-  <bean id="oracleResetSql" class="org.kuali.db.jdbc.ResetSql">
-    <property name="createSql" value="
-      -- Create a user, give them a password and set a quota for the default tablespace
-      CREATE USER ${impex.username}
-      IDENTIFIED BY ${impex.password}
-      DEFAULT TABLESPACE ${oracle.tablespace.default}
-      TEMPORARY TABLESPACE ${oracle.tablespace.temporary}
-      QUOTA ${oracle.tablespace.default.quota} ON ${oracle.tablespace.default}
-      /
+  <bean id="oracleResetSql" class="org.kuali.db.jdbc.DbaSql">
+    <property name="createSql">
+      <value><![CDATA[
+        -- Create a user, give them a password and set a quota for the default tablespace
+        CREATE USER ${impex.username}
+        IDENTIFIED BY ${impex.password}
+        DEFAULT TABLESPACE ${oracle.tablespace.default}
+        TEMPORARY TABLESPACE ${oracle.tablespace.temporary}
+        QUOTA ${oracle.tablespace.default.quota} ON ${oracle.tablespace.default}
+        /
 
-      -- Grant permissions as needed
-      GRANT CREATE PROCEDURE
-      , CREATE SEQUENCE
-      , CREATE SESSION
-      , CREATE SYNONYM
-      , CREATE TABLE
-      , CREATE TRIGGER
-      , CREATE TYPE
-      , CREATE VIEW
-      TO ${impex.username}
-      /"/>
-    <property name="dropSql" value="
+        -- Grant permissions as needed
+        GRANT CREATE PROCEDURE
+        , CREATE SEQUENCE
+        , CREATE SESSION
+        , CREATE SYNONYM
+        , CREATE TABLE
+        , CREATE TRIGGER
+        , CREATE TYPE
+        , CREATE VIEW
+        TO ${impex.username}
+        /
+        ]]>
+      </value>
+    </property>
+    <property name="dropSql">
+      <value><![CDATA[
       -- Drop the user and ignore the Oracle 'user does not exist' error
       -- Dropping the user removes all objects associated with this schema (tables, views, indexes, sequences, etc)
       -- This is roughly the equivalent to MySQL's: DROP DATABASE [databaseName] IF EXISTS
@@ -56,29 +61,40 @@
       RAISE;
       END IF;
       END;
-      /"/>
+      /
+      ]]>
+      </value>
+    </property>
   </bean>
-  <bean id="mysqlResetSql" class="org.kuali.db.jdbc.ResetSql">
-    <property name="createSql" value="
-      CREATE DATABASE IF NOT EXISTS ${impex.database}
-      DEFAULT CHARACTER SET '${mysql.character.set}'
-      DEFAULT COLLATE '${mysql.collate}';
-      /
+  <bean id="mysqlResetSql" class="org.kuali.db.jdbc.DbaSql">
+    <property name="createSql">
+      <value><![CDATA[
+        CREATE DATABASE IF NOT EXISTS ${impex.database}
+        DEFAULT CHARACTER SET '${mysql.character.set}'
+        DEFAULT COLLATE '${mysql.collate}';
+        /
 
-      GRANT ALL ON ${impex.database}.*
-      TO '${impex.username}'@'%'
-      IDENTIFIED BY '${impex.password}'
-      WITH GRANT OPTION
-      /"/>
-    <property name="dropSql" value="
-      DROP DATABASE IF EXISTS ${impex.database}
-      /
+        GRANT ALL ON ${impex.database}.*
+        TO '${impex.username}'@'%'
+        IDENTIFIED BY '${impex.password}'
+        WITH GRANT OPTION
+        /
+      ]]>
+      </value>
+    </property>
+    <property name="dropSql">
+      <value><![CDATA[
+        DROP DATABASE IF EXISTS ${impex.database}
+        /
 
-      GRANT USAGE ON *.* TO '${impex.username}'@'%' IDENTIFIED BY '${impex.password}'
-      /
+        GRANT USAGE ON *.* TO '${impex.username}'@'%' IDENTIFIED BY '${impex.password}'
+        /
 
-      DROP USER ${impex.username}
-      /"/>
+        DROP USER ${impex.username}
+        /
+        ]]>
+      </value>
+    </property>
   </bean>
 
   <bean id="mysqlConfiguration" class="org.kuali.db.jdbc.JDBCConfiguration" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver">

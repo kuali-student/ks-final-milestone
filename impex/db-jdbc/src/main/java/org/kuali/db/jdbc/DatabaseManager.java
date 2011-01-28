@@ -1,5 +1,6 @@
 package org.kuali.db.jdbc;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
@@ -16,13 +17,18 @@ public class DatabaseManager {
     public void dropDatabase() throws SQLException {
         JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
         String sql = config.getResetSql().getDropSql();
-        // log.info(sql);
-        System.out.println(sql);
-        /*
-         * ConnectionHandler connectionHandler = new ConnectionHandler();
-         * connectionHandler.setCredentials(getDbaCredentials()); SQLExecutor executor = new SQLExecutor();
-         * executor.setConn(connectionHandler.getConnection()); executor.executeSql(config.getResetSql().getDropSql());
-         */
+        log.debug("DROP DATABASE SQL: " + sql);
+        ConnectionHandler connectionHandler = new ConnectionHandler();
+        connectionHandler.setCredentials(getDbaCredentials());
+        Connection conn = null;
+        try {
+            connectionHandler.getConnection();
+            SQLExecutor executor = new SQLExecutor();
+            executor.setConn(conn);
+            executor.executeSql(config.getResetSql().getDropSql());
+        } finally {
+            JDBCUtils.closeQuietly(conn);
+        }
     }
 
     public void createDatabase() {
