@@ -638,6 +638,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 COURSE + "/" + FORMATS, LUUIConstants.COURSE_ADD_FORMAT_LABEL_KEY,
                 LUUIConstants.FORMAT_LABEL_KEY,
                 null, null, null);
+        courseFormatConfig.setDefaultItemsCreated(1);
         MultiplicityConfiguration activitiesConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.SUB_LEVEL_GROUP,
@@ -682,7 +683,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 null,
                                 true)
                 ), null, null);
+        activitiesConfig.setDefaultItemsCreated(1);
         courseFormatConfig.setNestedConfig(activitiesConfig);
+        
 
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(courseFormatConfig, 

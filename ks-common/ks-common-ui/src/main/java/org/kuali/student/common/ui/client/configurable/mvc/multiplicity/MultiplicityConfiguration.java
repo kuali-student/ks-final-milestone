@@ -56,6 +56,7 @@ public class MultiplicityConfiguration {
     private Metadata metaData;
     
     private SectionTitle title;
+    private int defaultItemsCreated = 0;
 
     int row = 0;
     
@@ -156,6 +157,7 @@ public class MultiplicityConfiguration {
         copy.setItemLabel(getItemLabel());
         copy.setMetaData(getMetaData());
         copy.setUpdateable(isUpdateable());
+        copy.setDefaultItemsCreated(getDefaultItemsCreated());
         if (getNestedConfig() != null) {
             copy.setNestedConfig(getNestedConfig().copy());
         }
@@ -377,6 +379,14 @@ public class MultiplicityConfiguration {
     public void setCustomMultiplicityGroup(MultiplicityGroup customMultiplicityGroup) {
         this.customMultiplicityGroup = customMultiplicityGroup;
     }
+
+	public void setDefaultItemsCreated(int defaultItemsCreated) {
+		this.defaultItemsCreated = defaultItemsCreated;
+	}
+
+	public int getDefaultItemsCreated() {
+		return defaultItemsCreated;
+	}
     
     
 }
