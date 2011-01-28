@@ -95,11 +95,14 @@
         </start>
         <role name="Department Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
         </role>
         <role name="Publication Review">
 	      <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
         </role>
       </routeNodes>
     </documentType>
