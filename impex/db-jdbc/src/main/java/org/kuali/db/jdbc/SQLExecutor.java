@@ -1,4 +1,4 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import static org.apache.commons.io.IOUtils.*;
-import static org.kuali.db.JDBCUtils.*;
+import static org.kuali.db.jdbc.JDBCUtils.*;
 
 /**
  * Executes SQL statements

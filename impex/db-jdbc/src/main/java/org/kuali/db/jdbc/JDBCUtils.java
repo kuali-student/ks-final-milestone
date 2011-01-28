@@ -1,7 +1,7 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
-import static org.kuali.db.DatabaseType.POSTGRESQL;
+import static org.kuali.db.jdbc.DatabaseType.POSTGRESQL;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

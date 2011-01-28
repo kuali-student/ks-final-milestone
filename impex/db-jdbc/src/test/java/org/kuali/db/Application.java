@@ -1,5 +1,6 @@
 package org.kuali.db;
 
+import org.kuali.db.jdbc.ConnectionHandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

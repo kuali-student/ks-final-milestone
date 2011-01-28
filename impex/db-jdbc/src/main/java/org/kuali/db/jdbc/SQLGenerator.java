@@ -1,4 +1,4 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

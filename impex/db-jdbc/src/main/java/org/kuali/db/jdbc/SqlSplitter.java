@@ -17,7 +17,7 @@
  * under the License.    
  */
 
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 import org.apache.commons.lang.StringUtils;
 

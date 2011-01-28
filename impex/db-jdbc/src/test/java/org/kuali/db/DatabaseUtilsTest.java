@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.db.jdbc.DatabaseType;
+import org.kuali.db.jdbc.JDBCConfiguration;
+import org.kuali.db.jdbc.JDBCUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -1,4 +1,4 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 import java.io.File;
 import java.io.FileInputStream;

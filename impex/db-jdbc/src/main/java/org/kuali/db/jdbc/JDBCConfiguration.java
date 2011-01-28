@@ -1,4 +1,4 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 /**
  * A pojo containing JDBC related configuration information. eg JDBC drivers, url fragments and type

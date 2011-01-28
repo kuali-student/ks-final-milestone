@@ -1,4 +1,4 @@
-package org.kuali.db;
+package org.kuali.db.jdbc;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
