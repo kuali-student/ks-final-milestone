@@ -14,10 +14,7 @@ public class DatabaseManager {
     String url;
     JDBCUtils jdbcUtils;
 
-    public void dropDatabase() throws SQLException {
-        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
-        String sql = config.getDbaSql().getDropSql();
-        log.info("-- Dropping database --");
+    protected void executeDbaSql(final JDBCConfiguration config, final String sql) throws SQLException {
         ConnectionHandler connectionHandler = new ConnectionHandler();
         connectionHandler.setCredentials(getDbaCredentials());
         connectionHandler.setUrl(getUrl());
@@ -33,8 +30,18 @@ public class DatabaseManager {
         }
     }
 
-    public void createDatabase() {
+    public void dropDatabase() throws SQLException {
+        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
+        String sql = config.getDbaSql().getDropSql();
+        log.info("-- Dropping database --");
+        executeDbaSql(config, sql);
+    }
 
+    public void createDatabase() throws SQLException {
+        JDBCConfiguration config = getJdbcUtils().getDatabaseConfiguration(getUrl());
+        String sql = config.getDbaSql().getCreateSql();
+        log.info("-- Creating database --");
+        executeDbaSql(config, sql);
     }
 
     /**

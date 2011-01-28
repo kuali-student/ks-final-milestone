@@ -11,6 +11,7 @@ public class Application {
             ApplicationContext context = new ClassPathXmlApplicationContext("org/kuali/db/jdbc-context.xml");
             DatabaseManager dbm = (DatabaseManager) context.getBean("databaseManager");
             dbm.dropDatabase();
+            dbm.createDatabase();
         } catch (Throwable t) {
             t.printStackTrace();
         }
