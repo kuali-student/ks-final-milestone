@@ -537,18 +537,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     public boolean startSectionRequired(){
         String proposalId = cluProposalModel.get(cfg.getProposalPath()+"/id");
-
+        
         //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
         String proposalTitle = cluProposalModel.get(cfg.getProposalTitlePath());
+        String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
         if (proposalTitle == null || proposalTitle.isEmpty()){
-            String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
             cluProposalModel.set(QueryPath.parse(cfg.getProposalTitlePath()), courseTitle);
         }
-
-    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
+        
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing() && !hasTitles(proposalTitle, courseTitle);
     }
 
+    private boolean hasTitles(String proposalTitle, String courseTitle){
+    	return (proposalTitle != null && !proposalTitle.isEmpty()) && (courseTitle != null && !courseTitle.isEmpty());
+    }
+    
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	KSBlockingProgressIndicator.addTask(saving);
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
