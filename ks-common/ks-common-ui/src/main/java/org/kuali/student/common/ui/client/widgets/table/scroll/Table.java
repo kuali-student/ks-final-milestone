@@ -98,7 +98,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     }
  
     public void addContent(){
-    	getScrollPanel().add(getContent());
+    	getScrollPanel().setWidget(getContent());
     }
     
     private void addHandlers() {

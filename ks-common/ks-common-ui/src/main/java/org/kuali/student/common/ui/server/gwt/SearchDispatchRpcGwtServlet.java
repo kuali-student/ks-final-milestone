@@ -20,11 +20,10 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.core.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.*;
 import org.kuali.student.core.search.service.SearchDispatcher;
+
+import java.util.List;
 
 public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService {
 
@@ -49,7 +48,14 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
     @Override
     public SearchResult search(SearchRequest searchRequest) {
         SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
-        doIdTranslation(searchResult);
+        List<SearchParam> params  = searchRequest.getParams();
+        if(params != null && params.size() > 0){
+            SearchParam firstParam = params.get(0);
+            if(firstParam.getKey().equals("lu.queryParam.cluVersionIndId")){
+                doIdTranslation(searchResult);
+
+            }
+        }
         return searchResult;
     }
 
