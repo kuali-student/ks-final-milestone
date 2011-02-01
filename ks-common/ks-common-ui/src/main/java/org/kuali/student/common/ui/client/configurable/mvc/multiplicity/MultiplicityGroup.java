@@ -465,6 +465,7 @@ public class MultiplicityGroup extends Composite {
     }
 
 	public boolean isDirty(){
+        isDirty = false;
 		for (MultiplicityGroupItem item:items){
 			if (item.isDirty()){
 				isDirty = true;
