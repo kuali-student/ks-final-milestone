@@ -255,4 +255,9 @@ public abstract class SectionView extends BaseSection implements View {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return viewName;
+    }
 }
