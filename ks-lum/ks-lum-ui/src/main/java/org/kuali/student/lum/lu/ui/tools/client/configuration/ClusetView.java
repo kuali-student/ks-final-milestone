@@ -1,8 +1,16 @@
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.Date;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -32,24 +40,10 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
-import org.kuali.student.lum.common.client.widgets.CluSetEditorWidget;
-import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
-import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
-import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
-import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.common.client.widgets.*;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.Date;
+import java.util.List;
 
 public class ClusetView extends VerticalSectionView {
 
@@ -63,13 +57,19 @@ public class ClusetView extends VerticalSectionView {
     private CluSetEditorWidget cluSetEditor;
     private String cluSetType;
 
+    private KSLabel titleLabel = new KSLabel();
+
+    public void afterModelIsLoaded(DataModel cluSetModel) {
+        titleLabel.setText(cluSetModel.<String>get("name"));
+    }
+
     public enum CluSetsManagementViews {
         MAIN,
         CREATE,
         EDIT,
         VIEW
     }
-    
+
     public ClusetView(CluSetsManagementViews clusetViewEnum, String name, String modelId, final Callback<Boolean> onReady) {
         this(clusetViewEnum, name, modelId, false, onReady);
     }
@@ -85,11 +85,12 @@ public class ClusetView extends VerticalSectionView {
                     cluSetType, false);
         }
         viewEnum = clusetViewEnum;
-        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
+        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert("Failed to retrieve cluset definition");
             }
+
             @Override
             public void onSuccess(Metadata result) {
                 DataModelDefinition def = new DataModelDefinition(result);
@@ -99,6 +100,7 @@ public class ClusetView extends VerticalSectionView {
                     public void onFailure(Throwable caught) {
                         Window.alert("Failed to retrieve searchDefinition");
                     }
+
                     @Override
                     public void onSuccess(Metadata result) {
                         setSearchDefinition(new DataModelDefinition(result));
@@ -110,16 +112,21 @@ public class ClusetView extends VerticalSectionView {
                 });
             }
         });
+        setStyles();
     }
-    
+
+    private void setStyles() {
+        titleLabel.addStyleName("cluSetTitle");
+    }
+
     private void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
     }
-    
+
     private void setSearchDefinition(DataModelDefinition searchDefinition) {
         this.searchDefinition = searchDefinition;
     }
-    
+
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
         super.beforeShow(onReadyCallback);
@@ -127,16 +134,16 @@ public class ClusetView extends VerticalSectionView {
             refreshCluSetDisplay();
         }
     }
-    
+
     private void refreshCluSetDisplay() {
         if (this.selectedCluSetId != null) {
-            CluSetDetailsWidget clusetDetailsWidget = 
-                new CluSetDetailsWidget(selectedCluSetId, cluSetRetriever);
+            CluSetDetailsWidget clusetDetailsWidget =
+                    new CluSetDetailsWidget(selectedCluSetId, cluSetRetriever);
             cluSetDisplay.clear();
             cluSetDisplay.setWidget(clusetDetailsWidget);
         }
     }
-    
+
     private void setupView(CluSetsManagementViews clusetViewEnum) {
         if (clusetViewEnum == CluSetsManagementViews.CREATE ||
                 clusetViewEnum == CluSetsManagementViews.EDIT) {
@@ -147,12 +154,12 @@ public class ClusetView extends VerticalSectionView {
             setupViewClusetView();
         }
     }
-    
+
     @Override
     public void onHistoryEvent(String historyStack) {
         super.onHistoryEvent(historyStack);
-        CluSetsManagementController cluSetsManagementController = 
-            (CluSetsManagementController)getController();
+        CluSetsManagementController cluSetsManagementController =
+                (CluSetsManagementController) getController();
         selectedCluSetId = HistoryManager.getTokenMap(historyStack).get("docId");
         cluSetsManagementController.getMainView().setSelectedCluSetId(selectedCluSetId);
         cluSetsManagementController.showView(CluSetsManagementViews.VIEW);
@@ -167,15 +174,16 @@ public class ClusetView extends VerticalSectionView {
                 parentController.showView(CluSetsManagementViews.EDIT);
             }
         });
+        addWidget(titleLabel);
         this.addWidget(editCluSet);
         Section generalClusInfoSection = new VerticalSection();
         KSLabel cluSetTitle = new KSLabel();
         cluSetTitle.getElement().getStyle().setProperty("fontWeight", "bold");
         cluSetTitle.getElement().getStyle().setProperty("fontSize", "16px");
         cluSetTitle.getElement().getStyle().setProperty("borderBotton", "1px solid #D8D8D8");
-        
-        addField(generalClusInfoSection, 
-                ToolsConstants.CLU_SET_NAME_FIELD, 
+
+        addField(generalClusInfoSection,
+                ToolsConstants.CLU_SET_NAME_FIELD,
                 null,
                 cluSetTitle,
                 null);
@@ -195,7 +203,7 @@ public class ClusetView extends VerticalSectionView {
         this.addWidget(cluSetDisplay);
         this.setStyleName("standard-content-padding");
     }
-    
+
     private SummaryTableSection setupGeneralClusInfoSection() {
         SummaryTableSection result = new SummaryTableSection(getController());
         result.setEditable(false);
@@ -205,15 +213,16 @@ public class ClusetView extends VerticalSectionView {
 //        block.setTitle(getLabel(LUConstants.INFORMATION_LABEL_KEY));
         block.addSummaryTableFieldRow(getFieldRow(ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION)));
         SummaryTableFieldRow expDateRow = getFieldRow(ToolsConstants.CLU_SET_EXP_DATE_FIELD,
-                generateMessageInfo(ToolsConstants.EXPIRATION_DATE), null, null, null, 
+                generateMessageInfo(ToolsConstants.EXPIRATION_DATE), null, null, null,
                 new ModelWidgetBindingSupport<HasText>() {
                     public String dateToString(Date date) {
                         String result = null;
                         DateTimeFormat format = DateTimeFormat.getFormat("MM/dd/yyyy");
                         result = format.format(date);
 
-                        return result;        
+                        return result;
                     }
+
                     @Override
                     public void setModelValue(HasText widget, DataModel model, String path) {
                         // not implementing here since this value should not be edited through this widget
@@ -223,9 +232,9 @@ public class ClusetView extends VerticalSectionView {
                     public void setWidgetValue(HasText widget, DataModel model, String path) {
                         try {
                             QueryPath qPath = QueryPath.parse(path);
-                            
+
                             Object value = null;
-                            if(model!=null){
+                            if (model != null) {
                                 value = model.get(qPath);
                             }
 
@@ -242,7 +251,7 @@ public class ClusetView extends VerticalSectionView {
                             GWT.log("Error setting widget value for: " + path, e);
                         }
                     }
-            
+
                 }
                 , false);
         block.addSummaryTableFieldRow(expDateRow);
@@ -250,10 +259,11 @@ public class ClusetView extends VerticalSectionView {
         result.addSummaryTableFieldBlock(block);
         return result;
     }
-    
+
     protected SummaryTableFieldRow getFieldRow(String fieldKey, MessageKeyInfo messageKey) {
         return getFieldRow(fieldKey, messageKey, null, null, null, null, false);
     }
+
     protected SummaryTableFieldRow getFieldRow(String fieldKey, MessageKeyInfo messageKey, boolean optional) {
         return getFieldRow(fieldKey, messageKey, null, null, null, null, optional);
     }
@@ -266,7 +276,7 @@ public class ClusetView extends VerticalSectionView {
         if (widget != null) {
             fd.setFieldWidget(widget);
         }
-        if(binding != null){
+        if (binding != null) {
             fd.setWidgetBinding(binding);
         }
         fd.setOptional(optional);
@@ -275,12 +285,12 @@ public class ClusetView extends VerticalSectionView {
         if (widget2 != null) {
             fd2.setFieldWidget(widget2);
         }
-        if(binding != null){
+        if (binding != null) {
             fd2.setWidgetBinding(binding);
         }
         fd2.setOptional(optional);
 
-        SummaryTableFieldRow fieldRow = new SummaryTableFieldRow(fd,fd2);
+        SummaryTableFieldRow fieldRow = new SummaryTableFieldRow(fd, fd2);
 
         return fieldRow;
     }
@@ -290,7 +300,7 @@ public class ClusetView extends VerticalSectionView {
         KSDocumentHeader header = new KSDocumentHeader();
         header.setTitle("Course Set Management");
         this.addWidget(header);
-        
+
         Anchor createCluSet = new Anchor("<h2 class=\"contentBlock-title\">Create Course Set</h2>", true);
         createCluSet.addClickHandler(new ClickHandler() {
             @Override
@@ -300,7 +310,7 @@ public class ClusetView extends VerticalSectionView {
         });
         this.addWidget(createCluSet);
         this.addWidget(new KSLabel("Build a new Course set from courses, Course Sets, " +
-        		"or specific criteria."));
+                "or specific criteria."));
 
         Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_COURSE_SET);
         cluSetPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
@@ -319,7 +329,7 @@ public class ClusetView extends VerticalSectionView {
         this.addWidget(modifyCluSetTitle);
         this.addWidget(cluSetPicker);
     }
-    
+
     public String getSelectedCluSetId() {
         return selectedCluSetId;
     }
@@ -329,7 +339,7 @@ public class ClusetView extends VerticalSectionView {
     }
 
     private void setupCreateEditClusetView() {
-        String contextName = (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program"))?
+        String contextName = (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) ?
                 "Program" : "Course";
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.DEFINE_CLUSET + contextName), true);
 //        FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
@@ -341,7 +351,7 @@ public class ClusetView extends VerticalSectionView {
         addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION), new KSTextArea(), null);
         addField(defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker(), null);
         addField(defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EXPIRATION_DATE), new KSDatePicker(), null);
-        
+
         KSLabel spacer = new KSLabel();
         spacer.setHeight("20px");
         this.addSection(cluSetEditor);
@@ -349,7 +359,7 @@ public class ClusetView extends VerticalSectionView {
         this.addSection(defineCluSet);
         this.setStyleName("standard-content-padding");
     }
-    
+
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection(title);
         section.addStyleName(LUUIConstants.STYLE_SECTION);
@@ -357,41 +367,40 @@ public class ClusetView extends VerticalSectionView {
             section.addStyleName(LUUIConstants.STYLE_SECTION_DIVIDER);
         return section;
     }
-    
+
     private String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
-    
+
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
     }
-    
+
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
-    
-    private FieldDescriptor getFieldDescriptor( 
-            String fieldKey, 
-            MessageKeyInfo messageKey, 
-            Widget widget, 
+
+    private FieldDescriptor getFieldDescriptor(
+            String fieldKey,
+            MessageKeyInfo messageKey,
+            Widget widget,
             String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
         FieldDescriptor fd;
         if (widget != null) {
             fd = new FieldDescriptor(path.toString(), messageKey, meta, widget);
-        }
-        else{
+        } else {
             fd = new FieldDescriptor(path.toString(), messageKey, meta);
         }
         return fd;
     }
 
-    private FieldDescriptor addField(Section section, 
-            String fieldKey, 
-            MessageKeyInfo messageKey, 
-            Widget widget, 
-            String parentPath) {
+    private FieldDescriptor addField(Section section,
+                                     String fieldKey,
+                                     MessageKeyInfo messageKey,
+                                     Widget widget,
+                                     String parentPath) {
         FieldDescriptor fd = getFieldDescriptor(fieldKey, messageKey, widget, parentPath);
         section.addField(fd);
         return fd;
@@ -439,7 +448,7 @@ public class ClusetView extends VerticalSectionView {
         public void setAdditionalLookupMetadata(List<LookupMetadata> additionalLookupMetadata) {
             this.additionalLookupMetadata = additionalLookupMetadata;
         }
-        
+
     }
 
     @Override
@@ -449,5 +458,5 @@ public class ClusetView extends VerticalSectionView {
             cluSetEditor.setController(controller);
         }
     }
-    
+
 }

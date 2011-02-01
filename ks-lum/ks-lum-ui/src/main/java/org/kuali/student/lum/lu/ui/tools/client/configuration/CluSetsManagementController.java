@@ -72,7 +72,6 @@ public class CluSetsManagementController extends BasicLayout {
 
     final KSLightBox progressWindow = new KSLightBox();
 
-
     public CluSetsManagementController(){
         super(CluSetsManagementController.class.getName());
         setName("Course Set Management");
@@ -126,6 +125,7 @@ public class CluSetsManagementController extends BasicLayout {
                         try {
                             cluSetModel.setRoot(result);
                             viewClusetView.updateView(cluSetModel);
+                            afterModelLoaded();
                             CluSetsManagementController.super.showView(viewType);
                         } finally {
                             KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -137,6 +137,10 @@ public class CluSetsManagementController extends BasicLayout {
             cluSetModel.setRoot(new Data());
             super.showView(viewType);
         }
+    }
+
+    private void afterModelLoaded() {
+      viewClusetView.afterModelIsLoaded(cluSetModel);
     }
 
     private Widget getButtonPanel() {
