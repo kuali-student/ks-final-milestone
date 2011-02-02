@@ -103,7 +103,9 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                     if(isEmpty){
                         currentId = "";
                     }
-                	SelectionChangeEvent.fire(KSSuggestBox.this);
+                    if (!currentId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+                        SelectionChangeEvent.fire(KSSuggestBox.this);
+                    }
                 }                
             }
         });
