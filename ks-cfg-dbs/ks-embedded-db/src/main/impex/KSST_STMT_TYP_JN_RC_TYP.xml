@@ -30,10 +30,6 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.nof"
         SORT_ORDER="2"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="CC-3"
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.all"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_RC_TYP ID="CCRC-1"
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.notcompleted"
         SORT_ORDER="1"

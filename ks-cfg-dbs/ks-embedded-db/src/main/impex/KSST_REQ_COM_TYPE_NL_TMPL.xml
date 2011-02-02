@@ -672,20 +672,4 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.gpa.min"
         TEMPLATE="Must have earned a minimum GPA of $gpa in $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="9" LANGUAGE="en"
-    	NL_USUAGE_TYPE_KEY="KUALI.RULE"
-    	OWNER="kuali.reqComponent.type.course.courseset.enrolled.all"
-    	TEMPLATE="#if($courseCluSet.getCluList().size() == 1)Must be concurrently enrolled in $courseCluSet.getCluSetAsCode()#{else}Must be concurrently enrolled in all courses from $courseCluSet.getCluSetAsCode()#end" VER_NBR="0"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
-    	NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW" 
-    	OWNER="kuali.reqComponent.type.course.courseset.enrolled.all"
-    	TEMPLATE="#if($courseCluSet.getCluList().size() == 1)Must be concurrently enrolled in#{else}Must be concurrently enrolled in all courses from#end" VER_NBR="0"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="209" LANGUAGE="en"
-    	NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE" 
-    	OWNER="kuali.reqComponent.type.course.courseset.enrolled.all"
-    	TEMPLATE="Must be concurrently enrolled in all courses from (MATH111, 140, 220, and STAT100)" VER_NBR="0"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="309" LANGUAGE="en"
-    	NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION" 
-    	OWNER="kuali.reqComponent.type.course.courseset.enrolled.all"
-    	TEMPLATE="%lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>" VER_NBR="0"/>
 </dataset>
