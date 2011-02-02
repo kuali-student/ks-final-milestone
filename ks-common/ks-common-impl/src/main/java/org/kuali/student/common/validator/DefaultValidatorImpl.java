@@ -407,7 +407,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return null;
     }
 
-    protected ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value) {
+    public ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value) {
 
         ValidationResultInfo val = null;
 
