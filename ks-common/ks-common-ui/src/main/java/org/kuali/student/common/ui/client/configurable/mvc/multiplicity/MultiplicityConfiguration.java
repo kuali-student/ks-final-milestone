@@ -32,7 +32,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
   *
   * This class is used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
   * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
-  * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>> .
+  * held in a HashMap keyed by rows, i.e. {@literal Map<Integer, List<FieldDescriptor>>} .
   *
   * The parent for the multiplicity refers to the path to the high level field that owns
   * the repeating elements, e.g. course/versions is the parent field for course version fields versionCode and
