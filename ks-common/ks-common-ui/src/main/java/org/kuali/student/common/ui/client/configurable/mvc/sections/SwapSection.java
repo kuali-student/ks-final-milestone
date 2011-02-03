@@ -119,9 +119,9 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 				removeSwappableSection(key);
 			}
 		}
-		SectionUpdateEvent e = new SectionUpdateEvent();
-		e.setSection(this);
-		LayoutController.findParentLayout(layout).fireApplicationEvent(e);
+		//SectionUpdateEvent e = new SectionUpdateEvent();
+		//e.setSection(this);
+		//LayoutController.findParentLayout(layout).fireApplicationEvent(e);
 	}
 	
 	/**

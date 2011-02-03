@@ -222,7 +222,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             basicWidget = new BasicWidget(listItemWidget);
             populateListWidget(inLookupMetadata);
         } else {
-        	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.DROP_DOWN){
+        	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.DROP_DOWN || inLookupMetadata.getWidget() == LookupMetadata.Widget.RADIO){
                 basicWidget = new BasicWidget(new KSLabel());
         	} else {
         		//FIXME: This method of creating read is very inefficient, need better solution
