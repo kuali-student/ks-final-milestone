@@ -1,6 +1,9 @@
 package org.kuali.maven.plugin.ksite.mojo;
 
+import java.util.Properties;
+
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.DistributionManagement;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -9,6 +12,7 @@ import org.apache.maven.settings.Settings;
 
 /**
  * @goal kualisite
+ * @phase pre-site
  */
 public class KualiSiteMojo extends AbstractMojo {
 
@@ -77,6 +81,11 @@ public class KualiSiteMojo extends AbstractMojo {
         }
         boolean snapshot = isSnapshot();
         getLog().info("snapshot=" + snapshot);
+        Properties props = getProject().getProperties();
+        String property = props.getProperty("kuali.site.download.url");
+        getLog().info("property=" + property);
+        DistributionManagement dm = project.getDistributionManagement();
+        dm.setDownloadUrl(downloadUrl);
 
     }
 
