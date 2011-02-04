@@ -58,6 +58,7 @@ public class SearchResultsTable extends Composite{
     private SearchRequest searchRequest;
     private Table table = new Table();
 	private boolean isMultiSelect = true;
+	private boolean withMslable = true;
     private KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
 	
@@ -86,8 +87,12 @@ public class SearchResultsTable extends Composite{
     public void setMutipleSelect(boolean isMultiSelect){
     	this.isMultiSelect = isMultiSelect;
     }
-    
-    //FIXME do we really need to recreate the table for every refresh?
+ 
+	public void setWithMslable(boolean withMslable) {
+		this.withMslable = withMslable;
+	}
+
+	//FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
     	
     	if(table == null){
@@ -201,7 +206,7 @@ public class SearchResultsTable extends Composite{
                 	table.removeContent();
                 	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
                 	noResultsPanel.add(new KSLabel("No matches found"));
-                	noResultsPanel.add(mslabel);
+                	if(withMslable)noResultsPanel.add(mslabel);
                 	noResultsPanel.addStyleName("ks-no-results-message");
                 	table.getScrollPanel().add(noResultsPanel);
                 }
