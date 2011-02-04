@@ -27,6 +27,7 @@ public class SearchResultsLightBox {
         lightbox = new KSLightBox(title);
         searchResultsTable = new SearchResultsTable();
         searchResultsTable.addStyleName("KS-Advanced-Search-Results-Table");
+        searchResultsTable.setWithMslable(false);
         closeButton = new KSButton("Close");
         this.searchRequest = searchRequest;
         this.lookupMetadata = lookupMetadata;
