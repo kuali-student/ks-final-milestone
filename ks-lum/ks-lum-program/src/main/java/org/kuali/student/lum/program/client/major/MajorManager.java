@@ -106,7 +106,11 @@ public class MajorManager {
         programModel.resetRoot();
         return getMajorEditController();
     }
-
+    
+    public MajorEditController getProgramSpecEditController() {
+        return getMajorEditController();
+    }
+    
     public ProgramVersionsController getProgramVersionsController() {
         if (programVersionsController == null) {
             programVersionsController = new ProgramVersionsController(programModel, ProgramSideBar.Type.MAJOR, viewContext, eventBus);

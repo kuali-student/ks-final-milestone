@@ -246,7 +246,7 @@ public class VariationEditController extends VariationController {
     }
 
     private void navigateToParent(ProgramSections parentSection) {
-        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext()) + "/" + parentSection;
+        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation(), getViewContext()) + "/" + parentSection;
         HistoryManager.navigate(path);
     }
 

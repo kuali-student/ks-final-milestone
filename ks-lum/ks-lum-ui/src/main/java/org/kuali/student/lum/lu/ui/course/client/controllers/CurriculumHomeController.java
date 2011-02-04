@@ -70,6 +70,7 @@ public class CurriculumHomeController extends LayoutController {
         VIEW_COURSE,
         PROGRAM_VIEW,
         PROGRAM_EDIT,
+        PROGRAM_SPEC_EDIT,
         PROGRAM_CREATE,
         PROGRAM_VERSIONS,
         CLU_SETS,
@@ -147,6 +148,18 @@ public class CurriculumHomeController extends LayoutController {
                     }
                 });
                 break;
+            case PROGRAM_SPEC_EDIT:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        if (ProgramRegistry.isCreateNew()) {
+                            ProgramRegistry.setCreateNew(false);
+                            majorManager = new MajorManager();
+                        }
+                        callback.exec(majorManager.getProgramSpecEditController());
+                    }
+                });
+                break;                
             case PROGRAM_CREATE:
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
