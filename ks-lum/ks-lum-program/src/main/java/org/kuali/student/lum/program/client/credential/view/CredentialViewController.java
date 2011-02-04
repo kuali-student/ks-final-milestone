@@ -48,10 +48,9 @@ public class CredentialViewController extends CredentialController {
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_BACC_PROGRAM.getLocation(), getViewContext());
                 } else if (actionType == ActionType.MODIFY_VERSION) {
-                    String versionIndId =getStringProperty(ProgramConstants.VERSION_IND_ID);
+                    String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_BACC_PROGRAM.getLocation(), viewContext);
                 }
             }
