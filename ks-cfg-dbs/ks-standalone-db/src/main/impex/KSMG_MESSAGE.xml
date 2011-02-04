@@ -1277,15 +1277,15 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9B557F20681F2C17E040C60AF05B3173" LOCALE="en"
+        ID="9B7A6257BA098964E040C60AF05B1A2B" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9B557F2068202C17E040C60AF05B3173" VER_NBR="1"/>
+        OBJ_ID="9B7A6257BA0A8964E040C60AF05B1A2B" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9B557F2068212C17E040C60AF05B3173" LOCALE="en"
+        ID="9B7A6257BA0B8964E040C60AF05B1A2B" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9B557F2068222C17E040C60AF05B3173" VER_NBR="1"/>
+        OBJ_ID="9B7A6257BA0C8964E040C60AF05B1A2B" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration"
@@ -1798,6 +1798,9 @@
         MSG_ID="cluContactHours-help"
         MSG_VALUE="Sum of contact hours will validate with credits (from learning results)"
         OBJ_ID="f4e27a73-e38c-40e5-a44a-baa65cb93f2b" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
+        ID="dc00d940-308d-11e0-91fa-0800200c9a66" LOCALE="en"
+        MSG_ID="wfFinal" MSG_VALUE="Final" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="dc5d5dce-4996-4623-8c29-83ce4df119a9" LOCALE="es"
         MSG_ID="cluGeneralRequirements"
