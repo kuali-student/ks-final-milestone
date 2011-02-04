@@ -394,6 +394,14 @@ public abstract class BaseSection extends SpanPanel implements Section{
             			((Section) item.getItemWidget()).setFieldHasHadFocusFlags(hadFocus);
             		}
             	}
+            }else if(f.getFieldWidget() instanceof MultiplicityGroup){
+            	MultiplicityGroup mg = (MultiplicityGroup) f.getFieldWidget();
+
+            	for(MultiplicityGroupItem item: mg.getItems()){
+            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
+            			((Section) item.getItemWidget()).setFieldHasHadFocusFlags(hadFocus);
+            		}
+            	}
             }
         }
 
