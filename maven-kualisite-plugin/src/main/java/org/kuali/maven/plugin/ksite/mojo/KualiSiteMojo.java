@@ -8,9 +8,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
 
 /**
- * Mojo essentials. Contains the "skip" logic that is the de facto standard for maven plugins. Contains a number of
- * maven related properties that are common to most mojos. Also sets up logging so that if libraries called by a mojo
- * issue log statements to Jakarta Commons Logging or Log4j, those log messages are shown in maven's output
+ * @goal kualisite
  */
 public class KualiSiteMojo extends AbstractMojo {
 
