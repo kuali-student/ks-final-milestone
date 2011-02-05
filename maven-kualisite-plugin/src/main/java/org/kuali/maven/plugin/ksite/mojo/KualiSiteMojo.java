@@ -21,11 +21,25 @@ public class KualiSiteMojo extends AbstractMojo {
     private String downloadPrefix;
 
     /**
-     * The name of the AWS bucket the site gets published to
+     * The groupId of the top level parent pom that projects inherit from
      *
-     * @parameter expression="${prefixToTrimFromGroupId}" default-value="org.kuali"
+     * @parameter expression="${parentGroupId}" default-value="org.kuali"
      */
-    private String prefixToTrimFromGroupId;
+    private String parentGroupId;
+
+    /**
+     * The artifactId of the top level parent pom that projects inherit from
+     *
+     * @parameter expression="${parentArtifactId}" default-value="kuali"
+     */
+    private String parentArtifactId;
+
+    /**
+     * The packaging type of the top level parent pom that projects inherit from
+     *
+     * @parameter expression="${parentPackagingType}" default-value="pom"
+     */
+    private String parentPackagingType;
 
     /**
      * The name of the AWS bucket the site gets published to
@@ -44,11 +58,6 @@ public class KualiSiteMojo extends AbstractMojo {
     private String hostname;
 
     /**
-     * @parameter expression="${serverId}" default-value="kuali.site"
-     */
-    private String serverId;
-
-    /**
      * The Maven project this plugin runs in.
      *
      * @parameter expression="${project}"
@@ -58,27 +67,30 @@ public class KualiSiteMojo extends AbstractMojo {
     private MavenProject project;
 
     protected String getSitePath(final MavenProject project) {
-        String trimmedGroupId = getTrimmedGroupId();
+        String trimmedGroupId = getTrimmedGroupId(project, getParentGroupId());
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
         }
-        sb.append(project.getArtifactId());
-        sb.append("/");
+        // Minor hack alert
+        // It would be better to do something else here
+        if (isTargetParentPom(project)) {
+            sb.append(project.getArtifactId() + "/");
+        }
         sb.append(project.getVersion());
         return sb.toString();
     }
 
-    protected String getTrimmedGroupId() {
-        String groupId = getProject().getGroupId();
-        if (StringUtils.isEmpty(getPrefixToTrimFromGroupId())) {
+    protected String getTrimmedGroupId(final MavenProject project, final String targetGroupId) {
+        String groupId = project.getGroupId();
+        if (StringUtils.isEmpty(targetGroupId)) {
             return groupId;
         }
-        if (!groupId.startsWith(getPrefixToTrimFromGroupId())) {
-            getLog().warn("Group Id does not start with " + getPrefixToTrimFromGroupId() + " " + groupId);
+        if (!groupId.startsWith(targetGroupId)) {
+            getLog().warn("Group Id does not start with " + targetGroupId + " " + groupId);
             return groupId;
         }
-        String s = StringUtils.replace(groupId, getPrefixToTrimFromGroupId(), "");
+        String s = StringUtils.replace(groupId, targetGroupId, "");
         if (s.startsWith(".")) {
             s = s.substring(1);
         }
@@ -86,78 +98,112 @@ public class KualiSiteMojo extends AbstractMojo {
         return s;
     }
 
-    protected String generateDownloadUrl() {
+    protected String buildDownloadUrl(final MavenProject project) {
         StringBuilder sb = new StringBuilder();
         sb.append(getDownloadPrefix());
         if (!getDownloadPrefix().endsWith("/")) {
             sb.append("/");
         }
-        if (isSnapshot()) {
+        if (isSnapshot(project)) {
             sb.append("snapshot");
         } else {
             sb.append("release");
         }
         sb.append("/");
-        String groupId = getProject().getGroupId();
+        String groupId = project.getGroupId();
         sb.append(groupId.replace('.', '/'));
         sb.append("/");
-        sb.append(getProject().getArtifactId());
+        sb.append(project.getArtifactId());
         sb.append("/");
-        sb.append(getProject().getVersion());
+        sb.append(project.getVersion());
         sb.append("/");
         return sb.toString();
     }
 
-    protected String generatePublicUrl() {
-        MavenProject parent = getProject().getParent();
-        if (parent == null || "kuali".equals(parent.getArtifactId())) {
-            return "http://" + getHostname() + "/" + getSitePath(parent);
+    protected boolean isTargetParentPom(final MavenProject project) {
+        // Return false if the project passed in is null
+        if (project == null) {
+            return false;
+        }
+
+        // Extract the data we will be inspecting
+        String groupId = project.getGroupId();
+        String artifactId = project.getArtifactId();
+        String packaging = project.getPackaging();
+
+        // Check that all 3 match our target data
+        boolean isParentGroupId = "org.kuali".equals(groupId);
+        boolean isParentArtifactId = "kuali".equals(artifactId);
+        boolean isPomPackaging = "pom".equals(packaging);
+
+        // Only return true if all 3 match
+        return isParentGroupId && isParentArtifactId && isPomPackaging;
+    }
+
+    protected boolean isBaseCase(final MavenProject project) {
+        // If this is the targeted parent pom return true
+        // This happens if when using Maven to generate a site about the Kuali parent pom itself
+        if (isTargetParentPom(project)) {
+            return true;
+        }
+
+        // Otherwise, inspect the parent project
+        MavenProject parent = project.getParent();
+
+        // If there is no parent, return true
+        if (parent == null) {
+            return true;
+        }
+
+        // If the parent is the targeted parent pom, return true
+        if (isTargetParentPom(parent)) {
+            return true;
+        }
+
+        // False otherwise
+        return false;
+    }
+
+    protected String buildPublicUrl(final MavenProject project) {
+        if (isBaseCase(project)) {
+            return "http://" + getHostname() + "/" + getSitePath(project) + "/";
         } else {
-            return parent.getUrl() + "/" + getProject().getArtifactId();
+            return buildPublicUrl(project.getParent()) + project.getArtifactId() + "/";
         }
     }
 
-    protected String generatePublishUrl() {
-        MavenProject parent = getProject().getParent();
-        if (parent == null || "kuali".equals(parent.getArtifactId())) {
-            return "s3://" + getBucket() + "/" + getSitePath(parent);
+    protected String buildPublishUrl(final MavenProject project) {
+        if (isBaseCase(project)) {
+            return "s3://" + getBucket() + "/" + getSitePath(project) + "/";
         } else {
-            return parent.getDistributionManagement().getSite().getUrl() + "/" + getProject().getArtifactId();
+            return buildPublishUrl(project.getParent()) + project.getArtifactId() + "/";
         }
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // Generate our urls
-        String publicUrl = generatePublicUrl();
-        String downloadUrl = generateDownloadUrl();
-        String publishUrl = generatePublishUrl();
+        String publicUrl = buildPublicUrl(getProject());
+        String publishUrl = buildPublishUrl(getProject());
+        String downloadUrl = buildDownloadUrl(getProject());
 
         // Get a reference to the relevant model objects
         MavenProject project = getProject();
         DistributionManagement dm = project.getDistributionManagement();
         Site site = dm.getSite();
 
-        // Preserve the existing urls
-        String oldPublicUrl = project.getUrl();
-        String oldDownloadUrl = dm.getDownloadUrl();
-        String oldPublishUrl = site.getUrl();
-
         // Update the model with our generated urls
         project.setUrl(publicUrl);
         dm.setDownloadUrl(downloadUrl);
         site.setUrl(publishUrl);
 
-        getLog().info("  generated Public URL=" + publicUrl);
-        getLog().info("    current Public URL=" + oldPublicUrl);
-        getLog().info(" generated Publish URL=" + publishUrl);
-        getLog().info("   current Publish URL=" + oldPublishUrl);
-        getLog().info("generated Download URL=" + downloadUrl);
-        getLog().info("  current Download URL=" + oldDownloadUrl);
+        getLog().info("  Public URL=" + publicUrl);
+        getLog().info(" Publish URL=" + publishUrl);
+        getLog().info("Download URL=" + downloadUrl);
     }
 
-    protected boolean isSnapshot() {
-        String version = getProject().getVersion();
+    protected boolean isSnapshot(final MavenProject project) {
+        String version = project.getVersion();
         int pos = version.toUpperCase().indexOf("SNAPSHOT");
         boolean isSnapshot = pos != -1;
         return isSnapshot;
@@ -209,36 +255,6 @@ public class KualiSiteMojo extends AbstractMojo {
     }
 
     /**
-     * @return the serverId
-     */
-    public String getServerId() {
-        return serverId;
-    }
-
-    /**
-     * @param serverId
-     * the serverId to set
-     */
-    public void setServerId(final String serverId) {
-        this.serverId = serverId;
-    }
-
-    /**
-     * @return the prefixToTrimFromGroupId
-     */
-    public String getPrefixToTrimFromGroupId() {
-        return prefixToTrimFromGroupId;
-    }
-
-    /**
-     * @param prefixToTrimFromGroupId
-     * the prefixToTrimFromGroupId to set
-     */
-    public void setPrefixToTrimFromGroupId(final String prefixToTrimFromGroupId) {
-        this.prefixToTrimFromGroupId = prefixToTrimFromGroupId;
-    }
-
-    /**
      * @return the downloadPrefix
      */
     public String getDownloadPrefix() {
@@ -251,6 +267,51 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     public void setDownloadPrefix(final String downloadPrefix) {
         this.downloadPrefix = downloadPrefix;
+    }
+
+    /**
+     * @return the parentGroupId
+     */
+    public String getParentGroupId() {
+        return parentGroupId;
+    }
+
+    /**
+     * @param parentGroupId
+     * the parentGroupId to set
+     */
+    public void setParentGroupId(final String parentGroupId) {
+        this.parentGroupId = parentGroupId;
+    }
+
+    /**
+     * @return the parentArtifactId
+     */
+    public String getParentArtifactId() {
+        return parentArtifactId;
+    }
+
+    /**
+     * @param parentArtifactId
+     * the parentArtifactId to set
+     */
+    public void setParentArtifactId(final String parentArtifactId) {
+        this.parentArtifactId = parentArtifactId;
+    }
+
+    /**
+     * @return the parentPackagingType
+     */
+    public String getParentPackagingType() {
+        return parentPackagingType;
+    }
+
+    /**
+     * @param parentPackagingType
+     * the parentPackagingType to set
+     */
+    public void setParentPackagingType(final String parentPackagingType) {
+        this.parentPackagingType = parentPackagingType;
     }
 
 }
