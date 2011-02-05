@@ -2,6 +2,7 @@ package org.kuali.maven.plugin.ksite.mojo;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.model.DistributionManagement;
+import org.apache.maven.model.Site;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -21,14 +22,14 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The name of the AWS bucket the site gets published to
-     * 
+     *
      * @parameter expression="${prefixToTrimFromGroupId}" default-value="org.kuali"
      */
     private String prefixToTrimFromGroupId;
 
     /**
      * The name of the AWS bucket the site gets published to
-     * 
+     *
      * @parameter expression="${bucket}" default-value="site.origin.kuali.org"
      * @required
      */
@@ -36,7 +37,7 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The public DNS name for the site
-     * 
+     *
      * @parameter expression="${hostname}" default-value="site.kuali.org"
      * @required
      */
@@ -49,7 +50,7 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The Maven project this plugin runs in.
-     * 
+     *
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -109,40 +110,50 @@ public class KualiSiteMojo extends AbstractMojo {
 
     protected String generatePublicUrl() {
         MavenProject parent = getProject().getParent();
-        if ("kuali".equals(parent.getArtifactId())) {
-            String url = "http://" + getHostname() + "/" + getSitePath();
-            getProject().setUrl(url);
-            return url;
+        if (parent == null || "kuali".equals(parent.getArtifactId())) {
+            return "http://" + getHostname() + "/" + getSitePath();
         } else {
-            String url = parent.getUrl() + "/" + getProject().getArtifactId();
-            getProject().setUrl(url);
-            return url;
+            return parent.getUrl() + "/" + getProject().getArtifactId();
         }
     }
 
     protected String generatePublishUrl() {
         MavenProject parent = getProject().getParent();
-        DistributionManagement dm = getProject().getDistributionManagement();
         if (parent == null || "kuali".equals(parent.getArtifactId())) {
-            String url = "s3://" + getBucket() + "/" + getSitePath();
-            dm.getSite().setUrl(url);
-            return url;
+            return "s3://" + getBucket() + "/" + getSitePath();
         } else {
-            String url = parent.getDistributionManagement().getSite().getUrl() + "/" + getProject().getArtifactId();
-            dm.getSite().setUrl(url);
-            return url;
+            return parent.getDistributionManagement().getSite().getUrl() + "/" + getProject().getArtifactId();
         }
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        DistributionManagement dm = getProject().getDistributionManagement();
-        dm.setDownloadUrl(generateDownloadUrl());
-        getLog().info(" generated Public URL=" + generatePublicUrl());
-        getLog().info("   current Public URL=" + getProject().getUrl());
-        getLog().info("generated Publish URL=" + generatePublishUrl());
-        getLog().info("  current Publish URL=" + dm.getSite().getUrl());
-        getLog().info("downloadUrl=" + dm.getDownloadUrl());
+        // Generate our urls
+        String publicUrl = generatePublicUrl();
+        String downloadUrl = generateDownloadUrl();
+        String publishUrl = generatePublishUrl();
+
+        // Get a reference to the relevante model objects
+        MavenProject project = getProject();
+        DistributionManagement dm = project.getDistributionManagement();
+        Site site = dm.getSite();
+
+        // Store the existing urls
+        String oldPublicUrl = project.getUrl();
+        String oldDownloadUrl = dm.getDownloadUrl();
+        String oldPublishUrl = site.getUrl();
+
+        // Update the model with our generated urls
+        project.setUrl(publicUrl);
+        dm.setDownloadUrl(downloadUrl);
+        site.setUrl(publishUrl);
+
+        getLog().info("  generated Public URL=" + publicUrl);
+        getLog().info("    current Public URL=" + oldPublicUrl);
+        getLog().info(" generated Publish URL=" + publishUrl);
+        getLog().info("   current Publish URL=" + oldPublishUrl);
+        getLog().info("generated Download URL=" + downloadUrl);
+        getLog().info("  current Download URL=" + oldDownloadUrl);
     }
 
     protected boolean isSnapshot() {
