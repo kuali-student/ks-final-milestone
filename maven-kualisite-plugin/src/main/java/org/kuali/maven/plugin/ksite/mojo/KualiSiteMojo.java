@@ -82,15 +82,15 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     private MavenProject project;
 
-    protected String getSitePath(final MavenProject project) {
-        String trimmedGroupId = getTrimmedGroupId(project, getParentGroupId());
+    protected String getSitePath(final MavenProject project, final MavenProject targetProject) {
+        String trimmedGroupId = getTrimmedGroupId(project, parentGroupId);
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
         }
         // Minor hack alert
         // It would be better to do something else here
-        if (isTargetParentPom(project)) {
+        if (isTargetProject(project, targetProject)) {
             sb.append(project.getArtifactId() + "/");
         }
         sb.append(project.getVersion());
@@ -114,10 +114,10 @@ public class KualiSiteMojo extends AbstractMojo {
         return s;
     }
 
-    protected String buildDownloadUrl(final MavenProject project) {
+    protected String buildDownloadUrl(final MavenProject project, final String prefix) {
         StringBuilder sb = new StringBuilder();
-        sb.append(getDownloadPrefix());
-        if (!getDownloadPrefix().endsWith("/")) {
+        sb.append(prefix);
+        if (!prefix.endsWith("/")) {
             sb.append("/");
         }
         if (isSnapshot(project)) {
@@ -136,9 +136,9 @@ public class KualiSiteMojo extends AbstractMojo {
         return sb.toString();
     }
 
-    protected boolean isTargetParentPom(final MavenProject project) {
+    protected boolean isTargetProject(final MavenProject project, final MavenProject targetProject) {
         // Return false if the project passed in is null
-        if (project == null) {
+        if (project == null || targetProject == null) {
             return false;
         }
 
@@ -148,18 +148,18 @@ public class KualiSiteMojo extends AbstractMojo {
         String packaging = project.getPackaging();
 
         // Check that all 3 match our target data
-        boolean isParentGroupId = "org.kuali".equals(groupId);
-        boolean isParentArtifactId = "kuali".equals(artifactId);
-        boolean isPomPackaging = "pom".equals(packaging);
+        boolean isTargetGroupId = targetProject.getGroupId().equals(groupId);
+        boolean isTargetArtifactId = targetProject.getArtifactId().equals(artifactId);
+        boolean isTargetPackaging = targetProject.getPackaging().equals(packaging);
 
         // Only return true if all 3 match
-        return isParentGroupId && isParentArtifactId && isPomPackaging;
+        return isTargetGroupId && isTargetArtifactId && isTargetPackaging;
     }
 
-    protected boolean isBaseCase(final MavenProject project) {
+    protected boolean isBaseCase(final MavenProject project, final MavenProject targetProject) {
         // If this is the targeted parent pom return true
         // This happens if when using Maven to generate a site about the Kuali parent pom itself
-        if (isTargetParentPom(project)) {
+        if (isTargetProject(project, targetProject)) {
             return true;
         }
 
@@ -172,7 +172,7 @@ public class KualiSiteMojo extends AbstractMojo {
         }
 
         // If the parent is the targeted parent pom, return true
-        if (isTargetParentPom(parent)) {
+        if (isTargetProject(parent, targetProject)) {
             return true;
         }
 
@@ -180,28 +180,38 @@ public class KualiSiteMojo extends AbstractMojo {
         return false;
     }
 
-    protected String buildPublicUrl(final MavenProject project, final String protocol) {
-        if (isBaseCase(project)) {
-            return protocol + "://" + getHostname() + "/" + getSitePath(project) + "/";
+    protected String buildPublicUrl(final MavenProject project, final String protocol, final MavenProject targetProject) {
+        if (isBaseCase(project, targetProject)) {
+            return protocol + "://" + getHostname() + "/" + getSitePath(project, targetProject) + "/";
         } else {
-            return buildPublicUrl(project.getParent(), protocol) + project.getArtifactId() + "/";
+            return buildPublicUrl(project.getParent(), protocol, targetProject) + project.getArtifactId() + "/";
         }
     }
 
-    protected String buildPublishUrl(final MavenProject project, final String protocol) {
-        if (isBaseCase(project)) {
-            return protocol + "://" + getBucket() + "/" + getSitePath(project) + "/";
+    protected String buildPublishUrl(final MavenProject project, final String protocol, final MavenProject targetProject) {
+        if (isBaseCase(project, targetProject)) {
+            return protocol + "://" + getBucket() + "/" + getSitePath(project, targetProject) + "/";
         } else {
-            return buildPublishUrl(project.getParent(), protocol) + project.getArtifactId() + "/";
+            return buildPublishUrl(project.getParent(), protocol, targetProject) + project.getArtifactId() + "/";
         }
+    }
+
+    protected MavenProject getTopLevelProject() {
+        MavenProject project = new MavenProject();
+        project.setGroupId(getParentGroupId());
+        project.setArtifactId(getParentArtifactId());
+        project.setPackaging(getParentPackagingType());
+        return project;
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        MavenProject topLevelProject = getTopLevelProject();
+
         // Generate our urls
-        String publicUrl = buildPublicUrl(getProject(), getPublicUrlProtocol());
-        String publishUrl = buildPublishUrl(getProject(), getPublishUrlProtocol());
-        String downloadUrl = buildDownloadUrl(getProject());
+        String publicUrl = buildPublicUrl(getProject(), getPublicUrlProtocol(), topLevelProject);
+        String publishUrl = buildPublishUrl(getProject(), getPublishUrlProtocol(), topLevelProject);
+        String downloadUrl = buildDownloadUrl(getProject(), getDownloadPrefix());
 
         // Get a reference to the relevant model objects
         MavenProject project = getProject();
