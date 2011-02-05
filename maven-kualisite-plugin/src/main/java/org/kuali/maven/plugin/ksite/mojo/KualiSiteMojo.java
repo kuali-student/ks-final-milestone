@@ -163,7 +163,7 @@ public class KualiSiteMojo extends AbstractMojo {
         if (skipMojo()) {
             return;
         }
-        DistributionManagement dm = project.getDistributionManagement();
+        DistributionManagement dm = getProject().getDistributionManagement();
         dm.setDownloadUrl(generateDownloadUrl());
         getLog().info("publicUrl=" + getProject().getUrl());
         getLog().info("publishUrl=" + dm.getSite().getUrl());
