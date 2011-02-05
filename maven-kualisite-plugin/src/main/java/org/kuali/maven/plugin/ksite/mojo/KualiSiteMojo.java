@@ -57,15 +57,15 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     private MavenProject project;
 
-    protected String getSitePath() {
+    protected String getSitePath(final MavenProject project) {
         String trimmedGroupId = getTrimmedGroupId();
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
         }
-        sb.append(getProject().getArtifactId());
+        sb.append(project.getArtifactId());
         sb.append("/");
-        sb.append(getProject().getVersion());
+        sb.append(project.getVersion());
         return sb.toString();
     }
 
@@ -111,7 +111,7 @@ public class KualiSiteMojo extends AbstractMojo {
     protected String generatePublicUrl() {
         MavenProject parent = getProject().getParent();
         if (parent == null || "kuali".equals(parent.getArtifactId())) {
-            return "http://" + getHostname() + "/" + getSitePath();
+            return "http://" + getHostname() + "/" + getSitePath(parent);
         } else {
             return parent.getUrl() + "/" + getProject().getArtifactId();
         }
@@ -120,7 +120,7 @@ public class KualiSiteMojo extends AbstractMojo {
     protected String generatePublishUrl() {
         MavenProject parent = getProject().getParent();
         if (parent == null || "kuali".equals(parent.getArtifactId())) {
-            return "s3://" + getBucket() + "/" + getSitePath();
+            return "s3://" + getBucket() + "/" + getSitePath(parent);
         } else {
             return parent.getDistributionManagement().getSite().getUrl() + "/" + getProject().getArtifactId();
         }
@@ -133,12 +133,12 @@ public class KualiSiteMojo extends AbstractMojo {
         String downloadUrl = generateDownloadUrl();
         String publishUrl = generatePublishUrl();
 
-        // Get a reference to the relevante model objects
+        // Get a reference to the relevant model objects
         MavenProject project = getProject();
         DistributionManagement dm = project.getDistributionManagement();
         Site site = dm.getSite();
 
-        // Store the existing urls
+        // Preserve the existing urls
         String oldPublicUrl = project.getUrl();
         String oldDownloadUrl = dm.getDownloadUrl();
         String oldPublishUrl = site.getUrl();
