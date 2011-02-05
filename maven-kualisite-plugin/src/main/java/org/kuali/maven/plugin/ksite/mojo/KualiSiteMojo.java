@@ -1,7 +1,5 @@
 package org.kuali.maven.plugin.ksite.mojo;
 
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.DistributionManagement;
@@ -163,21 +161,35 @@ public class KualiSiteMojo extends AbstractMojo {
         return s;
     }
 
+    protected String generateDownloadUrl() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getDownloadPrefix());
+        if (!getDownloadPrefix().endsWith("/")) {
+            sb.append("/");
+        }
+        if (isSnapshot()) {
+            sb.append("snapshot");
+        } else {
+            sb.append("release");
+        }
+        sb.append("/");
+        String groupId = getProject().getGroupId();
+        sb.append(groupId.replace('.', '/'));
+        sb.append("/");
+        sb.append(getProject().getArtifactId());
+        sb.append("/");
+        sb.append(getProject().getVersion());
+        sb.append("/");
+        return sb.toString();
+    }
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skipMojo()) {
             return;
         }
-        String sitePath = getSitePath();
-        getLog().info("sitePath=" + sitePath);
-
-        boolean snapshot = isSnapshot();
-        getLog().info("snapshot=" + snapshot);
-        Properties props = getProject().getProperties();
-        String property = props.getProperty("kuali.site.download.url");
-        getLog().info("property=" + property);
         DistributionManagement dm = project.getDistributionManagement();
-        dm.setDownloadUrl(downloadUrl);
+        dm.setDownloadUrl(generateDownloadUrl());
 
     }
 
