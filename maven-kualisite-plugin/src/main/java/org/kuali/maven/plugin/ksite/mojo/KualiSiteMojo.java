@@ -190,7 +190,9 @@ public class KualiSiteMojo extends AbstractMojo {
         }
         DistributionManagement dm = project.getDistributionManagement();
         dm.setDownloadUrl(generateDownloadUrl());
-
+        getLog().info("publicUrl=" + getProject().getUrl());
+        getLog().info("publishUrl=" + dm.getSite().getUrl());
+        getLog().info("downloadUrl=" + dm.getDownloadUrl());
     }
 
     protected boolean isSnapshot() {
