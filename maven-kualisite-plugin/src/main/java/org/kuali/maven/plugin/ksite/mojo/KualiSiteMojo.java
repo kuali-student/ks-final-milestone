@@ -45,34 +45,9 @@ public class KualiSiteMojo extends AbstractMojo {
     private String hostname;
 
     /**
-     * @parameter expression="${path}"
-     */
-    private String path;
-
-    /**
-     * @parameter expression="${publicUrl}"
-     */
-    private String publicUrl;
-
-    /**
-     * @parameter expression="${publishUrl}"
-     */
-    private String publishUrl;
-
-    /**
      * @parameter expression="${serverId}" default-value="kuali.site"
      */
     private String serverId;
-
-    /**
-     * @parameter expression="${downloadPath}"
-     */
-    private String downloadPath;
-
-    /**
-     * @parameter expression="${downloadUrl}"
-     */
-    private String downloadUrl;
 
     /**
      * Convenience reference to System.getProperty("file.separator").
@@ -350,51 +325,6 @@ public class KualiSiteMojo extends AbstractMojo {
     }
 
     /**
-     * @return the path
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * @param path
-     * the path to set
-     */
-    public void setPath(final String path) {
-        this.path = path;
-    }
-
-    /**
-     * @return the publicUrl
-     */
-    public String getPublicUrl() {
-        return publicUrl;
-    }
-
-    /**
-     * @param publicUrl
-     * the publicUrl to set
-     */
-    public void setPublicUrl(final String publicUrl) {
-        this.publicUrl = publicUrl;
-    }
-
-    /**
-     * @return the publishUrl
-     */
-    public String getPublishUrl() {
-        return publishUrl;
-    }
-
-    /**
-     * @param publishUrl
-     * the publishUrl to set
-     */
-    public void setPublishUrl(final String publishUrl) {
-        this.publishUrl = publishUrl;
-    }
-
-    /**
      * @return the serverId
      */
     public String getServerId() {
@@ -407,36 +337,6 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     public void setServerId(final String serverId) {
         this.serverId = serverId;
-    }
-
-    /**
-     * @return the downloadPath
-     */
-    public String getDownloadPath() {
-        return downloadPath;
-    }
-
-    /**
-     * @param downloadPath
-     * the downloadPath to set
-     */
-    public void setDownloadPath(final String downloadPath) {
-        this.downloadPath = downloadPath;
-    }
-
-    /**
-     * @return the downloadUrl
-     */
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    /**
-     * @param downloadUrl
-     * the downloadUrl to set
-     */
-    public void setDownloadUrl(final String downloadUrl) {
-        this.downloadUrl = downloadUrl;
     }
 
     /**
