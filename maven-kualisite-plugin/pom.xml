@@ -11,6 +11,7 @@
   <packaging>maven-plugin</packaging>
   <version>1.0.0-SNAPSHOT</version>
   <name>Maven Kuali Site Plugin</name>
+  <url>${kuali.site.public.url}</url>
   <description>This plugin customizes a few properties in a way that allows fully automated Maven site generation</description>
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
