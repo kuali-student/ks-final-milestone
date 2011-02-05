@@ -15,27 +15,43 @@ import org.apache.maven.project.MavenProject;
 public class KualiSiteMojo extends AbstractMojo {
 
     /**
+     * The protocol used when publishing the web site
+     *
+     * @parameter expression="${publishUrlProtocol}" default-value="s3"
+     */
+    private String publishUrlProtocol;
+
+    /**
+     * The protocol for the public facing website
+     *
+     * @parameter expression="${publicUrlProtocol}" default-value="http"
+     */
+    private String publicUrlProtocol;
+
+    /**
+     * The prefix for the location that artifacts can be downloaded from
+     *
      * @parameter expression="${downloadPrefix}"
      * default-value="http://s3browse.springsource.com/browse/maven.kuali.org/"
      */
     private String downloadPrefix;
 
     /**
-     * The groupId of the top level parent pom that projects inherit from
+     * The groupId of the top level parent pom projects inherit from
      *
      * @parameter expression="${parentGroupId}" default-value="org.kuali"
      */
     private String parentGroupId;
 
     /**
-     * The artifactId of the top level parent pom that projects inherit from
+     * The artifactId of the top level parent pom projects inherit from
      *
      * @parameter expression="${parentArtifactId}" default-value="kuali"
      */
     private String parentArtifactId;
 
     /**
-     * The packaging type of the top level parent pom that projects inherit from
+     * The packaging type of the top level parent pom projects inherit from
      *
      * @parameter expression="${parentPackagingType}" default-value="pom"
      */
@@ -164,27 +180,27 @@ public class KualiSiteMojo extends AbstractMojo {
         return false;
     }
 
-    protected String buildPublicUrl(final MavenProject project) {
+    protected String buildPublicUrl(final MavenProject project, final String protocol) {
         if (isBaseCase(project)) {
-            return "http://" + getHostname() + "/" + getSitePath(project) + "/";
+            return protocol + "://" + getHostname() + "/" + getSitePath(project) + "/";
         } else {
-            return buildPublicUrl(project.getParent()) + project.getArtifactId() + "/";
+            return buildPublicUrl(project.getParent(), protocol) + project.getArtifactId() + "/";
         }
     }
 
-    protected String buildPublishUrl(final MavenProject project) {
+    protected String buildPublishUrl(final MavenProject project, final String protocol) {
         if (isBaseCase(project)) {
-            return "s3://" + getBucket() + "/" + getSitePath(project) + "/";
+            return protocol + "://" + getBucket() + "/" + getSitePath(project) + "/";
         } else {
-            return buildPublishUrl(project.getParent()) + project.getArtifactId() + "/";
+            return buildPublishUrl(project.getParent(), protocol) + project.getArtifactId() + "/";
         }
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // Generate our urls
-        String publicUrl = buildPublicUrl(getProject());
-        String publishUrl = buildPublishUrl(getProject());
+        String publicUrl = buildPublicUrl(getProject(), getPublicUrlProtocol());
+        String publishUrl = buildPublishUrl(getProject(), getPublishUrlProtocol());
         String downloadUrl = buildDownloadUrl(getProject());
 
         // Get a reference to the relevant model objects
@@ -312,6 +328,36 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     public void setParentPackagingType(final String parentPackagingType) {
         this.parentPackagingType = parentPackagingType;
+    }
+
+    /**
+     * @return the publishUrlProtocol
+     */
+    public String getPublishUrlProtocol() {
+        return publishUrlProtocol;
+    }
+
+    /**
+     * @param publishUrlProtocol
+     * the publishUrlProtocol to set
+     */
+    public void setPublishUrlProtocol(final String publishUrlProtocol) {
+        this.publishUrlProtocol = publishUrlProtocol;
+    }
+
+    /**
+     * @return the publicUrlProtocol
+     */
+    public String getPublicUrlProtocol() {
+        return publicUrlProtocol;
+    }
+
+    /**
+     * @param publicUrlProtocol
+     * the publicUrlProtocol to set
+     */
+    public void setPublicUrlProtocol(final String publicUrlProtocol) {
+        this.publicUrlProtocol = publicUrlProtocol;
     }
 
 }
