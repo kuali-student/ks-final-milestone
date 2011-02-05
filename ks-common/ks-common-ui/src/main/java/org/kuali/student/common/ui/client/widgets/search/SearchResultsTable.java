@@ -206,7 +206,7 @@ public class SearchResultsTable extends Composite{
                 	table.removeContent();
                 	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
                 	noResultsPanel.add(new KSLabel("No matches found"));
-                	if(withMslable)noResultsPanel.add(mslabel);
+                	if(withMslable) noResultsPanel.add(mslabel);
                 	noResultsPanel.addStyleName("ks-no-results-message");
                 	table.getScrollPanel().add(noResultsPanel);
                 }
