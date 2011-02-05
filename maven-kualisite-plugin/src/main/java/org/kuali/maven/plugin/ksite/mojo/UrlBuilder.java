@@ -45,7 +45,7 @@ public class UrlBuilder {
         return s;
     }
 
-    protected String getSitePath(final MavenProject project, final MavenProject targetProject) {
+    public String getSitePath(final MavenProject project, final MavenProject targetProject) {
         String trimmedGroupId = getTrimmedGroupId(project, targetProject.getGroupId());
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
