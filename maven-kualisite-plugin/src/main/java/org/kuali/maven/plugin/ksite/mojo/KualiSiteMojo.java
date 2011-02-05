@@ -21,14 +21,14 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The name of the AWS bucket the site gets published to
-     *
+     * 
      * @parameter expression="${prefixToTrimFromGroupId}" default-value="org.kuali"
      */
     private String prefixToTrimFromGroupId;
 
     /**
      * The name of the AWS bucket the site gets published to
-     *
+     * 
      * @parameter expression="${bucket}" default-value="site.origin.kuali.org"
      * @required
      */
@@ -36,7 +36,7 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The public DNS name for the site
-     *
+     * 
      * @parameter expression="${hostname}" default-value="site.kuali.org"
      * @required
      */
@@ -49,7 +49,7 @@ public class KualiSiteMojo extends AbstractMojo {
 
     /**
      * The Maven project this plugin runs in.
-     *
+     * 
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -108,18 +108,40 @@ public class KualiSiteMojo extends AbstractMojo {
     }
 
     protected String generatePublicUrl() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("http://" + getHostname() + "/" + getSitePath());
-        return sb.toString();
+        MavenProject parent = getProject().getParent();
+        if ("kuali".equals(parent.getArtifactId())) {
+            String url = "http://" + getHostname() + "/" + getSitePath();
+            getProject().setUrl(url);
+            return url;
+        } else {
+            String url = parent.getUrl() + "/" + getProject().getArtifactId();
+            getProject().setUrl(url);
+            return url;
+        }
+    }
+
+    protected String generatePublishUrl() {
+        MavenProject parent = getProject().getParent();
+        DistributionManagement dm = getProject().getDistributionManagement();
+        if (parent == null || "kuali".equals(parent.getArtifactId())) {
+            String url = "s3://" + getBucket() + "/" + getSitePath();
+            dm.getSite().setUrl(url);
+            return url;
+        } else {
+            String url = parent.getDistributionManagement().getSite().getUrl() + "/" + getProject().getArtifactId();
+            dm.getSite().setUrl(url);
+            return url;
+        }
     }
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         DistributionManagement dm = getProject().getDistributionManagement();
         dm.setDownloadUrl(generateDownloadUrl());
-        getLog().info("generated Public URL=" + generatePublicUrl());
-        getLog().info("publicUrl=" + getProject().getUrl());
-        getLog().info("publishUrl=" + dm.getSite().getUrl());
+        getLog().info(" generated Public URL=" + generatePublicUrl());
+        getLog().info("   current Public URL=" + getProject().getUrl());
+        getLog().info("generated Publish URL=" + generatePublishUrl());
+        getLog().info("  current Publish URL=" + dm.getSite().getUrl());
         getLog().info("downloadUrl=" + dm.getDownloadUrl());
     }
 
