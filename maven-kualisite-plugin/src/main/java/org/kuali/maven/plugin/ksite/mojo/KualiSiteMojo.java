@@ -1,6 +1,5 @@
 package org.kuali.maven.plugin.ksite.mojo;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.model.DistributionManagement;
 import org.apache.maven.model.Site;
 import org.apache.maven.plugin.AbstractMojo;
@@ -12,7 +11,23 @@ import org.apache.maven.project.MavenProject;
  * @goal kualisite
  * @phase pre-site
  */
-public class KualiSiteMojo extends AbstractMojo {
+public class KualiSiteMojo extends AbstractMojo implements SiteContext {
+
+    private MavenProject targetProject;
+
+    /**
+     * The prefix into the bucket when downloading a snapshot version
+     *
+     * @parameter expression="${downloadSnapshotPrefix}" default-value="snapshot"
+     */
+    private String downloadSnapshotPrefix;
+
+    /**
+     * The prefix into the bucket when downloading a release version
+     *
+     * @parameter expression="${downloadReleasePrefix}" default-value="release"
+     */
+    private String downloadReleasePrefix;
 
     /**
      * The protocol used when publishing the web site
@@ -82,121 +97,7 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     private MavenProject project;
 
-    protected String getSitePath(final MavenProject project, final MavenProject targetProject) {
-        String trimmedGroupId = getTrimmedGroupId(project, targetProject.getGroupId());
-        StringBuilder sb = new StringBuilder(trimmedGroupId);
-        if (sb.length() > 0) {
-            sb.append("/");
-        }
-        // Minor hack alert
-        // It would be better to do something else here
-        if (isTargetProject(project, targetProject)) {
-            sb.append(project.getArtifactId() + "/");
-        }
-        sb.append(project.getVersion());
-        return sb.toString();
-    }
-
-    protected String getTrimmedGroupId(final MavenProject project, final String targetGroupId) {
-        String groupId = project.getGroupId();
-        if (StringUtils.isEmpty(targetGroupId)) {
-            return groupId;
-        }
-        if (!groupId.startsWith(targetGroupId)) {
-            getLog().warn("Group Id: '" + groupId + "' does not start with '" + targetGroupId + "'");
-            return groupId;
-        }
-        String s = StringUtils.replace(groupId, targetGroupId, "");
-        if (s.startsWith(".")) {
-            s = s.substring(1);
-        }
-        s = s.replace(".", "/");
-        return s;
-    }
-
-    protected String buildDownloadUrl(final MavenProject project, final String prefix) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(prefix);
-        if (!prefix.endsWith("/")) {
-            sb.append("/");
-        }
-        if (isSnapshot(project)) {
-            sb.append("snapshot");
-        } else {
-            sb.append("release");
-        }
-        sb.append("/");
-        String groupId = project.getGroupId();
-        sb.append(groupId.replace('.', '/'));
-        sb.append("/");
-        sb.append(project.getArtifactId());
-        sb.append("/");
-        sb.append(project.getVersion());
-        sb.append("/");
-        return sb.toString();
-    }
-
-    protected boolean isTargetProject(final MavenProject project, final MavenProject targetProject) {
-        // Return false if the project passed in is null
-        if (project == null || targetProject == null) {
-            return false;
-        }
-
-        // Extract the data we will be inspecting
-        String groupId = project.getGroupId();
-        String artifactId = project.getArtifactId();
-        String packaging = project.getPackaging();
-
-        // Check that all 3 match our target data
-        boolean isTargetGroupId = targetProject.getGroupId().equals(groupId);
-        boolean isTargetArtifactId = targetProject.getArtifactId().equals(artifactId);
-        boolean isTargetPackaging = targetProject.getPackaging().equals(packaging);
-
-        // Only return true if all 3 match
-        return isTargetGroupId && isTargetArtifactId && isTargetPackaging;
-    }
-
-    protected boolean isBaseCase(final MavenProject project, final MavenProject targetProject) {
-        // If this is the targeted parent pom return true
-        // This happens if when using Maven to generate a site about the Kuali parent pom itself
-        if (isTargetProject(project, targetProject)) {
-            return true;
-        }
-
-        // Otherwise, inspect the parent project
-        MavenProject parent = project.getParent();
-
-        // If there is no parent, return true
-        if (parent == null) {
-            return true;
-        }
-
-        // If the parent is the targeted parent pom, return true
-        if (isTargetProject(parent, targetProject)) {
-            return true;
-        }
-
-        // False otherwise
-        return false;
-    }
-
-    protected String buildPublicUrl(final MavenProject project, final String protocol, final MavenProject targetProject) {
-        if (isBaseCase(project, targetProject)) {
-            return protocol + "://" + getHostname() + "/" + getSitePath(project, targetProject) + "/";
-        } else {
-            return buildPublicUrl(project.getParent(), protocol, targetProject) + project.getArtifactId() + "/";
-        }
-    }
-
-    protected String buildPublishUrl(final MavenProject project, final String protocol, final MavenProject targetProject) {
-        if (isBaseCase(project, targetProject)) {
-            return protocol + "://" + getBucket() + "/" + getSitePath(project, targetProject) + "/";
-        } else {
-            return buildPublishUrl(project.getParent(), protocol, targetProject) + project.getArtifactId() + "/";
-        }
-    }
-
-    protected MavenProject getTopLevelProject() {
+    protected MavenProject createTargetProject() {
         MavenProject project = new MavenProject();
         project.setGroupId(getParentGroupId());
         project.setArtifactId(getParentArtifactId());
@@ -206,12 +107,14 @@ public class KualiSiteMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        MavenProject topLevelProject = getTopLevelProject();
+        setTargetProject(createTargetProject());
+
+        UrlBuilder builder = new UrlBuilder();
 
         // Generate our urls
-        String publicUrl = buildPublicUrl(getProject(), getPublicUrlProtocol(), topLevelProject);
-        String publishUrl = buildPublishUrl(getProject(), getPublishUrlProtocol(), topLevelProject);
-        String downloadUrl = buildDownloadUrl(getProject(), getDownloadPrefix());
+        String publicUrl = builder.getPublicUrl(getProject(), this);
+        String publishUrl = builder.getPublishUrl(getProject(), this);
+        String downloadUrl = builder.getDownloadUrl(getProject(), this);
 
         // Get a reference to the relevant model objects
         MavenProject project = getProject();
@@ -226,13 +129,6 @@ public class KualiSiteMojo extends AbstractMojo {
         getLog().info("  Public URL=" + publicUrl);
         getLog().info(" Publish URL=" + publishUrl);
         getLog().info("Download URL=" + downloadUrl);
-    }
-
-    protected boolean isSnapshot(final MavenProject project) {
-        String version = project.getVersion();
-        int pos = version.toUpperCase().indexOf("SNAPSHOT");
-        boolean isSnapshot = pos != -1;
-        return isSnapshot;
     }
 
     /**
@@ -253,6 +149,7 @@ public class KualiSiteMojo extends AbstractMojo {
     /**
      * @return the bucket
      */
+    @Override
     public String getBucket() {
         return bucket;
     }
@@ -268,6 +165,7 @@ public class KualiSiteMojo extends AbstractMojo {
     /**
      * @return the hostname
      */
+    @Override
     public String getHostname() {
         return hostname;
     }
@@ -283,6 +181,7 @@ public class KualiSiteMojo extends AbstractMojo {
     /**
      * @return the downloadPrefix
      */
+    @Override
     public String getDownloadPrefix() {
         return downloadPrefix;
     }
@@ -343,6 +242,7 @@ public class KualiSiteMojo extends AbstractMojo {
     /**
      * @return the publishUrlProtocol
      */
+    @Override
     public String getPublishUrlProtocol() {
         return publishUrlProtocol;
     }
@@ -358,6 +258,7 @@ public class KualiSiteMojo extends AbstractMojo {
     /**
      * @return the publicUrlProtocol
      */
+    @Override
     public String getPublicUrlProtocol() {
         return publicUrlProtocol;
     }
@@ -368,6 +269,54 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     public void setPublicUrlProtocol(final String publicUrlProtocol) {
         this.publicUrlProtocol = publicUrlProtocol;
+    }
+
+    /**
+     * @return the downloadSnapshotPrefix
+     */
+    @Override
+    public String getDownloadSnapshotPrefix() {
+        return downloadSnapshotPrefix;
+    }
+
+    /**
+     * @param downloadSnapshotPrefix
+     * the downloadSnapshotPrefix to set
+     */
+    public void setDownloadSnapshotPrefix(final String downloadSnapshotPrefix) {
+        this.downloadSnapshotPrefix = downloadSnapshotPrefix;
+    }
+
+    /**
+     * @return the downloadReleasePrefix
+     */
+    @Override
+    public String getDownloadReleasePrefix() {
+        return downloadReleasePrefix;
+    }
+
+    /**
+     * @param downloadReleasePrefix
+     * the downloadReleasePrefix to set
+     */
+    public void setDownloadReleasePrefix(final String downloadReleasePrefix) {
+        this.downloadReleasePrefix = downloadReleasePrefix;
+    }
+
+    /**
+     * @return the targetProject
+     */
+    @Override
+    public MavenProject getTargetProject() {
+        return targetProject;
+    }
+
+    /**
+     * @param targetProject
+     * the targetProject to set
+     */
+    public void setTargetProject(final MavenProject targetProject) {
+        this.targetProject = targetProject;
     }
 
 }
