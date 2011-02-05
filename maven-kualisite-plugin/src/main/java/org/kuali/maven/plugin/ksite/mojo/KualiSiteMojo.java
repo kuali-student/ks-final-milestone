@@ -2,6 +2,7 @@ package org.kuali.maven.plugin.ksite.mojo;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.DistributionManagement;
 import org.apache.maven.plugin.AbstractMojo;
@@ -15,6 +16,65 @@ import org.apache.maven.settings.Settings;
  * @phase pre-site
  */
 public class KualiSiteMojo extends AbstractMojo {
+
+    /**
+     * @parameter expression="${downloadPrefix}"
+     * default-value="http://s3browse.springsource.com/browse/maven.kuali.org/"
+     */
+    private String downloadPrefix;
+
+    /**
+     * The name of the AWS bucket the site gets published to
+     *
+     * @parameter expression="${prefixToTrimFromGroupId}" default-value="org.kuali"
+     */
+    private String prefixToTrimFromGroupId;
+
+    /**
+     * The name of the AWS bucket the site gets published to
+     *
+     * @parameter expression="${bucket}" default-value="site.origin.kuali.org"
+     * @required
+     */
+    private String bucket;
+
+    /**
+     * The public DNS name for the site
+     *
+     * @parameter expression="${hostname}" default-value="site.kuali.org"
+     * @required
+     */
+    private String hostname;
+
+    /**
+     * @parameter expression="${path}"
+     */
+    private String path;
+
+    /**
+     * @parameter expression="${publicUrl}"
+     */
+    private String publicUrl;
+
+    /**
+     * @parameter expression="${publishUrl}"
+     */
+    private String publishUrl;
+
+    /**
+     * @parameter expression="${serverId}" default-value="kuali.site"
+     */
+    private String serverId;
+
+    /**
+     * @parameter expression="${downloadPath}"
+     */
+    private String downloadPath;
+
+    /**
+     * @parameter expression="${downloadUrl}"
+     */
+    private String downloadUrl;
 
     /**
      * Convenience reference to System.getProperty("file.separator").
@@ -74,11 +134,43 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     private MavenSession mavenSession;
 
+    protected String getSitePath() {
+        String trimmedGroupId = getTrimmedGroupId();
+        StringBuilder sb = new StringBuilder(trimmedGroupId);
+        if (sb.length() > 0) {
+            sb.append("/");
+        }
+        sb.append(getProject().getArtifactId());
+        sb.append("/");
+        sb.append(getProject().getVersion());
+        return sb.toString();
+    }
+
+    protected String getTrimmedGroupId() {
+        String groupId = getProject().getGroupId();
+        if (StringUtils.isEmpty(getPrefixToTrimFromGroupId())) {
+            return groupId;
+        }
+        if (!groupId.startsWith(getPrefixToTrimFromGroupId())) {
+            getLog().warn("Group Id does not start with " + getPrefixToTrimFromGroupId() + " " + groupId);
+            return groupId;
+        }
+        String s = StringUtils.replace(groupId, getPrefixToTrimFromGroupId(), "");
+        if (s.startsWith(".")) {
+            s = s.substring(1);
+        }
+        s = s.replace(".", "/");
+        return s;
+    }
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skipMojo()) {
             return;
         }
+        String sitePath = getSitePath();
+        getLog().info("sitePath=" + sitePath);
+
         boolean snapshot = isSnapshot();
         getLog().info("snapshot=" + snapshot);
         Properties props = getProject().getProperties();
@@ -211,6 +303,156 @@ public class KualiSiteMojo extends AbstractMojo {
      */
     public void setMavenSession(final MavenSession mavenSession) {
         this.mavenSession = mavenSession;
+    }
+
+    /**
+     * @return the bucket
+     */
+    public String getBucket() {
+        return bucket;
+    }
+
+    /**
+     * @param bucket
+     * the bucket to set
+     */
+    public void setBucket(final String bucket) {
+        this.bucket = bucket;
+    }
+
+    /**
+     * @return the hostname
+     */
+    public String getHostname() {
+        return hostname;
+    }
+
+    /**
+     * @param hostname
+     * the hostname to set
+     */
+    public void setHostname(final String hostname) {
+        this.hostname = hostname;
+    }
+
+    /**
+     * @return the path
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * @param path
+     * the path to set
+     */
+    public void setPath(final String path) {
+        this.path = path;
+    }
+
+    /**
+     * @return the publicUrl
+     */
+    public String getPublicUrl() {
+        return publicUrl;
+    }
+
+    /**
+     * @param publicUrl
+     * the publicUrl to set
+     */
+    public void setPublicUrl(final String publicUrl) {
+        this.publicUrl = publicUrl;
+    }
+
+    /**
+     * @return the publishUrl
+     */
+    public String getPublishUrl() {
+        return publishUrl;
+    }
+
+    /**
+     * @param publishUrl
+     * the publishUrl to set
+     */
+    public void setPublishUrl(final String publishUrl) {
+        this.publishUrl = publishUrl;
+    }
+
+    /**
+     * @return the serverId
+     */
+    public String getServerId() {
+        return serverId;
+    }
+
+    /**
+     * @param serverId
+     * the serverId to set
+     */
+    public void setServerId(final String serverId) {
+        this.serverId = serverId;
+    }
+
+    /**
+     * @return the downloadPath
+     */
+    public String getDownloadPath() {
+        return downloadPath;
+    }
+
+    /**
+     * @param downloadPath
+     * the downloadPath to set
+     */
+    public void setDownloadPath(final String downloadPath) {
+        this.downloadPath = downloadPath;
+    }
+
+    /**
+     * @return the downloadUrl
+     */
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    /**
+     * @param downloadUrl
+     * the downloadUrl to set
+     */
+    public void setDownloadUrl(final String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
+    /**
+     * @return the prefixToTrimFromGroupId
+     */
+    public String getPrefixToTrimFromGroupId() {
+        return prefixToTrimFromGroupId;
+    }
+
+    /**
+     * @param prefixToTrimFromGroupId
+     * the prefixToTrimFromGroupId to set
+     */
+    public void setPrefixToTrimFromGroupId(final String prefixToTrimFromGroupId) {
+        this.prefixToTrimFromGroupId = prefixToTrimFromGroupId;
+    }
+
+    /**
+     * @return the downloadPrefix
+     */
+    public String getDownloadPrefix() {
+        return downloadPrefix;
+    }
+
+    /**
+     * @param downloadPrefix
+     * the downloadPrefix to set
+     */
+    public void setDownloadPrefix(final String downloadPrefix) {
+        this.downloadPrefix = downloadPrefix;
     }
 
 }
