@@ -60,11 +60,12 @@ public class UrlBuilder {
         return sb.toString();
     }
 
-    protected String getBaseUrl(final String protocol, final MavenProject project, final SiteContext context) {
+    protected String getBaseUrl(final String protocol, final String hostname, final MavenProject project,
+            final SiteContext context) {
         StringBuilder sb = new StringBuilder();
         sb.append(protocol);
         sb.append("://");
-        sb.append(context.getHostname());
+        sb.append(hostname);
         sb.append("/");
         sb.append(getSitePath(project, context.getTargetProject()));
         sb.append("/");
@@ -98,7 +99,7 @@ public class UrlBuilder {
     public String getPublicUrl(final MavenProject project, final SiteContext context) {
         MavenProject targetProject = context.getTargetProject();
         if (isBaseCase(project, targetProject)) {
-            return getBaseUrl(context.getPublicUrlProtocol(), project, context);
+            return getBaseUrl(context.getPublicUrlProtocol(), context.getHostname(), project, context);
         } else {
             return getPublicUrl(project.getParent(), context) + project.getArtifactId() + "/";
         }
@@ -107,7 +108,7 @@ public class UrlBuilder {
     public String getPublishUrl(final MavenProject project, final SiteContext context) {
         MavenProject targetProject = context.getTargetProject();
         if (isBaseCase(project, targetProject)) {
-            return getBaseUrl(context.getPublishUrlProtocol(), project, context);
+            return getBaseUrl(context.getPublishUrlProtocol(), context.getBucket(), project, context);
         } else {
             return getPublishUrl(project.getParent(), context) + project.getArtifactId() + "/";
         }
