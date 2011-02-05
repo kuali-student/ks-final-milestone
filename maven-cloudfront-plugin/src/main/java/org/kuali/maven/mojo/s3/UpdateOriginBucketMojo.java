@@ -127,9 +127,9 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     private String dateFormat;
 
     /**
-     * The key containing the default object for the Cloud Front distribution. If this default object already exists,
-     * the plugin will not modify it. If there is no object in the bucket under this key, this plugin will generate an
-     * html directory listing and place the directory listing into the bucket under this key.
+     * The key containing the default object for the Cloud Front distribution. If this object already exists, the plugin
+     * will not modify it. If it does not exist, this plugin will generate an html directory listing and place it into
+     * the bucket under this key.
      *
      * @parameter expression="${defaultObject}" default-value="index.html";
      */
