@@ -121,14 +121,14 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
         DistributionManagement dm = project.getDistributionManagement();
         Site site = dm.getSite();
 
+        getLog().info("Setting project url to " + publicUrl);
+        getLog().info("Setting download url to " + downloadUrl);
+        getLog().info("Setting publish url to " + publishUrl);
+
         // Update the model with our generated urls
         project.setUrl(publicUrl);
         dm.setDownloadUrl(downloadUrl);
         site.setUrl(publishUrl);
-
-        getLog().info("  Public URL=" + publicUrl);
-        getLog().info(" Publish URL=" + publishUrl);
-        getLog().info("Download URL=" + downloadUrl);
     }
 
     /**
