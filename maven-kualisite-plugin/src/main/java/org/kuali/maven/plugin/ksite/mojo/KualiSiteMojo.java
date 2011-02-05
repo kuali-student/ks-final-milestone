@@ -83,7 +83,7 @@ public class KualiSiteMojo extends AbstractMojo {
     private MavenProject project;
 
     protected String getSitePath(final MavenProject project, final MavenProject targetProject) {
-        String trimmedGroupId = getTrimmedGroupId(project, parentGroupId);
+        String trimmedGroupId = getTrimmedGroupId(project, targetProject.getGroupId());
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
@@ -103,7 +103,7 @@ public class KualiSiteMojo extends AbstractMojo {
             return groupId;
         }
         if (!groupId.startsWith(targetGroupId)) {
-            getLog().warn("Group Id does not start with " + targetGroupId + " " + groupId);
+            getLog().warn("Group Id: '" + groupId + "' does not start with '" + targetGroupId + "'");
             return groupId;
         }
         String s = StringUtils.replace(groupId, targetGroupId, "");
