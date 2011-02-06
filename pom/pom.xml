@@ -250,7 +250,7 @@
         <plugin>
           <groupId>org.kuali.maven.plugins</groupId>
           <artifactId>maven-kualisite-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.1-SNAPSHOT</version>
           <configuration>
             <organizationGroupId>${kuali.organization.group.id}</organizationGroupId>
             <bucket>${kuali.site.bucket}</bucket>
