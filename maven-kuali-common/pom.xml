@@ -25,9 +25,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</url>
   </scm>
   <repositories>
     <repository>
