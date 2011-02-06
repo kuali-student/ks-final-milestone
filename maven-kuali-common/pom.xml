@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>72</version>
+    <version>73-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.maven.common</groupId>
   <artifactId>maven-kuali-common</artifactId>
@@ -13,17 +13,7 @@
   <description>Contains things that are common to most maven development.</description>
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
-    <kuali.site.path>maven/common/${project.artifactId}/${project.version}/</kuali.site.path>
-    <kuali.site.download.path>org/kuali/maven/common</kuali.site.download.path>
   </properties>
-  <url>${kuali.site.public.url}</url>
-  <distributionManagement>
-    <site>
-      <id>${kuali.site.server.id}</id>
-      <name>Maven Site</name>
-      <url>${kuali.site.publish.url}</url>
-    </site>
-  </distributionManagement>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</developerConnection>
