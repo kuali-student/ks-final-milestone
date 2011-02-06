@@ -6,6 +6,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.kuali.maven.common.SiteContext;
+import org.kuali.maven.common.UrlBuilder;
 
 /**
  * @goal kualisite
