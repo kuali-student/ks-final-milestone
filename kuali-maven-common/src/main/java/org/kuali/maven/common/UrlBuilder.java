@@ -1,5 +1,8 @@
 package org.kuali.maven.common;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,19 +48,47 @@ public class UrlBuilder {
         return s;
     }
 
+    protected boolean isAppendArtifactId(final MavenProject project, final MavenProject targetProject,
+            final String trimmedGroupId) {
+        if (isTargetProject(project, targetProject)) {
+            return true;
+        }
+        List<String> modules = project.getModules();
+        boolean singleProject = isEmpty(modules);
+        if (singleProject) {
+            return true;
+        }
+        String artifactId = project.getArtifactId();
+        if (!trimmedGroupId.startsWith(artifactId)) {
+            return true;
+        }
+        return false;
+    }
+
     public String getSitePath(final MavenProject project, final MavenProject targetProject) {
         String trimmedGroupId = getTrimmedGroupId(project, targetProject.getGroupId());
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
         }
+
         // Minor hack alert
         // It would be better to do something else here
-        if (isTargetProject(project, targetProject)) {
+        if (isAppendArtifactId(project, targetProject, trimmedGroupId)) {
             sb.append(project.getArtifactId() + "/");
         }
         sb.append(project.getVersion());
         return sb.toString();
+    }
+
+    protected boolean isEmpty(final Collection<?> c) {
+        if (c == null) {
+            return true;
+        }
+        if (c.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     protected String getBaseUrl(final String protocol, final String hostname, final MavenProject project,
