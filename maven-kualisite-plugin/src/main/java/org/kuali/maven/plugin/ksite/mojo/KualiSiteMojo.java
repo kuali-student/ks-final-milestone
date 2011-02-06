@@ -12,12 +12,12 @@ import org.kuali.maven.common.SiteContext;
 import org.kuali.maven.common.UrlBuilder;
 
 /**
+ * This plugin organizes/standardizes the maven site publication process for the Kuali organization
+ *
  * @goal kualisite
  * @phase pre-site
  */
 public class KualiSiteMojo extends AbstractMojo implements SiteContext {
-
-    private MavenProject targetProject;
 
     /**
      * The prefix into the bucket when downloading a snapshot version
@@ -56,25 +56,11 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
     private String downloadPrefix;
 
     /**
-     * The groupId of the top level parent pom projects inherit from
+     * The groupId for the organization organization
      *
-     * @parameter expression="${parentGroupId}" default-value="org.kuali"
+     * @parameter expression="${organizationGroupId}" default-value="org.kuali"
      */
-    private String parentGroupId;
-
-    /**
-     * The artifactId of the top level parent pom projects inherit from
-     *
-     * @parameter expression="${parentArtifactId}" default-value="kuali"
-     */
-    private String parentArtifactId;
-
-    /**
-     * The packaging type of the top level parent pom projects inherit from
-     *
-     * @parameter expression="${parentPackagingType}" default-value="pom"
-     */
-    private String parentPackagingType;
+    private String organizationGroupId;
 
     /**
      * The name of the AWS bucket the site gets published to
@@ -101,18 +87,8 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
      */
     private MavenProject project;
 
-    protected MavenProject createTargetProject() {
-        MavenProject project = new MavenProject();
-        project.setGroupId(getParentGroupId());
-        project.setArtifactId(getParentArtifactId());
-        project.setPackaging(getParentPackagingType());
-        return project;
-    }
-
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        setTargetProject(createTargetProject());
-
         UrlBuilder builder = new UrlBuilder();
 
         // Generate our urls
@@ -205,46 +181,17 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
     /**
      * @return the parentGroupId
      */
-    public String getParentGroupId() {
-        return parentGroupId;
+    @Override
+    public String getOrganizationGroupId() {
+        return organizationGroupId;
     }
 
     /**
      * @param parentGroupId
      * the parentGroupId to set
      */
-    public void setParentGroupId(final String parentGroupId) {
-        this.parentGroupId = parentGroupId;
-    }
-
-    /**
-     * @return the parentArtifactId
-     */
-    public String getParentArtifactId() {
-        return parentArtifactId;
-    }
-
-    /**
-     * @param parentArtifactId
-     * the parentArtifactId to set
-     */
-    public void setParentArtifactId(final String parentArtifactId) {
-        this.parentArtifactId = parentArtifactId;
-    }
-
-    /**
-     * @return the parentPackagingType
-     */
-    public String getParentPackagingType() {
-        return parentPackagingType;
-    }
-
-    /**
-     * @param parentPackagingType
-     * the parentPackagingType to set
-     */
-    public void setParentPackagingType(final String parentPackagingType) {
-        this.parentPackagingType = parentPackagingType;
+    public void setOrganizationGroupId(final String parentGroupId) {
+        this.organizationGroupId = parentGroupId;
     }
 
     /**
@@ -309,22 +256,6 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
      */
     public void setDownloadReleasePrefix(final String downloadReleasePrefix) {
         this.downloadReleasePrefix = downloadReleasePrefix;
-    }
-
-    /**
-     * @return the targetProject
-     */
-    @Override
-    public MavenProject getTargetProject() {
-        return targetProject;
-    }
-
-    /**
-     * @param targetProject
-     * the targetProject to set
-     */
-    public void setTargetProject(final MavenProject targetProject) {
-        this.targetProject = targetProject;
     }
 
 }
