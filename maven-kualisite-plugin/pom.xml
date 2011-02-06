@@ -30,7 +30,7 @@
   <dependencies>
     <dependency>
       <groupId>org.kuali.maven.common</groupId>
-      <artifactId>kuali-maven-common</artifactId>
+      <artifactId>maven-kuali-common</artifactId>
       <version>1.0.4</version>
     </dependency>
     <dependency>
