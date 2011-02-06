@@ -56,7 +56,7 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
     private String downloadPrefix;
 
     /**
-     * The groupId for the organization organization
+     * The groupId for the organization
      *
      * @parameter expression="${organizationGroupId}" default-value="org.kuali"
      */
