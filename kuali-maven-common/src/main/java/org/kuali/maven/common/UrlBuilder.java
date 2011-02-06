@@ -44,8 +44,7 @@ public class UrlBuilder {
         }
 
         // Always append the artifactId if it is different than the final portion of the groupId
-        String artifactId = project.getArtifactId();
-        if (!trimmedGroupId.endsWith(artifactId)) {
+        if (!trimmedGroupId.endsWith(project.getArtifactId())) {
             return true;
         }
 
