@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
+import org.apache.maven.project.MavenProject;
+import org.kuali.maven.common.UrlBuilder;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -57,6 +59,27 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     private static final String S3_INDEX_CONTENT_TYPE = "text/html";
     CloudFrontHtmlGenerator generator;
     S3DataConverter converter;
+
+    /**
+     * The groupId of the top level parent pom projects inherit from
+     *
+     * @parameter expression="${parentGroupId}" default-value="org.kuali"
+     */
+    private String parentGroupId;
+
+    /**
+     * The artifactId of the top level parent pom projects inherit from
+     *
+     * @parameter expression="${parentArtifactId}" default-value="kuali"
+     */
+    private String parentArtifactId;
+
+    /**
+     * The packaging type of the top level parent pom projects inherit from
+     *
+     * @parameter expression="${parentPackagingType}" default-value="pom"
+     */
+    private String parentPackagingType;
 
     /**
      * This controls the caching behavior for CloudFront. By default CloudFront edge locations cache content from an S3
@@ -180,7 +203,11 @@ public class UpdateOriginBucketMojo extends S3Mojo {
     }
 
     protected void updatePrefix() {
-        String s = getPrefix();
+        UrlBuilder builder = new UrlBuilder();
+        MavenProject targetProject = builder.getMavenProject(getParentGroupId(), getParentArtifactId(),
+                getParentPackagingType());
+        String s = builder.getSitePath(getProject(), targetProject);
+        // String s = getPrefix();
         if (s == null) {
             return;
         }
@@ -522,6 +549,51 @@ public class UpdateOriginBucketMojo extends S3Mojo {
      */
     public void setRecurse(final boolean recurse) {
         this.recurse = recurse;
+    }
+
+    /**
+     * @return the parentGroupId
+     */
+    public String getParentGroupId() {
+        return parentGroupId;
+    }
+
+    /**
+     * @param parentGroupId
+     * the parentGroupId to set
+     */
+    public void setParentGroupId(final String parentGroupId) {
+        this.parentGroupId = parentGroupId;
+    }
+
+    /**
+     * @return the parentArtifactId
+     */
+    public String getParentArtifactId() {
+        return parentArtifactId;
+    }
+
+    /**
+     * @param parentArtifactId
+     * the parentArtifactId to set
+     */
+    public void setParentArtifactId(final String parentArtifactId) {
+        this.parentArtifactId = parentArtifactId;
+    }
+
+    /**
+     * @return the parentPackagingType
+     */
+    public String getParentPackagingType() {
+        return parentPackagingType;
+    }
+
+    /**
+     * @param parentPackagingType
+     * the parentPackagingType to set
+     */
+    public void setParentPackagingType(final String parentPackagingType) {
+        this.parentPackagingType = parentPackagingType;
     }
 
 }
