@@ -14,16 +14,8 @@
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
     <kuali.site.path>maven/common/${project.artifactId}/${project.version}/</kuali.site.path>
+    <kuali.site.download.path>org/kuali/maven/common</kuali.site.download.path>
   </properties>
-  <developers>
-    <developer>
-      <id>jcaddel</id>
-      <name>Jeff Caddel</name>
-      <email>jcaddel@kuali.org</email>
-      <organization>rSmart</organization>
-      <timezone>-7</timezone>
-    </developer>
-  </developers>
   <url>${kuali.site.public.url}</url>
   <distributionManagement>
     <site>
