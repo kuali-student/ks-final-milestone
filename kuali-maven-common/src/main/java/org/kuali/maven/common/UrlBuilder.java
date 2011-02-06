@@ -20,16 +20,16 @@ public class UrlBuilder {
         return organizationGroupId.equals(project.getGroupId());
     }
 
-    protected String getTrimmedGroupId(final MavenProject project, final String targetGroupId) {
+    protected String getTrimmedGroupId(final MavenProject project, final String organizationGroupId) {
         String groupId = project.getGroupId();
-        if (StringUtils.isEmpty(targetGroupId)) {
+        if (StringUtils.isEmpty(organizationGroupId)) {
             return groupId;
         }
-        if (!groupId.startsWith(targetGroupId)) {
-            log.warn("Group Id: '" + groupId + "' does not start with '" + targetGroupId + "'");
+        if (!groupId.startsWith(organizationGroupId)) {
+            log.warn("Group Id: '" + groupId + "' does not start with '" + organizationGroupId + "'");
             return groupId;
         }
-        String s = StringUtils.replace(groupId, targetGroupId, "");
+        String s = StringUtils.replace(groupId, organizationGroupId, "");
         if (s.startsWith(".")) {
             s = s.substring(1);
         }
