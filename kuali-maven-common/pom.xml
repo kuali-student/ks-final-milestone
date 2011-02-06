@@ -6,7 +6,7 @@
     <artifactId>kuali</artifactId>
     <version>72</version>
   </parent>
-  <groupId>org.kuali.maven</groupId>
+  <groupId>org.kuali.maven.common</groupId>
   <artifactId>kuali-maven-common</artifactId>
   <version>1.0.4-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
@@ -105,6 +105,13 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
       <version>1.5.8</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.5</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
