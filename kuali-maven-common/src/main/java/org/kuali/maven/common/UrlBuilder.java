@@ -62,6 +62,15 @@ public class UrlBuilder {
         if (!trimmedGroupId.endsWith(artifactId)) {
             return true;
         }
+
+        /**
+         * We have a multi-module build where the artifact id for the top level project is the same as the final portion
+         * of the group id.<br>
+         * eg org.kuali.student:student Return false here so the public url is:<br>
+         * http://site.kuali.org/student/1.1.0<br>
+         * instead of<br>
+         * http://site.kuali.org/student/student/1.1.0<br>
+         */
         return false;
     }
 
