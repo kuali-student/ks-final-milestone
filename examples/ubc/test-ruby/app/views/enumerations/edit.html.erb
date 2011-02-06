@@ -1,0 +1,36 @@
+<h1>Editing enumeration</h1>
+
+<% form_for(@enumeration) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :enumerationid %><br />
+    <%= f.text_field :enumerationid %>
+  </p>
+  <p>
+    <%= f.label :abbrev_val %><br />
+    <%= f.text_field :abbrev_val %>
+  </p>
+  <p>
+    <%= f.label :cd %><br />
+    <%= f.text_field :cd %>
+  </p>
+  <p>
+    <%= f.label :enum_key %><br />
+    <%= f.text_field :enum_key %>
+  </p>
+  <p>
+    <%= f.label :sort_key %><br />
+    <%= f.text_field :sort_key %>
+  </p>
+  <p>
+    <%= f.label :val %><br />
+    <%= f.text_field :val %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @enumeration %> |
+<%= link_to 'Back', enumerations_path %>
