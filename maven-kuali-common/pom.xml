@@ -8,16 +8,16 @@
   </parent>
   <groupId>org.kuali.maven.common</groupId>
   <artifactId>maven-kuali-common</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
   <description>Contains software that is common to maven development.  Facilitates reuse of code between plugins</description>
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
   </properties>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-kuali-common-1.0.5</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-kuali-common-1.0.5</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/maven-kuali-common-1.0.5</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kuali-common</url>
   </scm>
   <repositories>
     <repository>
