@@ -40,12 +40,12 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <url>${kuali.site.public.url}</url>
   <organization>
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
   </organization>
   <inceptionYear>2007</inceptionYear>
-  <url>${kuali.site.public.url}</url>
   <developers>
     <developer>
       <id>jcaddel</id>
@@ -78,16 +78,16 @@
     <kuali.javadoc.plugin.version>2.7</kuali.javadoc.plugin.version>
     <kuali.javadoc.quiet>true</kuali.javadoc.quiet>
     <kuali.javadoc.show>private</kuali.javadoc.show>
-    <kuali.javadoc.tool.version />
+    <kuali.javadoc.tool.version/>
     <kuali.javadoc.linksource>true</kuali.javadoc.linksource>
 
     <!-- Placeholder for packages to exclude from javadoc coverage -->
-    <kuali.javadoc.exclude.package.names />
+    <kuali.javadoc.exclude.package.names/>
 
-    <kuali.javadoc.maxmemory>256m</kuali.javadoc.maxmemory>
+    <kuali.javadoc.maxmemory>512m</kuali.javadoc.maxmemory>
     <!-- Uncomment this to troubleshoot heap issues when generating javadoc -->
     <!-- <kuali.javadoc.additional.joption>-J-XX:MaxPermSize=256m -J-verbose:gc -J-XX:+PrintGCDetails -J-XX:+PrintGCDateStamps -J-XX:+PrintHeapAtGC -J-XX:+PrintTenuringDistribution -J-Xloggc:${project.build.directory}/javadoc-heap.log</kuali.javadoc.additional.joption> -->
-    <!-- Setting this to true will generate javadoc.bat in target/site/apidocs.  This allows you to see the exact javadoc command being issued during the build -->
+    <!-- Setting this to true will generate javadoc.sh in target/site/apidocs.  This allows you to see the exact javadoc command being issued during the build -->
     <kuali.javadoc.debug>false</kuali.javadoc.debug>
 
     <!-- These 2 should be "aggregate" and "test-aggregate", but with the latest version of the relevant tools (Maven 3.0.1, maven-site-plugin 3.0-beta-3 and 
@@ -97,9 +97,8 @@
     <kuali.javadoc.report.2>test-javadoc</kuali.javadoc.report.2>
     <!-- Once the heap error with aggregate and test-aggregate is worked out, set this to false -->
     <kuali.javadoc.aggregate>true</kuali.javadoc.aggregate>
-    <kuali.javadoc.project.url>${kuali.site.public.url}apidocs/</kuali.javadoc.project.url>
 
-    <!-- Placeholders for javadoc link locations.  Override these in child poms needed -->
+    <!-- Placeholders for javadoc link locations.  Override these in child poms as needed -->
     <kuali.javadoc.link.1>http://download.oracle.com/javase/6/docs/api/</kuali.javadoc.link.1>
     <kuali.javadoc.link.2>${kuali.javadoc.link.1}</kuali.javadoc.link.2>
     <kuali.javadoc.link.3>${kuali.javadoc.link.1}</kuali.javadoc.link.3>
@@ -127,8 +126,8 @@
     <kuali.release.goals>deploy site-deploy cloudfront:updateoriginbucket</kuali.release.goals>
     <kuali.release.dryrun>false</kuali.release.dryrun>
     <kuali.release.arguments>-Pkuali-release</kuali.release.arguments>
-    <kuali.release.username />
-    <kuali.release.password />
+    <kuali.release.username/>
+    <kuali.release.password/>
     <!-- Overriding this to "verify" will cause artifacts to be signed by the maven-gpg-plugin -->
     <kuali.gpg.sign.phase>none</kuali.gpg.sign.phase>
 
@@ -137,24 +136,16 @@
 
     <!-- Overriding this to "initialize" will add Subversion info to jar's and war's (eg revision number, repository, etc) -->
     <kuali.svn.info.phase>none</kuali.svn.info.phase>
+
+    <!-- This must be the same as the groupId for this pom -->
+    <kuali.organization.group.id>org.kuali</kuali.organization.group.id>
     
     <!-- These properties are used when generating/deploying the maven generated site -->
     <kuali.site.plugin.version>3.0-beta-3</kuali.site.plugin.version>
     <kuali.site.bucket>site.origin.kuali.org</kuali.site.bucket>
     <kuali.site.hostname>site.kuali.org</kuali.site.hostname>
-    <kuali.site.path>${project.artifactId}/${project.version}/</kuali.site.path>
-    <kuali.site.bucket.prefix>${kuali.site.path}</kuali.site.bucket.prefix>
-    <kuali.site.public.url>http://${kuali.site.hostname}/${kuali.site.path}</kuali.site.public.url>
-    <kuali.site.publish.url>s3://${kuali.site.bucket}/${kuali.site.path}</kuali.site.publish.url>
     <kuali.site.server.id>kuali.site</kuali.site.server.id>
     <kuali.site.bucket.recurse>true</kuali.site.bucket.recurse>
-    <!-- This is set to release by default so that release show the correct url without having to configure anything 
-         Override this to "snapshot" for snapshot builds -->
-    <kuali.site.download.prefix>release</kuali.site.download.prefix>
-    <!-- Make this the same as groupId after replacing "." with "/" -->
-    <kuali.site.download.path>org/kuali</kuali.site.download.path>
-    <kuali.site.download.url>http://s3browse.springsource.com/browse/maven.kuali.org/${kuali.site.download.prefix}/${kuali.site.download.path}/${project.artifactId}/${project.version}/</kuali.site.download.url>
-
 
     <kuali.repository.release.id>kuali.release</kuali.repository.release.id>
     <kuali.repository.release.name>Kuali Release Repository</kuali.repository.release.name>
@@ -216,9 +207,9 @@
   <build>
     <extensions>
       <extension>
-        <groupId>org.kuali.maven</groupId>
-        <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.22</version>
+        <groupId>org.kuali.maven.wagons</groupId>
+        <artifactId>maven-s3-wagon</artifactId>
+        <version>1.0.23</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -245,15 +236,25 @@
           <version>2.4</version>
         </plugin>
         <plugin>
-          <groupId>org.kuali.maven.cloudfront</groupId>
+          <groupId>org.kuali.maven.plugins</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.15</version>
+          <version>1.0.16</version>
           <configuration>
+            <organizationGroupId>${kuali.organization.group.id}</organizationGroupId>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
             <forceMojoExecution>true</forceMojoExecution>
-            <prefix>${kuali.site.bucket.prefix}</prefix>
             <recurse>${kuali.site.bucket.recurse}</recurse>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.kuali.maven.plugins</groupId>
+          <artifactId>maven-kualisite-plugin</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <organizationGroupId>${kuali.organization.group.id}</organizationGroupId>
+            <bucket>${kuali.site.bucket}</bucket>
+            <hostname>${kuali.site.hostname}</hostname>
           </configuration>
         </plugin>
         <plugin>
@@ -592,7 +593,7 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>org.kuali.maven.cloudfront</groupId>
+        <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-cloudfront-plugin</artifactId>
       </plugin>
       <plugin>
@@ -638,6 +639,19 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             <goals>
               <goal>jxr</goal>
               <goal>test-jxr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>maven-kualisite-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>update-site-info</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>kualisite</goal>
             </goals>
           </execution>
         </executions>
