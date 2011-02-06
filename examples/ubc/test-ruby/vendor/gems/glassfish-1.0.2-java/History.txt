@@ -1,0 +1,256 @@
+== 1.0.1
+
+This is a quick update to 1.0.0.
+
+1. A critical issue was found where log was overwritten on every restart. The issue ticket is: 27553[http://rubyforge.org/tracker/?func=detail&atid=21080&aid=27553&group_id=5450].
+
+2. GlassFish has its own Rackup handler. Run your rackup script using <b>rackup</b> command
+    $ rackup -s Glassfish
+
+
+== 1.0.0
+
+This is 1.0.0 final release of GlassFish gem. This release is based on GlassFish v3 final release. See GlassFish project page[http://glassfish.dev.java.net]. 
+
+=== New features in this release
+
+1. Implemented using GlassFish v3 embedded API.
+
+2. Startup time improvement. Almost 15-18% faster startup.
+
+3. Fully Rack compliant
+
+4. Support for running GlassFish gem by passing code block
+
+      GlassFish::Server.start(:address=>"127.0.0.1", :port=>4000) do
+        use Rack::CommonLogger
+        use Rack::ShowExceptions
+        map "/lobster" do
+          use Rack::Lint
+          run Proc.new {[200, {"Content-Type" => "text/html"}, "Hello"]}
+        end
+      end
+
+5. Lots of fixes for Sinatra support (extensions, middleware etc.)
+
+6. New -a CLI switch to bind to a given IP address
+
+7. Grizzly (NIO based HTTP library) configuration thru glassfish.yml
+
+      $ gfrake config
+  
+   Then look inside config/glassfish.yml.
+  
+8. Improved support for running Rackup scripts   
+
+=== Bug fixes  
+
+25812[http://rubyforge.org/tracker/index.php?func=detail&aid=25812&group_id=5450&atid=21080]  ActionController::Request.remote_ip is not set
+
+26147[http://rubyforge.org/tracker/index.php?func=detail&aid=26147&group_id=5450&atid=21080]  Setting Hostname IP Address Incorrectly
+
+26149[http://rubyforge.org/tracker/index.php?func=detail&aid=26149&group_id=5450&atid=21080]  Glassfish Gem fails to load Rails application in the production environment
+
+26208[http://rubyforge.org/tracker/index.php?func=detail&aid=26208&group_id=5450&atid=21080]  Can't get glassfish to start rails in thread-safe mode
+
+26821[http://rubyforge.org/tracker/index.php?func=detail&aid=26821&group_id=5450&atid=21080]  Error when running rack app
+
+26866[http://rubyforge.org/tracker/index.php?func=detail&aid=26866&group_id=5450&atid=21080]  JVM crash probably due to log file running over limit
+
+26935[http://rubyforge.org/tracker/index.php?func=detail&aid=26935&group_id=5450&atid=21080]  rack.run_once not getting set
+
+27030[http://rubyforge.org/tracker/index.php?func=detail&aid=27030&group_id=5450&atid=21080]  Extending CLASSPATH poisons glassfish gem?
+
+27125[http://rubyforge.org/tracker/index.php?func=detail&aid=27125&group_id=5450&atid=21080]  Application Environment not passed to Sinatra
+
+== 0.9.5
+
+This is a quick update to 0.9.4. 
+
+Main difference between 0.9.4 and 0.9.5 is that glassfish_rails exits in 0.9.4 where as in 0.9.5 it prints deprecation message and runs the application. This is so that NetBean 6.7 RC1 can still run glassfish gem.
+
+7380[https://glassfish.dev.java.net/issues/show_bug.cgi?id=7380]    Duplicate glassfish scripts in JRUBY_HOME/bin
+
+
+== 0.9.4
+
+====Bugs fixed in this release
+
+23754[http://rubyforge.org/tracker/index.php?func=detail&aid=23754&group_id=5450&atid=21080]	glassfish gem rails dependencies defect
+
+24633[http://rubyforge.org/tracker/index.php?func=detail&aid=24633&group_id=5450&atid=21080]	Better checking for arguments
+
+24787[http://rubyforge.org/tracker/index.php?func=detail&aid=24787&group_id=5450&atid=21080]	Problem with config.load_paths
+
+24828[http://rubyforge.org/tracker/index.php?func=detail&aid=24828&group_id=5450&atid=21080]	deadlock in GFFileHandler
+
+25068[http://rubyforge.org/tracker/index.php?func=detail&aid=25068&group_id=5450&atid=21080]	--pid option never works
+
+25169[http://rubyforge.org/tracker/index.php?func=detail&aid=25169&group_id=5450&atid=21080]	Add support for logging message on console
+
+25252[http://rubyforge.org/tracker/index.php?func=detail&aid=25252&group_id=5450&atid=21080]	cannot start if glassfish gem file is readonly: \domains\domain1\config\logging.properties
+	
+25253[http://rubyforge.org/tracker/index.php?func=detail&aid=25253&group_id=5450&atid=21080]	extra initialization of Rails inside grizzly-jruby.jar causes problems
+
+25254[http://rubyforge.org/tracker/index.php?func=detail&aid=25254&group_id=5450&atid=21080]	grizzly helper in grizzly-jruby.jar doesn't handle numeric headers
+
+25424[http://rubyforge.org/tracker/index.php?func=detail&aid=25424&group_id=5450&atid=21080]	can't find header dir for ruby
+
+25560[http://rubyforge.org/tracker/index.php?func=detail&aid=25560&group_id=5450&atid=21080]	Starting multiple glassfish instances seems to have logging problems
+
+25970[http://rubyforge.org/tracker/index.php?func=detail&aid=25970&group_id=5450&atid=21080]	Debugging via NetBeans: setting breakpoints fails with error message on server console.
+
+5404[https://glassfish.dev.java.net/issues/show_bug.cgi?id=5404]    SQLite3 with v3 Gem requires additional database configuration
+
+7380[https://glassfish.dev.java.net/issues/show_bug.cgi?id=7380]    Duplicate glassfish scripts in JRUBY_HOME/bin
+        
+
+== 0.9.3
+
+===New features in this release
+
+* Support for daemon mode (only linux and Solaris)
+* Logging improvements. Direct the log to a file using -P option. Controle log 
+  level using <tt>--log-level</tt> option
+* Support for config file, glassfish.yml. Try gfrake config and use it as 
+  template. Also see <tt>--config</tt> option. Now you can provide the JVM 
+  properties for GlassFish in daemon mode inside glassfish.yml.
+* GlassFish Rake command: gfrake. Create a config file and do the cleanup 
+  of temporary files created by GlassFish. See, 
+
+  	<tt>$gfrake -T</tt>
+* Support for Sinatra and framework auto-detection
+* Improved server busy handling. During app load new requests give 503 along 
+  with "Server busy loading...." page instead of 404.
+
+====Bugs fixed in this release
+
+=====RubyForge
+23719[http://rubyforge.org/tracker/index.php?func=detail&aid=23719&group_id=5450&atid=21080]	When starting app, gf shows the index.html page which it shouldn't	 
+
+23721[http://rubyforge.org/tracker/index.php?func=detail&aid=23721&group_id=5450&atid=21080]	starting gf requires sudo
+
+23723[http://rubyforge.org/tracker/index.php?func=detail&aid=23723&group_id=5450&atid=21080]	Support Daemon mode
+
+== 0.9.2
+
+====Bugs fixed in this release
+
+Startup improvements. 
+=====RubyForge Issues[http://rubyforge.org/tracker/index.php?group_id=5450&atid=21080]
+
+23279[http://rubyforge.org/tracker/index.php?func=detail&aid=23279&group_id=5450&atid=21080] com.sun.grizzly.jruby.rack.RackInitializationException: Bad file descriptor - Bad file descriptor
+
+23443[http://rubyforge.org/tracker/index.php?func=detail&aid=23443&group_id=5450&atid=21080] PUBLIC_ROOT variable not set correctly under mac osx in 0.9.1
+
+===== Java.net Issues[https://glassfish.dev.java.net/servlets/ProjectIssues]
+
+6959[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6959] com.sun.grizzly.jruby.rack.RackInitializationException: Bad file descriptor - Bad file descriptor
+
+== 0.9.1
+* Performance improvements. The request message headers are passed on from java to ruby using byte[] to avoid extra
+  encoding resulting from String conversion.
+
+====Bugs fixed in this release
+
+=====RubyForge Issues[http://rubyforge.org/tracker/index.php?group_id=5450&atid=21080]
+
+22724[http://rubyforge.org/tracker/index.php?func=detail&aid=22724&group_id=5450&atid=21080] "asadmin" in %JRUBY_HOME\bin should be renamed to avoid confliction
+
+22741[http://rubyforge.org/tracker/index.php?func=detail&aid=22741&group_id=5450&atid=21080] JRuby on Rails on Glassfish -- Unexplainable NameError
+
+22774[http://rubyforge.org/tracker/index.php?func=detail&aid=22774&group_id=5450&atid=21080] Gem 0.9.0 does not work in Production on Windows with JRuby 1.4+
+
+22793[http://rubyforge.org/tracker/index.php?func=detail&aid=22793&group_id=5450&atid=21080] 0.9.0 gem has 'Activator start error'
+
+22795[http://rubyforge.org/tracker/index.php?func=detail&aid=22795&group_id=5450&atid=21080] -p option throws BindException
+
+22836[http://rubyforge.org/tracker/index.php?func=detail&aid=22836&group_id=5450&atid=21080] Glassfish gem 0.9 problems on Ubuntu and Windows
+
+22861[http://rubyforge.org/tracker/index.php?func=detail&aid=22861&group_id=5450&atid=21080] Error if RAILS_GEM_VERSION isn't defined
+
+23007[http://rubyforge.org/tracker/index.php?func=detail&aid=23007&group_id=5450&atid=21080] uninitialized constant Rack while creating error app
+
+23090[http://rubyforge.org/tracker/index.php?func=detail&aid=23090&group_id=5450&atid=21080] Environment flag -e is not correctly used for Merb app
+
+===== Java.net Issues[https://glassfish.dev.java.net/servlets/ProjectIssues]
+6754[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6754] Running Typo in GlassFish Gem throws multiple exceptions
+
+6764[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6764] "Rails" text shows up when deploying anything
+
+6765[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6765] GlassFish Gem does not list rack as a dependency
+
+6767[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6767] Impossible to set production environment for merb
+
+== 0.9.0
+* Rack based
+* Auto detection of Rails and Merb applications
+* Merb support
+* Just one command: 'glassfish' would deploy a Rails application or a Merb 
+  application
+* glassfish_rails deprecated but supported for backward compatibility
+* JRuby Runtime Pool, see <tt>glassfish -h</tt>
+
+Following issues fixed in this release
+
+3964[https://glassfish.dev.java.net/issues/show_bug.cgi?id=3964]  Provide -port option to specify port for v3 gem
+
+6470[https://glassfish.dev.java.net/issues/show_bug.cgi?id=6470]  HTTP keep-alive not honored
+
+4823[https://glassfish.dev.java.net/issues/show_bug.cgi?id=4823]  glassfish_rails command should attempt to load the current directory if none specified
+
+5446[https://glassfish.dev.java.net/issues/show_bug.cgi?id=5446]  JRuby on Rails show request header in page
+
+Issues[http://rubyforge.org/tracker/index.php?group_id=5450&atid=21080] reported at rubyforge
+
+== 0.3.1
+* Scaffold adding duplicate entries with v3 gem 0.1.1
+
+== 0.3.0
+* 3976 Rails Gem: Static content not loading
+* 5046 Two concurrent Rails apps are not accessible
+* 5114 JRuby app directory deployment fails for both HK2 and Felix
+* 5160 file uploading is not working when file size exceeds 10 KB
+
+Issues reported at http://forums.java.net/jive/forum.jspa?forumID=138
+
+* 19526 File upload problem using 0.1.2
+* 20680 File uploading is not working when file size exceeds 10 KB
+* Rails logs are wired thru the glassfish gem. Now you would be able to see the Rails log as part of glassfish_rails run.
+
+== 0.1.2
+
+* Scaffold created using Rails 2.0.2 adding duplicate entries with v3 gem 0.1.1
+* After the execution of an Ajax request, all subsequent requests are also 
+  treated as Ajax requests.
+* When using observe_field for AJAX capabilities, it only works once and any 
+  attempt afterwards returns the first selected dataset.
+* Blank page returned if there are no Rails instances available.
+* Based on comments from Thomas Enebo, have changed the way we were processing 
+  requests as part of the gem.
+
+== 0.1.1
+
+* The name of the gem is being changed from GlassFish to glassfish. The rails 
+  naming convention for the gems is with all lower case or with names that 
+  contain underscore.
+* Support for the applications to be deployed at the Root Context ("/") of the 
+  server. The Webrick and Mongrel servers deploy the application to the root 
+  context by default.
+* Change the default port the server to be 3000 from 8080. Port 8080 has been 
+  the default http port of the GlassFish application server, but since we are 
+  targetting the Ruby on Rails market with this space, it is better to have the  
+  http port set to 3000. At this stage I have also changed the SSL port from 
+  the GlassFish default of 8181 to 3131 and the admin default port of 4848 to 
+  be 3838.
+* Provide command arguments to the script to specify the number of runtime to 
+  be created. In v0.1.0 of the gem one could specify the number of runtimes if 
+  it was passed in as a specified as a java system property. With this version 
+  use could use the command -jruby -S glassfish_rails mephisto -n 2 to create 2 
+  rails instance.
+* Create instances of rails in parallel. This would speed up the startup of the 
+  v3 gem
+
+== 0.1.0
+
+First release of GlassFish gem

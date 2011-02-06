@@ -1,0 +1,71 @@
+<!-- Copyright 2010 The Kuali Foundation Licensed under the
+  Educational Community License, Version 2.0 (the "License"); you may
+  not use this file except in compliance with the License. You may
+  obtain a copy of the License at
+
+  http://www.osedu.org/licenses/ECL-2.0
+
+  Unless required by applicable law or agreed to in writing,
+vsoftware distributed under the License is distributed on an "AS IS"
+  BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing
+  permissions and limitations under the License.
+-->
+
+<rule>
+  <name>hello-drools</name>
+  <modelVersion>1.0</modelVersion>
+  <attributes/>
+  <lhs>
+    <fact>
+      <constraintList>
+        <constraints>
+          <fieldConstraint>
+            <fieldName>emailAddress</fieldName>
+            <operator>==</operator>
+            <connectives/>
+            <value>len@ubc.ca</value>
+            <constraintValueType>1</constraintValueType>
+          </fieldConstraint>
+          <fieldConstraint>
+            <fieldName>calculateAverage</fieldName>
+            <operator>&gt;=</operator>
+            <connectives>
+              <connectiveConstraint>
+                <operator>|| &gt;=</operator>
+                <constraintValueType>0</constraintValueType>
+              </connectiveConstraint>
+              <connectiveConstraint>
+                <constraintValueType>0</constraintValueType>
+              </connectiveConstraint>
+            </connectives>
+            <value>10</value>
+            <constraintValueType>3</constraintValueType>
+          </fieldConstraint>
+        </constraints>
+      </constraintList>
+      <factType>Email</factType>
+    </fact>
+    <fact>
+      <factType>Message</factType>
+      <boundName>$message</boundName>
+    </fact>
+  </lhs>
+  <rhs>
+    <setField>
+      <variable>$message</variable>
+      <fieldValues>
+        <fieldValue>
+          <field>valid</field>
+          <value>true</value>
+          <type>Boolean</type>
+        </fieldValue>
+        <fieldValue>
+          <field>message</field>
+          <value>Email address is valid</value>
+          <type>String</type>
+        </fieldValue>
+      </fieldValues>
+    </setField>
+  </rhs>
+</rule>
