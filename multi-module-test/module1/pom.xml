@@ -1,53 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali.db.impex</groupId>
-    <artifactId>impex</artifactId>
-    <version>1.0.21-SNAPSHOT</version>
+    <groupId>org.kuali.maventest</groupId>
+    <artifactId>multi-module-test</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>db-impex</artifactId>
-  <name>Import/Export Utilities</name>
-  <description>Various utility methods for Importing/Exporting data from a JDBC accessible database</description>
-  <dependencies>
-    <dependency>
-      <groupId>org.kuali.db.impex</groupId>
-      <artifactId>db-jdbc</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-      <version>1.8.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.3.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>${impex.spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${impex.spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
-      <version>1.0.3.1-BX-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-impl</artifactId>
-      <version>1.0.3.1-BX-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.student.common</groupId>
-      <artifactId>ks-common-util</artifactId>
-      <version>1.1-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+  <groupId>org.kuali.maventest.modules</groupId>
+  <artifactId>module1</artifactId>
+  <name>Module 1</name>
+  <description>Module 1</description>
 </project>
