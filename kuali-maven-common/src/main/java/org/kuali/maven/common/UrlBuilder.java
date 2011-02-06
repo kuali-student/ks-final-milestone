@@ -95,7 +95,7 @@ public class UrlBuilder {
     }
 
     protected boolean isBaseCase(final MavenProject project, final String organizationGroupId) {
-        // If this is the targeted parent pom return true
+        // If this is the organizations groupId return true
         // This happens when using Maven to generate a site about the Kuali parent pom itself
         if (isTargetGroupId(project, organizationGroupId)) {
             return true;
@@ -109,7 +109,7 @@ public class UrlBuilder {
             return true;
         }
 
-        // If the parent is the targeted parent pom, return true
+        // If the parent groupId is the organizations groupId return true
         if (isTargetGroupId(parent, organizationGroupId)) {
             return true;
         }
