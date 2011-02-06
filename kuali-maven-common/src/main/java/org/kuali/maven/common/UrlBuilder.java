@@ -59,7 +59,7 @@ public class UrlBuilder {
             return true;
         }
         String artifactId = project.getArtifactId();
-        if (!trimmedGroupId.startsWith(artifactId)) {
+        if (!trimmedGroupId.endsWith(artifactId)) {
             return true;
         }
         return false;
