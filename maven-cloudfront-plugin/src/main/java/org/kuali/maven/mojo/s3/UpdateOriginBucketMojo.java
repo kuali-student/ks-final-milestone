@@ -206,13 +206,16 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         UrlBuilder builder = new UrlBuilder();
         MavenProject targetProject = builder.getMavenProject(getParentGroupId(), getParentArtifactId(),
                 getParentPackagingType());
-        String s = builder.getSitePath(getProject(), targetProject);
-        // String s = getPrefix();
+        String sitePath = builder.getSitePath(getProject(), targetProject);
+        String s = getPrefix();
+        if (StringUtils.isEmpty(s)) {
+            s = sitePath;
+        }
         if (s == null) {
             return;
         }
         if (!s.endsWith(getDelimiter())) {
-            setPrefix(getPrefix() + getDelimiter());
+            setPrefix(s + getDelimiter());
         }
     }
 
