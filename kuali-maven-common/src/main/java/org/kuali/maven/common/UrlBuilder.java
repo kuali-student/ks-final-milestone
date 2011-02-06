@@ -1,7 +1,6 @@
 package org.kuali.maven.common;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -11,24 +10,14 @@ import org.apache.maven.project.MavenProject;
 public class UrlBuilder {
     private static final Log log = LogFactory.getLog(UrlBuilder.class);
 
-    protected boolean isTargetProject(final MavenProject project, final MavenProject targetProject) {
+    protected boolean isTargetGroupId(final MavenProject project, final String organizationGroupId) {
         // Return false if we can't do a meaningful comparison
-        if (project == null || targetProject == null) {
+        if (project == null || organizationGroupId == null) {
             return false;
         }
 
-        // Extract the data we will be inspecting
-        String groupId = project.getGroupId();
-        String artifactId = project.getArtifactId();
-        String packaging = project.getPackaging();
-
-        // Check that all 3 match our target data
-        boolean isTargetGroupId = targetProject.getGroupId().equals(groupId);
-        boolean isTargetArtifactId = targetProject.getArtifactId().equals(artifactId);
-        boolean isTargetPackaging = targetProject.getPackaging().equals(packaging);
-
-        // Only return true if all 3 match
-        return isTargetGroupId && isTargetArtifactId && isTargetPackaging;
+        // Check that it matches our target groupId
+        return organizationGroupId.equals(project.getGroupId());
     }
 
     protected String getTrimmedGroupId(final MavenProject project, final String targetGroupId) {
@@ -48,16 +37,13 @@ public class UrlBuilder {
         return s;
     }
 
-    protected boolean isAppendArtifactId(final MavenProject project, final MavenProject targetProject,
-            final String trimmedGroupId) {
-        if (isTargetProject(project, targetProject)) {
+    protected boolean isAppendArtifactId(final MavenProject project, final String trimmedGroupId) {
+        // Always append the artifactId for single module projects
+        if (isEmpty(project.getModules())) {
             return true;
         }
-        List<String> modules = project.getModules();
-        boolean singleProject = isEmpty(modules);
-        if (singleProject) {
-            return true;
-        }
+
+        // Always append the artifactId if it is different than the final portion of the groupId
         String artifactId = project.getArtifactId();
         if (!trimmedGroupId.endsWith(artifactId)) {
             return true;
@@ -66,24 +52,21 @@ public class UrlBuilder {
         /**
          * We have a multi-module build where the artifact id for the top level project is the same as the final portion
          * of the group id.<br>
-         * eg org.kuali.student:student Return false here so the public url is:<br>
-         * http://site.kuali.org/student/1.1.0<br>
+         * eg org.kuali.rice:rice Return false here so the public url is:<br>
+         * http://site.kuali.org/rice/1.0.3<br>
          * instead of<br>
-         * http://site.kuali.org/student/student/1.1.0<br>
+         * http://site.kuali.org/rice/rice/1.0.3<br>
          */
         return false;
     }
 
-    public String getSitePath(final MavenProject project, final MavenProject targetProject) {
-        String trimmedGroupId = getTrimmedGroupId(project, targetProject.getGroupId());
+    public String getSitePath(final MavenProject project, final String organizationGroupId) {
+        String trimmedGroupId = getTrimmedGroupId(project, organizationGroupId);
         StringBuilder sb = new StringBuilder(trimmedGroupId);
         if (sb.length() > 0) {
             sb.append("/");
         }
-
-        // Minor hack alert
-        // It would be better to do something else here
-        if (isAppendArtifactId(project, targetProject, trimmedGroupId)) {
+        if (isAppendArtifactId(project, trimmedGroupId)) {
             sb.append(project.getArtifactId() + "/");
         }
         sb.append(project.getVersion());
@@ -107,15 +90,15 @@ public class UrlBuilder {
         sb.append("://");
         sb.append(hostname);
         sb.append("/");
-        sb.append(getSitePath(project, context.getTargetProject()));
+        sb.append(getSitePath(project, context.getOrganizationGroupId()));
         sb.append("/");
         return sb.toString();
     }
 
-    protected boolean isBaseCase(final MavenProject project, final MavenProject targetProject) {
+    protected boolean isBaseCase(final MavenProject project, final String organizationGroupId) {
         // If this is the targeted parent pom return true
         // This happens when using Maven to generate a site about the Kuali parent pom itself
-        if (isTargetProject(project, targetProject)) {
+        if (isTargetGroupId(project, organizationGroupId)) {
             return true;
         }
 
@@ -128,7 +111,7 @@ public class UrlBuilder {
         }
 
         // If the parent is the targeted parent pom, return true
-        if (isTargetProject(parent, targetProject)) {
+        if (isTargetGroupId(parent, organizationGroupId)) {
             return true;
         }
 
@@ -137,8 +120,8 @@ public class UrlBuilder {
     }
 
     public String getPublicUrl(final MavenProject project, final SiteContext context) {
-        MavenProject targetProject = context.getTargetProject();
-        if (isBaseCase(project, targetProject)) {
+        String organizationGroupId = context.getOrganizationGroupId();
+        if (isBaseCase(project, organizationGroupId)) {
             return getBaseUrl(context.getPublicUrlProtocol(), context.getHostname(), project, context);
         } else {
             return getPublicUrl(project.getParent(), context) + project.getArtifactId() + "/";
@@ -146,8 +129,8 @@ public class UrlBuilder {
     }
 
     public String getPublishUrl(final MavenProject project, final SiteContext context) {
-        MavenProject targetProject = context.getTargetProject();
-        if (isBaseCase(project, targetProject)) {
+        String organizationGroupId = context.getOrganizationGroupId();
+        if (isBaseCase(project, organizationGroupId)) {
             return getBaseUrl(context.getPublishUrlProtocol(), context.getBucket(), project, context);
         } else {
             return getPublishUrl(project.getParent(), context) + project.getArtifactId() + "/";

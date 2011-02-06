@@ -1,9 +1,7 @@
 package org.kuali.maven.common;
 
-import org.apache.maven.project.MavenProject;
-
 public interface SiteContext {
-    public MavenProject getTargetProject();
+    public String getOrganizationGroupId();
 
     public String getDownloadSnapshotPrefix();
 
