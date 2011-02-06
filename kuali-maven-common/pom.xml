@@ -10,9 +10,10 @@
   <artifactId>kuali-maven-common</artifactId>
   <version>1.0.4-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
-  <description>Contains things that are common to most mojo development.</description>
+  <description>Contains things that are common to most maven development.</description>
   <properties>
-    <kuali.site.path>maven/${project.artifactId}/${project.version}/</kuali.site.path>
+    <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
+    <kuali.site.path>maven/common/${project.artifactId}/${project.version}/</kuali.site.path>
   </properties>
   <developers>
     <developer>
@@ -59,54 +60,15 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-artifact</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-settings</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-descriptor</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.0</version>
+      <artifactId>maven-core</artifactId>
+      <version>${kuali.maven.plugin.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-core</artifactId>
-      <version>2.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-filtering</artifactId>
-      <version>1.0-beta-3</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.5.8</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>

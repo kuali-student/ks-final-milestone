@@ -121,6 +121,14 @@ public class UrlBuilder {
         return isSnapshot;
     }
 
+    public MavenProject getMavenProject(final String groupId, final String artifactId, final String packaging) {
+        MavenProject project = new MavenProject();
+        project.setGroupId(groupId);
+        project.setArtifactId(artifactId);
+        project.setPackaging(packaging);
+        return project;
+    }
+
     public String getDownloadUrl(final MavenProject project, final SiteContext context) {
         String prefix = context.getDownloadPrefix();
         StringBuilder sb = new StringBuilder();
