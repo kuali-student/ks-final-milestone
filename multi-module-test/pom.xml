@@ -36,15 +36,6 @@
       </snapshots>
     </repository>
   </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${impex.junit.version}</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/multi-module-test</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/multi-module-test</developerConnection>
