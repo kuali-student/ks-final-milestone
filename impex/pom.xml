@@ -3,22 +3,17 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>72</version>
+    <version>73-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.db.impex</groupId>
   <artifactId>impex</artifactId>
   <packaging>pom</packaging>
   <version>1.0.21-SNAPSHOT</version>
   <name>Impex Parent</name>
-  <description>This is the parent pom for the Maven Impex Plugin</description>
+  <description>This is the parent pom for Kuali's database Import/Export software</description>
   <properties>
-    <!-- These 2 properties are required for multi-module builds -->
-    <kuali.site.path>impex/${project.version}</kuali.site.path>
-    <kuali.site.download.path>org/kuali/maven/impex</kuali.site.download.path>
-
     <!-- The test-javadoc report is throwing a NullPointerException -->
     <kuali.javadoc.report.2>javadoc</kuali.javadoc.report.2>
-
     <impex.spring.version>3.0.5.RELEASE</impex.spring.version>
     <impex.junit.version>4.8.1</impex.junit.version>
   </properties>
@@ -31,14 +26,6 @@
       <timezone>-7</timezone>
     </developer>
   </developers>
-  <url>${kuali.site.public.url}</url>
-  <distributionManagement>
-    <site>
-      <id>${kuali.site.server.id}</id>
-      <name>Maven Site</name>
-      <url>${kuali.site.publish.url}</url>
-    </site>
-  </distributionManagement>
   <modules>
     <module>db-jdbc</module>
     <module>torque-generator</module>
