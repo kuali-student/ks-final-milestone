@@ -49,8 +49,8 @@ public class UrlBuilder {
         }
 
         /**
-         * We have a multi-module build where the artifact id for the top level project is the same as the final portion
-         * of the group id.<br>
+         * We have a multi-module build where the artifactId for the top level project is the same as the final portion
+         * of the groupId.<br>
          * eg org.kuali.rice:rice Return false here so the public url is:<br>
          * http://site.kuali.org/rice/1.0.3<br>
          * instead of<br>
