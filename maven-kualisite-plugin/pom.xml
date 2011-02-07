@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>73-SNAPSHOT</version>
+    <version>73</version>
   </parent>
   <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-kualisite-plugin</artifactId>
