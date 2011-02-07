@@ -1,7 +1,5 @@
 package org.kuali.maven.plugin.ksite.mojo;
 
-import java.util.Properties;
-
 import org.apache.maven.model.DistributionManagement;
 import org.apache.maven.model.Site;
 import org.apache.maven.plugin.AbstractMojo;
@@ -109,10 +107,6 @@ public class KualiSiteMojo extends AbstractMojo implements SiteContext {
         project.setUrl(publicUrl);
         dm.setDownloadUrl(downloadUrl);
         site.setUrl(publishUrl);
-
-        // Update project properties
-        Properties properties = getProject().getProperties();
-        properties.setProperty("kuali.site.public.url", publicUrl);
     }
 
     /**
