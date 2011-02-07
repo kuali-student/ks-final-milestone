@@ -9,7 +9,7 @@
   <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-kualisite-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>Maven Kuali Site Plugin</name>
   <description>This plugin organizes/standardizes the Maven site publication process for the Kuali organization</description>
   <properties>
@@ -104,8 +104,8 @@
     </dependency>
   </dependencies>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kualisite-plugin</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-kualisite-plugin</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/maven-kualisite-plugin</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-kualisite-plugin-1.0.1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-kualisite-plugin-1.0.1</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/maven-kualisite-plugin-1.0.1</url>
   </scm>
 </project>
