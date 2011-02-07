@@ -203,12 +203,14 @@ public class SearchResultsTable extends Composite{
                 	tableModel.setMoreData(false);
                 	
                 	//add no matches found if no search results
-                	table.removeContent();
-                	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
-                	noResultsPanel.add(new KSLabel("No matches found"));
-                	if(withMslable) noResultsPanel.add(mslabel);
-                	noResultsPanel.addStyleName("ks-no-results-message");
-                	table.getScrollPanel().add(noResultsPanel);
+                	if(searchRequest.getStartAt() == 0){
+	                	table.removeContent();
+	                	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
+	                	noResultsPanel.add(new KSLabel("No matches found"));
+	                	if(withMslable) noResultsPanel.add(mslabel);
+	                	noResultsPanel.addStyleName("ks-no-results-message");
+	                	table.getScrollPanel().add(noResultsPanel);
+                	}
                 }
                 tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
