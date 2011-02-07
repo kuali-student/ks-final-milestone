@@ -721,12 +721,12 @@ public class LuServiceImpl implements LuService {
                 cluSetTreeViewInfo.setCluSets(cluSets);
 			}
 		}
-		List<CluInfo> clus = new ArrayList<CluInfo>(cluSetInfo.getCluIds().size());
-		for (String cluId : cluSetInfo.getCluIds()) {
+		List<CluInfo> clus = new ArrayList<CluInfo>();
+		/*for (String cluId : cluSetInfo.getCluIds()) {
 			if(cluId!=null){
 				clus.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluId)));
 			}
-		}
+		}*/
 		cluSetTreeViewInfo.setClus(clus);
 	}
 
