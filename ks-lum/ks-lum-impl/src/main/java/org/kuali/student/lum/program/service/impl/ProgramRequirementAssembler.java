@@ -218,18 +218,27 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
 
-		if(progReq.getMinCredits() != null) attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
-		if(progReq.getMaxCredits() != null) attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		if(progReq.getMinCredits() != null){
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, null);
+		}
+		if(progReq.getMaxCredits() != null) {
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, null);
+		}
+			
 		clu.setAttributes(attributes);
 	}
 
 	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = clu.getAttributes();
 		if(attributes != null){
-			if(attributes.containsKey(ProgramAssemblerConstants.MIN_CREDITS))
-				progReq.setMinCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MIN_CREDITS)));
-			if(attributes.containsKey(ProgramAssemblerConstants.MAX_CREDITS))
-				progReq.setMaxCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MAX_CREDITS)));
+			String minCredits = attributes.get(ProgramAssemblerConstants.MIN_CREDITS);
+			String maxCredits = attributes.get(ProgramAssemblerConstants.MAX_CREDITS);
+			progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
+			progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
 		}
 	}
 
