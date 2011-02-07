@@ -45,6 +45,7 @@ public class ProgramSelectVersionsView extends ViewComposite{
 		this.initWidget(layout);
 		layout.addStyleName("selectVersions");
 		layout.addWidget(table);
+		table.setWithMslable(false);
 		layout.addButtonLayout(buttons);
 		parent = controller;
 		this.programModel = model;
