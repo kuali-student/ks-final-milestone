@@ -68,7 +68,6 @@ public class UrlBuilder {
         if (isAppendArtifactId(project, trimmedGroupId)) {
             sb.append(project.getArtifactId() + "/");
         }
-        sb.append(project.getVersion());
         return sb.toString();
     }
 
@@ -90,6 +89,8 @@ public class UrlBuilder {
         sb.append(hostname);
         sb.append("/");
         sb.append(getSitePath(project, context.getOrganizationGroupId()));
+        sb.append("/");
+        sb.append(project.getVersion());
         sb.append("/");
         return sb.toString();
     }
