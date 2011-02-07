@@ -754,6 +754,19 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>maven-kualisite-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate-url-info</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>kualisite</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
             <executions>
