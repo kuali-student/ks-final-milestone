@@ -784,6 +784,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 									case CANCEL:
 										okToChange.exec(false);
 										dialog.hide();
+										// Because this event fires after the history change event we need to "undo" the history events. 
+										HistoryManager.logHistoryChange();  
 										break;
 								}
 							}
