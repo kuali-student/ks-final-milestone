@@ -103,6 +103,10 @@
         MSG_ID="validation.expenditureTotal"
         MSG_VALUE="Sum of percentages from all the expenditure organizations should be 100."
         OBJ_ID="1526f910-2a5c-4c8f-9968-c1d98b7052da" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="0ba35908-4772-45f3-a2d9-86b895b8dc9f" LOCALE="en"
+        MSG_ID="minCredits" MSG_VALUE="Minimum expected credits"
+        OBJ_ID="e647efdf-52be-410b-bd80-b921bfaa4ed6" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="0cac93c8-a3c6-46b4-86fb-f0b52071a5e2" LOCALE="en"
         MSG_ID="cluFormats-instruct"
@@ -132,6 +136,10 @@
         ID="0f17f62a-1f22-4852-aa90-a31be1d8cde2" LOCALE="en"
         MSG_ID="cluCoRequisites" MSG_VALUE="Co-Requisites"
         OBJ_ID="fe756114-08d8-47a8-a1b3-480353979dd4" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="0f3e3831-23f6-4a77-a50b-5176b16010a9" LOCALE="en"
+        MSG_ID="maxCredits-watermark" MSG_VALUE="e.g.: 60"
+        OBJ_ID="edb7eedd-cd93-4cc5-b30d-7bb947a5e076" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="0f7e36b2-a0c0-4b2f-b373-6d914428fcf9" LOCALE="es"
         MSG_ID="cluPreRequisites" MSG_VALUE="Requisitos previos"
@@ -188,6 +196,10 @@
         ID="16d3b638-8f8b-419b-ad0d-c0ea50f289f4" LOCALE="en"
         MSG_ID="remove" MSG_VALUE="Remove"
         OBJ_ID="e7216fde-2241-4113-ad41-da04a2c54b20" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="16d4edc5-9144-4552-9f03-9c44132101d8" LOCALE="en"
+        MSG_ID="minCredits-watermark" MSG_VALUE="e.g.: 50"
+        OBJ_ID="baaa136a-6f24-4745-9517-74f87ffe73e9" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="1785a920-2173-4268-8f22-46da9ddf73ab" LOCALE="en"
         MSG_ID="beginTitle" MSG_VALUE="Begin Proposal"
@@ -289,6 +301,11 @@
         MSG_ID="describeAction"
         MSG_VALUE="Incorpore una breve descripci?n de lo que usted hac?a."
         OBJ_ID="294b78b2-8497-45ce-993e-ce2ded77c827" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="24979986-6db8-4986-be94-1b85b37847b3" LOCALE="en"
+        MSG_ID="shortTitle-watermark"
+        MSG_VALUE="Enter a name for this completion requirement"
+        OBJ_ID="2680163c-0848-4af7-abe5-567a597f524d" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="25b858c2-85ee-48cb-b802-ca71817717bc" LOCALE="en"
         MSG_ID="cluSubjectCode" MSG_VALUE="Subject Code"
@@ -847,6 +864,10 @@
         ID="65c4c992-ef66-402b-93a9-f62814bc784f" LOCALE="en"
         MSG_ID="cluAddActivity" MSG_VALUE="Add Activity"
         OBJ_ID="304df18b-9a3b-4c9e-84f0-46a72f812e12" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="65e0033d-b687-4cb8-b17d-418e180b4266" LOCALE="en"
+        MSG_ID="descrLimit" MSG_VALUE=" characters maximum"
+        OBJ_ID="d6ac2636-b061-4cb5-8be6-dfe41895fb57" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="667022ea-1c7e-4e2b-93c2-02baa42fba7a" LOCALE="en"
         MSG_ID="cluAddAnotherOrganization"
@@ -899,6 +920,11 @@
         ID="6b268b5c-f7b7-4f68-8ea0-7d41effbcff5" LOCALE="en"
         MSG_ID="cluExpirationDate" MSG_VALUE="Course inactive on"
         OBJ_ID="e2b3d95e-b6a6-41af-8602-a7fbb0db62bb" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="6b6a57a2-1456-4e45-a075-19d5321b34d7" LOCALE="en"
+        MSG_ID="descr-watermark"
+        MSG_VALUE="Enter a description for this completion requirement"
+        OBJ_ID="3144d6f7-5aa9-4da2-ada7-8c3b8746a0a5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="6b8f3b9f-3aee-4447-94a1-69a445ec4154" LOCALE="en"
         MSG_ID="cluScheduling" MSG_VALUE="Scheduling"
@@ -1223,6 +1249,10 @@
         ID="93d728a2-21b6-41b3-bfae-c20fdbf46963" LOCALE="en"
         MSG_ID="cluSetNewInformation" MSG_VALUE="Define CLU set"
         OBJ_ID="4c8d346d-6709-44f3-a8cf-cacfb41e042d" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="93dcb2c8-cd1e-41d7-b282-2dce32c247d2" LOCALE="en"
+        MSG_ID="descr" MSG_VALUE="Description"
+        OBJ_ID="5997b729-bcfa-4f43-a7c7-a2ca8c078bd0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="946776b5-7948-40ac-8429-8fe8f461dff7" LOCALE="en"
         MSG_ID="cluEndTerm-instruct"
@@ -1277,15 +1307,15 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9B7B1D5898499EBCE040C60AF05B1C17" LOCALE="en"
+        ID="9BCD1BBDD5473E5BE040C60AF05B1948" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9B7B1D58984A9EBCE040C60AF05B1C17" VER_NBR="1"/>
+        OBJ_ID="9BCD1BBDD5483E5BE040C60AF05B1948" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9B7B1D58984B9EBCE040C60AF05B1C17" LOCALE="en"
+        ID="9BCD1BBDD5493E5BE040C60AF05B1948" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9B7B1D58984C9EBCE040C60AF05B1C17" VER_NBR="1"/>
+        OBJ_ID="9BCD1BBDD54A3E5BE040C60AF05B1948" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration"
@@ -1563,6 +1593,10 @@
         ID="b851b8fd-138b-407e-853d-7da42c3f472e" LOCALE="en"
         MSG_ID="cluSetApprovedProgram" MSG_VALUE="Approved Programs"
         OBJ_ID="a9203307-807f-484b-8705-cae2da36adb1" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="bafc155c-4b8a-411e-bfeb-90b11357ae78" LOCALE="en"
+        MSG_ID="shortTitle" MSG_VALUE="Name"
+        OBJ_ID="c05bad5c-1efe-493e-9fdf-a84c47356635" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="bb287609-1f94-45ea-8084-d16877505b46" LOCALE="en"
         MSG_ID="cluAcademicContent" MSG_VALUE="Course Content"
@@ -1979,6 +2013,10 @@
         ID="f23dfd9a-97ec-4ae0-9a00-a58ad4a6972d" LOCALE="es"
         MSG_ID="cluVersionCodes" MSG_VALUE="C?digos de la versi?n"
         OBJ_ID="46c4ae9d-23c1-49e5-9161-9a8211dc1c51" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="f285b76a-b8b0-4d9f-b347-b8c6f6a6fdce" LOCALE="en"
+        MSG_ID="maxCredits" MSG_VALUE="Maximum expected credits"
+        OBJ_ID="ac595c71-700a-4c54-a363-c66156efb991" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="f2d71335-73a0-478f-bf9a-7f38bb0fdd3f" LOCALE="en"
         MSG_ID="cluSetRangeProgram" MSG_VALUE="Program Range"
