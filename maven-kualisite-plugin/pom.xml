@@ -12,7 +12,7 @@
   <version>1.0.2-SNAPSHOT</version>
   <name>Maven Kuali Site Plugin</name>
   <description>This plugin organizes/standardizes the Maven site publication process for the Kuali organization</description>
-  <url>http://site.kuali.org/maven/plugins/${project.artifactId}/${project.version}</url>
+  <url>http://site.kuali.org/maven/plugins/${project.artifactId}/${project.version}/</url>
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
     <kuali.compile.source>1.5</kuali.compile.source>
