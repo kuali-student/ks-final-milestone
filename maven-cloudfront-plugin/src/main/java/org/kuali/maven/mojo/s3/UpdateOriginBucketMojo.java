@@ -191,7 +191,7 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         String sitePath = builder.getSitePath(getProject(), getOrganizationGroupId());
         String s = getPrefix();
         if (StringUtils.isEmpty(s)) {
-            s = sitePath;
+            s = sitePath + "/" + getProject().getVersion() + "/";
         }
         if (s == null) {
             return;
