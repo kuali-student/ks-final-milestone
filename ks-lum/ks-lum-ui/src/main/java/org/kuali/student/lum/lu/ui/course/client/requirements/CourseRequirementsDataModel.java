@@ -86,25 +86,26 @@ public class CourseRequirementsDataModel {
     public void retrieveStatementTypes(final String courseId, final Callback<Boolean> onReadyCallback) {
 
         //retrieve available course requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
-                onReadyCallback.exec(false);
-            }
-
-            @Override
-            public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
-                //store the statement types
-                for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
-                    stmtTypes.add(stmtInfoType);
+            statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
+                @Override
+                public void handleFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    GWT.log("getStatementTypes failed", caught);
+                    onReadyCallback.exec(false);
                 }
 
-                //now retrieve the actual rules
-                retrieveRules(courseId, onReadyCallback);
-            }
-        });
+                @Override
+                public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
+                    //store the statement types
+                    stmtTypes.clear();
+                    for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
+                        stmtTypes.add(stmtInfoType);
+                    }
+
+                    //now retrieve the actual rules
+                    retrieveRules(courseId, onReadyCallback);
+                }
+            });
     }
 
     private void retrieveRules(String courseId, final Callback<Boolean> onReadyCallback) {
@@ -128,6 +129,10 @@ public class CourseRequirementsDataModel {
             @Override
             public void onSuccess(List<StatementTreeViewInfo> foundRules) {
                 //update rules list with new course requirements
+                origCourseReqInfos.clear();
+                origCourseReqState.clear();
+                courseReqInfos.clear();
+                courseReqState.clear();
             	if (foundRules != null) {
             		for (StatementTreeViewInfo foundRule : foundRules) {
 

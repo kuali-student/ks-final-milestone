@@ -126,9 +126,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
+    final CourseRequirementsDataModel reqDataModel;
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
+        reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
     }
@@ -152,7 +154,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void initialize() {
     	//TODO get from messages
-
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
@@ -406,13 +407,20 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				cluProposalModel.setRoot(result);
 		        setProposalHeaderTitle();
 		        setLastUpdated();
-		        getCourseComparisonModel(callback, workCompleteCallback);
+                reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                       if(result){
+                          getCourseComparisonModel(callback, workCompleteCallback);
+                       }
+                    }
+                });
 			}
 
     	});
     }
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	private void getCourseComparisonModel(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
@@ -843,7 +851,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		return sb.toString();
 	}
 
+    public String getCourseId(){
+        return cluProposalModel.<String>get("id");
+    }
+
     public boolean isNew() {
         return isNew;
+    }
+
+    public CourseRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
     }
 }

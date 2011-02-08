@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfo
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.*;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 
@@ -569,23 +570,15 @@ public class CourseSummaryConfigurer implements
 
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
-                String courseId = (model).getRoot().get("id");
-                KSBlockingProgressIndicator.addTask(loadDataTask);
-                
-                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
-                reqDataModel.retrieveStatementTypes(courseId, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {
-                        Iterator<StatementTreeViewInfo> iter = reqDataModel.getCourseReqInfo(stmtType.getId()).iterator();
-                        panel.clear();                        
-                        if (iter.hasNext()) {
-                            StatementTreeViewInfo rule = iter.next();
-                            SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
-                            panel.add(ruleWidget);
-                        }
-                        KSBlockingProgressIndicator.removeTask(loadDataTask);                        
-                    }
-                });
+                panel.clear();
+                if(controller instanceof CourseProposalController){
+                CourseProposalController courseProposalController = (CourseProposalController) controller;
+                List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                    panel.add(ruleWidget);
+                }
+            }
             }
         };
 

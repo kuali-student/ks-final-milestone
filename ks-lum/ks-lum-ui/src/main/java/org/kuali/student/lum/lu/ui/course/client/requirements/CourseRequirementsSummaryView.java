@@ -354,7 +354,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                         @Override
                         public void exec(Boolean result) {
                             if (result) {
-                                ((CourseProposalController)parentController.getParentController()).showNextViewOnMenu();
+                                CourseProposalController courseController = ((CourseProposalController) parentController.getParentController());
+                                courseController.showNextViewOnMenu();
+                                courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
                             }
                         }
                     });                    
