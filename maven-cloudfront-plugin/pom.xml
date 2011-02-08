@@ -9,7 +9,7 @@
   <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-cloudfront-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.0.21-SNAPSHOT</version>
+  <version>1.0.21</version>
   <name>Maven Cloud Front Plugin</name>
   <description>This plugin integrates maven site generation with Amazon Cloud Front</description>
   <url>http://${kuali.site.hostname}/maven/plugins/${project.artifactId}/${project.version}/</url>
@@ -163,8 +163,8 @@
     </dependency>
   </dependencies>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-cloudfront-plugin</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-cloudfront-plugin</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/maven-cloudfront-plugin</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-cloudfront-plugin-1.0.21</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-cloudfront-plugin-1.0.21</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/maven-cloudfront-plugin-1.0.21</url>
   </scm>
 </project>
