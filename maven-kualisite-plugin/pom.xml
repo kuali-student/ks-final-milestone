@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>74-SNAPSHOT</version>
+    <version>73</version>
   </parent>
   <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-kualisite-plugin</artifactId>
@@ -14,7 +14,6 @@
   <description>This plugin organizes/standardizes the Maven site publication process for the Kuali organization</description>
   <url>http://site.kuali.org/maven/plugins/${project.artifactId}/${project.version}</url>
   <properties>
-    <kuali.site.path>maven/plugins/${project.artifactId}</kuali.site.path>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
     <kuali.compile.source>1.5</kuali.compile.source>
     <kuali.compile.target>1.5</kuali.compile.target>
