@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.kuali.maven.common</groupId>
       <artifactId>maven-kuali-common</artifactId>
-      <version>1.0.6-SNAPSHOT</version>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
