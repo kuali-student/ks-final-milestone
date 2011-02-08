@@ -19,11 +19,7 @@ import java.util.List;
 
 import org.kuali.rice.core.util.KeyLabelPair;
 
-/**
- * @author lindholm
- *
- */
-public class CollegeCocValuesFinder extends CocValuesFiinder {
+public class CollegeCocValuesFinder extends CocValuesFinder {
 
 	public List<KeyLabelPair> getKeyValues() {
 		return findCocOrgs("kuali.org.College");

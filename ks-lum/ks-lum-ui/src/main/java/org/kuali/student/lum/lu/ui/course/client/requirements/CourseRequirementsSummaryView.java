@@ -9,11 +9,13 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -34,6 +36,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -206,11 +209,25 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         title.setStyleName((firstSubHeader ? "KS-Course-Requisites-Preview-Rule-Type-First-Header" : "KS-Course-Requisites-Preview-Rule-Type-Header"));
         layout.add(title);
 
-        //add rule description
-        KSLabel ruleTypeDesc = new KSLabel(stmtTypeInfo.getDescr());
-        ruleTypeDesc.addStyleName("KS-Course-Requisites-Preview-Rule-Type-Desc");
-        layout.add(ruleTypeDesc);
-
+        LabelPanel labelExamples = new LabelPanel(stmtTypeInfo.getDescr());
+        labelExamples.getElement().setAttribute("style", "font-weight: normal; width: 80%;");
+        
+        String examplesHtml = Application.getApplicationContext().getMessage(stmtTypeInfo.getId());
+        
+        if (examplesHtml != null && !examplesHtml.equals("")) {
+        	AbbrButton examples = new AbbrButton(AbbrButtonType.EXAMPLES);
+        	examples.setVisible(true);
+        	examples.setHoverHTML(examplesHtml);
+        	examples.getHoverPopup().addStyleName("ks-example-popup");
+        	labelExamples.add(examples);
+        }
+        
+        HorizontalPanel spacer0 = new HorizontalPanel();
+        spacer0.addStyleName("KS-Course-Requisites-Button-Spacer");
+        labelExamples.add(spacer0);
+ 
+        layout.add(labelExamples);
+        
         //display "Add Rule" button if user is in 'edit' mode OR a rule is already defined
         final String stmtId = stmtTypeInfo.getId();
         if (!isReadOnly) { // && rules.getCourseReqInfo(stmtId).isEmpty()) {
@@ -337,7 +354,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                         @Override
                         public void exec(Boolean result) {
                             if (result) {
-                                ((CourseProposalController)parentController.getParentController()).showNextViewOnMenu();
+                                CourseProposalController courseController = ((CourseProposalController) parentController.getParentController());
+                                courseController.showNextViewOnMenu();
+                                courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
                             }
                         }
                     });                    

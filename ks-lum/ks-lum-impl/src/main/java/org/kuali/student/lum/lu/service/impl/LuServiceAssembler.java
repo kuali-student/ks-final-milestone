@@ -80,6 +80,7 @@ import org.kuali.student.lum.lu.entity.CluFeeAttribute;
 import org.kuali.student.lum.lu.entity.CluFeeRecord;
 import org.kuali.student.lum.lu.entity.CluFeeRecordAttribute;
 import org.kuali.student.lum.lu.entity.CluIdentifier;
+import org.kuali.student.lum.lu.entity.CluIdentifierAttribute;
 import org.kuali.student.lum.lu.entity.CluInstructor;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
@@ -685,8 +686,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		CluIdentifierInfo dto = new CluIdentifierInfo();
 
-		BeanUtils.copyProperties(entity, dto);
-
+		BeanUtils.copyProperties(entity, dto,
+		        new String[] { "attributes" });
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		return dto;
 	}
 
@@ -1217,33 +1219,45 @@ public class LuServiceAssembler extends BaseAssembler {
 		return caList;
 	}
 	
-	public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo) {
+	public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
-                officialIdentifier);
+                officialIdentifier, new String[] { "attributes"});
+        officialIdentifier.setAttributes(LuServiceAssembler.toGenericAttributes(
+                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
+                        .getAttributes(), officialIdentifier, dao));
+        
         return officialIdentifier;
 	}
 
-    public static void updateOfficialIdentifier(Clu clu, CluInfo cluInfo) {
+    public static void updateOfficialIdentifier(Clu clu, CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         if (clu.getOfficialIdentifier() == null) {
             clu.setOfficialIdentifier(new CluIdentifier());
         }
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
-                .getOfficialIdentifier(), new String[] { "id" });
+                .getOfficialIdentifier(), new String[] { "id" , "attributes"});
+        
+        clu.getOfficialIdentifier().setAttributes(LuServiceAssembler.toGenericAttributes(
+                CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
+                        .getAttributes(), clu.getOfficialIdentifier(), dao));
+        
     }
 
-	public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo) {
+	public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
 	    List<CluIdentifier> alternateIdentifiers = new ArrayList<CluIdentifier>(0);
 	    for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
 	        CluIdentifier identifier = new CluIdentifier();
-	        BeanUtils.copyProperties(cluIdInfo, identifier);
+	        BeanUtils.copyProperties(cluIdInfo, identifier, new String[] { "attributes"} );
 
+	        identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
+	                CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
+	        	        
 	        alternateIdentifiers.add(identifier);
 	    }
 	    return alternateIdentifiers;
 	}
 
-    public static void updateAlternateIdentifier(Map<String, CluIdentifier> oldAltIdMap, Clu clu, CluInfo cluInfo) {
+    public static void updateAlternateIdentifier(Map<String, CluIdentifier> oldAltIdMap, Clu clu, CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         for (CluIdentifier altIdentifier : clu.getAlternateIdentifiers()) {
             oldAltIdMap.put(altIdentifier.getId(), altIdentifier);
         }
@@ -1258,7 +1272,11 @@ public class LuServiceAssembler extends BaseAssembler {
                 identifier = new CluIdentifier();
             }
             // Do Copy
-            BeanUtils.copyProperties(cluIdInfo, identifier);
+            BeanUtils.copyProperties(cluIdInfo, identifier, new String[] { "attributes"});
+            
+            identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
+                    CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
+            
             clu.getAlternateIdentifiers().add(identifier);
         }
     }

@@ -275,6 +275,8 @@
         class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>        
     </bean>
 
     <bean id="atpSearchManager"
@@ -444,6 +446,8 @@
         class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>                
     </bean>
 
     <!-- Search -->

@@ -330,6 +330,8 @@
     <bean id="lrcServiceImpl" class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao"/>
         <property name="searchManager" ref="lrcSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>                
     </bean>
 
     <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -478,7 +480,7 @@
     </bean>
 
     <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
+        <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 

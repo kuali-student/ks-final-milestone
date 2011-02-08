@@ -48,7 +48,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     public static final String WORKFLOW_DOC_TYPE	= "ProposalWorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "ProposalWorkflowFilter.WorkflowUser";
         
-	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
 
     final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);

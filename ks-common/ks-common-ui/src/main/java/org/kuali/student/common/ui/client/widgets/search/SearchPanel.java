@@ -126,6 +126,7 @@ public class SearchPanel extends Composite{
                 @Override
                public void exec(ButtonEnum result) {
                     if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+                    	table.getContentTable().removeContent();
                         getActionCompleteCallback().exec(true);                                 
                     }
                }
@@ -187,6 +188,23 @@ public class SearchPanel extends Composite{
         table.addStyleName("KS-Advanced-Search-Results-Table");
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
+        
+        table.getMslabel().addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(modifySearchPanel.isOpen()){
+					modifySearchPanel.close();
+				}
+				else{
+					modifySearchPanel.open();
+				}
+				
+				resultsTablePanel.setVisible(false);
+				resultsSelected = false;
+				actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+			}
+		});
         
         resultsSelected = false;
         actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
@@ -765,6 +783,7 @@ public class SearchPanel extends Composite{
                             resultsSelected = false;
                         }});
                     SearchPanel.this.layout.insert(modifySearchPanel, 0);
+                    
                 }
                 else{
                     modifySearchPanel.close();

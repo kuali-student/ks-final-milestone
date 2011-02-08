@@ -46,6 +46,13 @@ import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.core.client.GWT;
 
+/**
+ * Model widget binding for HasDataValue widgets.  These are widgets which deal with KS data types
+ * directly.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>{
 
 	public static HasDataValueBinding INSTANCE = new HasDataValueBinding();

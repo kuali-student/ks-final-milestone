@@ -21,6 +21,12 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+/**
+ * Event for returning the results of a validation or validation request.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResultHandler> {
     public static final Type<ValidateResultHandler> TYPE = new Type<ValidateResultHandler>();
     private List<ValidationResultInfo> validationResultList = new ArrayList<ValidationResultInfo>();

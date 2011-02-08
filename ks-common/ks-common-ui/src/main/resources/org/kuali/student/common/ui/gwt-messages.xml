@@ -104,6 +104,7 @@
     <bean parent="enCommon" p:messageId="wfInitiated"      p:value="Initiated" />
     <bean parent="enCommon" p:messageId="wfEnroute"      p:value="Enroute" />
     <bean parent="enCommon" p:messageId="wfApproved"      p:value="Approved" />
+    <bean parent="enCommon" p:messageId="wfFinal"      p:value="Final" />
     <bean parent="enCommon" p:messageId="wfCancelled"      p:value="Cancelled" />
     <bean parent="enCommon" p:messageId="wfException"      p:value="Exception" />
     <bean parent="enCommon" p:messageId="wfDisapproved"      p:value="Disapproved" />

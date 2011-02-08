@@ -23,7 +23,10 @@ import java.util.Collection;
 
 import org.kuali.student.core.assembly.data.Data.Key;
 /**
- * @author wilj
+ * QueryPath is used for retrieving and storing data in the DataModel.  A path is can be represented with
+ * a "/" separated string.
+ * 
+ * @author Kuali Student Team
  *
  */
 public class QueryPath extends ArrayList<Key> {

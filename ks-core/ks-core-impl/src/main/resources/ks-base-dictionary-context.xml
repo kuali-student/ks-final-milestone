@@ -39,6 +39,20 @@
   <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
   <property name="labelKey" value="validation.validChars.numeric"/>
  </bean>
+  <bean id="numeric.range" parent="ValidCharDefinition">
+  <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+  <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+  <property name="labelKey" value="validation.validChars.numeric.range"/>
+ </bean>
+  <bean id="positive.numeric.range" parent="ValidCharDefinition">
+  <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+  <property name="value" value="regex:^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+  <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
+ </bean>
  <bean id="gpa4.0" parent="ValidCharDefinition">
   <property name="value" value="regex:[0-4]\.[0-9]"/>
   <property name="labelKey" value="validation.validChars.gpa9.9"/>

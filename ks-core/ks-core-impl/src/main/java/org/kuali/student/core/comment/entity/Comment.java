@@ -42,7 +42,7 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSCO_COMMENT")
 @NamedQueries( {
-        @NamedQuery(name = "Comment.getComments", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id =:refTypeId"),
+        @NamedQuery(name = "Comment.getComments", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id =:refTypeId ORDER BY comment.meta.updateTime DESC"),
         @NamedQuery(name = "Comment.getComment", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id =:refTypeId"),
         @NamedQuery(name = "Comment.getCommentsByType", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id =:refTypeId AND comment.type.id =:commentTypeId"),
         @NamedQuery(name = "Comment.getCommentsByRefId", query="SELECT comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId")})

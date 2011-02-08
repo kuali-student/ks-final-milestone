@@ -6,6 +6,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout which contains content blocks, used for a layout which contains logical blocks of content.
+ * Each row contains a space of 3 blocks, and depending on size of blocks added will wrap to the next line.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class ContentBlockLayout extends VerticalFlowPanel{
 	
 	private SectionTitle sectionTitle = SectionTitle.generateH1Title("");

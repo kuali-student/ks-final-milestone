@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.rice.core.util.KeyLabelPair;
 
-public class DivisionCocValuesFinder extends CocValuesFiinder {
+public class DivisionCocValuesFinder extends CocValuesFinder {
 
 	public List<KeyLabelPair> getKeyValues() {
 		return findCocOrgs("kuali.org.Division");

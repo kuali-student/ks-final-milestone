@@ -24,7 +24,10 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * @author wilj
+ * Kuali Student data representation.  Data is essentially a map of values.
+ * 
+ * @author Kuali Student Team
+ * @see Value
  */
 @SuppressWarnings({"serial", "unchecked"})
 public class Data implements Serializable, Iterable<Data.Property>, HasChangeCallbacks {
@@ -519,6 +522,12 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
+    /**
+     * Kuali Student data value interface for use in Data
+     * 
+     * @author Kuali Student Team
+     *
+     */
     public interface Value extends Serializable {
         <T> T get();
 

@@ -15,15 +15,20 @@
 
 package org.kuali.student.lum.lu.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_IDENT")
-public class CluIdentifier extends BaseEntity{
+public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdentifierAttribute> {
 
     @Column(name = "CD")
     private String code;
@@ -54,6 +59,9 @@ public class CluIdentifier extends BaseEntity{
 
     @Column(name = "ST")
     private String state;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<CluIdentifierAttribute> attributes;
     
     public String getCode() {
         return code;
@@ -134,4 +142,12 @@ public class CluIdentifier extends BaseEntity{
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
+
+    public List<CluIdentifierAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<CluIdentifierAttribute> attributes) {
+        this.attributes = attributes;
+    }        
 }

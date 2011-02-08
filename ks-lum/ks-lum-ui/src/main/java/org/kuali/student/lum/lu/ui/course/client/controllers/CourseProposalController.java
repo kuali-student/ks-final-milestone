@@ -86,7 +86,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Controller for course proposal screens
+ * Controller for course proposal screens.  This controller controls all functions of the course proposal process
+ * and contains the data model and is responsible for retrieving its data and metadata from the server. In
+ * addition, this controller is responsible for course proposal save events and updating its ui accordingly.
+ * 
  *
  * @author Kuali Student Team
  *
@@ -124,9 +127,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
+    final CourseRequirementsDataModel reqDataModel;
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
+        reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
     }
@@ -150,7 +155,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void initialize() {
     	//TODO get from messages
-
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
@@ -332,14 +336,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
         });
     }
 
-	/**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return cfg.getViewsEnum();
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
@@ -412,13 +408,20 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				cluProposalModel.setRoot(result);
 		        setProposalHeaderTitle();
 		        setLastUpdated();
-		        getCourseComparisonModel(callback, workCompleteCallback);
+                reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                       if(result){
+                          getCourseComparisonModel(callback, workCompleteCallback);
+                       }
+                    }
+                });
 			}
 
     	});
     }
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	private void getCourseComparisonModel(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
@@ -524,7 +527,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     	}
                     	else{
                     		//saveActionEvent.doActionComplete();
-                    		Window.alert("Save failed.  Please check fields for errors.");
+                    		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                     	}
 
                     }
@@ -543,18 +546,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     public boolean startSectionRequired(){
         String proposalId = cluProposalModel.get(cfg.getProposalPath()+"/id");
-
+        
         //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
         String proposalTitle = cluProposalModel.get(cfg.getProposalTitlePath());
+        String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
         if (proposalTitle == null || proposalTitle.isEmpty()){
-            String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
             cluProposalModel.set(QueryPath.parse(cfg.getProposalTitlePath()), courseTitle);
         }
-
-    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
+        
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing() && !hasTitles(proposalTitle, courseTitle);
     }
 
+    private boolean hasTitles(String proposalTitle, String courseTitle){
+    	return (proposalTitle != null && !proposalTitle.isEmpty()) && (courseTitle != null && !courseTitle.isEmpty());
+    }
+    
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	KSBlockingProgressIndicator.addTask(saving);
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
@@ -563,7 +570,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			public void exec(Throwable caught) {
 				 GWT.log("Save Failed.", caught);
 				 KSBlockingProgressIndicator.removeTask(saving);
-                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, 5000));
+                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
 			}
 
         };
@@ -784,6 +791,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 									case CANCEL:
 										okToChange.exec(false);
 										dialog.hide();
+										// Because this event fires after the history change event we need to "undo" the history events. 
+										HistoryManager.logHistoryChange();  
 										break;
 								}
 							}
@@ -851,7 +860,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		return sb.toString();
 	}
 
+    public String getCourseId(){
+        return cluProposalModel.<String>get("id");
+    }
+
     public boolean isNew() {
         return isNew;
+    }
+
+    public CourseRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
     }
 }

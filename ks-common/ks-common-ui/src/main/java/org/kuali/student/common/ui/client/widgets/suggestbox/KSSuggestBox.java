@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
@@ -62,6 +63,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
             @Override
             public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
                 currentSuggestion = (IdableSuggestion)(event.getSelectedItem());
+                getTextBox().setFocus(true);
                 currentId = KSSuggestBox.this.getSelectedId();
                 SelectionChangeEvent.fire(KSSuggestBox.this);
             }
@@ -72,6 +74,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
             @Override
             public void onBlur(BlurEvent event) {
                 String currentText = KSSuggestBox.this.getText();
+                boolean isEmpty = false;
                 if(currentText != null && !currentText.equals("")){
                 	if((currentSuggestion != null && !KSSuggestBox.this.getText().equals(currentSuggestion.getReplacementString()))
                 			|| currentSuggestion == null){
@@ -80,12 +83,15 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                     
                     if(currentSuggestion == null){
                     	currentSuggestion = new IdableSuggestion();
-                    	currentSuggestion.setId("");
-                    	currentSuggestion.setDisplayString("");
-                    	currentSuggestion.setReplacementString("");
+                        String impossibleCharacters = UtilConstants.IMPOSSIBLE_CHARACTERS;
+                    	currentSuggestion.setId(impossibleCharacters);
+                    	currentSuggestion.setDisplayString(impossibleCharacters);
+                    	currentSuggestion.setReplacementString(impossibleCharacters);
                     }
                 }
                 else if(currentText == null || currentText.equals("")){
+                    isEmpty = true;
+                    currentId = "";
                 	currentSuggestion = new IdableSuggestion();
                 	currentSuggestion.setId("");
                 	currentSuggestion.setDisplayString("");
@@ -94,7 +100,12 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                 
                 if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
                 	currentId = KSSuggestBox.this.getSelectedId();
-                	SelectionChangeEvent.fire(KSSuggestBox.this);
+                    if(isEmpty){
+                        currentId = "";
+                    }
+                    if (!currentId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+                        SelectionChangeEvent.fire(KSSuggestBox.this);
+                    }
                 }                
             }
         });
@@ -113,6 +124,9 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         String id = "";
         if(currentSuggestion != null){
             id = currentSuggestion.getId();
+        }
+        if(!currentId.isEmpty() && id.isEmpty()){
+            id = UtilConstants.IMPOSSIBLE_CHARACTERS;
         }
         return id;
     }
@@ -133,8 +147,8 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         	currentSuggestion.setId("");
         	currentSuggestion.setDisplayString("");
         	currentSuggestion.setReplacementString("");
-        	KSSuggestBox.this.setText("");
         	currentId = KSSuggestBox.this.getSelectedId();
+            KSSuggestBox.this.setText("");
     	}
     	else
     	{

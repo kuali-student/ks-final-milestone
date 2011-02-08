@@ -85,7 +85,7 @@ public class CoreEditController extends CoreController {
                 List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
-                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                Data programRequirements = getDataProperty(ProgramConstants.PROGRAM_REQUIREMENTS);
 
                 if (programRequirements == null) {
                     Window.alert("Cannot find program requirements in data model.");
@@ -136,7 +136,7 @@ public class CoreEditController extends CoreController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            previousState = ProgramStatus.of(programModel);
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
@@ -180,7 +180,7 @@ public class CoreEditController extends CoreController {
                 super.onSuccess(result);
                 programModel.setRoot(result.getValue());
                 viewContext.setIdType(IdType.OBJECT_ID);
-                viewContext.setId((String) programModel.get(ProgramConstants.ID));
+                viewContext.setId(getStringProperty(ProgramConstants.ID));
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
@@ -244,6 +244,7 @@ public class CoreEditController extends CoreController {
                     setHeaderTitle();
                     setStatus();
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        processBeforeShow = false;
                         showView(getCurrentViewEnum());
                     }
                     resetFieldInteractionFlag();

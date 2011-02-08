@@ -6,6 +6,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.ULPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -13,18 +14,22 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SubrulePreviewWidget extends FlowPanel {
 
+    private static final String OPERATOR_HEADER_OR = "Must meet 1 of the following:";
+    private static final String OPERATOR_HEADER_AND = "Must meet all of the following:";
+    private static final String SUBRULE_LI_CSS_CLASS = "KS-Rule-Preview-Subrule-li";
+    private static final String SUBRULE_UL_CSS_CLASS = "KS-Program-Rule-Preview-Subrule-ul";
     private KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
     private SpanPanel separator = new SpanPanel(" | ");
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
     private boolean isReadOnly = true;
     private Map<String, Widget> clusetWidgets;
-    private final String CLU_SET_WIDGET_TAG = "[CLU_SET_WIDGET_TAG]";
 
     public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly, Map<String, Widget> clusetWidgets) {
         super();
@@ -74,133 +79,178 @@ public class SubrulePreviewWidget extends FlowPanel {
     }
 
     private void buildRequirement(StatementTreeViewInfo stmtTreeInfo) {
-        String html = buildOneRequirement(stmtTreeInfo, null, true, true).toString();
-
-        boolean foundOpennigBracket = false;
-        while (html.length() > 0) {
-
-            int ix = html.indexOf(CLU_SET_WIDGET_TAG);
-            if (ix == -1) {
-                this.add(new HTML(html));
-                break;
+        Widget requirementsWidget = buildRequirementsWidget(stmtTreeInfo);
+        
+        if(requirementsWidget != null) {
+            this.add(requirementsWidget);
+        }
+    }
+    
+    /**
+     * 
+     * This method handles creating the requirements preview widget at the parent level.  Further sub-statements are 
+     * handled with recursive calls of another method 
+     * 
+     * @param rootStatement
+     * @return
+     */
+    private ComplexPanel buildRequirementsWidget(StatementTreeViewInfo rootStatement) {
+        ULPanel statementBulletList = new ULPanel();
+        statementBulletList.setULClassName(SUBRULE_UL_CSS_CLASS);
+        
+        // handle simplest leaf case, where the statement has only requirement components
+        if(rootStatement.getReqComponents() != null && !rootStatement.getReqComponents().isEmpty()) {
+            
+            populateRequirementComponentWidgets(rootStatement, statementBulletList);
+            
+        }
+        else {
+            // if no sub statements or requirement components, then return null, nothing to do
+            if(rootStatement.getStatements() == null || rootStatement.getStatements().isEmpty()) {
+                return null;
             }
-
-            foundOpennigBracket = !foundOpennigBracket;
-            if (ix == 0) {
-                html = html.substring(CLU_SET_WIDGET_TAG.length());
-                continue;
+            
+            // statement has sub-statements, so prepare for recursion
+            boolean firstInList = true;
+            for(StatementTreeViewInfo subStatement : rootStatement.getStatements()) {
+                
+                statementBulletList.add(buildSubStatementWidget(subStatement, rootStatement, firstInList));
+                firstInList = false;
             }
+            
+        }
+        
+        
+        
+        return statementBulletList;
+    }
 
-            if (ix > 0) {
-                String beforeTagString = html.substring(0, ix);
-                if (foundOpennigBracket) {
-                    this.add(new HTML(beforeTagString));
-                } else {
-                    this.add(clusetWidgets.get(beforeTagString));
-                }
-                html = html.substring(ix + CLU_SET_WIDGET_TAG.length());
-                continue;
+    /**
+     * 
+     * This method adds LI elements to the provided ULPanel.  Each element consists of the panel 
+     * returned by buildRequirementPanel using each RequirementComponentInfo found in the provided 
+     * StatementTreeViewInfo
+     * 
+     * @param statement
+     * @param list
+     */
+    private void populateRequirementComponentWidgets(StatementTreeViewInfo statement, ULPanel list) {
+        StatementOperatorTypeKey includedOperator = null;
+        for (ReqComponentInfo reqComp : statement.getReqComponents()) {
+            String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
+            
+            list.add(buildRequirementPanel(reqComp, includedOperator, nl), SUBRULE_LI_CSS_CLASS);
+            
+            // only pass the operator after the first requirement panel is built
+            if(includedOperator == null) {
+                includedOperator = statement.getOperator();
             }
         }
     }
 
-    private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo, StatementOperatorTypeKey upperLevelOperator, boolean firstLevel, boolean firstRequirement) {
-
-        StringBuffer htmlText = new StringBuffer();
-        List<StatementTreeViewInfo> stmtTreeList = stmtTreeInfo.getStatements();
-
-        if ((stmtTreeList != null) && (stmtTreeList.size() > 0)) {
-            StringBuffer htmlOneLevelText = new StringBuffer();
-            firstRequirement = true;
-            for (StatementTreeViewInfo subTree : stmtTreeList) {
-                boolean trueFirstLevel = (firstLevel && (stmtTreeList.size() <= 1));
-                htmlOneLevelText.append(buildOneRequirement(subTree, stmtTreeInfo.getOperator(), trueFirstLevel, firstRequirement));
-                firstRequirement = htmlOneLevelText.toString().trim().isEmpty();
-            }
-
-            //only if we have other statements within this statement we indent
-            if (firstLevel || stmtTreeInfo.getStatements().size() > 1) {
-
-                if (!firstLevel) {
-                    String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
-                                            "Must meet all of the following:" : "Must meet 1 of the following:");
-                    htmlText.append(addRequirementToList(null, upperLevelOperator, operatorText, firstRequirement));
-                }
-
-                htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
-                htmlText.append(htmlOneLevelText);
-                htmlText.append("</ul>");
-            } else {
-                htmlText.append(htmlOneLevelText);
-            }
-
-        } else if ((stmtTreeInfo.getReqComponents() != null) && !stmtTreeInfo.getReqComponents().isEmpty()) {
-            List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
-            StringBuilder htmlListText = new StringBuilder();
-
-            //build a bullet list of requirements
-            boolean firstListRequirement = firstRequirement;
-            if (!firstLevel && reqComponents.size() > 1) {
-                firstListRequirement = true;   // we indent if we have more than one requirement on second or lower levels which means first requirement
-            }
-            for (ReqComponentInfo reqComp : reqComponents) {
-                StatementOperatorTypeKey operator = (reqComponents.size() > 1 ? stmtTreeInfo.getOperator() : upperLevelOperator);
-                String nl = null;
-                if (reqComp instanceof ReqComponentInfoUi) {
-                    ReqComponentInfoUi reqUi = (ReqComponentInfoUi)reqComp;
-                	nl = reqUi.getPreviewNaturalLanguageTranslation();
-            	}
-                if ( nl == null) {
-                	nl = reqComp.getNaturalLanguageTranslation();
-                }
-                htmlListText.append(addRequirementToList(reqComp, operator, nl, firstListRequirement));
-                firstListRequirement = false;
-            }
-
-            //indent if we have more than one requirement on second or lower levels
-            if (firstLevel || reqComponents.size() == 1) {
-                htmlText.append(htmlListText);
-            } else {
-                String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
-                                        "Must meet all of the following:" : "Must meet 1 of the following:");
-                htmlText.append(addRequirementToList(null, upperLevelOperator, operatorText, firstRequirement));
-              //  firstRequirement = false;
-                htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
-                htmlText.append(htmlListText);
-                htmlText.append("</ul>");
-            }
-        } else {
-            return new StringBuffer("No rules have been added");
+    /**
+     * 
+     * This method is called recursively to return a preview widget for the data in subStatement
+     * 
+     * @param subStatement
+     * @param parentStatement 
+     * @param firstInList flag to indicate that this statement is the first of its siblings, and does not need to start with the operator keyword
+     * 
+     * @return
+     */
+    private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
+        
+        StatementOperatorTypeKey prefixOperator = null;
+        if(!firstInList) {
+            prefixOperator = subStatement.getOperator();
         }
-
-        return htmlText;
+        
+        boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
+        
+        // simplest case:  statement has one requisite component and its operator is the same as its parent
+        if(hasReqComponents && subStatement.getReqComponents().size() == 1 && subStatement.getOperator() == parentStatement.getOperator()) {
+            // return requirement component text, including operator text if applicable
+            ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
+            String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
+            
+            return buildRequirementPanel(reqComp, prefixOperator, nl);
+        }
+        
+        // The statement has one or more requisite components or sub-statements, so build the header text
+        StringBuilder headerText = new StringBuilder();
+        
+        appendOperatorTag(headerText, prefixOperator);
+        
+        headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
+        
+        FlowPanel panel = new FlowPanel();
+        panel.add(new HTML(headerText.toString()));
+        
+        if(hasReqComponents) {
+            // requisite component case: a sub-statement with only requisite components
+            ULPanel subrulePanel = new ULPanel();
+            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);
+            
+            populateRequirementComponentWidgets(subStatement, subrulePanel);
+            
+            panel.add(subrulePanel);
+            
+        }
+        else {
+            // sub-statement case: for each sub statement, call this method recursively
+            boolean firstInSubList = true;
+            for(StatementTreeViewInfo childStatement : subStatement.getStatements()) {
+                panel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList));
+                firstInSubList = false;
+            }
+            
+        }
+        
+        return panel;
+    }
+    
+    private void appendOperatorTag(StringBuilder builder, StatementOperatorTypeKey operator) {
+        if(operator != null && builder != null) {
+            builder.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">").append(operator.toString()).append(" ").append("</span>");
+        }
     }
 
-    private StringBuffer addRequirementToList(ReqComponentInfo reqComp, StatementOperatorTypeKey operator, String requirement, boolean firstRequirement) {
-        StringBuffer html = new StringBuffer();
-        html.append("<li style=\"padding-top: 5px;\">");
-        if (!firstRequirement) {
-            html.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">");
-            html.append(operator == StatementOperatorTypeKey.AND ? "AND " : "OR ");
-            html.append("</span>");
+    private String getPreviewNaturalLanguageForReqComponent(ReqComponentInfo reqComp) {
+        String nl = null;
+        if (reqComp instanceof ReqComponentInfoUi) {
+            nl = ((ReqComponentInfoUi)reqComp).getPreviewNaturalLanguageTranslation();
         }
-        html.append(requirement);
+        if ( nl == null) {
+            nl = reqComp.getNaturalLanguageTranslation();
+        }
+        return nl;
+    }
+    
+    private FlowPanel buildRequirementPanel(ReqComponentInfo reqComp, StatementOperatorTypeKey operator, String requirement) {
+        
+        FlowPanel requirementPanel = new FlowPanel();
+        
+        StringBuilder htmlBuilder = new StringBuilder();
+        appendOperatorTag(htmlBuilder, operator);
+        htmlBuilder.append(requirement);
+        
+        requirementPanel.add(new HTML(htmlBuilder.toString()));
 
         //we need to display clu set show/hide list widget if this req. component has a cluset
         if ((clusetWidgets != null) && (reqComp != null)) {
             List<ReqCompFieldInfo> fieldInfos = reqComp.getReqCompFields();
             for (ReqCompFieldInfo fieldInfo : fieldInfos) {
                 if (RulesUtil.isCluSetWidget(fieldInfo.getType())) {
-                    if (clusetWidgets.get(fieldInfo.getValue()) != null) {
-                        html.append(CLU_SET_WIDGET_TAG + fieldInfo.getValue() + CLU_SET_WIDGET_TAG);
+                    Widget csWidget = clusetWidgets.get(fieldInfo.getValue());
+                    if (csWidget != null) {
+                        requirementPanel.add(csWidget);
                         break;
                     }
                 }
             }
         }
 
-        html.append("</li>");
-        return html;
+        return requirementPanel;
     }
 
     public void addEditButtonClickHandler(ClickHandler handler) {

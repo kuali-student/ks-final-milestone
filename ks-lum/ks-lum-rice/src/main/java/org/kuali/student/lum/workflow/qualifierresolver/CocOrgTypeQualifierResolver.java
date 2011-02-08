@@ -31,6 +31,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+//TODO: The following annotation needs to be udpated on role definition.
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
  * organizations related to the organization(s) that are set in the document content xml for a particular document
@@ -48,7 +49,6 @@ import org.w3c.dom.NodeList;
  *   <useNonDerivedRoles>true</useNonDerivedRoles>
  *   <organizationTypeCode>orgId</organizationTypeCode>
  *   <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
- *   <organizationShortNameQualifierKey>orgId</organizationShortNameQualifierKey>
  *   <organizationIdDocumentContentKey>orgId</organizationIdDocumentContentKey>
  * </role>
  * }
@@ -76,7 +76,6 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
 
     protected static final String ROUTE_NODE_DOCUMENT_CONTENT_XML_ORG_TYPE_CODE = "organizationTypeCode";
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
-    protected static final String ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY = "organizationShortNameQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";
 
     public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
@@ -94,8 +93,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
     public List<AttributeSet> resolve(RouteContext context) {
         List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
-            attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationShortNameAttributeSetKey(context),
-                    getNodeSpecificOrganizationIdAttributeSetKey(context)));
+              attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
         }
         return attributeSets;
     }
@@ -117,16 +115,6 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
             }
         }
         return organizationIdFieldKey;
-    }
-
-    public String getNodeSpecificOrganizationShortNameAttributeSetKey(RouteContext context) {
-        String organizationShortNameFieldKey = RouteNodeUtils.getValueOfCustomProperty(context.getNodeInstance().getRouteNode(), ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY);
-        if (StringUtils.isBlank(organizationShortNameFieldKey)) {
-            if (usesNonDerivedOrganizationRoles(context)) {
-                throw new RuntimeException("Cannot find required XML element '" + ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY + "' on the Route Node XML configuration.");
-            }
-        }
-        return organizationShortNameFieldKey;
     }
 
     public Boolean usesNonDerivedOrganizationRoles(RouteContext context) {
@@ -182,71 +170,10 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         }
     }
 
-    protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-        List<SearchResultRow> results = null;
-        if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
-            SearchParam qpRelType = new SearchParam();
-            qpRelType.setKey("org.queryParam.relationType");
-            qpRelType.setValue(relationType);
-            queryParamValues.add(qpRelType);
-
-            SearchParam qpOrgId = new SearchParam();
-            qpOrgId.setKey("org.queryParam.orgId");
-            qpOrgId.setValue(orgId);
-            queryParamValues.add(qpOrgId);
-
-            SearchParam qpRelOrgType = new SearchParam();
-            qpRelOrgType.setKey("org.queryParam.relatedOrgType");
-            qpRelOrgType.setValue(relatedOrgType);
-            queryParamValues.add(qpRelOrgType);
-
-            SearchRequest searchRequest = new SearchRequest();
-            searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
-            searchRequest.setParams(queryParamValues);
-            try {
-                SearchResult result = getOrganizationService().search(searchRequest);
-                results = result.getRows();
-            } catch (Exception e) {
-                LOG.error("Error calling org service");
-                throw new RuntimeException(e);
-            }
-        }
-        return results;
-    }
-
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgShortNameKey, String orgIdKey) {
-        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
-        if (results != null) {
-            for (SearchResultRow result : results) {
-                AttributeSet attributeSet = new AttributeSet();
-                String resolvedOrgId = "";
-                String resolvedOrgShortName = "";
-                for (SearchResultCell resultCell : result.getCells()) {
-                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
-                        resolvedOrgId = resultCell.getValue();
-                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        resolvedOrgShortName = resultCell.getValue();
-                    }
-                }
-                if (orgShortNameKey != null) {
-                    attributeSet.put(orgShortNameKey, resolvedOrgShortName);
-                }
-                if (orgIdKey != null) {
-                    attributeSet.put(orgIdKey, resolvedOrgId);
-                }
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
-                returnAttrSetList.add(attributeSet);
-            }
-        }
-        return returnAttrSetList;
-    }
-
-    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey, String orgIdKey) {
+    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
+        
         List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
         List<OrgInfo> orgsForRouting = null;
-
         if (orgId != null) {
             try {
                 List<String> orgIds = new ArrayList<String>();
@@ -262,7 +189,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
                 for (OrgInfo orgForRouting : orgsForRouting) {
                     if (orgType != null && orgType.equals(orgForRouting.getType())) {
                         List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
-                        returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgShortNameKey, orgIdKey));
+                        returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
                     }
                 }
             }

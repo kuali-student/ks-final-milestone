@@ -31,6 +31,13 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Model widget binding for a section - calls the bindings on its fields and sub sections.  Special handling
+ * for sections which can have their sections deleted by the user.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class SectionBinding extends ModelWidgetBindingSupport<Section> {
 	public static SectionBinding INSTANCE = new SectionBinding();
 

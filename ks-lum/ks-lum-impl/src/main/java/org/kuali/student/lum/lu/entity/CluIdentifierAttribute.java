@@ -13,23 +13,29 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.ui.client.css;
+package org.kuali.student.lum.lu.entity;
 
-import com.google.gwt.libideas.resources.client.CssResource;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public interface KSAccordionPanelCss extends CssResource {
-    
-    String KSAccordion();
-    
-    String KSAccordionTitlebar();
+import org.kuali.student.core.entity.Attribute;
 
-    String KSAccordionTitlebarHover();
+@Entity
+@Table(name = "KSLU_CLU_IDENT_ATTR")
+public class CluIdentifierAttribute extends Attribute<CluIdentifier> {
+	@ManyToOne
+	@JoinColumn(name = "OWNER")
+	private CluIdentifier owner;
 
-    String KSAccordionTitlebarFocus();
+	@Override
+	public CluIdentifier getOwner() {
+		return owner;
+	}
 
-    String KSAccordionTitlebarOpen();
-
-    String KSAccordionTitlebarLabel();
-    
-    String KSButton();
+	@Override
+	public void setOwner(CluIdentifier owner) {
+		this.owner = owner;
+	}
 }

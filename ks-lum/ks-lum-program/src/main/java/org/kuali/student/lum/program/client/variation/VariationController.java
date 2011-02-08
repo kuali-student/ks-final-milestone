@@ -76,7 +76,7 @@ public abstract class VariationController extends ProgramController {
 
     @Override
     public String getProgramName() {
-        String name = (String) programModel.get(ProgramConstants.LONG_TITLE);
+        String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
             return ProgramProperties.get().variation_new();
         }

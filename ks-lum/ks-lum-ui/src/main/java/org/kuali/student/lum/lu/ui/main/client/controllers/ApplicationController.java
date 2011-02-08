@@ -6,13 +6,23 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.widgets.KSFooter;
+import org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The top level application controller for the LUM application.  All other views are part of this controller
+ * or its children.  This controller provides the very basic layout of the app and includes the header and
+ * the main content panel.  The header stays in the same location for all screens of KS.
+ * 
+ * <br> This controller contains one child view, the home view (HomeController).
+ * @author Kuali Student Team
+ * @see HomeController
+ * @see LUMMainEntryPoint
+ */
 public class ApplicationController extends LayoutController{
 
 	public static enum AppViews{HOME}

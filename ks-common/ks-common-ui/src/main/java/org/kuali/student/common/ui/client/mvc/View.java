@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 
@@ -28,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 public interface View extends HistorySupport, BreadcrumbSupport {
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
-     * done.
+     * done.  Executes the callback with true if when the view is ready to be shown.
      */
     public void beforeShow(Callback<Boolean> onReadyCallback);
 
@@ -62,8 +63,17 @@ public interface View extends HistorySupport, BreadcrumbSupport {
      */
     public void clear();
     
+    /**
+     * Updates the model with information from this view. If this view does not need to update the model
+     * leave this method empty.
+     */
     public void updateModel();
     
+    /**
+     * Get the attachable widget which represents this view
+     * @see SectionView
+     * @return
+     */
     public Widget asWidget();
     
 }

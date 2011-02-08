@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -26,6 +29,8 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -52,14 +57,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  * 
  */
-public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LOPicker>>> {
+public class LOBuilder extends VerticalSection implements HasValue<List<OutlineNode<LOPicker>>>, CanProcessValidationResults {
 
 	private static String type;
 	private static String state;
 	private static String repoKey;
 	private static String messageGroup;
 
-	VerticalPanel main = new VerticalPanel();
 	HorizontalPanel searchMainPanel = new HorizontalPanel();
 	KSPicker searchWindow;
 	VerticalPanel loPanel = new VerticalPanel();
@@ -72,7 +76,6 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 
 	public LOBuilder(String luType, String luState, String luGroup,	String loRepoKey, final Metadata metadata) {
 		super();
-		initWidget(main);
 
 		type = luType;
 		state = luState;
@@ -112,9 +115,9 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		loPanel.addStyleName("KS-LOBuilder-LO-Panel");
 		instructions.addStyleName("KS-LOBuilder-Instructions");
 
-		main.add(searchMainPanel);
-		main.add(instructions);
-		main.add(loPanel);
+        this.add(searchMainPanel);
+        this.add(instructions);
+        this.add(loPanel);
 	}
 
 	/**
@@ -314,4 +317,26 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 			setValue(value);
 		}
 	}
+
+    @Override
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results) {
+        return processValidationResults(fd, results, true);
+    }
+
+    @Override
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearAllValidation) {
+
+        ErrorLevel status = ErrorLevel.OK;
+        
+        // OutlineNodeModel<LOPicker> outlineModel = this.loList.outlineModel;
+        // set style on erroneous LOPicker's description field?
+
+        String key = fd.getFieldKey();
+        for (ValidationResultInfo result : results) {
+            if (result.getElement().startsWith(key)) {
+                status = fd.getFieldElement().processValidationResult(result);
+            }
+        }
+        return status;
+    }
 }

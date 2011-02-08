@@ -721,12 +721,12 @@ public class LuServiceImpl implements LuService {
                 cluSetTreeViewInfo.setCluSets(cluSets);
 			}
 		}
-		List<CluInfo> clus = new ArrayList<CluInfo>(cluSetInfo.getCluIds().size());
-		for (String cluId : cluSetInfo.getCluIds()) {
+		List<CluInfo> clus = new ArrayList<CluInfo>();
+		/*for (String cluId : cluSetInfo.getCluIds()) {
 			if(cluId!=null){
 				clus.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluId)));
 			}
-		}
+		}*/
 		cluSetTreeViewInfo.setClus(clus);
 	}
 
@@ -1018,9 +1018,9 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-			clu.setOfficialIdentifier(LuServiceAssembler.createOfficialIdentifier(cluInfo));
+			clu.setOfficialIdentifier(LuServiceAssembler.createOfficialIdentifier(cluInfo, luDao));
 		}
-		clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(cluInfo));
+		clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(cluInfo, luDao));
 		if (cluInfo.getDescr() != null) {
 		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
 		    if (descr.getPlain() != null || descr.getFormatted() != null) {
@@ -1199,7 +1199,7 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-		    LuServiceAssembler.updateOfficialIdentifier(clu, cluInfo);
+		    LuServiceAssembler.updateOfficialIdentifier(clu, cluInfo, luDao);
 		} else if (clu.getOfficialIdentifier() != null) {
 			luDao.delete(clu.getOfficialIdentifier());
 		}
@@ -1208,7 +1208,7 @@ public class LuServiceImpl implements LuService {
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
-		LuServiceAssembler.updateAlternateIdentifier(oldAltIdMap, clu, cluInfo);
+		LuServiceAssembler.updateAlternateIdentifier(oldAltIdMap, clu, cluInfo, luDao);
 		// Now delete anything left over
 		for (Entry<String, CluIdentifier> entry : oldAltIdMap.entrySet()) {
 			luDao.delete(entry.getValue());

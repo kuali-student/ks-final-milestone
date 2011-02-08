@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum</artifactId>
@@ -28,6 +28,12 @@
         <module>ks-lum-web</module>
         <module>ks-lum-program</module>
         <module>ks-lum-ui-common</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>sql-only</id>
+      <modules>
+        <module>ks-lum-sql</module>
       </modules>
     </profile>
     <profile>

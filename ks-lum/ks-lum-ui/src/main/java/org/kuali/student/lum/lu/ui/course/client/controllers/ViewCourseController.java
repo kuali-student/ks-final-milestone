@@ -242,14 +242,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             }
         });
     }
-        
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return ViewCourseConfigurer.ViewCourseSections.class;
-    }
     
     @SuppressWarnings("unchecked")
     @Override

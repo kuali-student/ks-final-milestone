@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfo
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.*;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 
@@ -422,7 +423,7 @@ public class CourseSummaryConfigurer implements
         		LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(CreditCourseConstants.TYPE, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
-		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CONTACT_HOURS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CREDIT_VALUE_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MIN_CREDITS, LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MAX_CREDITS, LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList("resultValues", LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY, OPTIONAL)),
@@ -475,7 +476,7 @@ public class CourseSummaryConfigurer implements
 		        Arrays.asList(
 		                Arrays.asList(ACTIVITY_TYPE, LUUIConstants.ACTIVITY_TYPE_LABEL_KEY),
 		                Arrays.asList(CONTACT_HOURS + "/" + "unitQuantity", LUUIConstants.CONTACT_HOURS_LABEL_KEY),
-		                Arrays.asList(CONTACT_HOURS + "/" + "unitType", "per"),
+		                Arrays.asList(CONTACT_HOURS + "/" + "unitType", LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY),
 		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", LUUIConstants.DURATION_TYPE_LABEL_KEY),
 		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", LUUIConstants.DURATION_LITERAL_LABEL_KEY),
 		                Arrays.asList(DEFAULT_ENROLLMENT_ESTIMATE, LUUIConstants.CLASS_SIZE_LABEL_KEY)));
@@ -573,23 +574,15 @@ public class CourseSummaryConfigurer implements
 
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
-                String courseId = (model).getRoot().get("id");
-                KSBlockingProgressIndicator.addTask(loadDataTask);
-                
-                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
-                reqDataModel.retrieveStatementTypes(courseId, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {
-                        Iterator<StatementTreeViewInfo> iter = reqDataModel.getCourseReqInfo(stmtType.getId()).iterator();
-                        panel.clear();                        
-                        if (iter.hasNext()) {
-                            StatementTreeViewInfo rule = iter.next();
-                            SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
-                            panel.add(ruleWidget);
-                        }
-                        KSBlockingProgressIndicator.removeTask(loadDataTask);                        
-                    }
-                });
+                panel.clear();
+                if(controller instanceof CourseProposalController){
+                CourseProposalController courseProposalController = (CourseProposalController) controller;
+                List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                    panel.add(ruleWidget);
+                }
+            }
             }
         };
 

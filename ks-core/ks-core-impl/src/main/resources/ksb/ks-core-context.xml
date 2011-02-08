@@ -162,6 +162,8 @@
         class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
+        <property name="validatorFactory" ref="coreValidatorFactory"/>                
     </bean>
 
     <bean id="atpSearchManager"
@@ -282,8 +284,8 @@
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
+        <property name="searchManager" ref="commentSearchManager" />        
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
-        <property name="searchManager" ref="commentSearchManager" />
         <property name="validatorFactory" ref="coreValidatorFactory"/>        
     </bean>
 

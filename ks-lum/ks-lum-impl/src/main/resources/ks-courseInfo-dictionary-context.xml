@@ -919,15 +919,19 @@
   <property name="name"
             value="org.kuali.student.lum.course.dto.CourseCrossListingInfo" />
   <property name="attributes">
-   <list>
+   <list>   
     <ref bean="courseCrossListingInfo.courseNumberSuffix" />
     <ref bean="courseCrossListingInfo.department" />
     <ref bean="courseCrossListingInfo.id" />
+    <ref bean="courseCrossListingInfo.code" />
     <ref bean="courseCrossListingInfo.subjectArea" />
     <ref bean="courseCrossListingInfo.type" />
    </list>
   </property>
  </bean>
+ 
+  <bean id="courseCrossListingInfo.code" parent="courseInfo.code-parent" /> 
+ 
  <bean id="org.kuali.student.lum.course.dto.CourseCrossListingInfo"
        parent="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent" />
 
@@ -1028,6 +1032,8 @@
     <ref bean="formatInfo.id" />
     <ref bean="formatInfo.state" />
     <ref bean="formatInfo.type" />
+    <ref bean="formatInfo.duration" />
+    <ref bean="formatInfo.termsOffered" />
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -1058,6 +1064,15 @@
  </bean>
  <bean id="formatInfo.type" parent="formatInfo.type-parent" />
 
+ <bean id="formatInfo.duration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
+  <property name="name" value="duration" />
+  <property name="dataObjectStructure" ref="courseInfo.duration.TimeAmountInfo" />
+ </bean>
+
+ <bean id="formatInfo.duration" parent="formatInfo.duration-parent" />
+ 
+ <bean id="formatInfo.termsOffered" parent="courseInfo.termsOffered-parent" />
+ 
  <!-- ActivityInfo-->
  <bean id="org.kuali.student.lum.course.dto.ActivityInfo-parent"
        abstract="true" parent="objectStructureDefinition">
@@ -1093,10 +1108,30 @@
  <bean id="activityInfo.contactHours-parent" abstract="true" parent="baseComplex">
   <property name="name" value="contactHours" />
   <!-- Should this be new ContactHourInfo data structure object? -->
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.AmountInfo" />
+  <property name="dataObjectStructure" ref="activityInfo.contactHours-structure" />
  </bean>
  <bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
 
+ <bean id="activityInfo.contactHours-structure-parent" abstract="true" parent="org.kuali.student.core.dto.AmountInfo-parent">
+  <property name="name" value="org.kuali.student.core.dto.AmountInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="activityInfo.contactHours.unitType" />
+    <ref bean="activityInfo.contactHours.unitQuantity" />
+   </list>
+  </property>
+ </bean>
+ <bean id="activityInfo.contactHours-structure" parent="activityInfo.contactHours-structure-parent" />
+
+ <bean id="activityInfo.contactHours.unitType-parent" abstract="true" parent="amountInfo.unitType-parent">
+ </bean>
+ <bean id="activityInfo.contactHours.unitType" parent="activityInfo.contactHours.unitType-parent" />
+
+ <bean id="activityInfo.contactHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
+  <property name="maxLength" value="9"/>
+  <property name="validChars" ref="positive.numeric.range"/>
+ </bean>
+ <bean id="activityInfo.contactHours.unitQuantity" parent="activityInfo.contactHours.unitQuantity-parent" />
  <bean id="activityInfo.defaultEnrollmentEstimate-parent" abstract="true"
        parent="cluInfo.defaultEnrollmentEstimate-parent">
   <property name="name" value="defaultEnrollmentEstimate" />
@@ -1207,6 +1242,8 @@
 
  <bean id="courseInfo.outOfClassHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
   <property name="dynamic" value="true"/>
+  <property name="maxLength" value="9"/>
+  <property name="validChars" ref="positive.numeric.range"/>
  </bean>
  <bean id="courseInfo.outOfClassHours.unitQuantity" parent="courseInfo.outOfClassHours.unitQuantity-parent" />
 

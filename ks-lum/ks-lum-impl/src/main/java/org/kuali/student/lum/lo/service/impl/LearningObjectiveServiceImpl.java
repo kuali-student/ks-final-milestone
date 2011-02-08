@@ -215,7 +215,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+            throw new DataValidationErrorException("Validation error!", val);
 		}
 		
 	    // make sure LoType and LoRepository exist before trying to create
@@ -456,7 +456,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 		
 	    Lo lo = loDao.fetch(Lo.class, loId);
@@ -582,13 +582,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loInfo, "loInfo");
-	    
-	    try{
-	    	String loDesc = loInfo.getDesc().getPlain(); 
-	    	checkForEmptyString(loDesc, "loInfo.Desc");
-	    } catch (NullPointerException e){
-			//do not checkForEmptyString
-		}
+
+     // this is the job of the validator not some hard coded value
+//	    try{
+//	    	String loDesc = loInfo.getDesc().getPlain();
+//	    	checkForEmptyString(loDesc, "loInfo.Desc");
+//	    } catch (NullPointerException e){
+//			//do not checkForEmptyString
+//		}
 	    
 	    ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName());
 	    Validator validator = validatorFactory.getValidator();
@@ -605,13 +606,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
-	    
-	    try{
-	    	String catDesc = loCategoryInfo.getDesc().getPlain(); 
-	    	checkForEmptyString(catDesc, "loCategoryInfo.Desc");
-	    } catch (NullPointerException e){
-			//do not checkForEmptyString
-		}
+
+     // this is the job of the validator not some hard coded logic
+//	    try{
+//	    	String catDesc = loCategoryInfo.getDesc().getPlain();
+//	    	checkForEmptyString(catDesc, "loCategoryInfo.Desc");
+//	    } catch (NullPointerException e){
+//			//do not checkForEmptyString
+//		}
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName());
         Validator validator = validatorFactory.getValidator();
@@ -656,18 +658,20 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         }
     }
 
-    /**
-     * @param param
-     * @param paramName
-     * @throws MissingParameterException
-     */
-    private void checkForEmptyString(String param, String paramName)
-            throws MissingParameterException {
-        if (param != null && "".equals(param.trim())) {
-            throw new MissingParameterException(paramName + " can not be empty");
-        }
-    }
-    
+    // this is the job of the validator not some hard coded logic
+    // besides it should create a validation result not a missing parameter exeception
+//    /**
+//     * @param param
+//     * @param paramName
+//     * @throws MissingParameterException
+//     */
+//    private void checkForEmptyString(String param, String paramName)
+//            throws MissingParameterException {
+//        if (param != null && "".equals(param.trim())) {
+//            throw new MissingParameterException(paramName + " can not be empty");
+//        }
+//    }
+//
     /**
      * @param loRepositoryKey
      * @param loCategoryInfo
@@ -676,7 +680,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
      */
     private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId)
             throws MissingParameterException, DataValidationErrorException {
-
+    if (loCategoryInfo.getName() == null)
+    {
+     return false;
+    }
         boolean exists = false;
 	    SearchRequest request = new SearchRequest();
 	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
@@ -839,7 +846,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 	    
 	    if (null == loLoRelationInfo.getState()) {
@@ -925,14 +932,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 		
-		// TODO - this is never called; why does it exist?
-		/*
+
 		// Validate LoLoRelation
 		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
-		*/
+
 	    
 		return null;
 	}

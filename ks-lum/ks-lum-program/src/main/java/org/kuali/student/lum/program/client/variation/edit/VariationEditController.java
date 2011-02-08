@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -16,22 +18,14 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
-import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
-import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -47,7 +41,7 @@ public class VariationEditController extends VariationController {
         super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
-        if (programModel.get("id") != null) {
+        if (getStringProperty(ProgramConstants.ID) != null) {
             setDefaultView(ProgramSections.SUMMARY);
         }
         initHandlers();
@@ -110,7 +104,7 @@ public class VariationEditController extends VariationController {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
             }
         });
-        
+
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEvent.Handler() {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
@@ -225,12 +219,12 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void resetModel() {
-        currentId = programModel.get(ProgramConstants.ID);
+        currentId = getStringProperty(ProgramConstants.ID);
         programModel.resetRoot();
     }
 
     private void doCancel() {
-        showView(ProgramSections.SUMMARY);
+       navigateToParent(ProgramSections.SUMMARY);
     }
 
     @Override
@@ -239,7 +233,7 @@ public class VariationEditController extends VariationController {
     }
 
     private void saveData(DataModel model) {
-        currentId = model.get("id");
+        currentId = model.get(ProgramConstants.ID);
         eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
         setContentTitle(getProgramName());
         setName(getProgramName());
@@ -248,7 +242,12 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void navigateToParent() {
-        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+        navigateToParent(ProgramSections.SPECIALIZATIONS_EDIT);
+    }
+
+    private void navigateToParent(ProgramSections parentSection) {
+        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation(), getViewContext()) + "/" + parentSection;
+        HistoryManager.navigate(path);
     }
 
 }

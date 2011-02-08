@@ -222,7 +222,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                             cluInformation.setCredits(credits);
                         }
-                        cluInformation.setVerIndependentId(cluInfo.getVersionInfo().getVersionIndId());
+                        cluInformation.setVerIndependentId(cluInfo.getId());
                         result.add(cluInformation);
                     }
                 } catch (Exception e) {
@@ -265,7 +265,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 List<SearchResultCell> cells = row.getCells();
                 CluInformation cluInformation = new CluInformation();
                 for(SearchResultCell cell : cells) {
-                    if(cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
+                    if(cell.getKey().equals("lu.resultColumn.cluId")) {
                         cluInformation.setVerIndependentId(cell.getValue());
                     }
                     if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {

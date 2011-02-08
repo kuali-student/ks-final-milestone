@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.dom.client.Element;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -221,7 +222,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             basicWidget = new BasicWidget(listItemWidget);
             populateListWidget(inLookupMetadata);
         } else {
-        	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.DROP_DOWN){
+        	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.DROP_DOWN || inLookupMetadata.getWidget() == LookupMetadata.Widget.RADIO){
                 basicWidget = new BasicWidget(new KSLabel());
         	} else {
         		//FIXME: This method of creating read is very inefficient, need better solution
@@ -275,19 +276,17 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 searchPanel.setActionLabel("Preview");
             }
 
-            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>() {
                 public void exec(List<SelectedResults> results) {
-                    if (advancedSearchCallback != null) {
-                        advancedSearchCallback.exec(results);
-                        if (results.size() > 0) {
-                        	advSearchWindow.hide();
-                        }
-                    } else {
-                        if (results.size() > 0) {
-                            basicWidget.setResults(results);
-                            advSearchWindow.hide();
-                        }
-                    }
+                	if (results != null && results.size() > 0) {
+	                    if (advancedSearchCallback != null) {
+	                        advancedSearchCallback.exec(results);
+	                    }
+	                    else {
+	                        basicWidget.setResults(results);
+	                    }
+                        advSearchWindow.hide();
+                	}
                 }
             });
 
@@ -343,9 +342,17 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
 		public BasicWidget(Widget basicWidget){
 			this.basicWidget = basicWidget;
+            initAccessibility();
 		}
 
-		public void setResults(List<SelectedResults> results) {
+        private void initAccessibility() {
+            Element element = basicWidget.getElement();
+            element.setAttribute("role", "combobox");
+            element.setAttribute("aria-autocomplete", "list");
+            element.setAttribute("aria-haspopup", "true");
+        }
+
+        public void setResults(List<SelectedResults> results) {
 			if (basicWidget instanceof KSTextBox) {
 				((KSTextBox)basicWidget).setText(results.get(0).getDisplayKey());  //FIXME: what about the result id?
 			} else if (basicWidget.getClass().getName().contains("ContainerWidget")) {
@@ -442,7 +449,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             }
 		}
 		public String getDisplayValue() {
-		    String result = null;
+		    String result = "";
 		    if (basicWidget instanceof KSTextBox) {
                 result = ((KSTextBox)basicWidget).getText();
             } else if (basicWidget instanceof KSSuggestBox) {

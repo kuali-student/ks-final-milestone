@@ -18,6 +18,7 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -25,30 +26,28 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
-/**
- * @author lindholm
- *
- */
-public abstract class CocValuesFiinder extends StudentKeyValuesBase {
+public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
 	/**
-	 * Find the curriculum committee Orgs of this orgType
-	 *
+	 * Find the curriculum committee Orgs with specified orgType.
+	 * Each org should have a kuali.org.CurriculumParent relationship with
+	 * an org with kuali.org.COC type.
+	 * 
 	 * @param orgType
 	 * @return
 	 */
 	public static List<KeyLabelPair> findCocOrgs(String orgType) {
-		List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
 
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 		SearchParam qpOrgType = new SearchParam();
 		qpOrgType.setKey("org.queryParam.relationType");
-		qpOrgType.setValue("kuali.org.CurriculumChild");
+		qpOrgType.setValue("kuali.org.CurriculumParent");
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
-		qpOrgType.setKey("org.queryParam.orgType");
-		qpOrgType.setValue(orgType);
+        qpOrgType.setKey("org.queryParam.orgType");
+        qpOrgType.setValue(orgType);
 		queryParamValues.add(qpOrgType);
 		
 		qpOrgType = new SearchParam();
@@ -58,27 +57,41 @@ public abstract class CocValuesFiinder extends StudentKeyValuesBase {
 		
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setParams(queryParamValues);
-		searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
-		
+        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
+
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
 				String orgShortName = "";
+				String orgLongName = "";
 				for (SearchResultCell resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell
 							.getKey())) {
 						orgId = resultCell.getValue();
+						orgLongName = getOrganizationService().getOrganization(orgId).getLongName();
 					} else if ("org.resultColumn.orgShortName"
 							.equals(resultCell.getKey())) {
 						orgShortName = resultCell.getValue();
-					}
+					}					
 				}
-				departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
+		        if (StringUtils.isBlank(orgLongName)) {
+		           //use shortName when longName is blank
+		            orgEntities.add(buildKeyLabelPair(orgId, orgShortName, null, null));
+		        }
+		        else {
+		            /*
+		             * The requirement is that in the RICE portal, when we add a principal to a role
+		             * the drop-down list for DepartmentCoC or DivisionCoC should display the full/long 
+		             * names instead of short names.
+		             */
+		            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
+		        }
+//		        orgEntities.add(buildKeyLabelPair(orgId, null, orgLongName, null));
 			}
 
-			return departments;
+			return orgEntities;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

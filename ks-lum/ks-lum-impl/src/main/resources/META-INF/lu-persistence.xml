@@ -55,6 +55,7 @@
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluIdentifier</class>
+		<class>org.kuali.student.lum.lu.entity.CluIdentifierAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructor</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructorAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelation</class>

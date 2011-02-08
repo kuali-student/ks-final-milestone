@@ -28,16 +28,16 @@ class SideBarDialogManager {
 
     private ButtonGroup<ButtonEnumerations.ButtonEnum> buttonGroup = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
 
-    private VerticalSectionView dialogView = new VerticalSectionView(DialogView.MAIN, "", ProgramConstants.PROGRAM_MODEL_ID);
+    private VerticalSectionView dialogView = new VerticalSectionView(DialogView.MAIN, ProgramProperties.get().sideBar_dialog_title(), ProgramConstants.PROGRAM_MODEL_ID, true);
 
     private boolean viewConfigured = false;
 
     public SideBarDialogManager(HandlerManager eventBus) {
         this.eventBus = eventBus;
-        dialog = new KSLightBox(ProgramProperties.get().sideBar_dialog_title());
+        dialog = new KSLightBox();
         dialog.setWidget(dialogView.asWidget());
         dialog.addButtonGroup(buttonGroup);
-        dialog.setSize(300, 170);
+        dialog.setSize(300, 190);
         dialog.setModal(false);
         bind();
     }

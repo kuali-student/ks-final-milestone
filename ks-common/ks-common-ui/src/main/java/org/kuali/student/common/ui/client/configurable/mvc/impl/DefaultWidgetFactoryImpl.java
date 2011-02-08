@@ -37,6 +37,12 @@ import org.kuali.student.core.assembly.data.MetadataInterrogator.ConstraintIds;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * DefaultWidgetFactory implementation
+ * @see DefaultWidgetFactory
+ * @author Kuali Student Team
+ *
+ */
 public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {	
 
 	@Override

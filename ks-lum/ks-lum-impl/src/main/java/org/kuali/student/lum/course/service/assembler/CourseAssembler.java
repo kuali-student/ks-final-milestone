@@ -312,8 +312,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//Custom logic to set the code as the concatenation of division and course number suffix if code not provided
 		if (StringUtils.hasText(course.getCode())){
 			identifier.setCode(course.getCode());
-		} else if(course.getCourseNumberSuffix()!=null&&course.getSubjectArea()!=null&&!course.getCourseNumberSuffix().isEmpty()&&!course.getSubjectArea().isEmpty()){
-			identifier.setCode(course.getSubjectArea()+course.getCourseNumberSuffix());			
+		} else if(StringUtils.hasText(course.getCourseNumberSuffix()) && StringUtils.hasText(course.getSubjectArea())){
+			identifier.setCode(calculateCourseCode(course.getSubjectArea(),course.getCourseNumberSuffix()));			
 		}else{
 			identifier.setCode(null);
 		}
@@ -353,7 +353,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setState(course.getState());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
-		//Add in crossListings
+		//Add in ings
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 			cluIdentifier.setId(crossListing.getId());
@@ -362,6 +362,17 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
 			cluIdentifier.setState(course.getState());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
+			cluIdentifier.setAttributes(crossListing.getAttributes());
+
+	        //Custom logic to set the code as the concatenation of division and course number suffix if code not provided
+	        if (StringUtils.hasText(crossListing.getCode())){
+	            cluIdentifier.setCode(crossListing.getCode());
+	        } else if(StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())){
+	            cluIdentifier.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));         
+	        }else{
+	            cluIdentifier.setCode(null);
+	        }
+	        			
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 
@@ -620,7 +631,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						ResultComponentInfo resultComponent = new ResultComponentInfo();
 						resultComponent.setId(id);
 						resultComponent.setType(type);
-      resultComponent.setState ("Active");
+						resultComponent.setState ("Active");
 						resultComponent.setResultValues(resultValues);
 						resultComponent.setAttributes(attributes);
 						BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(null);
@@ -1081,6 +1092,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
 					CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
 					crosslisting.setId(cluIdent.getId());
+					crosslisting.setCode(cluIdent.getCode());
+					crosslisting.setAttributes(cluIdent.getAttributes());
 					crosslisting.setType(cluIdent.getType());
 					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
 					crosslisting.setSubjectArea(cluIdent.getDivision());
@@ -1165,6 +1178,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return results;
 	}
 
+	/**
+	 * 
+	 * This method calculates code for course and cross listed course.
+	 * 
+	 * @param subjectArea
+	 * @param suffixNumber
+	 * @return
+	 */
+	private String calculateCourseCode(String subjectArea, String suffixNumber) {
+	    return subjectArea + suffixNumber;
+	}
+	
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}

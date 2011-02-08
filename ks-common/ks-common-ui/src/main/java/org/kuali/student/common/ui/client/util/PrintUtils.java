@@ -7,6 +7,10 @@ import com.google.gwt.user.client.ui.UIObject;
 
 public class PrintUtils {
     private static int num = 0;
+    /**
+     * Shows the uiObject content in a printable form in a new window
+     * @param uiObject
+     */
     public static void print(UIObject uiObject){
     	String headTag = "";
     	String styleTags = "";
@@ -28,24 +32,14 @@ public class PrintUtils {
     	var win = $wnd.open("", num, "width=900,height=600");
     	var doc = win.document;
     	doc.open("text/html", "replace");
-    	doc.write("<HTML>");
+    	doc.write("<HTML style='overflow: visible;'>");
     	doc.write(headTag);
-    	doc.write("<BODY style='overflow: auto;'>");
+    	doc.write("<BODY style='overflow: visible;'>");
     	doc.write("<a class='ks-button-primary' style='cursor: pointer;' onClick='print();'>Print</a>");
     	doc.write("<DIV class='printPage'>");
     	doc.write(html);
     	doc.write("</DIV></BODY></HTML>");
     	doc.close();
-    	var inputs = $doc.getElementsByTagName('input');
-    	for(i = 0; i < inputs.length; i++){
-    		var v = inputs[i].value;
-    		doc.getElementById(inputs[i].id).value = v;
-    	}
-    	inputs = $doc.getElementsByTagName('textarea');
-    	for(i = 0; i < inputs.length; i++){
-    		var v = inputs[i].value;
-    		doc.getElementById(inputs[i].id).value = v;
-    	}
     	win.print();
     }-*/;
 }

@@ -39,6 +39,7 @@
 		
 		<search:subSearch searchkey="lu.search.current" key="currentclu">
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalVersionIndId" subSearchParam="lu.queryParam.luOptionalVersionIndId"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
@@ -54,6 +55,7 @@
 		</search:subSearch>
 		<search:subSearch searchkey="lu.search.noncurrent" key="recentclu">
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalVersionIndId" subSearchParam="lu.queryParam.luOptionalVersionIndId"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
@@ -939,13 +941,13 @@
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentState" subSearchParam="lu.queryParam.luOptionalCurrentState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentVersion" subSearchParam="lu.queryParam.luOptionalCurrentVersion"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.luVariationsByName" key="var">
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
-            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentState" subSearchParam="lu.queryParam.luOptionalCurrentState"/>
+            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentVersion" subSearchParam="lu.queryParam.luOptionalCurrentVersion"/>
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
@@ -1009,7 +1011,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalCurrentState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1017,8 +1019,8 @@
 	<search:queryParam id="lu.queryParam.luOptionalSingleState-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
 	</search:queryParam>
-    <search:queryParam id="lu.queryParam.luOptionalCurrentState" parent="lu.queryParam.luOptionalCurrentState-parent"/>
-	<search:queryParam id="lu.queryParam.luOptionalCurrentState-parent"  optional="true" abstract="true">
+    <search:queryParam id="lu.queryParam.luOptionalCurrentVersion" parent="lu.queryParam.luOptionalCurrentVersion-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCurrentVersion-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
 	</search:queryParam>
 
@@ -1044,7 +1046,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalCurrentState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1089,7 +1091,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
-            <ref bean="lu.queryParam.luOptionalCurrentState"/>
+            <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1201,6 +1203,76 @@
 	<search:resultColumn id="lu.resultColumn.luOptionalAdminOrgType-parent"  abstract="true">
 		<search:name>Administrative Org Type</search:name>
 		<search:desc>Type of Relationship this Organization has Administratively to this clu</search:desc>
+		<search:dataType>String</search:dataType>
+	</search:resultColumn>
+
+
+    <search:searchType id="lu.search.luByRelation" parent="lu.search.luByRelation-parent"/>
+      <search:searchType id="lu.search.luByRelation-parent"  abstract="true">
+          <search:name>Search for Majors </search:name>
+          <search:desc>Search returns majors matching longname</search:desc>
+          <search:searchResultTypeInfo>  <!--  could be defined as stand alone -->
+              <ref bean="lu.result.luByRelation"/>
+          </search:searchResultTypeInfo>
+          <search:searchCriteriaTypeInfo>
+              <ref bean="lu.criteria.luByRelation"/>
+          </search:searchCriteriaTypeInfo>
+      </search:searchType>
+
+      <search:searchCriteriaTypeInfo id="lu.criteria.luByRelation" parent="lu.criteria.luByRelation-parent"/>
+      <search:searchCriteriaTypeInfo id="lu.criteria.luByRelation-parent"  abstract="true">
+          <search:name>LuAdvancedCriteria</search:name>
+          <search:desc>Advanced criteria</search:desc>
+          <search:queryParams>
+              <ref bean="lu.queryParam.luOptionalRelatedCluId"/>
+              <ref bean="lu.queryParam.luOptionalRelationType"/>
+
+          </search:queryParams>
+      </search:searchCriteriaTypeInfo>
+
+    	<search:queryParam id="lu.queryParam.luOptionalRelatedCluId" parent="lu.queryParam.luOptionalRelatedCluId-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalRelatedCluId-parent" optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Related Clu Id</dict:name>
+            <dict:desc>Id of related Clu</dict:desc>
+            <dict:dataType>String</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+    <search:queryParam id="lu.queryParam.luOptionalRelationType" parent="lu.queryParam.luOptionalRelationType-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalRelationType-parent" optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Relation Type</dict:name>
+            <dict:desc>Type of clu clu relation</dict:desc>
+            <dict:dataType>String</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+
+     <search:searchResultTypeInfo id="lu.result.luByRelation" parent="lu.result.luByRelation-parent"/>
+	<search:searchResultTypeInfo id="lu.result.luByRelation-parent"  abstract="true">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalLevel"/>
+			<ref bean="lu.resultColumn.luOptionalDescr"/>
+			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalVersionIndId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
+			<ref bean="lu.resultColumn.luOptionalRelationType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+
+	<search:resultColumn id="lu.resultColumn.luOptionalRelationType" parent="lu.resultColumn.luOptionalRelationType-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalRelationType-parent"  abstract="true">
+		<search:name>Clu CLu Relation Type</search:name>
+		<search:desc>Type of Relationship between two clus</search:desc>
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
@@ -1387,20 +1459,11 @@
                 <entry key="lu.queryParam.luOptionalSingleState">
 					<value>lower(clu.state) like '%' || LOWER(:lu_queryParam_luOptionalSingleState) || '%' </value>
 				</entry>
-				<entry key="lu.queryParam.luOptionalCurrentState">
-					<value>
-                            (clu.state IN (:lu_queryParam_luOptionalCurrentState)
-                            OR (clu.state NOT IN (:lu_queryParam_luOptionalCurrentState)
-                               <!-- no active programs for this code -->
-                               AND (select count(*) from Clu clu3, CluIdentifier ident3
-                                    where clu3.officialIdentifier.id = ident3.id
-                                      and ident3.code = ident1.code
-                                      and clu3.state IN (:lu_queryParam_luOptionalCurrentState)) = 0
-                               <!-- only 1 program for this code -->
-                               AND  (select count(*)  from Clu clu4, CluIdentifier ident4
-                                        where clu4.officialIdentifier.id = ident4.id
-                                          and ident4.code = ident1.code
-                                          and clu4.state NOT IN (:lu_queryParam_luOptionalCurrentState)) =1)))
+				<entry key="lu.queryParam.luOptionalCurrentVersion">
+ 					<value>
+                       (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) 
+                        <!-- Hack to get the correct SQL generated in AbstractSearchableCrudDaoImpl -->
+                        AND '1'=:lu_queryParam_luOptionalCurrentVersion)
                     </value>
 				</entry>
 				<entry key="cluset.queryParam.optionalId">
@@ -1493,6 +1556,25 @@
                          AND clu.luType.id = 'kuali.lu.type.Variation'
                      </value>
                  </entry>
+                <entry key="lu.search.luByRelation">
+                    <value>
+                        SELECT  clu.id,   ident.shortName, ident.longName,  ident.code, ident.level,
+                        cludesc.plain, clu.studySubjectArea, clu.state,
+                        clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd,
+                        rel.luLuRelationType.id
+                        FROM Clu clu, CluIdentifier ident, CluCluRelation rel
+                        LEFT JOIN clu.descr cludesc
+                        WHERE rel.clu.id = clu.id
+                        AND clu.officialIdentifier.id = ident.id
+                    </value>
+                </entry>
+                <entry key="lu.queryParam.luOptionalRelatedCluId">
+                    <value>rel.relatedClu.id = :lu_queryParam_luOptionalRelatedCluId</value>
+                </entry>
+                <entry key="lu.queryParam.luOptionalRelationType">
+                    <value>rel.luLuRelationType.id = :lu_queryParam_luOptionalRelationType</value>
+                </entry>
+
             </map>
 		</property>
 	</bean>

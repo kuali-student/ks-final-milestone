@@ -29,6 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A view implementation of a section.  A section view is used to add sections as views to a controller.
+ * 
+ * @author Kuali Student
+ *
+ */
 public abstract class SectionView extends BaseSection implements View {
 
     protected String modelId;
@@ -39,6 +45,10 @@ public abstract class SectionView extends BaseSection implements View {
 
     private List<View> views = new ArrayList<View>();
 
+    /**
+     * @param viewEnum Enumeration of this view - id used for navigation, history, and showing a view
+     * @param viewName Name of this view - what this view is called in the breadcrumb
+     */
     public SectionView(Enum<?> viewEnum, String viewName) {
         this.viewEnum = viewEnum;
         this.viewName = viewName;
@@ -62,6 +72,9 @@ public abstract class SectionView extends BaseSection implements View {
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
+     * In SectionView, the section is cleared of all validation errors, the model is requested from its parent
+     * controller, the widgets are updated with the latest data, and beforeShow is called on all of its potential child
+     * views.
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
@@ -153,6 +166,9 @@ public abstract class SectionView extends BaseSection implements View {
         }
     }
 
+    /**
+     * Update the fields on the screen with the model received back from requestModel on the parent controller
+     */
     public void updateView() {
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
             @Override
@@ -171,30 +187,50 @@ public abstract class SectionView extends BaseSection implements View {
 
     }
 
+    /**
+     * Force an update of fields on this section with the model passed in
+     * @param m
+     */
     public void updateView(DataModel m) {
         this.model = m;
         updateWidgetData(m);
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.View#asWidget()
+     */
     public Widget asWidget() {
         return this.getLayout();
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#collectHistory(java.lang.String)
+     */
     @Override
     public String collectHistory(String historyStack) {
         return null;
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#onHistoryEvent(java.lang.String)
+     */
     @Override
     public void onHistoryEvent(String historyStack) {
 
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport#collectBreadcrumbNames(java.util.List)
+     */
     @Override
     public void collectBreadcrumbNames(List<String> names) {
         names.add(this.getName());
     }
 
+    /**
+     * Add a view as a widget to this section
+     * @param view
+     */
     public void addView(View view) {
         views.add(view);
         addWidget(view.asWidget());
@@ -218,5 +254,10 @@ public abstract class SectionView extends BaseSection implements View {
                 field.setMetadata(newMetadata);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return viewName;
     }
 }

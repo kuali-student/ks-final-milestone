@@ -161,8 +161,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         // now make sure we can't orphan "included" LO's
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
-    	
-		llrInfo = client.createLoLoRelation("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", "91a91860-d796-4a17-976b-a6165b1a0b05", "kuali.lo.relation.type.includes", llrInfo);
+    	llrInfo.setLoId ("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
+     llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
+     llrInfo.setType ("kuali.lo.relation.type.includes");
+		llrInfo = client.createLoLoRelation(llrInfo.getLoId (), llrInfo.getRelatedLoId (), llrInfo.getType (), llrInfo);
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId());
     	try {
@@ -236,32 +238,33 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setState("draft");
 
         try {
-        	 LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
+        	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getType (), loInfo);
         	 assertNotNull(created);
         	
           // delete the one erroneously created so as to not mess up other tests
         	 StatusInfo statusInfo = client.deleteLo(created.getId());
              assertTrue(statusInfo.getSuccess());            
              fail("OperationFailedException expected when creating Lo with empty description");
-        } catch (MissingParameterException mpe) {
+        } catch (DataValidationErrorException mpe) {
 			// expected result
 		}
       }
     
     @Test
-    public void testDisallowLoCategoryWEmptyDesc() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
-    	String catName = "DontDupThisCategorytest";
+    public void testDisallowLoCategoryWEmptyName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+//    	String catName = "DontDupThisCategorytest";
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
 		String catRepo = "kuali.loRepository.key.singleUse";
 		
 		LoCategoryInfo newCatInfo = new LoCategoryInfo();
-		newCatInfo.setName(catName);
+//		newCatInfo.setName(catName);
 		newCatInfo.setType(catType);
 		newCatInfo.setState(catState);
 		newCatInfo.setLoRepository(catRepo);
 		
-		//Testing KSLAB-692
+		//Testing KSLAB-692 *** this was not the intention of this jira
+  // it was that you needed to have at least one category with the LO
 	      RichTextInfo richText = new RichTextInfo();
 	      richText.setFormatted("<p> </p>");
 	      richText.setPlain("  ");
@@ -275,7 +278,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	        	 StatusInfo statusInfo = client.deleteLoCategory(newCatInfo.getId());
 	             assertTrue(statusInfo.getSuccess());            
 	             fail("OperationFailedException expected when creating LoCategory with empty description");
-		} catch (MissingParameterException mpe) {
+		} catch (DataValidationErrorException mpe) {
 			// expected result
 		}
 			
@@ -580,9 +583,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     @Test
     public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
-    	
+    	llrInfo.setLoId ("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
+     llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
+     llrInfo.setType ("kuali.lo.relation.type.includes");
     	try {
-    		llrInfo = client.createLoLoRelation("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", "91a91860-d796-4a17-976b-a6165b1a0b05", "kuali.lo.relation.type.includes", llrInfo);
+    		llrInfo = client.createLoLoRelation(llrInfo.getLoId (), llrInfo.getRelatedLoId (), llrInfo.getType (), llrInfo);
     	} catch (Exception e) {
            fail("Exception caught when calling LearningObjectiveService.createLoLoRelation(): " + e.getMessage());
     	}

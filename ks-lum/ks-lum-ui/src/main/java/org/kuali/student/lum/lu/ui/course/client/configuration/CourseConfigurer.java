@@ -111,15 +111,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  */
 public class CourseConfigurer extends AbstractCourseConfigurer {
-    protected String groupName;
-
-    protected String type = "course";
-    protected String state = "draft";
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
-
-    
+  
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
@@ -136,21 +131,26 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         PROGRAM_INFO, ASSEMBLER_TEST
     }
 
-    protected DataModelDefinition modelDefinition;
     protected List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
-        this.modelDefinition = modelDefinition;
+        super.modelDefinition = modelDefinition;
     }
 
     public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
         this.stmtTypes = stmtTypes;
     }
 
+    /**
+     * Sets up all the views, sections, and views of the CourseProposalController.  This should be called
+     * once for initialization and setup per CourseProposalController instance.
+     * 
+     * @param layout
+     */
     public void configure(final CourseProposalController layout) {
-        groupName = LUUIConstants.COURSE_GROUP_NAME;
-
-        groupName = LUUIConstants.COURSE_GROUP_NAME;
+    	type = "course";
+        state = "draft";
+    	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         if (modelDefinition.getMetadata().isCanEdit()) {
         	addCluStartSection(layout);
@@ -179,11 +179,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
-            documentTool.setModelDefinition(modelDefinition);
+            documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -198,7 +198,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -638,6 +638,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 COURSE + "/" + FORMATS, LUUIConstants.COURSE_ADD_FORMAT_LABEL_KEY,
                 LUUIConstants.FORMAT_LABEL_KEY,
                 null, null, null);
+        courseFormatConfig.setDefaultItemsCreated(1);
         MultiplicityConfiguration activitiesConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.SUB_LEVEL_GROUP,
@@ -682,7 +683,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 null,
                                 true)
                 ), null, null);
+        activitiesConfig.setDefaultItemsCreated(1);
         courseFormatConfig.setNestedConfig(activitiesConfig);
+        
 
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(courseFormatConfig, 
@@ -854,61 +857,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
-    }
-
-    protected String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
-    }
-
-    protected SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH2Title(String labelKey) {
-        return SectionTitle.generateH2Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH3Title(String labelKey) {
-        return SectionTitle.generateH3Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
-    }
-
-    // TODO - when DOL is pushed farther down into LOBuilder,
-    // revert these 5 methods to returning void again.
-
-    public FieldDescriptor addField(Section section, String fieldKey) {
-        return addField(section, fieldKey, null, null, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return addField(section, fieldKey, messageKey, null, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
-        return addField(section, fieldKey, messageKey, widget, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
-        return addField(section, fieldKey, messageKey, null, parentPath);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
-        QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
-
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
-        return fd;
     }
 
     protected SectionView generateFinancialsSection() {

@@ -25,6 +25,14 @@ import org.kuali.student.core.assembly.data.Data.DataType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 
+/**
+ * Model widget binding for HasText widgets which translates from string values to the necessary data
+ * type for the model and vice versa.  
+ * <br>Some standard GWT widgets which implement HasText are TextBox and TextArea.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
     public static HasTextBinding INSTANCE = new HasTextBinding();
 
@@ -37,7 +45,11 @@ public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
         try {
             QueryPath qPath = QueryPath.parse(path);
             DataType type = model.getType(qPath);
-            String newValue = object.getText().trim();
+            
+            String newValue = null;
+            if(object.getText() != null) {
+                newValue = object.getText().trim();
+            }
 
             try {
                 switch (type) {

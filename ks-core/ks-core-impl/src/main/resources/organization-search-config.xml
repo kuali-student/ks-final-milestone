@@ -685,13 +685,13 @@
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
-					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType ORDER BY rel.relatedOrg.shortName ASC</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
 					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.id = :org_queryParam_orgId AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
-					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id in (:org_queryParam_orgTypeList))  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id in (:org_queryParam_orgTypeList))  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType ORDER BY rel.org.shortName ASC</value>
 				</entry>
 				<entry key="org.search.test.orgs">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy</value>

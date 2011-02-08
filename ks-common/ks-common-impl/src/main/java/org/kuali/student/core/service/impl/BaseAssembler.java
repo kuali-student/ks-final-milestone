@@ -91,10 +91,7 @@ public class BaseAssembler {
 			attributes.add(attribute);
 		}
 		
-		//Delete leftovers
-		for(A attribute:currentAttributes.values()){
-			dao.delete(attribute);
-		}
+		//Delete leftovers here if behavior is desired
 
 		return attributes;
 	}

@@ -64,6 +64,8 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected boolean reloadMetadata = false;
 
+    protected boolean processBeforeShow = true;
+
     /**
      * Constructor.
      *
@@ -88,46 +90,50 @@ public abstract class ProgramController extends MenuSectionController {
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
-        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
+        if (processBeforeShow) {
+            super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
-            @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
-                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
-                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
-                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+                @Override
+                public void exec(Boolean result) {
+                    if (result) {
+                        if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
+                            ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                            final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                            buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
 
-                            @Override
-                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
-                                switch (result) {
-                                    case YES:
-                                        dialog.hide();
-                                        fireUpdateEvent(okToChange);
-                                        break;
-                                    case NO:
-                                        dialog.hide();
-                                        resetModel();
-                                        needToLoadOldModel = true;
-                                        resetFieldInteractionFlag();
-                                        okToChange.exec(true);
-                                        break;
-                                    case CANCEL:
-                                        okToChange.exec(false);
-                                        dialog.hide();
-                                        break;
+                                @Override
+                                public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                                    switch (result) {
+                                        case YES:
+                                            dialog.hide();
+                                            fireUpdateEvent(okToChange);
+                                            break;
+                                        case NO:
+                                            dialog.hide();
+                                            resetModel();
+                                            needToLoadOldModel = true;
+                                            resetFieldInteractionFlag();
+                                            okToChange.exec(true);
+                                            break;
+                                        case CANCEL:
+                                            okToChange.exec(false);
+                                            dialog.hide();
+                                            break;
+                                    }
                                 }
-                            }
-                        });
-                        dialog.show();
+                            });
+                            dialog.show();
+                        } else {
+                            okToChange.exec(true);
+                        }
                     } else {
-                        okToChange.exec(true);
+                        okToChange.exec(false);
                     }
-                } else {
-                    okToChange.exec(false);
                 }
-            }
-        });
+            });
+        } else {
+            processBeforeShow = true;
+        }
     }
 
     protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
@@ -167,11 +173,11 @@ public abstract class ProgramController extends MenuSectionController {
     public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType == ReferenceModel.class) {
             ReferenceModel referenceModel = new ReferenceModel();
-            referenceModel.setReferenceId((String) programModel.get("id"));
+            referenceModel.setReferenceId(ProgramUtils.getProgramId(programModel));
             referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
             referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
             Map<String, String> attributes = new HashMap<String, String>();
-            attributes.put("name", (String) programModel.get("name"));
+            attributes.put("name", getStringProperty("name"));
             referenceModel.setReferenceAttributes(attributes);
             callback.onModelReady(referenceModel);
         } else {
@@ -212,12 +218,13 @@ public abstract class ProgramController extends MenuSectionController {
         if (needToLoadOldModel) {
             needToLoadOldModel = false;
         } else {
-            if (null != programModel.get(ProgramConstants.ID)) {
+            String id = ProgramUtils.getProgramId(programModel);
+            if (null != id) {
                 // add to recently viewed
                 ViewContext docContext = new ViewContext();
-                docContext.setId((String) programModel.get(ProgramConstants.ID));
+                docContext.setId(id);
                 docContext.setIdType(IdType.OBJECT_ID);
-                String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                String pgmType = getStringProperty(ProgramConstants.TYPE);
                 docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                 RecentlyViewedHelper.addDocument(getProgramName(),
                         HistoryManager.appendContext(getProgramViewLocation(pgmType), docContext));
@@ -239,13 +246,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void setStatus() {
-        statusLabel.setText(ProgramProperties.get().common_status(programModel.<String>get(ProgramConstants.STATE)));
+        statusLabel.setText(ProgramProperties.get().common_status(getStringProperty(ProgramConstants.STATE)));
     }
 
     public String getProgramName() {
-        String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
+        String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = "New Program";
+            name = ProgramProperties.get().common_newProgram();
         }
         return name;
     }
@@ -285,7 +292,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @return
      */
     protected boolean loadMetadataCondition() {
-        return lastLoadedStatus == null || ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)) != lastLoadedStatus;
+        return lastLoadedStatus == null || ProgramStatus.of(programModel) != lastLoadedStatus;
     }
 
     /**
@@ -306,7 +313,7 @@ public abstract class ProgramController extends MenuSectionController {
             }
         }
         if (programModel.getRoot() != null) {
-            ProgramStatus programStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+            ProgramStatus programStatus = ProgramStatus.of(programModel);
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
             if (programStatus.getNextStatus() != null) {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
@@ -319,7 +326,7 @@ public abstract class ProgramController extends MenuSectionController {
                 super.onSuccess(result);
                 DataModelDefinition def = new DataModelDefinition(result);
                 programModel.setDefinition(def);
-                lastLoadedStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                lastLoadedStatus = ProgramStatus.of(programModel);
                 afterMetadataLoaded(onReadyCallback);
             }
 
@@ -395,5 +402,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     public void onModelLoadedEvent() {
+    }
+
+    protected String getStringProperty(String key) {
+        return programModel.get(key);
+    }
+
+    protected Data getDataProperty(String key) {
+        return programModel.get(key);
     }
 }
