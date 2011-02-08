@@ -63,6 +63,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private ProgramRequirementsViewController parentController;
     private ProgramRequirementsDataModel rules;
     private boolean isReadOnly;
+    
     public static int tempStmtTreeID = 9999;
     public static final String NEW_PROG_REQ_ID = "NEWPROGREQ";
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
@@ -115,16 +116,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        //load requirements from database if they haven't been loaded yet
-        if (isReadOnly) {
-            if (!rules.isInitialized()) {
-                retrieveProgramRequirements(onReadyCallback);
-                return;
-            }
-        } else {
+        if (!rules.isInitialized()) {
             retrieveProgramRequirements(onReadyCallback);
             return;
-        }
+       }
+        
         onReadyCallback.exec(true);
     }
 
@@ -423,7 +419,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private void createAddProgramReqDialog(final KSLightBox dialog, final ActionCancelGroup actionCancelButtons, final Integer internalProgReqID) {
 
-        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback<DataModel>() {
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -432,10 +428,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             }
 
             @Override
-            public void onModelReady(Model model) {
+            public void onModelReady(DataModel model) {
 
                 //program has to be in the database before we can save program requirements
-                String programId = ((DataModel) model).getRoot().get(ProgramConstants.ID);
+                String programId = model.getRoot().get(ProgramConstants.ID);
                 if (programId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Save Program Key Info", "Before saving rules please save program key info");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler() {
