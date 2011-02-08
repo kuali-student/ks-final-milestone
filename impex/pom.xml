@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>73</version>
+    <version>74</version>
   </parent>
   <groupId>org.kuali.db.impex</groupId>
   <artifactId>impex</artifactId>
@@ -11,6 +11,7 @@
   <version>1.0.21-SNAPSHOT</version>
   <name>Impex Parent</name>
   <description>This is the parent pom for Kuali's database Import/Export software</description>
+  <url>http://${kuali.site.hostname}/db/impex/${project.version}</url>
   <properties>
     <!-- The test-javadoc report is throwing a NullPointerException -->
     <kuali.javadoc.report.2>javadoc</kuali.javadoc.report.2>
