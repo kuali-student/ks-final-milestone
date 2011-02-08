@@ -62,11 +62,11 @@ public class UrlBuilder {
     public String getSitePath(final MavenProject project, final String organizationGroupId) {
         String trimmedGroupId = getTrimmedGroupId(project, organizationGroupId);
         StringBuilder sb = new StringBuilder(trimmedGroupId);
-        if (sb.length() > 0) {
-            sb.append("/");
-        }
         if (isAppendArtifactId(project, trimmedGroupId)) {
-            sb.append(project.getArtifactId() + "/");
+            if (sb.length() > 0) {
+                sb.append("/");
+            }
+            sb.append(project.getArtifactId());
         }
         return sb.toString();
     }
