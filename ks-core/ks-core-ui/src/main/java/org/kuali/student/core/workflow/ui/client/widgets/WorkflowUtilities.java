@@ -858,27 +858,37 @@ public class WorkflowUtilities{
         KSMenuItemData wfCancelWorkflowItem;
         final KSRichEditor rationaleEditor = new KSRichEditor();
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
-                workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
-                    public void handleFailure(Throwable caught) {
-                        Window.alert("Error Cancelling Proposal");
-                    }
-
-                    public void onSuccess(Boolean result) {
-                        if (result) {
-                            updateWorkflow(dataModel);
-                            if (submitCallback != null) {
-                                submitCallback.exec(true);
-                            }
-                            // Notify the user that the document was FYIed
-                            KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
-                        } else {
-                            Window.alert("Error Cancelling Proposal");
-                        }
-                    }
+            public void onClick(ClickEvent event) {	
+            	final ConfirmationDialog confirmationCancelProposal =
+            		new ConfirmationDialog("Cancel Proposal","You are about to cancel the proposal. Are you sure?");
+            	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
+            		@Override
+            		public void onClick(ClickEvent event) {
+            			addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
+            			workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+            				public void handleFailure(Throwable caught) {
+            					confirmationCancelProposal.hide();
+            					Window.alert("Error Cancelling Proposal");
+            				}
+            				public void onSuccess(Boolean result) {
+            					confirmationCancelProposal.hide();
+            					if (result) {
+            						updateWorkflow(dataModel);
+            						if (submitCallback != null) {
+            							submitCallback.exec(true);
+            						}
+            						// Notify the user that the document was canceled
+            						KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
+            					} else {
+            						Window.alert("Error Cancelling Proposal");
+            					}
+            				}
+            			});
+            		
+            		}
 
                 });
+            	confirmationCancelProposal.show();
             }
         });
         return wfCancelWorkflowItem;
