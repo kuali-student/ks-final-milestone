@@ -193,12 +193,10 @@ public class UpdateOriginBucketMojo extends S3Mojo {
         if (StringUtils.isEmpty(s)) {
             s = sitePath + "/" + getProject().getVersion() + "/";
         }
-        if (s == null) {
-            return;
-        }
         if (!s.endsWith(getDelimiter())) {
-            setPrefix(s + getDelimiter());
+            s = s + getDelimiter();
         }
+        setPrefix(s);
     }
 
     protected S3BucketContext getS3BucketContext() throws MojoExecutionException {
