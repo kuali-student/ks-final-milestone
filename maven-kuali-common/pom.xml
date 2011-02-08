@@ -11,6 +11,7 @@
   <version>1.0.6-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
   <description>Contains software that is common to maven development.  Facilitates reuse of code between plugins</description>
+  <url>http://site.kuali.org/maven/common/${project.artifactId}/${project.version}/</url>
   <properties>
     <kuali.maven.plugin.version>3.0.1</kuali.maven.plugin.version>
   </properties>
