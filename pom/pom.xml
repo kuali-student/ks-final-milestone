@@ -40,7 +40,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <url>${kuali.site.public.url}</url>
   <organization>
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
@@ -181,11 +180,15 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  <!-- The public url is filled in by the maven-kualisite-plugin -->
+  <url>${kuali.site.public.url}</url>
   <distributionManagement>
+    <!-- The download url is filled in by the maven-kualisite-plugin -->
     <downloadUrl>${kuali.site.download.url}</downloadUrl>
     <site>
       <id>${kuali.site.server.id}</id>
       <name>Maven Site</name>
+      <!-- The site publication url is filled in by the maven-kualisite-plugin -->
       <url>${kuali.site.publish.url}</url>
     </site>
     <repository>
@@ -209,7 +212,7 @@
       <extension>
         <groupId>org.kuali.maven.wagons</groupId>
         <artifactId>maven-s3-wagon</artifactId>
-        <version>1.0.23</version>
+        <version>1.0.24</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -238,19 +241,20 @@
         <plugin>
           <groupId>org.kuali.maven.plugins</groupId>
           <artifactId>maven-cloudfront-plugin</artifactId>
-          <version>1.0.17</version>
+          <version>1.0.18</version>
           <configuration>
             <organizationGroupId>${kuali.organization.group.id}</organizationGroupId>
+            <forceMojoExecution>true</forceMojoExecution>
             <bucket>${kuali.site.bucket}</bucket>
             <serverId>${kuali.site.server.id}</serverId>
-            <forceMojoExecution>true</forceMojoExecution>
+            <prefix>${kuali.site.bucket.prefix}</prefix>
             <recurse>${kuali.site.bucket.recurse}</recurse>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.kuali.maven.plugins</groupId>
           <artifactId>maven-kualisite-plugin</artifactId>
-          <version>1.0.1</version>
+          <version>1.0.2</version>
           <configuration>
             <organizationGroupId>${kuali.organization.group.id}</organizationGroupId>
             <bucket>${kuali.site.bucket}</bucket>
@@ -648,10 +652,10 @@ mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0 RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnO
         <artifactId>maven-kualisite-plugin</artifactId>
         <executions>
           <execution>
-            <id>update-site-info</id>
+            <id>kuali-site-properties</id>
             <phase>pre-site</phase>
             <goals>
-              <goal>kualisite</goal>
+              <goal>updatesiteproperties</goal>
             </goals>
           </execution>
         </executions>
