@@ -245,6 +245,114 @@
       </build>
     </profile>
     <profile>
+      <id>oracle-dba</id>
+      <properties>
+        <ks.impex.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url>
+        <ks.impex.driver>oracle.jdbc.driver.OracleDriver</ks.impex.driver>
+        <ks.impex.username>KSEMBEDDED</ks.impex.username>
+        <ks.impex.password>KSEMBEDDED</ks.impex.password>
+        <ks.impex.dba.username>SYS AS SYSDBA</ks.impex.dba.username>
+        <ks.impex.oracle.defaultTablespace>users</ks.impex.oracle.defaultTablespace>
+        <ks.impex.oracle.temporaryTablespace>temp</ks.impex.oracle.temporaryTablespace>
+        <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
+        <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <version>1.1</version>
+            <configuration>
+              <url>${ks.impex.url}</url>
+              <driver>${ks.impex.driver}</driver>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <delimiter>/</delimiter>
+            </configuration>
+            <executions>
+              <execution>
+                <id>drop-oracle-db</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <sqlCommand>
+                    BEGIN
+                    EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
+                    EXCEPTION WHEN OTHERS THEN
+                    IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
+                    RAISE;
+                    END IF;
+                    END;
+                    /
+                  </sqlCommand>
+                </configuration>
+              </execution>
+              <execution>
+                <id>create-oracle-db</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <sqlCommand>
+                    CREATE USER ${ks.impex.username}
+                    IDENTIFIED BY ${ks.impex.password}
+                    DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
+                    TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
+                    QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
+                    /
+                  </sqlCommand>
+                </configuration>
+              </execution>
+              <execution>
+                <id>grant-oracle-permissions</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <sqlCommand>
+                    GRANT CREATE PROCEDURE
+                    , CREATE SEQUENCE
+                    , CREATE SESSION
+                    , CREATE SYNONYM
+                    , CREATE TABLE
+                    , CREATE TRIGGER
+                    , CREATE TYPE
+                    , CREATE VIEW
+                    TO ${ks.impex.username}
+                    /
+
+                    GRANT SELECT ON pending_trans$ to ${ks.impex.username}
+                    /
+
+                    GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
+                    /
+
+                    GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
+                    /
+
+                    GRANT EXECUTE ON dbms_system to ${ks.impex.username}
+                    /
+                  </sqlCommand>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>reset-db</id>
       <modules>
         <module>${ks.impex.module}</module>

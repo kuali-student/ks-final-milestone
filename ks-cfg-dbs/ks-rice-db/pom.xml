@@ -8,4 +8,8 @@
   <artifactId>ks-rice-db</artifactId>
   <name>KS Rice Impex</name>
   <description>Kuali Student Rice Impex</description>
+  <properties>
+    <ks.impex.username>KSRICE</ks.impex.username>
+    <ks.impex.password>KSRICE</ks.impex.password>
+  </properties>
 </project>

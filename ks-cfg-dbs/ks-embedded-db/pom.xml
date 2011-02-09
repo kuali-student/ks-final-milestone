@@ -8,6 +8,10 @@
   <artifactId>ks-embedded-db</artifactId>
   <name>KS Embedded Impex</name>
   <description>Kuali Student Embedded Impex</description>
+  <properties>
+    <ks.impex.username>KSEMBEDDED</ks.impex.username>
+    <ks.impex.password>KSEMBEDDED</ks.impex.password>
+  </properties>
   <profiles>
     <profile>
       <id>export-impex</id>

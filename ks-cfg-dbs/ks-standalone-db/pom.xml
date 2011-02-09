@@ -8,6 +8,10 @@
   <artifactId>ks-standalone-db</artifactId>
   <name>KS Standalone Impex</name>
   <description>Kuali Student Standalone Impex</description>
+  <properties>
+    <ks.impex.username>KSSTANDALONE</ks.impex.username>
+    <ks.impex.password>KSSTANDALONE</ks.impex.password>
+  </properties>
   <profiles>
     <profile>
       <id>export-impex</id>
