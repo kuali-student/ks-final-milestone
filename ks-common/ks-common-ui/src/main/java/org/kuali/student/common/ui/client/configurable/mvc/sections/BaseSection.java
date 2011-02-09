@@ -308,9 +308,6 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            	}
 				}
 				// TODO Can we do this without checking for instanceof  MG??
-				// TODO Since Section's now a CanProcessValidationResults, maybe we could push this logic down into MultiplicityGroup
-				// (and maybe into MultiplicityComposite, if we don't get rid of it), and then we could treat all these the same as
-				// Section
 				if(f.getFieldWidget() instanceof MultiplicityGroup ){
 					MultiplicityGroup mg = (MultiplicityGroup) f.getFieldWidget();
 

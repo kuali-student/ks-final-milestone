@@ -100,8 +100,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -206,7 +204,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         layout.setDefaultView(CourseSections.SUMMARY);
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
         final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
-        commentTool.setController((Controller)layout);
+        commentTool.setController(layout);
         
         layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
             
@@ -816,6 +814,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
              */
         }
 
+        @Override
         public boolean isMultipleSelect() {
             return true;
         }
@@ -855,6 +854,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
+    @Override
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }

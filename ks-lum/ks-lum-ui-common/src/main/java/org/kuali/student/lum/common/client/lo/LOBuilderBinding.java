@@ -19,6 +19,8 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 
     public static LOBuilderBinding INSTANCE = new LOBuilderBinding();
 
+    private LOBuilderBinding() {}
+
     /**
      * Gets a list of OutlineNode from LOBuilder.  Goes through the list one by one.
      * While going through the list the algorithm keeps track of the current parent of
