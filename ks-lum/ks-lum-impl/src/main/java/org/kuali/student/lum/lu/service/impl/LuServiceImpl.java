@@ -722,11 +722,18 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 		List<CluInfo> clus = new ArrayList<CluInfo>();
-		/*for (String cluId : cluSetInfo.getCluIds()) {
+		for (String cluId : cluSetInfo.getCluIds()) {
 			if(cluId!=null){
-				clus.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluId)));
+                //Optimized version of clu translation. It seems like for now we only need the following information.
+                //If more information is needed, then appropriate method in assembler has to be used.
+                Clu clu = luDao.getCurrentCluVersion(cluId);
+                CluInfo cluInfo = new CluInfo();
+                cluInfo.setId(clu.getId());
+                cluInfo.setType(clu.getLuType().getId());
+                cluInfo.setOfficialIdentifier(LuServiceAssembler.toCluIdentifierInfo(clu.getOfficialIdentifier()));
+				clus.add(cluInfo);
 			}
-		}*/
+		}
 		cluSetTreeViewInfo.setClus(clus);
 	}
 
