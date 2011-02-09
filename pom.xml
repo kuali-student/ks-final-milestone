@@ -102,14 +102,11 @@
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3 -->
     <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
-    <kuali.site.path>student/${project.version}</kuali.site.path>
-    <kuali.site.download.path>org/kuali/student</kuali.site.download.path>
 
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
 
-    <kuali.javadoc.project.url>${kuali.site.public.url}/apidocs/</kuali.javadoc.project.url>
     <kuali.javadoc.exclude.package.names>*.service.jaxws:*.exceptions.jaxws</kuali.javadoc.exclude.package.names>
     <kuali.javadoc.link.3>http://cxf.apache.org/javadoc/${ks.cxf.javadoc.version}/</kuali.javadoc.link.3>
     <kuali.javadoc.link.4>http://download.oracle.com/javaee/5/api/</kuali.javadoc.link.4>
