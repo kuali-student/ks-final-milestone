@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>74</version>
+    <version>75</version>
   </parent>
   <groupId>org.kuali.maven.common</groupId>
   <artifactId>maven-kuali-common</artifactId>
