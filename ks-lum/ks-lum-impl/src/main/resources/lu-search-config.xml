@@ -416,15 +416,21 @@
 			<ref bean="lu.result.allLoQuickView" />
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="lu.criteria.empty"/>
+			<ref bean="lu.criteria.allLoQuickView"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchCriteriaTypeInfo id="lu.criteria.empty" parent="lu.criteria.empty-parent"/>
-	<search:searchCriteriaTypeInfo id="lu.criteria.empty-parent"  abstract="true">
-		<search:name>Empty Search</search:name>
-		<search:desc>Empty Search</search:desc>
+	<search:searchCriteriaTypeInfo id="lu.criteria.allLoQuickView" parent="lu.criteria.allLoQuickView-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.allLoQuickView-parent"  abstract="true">
+		<search:name>Clu params for Lo Clus</search:name>
+		<search:desc>Clu params for Lo Clus</search:desc>
 		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalCode"/>
+			<ref bean="lu.queryParam.luOptionalLevel"/>
+			<ref bean="lu.queryParam.luOptionalState"/>
+			<ref bean="lu.queryParam.luOptionalDivision"/>
+			<ref bean="lu.queryParam.luOptionalType"/>
+			<ref bean="lu.queryParam.luOptionalLongName"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -1498,7 +1504,7 @@
 				</entry>
 				
 				<entry key="lu.search.allLoQuickView">
-					<value>SELECT rel.clu.id, rel.clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel</value>
+					<value>SELECT clu.id, clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel JOIN rel.clu clu</value>
 				</entry>
 				<entry key="lu.search.all.lu.Types">
 					<value>SELECT lut.id, lut.name, lut.descr, lut.effectiveDate, lut.expirationDate FROM LuType lut</value>
