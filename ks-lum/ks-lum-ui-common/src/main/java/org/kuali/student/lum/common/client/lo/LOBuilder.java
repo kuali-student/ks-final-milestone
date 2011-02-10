@@ -82,37 +82,23 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 		repoKey = loRepoKey;
 		messageGroup = luGroup;
 
-		// searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
-		// picker needs to handle labels like this
-		/*
-		 * TODO - KSLUM-527: temporally comment out link to LO Search for M9.
-		 * Need to be fixed later.
-		 */
-		/*
-		 * if(metadata.getInitialLookup() != null) {
-		 * 	searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-		 * 	searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
-		 * 		public void onValueChange(ValueChangeEvent<List<String>> event) {
-		 * 		        List<String> selection = (List<String>)event.getValue();
-		 * 				loList.addSelectedLOs(selection);
-		 * 			}
-		 * 	    }
-		 * 	);
-		 * 	searchMainPanel.add(searchWindow);
-		 * }
-		 */
-		 
+		 if(metadata.getInitialLookup() != null) {
+		 	searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+		  	searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
+		  		public void onValueChange(ValueChangeEvent<List<String>> event) {
+		  		        List<String> selection = (List<String>)event.getValue();
+		  				loList.addSelectedLOs(selection);
+		  			}
+		  	    }
+		  	);
+		  	searchMainPanel.add(searchWindow);
+		  }
+		 		 
 
-		// adding search icon - should this be part of search link? coordinate
-		// with UX
-		// searchImage.addClickHandler(searchClickHandler);
-		// Image searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
-		// searchLinkPanel.add(searchImage);
 		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY));
 
         loList = new LearningObjectiveList();
 
-		// searchImage.addStyleName("KS-LOBuilder-Search-Image");
 		searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
 
         loList.addStyleName(LUUIConstants.STYLE_SECTION);
