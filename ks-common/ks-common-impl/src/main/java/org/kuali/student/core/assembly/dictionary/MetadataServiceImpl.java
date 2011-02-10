@@ -49,8 +49,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
-    private Map<String, Object> metadataRepository = null;
-
     private Map<String, DictionaryService> dictionaryServiceMap;
     private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext;
@@ -115,11 +113,7 @@ public class MetadataServiceImpl {
      * @return
      */
     public Metadata getMetadata(String objectKey, String type, String state, String nextState) {
-        if (metadataRepository == null || metadataRepository.get(objectKey) == null) {
-            return getMetadataFromDictionaryService(objectKey, type, state, nextState);
-        }
-
-        return null;
+    	return getMetadataFromDictionaryService(objectKey, type, state, nextState);
     }
 
     /**
