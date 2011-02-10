@@ -594,7 +594,7 @@
     </profile>
     <profile>
       <!-- This profile commits any Impex changes to SCM -->
-      <id>commit-impex</id>
+      <id>commit-impex-changes</id>
       <build>
         <plugins>
           <plugin>
