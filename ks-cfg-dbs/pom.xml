@@ -603,7 +603,7 @@
             <executions>
               <execution>
                 <id>commit-impex-changes</id>
-                <phase>prepare-package</phase>
+                <phase>process-resources</phase>
                 <goals>
                   <goal>add</goal>
                   <goal>checkin</goal>
