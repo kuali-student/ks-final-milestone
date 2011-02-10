@@ -119,7 +119,7 @@ public class TransformationManager {
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
 					metadata = (metadata != null ? metadata:getMetadata(dtoName, properties));
-					((AbstractDataFilter)filter).applyOutboundDataFilter((Data)value, metadata, properties);
+					((AbstractDataFilter)filter).applyOutboundDataFilter((Data)value, metadata, properties);            
 				} else {
 					((AbstractDTOFilter)filter).applyOutboundDtoFilter(value, properties);
 				}

@@ -8,6 +8,7 @@
 
 package org.kuali.student.core.assembly.dictionary;
 
+import java.lang.ref.SoftReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
@@ -52,6 +54,11 @@ public class MetadataServiceImpl {
     private Map<String, DictionaryService> dictionaryServiceMap;
     private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext;
+
+    /**
+     * Represents a cache for the metadata. Soft reference is used so that the JVM can clean up this cache before throwing out of memory exception.
+     */
+    private final ConcurrentHashMap<MetadataIdentifier, SoftReference<Metadata>> metadataCache = new ConcurrentHashMap<MetadataIdentifier, SoftReference<Metadata>>();
 
     private static class RecursionCounter {
         public static final int MAX_DEPTH = 4;
@@ -159,7 +166,10 @@ public class MetadataServiceImpl {
      * @return
      */
     protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState) {
-
+        MetadataIdentifier metadataIdentifier = new MetadataIdentifier(objectKey, state, nextState);
+        if(metadataCache.containsKey(metadataIdentifier)){
+            return metadataCache.get(metadataIdentifier).get();
+        }
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
@@ -169,6 +179,7 @@ public class MetadataServiceImpl {
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
         addLookupstoMetadata(objectKey, metadata, type);
+        metadataCache.putIfAbsent(metadataIdentifier, new SoftReference<Metadata>(metadata));
         return metadata;
     }
 
@@ -675,5 +686,41 @@ public class MetadataServiceImpl {
 
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
+    }
+
+
+    /**
+     * Represents a unique identifier for the metadata.
+     */
+    private static class MetadataIdentifier{
+        final String key, state, nextState;
+
+        private MetadataIdentifier(String key, String state, String nextState) {
+            this.key = key;
+            this.state = state;
+            this.nextState = nextState;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            MetadataIdentifier that = (MetadataIdentifier) o;
+
+            if (nextState != null ? !nextState.equals(that.nextState) : that.nextState != null) return false;
+            if (state != null ? !state.equals(that.state) : that.state != null) return false;
+            if (key != null ? !key.equals(that.key) : that.key != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = key != null ? key.hashCode() : 0;
+            result = 31 * result + (state != null ? state.hashCode() : 0);
+            result = 31 * result + (nextState != null ? nextState.hashCode() : 0);
+            return result;
+        }
     }
 }
