@@ -11,26 +11,17 @@
   <properties>
     <ks.impex.username>KSEMBEDDED</ks.impex.username>
     <ks.impex.password>KSEMBEDDED</ks.impex.password>
+    <ks.impex.execute.sql.skip>false</ks.impex.execute.sql.skip>
   </properties>
   <profiles>
     <profile>
-      <id>export-impex</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>export-impex</id>
-                <configuration>
-                  <includes>^KS.*,^KR.*</includes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <id>export-master-db</id>
+      <properties>
+        <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
+        <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
+        <ks.impex.execute.sql.skip>true</ks.impex.execute.sql.skip>
+        <ks.impex.export.tables.pattern>^KS.*,^KR.*</ks.impex.export.tables.pattern>
+      </properties>
     </profile>
   </profiles>
 </project>
