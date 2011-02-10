@@ -904,6 +904,11 @@
         MSG_ID="validation.minLengthFailed"
         MSG_VALUE="Minimum Characters ${minLength} required"
         OBJ_ID="9767bcc6-1f66-48c4-84d0-dd2ff15fe3d7" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="6E0A3606312247BE88AFC1B49BAAEAF3" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="F0B7C60F010B4EA497BACCA29723D19A" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="6a9ab87f-c5d8-4c17-a415-376ba93cab7f" LOCALE="en"
         MSG_ID="cluLOSearchAgain" MSG_VALUE="Search again?"
@@ -1047,6 +1052,11 @@
         ID="798a7c35-6bfc-4192-b2df-c0c0c710d628" LOCALE="en"
         MSG_ID="cluExpenditure" MSG_VALUE="Expending Organization"
         OBJ_ID="15fb08db-06e4-44db-b472-0a976bd59208" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="7A14D29FDD6B404EB8FACB9A73D0E725" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="841647D1AFC2422E9ADEBB5E43473599" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="7a4e0aca-8534-403d-a545-73cfd819a6f3" LOCALE="es"
         MSG_ID="processing" MSG_VALUE="Proceso..."
@@ -1306,16 +1316,6 @@
         ID="99e33d0c-7586-4649-8a36-3842332a9926" LOCALE="en"
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9BE1E57CD1EF3F10E040C60AF05B50CC" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9BE1E57CD1F03F10E040C60AF05B50CC" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9BE1E57CD1F13F10E040C60AF05B50CC" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9BE1E57CD1F23F10E040C60AF05B50CC" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration"
