@@ -27,6 +27,8 @@ sesh = Session.new(config, 'create_proposal', probability)
 # Login is department COC
 #username = config.directory["department_coc"]["member"]["username"]
 #password = config.directory["department_coc"]["member"]["password"]
+#username = 'admin'
+#password = 'admin'
 username = '%%_username%%'
 password = '%%_user_password%%'
 

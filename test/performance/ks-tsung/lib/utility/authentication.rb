@@ -88,6 +88,7 @@ class Authentication
       @request.add("/j_spring_security_check?j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}", 
         {}, {'subst' => 'true', :rice_req => true, :external => true})
 
+      # this may be a dupe since it redirects here...check the logs
       @request.add('/kew/ActionList.do', {}, {:rice_req => true, :external => true})
       
     else
