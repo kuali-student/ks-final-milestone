@@ -987,10 +987,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		            || (NodeOperation.UPDATE == operation && !currentformatIds.containsKey(format.getId()) )) {
                 // the format does not exist, so create
                 // Assemble and add the format
+		    	format.setState(course.getState());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.CREATE);
+                formatNode.getNodeData().setState(course.getState());
                 results.add(formatNode);
 
+                
                 // Create the relationship and add it as well
                 CluCluRelationInfo relation = new CluCluRelationInfo();
                 relation.setCluId(nodeId);
@@ -1013,8 +1016,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					&& currentformatIds.containsKey(format.getId())) {
 				// If the course already has this format, then just update the
 				// format
+            	format.setState(course.getState());
 				BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.UPDATE);
+				formatNode.getNodeData().setState(course.getState());
 				results.add(formatNode);
 
 				// remove this entry from the map so we can tell what needs to
