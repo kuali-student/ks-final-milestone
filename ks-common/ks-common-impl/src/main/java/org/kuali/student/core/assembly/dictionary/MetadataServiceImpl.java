@@ -160,10 +160,10 @@ public class MetadataServiceImpl {
      * @return
      */
     protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState) {
-        //MetadataIdentifier metadataIdentifier = new MetadataIdentifier(objectKey, state, nextState);
-       /* if(metadataCache.containsKey(metadataIdentifier)){
+        MetadataIdentifier metadataIdentifier = new MetadataIdentifier(objectKey, state, nextState);
+        if(metadataCache.containsKey(metadataIdentifier)){
             return metadataCache.get(metadataIdentifier).get();
-        }*/
+        }
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
@@ -173,7 +173,7 @@ public class MetadataServiceImpl {
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
         addLookupstoMetadata(objectKey, metadata, type);
-        //metadataCache.putIfAbsent(metadataIdentifier, new SoftReference<Metadata>(metadata));
+        metadataCache.putIfAbsent(metadataIdentifier, new SoftReference<Metadata>(metadata));
         return metadata;
     }
 
