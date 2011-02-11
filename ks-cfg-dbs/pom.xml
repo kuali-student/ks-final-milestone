@@ -671,6 +671,8 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
+                  <!-- A few sql files don't have the "/" on it's own row -->
+                  <delimiterType>normal</delimiterType>
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
