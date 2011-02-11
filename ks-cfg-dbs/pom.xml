@@ -25,6 +25,7 @@
   </repositories>
   <properties>
     <ks.impex.sql.plugin.force.execution>false</ks.impex.sql.plugin.force.execution>
+    <ks.impex.sql.plugin.skip>false</ks.impex.sql.plugin.skip>
     <ks.impex.ant.compatibility.mode>false</ks.impex.ant.compatibility.mode>
     <ks.impex.include.version.in.comment>false</ks.impex.include.version.in.comment>
 
@@ -258,6 +259,7 @@
           <delimiter>${ks.impex.delimiter}</delimiter>
           <delimiterType>${ks.impex.delimiter.type}</delimiterType>
           <forceMojoExecution>${ks.impex.sql.plugin.force.execution}</forceMojoExecution>
+          <skip>${ks.impex.sql.plugin.skip}</skip>
         </configuration>
         <executions>
           <execution>

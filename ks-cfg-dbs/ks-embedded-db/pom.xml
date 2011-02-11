@@ -14,7 +14,7 @@
   </properties>
   <profiles>
     <profile>
-      <id>export-master-db</id>
+      <id>generate-xml</id>
       <properties>
         <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
         <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
