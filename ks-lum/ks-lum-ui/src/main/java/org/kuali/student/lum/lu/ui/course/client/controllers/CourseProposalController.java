@@ -488,6 +488,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
+		        
+		        // We need to update the current view context so that if the user clicks the back button it doesn't 
+		        // create a duplicate course proposal. 
+		        getViewContext().setIdType(IdType.KS_KEW_OBJECT_ID);
+		        getViewContext().setId(docContext.getId());
+		        
 			}
 			
 			public void onFailure(Throwable caught) {
