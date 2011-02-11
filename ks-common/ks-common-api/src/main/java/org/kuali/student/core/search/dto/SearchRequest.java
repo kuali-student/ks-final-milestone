@@ -86,5 +86,35 @@ public class SearchRequest implements Serializable {
 				+ maxResults + ", neededTotalResults=" + neededTotalResults
 				+ "]";
 	}
-	
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchRequest that = (SearchRequest) o;
+
+        if (maxResults != null ? !maxResults.equals(that.maxResults) : that.maxResults != null) return false;
+        if (neededTotalResults != null ? !neededTotalResults.equals(that.neededTotalResults) : that.neededTotalResults != null)
+            return false;
+        if (params != null ? !params.equals(that.params) : that.params != null) return false;
+        if (searchKey != null ? !searchKey.equals(that.searchKey) : that.searchKey != null) return false;
+        if (sortColumn != null ? !sortColumn.equals(that.sortColumn) : that.sortColumn != null) return false;
+        if (sortDirection != that.sortDirection) return false;
+        if (startAt != null ? !startAt.equals(that.startAt) : that.startAt != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = searchKey != null ? searchKey.hashCode() : 0;
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        result = 31 * result + (sortColumn != null ? sortColumn.hashCode() : 0);
+        result = 31 * result + (sortDirection != null ? sortDirection.hashCode() : 0);
+        result = 31 * result + (startAt != null ? startAt.hashCode() : 0);
+        result = 31 * result + (maxResults != null ? maxResults.hashCode() : 0);
+        result = 31 * result + (neededTotalResults != null ? neededTotalResults.hashCode() : 0);
+        return result;
+    }
 }

@@ -28,8 +28,9 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
@@ -94,7 +95,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         new ArrayList<Callback<SelectedResults>>();
     private List<Callback<String>> basicSelectionTextChangeCallbacks =
         new ArrayList<Callback<String>>();
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
 
     public KSPicker(WidgetConfigInfo config) {
         this.config = config;
@@ -304,7 +305,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     private void populateListWidget(LookupMetadata inLookupMetadata){
         SearchRequest sr = initializeSearchRequest(inLookupMetadata);
-        searchRpcServiceAsync.search(sr, new KSAsyncCallback<SearchResult>(){
+        cachingSearchService.search(sr, new KSAsyncCallback<SearchResult>(){
 
             @Override
             public void onSuccess(SearchResult results) {

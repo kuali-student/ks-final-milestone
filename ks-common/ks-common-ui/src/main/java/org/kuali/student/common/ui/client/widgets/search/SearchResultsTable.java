@@ -20,8 +20,9 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -49,7 +50,7 @@ public class SearchResultsTable extends Composite{
 
     private final int PAGE_SIZE = 10;
     
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
     
     private VerticalPanel layout = new VerticalPanel();
     

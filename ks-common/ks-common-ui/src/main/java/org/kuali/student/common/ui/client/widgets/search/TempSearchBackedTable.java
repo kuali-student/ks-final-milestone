@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
@@ -55,7 +55,7 @@ public class TempSearchBackedTable extends Composite{
     private VerticalPanel layout = new VerticalPanel();
     private PagingOptions pagingOptions;
 
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private SearchRpcServiceAsync searchRpcServiceAsync = CachingSearchService.getSearchService();
 
     private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
         PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);

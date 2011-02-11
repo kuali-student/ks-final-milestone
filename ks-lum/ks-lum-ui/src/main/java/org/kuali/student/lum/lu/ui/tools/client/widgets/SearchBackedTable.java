@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
-import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -52,7 +51,7 @@ public class SearchBackedTable extends Composite
 	protected PagingScrollTable<ResultRow> pagingScrollTable;
 	private VerticalPanel layout = new VerticalPanel ();
 
-	private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create (SearchRpcService.class);
+	private CachingSearchService searchRpcServiceAsync = CachingSearchService.getSearchService();
 
 	public SearchBackedTable ()
 	{

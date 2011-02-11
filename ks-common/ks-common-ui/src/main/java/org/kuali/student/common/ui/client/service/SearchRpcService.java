@@ -23,5 +23,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/SearchRpcService")
 public interface SearchRpcService extends RemoteService {
-	public SearchResult search(SearchRequest searchRequest);
+	SearchResult search(SearchRequest searchRequest);
+	SearchResult cachingSearch(SearchRequest searchRequest);
 }

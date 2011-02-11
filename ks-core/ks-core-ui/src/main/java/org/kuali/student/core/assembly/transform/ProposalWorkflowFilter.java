@@ -381,6 +381,5 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
-	}
-
+    }
 }
