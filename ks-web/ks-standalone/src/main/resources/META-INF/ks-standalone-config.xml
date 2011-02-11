@@ -28,7 +28,7 @@
     <param name="jpa.vendor">hibernate</param>
 
     <param name="app.code">ks-standalone</param>
-    <param name="appserver.url">http://localhost:8080</param>
+    <param name="appserver.url">http://localhost:8084</param>
 	
     <param name="serviceNamespace">ks-standalone</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
@@ -119,7 +119,7 @@
     
     
     <param name="ks.rice.label">RICE</param>
-    <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
+    <param name="ks.rice.url">http://localhost:8080/ks-rice-${environment}</param>
     
     <param name="serviceServletUrl">${application.url}/services/</param>
     
