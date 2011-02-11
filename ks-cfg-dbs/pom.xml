@@ -36,6 +36,7 @@
     <ks.impex.generate.sql.mysql.phase>${ks.impex.generate.sql.phase}</ks.impex.generate.sql.mysql.phase>
     <ks.impex.generate.morph.phase>${ks.impex.generate.phase}</ks.impex.generate.morph.phase>
     <ks.impex.generate.dtd.phase>${ks.impex.generate.phase}</ks.impex.generate.dtd.phase>
+    <ks.impex.oracle.validate.phase>none</ks.impex.oracle.validate.phase>
     <ks.impex.oracle.drop.phase>none</ks.impex.oracle.drop.phase>
     <ks.impex.oracle.create.phase>none</ks.impex.oracle.create.phase>
     <ks.impex.oracle.grant.phase>none</ks.impex.oracle.grant.phase>
@@ -179,7 +180,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sql-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.4</version>
         <configuration>
           <username>${ks.impex.username}</username>
           <password>${ks.impex.password}</password>
@@ -190,6 +191,21 @@
           <skip>${ks.impex.execute.sql.skip}</skip>
         </configuration>
         <executions>
+          <execution>
+            <id>validate-oracle-connection</id>
+            <phase>${ks.impex.oracle.validate.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <sqlCommand>
+                SELECT SYSDATE FROM DUAL
+                /
+              </sqlCommand>
+            </configuration>
+          </execution>
           <execution>
             <id>drop-oracle-schema</id>
             <phase>${ks.impex.oracle.drop.phase}</phase>
@@ -352,6 +368,7 @@
         <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
         <ks.impex.oracle.drop.phase>clean</ks.impex.oracle.drop.phase>
+        <ks.impex.oracle.validate.phase>validate</ks.impex.oracle.validate.phase>
         <ks.impex.oracle.create.phase>initialize</ks.impex.oracle.create.phase>
         <ks.impex.oracle.grant.phase>initialize</ks.impex.oracle.grant.phase>
         <ks.impex.import.phase>install</ks.impex.import.phase>
