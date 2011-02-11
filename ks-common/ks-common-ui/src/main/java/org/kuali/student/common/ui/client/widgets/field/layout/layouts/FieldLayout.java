@@ -24,9 +24,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -363,6 +364,12 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 	    	}
 	    	
 	    	
+		}
+	}
+	
+	public void setRequired(AbbrPanel required){
+		if(layoutTitle != null && required != null){
+			layoutTitle.add(required);
 		}
 	}
 

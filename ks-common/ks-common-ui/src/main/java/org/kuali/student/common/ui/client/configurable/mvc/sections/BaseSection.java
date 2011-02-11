@@ -36,12 +36,13 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Key;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -645,5 +646,13 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	 */
 	public void setHelp(String html){
 		layout.setHelp(html);
+	}
+	
+	/**
+	 * Sets required for this entire section (appears next to section title)
+	 * @param required
+	 */
+	public void setRequired(AbbrPanel required){
+		layout.setRequired(required);
 	}
 }

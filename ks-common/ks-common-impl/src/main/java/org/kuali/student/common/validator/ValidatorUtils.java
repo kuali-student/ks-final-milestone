@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.validator;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.kuali.student.core.dictionary.dto.DataType;
@@ -28,7 +29,15 @@ public class ValidatorUtils {
 
 		boolean result = false;
 		Integer compareResult = null;
-
+		if("has_value".equalsIgnoreCase(operator)){
+			if(value1==null){
+				return "false".equals(value2.toString().toLowerCase());
+			}
+			if(value1 instanceof Collection && ((Collection<?>) value1).isEmpty()){
+				return "false".equals(value2.toString().toLowerCase());
+			}
+			return "true".equals(value2.toString().toLowerCase());
+		}
 		// Convert objects into appropriate data types
 		if (null != dataType) {
 			if (DataType.STRING.equals(dataType)) {

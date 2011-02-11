@@ -279,6 +279,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	required.setVisible(true);
     }
 
+    public AbbrPanel getRequiredPanel(){
+    	return required;
+    }
+    
     public void clearRequiredText(){
         required.setText("");
     }

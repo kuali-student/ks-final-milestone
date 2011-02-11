@@ -8,6 +8,7 @@
 
 package org.kuali.student.common.validator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
@@ -113,10 +116,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
 
         Stack<String> elementStack = new Stack<String>();
-        return validateObject(data, objStructure, elementStack, true);
+
+        return validateObject(data, objStructure, elementStack, data, objStructure, true);
     }
 
-    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack, boolean isRoot) {
+    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot) {
 
        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -139,7 +143,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         for (FieldDefinition f : objStructure.getAttributes()) {
-            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack);
+            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
 
             results.addAll(l);
 
@@ -169,14 +173,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return results;
     }
 
-    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
+    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure) {
 
         Object value = dataProvider.getValue(field.getName());
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         // Handle null values in field
         if (value == null || "".equals(value.toString().trim())) {
-            processConstraint(results, field, objStruct, value, dataProvider, elementStack);
+            processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
             return results;
         }
 
@@ -191,6 +195,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             }
 
             elementStack.push(field.getName());
+//           	beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
 
             if (value instanceof Collection) {
 
@@ -199,7 +204,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 int i=0;
                 for (Object o : (Collection<?>) value) {
                 	elementStack.push(Integer.toString(i));
-                    processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack);
+//                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
+                    processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack, rootData, rootObjectStructure);
+//                    beanPathStack.pop();
+//                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
                     elementStack.pop();
                     i++;
                 }
@@ -217,7 +225,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 }
             } else {
                 if (null != value) {
-                    processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack);
+                    processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack, rootData, rootObjectStructure);
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
@@ -226,7 +234,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     }
                 }
             }
-
+            
+//            beanPathStack.pop();
             elementStack.pop();
 
         } else { // If non complex data type
@@ -234,13 +243,16 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (value instanceof Collection) {
 
                 if(((Collection<?>)value).isEmpty()){
-                    processConstraint(results, field, objStruct, "", dataProvider, elementStack);
+                    processConstraint(results, field, objStruct, "", dataProvider, elementStack, rootData, rootObjectStructure);
                 }
 
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
                 	elementStack.push(Integer.toBinaryString(i));
-                    processConstraint(results, field, objStruct, o, dataProvider, elementStack);
+//                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
+                    processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
+//                    beanPathStack.pop();
+//                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
                     elementStack.pop();
                     i++;
                 }
@@ -259,7 +271,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     results.add(valRes);
                 }
             } else {
-                processConstraint(results, field, objStruct, value, dataProvider, elementStack);
+                processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
             }
 
         }
@@ -278,17 +290,17 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return result;
     }
 
-    protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack) {
+    protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
 
-        results.addAll(validateObject(value, nestedObjStruct, elementStack, false));
+        results.addAll(validateObject(value, nestedObjStruct, elementStack, rootData, rootObjStructure, false));
 
     }
 
-    protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
+    protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
 
         // Process Case Constraint
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
-        Constraint caseConstraint = processCaseConstraint(valResults, field, objStructure, value, dataProvider, elementStack);
+        Constraint caseConstraint = processCaseConstraint(valResults, field, objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
 
         Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
 
@@ -372,7 +384,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param caseConstraint
      * @param field
      */
-    protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack) {
+    protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
 
         CaseConstraint constraint = field.getCaseConstraint();
 
@@ -381,10 +393,31 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         String operator = (hasText(constraint.getOperator())) ? constraint.getOperator() : "EQUALS";
-        FieldDefinition caseField = (hasText(constraint.getFieldPath())) ? ValidatorUtils.getField(constraint.getFieldPath(), objStructure) : null;
+        FieldDefinition caseField = null;
+        boolean absolutePath = false;
+        if(hasText(constraint.getFieldPath())){
+        	if(constraint.getFieldPath().startsWith("/")){
+        		absolutePath = true;
+        		caseField = ValidatorUtils.getField(constraint.getFieldPath().substring(1), rootObjStructure);
+        	}else{
+        		caseField = ValidatorUtils.getField(constraint.getFieldPath(), objStructure); 
+        	}
+        }
 
         // TODO: What happens when the field is not in the dataProvider?
-        Object fieldValue = (null != caseField) ? dataProvider.getValue(caseField.getName()) : value;
+        Object fieldValue = value;
+        if(caseField!=null){
+        	if(absolutePath){
+        		try {
+					fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
+				} catch (IllegalAccessException e) {
+				} catch (InvocationTargetException e) {
+				} catch (NoSuchMethodException e) {
+				}
+        	}else{
+            	fieldValue = dataProvider.getValue(caseField.getName());
+        	}
+        }
         DataType fieldDataType = (null != caseField ? caseField.getDataType():null);
 
         // If fieldValue is null then skip Case check
@@ -395,13 +428,30 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Extract value for field Key
         for (WhenConstraint wc : constraint.getWhenConstraint()) {
 
-            List<Object> whenValueList = wc.getValues();
-
-            for (Object whenValue : whenValueList) {
-                if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+        	if(hasText(wc.getValuePath())){
+        		Object whenValue = null;
+        		if(wc.getValuePath().startsWith("/")){
+        			try {
+        				whenValue = PropertyUtils.getNestedProperty(rootData, wc.getValuePath().substring(1));
+					} catch (IllegalAccessException e) {
+					} catch (InvocationTargetException e) {
+					} catch (NoSuchMethodException e) {
+					}
+        		}else{
+        			whenValue = dataProvider.getValue(wc.getValuePath());
+        		}
+        		if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
                     return wc.getConstraint();
                 }
-            }
+        	}else{
+        		List<Object> whenValueList = wc.getValues();
+            
+	            for (Object whenValue : whenValueList) {
+	                if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+	                    return wc.getConstraint();
+	                }
+	            }
+        	}
         }
 
         return null;
