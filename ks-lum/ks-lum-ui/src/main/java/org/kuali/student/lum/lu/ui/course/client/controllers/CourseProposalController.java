@@ -491,7 +491,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
 		        // create a duplicate course proposal. 
-		        getViewContext().setIdType(IdType.KS_KEW_OBJECT_ID);
+		        getViewContext().setIdType(docContext.getIdType());
 		        getViewContext().setId(docContext.getId());
 		        
 			}
