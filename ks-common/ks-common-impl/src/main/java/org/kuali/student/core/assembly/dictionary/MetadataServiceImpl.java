@@ -53,11 +53,6 @@ public class MetadataServiceImpl {
     private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext;
 
-    /**
-     * Represents a cache for the metadata. Soft reference is used so that the JVM can clean up this cache before throwing out of memory exception.
-     */
-    private final ConcurrentHashMap<MetadataIdentifier, SoftReference<Metadata>> metadataCache = new ConcurrentHashMap<MetadataIdentifier, SoftReference<Metadata>>();
-
     private static class RecursionCounter {
         public static final int MAX_DEPTH = 4;
 
@@ -160,10 +155,6 @@ public class MetadataServiceImpl {
      * @return
      */
     protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState) {
-        MetadataIdentifier metadataIdentifier = new MetadataIdentifier(objectKey, state, nextState);
-        if(metadataCache.containsKey(metadataIdentifier)){
-            return metadataCache.get(metadataIdentifier).get();
-        }
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
@@ -173,7 +164,6 @@ public class MetadataServiceImpl {
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
         addLookupstoMetadata(objectKey, metadata, type);
-        metadataCache.putIfAbsent(metadataIdentifier, new SoftReference<Metadata>(metadata));
         return metadata;
     }
 
