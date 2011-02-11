@@ -11,6 +11,5 @@
   <properties>
     <ks.impex.username>KSRICE</ks.impex.username>
     <ks.impex.password>KSRICE</ks.impex.password>
-    <ks.impex.execute.sql.skip>false</ks.impex.execute.sql.skip>
   </properties>
 </project>

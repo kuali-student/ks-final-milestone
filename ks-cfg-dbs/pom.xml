@@ -24,7 +24,6 @@
     </repository>
   </repositories>
   <properties>
-    <ks.impex.execute.sql.skip>true</ks.impex.execute.sql.skip>
     <ks.impex.sql.plugin.force.execution>false</ks.impex.sql.plugin.force.execution>
     <ks.impex.ant.compatibility.mode>false</ks.impex.ant.compatibility.mode>
     <ks.impex.include.version.in.comment>false</ks.impex.include.version.in.comment>
@@ -469,14 +468,14 @@
       </modules>
       <properties>
         <ks.impex.oracle.validate.phase>validate</ks.impex.oracle.validate.phase>
-        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
+        <ks.impex.show.connection.config.phase>validate</ks.impex.show.connection.config.phase>
         <ks.impex.url>${ks.impex.masterdb.url}</ks.impex.url>
         <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
         <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
         <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
         <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
         <ks.impex.generate.phase>none</ks.impex.generate.phase>
-        <ks.impex.execute.sql.skip>false</ks.impex.execute.sql.skip>
+        <ks.impex.sql.plugin.force.execution>true</ks.impex.sql.plugin.force.execution>
         <ks.impex.pre.export.phase>initialize</ks.impex.pre.export.phase>
         <ks.impex.export.phase>generate-resources</ks.impex.export.phase>
         <ks.impex.schema>${ks.impex.masterdb.schema}</ks.impex.schema>
@@ -671,7 +670,7 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <!-- A few sql files don't have the "/" on it's own row -->
+                  <!-- A few sql files don't have the delimiter "/" on it's own row -->
                   <delimiterType>normal</delimiterType>
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>

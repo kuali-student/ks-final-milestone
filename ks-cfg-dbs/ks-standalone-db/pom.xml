@@ -11,18 +11,14 @@
   <properties>
     <ks.impex.username>KSSTANDALONE</ks.impex.username>
     <ks.impex.password>KSSTANDALONE</ks.impex.password>
-    <ks.impex.execute.sql.skip>false</ks.impex.execute.sql.skip>
   </properties>
   <profiles>
     <profile>
       <id>export-master-db</id>
       <properties>
-        <ks.impex.schema>${ks.impex.masterdb.schema}</ks.impex.schema>
         <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
         <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
-        <ks.impex.execute.sql.skip>true</ks.impex.execute.sql.skip>
         <ks.impex.export.tables.pattern>^KS.*</ks.impex.export.tables.pattern>
-        <ks.impex.ant.compatibility.mode>true</ks.impex.ant.compatibility.mode>
       </properties>
     </profile>
   </profiles>
