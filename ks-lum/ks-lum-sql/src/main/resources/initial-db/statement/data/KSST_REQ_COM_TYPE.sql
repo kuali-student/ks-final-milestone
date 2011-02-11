@@ -52,6 +52,9 @@ INSERT INTO KSST_REQ_COM_TYPE (EFF_DT,NAME,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Minimum credit completion in organization/department','Must have successfully completed a minimum of <n> credits from courses in the <org>','kuali.reqComponent.type.course.org.credits.completed.min',0)
 /
 INSERT INTO KSST_REQ_COM_TYPE (EFF_DT,NAME,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ), 'Enrolled in all required courses', 'Must be concurrently enrolled in all courses from &lt;courses>', 'kuali.reqComponent.type.course.courseset.enrolled.all', 0)
+/
+INSERT INTO KSST_REQ_COM_TYPE (EFF_DT,NAME,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Program admission at campus','Must be admitted to any program offered at the course campus location','kuali.reqComponent.type.course.org.program.admitted',0)
 /
 INSERT INTO KSST_REQ_COM_TYPE (EFF_DT,NAME,TYPE_DESC,TYPE_KEY,VER_NBR)

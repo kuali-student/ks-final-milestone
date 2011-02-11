@@ -207,3 +207,6 @@ INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_FIELD_TYPE_ID,REQ_COMP_TYPE_ID)
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_FIELD_TYPE_ID,REQ_COMP_TYPE_ID)
   VALUES ('kuali.reqComponent.field.type.value.positive.integer','kuali.reqComponent.type.course.courseset.completed.max')
 /
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_FIELD_TYPE_ID,REQ_COMP_TYPE_ID)
+  VALUES ('kuali.reqComponent.field.type.course.cluSet.id','kuali.reqComponent.type.course.courseset.enrolled.all')
+/
