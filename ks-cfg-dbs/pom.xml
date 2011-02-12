@@ -41,6 +41,7 @@
     <ks.impex.generate.morph.phase>${ks.impex.generate.phase}</ks.impex.generate.morph.phase>
     <ks.impex.generate.dtd.phase>${ks.impex.generate.phase}</ks.impex.generate.dtd.phase>
     <ks.impex.oracle.validate.phase>none</ks.impex.oracle.validate.phase>
+    <ks.impex.oracle.dba.validate.preclean.phase>none</ks.impex.oracle.dba.validate.preclean.phase>
     <ks.impex.oracle.drop.phase>none</ks.impex.oracle.drop.phase>
     <ks.impex.oracle.create.phase>none</ks.impex.oracle.create.phase>
     <ks.impex.oracle.grant.phase>none</ks.impex.oracle.grant.phase>
@@ -263,6 +264,21 @@
         </configuration>
         <executions>
           <execution>
+            <id>validate-oracle-dba-connection-pre-clean</id>
+            <phase>${ks.impex.oracle.dba.validate.preclean.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <sqlCommand>
+                ${ks.impex.oracle.validation.query}
+                /
+              </sqlCommand>
+            </configuration>
+          </execution>
+          <execution>
             <id>validate-oracle-dba-connection</id>
             <phase>${ks.impex.oracle.dba.validate.phase}</phase>
             <goals>
@@ -449,6 +465,7 @@
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
         <ks.impex.oracle.drop.phase>clean</ks.impex.oracle.drop.phase>
         <ks.impex.oracle.dba.validate.phase>validate</ks.impex.oracle.dba.validate.phase>
+        <ks.impex.oracle.dba.validate.preclean.phase>pre-clean</ks.impex.oracle.dba.validate.preclean.phase>
         <ks.impex.oracle.create.phase>initialize</ks.impex.oracle.create.phase>
         <ks.impex.oracle.grant.phase>initialize</ks.impex.oracle.grant.phase>
         <ks.impex.oracle.validate.phase>verify</ks.impex.oracle.validate.phase>
