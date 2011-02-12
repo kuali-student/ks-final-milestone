@@ -34,6 +34,10 @@
         TYPE_DESC="Must not have successfully completed any credits from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.credits.completed.none" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
+        NAME="Enrolled in all required courses"
+        TYPE_DESC="Must be concurrently enrolled in all courses from &amp;lt;courses>"
+        TYPE_KEY="kuali.reqComponent.type.course.courseset.enrolled.all" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
         NAME="Enrolled in N of required courses"
         TYPE_DESC="Must be concurrently enrolled in a minimum of &lt;n> courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.enrolled.nof" VER_NBR="0"/>

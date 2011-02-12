@@ -29,6 +29,8 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.none"/>
     <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.all"/>
+    <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.nof"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.nof"/>
