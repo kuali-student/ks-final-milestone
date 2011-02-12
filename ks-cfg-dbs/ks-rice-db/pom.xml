@@ -17,7 +17,8 @@
       <id>oracle-db</id>
       <properties>
         <ks.impex.show.drop.config.phase>pre-clean</ks.impex.show.drop.config.phase>
-        <ks.impex.show.create.config.phase>validate</ks.impex.show.create.config.phase>
+        <ks.impex.show.dba.connection.config.phase>validate</ks.impex.show.dba.connection.config.phase>
+        <ks.impex.show.create.config.phase>initialize</ks.impex.show.create.config.phase>
         <ks.impex.show.connection.config.phase>verify</ks.impex.show.connection.config.phase>
       </properties>
     </profile>
