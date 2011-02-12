@@ -12,4 +12,14 @@
     <ks.impex.username>KSRICE</ks.impex.username>
     <ks.impex.password>KSRICE</ks.impex.password>
   </properties>
+  <profiles>
+    <profile>
+      <id>oracle-db</id>
+      <properties>
+        <ks.impex.show.drop.config.phase>pre-clean</ks.impex.show.drop.config.phase>
+        <ks.impex.show.create.config.phase>validate</ks.impex.show.create.config.phase>
+        <ks.impex.show.connection.config.phase>verify</ks.impex.show.connection.config.phase>
+      </properties>
+    </profile>
+  </profiles>
 </project>

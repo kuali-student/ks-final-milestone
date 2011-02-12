@@ -447,13 +447,10 @@
         <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
         <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
-        <ks.impex.show.drop.config.phase>pre-clean</ks.impex.show.drop.config.phase>
         <ks.impex.oracle.drop.phase>clean</ks.impex.oracle.drop.phase>
-        <ks.impex.show.create.config.phase>validate</ks.impex.show.create.config.phase>
         <ks.impex.oracle.dba.validate.phase>validate</ks.impex.oracle.dba.validate.phase>
         <ks.impex.oracle.create.phase>initialize</ks.impex.oracle.create.phase>
         <ks.impex.oracle.grant.phase>initialize</ks.impex.oracle.grant.phase>
-        <ks.impex.show.connection.config.phase>verify</ks.impex.show.connection.config.phase>
         <ks.impex.oracle.validate.phase>verify</ks.impex.oracle.validate.phase>
         <ks.impex.import.phase>install</ks.impex.import.phase>
         <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
