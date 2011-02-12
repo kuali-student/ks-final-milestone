@@ -19,6 +19,7 @@
         <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
         <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
         <ks.impex.export.tables.pattern>^KS.*,^KR.*</ks.impex.export.tables.pattern>
+        <ks.impex.pre.export.phase>none</ks.impex.pre.export.phase>
       </properties>
     </profile>
     <profile>
