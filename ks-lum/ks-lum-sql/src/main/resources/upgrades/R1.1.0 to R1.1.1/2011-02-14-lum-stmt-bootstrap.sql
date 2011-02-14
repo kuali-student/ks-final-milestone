@@ -3,7 +3,7 @@ INSERT INTO KSST_REQ_COM_TYPE (EFF_DT,NAME,TYPE_DESC,TYPE_KEY,VER_NBR)
 /
 
 
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('88', 'kuali.statement.type.course.academicReadiness.coreq', 'kuali.reqComponent.type.course.courseset.enrolled.nof', 2, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('CC-3', 'kuali.statement.type.course.academicReadiness.coreq', 'kuali.reqComponent.type.course.courseset.enrolled.nof', 3, 0)
 /
 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID,LANGUAGE,NL_USUAGE_TYPE_KEY,OWNER,TEMPLATE,VER_NBR)
