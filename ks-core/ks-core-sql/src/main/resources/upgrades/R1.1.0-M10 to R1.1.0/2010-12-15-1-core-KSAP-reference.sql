@@ -1,504 +1,1000 @@
-delete from KSAP_MLSTN where id='207'/
-delete from KSAP_MLSTN where id='208'/
-delete from KSAP_MLSTN where id='209'/
-delete from KSAP_MLSTN where id='210'/
-delete from KSAP_MLSTN where id='211'/
-delete from KSAP_MLSTN where id='212'/
-delete from KSAP_MLSTN where id='213'/
-delete from KSAP_MLSTN where id='214'/
-delete from KSAP_MLSTN where id='215'/
-delete from KSAP_MLSTN where id='216'/
-delete from KSAP_MLSTN where id='217'/
-delete from KSAP_MLSTN where id='218'/
-delete from KSAP_MLSTN where id='219'/
-delete from KSAP_MLSTN where id='220'/
-delete from KSAP_MLSTN where id='221'/
-delete from KSAP_MLSTN where id='222'/
-delete from KSAP_MLSTN where id='223'/
-delete from KSAP_MLSTN where id='224'/
-delete from KSAP_MLSTN where id='225'/
-delete from KSAP_MLSTN where id='226'/
-delete from KSAP_MLSTN where id='227'/
-delete from KSAP_MLSTN where id='228'/
-delete from KSAP_MLSTN where id='229'/
-delete from KSAP_MLSTN where id='230'/
-delete from KSAP_MLSTN where id='231'/
-delete from KSAP_MLSTN where id='232'/
-delete from KSAP_MLSTN where id='233'/
-delete from KSAP_MLSTN where id='234'/
-delete from KSAP_MLSTN where id='235'/
-delete from KSAP_MLSTN where id='236'/
-delete from KSAP_MLSTN where id='237'/
-delete from KSAP_MLSTN where id='238'/
-delete from KSAP_MLSTN where id='239'/
-delete from KSAP_MLSTN where id='240'/
-delete from KSAP_MLSTN where id='241'/
-delete from KSAP_MLSTN where id='242'/
-delete from KSAP_MLSTN where id='243'/
-delete from KSAP_MLSTN where id='244'/
-delete from KSAP_MLSTN where id='245'/
-delete from KSAP_MLSTN where id='246'/
-delete from KSAP_MLSTN where id='247'/
-delete from KSAP_MLSTN where id='248'/
-delete from KSAP_MLSTN where id='249'/
-delete from KSAP_MLSTN where id='250'/
-delete from KSAP_MLSTN where id='251'/
-delete from KSAP_MLSTN where id='252'/
-delete from KSAP_MLSTN where id='253'/
-delete from KSAP_MLSTN where id='254'/
-delete from KSAP_MLSTN where id='255'/
-delete from KSAP_MLSTN where id='256'/
-delete from KSAP_MLSTN where id='257'/
-delete from KSAP_MLSTN where id='258'/
-delete from KSAP_MLSTN where id='259'/
-delete from KSAP_MLSTN where id='260'/
-delete from KSAP_MLSTN where id='261'/
-delete from KSAP_MLSTN where id='262'/
-delete from KSAP_MLSTN where id='263'/
-delete from KSAP_MLSTN where id='264'/
-delete from KSAP_MLSTN where id='265'/
-delete from KSAP_MLSTN where id='266'/
-delete from KSAP_MLSTN where id='35'/
-delete from KSAP_MLSTN where id='36'/
-delete from KSAP_MLSTN where id='37'/
-delete from KSAP_MLSTN where id='38'/
-delete from KSAP_MLSTN where id='39'/
-delete from KSAP_MLSTN where id='40'/
-delete from KSAP_MLSTN where id='41'/
-delete from KSAP_MLSTN where id='42'/
-delete from KSAP_MLSTN where id='43'/
-delete from KSAP_MLSTN where id='44'/
-delete from KSAP_MLSTN where id='100'/
-delete from KSAP_MLSTN where id='101'/
-delete from KSAP_MLSTN where id='102'/
-delete from KSAP_MLSTN where id='103'/
-delete from KSAP_MLSTN where id='104'/
-delete from KSAP_MLSTN where id='105'/
-delete from KSAP_MLSTN where id='106'/
-delete from KSAP_MLSTN where id='107'/
-delete from KSAP_MLSTN where id='108'/
-delete from KSAP_MLSTN where id='109'/
-delete from KSAP_MLSTN where id='110'/
-delete from KSAP_MLSTN where id='111'/
-delete from KSAP_MLSTN where id='112'/
-delete from KSAP_MLSTN where id='113'/
-delete from KSAP_MLSTN where id='114'/
-delete from KSAP_MLSTN where id='115'/
-delete from KSAP_MLSTN where id='116'/
-delete from KSAP_MLSTN where id='117'/
-delete from KSAP_MLSTN where id='118'/
-delete from KSAP_MLSTN where id='119'/
-delete from KSAP_MLSTN where id='120'/
-delete from KSAP_MLSTN where id='121'/
-delete from KSAP_MLSTN where id='122'/
-delete from KSAP_MLSTN where id='123'/
-delete from KSAP_MLSTN where id='124'/
-delete from KSAP_MLSTN where id='125'/
-delete from KSAP_MLSTN where id='126'/
-delete from KSAP_MLSTN where id='127'/
-delete from KSAP_MLSTN where id='128'/
-delete from KSAP_MLSTN where id='129'/
-delete from KSAP_MLSTN where id='130'/
-delete from KSAP_MLSTN where id='131'/
-delete from KSAP_MLSTN where id='132'/
-delete from KSAP_MLSTN where id='133'/
-delete from KSAP_MLSTN where id='134'/
-delete from KSAP_MLSTN where id='135'/
-delete from KSAP_MLSTN where id='136'/
-delete from KSAP_MLSTN where id='137'/
-delete from KSAP_MLSTN where id='138'/
-delete from KSAP_MLSTN where id='139'/
-delete from KSAP_MLSTN where id='140'/
-delete from KSAP_MLSTN where id='141'/
-delete from KSAP_MLSTN where id='142'/
-delete from KSAP_MLSTN where id='143'/
-delete from KSAP_MLSTN where id='144'/
-delete from KSAP_MLSTN where id='145'/
-delete from KSAP_MLSTN where id='146'/
-delete from KSAP_MLSTN where id='147'/
-delete from KSAP_MLSTN where id='148'/
-delete from KSAP_MLSTN where id='149'/
-delete from KSAP_MLSTN where id='150'/
-delete from KSAP_MLSTN where id='151'/
-delete from KSAP_MLSTN where id='152'/
-delete from KSAP_MLSTN where id='153'/
-delete from KSAP_MLSTN where id='154'/
-delete from KSAP_MLSTN where id='155'/
-delete from KSAP_MLSTN where id='156'/
-delete from KSAP_MLSTN where id='157'/
-delete from KSAP_MLSTN where id='158'/
-delete from KSAP_MLSTN where id='159'/
-delete from KSAP_MLSTN where id='160'/
-delete from KSAP_MLSTN where id='161'/
-delete from KSAP_MLSTN where id='162'/
-delete from KSAP_MLSTN where id='163'/
-delete from KSAP_MLSTN where id='164'/
-delete from KSAP_MLSTN where id='165'/
-delete from KSAP_MLSTN where id='166'/
-delete from KSAP_MLSTN where id='167'/
-delete from KSAP_MLSTN where id='168'/
-delete from KSAP_MLSTN where id='169'/
-delete from KSAP_MLSTN where id='170'/
-delete from KSAP_MLSTN where id='171'/
-delete from KSAP_MLSTN where id='172'/
-delete from KSAP_MLSTN where id='173'/
-delete from KSAP_MLSTN where id='174'/
-delete from KSAP_MLSTN where id='175'/
-delete from KSAP_MLSTN where id='176'/
-delete from KSAP_MLSTN where id='177'/
-delete from KSAP_MLSTN where id='178'/
-delete from KSAP_MLSTN where id='179'/
-delete from KSAP_MLSTN where id='180'/
-delete from KSAP_MLSTN where id='181'/
-delete from KSAP_MLSTN where id='182'/
-delete from KSAP_MLSTN where id='183'/
-delete from KSAP_MLSTN where id='184'/
-delete from KSAP_MLSTN where id='185'/
-delete from KSAP_MLSTN where id='186'/
-delete from KSAP_MLSTN where id='187'/
-delete from KSAP_MLSTN where id='188'/
-delete from KSAP_MLSTN where id='189'/
-delete from KSAP_MLSTN where id='190'/
-delete from KSAP_MLSTN where id='191'/
-delete from KSAP_MLSTN where id='192'/
-delete from KSAP_MLSTN where id='193'/
-delete from KSAP_MLSTN where id='194'/
-delete from KSAP_MLSTN where id='195'/
-delete from KSAP_MLSTN where id='196'/
-delete from KSAP_MLSTN where id='197'/
-delete from KSAP_MLSTN where id='198'/
-delete from KSAP_MLSTN where id='199'/
-delete from KSAP_MLSTN where id='200'/
-delete from KSAP_MLSTN where id='201'/
-delete from KSAP_MLSTN where id='202'/
-delete from KSAP_MLSTN where id='203'/
-delete from KSAP_MLSTN where id='204'/
-delete from KSAP_MLSTN where id='205'/
-delete from KSAP_MLSTN where id='206'/
-delete from KSAP_MLSTN where id='45'/
-delete from KSAP_MLSTN where id='46'/
-delete from KSAP_MLSTN where id='47'/
-delete from KSAP_MLSTN where id='48'/
-delete from KSAP_MLSTN where id='49'/
-delete from KSAP_MLSTN where id='50'/
-delete from KSAP_MLSTN where id='51'/
-delete from KSAP_MLSTN where id='52'/
-delete from KSAP_MLSTN where id='53'/
-delete from KSAP_MLSTN where id='54'/
-delete from KSAP_MLSTN where id='55'/
-delete from KSAP_MLSTN where id='56'/
-delete from KSAP_MLSTN where id='57'/
-delete from KSAP_MLSTN where id='58'/
-delete from KSAP_MLSTN where id='59'/
-delete from KSAP_MLSTN where id='60'/
-delete from KSAP_MLSTN where id='61'/
-delete from KSAP_MLSTN where id='62'/
-delete from KSAP_MLSTN where id='63'/
-delete from KSAP_MLSTN where id='64'/
-delete from KSAP_MLSTN where id='65'/
-delete from KSAP_MLSTN where id='66'/
-delete from KSAP_MLSTN where id='67'/
-delete from KSAP_MLSTN where id='68'/
-delete from KSAP_MLSTN where id='69'/
-delete from KSAP_MLSTN where id='70'/
-delete from KSAP_MLSTN where id='71'/
-delete from KSAP_MLSTN where id='72'/
-delete from KSAP_MLSTN where id='73'/
-delete from KSAP_MLSTN where id='74'/
-delete from KSAP_MLSTN where id='75'/
-delete from KSAP_MLSTN where id='76'/
-delete from KSAP_MLSTN where id='77'/
-delete from KSAP_MLSTN where id='78'/
-delete from KSAP_MLSTN where id='79'/
-delete from KSAP_MLSTN where id='80'/
-delete from KSAP_MLSTN where id='81'/
-delete from KSAP_MLSTN where id='82'/
-delete from KSAP_MLSTN where id='83'/
-delete from KSAP_MLSTN where id='84'/
-delete from KSAP_MLSTN where id='85'/
-delete from KSAP_MLSTN where id='86'/
-delete from KSAP_MLSTN where id='87'/
-delete from KSAP_MLSTN where id='88'/
-delete from KSAP_MLSTN where id='89'/
-delete from KSAP_MLSTN where id='90'/
-delete from KSAP_MLSTN where id='91'/
-delete from KSAP_MLSTN where id='92'/
-delete from KSAP_MLSTN where id='93'/
-delete from KSAP_MLSTN where id='94'/
-delete from KSAP_MLSTN where id='95'/
-delete from KSAP_MLSTN where id='96'/
-delete from KSAP_MLSTN where id='97'/
-delete from KSAP_MLSTN where id='98'/
-delete from KSAP_MLSTN where id='99'/
+delete from KSAP_MLSTN where id='207'
+/
+delete from KSAP_MLSTN where id='208'
+/
+delete from KSAP_MLSTN where id='209'
+/
+delete from KSAP_MLSTN where id='210'
+/
+delete from KSAP_MLSTN where id='211'
+/
+delete from KSAP_MLSTN where id='212'
+/
+delete from KSAP_MLSTN where id='213'
+/
+delete from KSAP_MLSTN where id='214'
+/
+delete from KSAP_MLSTN where id='215'
+/
+delete from KSAP_MLSTN where id='216'
+/
+delete from KSAP_MLSTN where id='217'
+/
+delete from KSAP_MLSTN where id='218'
+/
+delete from KSAP_MLSTN where id='219'
+/
+delete from KSAP_MLSTN where id='220'
+/
+delete from KSAP_MLSTN where id='221'
+/
+delete from KSAP_MLSTN where id='222'
+/
+delete from KSAP_MLSTN where id='223'
+/
+delete from KSAP_MLSTN where id='224'
+/
+delete from KSAP_MLSTN where id='225'
+/
+delete from KSAP_MLSTN where id='226'
+/
+delete from KSAP_MLSTN where id='227'
+/
+delete from KSAP_MLSTN where id='228'
+/
+delete from KSAP_MLSTN where id='229'
+/
+delete from KSAP_MLSTN where id='230'
+/
+delete from KSAP_MLSTN where id='231'
+/
+delete from KSAP_MLSTN where id='232'
+/
+delete from KSAP_MLSTN where id='233'
+/
+delete from KSAP_MLSTN where id='234'
+/
+delete from KSAP_MLSTN where id='235'
+/
+delete from KSAP_MLSTN where id='236'
+/
+delete from KSAP_MLSTN where id='237'
+/
+delete from KSAP_MLSTN where id='238'
+/
+delete from KSAP_MLSTN where id='239'
+/
+delete from KSAP_MLSTN where id='240'
+/
+delete from KSAP_MLSTN where id='241'
+/
+delete from KSAP_MLSTN where id='242'
+/
+delete from KSAP_MLSTN where id='243'
+/
+delete from KSAP_MLSTN where id='244'
+/
+delete from KSAP_MLSTN where id='245'
+/
+delete from KSAP_MLSTN where id='246'
+/
+delete from KSAP_MLSTN where id='247'
+/
+delete from KSAP_MLSTN where id='248'
+/
+delete from KSAP_MLSTN where id='249'
+/
+delete from KSAP_MLSTN where id='250'
+/
+delete from KSAP_MLSTN where id='251'
+/
+delete from KSAP_MLSTN where id='252'
+/
+delete from KSAP_MLSTN where id='253'
+/
+delete from KSAP_MLSTN where id='254'
+/
+delete from KSAP_MLSTN where id='255'
+/
+delete from KSAP_MLSTN where id='256'
+/
+delete from KSAP_MLSTN where id='257'
+/
+delete from KSAP_MLSTN where id='258'
+/
+delete from KSAP_MLSTN where id='259'
+/
+delete from KSAP_MLSTN where id='260'
+/
+delete from KSAP_MLSTN where id='261'
+/
+delete from KSAP_MLSTN where id='262'
+/
+delete from KSAP_MLSTN where id='263'
+/
+delete from KSAP_MLSTN where id='264'
+/
+delete from KSAP_MLSTN where id='265'
+/
+delete from KSAP_MLSTN where id='266'
+/
+delete from KSAP_MLSTN where id='35'
+/
+delete from KSAP_MLSTN where id='36'
+/
+delete from KSAP_MLSTN where id='37'
+/
+delete from KSAP_MLSTN where id='38'
+/
+delete from KSAP_MLSTN where id='39'
+/
+delete from KSAP_MLSTN where id='40'
+/
+delete from KSAP_MLSTN where id='41'
+/
+delete from KSAP_MLSTN where id='42'
+/
+delete from KSAP_MLSTN where id='43'
+/
+delete from KSAP_MLSTN where id='44'
+/
+delete from KSAP_MLSTN where id='100'
+/
+delete from KSAP_MLSTN where id='101'
+/
+delete from KSAP_MLSTN where id='102'
+/
+delete from KSAP_MLSTN where id='103'
+/
+delete from KSAP_MLSTN where id='104'
+/
+delete from KSAP_MLSTN where id='105'
+/
+delete from KSAP_MLSTN where id='106'
+/
+delete from KSAP_MLSTN where id='107'
+/
+delete from KSAP_MLSTN where id='108'
+/
+delete from KSAP_MLSTN where id='109'
+/
+delete from KSAP_MLSTN where id='110'
+/
+delete from KSAP_MLSTN where id='111'
+/
+delete from KSAP_MLSTN where id='112'
+/
+delete from KSAP_MLSTN where id='113'
+/
+delete from KSAP_MLSTN where id='114'
+/
+delete from KSAP_MLSTN where id='115'
+/
+delete from KSAP_MLSTN where id='116'
+/
+delete from KSAP_MLSTN where id='117'
+/
+delete from KSAP_MLSTN where id='118'
+/
+delete from KSAP_MLSTN where id='119'
+/
+delete from KSAP_MLSTN where id='120'
+/
+delete from KSAP_MLSTN where id='121'
+/
+delete from KSAP_MLSTN where id='122'
+/
+delete from KSAP_MLSTN where id='123'
+/
+delete from KSAP_MLSTN where id='124'
+/
+delete from KSAP_MLSTN where id='125'
+/
+delete from KSAP_MLSTN where id='126'
+/
+delete from KSAP_MLSTN where id='127'
+/
+delete from KSAP_MLSTN where id='128'
+/
+delete from KSAP_MLSTN where id='129'
+/
+delete from KSAP_MLSTN where id='130'
+/
+delete from KSAP_MLSTN where id='131'
+/
+delete from KSAP_MLSTN where id='132'
+/
+delete from KSAP_MLSTN where id='133'
+/
+delete from KSAP_MLSTN where id='134'
+/
+delete from KSAP_MLSTN where id='135'
+/
+delete from KSAP_MLSTN where id='136'
+/
+delete from KSAP_MLSTN where id='137'
+/
+delete from KSAP_MLSTN where id='138'
+/
+delete from KSAP_MLSTN where id='139'
+/
+delete from KSAP_MLSTN where id='140'
+/
+delete from KSAP_MLSTN where id='141'
+/
+delete from KSAP_MLSTN where id='142'
+/
+delete from KSAP_MLSTN where id='143'
+/
+delete from KSAP_MLSTN where id='144'
+/
+delete from KSAP_MLSTN where id='145'
+/
+delete from KSAP_MLSTN where id='146'
+/
+delete from KSAP_MLSTN where id='147'
+/
+delete from KSAP_MLSTN where id='148'
+/
+delete from KSAP_MLSTN where id='149'
+/
+delete from KSAP_MLSTN where id='150'
+/
+delete from KSAP_MLSTN where id='151'
+/
+delete from KSAP_MLSTN where id='152'
+/
+delete from KSAP_MLSTN where id='153'
+/
+delete from KSAP_MLSTN where id='154'
+/
+delete from KSAP_MLSTN where id='155'
+/
+delete from KSAP_MLSTN where id='156'
+/
+delete from KSAP_MLSTN where id='157'
+/
+delete from KSAP_MLSTN where id='158'
+/
+delete from KSAP_MLSTN where id='159'
+/
+delete from KSAP_MLSTN where id='160'
+/
+delete from KSAP_MLSTN where id='161'
+/
+delete from KSAP_MLSTN where id='162'
+/
+delete from KSAP_MLSTN where id='163'
+/
+delete from KSAP_MLSTN where id='164'
+/
+delete from KSAP_MLSTN where id='165'
+/
+delete from KSAP_MLSTN where id='166'
+/
+delete from KSAP_MLSTN where id='167'
+/
+delete from KSAP_MLSTN where id='168'
+/
+delete from KSAP_MLSTN where id='169'
+/
+delete from KSAP_MLSTN where id='170'
+/
+delete from KSAP_MLSTN where id='171'
+/
+delete from KSAP_MLSTN where id='172'
+/
+delete from KSAP_MLSTN where id='173'
+/
+delete from KSAP_MLSTN where id='174'
+/
+delete from KSAP_MLSTN where id='175'
+/
+delete from KSAP_MLSTN where id='176'
+/
+delete from KSAP_MLSTN where id='177'
+/
+delete from KSAP_MLSTN where id='178'
+/
+delete from KSAP_MLSTN where id='179'
+/
+delete from KSAP_MLSTN where id='180'
+/
+delete from KSAP_MLSTN where id='181'
+/
+delete from KSAP_MLSTN where id='182'
+/
+delete from KSAP_MLSTN where id='183'
+/
+delete from KSAP_MLSTN where id='184'
+/
+delete from KSAP_MLSTN where id='185'
+/
+delete from KSAP_MLSTN where id='186'
+/
+delete from KSAP_MLSTN where id='187'
+/
+delete from KSAP_MLSTN where id='188'
+/
+delete from KSAP_MLSTN where id='189'
+/
+delete from KSAP_MLSTN where id='190'
+/
+delete from KSAP_MLSTN where id='191'
+/
+delete from KSAP_MLSTN where id='192'
+/
+delete from KSAP_MLSTN where id='193'
+/
+delete from KSAP_MLSTN where id='194'
+/
+delete from KSAP_MLSTN where id='195'
+/
+delete from KSAP_MLSTN where id='196'
+/
+delete from KSAP_MLSTN where id='197'
+/
+delete from KSAP_MLSTN where id='198'
+/
+delete from KSAP_MLSTN where id='199'
+/
+delete from KSAP_MLSTN where id='200'
+/
+delete from KSAP_MLSTN where id='201'
+/
+delete from KSAP_MLSTN where id='202'
+/
+delete from KSAP_MLSTN where id='203'
+/
+delete from KSAP_MLSTN where id='204'
+/
+delete from KSAP_MLSTN where id='205'
+/
+delete from KSAP_MLSTN where id='206'
+/
+delete from KSAP_MLSTN where id='45'
+/
+delete from KSAP_MLSTN where id='46'
+/
+delete from KSAP_MLSTN where id='47'
+/
+delete from KSAP_MLSTN where id='48'
+/
+delete from KSAP_MLSTN where id='49'
+/
+delete from KSAP_MLSTN where id='50'
+/
+delete from KSAP_MLSTN where id='51'
+/
+delete from KSAP_MLSTN where id='52'
+/
+delete from KSAP_MLSTN where id='53'
+/
+delete from KSAP_MLSTN where id='54'
+/
+delete from KSAP_MLSTN where id='55'
+/
+delete from KSAP_MLSTN where id='56'
+/
+delete from KSAP_MLSTN where id='57'
+/
+delete from KSAP_MLSTN where id='58'
+/
+delete from KSAP_MLSTN where id='59'
+/
+delete from KSAP_MLSTN where id='60'
+/
+delete from KSAP_MLSTN where id='61'
+/
+delete from KSAP_MLSTN where id='62'
+/
+delete from KSAP_MLSTN where id='63'
+/
+delete from KSAP_MLSTN where id='64'
+/
+delete from KSAP_MLSTN where id='65'
+/
+delete from KSAP_MLSTN where id='66'
+/
+delete from KSAP_MLSTN where id='67'
+/
+delete from KSAP_MLSTN where id='68'
+/
+delete from KSAP_MLSTN where id='69'
+/
+delete from KSAP_MLSTN where id='70'
+/
+delete from KSAP_MLSTN where id='71'
+/
+delete from KSAP_MLSTN where id='72'
+/
+delete from KSAP_MLSTN where id='73'
+/
+delete from KSAP_MLSTN where id='74'
+/
+delete from KSAP_MLSTN where id='75'
+/
+delete from KSAP_MLSTN where id='76'
+/
+delete from KSAP_MLSTN where id='77'
+/
+delete from KSAP_MLSTN where id='78'
+/
+delete from KSAP_MLSTN where id='79'
+/
+delete from KSAP_MLSTN where id='80'
+/
+delete from KSAP_MLSTN where id='81'
+/
+delete from KSAP_MLSTN where id='82'
+/
+delete from KSAP_MLSTN where id='83'
+/
+delete from KSAP_MLSTN where id='84'
+/
+delete from KSAP_MLSTN where id='85'
+/
+delete from KSAP_MLSTN where id='86'
+/
+delete from KSAP_MLSTN where id='87'
+/
+delete from KSAP_MLSTN where id='88'
+/
+delete from KSAP_MLSTN where id='89'
+/
+delete from KSAP_MLSTN where id='90'
+/
+delete from KSAP_MLSTN where id='91'
+/
+delete from KSAP_MLSTN where id='92'
+/
+delete from KSAP_MLSTN where id='93'
+/
+delete from KSAP_MLSTN where id='94'
+/
+delete from KSAP_MLSTN where id='95'
+/
+delete from KSAP_MLSTN where id='96'
+/
+delete from KSAP_MLSTN where id='97'
+/
+delete from KSAP_MLSTN where id='98'
+/
+delete from KSAP_MLSTN where id='99'
+/
 
 
-delete from KSAP_DT_RANGE where daterange_key='1'/
-delete from KSAP_DT_RANGE where daterange_key='10'/
-delete from KSAP_DT_RANGE where daterange_key='11'/
-delete from KSAP_DT_RANGE where daterange_key='12'/
-delete from KSAP_DT_RANGE where daterange_key='13'/
-delete from KSAP_DT_RANGE where daterange_key='14'/
-delete from KSAP_DT_RANGE where daterange_key='15'/
-delete from KSAP_DT_RANGE where daterange_key='16'/
-delete from KSAP_DT_RANGE where daterange_key='17'/
-delete from KSAP_DT_RANGE where daterange_key='18'/
-delete from KSAP_DT_RANGE where daterange_key='19'/
-delete from KSAP_DT_RANGE where daterange_key='2'/
-delete from KSAP_DT_RANGE where daterange_key='20'/
-delete from KSAP_DT_RANGE where daterange_key='21'/
-delete from KSAP_DT_RANGE where daterange_key='22'/
-delete from KSAP_DT_RANGE where daterange_key='23'/
-delete from KSAP_DT_RANGE where daterange_key='24'/
-delete from KSAP_DT_RANGE where daterange_key='25'/
-delete from KSAP_DT_RANGE where daterange_key='26'/
-delete from KSAP_DT_RANGE where daterange_key='27'/
-delete from KSAP_DT_RANGE where daterange_key='28'/
-delete from KSAP_DT_RANGE where daterange_key='29'/
-delete from KSAP_DT_RANGE where daterange_key='3'/
-delete from KSAP_DT_RANGE where daterange_key='30'/
-delete from KSAP_DT_RANGE where daterange_key='31'/
-delete from KSAP_DT_RANGE where daterange_key='32'/
-delete from KSAP_DT_RANGE where daterange_key='33'/
-delete from KSAP_DT_RANGE where daterange_key='34'/
-delete from KSAP_DT_RANGE where daterange_key='4'/
-delete from KSAP_DT_RANGE where daterange_key='5'/
-delete from KSAP_DT_RANGE where daterange_key='6'/
-delete from KSAP_DT_RANGE where daterange_key='7'/
-delete from KSAP_DT_RANGE where daterange_key='8'/
-delete from KSAP_DT_RANGE where daterange_key='9'/
+delete from KSAP_DT_RANGE where daterange_key='1'
+/
+delete from KSAP_DT_RANGE where daterange_key='10'
+/
+delete from KSAP_DT_RANGE where daterange_key='11'
+/
+delete from KSAP_DT_RANGE where daterange_key='12'
+/
+delete from KSAP_DT_RANGE where daterange_key='13'
+/
+delete from KSAP_DT_RANGE where daterange_key='14'
+/
+delete from KSAP_DT_RANGE where daterange_key='15'
+/
+delete from KSAP_DT_RANGE where daterange_key='16'
+/
+delete from KSAP_DT_RANGE where daterange_key='17'
+/
+delete from KSAP_DT_RANGE where daterange_key='18'
+/
+delete from KSAP_DT_RANGE where daterange_key='19'
+/
+delete from KSAP_DT_RANGE where daterange_key='2'
+/
+delete from KSAP_DT_RANGE where daterange_key='20'
+/
+delete from KSAP_DT_RANGE where daterange_key='21'
+/
+delete from KSAP_DT_RANGE where daterange_key='22'
+/
+delete from KSAP_DT_RANGE where daterange_key='23'
+/
+delete from KSAP_DT_RANGE where daterange_key='24'
+/
+delete from KSAP_DT_RANGE where daterange_key='25'
+/
+delete from KSAP_DT_RANGE where daterange_key='26'
+/
+delete from KSAP_DT_RANGE where daterange_key='27'
+/
+delete from KSAP_DT_RANGE where daterange_key='28'
+/
+delete from KSAP_DT_RANGE where daterange_key='29'
+/
+delete from KSAP_DT_RANGE where daterange_key='3'
+/
+delete from KSAP_DT_RANGE where daterange_key='30'
+/
+delete from KSAP_DT_RANGE where daterange_key='31'
+/
+delete from KSAP_DT_RANGE where daterange_key='32'
+/
+delete from KSAP_DT_RANGE where daterange_key='33'
+/
+delete from KSAP_DT_RANGE where daterange_key='34'
+/
+delete from KSAP_DT_RANGE where daterange_key='4'
+/
+delete from KSAP_DT_RANGE where daterange_key='5'
+/
+delete from KSAP_DT_RANGE where daterange_key='6'
+/
+delete from KSAP_DT_RANGE where daterange_key='7'
+/
+delete from KSAP_DT_RANGE where daterange_key='8'
+/
+delete from KSAP_DT_RANGE where daterange_key='9'
+/
 
 
-delete from KSAP_ATP where id='kuali.atp.WI2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.WI2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.AY2008-2009'/
-delete from KSAP_ATP where id='kuali.atp.AY2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.AY2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.AY2011-2012'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1T1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1T2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T5'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T6'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T7'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T8'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2009Y4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1T1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1T2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T5'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T6'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T7'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T8'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2010Y4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1T1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1T2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T5'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T6'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T7'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T8'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2011Y4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1T1'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1T2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T4'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T5'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T6'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T7'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T8'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y3'/
-delete from KSAP_ATP where id='kuali.atp.CLASS2012Y4'/
-delete from KSAP_ATP where id='kuali.atp.FA2008-2009'/
-delete from KSAP_ATP where id='kuali.atp.FA2008-2009H1'/
-delete from KSAP_ATP where id='kuali.atp.FA2008-2009H2'/
-delete from KSAP_ATP where id='kuali.atp.FA2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.FA2009-2010H1'/
-delete from KSAP_ATP where id='kuali.atp.FA2009-2010H2'/
-delete from KSAP_ATP where id='kuali.atp.FA2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.FA2010-2011H1'/
-delete from KSAP_ATP where id='kuali.atp.FA2010-2011H2'/
-delete from KSAP_ATP where id='kuali.atp.FA2011-2012'/
-delete from KSAP_ATP where id='kuali.atp.FY2008-2009'/
-delete from KSAP_ATP where id='kuali.atp.FY2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.FY2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.FY2011-2012'/
-delete from KSAP_ATP where id='kuali.atp.SP2008-2009'/
-delete from KSAP_ATP where id='kuali.atp.SP2008-2009BR'/
-delete from KSAP_ATP where id='kuali.atp.SP2008-2009H1'/
-delete from KSAP_ATP where id='kuali.atp.SP2008-2009H2'/
-delete from KSAP_ATP where id='kuali.atp.SP2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.SP2009-2010BR'/
-delete from KSAP_ATP where id='kuali.atp.SP2009-2010H1'/
-delete from KSAP_ATP where id='kuali.atp.SP2009-2010H2'/
-delete from KSAP_ATP where id='kuali.atp.SP2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.SP2010-2011BR'/
-delete from KSAP_ATP where id='kuali.atp.SP2010-2011H1'/
-delete from KSAP_ATP where id='kuali.atp.SP2010-2011H2'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009EVE'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1A'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1B'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2C'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2D'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009S1'/
-delete from KSAP_ATP where id='kuali.atp.SU2008-2009S2'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010EVE'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1A'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1B'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2C'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2D'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010S1'/
-delete from KSAP_ATP where id='kuali.atp.SU2009-2010S2'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011EVE'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1A'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1B'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2C'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2D'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011S1'/
-delete from KSAP_ATP where id='kuali.atp.SU2010-2011S2'/
-delete from KSAP_ATP where id='kuali.atp.WI2008-2009'/
+delete from KSAP_ATP where id='kuali.atp.WI2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.WI2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.AY2008-2009'
+/
+delete from KSAP_ATP where id='kuali.atp.AY2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.AY2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.AY2011-2012'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1T1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y1T2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T5'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T6'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T7'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y2T8'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2009Y4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1T1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y1T2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T5'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T6'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T7'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y2T8'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2010Y4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1T1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y1T2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T5'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T6'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T7'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y2T8'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2011Y4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1T1'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y1T2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T4'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T5'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T6'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T7'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y2T8'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y3'
+/
+delete from KSAP_ATP where id='kuali.atp.CLASS2012Y4'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2008-2009'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2008-2009H1'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2008-2009H2'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2009-2010H1'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2009-2010H2'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2010-2011H1'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2010-2011H2'
+/
+delete from KSAP_ATP where id='kuali.atp.FA2011-2012'
+/
+delete from KSAP_ATP where id='kuali.atp.FY2008-2009'
+/
+delete from KSAP_ATP where id='kuali.atp.FY2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.FY2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.FY2011-2012'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2008-2009'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2008-2009BR'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2008-2009H1'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2008-2009H2'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2009-2010BR'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2009-2010H1'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2009-2010H2'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2010-2011BR'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2010-2011H1'
+/
+delete from KSAP_ATP where id='kuali.atp.SP2010-2011H2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009EVE'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1A'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G1B'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2C'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009G2D'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009S1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2008-2009S2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010EVE'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1A'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G1B'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2C'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010G2D'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010S1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2009-2010S2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011EVE'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1A'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G1B'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2C'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011G2D'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011S1'
+/
+delete from KSAP_ATP where id='kuali.atp.SU2010-2011S2'
+/
+delete from KSAP_ATP where id='kuali.atp.WI2008-2009'
+/
 
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2010-2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2011-2012'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1T1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1T2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T5'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T6'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T7'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T8'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1T1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1T2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T5'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T6'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T7'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T8'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1T1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1T2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T5'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T6'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T7'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T8'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1T1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1T2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T5'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T6'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T7'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T8'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y3'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y4'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2011-2012'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2010-2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2011-2012'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009BR'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010BR'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011BR'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011H1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011H2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009EVE'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1A'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1B'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2C'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2D'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009S1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009S2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010EVE'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1A'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1B'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2C'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2D'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010S1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010S2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011EVE'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1A'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1B'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2C'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2D'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011S1'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011S2'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2008-2009'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2009-2010'/
-delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2010-2011'/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2010-2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.AY2011-2012'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1T1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y1T2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T5'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T6'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T7'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y2T8'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2009Y4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1T1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y1T2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T5'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T6'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T7'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y2T8'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2010Y4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1T1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y1T2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T5'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T6'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T7'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y2T8'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2011Y4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1T1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y1T2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T5'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T6'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T7'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y2T8'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y3'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.CLASS2012Y4'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2008-2009H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2009-2010H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2010-2011H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FA2011-2012'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2010-2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.FY2011-2012'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009BR'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2008-2009H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010BR'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2009-2010H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011BR'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011H1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SP2010-2011H2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009EVE'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1A'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G1B'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2C'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009G2D'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009S1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2008-2009S2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010EVE'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1A'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G1B'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2C'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010G2D'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010S1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2009-2010S2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011EVE'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1A'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G1B'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2C'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011G2D'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011S1'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.SU2010-2011S2'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2008-2009'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2009-2010'
+/
+delete from KSAP_RICH_TEXT_T where id='kuali.atp.desc.WI2010-2011'
+/
 
 
 INSERT INTO KSAP_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)

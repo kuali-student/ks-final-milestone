@@ -16,10 +16,10 @@
     <profile>
       <id>oracle-db</id>
       <properties>
-        <ks.impex.show.drop.config.phase>pre-clean</ks.impex.show.drop.config.phase>
-        <ks.impex.show.dba.connection.config.phase>validate</ks.impex.show.dba.connection.config.phase>
-        <ks.impex.show.create.config.phase>initialize</ks.impex.show.create.config.phase>
-        <ks.impex.show.connection.config.phase>verify</ks.impex.show.connection.config.phase>
+        <ks.impex.show.clean.config.phase>clean</ks.impex.show.clean.config.phase>
+        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
+        <ks.impex.show.initialize.config.phase>initialize</ks.impex.show.initialize.config.phase>
+        <ks.impex.show.verify.config.phase>verify</ks.impex.show.verify.config.phase>
       </properties>
     </profile>
   </profiles>

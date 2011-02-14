@@ -24,15 +24,20 @@
     </repository>
   </repositories>
   <properties>
+    <ks.impex.sql.plugin.escapeProcessing>false</ks.impex.sql.plugin.escapeProcessing>
+    <ks.impex.sql.plugin.orderFile>ascending</ks.impex.sql.plugin.orderFile>
+    <ks.impex.sql.plugin.keepFormat>true</ks.impex.sql.plugin.keepFormat>
+    <ks.impex.sql.plugin.printResultSet>false</ks.impex.sql.plugin.printResultSet>
+    <ks.impex.sql.plugin.delimiter.type>row</ks.impex.sql.plugin.delimiter.type>
     <ks.impex.sql.plugin.force.execution>false</ks.impex.sql.plugin.force.execution>
     <ks.impex.sql.plugin.skip>false</ks.impex.sql.plugin.skip>
     <ks.impex.ant.compatibility.mode>false</ks.impex.ant.compatibility.mode>
     <ks.impex.include.version.in.comment>false</ks.impex.include.version.in.comment>
 
-    <ks.impex.show.drop.config.phase>none</ks.impex.show.drop.config.phase>
-    <ks.impex.show.create.config.phase>none</ks.impex.show.create.config.phase>
-    <ks.impex.show.connection.config.phase>none</ks.impex.show.connection.config.phase>
-    <ks.impex.show.dba.connection.config.phase>none</ks.impex.show.dba.connection.config.phase>
+    <ks.impex.show.clean.config.phase>none</ks.impex.show.clean.config.phase>
+    <ks.impex.show.initialize.config.phase>none</ks.impex.show.initialize.config.phase>
+    <ks.impex.show.verify.config.phase>none</ks.impex.show.verify.config.phase>
+    <ks.impex.show.validate.config.phase>none</ks.impex.show.validate.config.phase>
 
     <ks.impex.generate.phase>generate-resources</ks.impex.generate.phase>
     <ks.impex.generate.sql.phase>${ks.impex.generate.phase}</ks.impex.generate.sql.phase>
@@ -40,11 +45,11 @@
     <ks.impex.generate.sql.mysql.phase>${ks.impex.generate.sql.phase}</ks.impex.generate.sql.mysql.phase>
     <ks.impex.generate.morph.phase>${ks.impex.generate.phase}</ks.impex.generate.morph.phase>
     <ks.impex.generate.dtd.phase>${ks.impex.generate.phase}</ks.impex.generate.dtd.phase>
-    <ks.impex.oracle.validate.phase>none</ks.impex.oracle.validate.phase>
-    <ks.impex.oracle.dba.validate.preclean.phase>none</ks.impex.oracle.dba.validate.preclean.phase>
-    <ks.impex.oracle.drop.phase>none</ks.impex.oracle.drop.phase>
-    <ks.impex.oracle.create.phase>none</ks.impex.oracle.create.phase>
-    <ks.impex.oracle.grant.phase>none</ks.impex.oracle.grant.phase>
+    <ks.impex.validate.phase>none</ks.impex.validate.phase>
+    <ks.impex.dba.validate.preclean.phase>none</ks.impex.dba.validate.preclean.phase>
+    <ks.impex.drop.phase>none</ks.impex.drop.phase>
+    <ks.impex.create.phase>none</ks.impex.create.phase>
+    <ks.impex.grant.phase>none</ks.impex.grant.phase>
     <ks.impex.import.phase>none</ks.impex.import.phase>
     <ks.impex.export.phase>none</ks.impex.export.phase>
 
@@ -57,17 +62,78 @@
     <ks.impex.masterdb.username>KSMASTER</ks.impex.masterdb.username>
     <ks.impex.masterdb.password>KSMASTER</ks.impex.masterdb.password>
     <ks.impex.oracle.driver>oracle.jdbc.driver.OracleDriver</ks.impex.oracle.driver>
+    <ks.impex.oracle.default.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.oracle.default.url>
     <ks.impex.oracle.delimiter>/</ks.impex.oracle.delimiter>
     <ks.impex.oracle.defaultTablespace>users</ks.impex.oracle.defaultTablespace>
     <ks.impex.oracle.temporaryTablespace>temp</ks.impex.oracle.temporaryTablespace>
     <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
-    <ks.impex.oracle.validation.query>SELECT SYSDATE FROM DUAL</ks.impex.oracle.validation.query>
     <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
     <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
     <ks.impex.oracle.dba.username>SYS AS SYSDBA</ks.impex.oracle.dba.username>
     <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
-    <ks.impex.delimiter.type>row</ks.impex.delimiter.type>
 
+    <!-- Simple select query for validating connection properties -->
+    <ks.impex.oracle.sql.validate>
+      SELECT SYSDATE FROM DUAL
+    </ks.impex.oracle.sql.validate>
+
+    <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
+    <ks.impex.oracle.sql.drop>
+      BEGIN
+      EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
+      EXCEPTION WHEN OTHERS THEN
+      IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
+      RAISE;
+      END IF;
+      END;
+      /
+    </ks.impex.oracle.sql.drop>
+
+    <!-- Create an Oracle user with some sensible defaults -->
+    <ks.impex.oracle.sql.create>
+      CREATE USER ${ks.impex.username}
+      IDENTIFIED BY ${ks.impex.password}
+      DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
+      TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
+      QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
+      /
+    </ks.impex.oracle.sql.create>
+
+    <!-- Grant permissions needed for KS -->
+    <ks.impex.oracle.sql.grants>
+      GRANT CREATE PROCEDURE
+      , CREATE SEQUENCE
+      , CREATE SESSION
+      , CREATE SYNONYM
+      , CREATE TABLE
+      , CREATE TRIGGER
+      , CREATE TYPE
+      , CREATE VIEW
+      TO ${ks.impex.username}
+      /
+
+      GRANT SELECT ON pending_trans$ to ${ks.impex.username}
+      /
+
+      GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
+      /
+
+      GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
+      /
+
+      GRANT EXECUTE ON dbms_system to ${ks.impex.username}
+      /
+    </ks.impex.oracle.sql.grants>
+    <!-- This is executed just before generating XML from the master db -->
+    <ks.impex.oracle.sql.pre.export>
+    </ks.impex.oracle.sql.pre.export>
+    <!-- This is executed after materializing the master db from database control files -->
+    <ks.impex.oracle.sql.post.process>
+      UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
+      /
+      purge recyclebin
+      /
+    </ks.impex.oracle.sql.post.process>
   </properties>
   <build>
     <resources>
@@ -82,8 +148,8 @@
         <version>1.1</version>
         <executions>
           <execution>
-            <id>show-drop-database-config</id>
-            <phase>${ks.impex.show.drop.config.phase}</phase>
+            <id>drop-db-config</id>
+            <phase>${ks.impex.show.clean.config.phase}</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -91,14 +157,17 @@
               <tasks>
                 <echo>JDBC Url - ${ks.impex.url}</echo>
                 <echo>JDBC Driver - ${ks.impex.driver}</echo>
-                <echo>DBA User - ${ks.impex.dba.username}</echo>
-                <echo>Dropping '${ks.impex.username}'</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>SQL:</echo>
+                <echo>---------------------------------</echo>
+                <echo>${ks.impex.sql.drop}</echo>
+                <echo>---------------------------------</echo>
               </tasks>
             </configuration>
           </execution>
           <execution>
-            <id>show-create-database-config</id>
-            <phase>${ks.impex.show.create.config.phase}</phase>
+            <id>init-db-config</id>
+            <phase>${ks.impex.show.initialize.config.phase}</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -106,14 +175,17 @@
               <tasks>
                 <echo>JDBC Url - ${ks.impex.url}</echo>
                 <echo>JDBC Driver - ${ks.impex.driver}</echo>
-                <echo>DBA User - ${ks.impex.dba.username}</echo>
-                <echo>Creating '${ks.impex.username}'</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>SQL:</echo>
+                <echo>---------------------------------</echo>
+                <echo>${ks.impex.sql.initialize}</echo>
+                <echo>---------------------------------</echo>
               </tasks>
             </configuration>
           </execution>
           <execution>
-            <id>show-connection-properties</id>
-            <phase>${ks.impex.show.connection.config.phase}</phase>
+            <id>db-config</id>
+            <phase>${ks.impex.show.verify.config.phase}</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -121,13 +193,15 @@
               <tasks>
                 <echo>JDBC Url - ${ks.impex.url}</echo>
                 <echo>JDBC Driver - ${ks.impex.driver}</echo>
-                <echo>Validating that '${ks.impex.username}' can connect</echo>
+                <echo>Username - ${ks.impex.username}</echo>
+                <echo>Password - ${ks.impex.password}</echo>
+                <echo>SQL: '${ks.impex.sql.validate}'</echo>
               </tasks>
             </configuration>
           </execution>
           <execution>
-            <id>show-dba-connection-properties</id>
-            <phase>${ks.impex.show.dba.connection.config.phase}</phase>
+            <id>dba-config</id>
+            <phase>${ks.impex.show.validate.config.phase}</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -135,7 +209,9 @@
               <tasks>
                 <echo>JDBC Url - ${ks.impex.url}</echo>
                 <echo>JDBC Driver - ${ks.impex.driver}</echo>
-                <echo>Validating that '${ks.impex.dba.username}' can connect</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>Password - ${ks.impex.dba.password}</echo>
+                <echo>SQL: '${ks.impex.sql.validate}'</echo>
               </tasks>
             </configuration>
           </execution>
@@ -258,14 +334,19 @@
           <url>${ks.impex.url}</url>
           <driver>${ks.impex.driver}</driver>
           <delimiter>${ks.impex.delimiter}</delimiter>
-          <delimiterType>${ks.impex.delimiter.type}</delimiterType>
+          <delimiterType>${ks.impex.sql.plugin.delimiter.type}</delimiterType>
           <forceMojoExecution>${ks.impex.sql.plugin.force.execution}</forceMojoExecution>
           <skip>${ks.impex.sql.plugin.skip}</skip>
+          <keepFormat>${ks.impex.sql.plugin.keepFormat}</keepFormat>
+          <printResultSet>${ks.impex.sql.plugin.printResultSet}</printResultSet>
+          <outputFile>${ks.impex.sql.plugin.outputFile}</outputFile>
+          <orderFile>${ks.impex.sql.plugin.orderFile}</orderFile>
+          <escapeProcessing>${ks.impex.sql.plugin.escapeProcessing}</escapeProcessing>
         </configuration>
         <executions>
           <execution>
-            <id>validate-oracle-dba-connection-pre-clean</id>
-            <phase>${ks.impex.oracle.dba.validate.preclean.phase}</phase>
+            <id>validate-dba-config</id>
+            <phase>${ks.impex.dba.validate.phase}</phase>
             <goals>
               <goal>execute</goal>
             </goals>
@@ -273,29 +354,13 @@
               <username>${ks.impex.dba.username}</username>
               <password>${ks.impex.dba.password}</password>
               <sqlCommand>
-                ${ks.impex.oracle.validation.query}
-                /
+                ${ks.impex.sql.validate}
               </sqlCommand>
             </configuration>
           </execution>
           <execution>
-            <id>validate-oracle-dba-connection</id>
-            <phase>${ks.impex.oracle.dba.validate.phase}</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <username>${ks.impex.dba.username}</username>
-              <password>${ks.impex.dba.password}</password>
-              <sqlCommand>
-                ${ks.impex.oracle.validation.query}
-                /
-              </sqlCommand>
-            </configuration>
-          </execution>
-          <execution>
-            <id>validate-oracle-connection</id>
-            <phase>${ks.impex.oracle.validate.phase}</phase>
+            <id>validate-db-config</id>
+            <phase>${ks.impex.validate.phase}</phase>
             <goals>
               <goal>execute</goal>
             </goals>
@@ -303,86 +368,35 @@
               <username>${ks.impex.username}</username>
               <password>${ks.impex.password}</password>
               <sqlCommand>
-                ${ks.impex.oracle.validation.query}
-                /
+                ${ks.impex.sql.validate}
               </sqlCommand>
             </configuration>
           </execution>
           <execution>
-            <id>drop-oracle-schema</id>
-            <phase>${ks.impex.oracle.drop.phase}</phase>
+            <id>drop-db</id>
+            <phase>${ks.impex.drop.phase}</phase>
             <goals>
               <goal>execute</goal>
             </goals>
             <configuration>
               <username>${ks.impex.dba.username}</username>
               <password>${ks.impex.dba.password}</password>
-              <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
               <sqlCommand>
-                BEGIN
-                EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
-                EXCEPTION WHEN OTHERS THEN
-                IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
-                RAISE;
-                END IF;
-                END;
-                /
+                ${ks.impex.sql.drop}
               </sqlCommand>
             </configuration>
           </execution>
           <execution>
-            <id>create-oracle-schema</id>
-            <phase>${ks.impex.oracle.create.phase}</phase>
+            <id>init-db</id>
+            <phase>${ks.impex.create.phase}</phase>
             <goals>
               <goal>execute</goal>
             </goals>
             <configuration>
               <username>${ks.impex.dba.username}</username>
               <password>${ks.impex.dba.password}</password>
-              <!-- Create the user -->
               <sqlCommand>
-                CREATE USER ${ks.impex.username}
-                IDENTIFIED BY ${ks.impex.password}
-                DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
-                TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
-                QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
-                /
-              </sqlCommand>
-            </configuration>
-          </execution>
-          <execution>
-            <id>grant-oracle-permissions</id>
-            <phase>${ks.impex.oracle.grant.phase}</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <username>${ks.impex.dba.username}</username>
-              <password>${ks.impex.dba.password}</password>
-              <!-- Grant permissions as needed -->
-              <sqlCommand>
-                GRANT CREATE PROCEDURE
-                , CREATE SEQUENCE
-                , CREATE SESSION
-                , CREATE SYNONYM
-                , CREATE TABLE
-                , CREATE TRIGGER
-                , CREATE TYPE
-                , CREATE VIEW
-                TO ${ks.impex.username}
-                /
-
-                GRANT SELECT ON pending_trans$ to ${ks.impex.username}
-                /
-
-                GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
-                /
-
-                GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
-                /
-
-                GRANT EXECUTE ON dbms_system to ${ks.impex.username}
-                /
+                ${ks.impex.sql.initialize}
               </sqlCommand>
             </configuration>
           </execution>
@@ -393,8 +407,8 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <!-- Nothing for now, but the hook is here if the need arises -->
               <sqlCommand>
+                ${ks.impex.sql.pre.export}
               </sqlCommand>
             </configuration>
           </execution>
@@ -459,19 +473,24 @@
       -->
       <id>oracle-db</id>
       <properties>
-        <ks.impex.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url>
+        <ks.impex.url>${ks.impex.oracle.default.url}</ks.impex.url>
         <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
         <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
-        <ks.impex.oracle.drop.phase>clean</ks.impex.oracle.drop.phase>
-        <ks.impex.oracle.dba.validate.phase>validate</ks.impex.oracle.dba.validate.phase>
-        <ks.impex.oracle.dba.validate.preclean.phase>pre-clean</ks.impex.oracle.dba.validate.preclean.phase>
-        <ks.impex.oracle.create.phase>initialize</ks.impex.oracle.create.phase>
-        <ks.impex.oracle.grant.phase>initialize</ks.impex.oracle.grant.phase>
-        <ks.impex.oracle.validate.phase>verify</ks.impex.oracle.validate.phase>
+        <ks.impex.drop.phase>clean</ks.impex.drop.phase>
+        <ks.impex.dba.validate.phase>validate</ks.impex.dba.validate.phase>
+        <ks.impex.create.phase>initialize</ks.impex.create.phase>
+        <ks.impex.validate.phase>verify</ks.impex.validate.phase>
         <ks.impex.import.phase>install</ks.impex.import.phase>
         <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
         <ks.impex.generate.sql.mysql.phase>none</ks.impex.generate.sql.mysql.phase>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.sql.drop>${ks.impex.oracle.sql.drop}</ks.impex.sql.drop>
+        <ks.impex.sql.initialize>
+          ${ks.impex.oracle.sql.create}
+          ${ks.impex.oracle.sql.grants}
+        </ks.impex.sql.initialize>
+        <ks.impex.sql.pre.export>${ks.impex.oracle.sql.pre.export}</ks.impex.sql.pre.export>
       </properties>
     </profile>
     <profile>
@@ -484,8 +503,8 @@
         <module>ks-embedded-db</module>
       </modules>
       <properties>
-        <ks.impex.oracle.validate.phase>validate</ks.impex.oracle.validate.phase>
-        <ks.impex.show.connection.config.phase>validate</ks.impex.show.connection.config.phase>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.validate.phase>validate</ks.impex.validate.phase>
         <ks.impex.url>${ks.impex.masterdb.url}</ks.impex.url>
         <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
         <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
@@ -501,9 +520,9 @@
     </profile>
     <profile>
       <!--
-        This profile handles re-creating the "master" Oracle db from the combination of Kuali Student SQL 
-        files and Rice Impex XML files.  The true "master" for Kuali Student is the set of SQL files and
-        Rice Impex XML files checked into SCM.  The "master" database is a temporary materialization of 
+        This profile handles re-creating the "master" Oracle db from the combination of Kuali Student SQL
+        files and Rice Impex XML files. The true "master" for Kuali Student is the set of SQL files and
+        Rice Impex XML files checked into SCM. The "master" database is a temporary materialization of
         that data inside an Oracle database.
       -->
       <id>master-oracle-db</id>
@@ -516,18 +535,26 @@
         <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
 
-        <ks.impex.show.drop.config.phase>pre-clean</ks.impex.show.drop.config.phase>
-        <ks.impex.oracle.drop.phase>clean</ks.impex.oracle.drop.phase>
+        <ks.impex.show.clean.config.phase>clean</ks.impex.show.clean.config.phase>
+        <ks.impex.show.initialize.config.phase>initialize</ks.impex.show.initialize.config.phase>
+        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
 
-        <ks.impex.show.create.config.phase>initialize</ks.impex.show.create.config.phase>
-        <ks.impex.oracle.create.phase>initialize</ks.impex.oracle.create.phase>
-        <ks.impex.oracle.grant.phase>initialize</ks.impex.oracle.grant.phase>
+        <ks.impex.drop.phase>clean</ks.impex.drop.phase>
+        <ks.impex.create.phase>initialize</ks.impex.create.phase>
+        <ks.impex.dba.validate.phase>validate</ks.impex.dba.validate.phase>
+
         <ks.impex.generate.phase>none</ks.impex.generate.phase>
         <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
-        <ks.impex.execute.sql.skip>false</ks.impex.execute.sql.skip>
         <ks.impex.unpack.sql.phase>generate-resources</ks.impex.unpack.sql.phase>
         <ks.impex.build.master.db.phase>process-resources</ks.impex.build.master.db.phase>
         <ks.impex.sql.plugin.force.execution>true</ks.impex.sql.plugin.force.execution>
+        <ks.impex.sql.post.process>${ks.impex.oracle.sql.post.process}</ks.impex.sql.post.process>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.sql.drop>${ks.impex.oracle.sql.drop}</ks.impex.sql.drop>
+        <ks.impex.sql.initialize>
+          ${ks.impex.oracle.sql.create}
+          ${ks.impex.oracle.sql.grants}
+        </ks.impex.sql.initialize>
       </properties>
       <build>
         <plugins>
@@ -631,9 +658,6 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>sql-maven-plugin</artifactId>
-            <configuration>
-              <orderFile>ascending</orderFile>
-            </configuration>
             <executions>
               <execution>
                 <id>create-schema</id>
@@ -687,8 +711,6 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <!-- A few sql files don't have the delimiter "/" on it's own row -->
-                  <delimiterType>normal</delimiterType>
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
@@ -706,10 +728,7 @@
                 </goals>
                 <configuration>
                   <sqlCommand>
-                    UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
-                    /
-                    purge recyclebin
-                    /
+                    ${ks.impex.sql.post.process}
                   </sqlCommand>
                 </configuration>
               </execution>

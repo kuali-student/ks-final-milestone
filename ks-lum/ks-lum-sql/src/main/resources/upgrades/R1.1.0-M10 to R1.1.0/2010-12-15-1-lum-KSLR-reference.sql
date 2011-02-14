@@ -1,32 +1,60 @@
-delete from KSLR_RESULT_VALUE where id ='0-59%'/
-delete from KSLR_RESULT_VALUE where id ='60-69%'/
-delete from KSLR_RESULT_VALUE where id ='70-79%'/
-delete from KSLR_RESULT_VALUE where id ='80-84%'/
-delete from KSLR_RESULT_VALUE where id ='85-89%'/
-delete from KSLR_RESULT_VALUE where id ='90-94%'/
-delete from KSLR_RESULT_VALUE where id ='>95%'/
-delete from KSLR_RESULT_VALUE where id ='A'/
-delete from KSLR_RESULT_VALUE where id ='B'/
-delete from KSLR_RESULT_VALUE where id ='C'/
-delete from KSLR_RESULT_VALUE where id ='Completed'/
-delete from KSLR_RESULT_VALUE where id ='D'/
-delete from KSLR_RESULT_VALUE where id ='F'/
-delete from KSLR_RESULT_VALUE where id ='Fail'/
-delete from KSLR_RESULT_VALUE where id ='In-Progress'/
-delete from KSLR_RESULT_VALUE where id ='Not-Completed'/
-delete from KSLR_RESULT_VALUE where id ='Not-Satisfactory'/
-delete from KSLR_RESULT_VALUE where id ='Pass'/
-delete from KSLR_RESULT_VALUE where id ='Satisfactory'/
+delete from KSLR_RESULT_VALUE where id ='0-59%'
+/
+delete from KSLR_RESULT_VALUE where id ='60-69%'
+/
+delete from KSLR_RESULT_VALUE where id ='70-79%'
+/
+delete from KSLR_RESULT_VALUE where id ='80-84%'
+/
+delete from KSLR_RESULT_VALUE where id ='85-89%'
+/
+delete from KSLR_RESULT_VALUE where id ='90-94%'
+/
+delete from KSLR_RESULT_VALUE where id ='>95%'
+/
+delete from KSLR_RESULT_VALUE where id ='A'
+/
+delete from KSLR_RESULT_VALUE where id ='B'
+/
+delete from KSLR_RESULT_VALUE where id ='C'
+/
+delete from KSLR_RESULT_VALUE where id ='Completed'
+/
+delete from KSLR_RESULT_VALUE where id ='D'
+/
+delete from KSLR_RESULT_VALUE where id ='F'
+/
+delete from KSLR_RESULT_VALUE where id ='Fail'
+/
+delete from KSLR_RESULT_VALUE where id ='In-Progress'
+/
+delete from KSLR_RESULT_VALUE where id ='Not-Completed'
+/
+delete from KSLR_RESULT_VALUE where id ='Not-Satisfactory'
+/
+delete from KSLR_RESULT_VALUE where id ='Pass'
+/
+delete from KSLR_RESULT_VALUE where id ='Satisfactory'
+/
 
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-2', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '012c5d36-d066-4734-a936-2f26aae5e3d2')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-3', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '379d9c33-25b3-4c4f-8fb2-e2bf8d4b9270')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-4', null, TIMESTAMP '2010-12-10 17:21:15', null, TIMESTAMP '2010-12-10 17:21:15', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '9a7af6fa-dcf6-4022-be9a-fef33262e42d')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-6', null, TIMESTAMP '2010-12-10 17:21:21', null, TIMESTAMP '2010-12-10 17:21:21', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', 'a95ab78d-22d7-4b81-bfb7-ccdf8d121609')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1.0', null, TIMESTAMP '2010-12-10 17:21:15', null, TIMESTAMP '2010-12-10 17:21:15', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', '59837208-b2f6-4752-aa11-087054082017')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.2.0', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', 'e150c679-20f6-413d-b469-2e4346f28bf2')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.3-6', null, TIMESTAMP '2010-12-10 17:21:22', null, TIMESTAMP '2010-12-10 17:21:22', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '3be74282-51b5-4c82-978c-a315d1f9408d')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.3.0', null, TIMESTAMP '2010-12-10 17:21:11', null, TIMESTAMP '2010-12-10 17:21:11', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', 'b617e44d-82f1-44fa-a979-3ab360ab9752')/
-insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.4.0', null, TIMESTAMP '2010-12-10 17:21:14', null, TIMESTAMP '2010-12-10 17:21:14', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', '5cdc231b-978d-4a39-a012-654e69b2ffbc')/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-2', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '012c5d36-d066-4734-a936-2f26aae5e3d2')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-3', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '379d9c33-25b3-4c4f-8fb2-e2bf8d4b9270')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-4', null, TIMESTAMP '2010-12-10 17:21:15', null, TIMESTAMP '2010-12-10 17:21:15', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '9a7af6fa-dcf6-4022-be9a-fef33262e42d')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1-6', null, TIMESTAMP '2010-12-10 17:21:21', null, TIMESTAMP '2010-12-10 17:21:21', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', 'a95ab78d-22d7-4b81-bfb7-ccdf8d121609')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.1.0', null, TIMESTAMP '2010-12-10 17:21:15', null, TIMESTAMP '2010-12-10 17:21:15', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', '59837208-b2f6-4752-aa11-087054082017')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.2.0', null, TIMESTAMP '2010-12-10 17:21:16', null, TIMESTAMP '2010-12-10 17:21:16', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', 'e150c679-20f6-413d-b469-2e4346f28bf2')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.3-6', null, TIMESTAMP '2010-12-10 17:21:22', null, TIMESTAMP '2010-12-10 17:21:22', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.range', '3be74282-51b5-4c82-978c-a315d1f9408d')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.3.0', null, TIMESTAMP '2010-12-10 17:21:11', null, TIMESTAMP '2010-12-10 17:21:11', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', 'b617e44d-82f1-44fa-a979-3ab360ab9752')
+/
+insert into KSLR_RESCOMP (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, STATE, RT_DESCR_ID, TYPE, OBJ_ID) values ('kuali.creditType.credit.degree.4.0', null, TIMESTAMP '2010-12-10 17:21:14', null, TIMESTAMP '2010-12-10 17:21:14', 0, null, null, null, 'Active', null, 'kuali.resultComponentType.credit.degree.fixed', '5cdc231b-978d-4a39-a012-654e69b2ffbc')
+/
 
 
 

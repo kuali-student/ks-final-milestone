@@ -1,645 +1,1273 @@
-delete from KSOR_ORG_JN_ORG_PERS_REL_TYPE where org_id='68' and org_pers_reltn_type_id='kuali.org.PersonRelation.Head'/
+delete from KSOR_ORG_JN_ORG_PERS_REL_TYPE where org_id='68' and org_pers_reltn_type_id='kuali.org.PersonRelation.Head'
+/
 
-delete from KSOR_ORG_ORG_RELTN where id ='1'/
-delete from KSOR_ORG_ORG_RELTN where id ='10'/
-delete from KSOR_ORG_ORG_RELTN where id ='100'/
-delete from KSOR_ORG_ORG_RELTN where id ='101'/
-delete from KSOR_ORG_ORG_RELTN where id ='102'/
-delete from KSOR_ORG_ORG_RELTN where id ='103'/
-delete from KSOR_ORG_ORG_RELTN where id ='104'/
-delete from KSOR_ORG_ORG_RELTN where id ='105'/
-delete from KSOR_ORG_ORG_RELTN where id ='106'/
-delete from KSOR_ORG_ORG_RELTN where id ='107'/
-delete from KSOR_ORG_ORG_RELTN where id ='108'/
-delete from KSOR_ORG_ORG_RELTN where id ='109'/
-delete from KSOR_ORG_ORG_RELTN where id ='11'/
-delete from KSOR_ORG_ORG_RELTN where id ='110'/
-delete from KSOR_ORG_ORG_RELTN where id ='111'/
-delete from KSOR_ORG_ORG_RELTN where id ='112'/
-delete from KSOR_ORG_ORG_RELTN where id ='113'/
-delete from KSOR_ORG_ORG_RELTN where id ='114'/
-delete from KSOR_ORG_ORG_RELTN where id ='115'/
-delete from KSOR_ORG_ORG_RELTN where id ='116'/
-delete from KSOR_ORG_ORG_RELTN where id ='117'/
-delete from KSOR_ORG_ORG_RELTN where id ='118'/
-delete from KSOR_ORG_ORG_RELTN where id ='119'/
-delete from KSOR_ORG_ORG_RELTN where id ='12'/
-delete from KSOR_ORG_ORG_RELTN where id ='13'/
-delete from KSOR_ORG_ORG_RELTN where id ='14'/
-delete from KSOR_ORG_ORG_RELTN where id ='15'/
-delete from KSOR_ORG_ORG_RELTN where id ='154'/
-delete from KSOR_ORG_ORG_RELTN where id ='155'/
-delete from KSOR_ORG_ORG_RELTN where id ='156'/
-delete from KSOR_ORG_ORG_RELTN where id ='157'/
-delete from KSOR_ORG_ORG_RELTN where id ='158'/
-delete from KSOR_ORG_ORG_RELTN where id ='159'/
-delete from KSOR_ORG_ORG_RELTN where id ='16'/
-delete from KSOR_ORG_ORG_RELTN where id ='160'/
-delete from KSOR_ORG_ORG_RELTN where id ='161'/
-delete from KSOR_ORG_ORG_RELTN where id ='162'/
-delete from KSOR_ORG_ORG_RELTN where id ='163'/
-delete from KSOR_ORG_ORG_RELTN where id ='164'/
-delete from KSOR_ORG_ORG_RELTN where id ='165'/
-delete from KSOR_ORG_ORG_RELTN where id ='166'/
-delete from KSOR_ORG_ORG_RELTN where id ='167'/
-delete from KSOR_ORG_ORG_RELTN where id ='168'/
-delete from KSOR_ORG_ORG_RELTN where id ='169'/
-delete from KSOR_ORG_ORG_RELTN where id ='17'/
-delete from KSOR_ORG_ORG_RELTN where id ='170'/
-delete from KSOR_ORG_ORG_RELTN where id ='171'/
-delete from KSOR_ORG_ORG_RELTN where id ='172'/
-delete from KSOR_ORG_ORG_RELTN where id ='173'/
-delete from KSOR_ORG_ORG_RELTN where id ='174'/
-delete from KSOR_ORG_ORG_RELTN where id ='175'/
-delete from KSOR_ORG_ORG_RELTN where id ='176'/
-delete from KSOR_ORG_ORG_RELTN where id ='177'/
-delete from KSOR_ORG_ORG_RELTN where id ='178'/
-delete from KSOR_ORG_ORG_RELTN where id ='179'/
-delete from KSOR_ORG_ORG_RELTN where id ='18'/
-delete from KSOR_ORG_ORG_RELTN where id ='180'/
-delete from KSOR_ORG_ORG_RELTN where id ='181'/
-delete from KSOR_ORG_ORG_RELTN where id ='183'/
-delete from KSOR_ORG_ORG_RELTN where id ='185'/
-delete from KSOR_ORG_ORG_RELTN where id ='186'/
-delete from KSOR_ORG_ORG_RELTN where id ='187'/
-delete from KSOR_ORG_ORG_RELTN where id ='188'/
-delete from KSOR_ORG_ORG_RELTN where id ='189'/
-delete from KSOR_ORG_ORG_RELTN where id ='19'/
-delete from KSOR_ORG_ORG_RELTN where id ='190'/
-delete from KSOR_ORG_ORG_RELTN where id ='191'/
-delete from KSOR_ORG_ORG_RELTN where id ='192'/
-delete from KSOR_ORG_ORG_RELTN where id ='193'/
-delete from KSOR_ORG_ORG_RELTN where id ='194'/
-delete from KSOR_ORG_ORG_RELTN where id ='195'/
-delete from KSOR_ORG_ORG_RELTN where id ='196'/
-delete from KSOR_ORG_ORG_RELTN where id ='197'/
-delete from KSOR_ORG_ORG_RELTN where id ='198'/
-delete from KSOR_ORG_ORG_RELTN where id ='199'/
-delete from KSOR_ORG_ORG_RELTN where id ='2'/
-delete from KSOR_ORG_ORG_RELTN where id ='20'/
-delete from KSOR_ORG_ORG_RELTN where id ='200'/
-delete from KSOR_ORG_ORG_RELTN where id ='201'/
-delete from KSOR_ORG_ORG_RELTN where id ='202'/
-delete from KSOR_ORG_ORG_RELTN where id ='203'/
-delete from KSOR_ORG_ORG_RELTN where id ='204'/
-delete from KSOR_ORG_ORG_RELTN where id ='205'/
-delete from KSOR_ORG_ORG_RELTN where id ='206'/
-delete from KSOR_ORG_ORG_RELTN where id ='207'/
-delete from KSOR_ORG_ORG_RELTN where id ='208'/
-delete from KSOR_ORG_ORG_RELTN where id ='209'/
-delete from KSOR_ORG_ORG_RELTN where id ='21'/
-delete from KSOR_ORG_ORG_RELTN where id ='210'/
-delete from KSOR_ORG_ORG_RELTN where id ='211'/
-delete from KSOR_ORG_ORG_RELTN where id ='212'/
-delete from KSOR_ORG_ORG_RELTN where id ='213'/
-delete from KSOR_ORG_ORG_RELTN where id ='214'/
-delete from KSOR_ORG_ORG_RELTN where id ='215'/
-delete from KSOR_ORG_ORG_RELTN where id ='22'/
-delete from KSOR_ORG_ORG_RELTN where id ='23'/
-delete from KSOR_ORG_ORG_RELTN where id ='24'/
-delete from KSOR_ORG_ORG_RELTN where id ='25'/
-delete from KSOR_ORG_ORG_RELTN where id ='26'/
-delete from KSOR_ORG_ORG_RELTN where id ='27'/
-delete from KSOR_ORG_ORG_RELTN where id ='28'/
-delete from KSOR_ORG_ORG_RELTN where id ='29'/
-delete from KSOR_ORG_ORG_RELTN where id ='3'/
-delete from KSOR_ORG_ORG_RELTN where id ='30'/
-delete from KSOR_ORG_ORG_RELTN where id ='31'/
-delete from KSOR_ORG_ORG_RELTN where id ='32'/
-delete from KSOR_ORG_ORG_RELTN where id ='33'/
-delete from KSOR_ORG_ORG_RELTN where id ='34'/
-delete from KSOR_ORG_ORG_RELTN where id ='35'/
-delete from KSOR_ORG_ORG_RELTN where id ='36'/
-delete from KSOR_ORG_ORG_RELTN where id ='37'/
-delete from KSOR_ORG_ORG_RELTN where id ='38'/
-delete from KSOR_ORG_ORG_RELTN where id ='39'/
-delete from KSOR_ORG_ORG_RELTN where id ='4'/
-delete from KSOR_ORG_ORG_RELTN where id ='40'/
-delete from KSOR_ORG_ORG_RELTN where id ='41'/
-delete from KSOR_ORG_ORG_RELTN where id ='42'/
-delete from KSOR_ORG_ORG_RELTN where id ='43'/
-delete from KSOR_ORG_ORG_RELTN where id ='44'/
-delete from KSOR_ORG_ORG_RELTN where id ='45'/
-delete from KSOR_ORG_ORG_RELTN where id ='46'/
-delete from KSOR_ORG_ORG_RELTN where id ='47'/
-delete from KSOR_ORG_ORG_RELTN where id ='48'/
-delete from KSOR_ORG_ORG_RELTN where id ='49'/
-delete from KSOR_ORG_ORG_RELTN where id ='5'/
-delete from KSOR_ORG_ORG_RELTN where id ='50'/
-delete from KSOR_ORG_ORG_RELTN where id ='51'/
-delete from KSOR_ORG_ORG_RELTN where id ='52'/
-delete from KSOR_ORG_ORG_RELTN where id ='53'/
-delete from KSOR_ORG_ORG_RELTN where id ='54'/
-delete from KSOR_ORG_ORG_RELTN where id ='55'/
-delete from KSOR_ORG_ORG_RELTN where id ='56'/
-delete from KSOR_ORG_ORG_RELTN where id ='57'/
-delete from KSOR_ORG_ORG_RELTN where id ='58'/
-delete from KSOR_ORG_ORG_RELTN where id ='59'/
-delete from KSOR_ORG_ORG_RELTN where id ='6'/
-delete from KSOR_ORG_ORG_RELTN where id ='60'/
-delete from KSOR_ORG_ORG_RELTN where id ='61'/
-delete from KSOR_ORG_ORG_RELTN where id ='62'/
-delete from KSOR_ORG_ORG_RELTN where id ='63'/
-delete from KSOR_ORG_ORG_RELTN where id ='64'/
-delete from KSOR_ORG_ORG_RELTN where id ='65'/
-delete from KSOR_ORG_ORG_RELTN where id ='66'/
-delete from KSOR_ORG_ORG_RELTN where id ='67'/
-delete from KSOR_ORG_ORG_RELTN where id ='68'/
-delete from KSOR_ORG_ORG_RELTN where id ='69'/
-delete from KSOR_ORG_ORG_RELTN where id ='7'/
-delete from KSOR_ORG_ORG_RELTN where id ='70'/
-delete from KSOR_ORG_ORG_RELTN where id ='71'/
-delete from KSOR_ORG_ORG_RELTN where id ='72'/
-delete from KSOR_ORG_ORG_RELTN where id ='73'/
-delete from KSOR_ORG_ORG_RELTN where id ='74'/
-delete from KSOR_ORG_ORG_RELTN where id ='75'/
-delete from KSOR_ORG_ORG_RELTN where id ='76'/
-delete from KSOR_ORG_ORG_RELTN where id ='77'/
-delete from KSOR_ORG_ORG_RELTN where id ='78'/
-delete from KSOR_ORG_ORG_RELTN where id ='79'/
-delete from KSOR_ORG_ORG_RELTN where id ='8'/
-delete from KSOR_ORG_ORG_RELTN where id ='80'/
-delete from KSOR_ORG_ORG_RELTN where id ='81'/
-delete from KSOR_ORG_ORG_RELTN where id ='82'/
-delete from KSOR_ORG_ORG_RELTN where id ='83'/
-delete from KSOR_ORG_ORG_RELTN where id ='84'/
-delete from KSOR_ORG_ORG_RELTN where id ='85'/
-delete from KSOR_ORG_ORG_RELTN where id ='86'/
-delete from KSOR_ORG_ORG_RELTN where id ='87'/
-delete from KSOR_ORG_ORG_RELTN where id ='88'/
-delete from KSOR_ORG_ORG_RELTN where id ='89'/
-delete from KSOR_ORG_ORG_RELTN where id ='9'/
-delete from KSOR_ORG_ORG_RELTN where id ='90'/
-delete from KSOR_ORG_ORG_RELTN where id ='91'/
-delete from KSOR_ORG_ORG_RELTN where id ='92'/
-delete from KSOR_ORG_ORG_RELTN where id ='93'/
-delete from KSOR_ORG_ORG_RELTN where id ='94'/
-delete from KSOR_ORG_ORG_RELTN where id ='95'/
-delete from KSOR_ORG_ORG_RELTN where id ='96'/
-delete from KSOR_ORG_ORG_RELTN where id ='97'/
-delete from KSOR_ORG_ORG_RELTN where id ='98'/
-delete from KSOR_ORG_ORG_RELTN where id ='99'/
+delete from KSOR_ORG_ORG_RELTN where id ='1'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='10'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='100'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='101'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='102'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='103'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='104'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='105'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='106'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='107'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='108'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='109'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='11'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='110'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='111'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='112'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='113'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='114'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='115'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='116'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='117'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='118'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='119'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='12'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='13'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='14'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='15'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='154'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='155'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='156'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='157'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='158'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='159'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='16'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='160'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='161'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='162'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='163'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='164'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='165'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='166'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='167'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='168'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='169'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='17'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='170'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='171'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='172'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='173'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='174'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='175'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='176'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='177'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='178'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='179'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='18'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='180'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='181'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='183'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='185'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='186'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='187'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='188'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='189'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='19'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='190'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='191'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='192'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='193'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='194'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='195'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='196'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='197'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='198'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='199'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='2'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='20'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='200'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='201'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='202'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='203'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='204'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='205'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='206'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='207'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='208'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='209'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='21'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='210'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='211'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='212'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='213'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='214'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='215'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='22'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='23'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='24'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='25'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='26'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='27'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='28'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='29'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='3'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='30'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='31'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='32'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='33'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='34'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='35'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='36'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='37'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='38'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='39'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='4'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='40'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='41'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='42'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='43'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='44'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='45'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='46'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='47'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='48'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='49'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='5'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='50'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='51'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='52'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='53'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='54'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='55'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='56'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='57'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='58'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='59'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='6'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='60'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='61'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='62'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='63'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='64'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='65'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='66'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='67'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='68'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='69'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='7'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='70'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='71'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='72'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='73'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='74'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='75'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='76'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='77'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='78'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='79'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='8'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='80'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='81'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='82'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='83'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='84'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='85'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='86'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='87'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='88'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='89'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='9'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='90'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='91'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='92'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='93'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='94'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='95'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='96'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='97'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='98'
+/
+delete from KSOR_ORG_ORG_RELTN where id ='99'
+/
 
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.AdhocCommittee'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.AdvisoryGroup'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Association'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Board'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.COC'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.COC'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Center'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.College'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.College'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Committee'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.CorporateEntity'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Department'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Department'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Division'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Division'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Office'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Program'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Program'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.School'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Section'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Senate'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Senate'/
-delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.WorkGroup'/
-
-
-
-
-delete from KSOR_ORG_PERS_RELTN where id ='1'/
-delete from KSOR_ORG_PERS_RELTN where id ='10'/
-delete from KSOR_ORG_PERS_RELTN where id ='11'/
-delete from KSOR_ORG_PERS_RELTN where id ='12'/
-delete from KSOR_ORG_PERS_RELTN where id ='13'/
-delete from KSOR_ORG_PERS_RELTN where id ='14'/
-delete from KSOR_ORG_PERS_RELTN where id ='15'/
-delete from KSOR_ORG_PERS_RELTN where id ='16'/
-delete from KSOR_ORG_PERS_RELTN where id ='17'/
-delete from KSOR_ORG_PERS_RELTN where id ='18'/
-delete from KSOR_ORG_PERS_RELTN where id ='19'/
-delete from KSOR_ORG_PERS_RELTN where id ='2'/
-delete from KSOR_ORG_PERS_RELTN where id ='20'/
-delete from KSOR_ORG_PERS_RELTN where id ='3'/
-delete from KSOR_ORG_PERS_RELTN where id ='4'/
-delete from KSOR_ORG_PERS_RELTN where id ='5'/
-delete from KSOR_ORG_PERS_RELTN where id ='6'/
-delete from KSOR_ORG_PERS_RELTN where id ='7'/
-delete from KSOR_ORG_PERS_RELTN where id ='8'/
-delete from KSOR_ORG_PERS_RELTN where id ='9'/
-
-
-delete from KSOR_ORG_POS_RESTR where id ='19'/
-delete from KSOR_ORG_POS_RESTR where id ='2'/
-delete from KSOR_ORG_POS_RESTR where id ='20'/
-delete from KSOR_ORG_POS_RESTR where id ='21'/
-delete from KSOR_ORG_POS_RESTR where id ='22'/
-delete from KSOR_ORG_POS_RESTR where id ='23'/
-delete from KSOR_ORG_POS_RESTR where id ='24'/
-delete from KSOR_ORG_POS_RESTR where id ='25'/
-delete from KSOR_ORG_POS_RESTR where id ='26'/
-delete from KSOR_ORG_POS_RESTR where id ='27'/
-delete from KSOR_ORG_POS_RESTR where id ='28'/
-delete from KSOR_ORG_POS_RESTR where id ='29'/
-delete from KSOR_ORG_POS_RESTR where id ='3'/
-delete from KSOR_ORG_POS_RESTR where id ='30'/
-delete from KSOR_ORG_POS_RESTR where id ='31'/
-delete from KSOR_ORG_POS_RESTR where id ='32'/
-delete from KSOR_ORG_POS_RESTR where id ='33'/
-delete from KSOR_ORG_POS_RESTR where id ='34'/
-delete from KSOR_ORG_POS_RESTR where id ='35'/
-delete from KSOR_ORG_POS_RESTR where id ='36'/
-delete from KSOR_ORG_POS_RESTR where id ='37'/
-delete from KSOR_ORG_POS_RESTR where id ='38'/
-delete from KSOR_ORG_POS_RESTR where id ='39'/
-delete from KSOR_ORG_POS_RESTR where id ='4'/
-delete from KSOR_ORG_POS_RESTR where id ='40'/
-delete from KSOR_ORG_POS_RESTR where id ='41'/
-delete from KSOR_ORG_POS_RESTR where id ='42'/
-delete from KSOR_ORG_POS_RESTR where id ='43'/
-delete from KSOR_ORG_POS_RESTR where id ='44'/
-delete from KSOR_ORG_POS_RESTR where id ='45'/
-delete from KSOR_ORG_POS_RESTR where id ='46'/
-delete from KSOR_ORG_POS_RESTR where id ='47'/
-delete from KSOR_ORG_POS_RESTR where id ='48'/
-delete from KSOR_ORG_POS_RESTR where id ='49'/
-delete from KSOR_ORG_POS_RESTR where id ='5'/
-delete from KSOR_ORG_POS_RESTR where id ='50'/
-delete from KSOR_ORG_POS_RESTR where id ='51'/
-delete from KSOR_ORG_POS_RESTR where id ='52'/
-delete from KSOR_ORG_POS_RESTR where id ='53'/
-delete from KSOR_ORG_POS_RESTR where id ='54'/
-delete from KSOR_ORG_POS_RESTR where id ='55'/
-delete from KSOR_ORG_POS_RESTR where id ='56'/
-delete from KSOR_ORG_POS_RESTR where id ='57'/
-delete from KSOR_ORG_POS_RESTR where id ='58'/
-delete from KSOR_ORG_POS_RESTR where id ='59'/
-delete from KSOR_ORG_POS_RESTR where id ='6'/
-delete from KSOR_ORG_POS_RESTR where id ='60'/
-delete from KSOR_ORG_POS_RESTR where id ='61'/
-delete from KSOR_ORG_POS_RESTR where id ='63'/
-delete from KSOR_ORG_POS_RESTR where id ='64'/
-delete from KSOR_ORG_POS_RESTR where id ='65'/
-delete from KSOR_ORG_POS_RESTR where id ='66'/
-delete from KSOR_ORG_POS_RESTR where id ='67'/
-delete from KSOR_ORG_POS_RESTR where id ='68'/
-delete from KSOR_ORG_POS_RESTR where id ='69'/
-delete from KSOR_ORG_POS_RESTR where id ='7'/
-delete from KSOR_ORG_POS_RESTR where id ='70'/
-delete from KSOR_ORG_POS_RESTR where id ='71'/
-delete from KSOR_ORG_POS_RESTR where id ='72'/
-delete from KSOR_ORG_POS_RESTR where id ='73'/
-delete from KSOR_ORG_POS_RESTR where id ='74'/
-delete from KSOR_ORG_POS_RESTR where id ='75'/
-delete from KSOR_ORG_POS_RESTR where id ='76'/
-delete from KSOR_ORG_POS_RESTR where id ='77'/
-delete from KSOR_ORG_POS_RESTR where id ='78'/
-delete from KSOR_ORG_POS_RESTR where id ='79'/
-delete from KSOR_ORG_POS_RESTR where id ='8'/
-delete from KSOR_ORG_POS_RESTR where id ='80'/
-delete from KSOR_ORG_POS_RESTR where id ='81'/
-delete from KSOR_ORG_POS_RESTR where id ='82'/
-delete from KSOR_ORG_POS_RESTR where id ='83'/
-delete from KSOR_ORG_POS_RESTR where id ='84'/
-delete from KSOR_ORG_POS_RESTR where id ='85'/
-delete from KSOR_ORG_POS_RESTR where id ='86'/
-delete from KSOR_ORG_POS_RESTR where id ='87'/
-delete from KSOR_ORG_POS_RESTR where id ='88'/
-delete from KSOR_ORG_POS_RESTR where id ='89'/
-delete from KSOR_ORG_POS_RESTR where id ='9'/
-delete from KSOR_ORG_POS_RESTR where id ='90'/
-delete from KSOR_ORG_POS_RESTR where id ='91'/
-delete from KSOR_ORG_POS_RESTR where id ='92'/
-delete from KSOR_ORG_POS_RESTR where id ='93'/
-delete from KSOR_ORG_POS_RESTR where id ='94'/
-delete from KSOR_ORG_POS_RESTR where id ='95'/
-delete from KSOR_ORG_POS_RESTR where id ='96'/
-delete from KSOR_ORG_POS_RESTR where id ='97'/
-delete from KSOR_ORG_POS_RESTR where id ='98'/
-delete from KSOR_ORG_POS_RESTR where id ='99'/
-delete from KSOR_ORG_POS_RESTR where id ='1'/
-delete from KSOR_ORG_POS_RESTR where id ='10'/
-delete from KSOR_ORG_POS_RESTR where id ='100'/
-delete from KSOR_ORG_POS_RESTR where id ='101'/
-delete from KSOR_ORG_POS_RESTR where id ='102'/
-delete from KSOR_ORG_POS_RESTR where id ='103'/
-delete from KSOR_ORG_POS_RESTR where id ='104'/
-delete from KSOR_ORG_POS_RESTR where id ='105'/
-delete from KSOR_ORG_POS_RESTR where id ='106'/
-delete from KSOR_ORG_POS_RESTR where id ='107'/
-delete from KSOR_ORG_POS_RESTR where id ='108'/
-delete from KSOR_ORG_POS_RESTR where id ='109'/
-delete from KSOR_ORG_POS_RESTR where id ='11'/
-delete from KSOR_ORG_POS_RESTR where id ='110'/
-delete from KSOR_ORG_POS_RESTR where id ='111'/
-delete from KSOR_ORG_POS_RESTR where id ='112'/
-delete from KSOR_ORG_POS_RESTR where id ='113'/
-delete from KSOR_ORG_POS_RESTR where id ='114'/
-delete from KSOR_ORG_POS_RESTR where id ='115'/
-delete from KSOR_ORG_POS_RESTR where id ='116'/
-delete from KSOR_ORG_POS_RESTR where id ='117'/
-delete from KSOR_ORG_POS_RESTR where id ='118'/
-delete from KSOR_ORG_POS_RESTR where id ='119'/
-delete from KSOR_ORG_POS_RESTR where id ='12'/
-delete from KSOR_ORG_POS_RESTR where id ='120'/
-delete from KSOR_ORG_POS_RESTR where id ='121'/
-delete from KSOR_ORG_POS_RESTR where id ='122'/
-delete from KSOR_ORG_POS_RESTR where id ='124'/
-delete from KSOR_ORG_POS_RESTR where id ='125'/
-delete from KSOR_ORG_POS_RESTR where id ='126'/
-delete from KSOR_ORG_POS_RESTR where id ='127'/
-delete from KSOR_ORG_POS_RESTR where id ='128'/
-delete from KSOR_ORG_POS_RESTR where id ='129'/
-delete from KSOR_ORG_POS_RESTR where id ='130'/
-delete from KSOR_ORG_POS_RESTR where id ='131'/
-delete from KSOR_ORG_POS_RESTR where id ='132'/
-delete from KSOR_ORG_POS_RESTR where id ='133'/
-delete from KSOR_ORG_POS_RESTR where id ='134'/
-delete from KSOR_ORG_POS_RESTR where id ='135'/
-delete from KSOR_ORG_POS_RESTR where id ='136'/
-delete from KSOR_ORG_POS_RESTR where id ='137'/
-delete from KSOR_ORG_POS_RESTR where id ='138'/
-delete from KSOR_ORG_POS_RESTR where id ='139'/
-delete from KSOR_ORG_POS_RESTR where id ='140'/
-delete from KSOR_ORG_POS_RESTR where id ='141'/
-delete from KSOR_ORG_POS_RESTR where id ='142'/
-delete from KSOR_ORG_POS_RESTR where id ='143'/
-delete from KSOR_ORG_POS_RESTR where id ='144'/
-delete from KSOR_ORG_POS_RESTR where id ='146'/
-delete from KSOR_ORG_POS_RESTR where id ='147'/
-delete from KSOR_ORG_POS_RESTR where id ='148'/
-delete from KSOR_ORG_POS_RESTR where id ='149'/
-delete from KSOR_ORG_POS_RESTR where id ='150'/
-delete from KSOR_ORG_POS_RESTR where id ='151'/
-delete from KSOR_ORG_POS_RESTR where id ='152'/
-delete from KSOR_ORG_POS_RESTR where id ='153'/
-delete from KSOR_ORG_POS_RESTR where id ='154'/
-delete from KSOR_ORG_POS_RESTR where id ='155'/
-delete from KSOR_ORG_POS_RESTR where id ='156'/
-delete from KSOR_ORG_POS_RESTR where id ='157'/
-delete from KSOR_ORG_POS_RESTR where id ='158'/
-delete from KSOR_ORG_POS_RESTR where id ='159'/
-delete from KSOR_ORG_POS_RESTR where id ='160'/
-delete from KSOR_ORG_POS_RESTR where id ='161'/
-delete from KSOR_ORG_POS_RESTR where id ='162'/
-delete from KSOR_ORG_POS_RESTR where id ='163'/
-delete from KSOR_ORG_POS_RESTR where id ='164'/
-delete from KSOR_ORG_POS_RESTR where id ='165'/
-delete from KSOR_ORG_POS_RESTR where id ='166'/
-delete from KSOR_ORG_POS_RESTR where id ='167'/
-delete from KSOR_ORG_POS_RESTR where id ='168'/
-delete from KSOR_ORG_POS_RESTR where id ='169'/
-delete from KSOR_ORG_POS_RESTR where id ='17'/
-delete from KSOR_ORG_POS_RESTR where id ='170'/
-delete from KSOR_ORG_POS_RESTR where id ='171'/
-delete from KSOR_ORG_POS_RESTR where id ='172'/
-delete from KSOR_ORG_POS_RESTR where id ='18'/
-
-
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Administer'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Advisory'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Board'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Charter'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Collaborate'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Contain'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.CurriculumParent'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.HQ'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Supercommittee'/
-delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Supervise'/
-
-delete from KSOR_ORG_HIRCHY where id='kuali.org.hierarchy.Curriculum'/
-delete from KSOR_ORG_HIRCHY where id='kuali.org.hierarchy.Main'/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.AdhocCommittee'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.AdvisoryGroup'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Association'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Board'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.COC'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.COC'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Center'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.College'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.College'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Committee'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.CorporateEntity'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Department'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Department'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Division'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Division'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Office'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Program'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Program'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.School'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Section'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.Senate'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Curriculum' and org_type_id='kuali.org.Senate'
+/
+delete from KSOR_ORG_HIRCHY_JN_ORG_TYPE where org_hirchy_id='kuali.org.hierarchy.Main' and org_type_id='kuali.org.WorkGroup'
+/
 
 
 
-delete from KSOR_ORG where id ='169'/
-delete from KSOR_ORG where id ='16a70c2b-7ebb-4555-b574-a290ef19f02c'/
-delete from KSOR_ORG where id ='17'/
-delete from KSOR_ORG where id ='170'/
-delete from KSOR_ORG where id ='171'/
-delete from KSOR_ORG where id ='172'/
-delete from KSOR_ORG where id ='173'/
-delete from KSOR_ORG where id ='174'/
-delete from KSOR_ORG where id ='175'/
-delete from KSOR_ORG where id ='176'/
-delete from KSOR_ORG where id ='177'/
-delete from KSOR_ORG where id ='178'/
-delete from KSOR_ORG where id ='179'/
-delete from KSOR_ORG where id ='18'/
-delete from KSOR_ORG where id ='180'/
-delete from KSOR_ORG where id ='181'/
-delete from KSOR_ORG where id ='182'/
-delete from KSOR_ORG where id ='19'/
-delete from KSOR_ORG where id ='1a7c3043-2219-4414-a106-6c6ce2d3bfc7'/
-delete from KSOR_ORG where id ='1bc53d64-0f9d-41c8-b5ca-4f82e774a450'/
-delete from KSOR_ORG where id ='1d6050c2-c879-4a1b-8c58-e4492950a9cb'/
-delete from KSOR_ORG where id ='1e8cd111-bc37-491f-ba4a-5c2ce610a91b'/
-delete from KSOR_ORG where id ='2'/
-delete from KSOR_ORG where id ='20'/
-delete from KSOR_ORG where id ='21'/
-delete from KSOR_ORG where id ='22'/
-delete from KSOR_ORG where id ='23'/
-delete from KSOR_ORG where id ='237a8c53-a3a0-45d0-a29d-09a697f59a86'/
-delete from KSOR_ORG where id ='24'/
-delete from KSOR_ORG where id ='248a7e5e-45f9-4bda-8b88-e7bd2135775d'/
-delete from KSOR_ORG where id ='25'/
-delete from KSOR_ORG where id ='26'/
-delete from KSOR_ORG where id ='268980fe-dbfe-400a-b6ef-e149ca1bf794'/
-delete from KSOR_ORG where id ='27'/
-delete from KSOR_ORG where id ='28'/
-delete from KSOR_ORG where id ='29'/
-delete from KSOR_ORG where id ='3'/
-delete from KSOR_ORG where id ='30'/
-delete from KSOR_ORG where id ='31'/
-delete from KSOR_ORG where id ='32'/
-delete from KSOR_ORG where id ='33'/
-delete from KSOR_ORG where id ='33fda982-5663-4a55-9fb7-1f15a3546f24'/
-delete from KSOR_ORG where id ='34'/
-delete from KSOR_ORG where id ='35'/
-delete from KSOR_ORG where id ='36'/
-delete from KSOR_ORG where id ='37'/
-delete from KSOR_ORG where id ='38'/
-delete from KSOR_ORG where id ='39'/
-delete from KSOR_ORG where id ='4'/
-delete from KSOR_ORG where id ='40'/
-delete from KSOR_ORG where id ='41'/
-delete from KSOR_ORG where id ='42'/
-delete from KSOR_ORG where id ='43'/
-delete from KSOR_ORG where id ='44'/
-delete from KSOR_ORG where id ='440682d5-1ad8-4023-a30f-a0d7f54cb400'/
-delete from KSOR_ORG where id ='45'/
-delete from KSOR_ORG where id ='46'/
-delete from KSOR_ORG where id ='47'/
-delete from KSOR_ORG where id ='48'/
-delete from KSOR_ORG where id ='49'/
-delete from KSOR_ORG where id ='4921c765-9614-45f1-883f-e9442fc0ce8c'/
-delete from KSOR_ORG where id ='5'/
-delete from KSOR_ORG where id ='50'/
-delete from KSOR_ORG where id ='51'/
-delete from KSOR_ORG where id ='52'/
-delete from KSOR_ORG where id ='53'/
-delete from KSOR_ORG where id ='54'/
-delete from KSOR_ORG where id ='55'/
-delete from KSOR_ORG where id ='56'/
-delete from KSOR_ORG where id ='57'/
-delete from KSOR_ORG where id ='58'/
-delete from KSOR_ORG where id ='59'/
-delete from KSOR_ORG where id ='6'/
-delete from KSOR_ORG where id ='60'/
-delete from KSOR_ORG where id ='61'/
-delete from KSOR_ORG where id ='62'/
-delete from KSOR_ORG where id ='63'/
-delete from KSOR_ORG where id ='64'/
-delete from KSOR_ORG where id ='65'/
-delete from KSOR_ORG where id ='66'/
-delete from KSOR_ORG where id ='67'/
-delete from KSOR_ORG where id ='68'/
-delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-06666de45562'/
-delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-FIRE'/
-delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-IAA'/
-delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-UMD'/
-delete from KSOR_ORG where id ='084c11ce-a379-4935-a977-34a6f5292b1f'/
-delete from KSOR_ORG where id ='0c34aecc-1549-4cfe-8dda-7d9c7ec364cc'/
-delete from KSOR_ORG where id ='0d58b7fa-e91c-4517-b04e-6b926ad65d70'/
-delete from KSOR_ORG where id ='1'/
-delete from KSOR_ORG where id ='10'/
-delete from KSOR_ORG where id ='100'/
-delete from KSOR_ORG where id ='101'/
-delete from KSOR_ORG where id ='102'/
-delete from KSOR_ORG where id ='103'/
-delete from KSOR_ORG where id ='104'/
-delete from KSOR_ORG where id ='105'/
-delete from KSOR_ORG where id ='106'/
-delete from KSOR_ORG where id ='107'/
-delete from KSOR_ORG where id ='108'/
-delete from KSOR_ORG where id ='109'/
-delete from KSOR_ORG where id ='11'/
-delete from KSOR_ORG where id ='110'/
-delete from KSOR_ORG where id ='111'/
-delete from KSOR_ORG where id ='112'/
-delete from KSOR_ORG where id ='113'/
-delete from KSOR_ORG where id ='114'/
-delete from KSOR_ORG where id ='115'/
-delete from KSOR_ORG where id ='116'/
-delete from KSOR_ORG where id ='117'/
-delete from KSOR_ORG where id ='118'/
-delete from KSOR_ORG where id ='119'/
-delete from KSOR_ORG where id ='12'/
-delete from KSOR_ORG where id ='120'/
-delete from KSOR_ORG where id ='121'/
-delete from KSOR_ORG where id ='12197874-0e2f-44b6-93cd-b793442e0b58'/
-delete from KSOR_ORG where id ='122'/
-delete from KSOR_ORG where id ='123'/
-delete from KSOR_ORG where id ='124'/
-delete from KSOR_ORG where id ='125'/
-delete from KSOR_ORG where id ='126'/
-delete from KSOR_ORG where id ='127'/
-delete from KSOR_ORG where id ='128'/
-delete from KSOR_ORG where id ='129'/
-delete from KSOR_ORG where id ='13'/
-delete from KSOR_ORG where id ='130'/
-delete from KSOR_ORG where id ='13046975-f3e4-44ab-877e-6a171635906f'/
-delete from KSOR_ORG where id ='131'/
-delete from KSOR_ORG where id ='132'/
-delete from KSOR_ORG where id ='133'/
-delete from KSOR_ORG where id ='13374c81-60f3-4062-a6d5-7b1899713e11'/
-delete from KSOR_ORG where id ='134'/
-delete from KSOR_ORG where id ='135'/
-delete from KSOR_ORG where id ='136'/
-delete from KSOR_ORG where id ='137'/
-delete from KSOR_ORG where id ='138'/
-delete from KSOR_ORG where id ='139'/
-delete from KSOR_ORG where id ='14'/
-delete from KSOR_ORG where id ='140'/
-delete from KSOR_ORG where id ='141'/
-delete from KSOR_ORG where id ='142'/
-delete from KSOR_ORG where id ='143'/
-delete from KSOR_ORG where id ='144'/
-delete from KSOR_ORG where id ='145'/
-delete from KSOR_ORG where id ='146'/
-delete from KSOR_ORG where id ='147'/
-delete from KSOR_ORG where id ='148'/
-delete from KSOR_ORG where id ='149'/
-delete from KSOR_ORG where id ='15'/
-delete from KSOR_ORG where id ='150'/
-delete from KSOR_ORG where id ='151'/
-delete from KSOR_ORG where id ='152'/
-delete from KSOR_ORG where id ='153'/
-delete from KSOR_ORG where id ='154'/
-delete from KSOR_ORG where id ='155'/
-delete from KSOR_ORG where id ='156'/
-delete from KSOR_ORG where id ='157'/
-delete from KSOR_ORG where id ='158'/
-delete from KSOR_ORG where id ='159'/
-delete from KSOR_ORG where id ='16'/
-delete from KSOR_ORG where id ='160'/
-delete from KSOR_ORG where id ='161'/
-delete from KSOR_ORG where id ='162'/
-delete from KSOR_ORG where id ='163'/
-delete from KSOR_ORG where id ='164'/
-delete from KSOR_ORG where id ='165'/
-delete from KSOR_ORG where id ='166'/
-delete from KSOR_ORG where id ='167'/
-delete from KSOR_ORG where id ='168'/
-delete from KSOR_ORG where id ='68016d69-2ac0-498a-b735-09bdd353bcdc'/
-delete from KSOR_ORG where id ='69'/
-delete from KSOR_ORG where id ='6d9d8e2b-dd3e-4d00-90b9-9ee2b13ee7ad'/
-delete from KSOR_ORG where id ='7'/
-delete from KSOR_ORG where id ='70'/
-delete from KSOR_ORG where id ='71'/
-delete from KSOR_ORG where id ='72'/
-delete from KSOR_ORG where id ='73'/
-delete from KSOR_ORG where id ='74'/
-delete from KSOR_ORG where id ='742152a4-4096-45d1-adbe-d7c5932df4d1'/
-delete from KSOR_ORG where id ='75'/
-delete from KSOR_ORG where id ='76'/
-delete from KSOR_ORG where id ='77'/
-delete from KSOR_ORG where id ='78'/
-delete from KSOR_ORG where id ='79'/
-delete from KSOR_ORG where id ='79e0e1e4-0ec7-4f34-97c1-24b38967fc64'/
-delete from KSOR_ORG where id ='8'/
-delete from KSOR_ORG where id ='80'/
-delete from KSOR_ORG where id ='81'/
-delete from KSOR_ORG where id ='82'/
-delete from KSOR_ORG where id ='83'/
-delete from KSOR_ORG where id ='83db9071-6b07-475c-b7ea-3b787108bbbb'/
-delete from KSOR_ORG where id ='84'/
-delete from KSOR_ORG where id ='85'/
-delete from KSOR_ORG where id ='86'/
-delete from KSOR_ORG where id ='87'/
-delete from KSOR_ORG where id ='88'/
-delete from KSOR_ORG where id ='89'/
-delete from KSOR_ORG where id ='8d3d7c48-5845-4b4d-b98a-03274c43165a'/
-delete from KSOR_ORG where id ='9'/
-delete from KSOR_ORG where id ='90'/
-delete from KSOR_ORG where id ='91'/
-delete from KSOR_ORG where id ='92'/
-delete from KSOR_ORG where id ='93'/
-delete from KSOR_ORG where id ='94'/
-delete from KSOR_ORG where id ='95'/
-delete from KSOR_ORG where id ='96'/
-delete from KSOR_ORG where id ='97'/
-delete from KSOR_ORG where id ='98'/
-delete from KSOR_ORG where id ='99'/
-delete from KSOR_ORG where id ='ORG-ID-ACT'/
-delete from KSOR_ORG where id ='ORG-ID-CEEB'/
-delete from KSOR_ORG where id ='ORG-ID-ETS'/
-delete from KSOR_ORG where id ='a460f47e-c878-42e5-8f3c-119ecfab0b04'/
-delete from KSOR_ORG where id ='b5729f4d-d8b2-4c2f-bebf-8390e89ab52d'/
-delete from KSOR_ORG where id ='b95833a6-ba57-44e7-b93c-344cf4f55e5b'/
-delete from KSOR_ORG where id ='c3ae45d5-344c-474f-8699-82ef34773eb4'/
-delete from KSOR_ORG where id ='c9db653c-ce44-418f-9f68-f47177c533fa'/
-delete from KSOR_ORG where id ='d2d0d73e-fc79-45d8-8e68-dad241cb6755'/
-delete from KSOR_ORG where id ='d89cd34c-5458-4b1c-8b44-e200c820d1f4'/
-delete from KSOR_ORG where id ='df2e360b-8d8b-4aeb-8614-daf0d53e1f62'/
-delete from KSOR_ORG where id ='e04510db-f484-44e4-ae99-85c8060f038a'/
-delete from KSOR_ORG where id ='e27ce044-cbe5-4246-a0c9-f38821ecceaa'/
-delete from KSOR_ORG where id ='e4259587-cfc0-4921-a8fc-2202875a244f'/
-delete from KSOR_ORG where id ='e92da521-7e97-4a20-bb54-874b6cce6807'/
-delete from KSOR_ORG where id ='ed371165-7e8b-4598-ada4-3c1c1be92602'/
-delete from KSOR_ORG where id ='f50f1290-6aea-4b7f-89ac-0ea4bf8ce5e9'/
-delete from KSOR_ORG where id ='f8ca1525-8d58-4975-be25-ab512f8292f8'/
-delete from KSOR_ORG where id ='f94d7266-5d88-4d7a-a776-b0ec7cbbe041'/
+
+delete from KSOR_ORG_PERS_RELTN where id ='1'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='10'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='11'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='12'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='13'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='14'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='15'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='16'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='17'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='18'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='19'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='2'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='20'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='3'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='4'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='5'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='6'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='7'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='8'
+/
+delete from KSOR_ORG_PERS_RELTN where id ='9'
+/
+
+
+delete from KSOR_ORG_POS_RESTR where id ='19'
+/
+delete from KSOR_ORG_POS_RESTR where id ='2'
+/
+delete from KSOR_ORG_POS_RESTR where id ='20'
+/
+delete from KSOR_ORG_POS_RESTR where id ='21'
+/
+delete from KSOR_ORG_POS_RESTR where id ='22'
+/
+delete from KSOR_ORG_POS_RESTR where id ='23'
+/
+delete from KSOR_ORG_POS_RESTR where id ='24'
+/
+delete from KSOR_ORG_POS_RESTR where id ='25'
+/
+delete from KSOR_ORG_POS_RESTR where id ='26'
+/
+delete from KSOR_ORG_POS_RESTR where id ='27'
+/
+delete from KSOR_ORG_POS_RESTR where id ='28'
+/
+delete from KSOR_ORG_POS_RESTR where id ='29'
+/
+delete from KSOR_ORG_POS_RESTR where id ='3'
+/
+delete from KSOR_ORG_POS_RESTR where id ='30'
+/
+delete from KSOR_ORG_POS_RESTR where id ='31'
+/
+delete from KSOR_ORG_POS_RESTR where id ='32'
+/
+delete from KSOR_ORG_POS_RESTR where id ='33'
+/
+delete from KSOR_ORG_POS_RESTR where id ='34'
+/
+delete from KSOR_ORG_POS_RESTR where id ='35'
+/
+delete from KSOR_ORG_POS_RESTR where id ='36'
+/
+delete from KSOR_ORG_POS_RESTR where id ='37'
+/
+delete from KSOR_ORG_POS_RESTR where id ='38'
+/
+delete from KSOR_ORG_POS_RESTR where id ='39'
+/
+delete from KSOR_ORG_POS_RESTR where id ='4'
+/
+delete from KSOR_ORG_POS_RESTR where id ='40'
+/
+delete from KSOR_ORG_POS_RESTR where id ='41'
+/
+delete from KSOR_ORG_POS_RESTR where id ='42'
+/
+delete from KSOR_ORG_POS_RESTR where id ='43'
+/
+delete from KSOR_ORG_POS_RESTR where id ='44'
+/
+delete from KSOR_ORG_POS_RESTR where id ='45'
+/
+delete from KSOR_ORG_POS_RESTR where id ='46'
+/
+delete from KSOR_ORG_POS_RESTR where id ='47'
+/
+delete from KSOR_ORG_POS_RESTR where id ='48'
+/
+delete from KSOR_ORG_POS_RESTR where id ='49'
+/
+delete from KSOR_ORG_POS_RESTR where id ='5'
+/
+delete from KSOR_ORG_POS_RESTR where id ='50'
+/
+delete from KSOR_ORG_POS_RESTR where id ='51'
+/
+delete from KSOR_ORG_POS_RESTR where id ='52'
+/
+delete from KSOR_ORG_POS_RESTR where id ='53'
+/
+delete from KSOR_ORG_POS_RESTR where id ='54'
+/
+delete from KSOR_ORG_POS_RESTR where id ='55'
+/
+delete from KSOR_ORG_POS_RESTR where id ='56'
+/
+delete from KSOR_ORG_POS_RESTR where id ='57'
+/
+delete from KSOR_ORG_POS_RESTR where id ='58'
+/
+delete from KSOR_ORG_POS_RESTR where id ='59'
+/
+delete from KSOR_ORG_POS_RESTR where id ='6'
+/
+delete from KSOR_ORG_POS_RESTR where id ='60'
+/
+delete from KSOR_ORG_POS_RESTR where id ='61'
+/
+delete from KSOR_ORG_POS_RESTR where id ='63'
+/
+delete from KSOR_ORG_POS_RESTR where id ='64'
+/
+delete from KSOR_ORG_POS_RESTR where id ='65'
+/
+delete from KSOR_ORG_POS_RESTR where id ='66'
+/
+delete from KSOR_ORG_POS_RESTR where id ='67'
+/
+delete from KSOR_ORG_POS_RESTR where id ='68'
+/
+delete from KSOR_ORG_POS_RESTR where id ='69'
+/
+delete from KSOR_ORG_POS_RESTR where id ='7'
+/
+delete from KSOR_ORG_POS_RESTR where id ='70'
+/
+delete from KSOR_ORG_POS_RESTR where id ='71'
+/
+delete from KSOR_ORG_POS_RESTR where id ='72'
+/
+delete from KSOR_ORG_POS_RESTR where id ='73'
+/
+delete from KSOR_ORG_POS_RESTR where id ='74'
+/
+delete from KSOR_ORG_POS_RESTR where id ='75'
+/
+delete from KSOR_ORG_POS_RESTR where id ='76'
+/
+delete from KSOR_ORG_POS_RESTR where id ='77'
+/
+delete from KSOR_ORG_POS_RESTR where id ='78'
+/
+delete from KSOR_ORG_POS_RESTR where id ='79'
+/
+delete from KSOR_ORG_POS_RESTR where id ='8'
+/
+delete from KSOR_ORG_POS_RESTR where id ='80'
+/
+delete from KSOR_ORG_POS_RESTR where id ='81'
+/
+delete from KSOR_ORG_POS_RESTR where id ='82'
+/
+delete from KSOR_ORG_POS_RESTR where id ='83'
+/
+delete from KSOR_ORG_POS_RESTR where id ='84'
+/
+delete from KSOR_ORG_POS_RESTR where id ='85'
+/
+delete from KSOR_ORG_POS_RESTR where id ='86'
+/
+delete from KSOR_ORG_POS_RESTR where id ='87'
+/
+delete from KSOR_ORG_POS_RESTR where id ='88'
+/
+delete from KSOR_ORG_POS_RESTR where id ='89'
+/
+delete from KSOR_ORG_POS_RESTR where id ='9'
+/
+delete from KSOR_ORG_POS_RESTR where id ='90'
+/
+delete from KSOR_ORG_POS_RESTR where id ='91'
+/
+delete from KSOR_ORG_POS_RESTR where id ='92'
+/
+delete from KSOR_ORG_POS_RESTR where id ='93'
+/
+delete from KSOR_ORG_POS_RESTR where id ='94'
+/
+delete from KSOR_ORG_POS_RESTR where id ='95'
+/
+delete from KSOR_ORG_POS_RESTR where id ='96'
+/
+delete from KSOR_ORG_POS_RESTR where id ='97'
+/
+delete from KSOR_ORG_POS_RESTR where id ='98'
+/
+delete from KSOR_ORG_POS_RESTR where id ='99'
+/
+delete from KSOR_ORG_POS_RESTR where id ='1'
+/
+delete from KSOR_ORG_POS_RESTR where id ='10'
+/
+delete from KSOR_ORG_POS_RESTR where id ='100'
+/
+delete from KSOR_ORG_POS_RESTR where id ='101'
+/
+delete from KSOR_ORG_POS_RESTR where id ='102'
+/
+delete from KSOR_ORG_POS_RESTR where id ='103'
+/
+delete from KSOR_ORG_POS_RESTR where id ='104'
+/
+delete from KSOR_ORG_POS_RESTR where id ='105'
+/
+delete from KSOR_ORG_POS_RESTR where id ='106'
+/
+delete from KSOR_ORG_POS_RESTR where id ='107'
+/
+delete from KSOR_ORG_POS_RESTR where id ='108'
+/
+delete from KSOR_ORG_POS_RESTR where id ='109'
+/
+delete from KSOR_ORG_POS_RESTR where id ='11'
+/
+delete from KSOR_ORG_POS_RESTR where id ='110'
+/
+delete from KSOR_ORG_POS_RESTR where id ='111'
+/
+delete from KSOR_ORG_POS_RESTR where id ='112'
+/
+delete from KSOR_ORG_POS_RESTR where id ='113'
+/
+delete from KSOR_ORG_POS_RESTR where id ='114'
+/
+delete from KSOR_ORG_POS_RESTR where id ='115'
+/
+delete from KSOR_ORG_POS_RESTR where id ='116'
+/
+delete from KSOR_ORG_POS_RESTR where id ='117'
+/
+delete from KSOR_ORG_POS_RESTR where id ='118'
+/
+delete from KSOR_ORG_POS_RESTR where id ='119'
+/
+delete from KSOR_ORG_POS_RESTR where id ='12'
+/
+delete from KSOR_ORG_POS_RESTR where id ='120'
+/
+delete from KSOR_ORG_POS_RESTR where id ='121'
+/
+delete from KSOR_ORG_POS_RESTR where id ='122'
+/
+delete from KSOR_ORG_POS_RESTR where id ='124'
+/
+delete from KSOR_ORG_POS_RESTR where id ='125'
+/
+delete from KSOR_ORG_POS_RESTR where id ='126'
+/
+delete from KSOR_ORG_POS_RESTR where id ='127'
+/
+delete from KSOR_ORG_POS_RESTR where id ='128'
+/
+delete from KSOR_ORG_POS_RESTR where id ='129'
+/
+delete from KSOR_ORG_POS_RESTR where id ='130'
+/
+delete from KSOR_ORG_POS_RESTR where id ='131'
+/
+delete from KSOR_ORG_POS_RESTR where id ='132'
+/
+delete from KSOR_ORG_POS_RESTR where id ='133'
+/
+delete from KSOR_ORG_POS_RESTR where id ='134'
+/
+delete from KSOR_ORG_POS_RESTR where id ='135'
+/
+delete from KSOR_ORG_POS_RESTR where id ='136'
+/
+delete from KSOR_ORG_POS_RESTR where id ='137'
+/
+delete from KSOR_ORG_POS_RESTR where id ='138'
+/
+delete from KSOR_ORG_POS_RESTR where id ='139'
+/
+delete from KSOR_ORG_POS_RESTR where id ='140'
+/
+delete from KSOR_ORG_POS_RESTR where id ='141'
+/
+delete from KSOR_ORG_POS_RESTR where id ='142'
+/
+delete from KSOR_ORG_POS_RESTR where id ='143'
+/
+delete from KSOR_ORG_POS_RESTR where id ='144'
+/
+delete from KSOR_ORG_POS_RESTR where id ='146'
+/
+delete from KSOR_ORG_POS_RESTR where id ='147'
+/
+delete from KSOR_ORG_POS_RESTR where id ='148'
+/
+delete from KSOR_ORG_POS_RESTR where id ='149'
+/
+delete from KSOR_ORG_POS_RESTR where id ='150'
+/
+delete from KSOR_ORG_POS_RESTR where id ='151'
+/
+delete from KSOR_ORG_POS_RESTR where id ='152'
+/
+delete from KSOR_ORG_POS_RESTR where id ='153'
+/
+delete from KSOR_ORG_POS_RESTR where id ='154'
+/
+delete from KSOR_ORG_POS_RESTR where id ='155'
+/
+delete from KSOR_ORG_POS_RESTR where id ='156'
+/
+delete from KSOR_ORG_POS_RESTR where id ='157'
+/
+delete from KSOR_ORG_POS_RESTR where id ='158'
+/
+delete from KSOR_ORG_POS_RESTR where id ='159'
+/
+delete from KSOR_ORG_POS_RESTR where id ='160'
+/
+delete from KSOR_ORG_POS_RESTR where id ='161'
+/
+delete from KSOR_ORG_POS_RESTR where id ='162'
+/
+delete from KSOR_ORG_POS_RESTR where id ='163'
+/
+delete from KSOR_ORG_POS_RESTR where id ='164'
+/
+delete from KSOR_ORG_POS_RESTR where id ='165'
+/
+delete from KSOR_ORG_POS_RESTR where id ='166'
+/
+delete from KSOR_ORG_POS_RESTR where id ='167'
+/
+delete from KSOR_ORG_POS_RESTR where id ='168'
+/
+delete from KSOR_ORG_POS_RESTR where id ='169'
+/
+delete from KSOR_ORG_POS_RESTR where id ='17'
+/
+delete from KSOR_ORG_POS_RESTR where id ='170'
+/
+delete from KSOR_ORG_POS_RESTR where id ='171'
+/
+delete from KSOR_ORG_POS_RESTR where id ='172'
+/
+delete from KSOR_ORG_POS_RESTR where id ='18'
+/
+
+
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Administer'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Advisory'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Board'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Charter'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Collaborate'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Contain'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.CurriculumParent'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.HQ'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Supercommittee'
+/
+delete from KSOR_ORG_ORG_RELTN_TYPE where type_key='kuali.org.Supervise'
+/
+
+delete from KSOR_ORG_HIRCHY where id='kuali.org.hierarchy.Curriculum'
+/
+delete from KSOR_ORG_HIRCHY where id='kuali.org.hierarchy.Main'
+/
+
+
+
+delete from KSOR_ORG where id ='169'
+/
+delete from KSOR_ORG where id ='16a70c2b-7ebb-4555-b574-a290ef19f02c'
+/
+delete from KSOR_ORG where id ='17'
+/
+delete from KSOR_ORG where id ='170'
+/
+delete from KSOR_ORG where id ='171'
+/
+delete from KSOR_ORG where id ='172'
+/
+delete from KSOR_ORG where id ='173'
+/
+delete from KSOR_ORG where id ='174'
+/
+delete from KSOR_ORG where id ='175'
+/
+delete from KSOR_ORG where id ='176'
+/
+delete from KSOR_ORG where id ='177'
+/
+delete from KSOR_ORG where id ='178'
+/
+delete from KSOR_ORG where id ='179'
+/
+delete from KSOR_ORG where id ='18'
+/
+delete from KSOR_ORG where id ='180'
+/
+delete from KSOR_ORG where id ='181'
+/
+delete from KSOR_ORG where id ='182'
+/
+delete from KSOR_ORG where id ='19'
+/
+delete from KSOR_ORG where id ='1a7c3043-2219-4414-a106-6c6ce2d3bfc7'
+/
+delete from KSOR_ORG where id ='1bc53d64-0f9d-41c8-b5ca-4f82e774a450'
+/
+delete from KSOR_ORG where id ='1d6050c2-c879-4a1b-8c58-e4492950a9cb'
+/
+delete from KSOR_ORG where id ='1e8cd111-bc37-491f-ba4a-5c2ce610a91b'
+/
+delete from KSOR_ORG where id ='2'
+/
+delete from KSOR_ORG where id ='20'
+/
+delete from KSOR_ORG where id ='21'
+/
+delete from KSOR_ORG where id ='22'
+/
+delete from KSOR_ORG where id ='23'
+/
+delete from KSOR_ORG where id ='237a8c53-a3a0-45d0-a29d-09a697f59a86'
+/
+delete from KSOR_ORG where id ='24'
+/
+delete from KSOR_ORG where id ='248a7e5e-45f9-4bda-8b88-e7bd2135775d'
+/
+delete from KSOR_ORG where id ='25'
+/
+delete from KSOR_ORG where id ='26'
+/
+delete from KSOR_ORG where id ='268980fe-dbfe-400a-b6ef-e149ca1bf794'
+/
+delete from KSOR_ORG where id ='27'
+/
+delete from KSOR_ORG where id ='28'
+/
+delete from KSOR_ORG where id ='29'
+/
+delete from KSOR_ORG where id ='3'
+/
+delete from KSOR_ORG where id ='30'
+/
+delete from KSOR_ORG where id ='31'
+/
+delete from KSOR_ORG where id ='32'
+/
+delete from KSOR_ORG where id ='33'
+/
+delete from KSOR_ORG where id ='33fda982-5663-4a55-9fb7-1f15a3546f24'
+/
+delete from KSOR_ORG where id ='34'
+/
+delete from KSOR_ORG where id ='35'
+/
+delete from KSOR_ORG where id ='36'
+/
+delete from KSOR_ORG where id ='37'
+/
+delete from KSOR_ORG where id ='38'
+/
+delete from KSOR_ORG where id ='39'
+/
+delete from KSOR_ORG where id ='4'
+/
+delete from KSOR_ORG where id ='40'
+/
+delete from KSOR_ORG where id ='41'
+/
+delete from KSOR_ORG where id ='42'
+/
+delete from KSOR_ORG where id ='43'
+/
+delete from KSOR_ORG where id ='44'
+/
+delete from KSOR_ORG where id ='440682d5-1ad8-4023-a30f-a0d7f54cb400'
+/
+delete from KSOR_ORG where id ='45'
+/
+delete from KSOR_ORG where id ='46'
+/
+delete from KSOR_ORG where id ='47'
+/
+delete from KSOR_ORG where id ='48'
+/
+delete from KSOR_ORG where id ='49'
+/
+delete from KSOR_ORG where id ='4921c765-9614-45f1-883f-e9442fc0ce8c'
+/
+delete from KSOR_ORG where id ='5'
+/
+delete from KSOR_ORG where id ='50'
+/
+delete from KSOR_ORG where id ='51'
+/
+delete from KSOR_ORG where id ='52'
+/
+delete from KSOR_ORG where id ='53'
+/
+delete from KSOR_ORG where id ='54'
+/
+delete from KSOR_ORG where id ='55'
+/
+delete from KSOR_ORG where id ='56'
+/
+delete from KSOR_ORG where id ='57'
+/
+delete from KSOR_ORG where id ='58'
+/
+delete from KSOR_ORG where id ='59'
+/
+delete from KSOR_ORG where id ='6'
+/
+delete from KSOR_ORG where id ='60'
+/
+delete from KSOR_ORG where id ='61'
+/
+delete from KSOR_ORG where id ='62'
+/
+delete from KSOR_ORG where id ='63'
+/
+delete from KSOR_ORG where id ='64'
+/
+delete from KSOR_ORG where id ='65'
+/
+delete from KSOR_ORG where id ='66'
+/
+delete from KSOR_ORG where id ='67'
+/
+delete from KSOR_ORG where id ='68'
+/
+delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-06666de45562'
+/
+delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-FIRE'
+/
+delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-IAA'
+/
+delete from KSOR_ORG where id ='077ef01e-510f-4932-976a-UMD'
+/
+delete from KSOR_ORG where id ='084c11ce-a379-4935-a977-34a6f5292b1f'
+/
+delete from KSOR_ORG where id ='0c34aecc-1549-4cfe-8dda-7d9c7ec364cc'
+/
+delete from KSOR_ORG where id ='0d58b7fa-e91c-4517-b04e-6b926ad65d70'
+/
+delete from KSOR_ORG where id ='1'
+/
+delete from KSOR_ORG where id ='10'
+/
+delete from KSOR_ORG where id ='100'
+/
+delete from KSOR_ORG where id ='101'
+/
+delete from KSOR_ORG where id ='102'
+/
+delete from KSOR_ORG where id ='103'
+/
+delete from KSOR_ORG where id ='104'
+/
+delete from KSOR_ORG where id ='105'
+/
+delete from KSOR_ORG where id ='106'
+/
+delete from KSOR_ORG where id ='107'
+/
+delete from KSOR_ORG where id ='108'
+/
+delete from KSOR_ORG where id ='109'
+/
+delete from KSOR_ORG where id ='11'
+/
+delete from KSOR_ORG where id ='110'
+/
+delete from KSOR_ORG where id ='111'
+/
+delete from KSOR_ORG where id ='112'
+/
+delete from KSOR_ORG where id ='113'
+/
+delete from KSOR_ORG where id ='114'
+/
+delete from KSOR_ORG where id ='115'
+/
+delete from KSOR_ORG where id ='116'
+/
+delete from KSOR_ORG where id ='117'
+/
+delete from KSOR_ORG where id ='118'
+/
+delete from KSOR_ORG where id ='119'
+/
+delete from KSOR_ORG where id ='12'
+/
+delete from KSOR_ORG where id ='120'
+/
+delete from KSOR_ORG where id ='121'
+/
+delete from KSOR_ORG where id ='12197874-0e2f-44b6-93cd-b793442e0b58'
+/
+delete from KSOR_ORG where id ='122'
+/
+delete from KSOR_ORG where id ='123'
+/
+delete from KSOR_ORG where id ='124'
+/
+delete from KSOR_ORG where id ='125'
+/
+delete from KSOR_ORG where id ='126'
+/
+delete from KSOR_ORG where id ='127'
+/
+delete from KSOR_ORG where id ='128'
+/
+delete from KSOR_ORG where id ='129'
+/
+delete from KSOR_ORG where id ='13'
+/
+delete from KSOR_ORG where id ='130'
+/
+delete from KSOR_ORG where id ='13046975-f3e4-44ab-877e-6a171635906f'
+/
+delete from KSOR_ORG where id ='131'
+/
+delete from KSOR_ORG where id ='132'
+/
+delete from KSOR_ORG where id ='133'
+/
+delete from KSOR_ORG where id ='13374c81-60f3-4062-a6d5-7b1899713e11'
+/
+delete from KSOR_ORG where id ='134'
+/
+delete from KSOR_ORG where id ='135'
+/
+delete from KSOR_ORG where id ='136'
+/
+delete from KSOR_ORG where id ='137'
+/
+delete from KSOR_ORG where id ='138'
+/
+delete from KSOR_ORG where id ='139'
+/
+delete from KSOR_ORG where id ='14'
+/
+delete from KSOR_ORG where id ='140'
+/
+delete from KSOR_ORG where id ='141'
+/
+delete from KSOR_ORG where id ='142'
+/
+delete from KSOR_ORG where id ='143'
+/
+delete from KSOR_ORG where id ='144'
+/
+delete from KSOR_ORG where id ='145'
+/
+delete from KSOR_ORG where id ='146'
+/
+delete from KSOR_ORG where id ='147'
+/
+delete from KSOR_ORG where id ='148'
+/
+delete from KSOR_ORG where id ='149'
+/
+delete from KSOR_ORG where id ='15'
+/
+delete from KSOR_ORG where id ='150'
+/
+delete from KSOR_ORG where id ='151'
+/
+delete from KSOR_ORG where id ='152'
+/
+delete from KSOR_ORG where id ='153'
+/
+delete from KSOR_ORG where id ='154'
+/
+delete from KSOR_ORG where id ='155'
+/
+delete from KSOR_ORG where id ='156'
+/
+delete from KSOR_ORG where id ='157'
+/
+delete from KSOR_ORG where id ='158'
+/
+delete from KSOR_ORG where id ='159'
+/
+delete from KSOR_ORG where id ='16'
+/
+delete from KSOR_ORG where id ='160'
+/
+delete from KSOR_ORG where id ='161'
+/
+delete from KSOR_ORG where id ='162'
+/
+delete from KSOR_ORG where id ='163'
+/
+delete from KSOR_ORG where id ='164'
+/
+delete from KSOR_ORG where id ='165'
+/
+delete from KSOR_ORG where id ='166'
+/
+delete from KSOR_ORG where id ='167'
+/
+delete from KSOR_ORG where id ='168'
+/
+delete from KSOR_ORG where id ='68016d69-2ac0-498a-b735-09bdd353bcdc'
+/
+delete from KSOR_ORG where id ='69'
+/
+delete from KSOR_ORG where id ='6d9d8e2b-dd3e-4d00-90b9-9ee2b13ee7ad'
+/
+delete from KSOR_ORG where id ='7'
+/
+delete from KSOR_ORG where id ='70'
+/
+delete from KSOR_ORG where id ='71'
+/
+delete from KSOR_ORG where id ='72'
+/
+delete from KSOR_ORG where id ='73'
+/
+delete from KSOR_ORG where id ='74'
+/
+delete from KSOR_ORG where id ='742152a4-4096-45d1-adbe-d7c5932df4d1'
+/
+delete from KSOR_ORG where id ='75'
+/
+delete from KSOR_ORG where id ='76'
+/
+delete from KSOR_ORG where id ='77'
+/
+delete from KSOR_ORG where id ='78'
+/
+delete from KSOR_ORG where id ='79'
+/
+delete from KSOR_ORG where id ='79e0e1e4-0ec7-4f34-97c1-24b38967fc64'
+/
+delete from KSOR_ORG where id ='8'
+/
+delete from KSOR_ORG where id ='80'
+/
+delete from KSOR_ORG where id ='81'
+/
+delete from KSOR_ORG where id ='82'
+/
+delete from KSOR_ORG where id ='83'
+/
+delete from KSOR_ORG where id ='83db9071-6b07-475c-b7ea-3b787108bbbb'
+/
+delete from KSOR_ORG where id ='84'
+/
+delete from KSOR_ORG where id ='85'
+/
+delete from KSOR_ORG where id ='86'
+/
+delete from KSOR_ORG where id ='87'
+/
+delete from KSOR_ORG where id ='88'
+/
+delete from KSOR_ORG where id ='89'
+/
+delete from KSOR_ORG where id ='8d3d7c48-5845-4b4d-b98a-03274c43165a'
+/
+delete from KSOR_ORG where id ='9'
+/
+delete from KSOR_ORG where id ='90'
+/
+delete from KSOR_ORG where id ='91'
+/
+delete from KSOR_ORG where id ='92'
+/
+delete from KSOR_ORG where id ='93'
+/
+delete from KSOR_ORG where id ='94'
+/
+delete from KSOR_ORG where id ='95'
+/
+delete from KSOR_ORG where id ='96'
+/
+delete from KSOR_ORG where id ='97'
+/
+delete from KSOR_ORG where id ='98'
+/
+delete from KSOR_ORG where id ='99'
+/
+delete from KSOR_ORG where id ='ORG-ID-ACT'
+/
+delete from KSOR_ORG where id ='ORG-ID-CEEB'
+/
+delete from KSOR_ORG where id ='ORG-ID-ETS'
+/
+delete from KSOR_ORG where id ='a460f47e-c878-42e5-8f3c-119ecfab0b04'
+/
+delete from KSOR_ORG where id ='b5729f4d-d8b2-4c2f-bebf-8390e89ab52d'
+/
+delete from KSOR_ORG where id ='b95833a6-ba57-44e7-b93c-344cf4f55e5b'
+/
+delete from KSOR_ORG where id ='c3ae45d5-344c-474f-8699-82ef34773eb4'
+/
+delete from KSOR_ORG where id ='c9db653c-ce44-418f-9f68-f47177c533fa'
+/
+delete from KSOR_ORG where id ='d2d0d73e-fc79-45d8-8e68-dad241cb6755'
+/
+delete from KSOR_ORG where id ='d89cd34c-5458-4b1c-8b44-e200c820d1f4'
+/
+delete from KSOR_ORG where id ='df2e360b-8d8b-4aeb-8614-daf0d53e1f62'
+/
+delete from KSOR_ORG where id ='e04510db-f484-44e4-ae99-85c8060f038a'
+/
+delete from KSOR_ORG where id ='e27ce044-cbe5-4246-a0c9-f38821ecceaa'
+/
+delete from KSOR_ORG where id ='e4259587-cfc0-4921-a8fc-2202875a244f'
+/
+delete from KSOR_ORG where id ='e92da521-7e97-4a20-bb54-874b6cce6807'
+/
+delete from KSOR_ORG where id ='ed371165-7e8b-4598-ada4-3c1c1be92602'
+/
+delete from KSOR_ORG where id ='f50f1290-6aea-4b7f-89ac-0ea4bf8ce5e9'
+/
+delete from KSOR_ORG where id ='f8ca1525-8d58-4975-be25-ab512f8292f8'
+/
+delete from KSOR_ORG where id ='f94d7266-5d88-4d7a-a776-b0ec7cbbe041'
+/
 
 
 

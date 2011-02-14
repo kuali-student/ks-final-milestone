@@ -1,11 +1,15 @@
 
-delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'/
+delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'
+/
 
-delete from KSLO_LO where id='4beee444-ac19-4063-85e3-61df2662ceab'/
+delete from KSLO_LO where id='4beee444-ac19-4063-85e3-61df2662ceab'
+/
 
-delete from KSLO_RICH_TEXT_T where id='969f654a-16d0-4bf6-9255-dded24c6b8bc'/
+delete from KSLO_RICH_TEXT_T where id='969f654a-16d0-4bf6-9255-dded24c6b8bc'
+/
 
-delete from KSLO_LO_CATEGORY where id ='b76e8153-f04b-4ce5-a560-a90d93aa07a8'/
+delete from KSLO_LO_CATEGORY where id ='b76e8153-f04b-4ce5-a560-a90d93aa07a8'
+/
 
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students should use these technologies to support written and oral presentations in Geography.','00e4c757-4e21-4d7b-bba8-a8f4fa83487c','af3b1745-eab7-48b8-8540-17ad80c6e9d0','Students should use these technologies to support written and oral presentations in Geography.',0)
