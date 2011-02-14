@@ -261,6 +261,3 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (REQ_COM_TYPE_ID,STMT_TYPE_ID)
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (REQ_COM_TYPE_ID,STMT_TYPE_ID)
   VALUES ('kuali.reqComponent.type.course.courseset.gpa.min','kuali.statement.type.course.academicReadiness.prereq')
 /
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (REQ_COM_TYPE_ID,STMT_TYPE_ID)
-  VALUES ('kuali.reqComponent.type.course.courseset.enrolled.all', 'kuali.statement.type.course.academicReadiness.coreq')
-/
