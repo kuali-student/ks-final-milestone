@@ -282,8 +282,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         rulePreviewWidget.addProgReqDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogTitle(),
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogMsg());
+                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogTitle(),
+                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogMsg());
 
                 dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
