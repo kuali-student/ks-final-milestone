@@ -133,7 +133,7 @@ public class RulePreviewWidget extends FlowPanel {
 
         newSubRuleWidget.addDeleteButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                final ConfirmationDialog dialog = new ConfirmationDialog("Delete Requirement", "Are you sure you want to delete this requirement?"); //TODO app context for labels
+                final ConfirmationDialog dialog = new ConfirmationDialog("Delete Rule", "Are you sure you want to delete this rule?"); //TODO app context for labels
                 dialog.getConfirmButton().addClickHandler(new ClickHandler(){
                     @Override
                     public void onClick(ClickEvent event) {
