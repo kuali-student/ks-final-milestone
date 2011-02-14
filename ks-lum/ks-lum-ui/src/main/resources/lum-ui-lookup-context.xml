@@ -2969,9 +2969,42 @@
   <property name="path" value="majorDisciplineInfo.accreditingAgencies.orgId" />
  </bean>
 
-
  <bean id="credentialProgramInfo.institution.orgId" parent="credentialInstitution-lookup-binding-parent">
   <property name="path" value="credentialProgramInfo.institution.orgId" />
+ </bean>
+
+ <bean id="majorDisciplineInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.learningObjectives.loInfo.desc" />
+ </bean>
+
+ <bean id="credentialProgramInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.learningObjectives.loInfo.desc" /> 
+ </bean>
+
+ <bean id="programVariationInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
+  <property name="path" value="programVariationInfo.learningObjectives.loInfo.desc" /> 
+ </bean>
+
+ <bean id="coreProgramInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
+  <property name="path" value="coreProgramInfo.learningObjectives.loInfo.desc" /> 
+ </bean>
+
+ <bean id="programLo-lookup-binding-parent" parent="uilookupconfig-parent" abstract="true">
+  <property name="initialLookup" >
+   <bean class="org.kuali.student.core.assembly.data.UILookupData">
+    <property name="name" value="Search for Learning Objectives" />
+    <property name="desc" value="Search for Learning Objectives" />
+    <property name="widget" value="NO_WIDGET"/>
+   </bean>
+  </property>
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.advanced.learningObjectives.byLoDescription" />
+    <ref bean="kuali.lu.lookup.advanced.learningObjectives.byLoCategory" />
+    <ref bean="kuali.lu.lookup.advanced.learningObjectives.byCourse" />
+    <ref bean="kuali.lu.lookup.advanced.learningObjectives.byProgram" />   
+   </list>
+  </property>
  </bean>
 
  <bean id="accreditingAgencies-lookup-binding-parent" parent="uilookupconfig-parent"
