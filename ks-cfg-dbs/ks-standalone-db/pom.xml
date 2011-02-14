@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-db</artifactId>
+    <artifactId>ks-cfg-dbs</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>ks-standalone-db</artifactId>
