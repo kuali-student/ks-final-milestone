@@ -631,7 +631,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						ResultComponentInfo resultComponent = new ResultComponentInfo();
 						resultComponent.setId(id);
 						resultComponent.setType(type);
-						resultComponent.setState ("Active");
+						//resultComponent.setState ("Active");
+						resultComponent.setState (course.getState());
 						resultComponent.setResultValues(resultValues);
 						resultComponent.setAttributes(attributes);
 						BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(null);
@@ -791,6 +792,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // the lo does not exist, so create
                 // Assemble and add the lo
 		    	loDisplay.getLoInfo().setId(null);
+		    	loDisplay.getLoInfo().setState(course.getState());
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE);
                 results.add(loNode);
@@ -812,6 +814,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             } else if (NodeOperation.UPDATE == operation
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
 				// If the clu already has this lo, then just update the lo
+            	loDisplay.getLoInfo().setState(course.getState());
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                 		.disassemble(loDisplay, NodeOperation.UPDATE);
 				results.add(loNode);
@@ -1156,12 +1159,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				jointNode.setBusinessDTORef(joint);
 				jointNode.setNodeData(relation);
 				jointNode.setOperation(NodeOperation.UPDATE);
+				jointNode.getNodeData().setState(course.getState());
 				results.add(jointNode);
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the joint does not exist, so create cluclurelation
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = courseJointAssembler
 						.disassemble(joint, NodeOperation.CREATE);
 				jointNode.getNodeData().setCluId(nodeId);
+				jointNode.getNodeData().setState(course.getState());
 				results.add(jointNode);
 			}
 		}
