@@ -477,7 +477,7 @@
         <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
         <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
         <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
-        <ks.impex.drop.phase>clean</ks.impex.drop.phase>
+        <ks.impex.drop.phase>initialize</ks.impex.drop.phase>
         <ks.impex.dba.validate.phase>validate</ks.impex.dba.validate.phase>
         <ks.impex.create.phase>initialize</ks.impex.create.phase>
         <ks.impex.validate.phase>verify</ks.impex.validate.phase>
