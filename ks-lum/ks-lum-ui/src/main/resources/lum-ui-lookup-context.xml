@@ -2982,7 +2982,7 @@
  </bean>
 
  <bean id="programVariationInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
-  <property name="path" value="programVariationInfo.learningObjectives.loInfo.desc" /> 
+  <property name="path" value="majorDisciplineInfo.variations.learningObjectives.loInfo.desc" /> 
  </bean>
 
  <bean id="coreProgramInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
