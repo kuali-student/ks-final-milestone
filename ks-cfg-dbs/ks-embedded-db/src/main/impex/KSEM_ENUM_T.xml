@@ -15,7 +15,7 @@
         OBJ_ID="1C36B6742FF1437188CA6F29574FD344" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="ATP Intensity" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity" NAME="ATP Intensity"
-        OBJ_ID="9C0D3BE834D035F0E040C60AF05B5D58" VER_NBR="0"/>
+        OBJ_ID="9C402DFE9134F2EFE040C60AF05B7A76" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="Program Level" EFF_DT="20000101000000"
         ENUM_KEY="kuali.enum.lu.program.level" NAME="Program Level"
         OBJ_ID="99E334E9C3A749519C5563991834E56C" VER_NBR="0"/>
@@ -42,7 +42,7 @@
         OBJ_ID="89EE4FF0E05B4ECEA56729963979EAF5" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="Final Exam Status" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.finalExam.status"
-        NAME="Final Exam&#xa; Status"
+        NAME="Final Exam &#xa;Status"
         OBJ_ID="063DFB9E884C4190B24EADC2EA608B52" VER_NBR="0"/>
     <KSEM_ENUM_T DESCR="Subject Area Enumeration"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
