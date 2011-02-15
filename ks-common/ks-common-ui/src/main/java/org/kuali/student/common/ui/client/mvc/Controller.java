@@ -51,7 +51,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		}
 	};
 	
-	private final String controllerId;
     protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
@@ -61,8 +60,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
-    protected Controller(final String controllerId) {
-        this.controllerId = controllerId;
+    protected Controller() {
     }
     
     /**

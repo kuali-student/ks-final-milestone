@@ -130,7 +130,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     final CourseRequirementsDataModel reqDataModel;
 
     public CourseProposalController(){
-        super(CourseProposalController.class.getName());
+        super();
         reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");

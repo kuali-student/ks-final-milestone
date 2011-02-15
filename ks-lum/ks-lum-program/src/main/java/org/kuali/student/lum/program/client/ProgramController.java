@@ -72,7 +72,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @param programModel
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name);
+        super();
         programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
