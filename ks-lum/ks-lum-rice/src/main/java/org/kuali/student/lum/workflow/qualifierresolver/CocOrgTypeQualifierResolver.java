@@ -83,7 +83,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
     public static final String KUALI_ORG_COC = "kuali.org.COC";
 
     // below string MUST match
-    // org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    // org.kuali.student.common.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME = "info";
 
     /**

@@ -17,7 +17,7 @@ package org.kuali.student.core.exceptions;
 
 import javax.xml.ws.WebFault;
 
-@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.CircularRelationshipExceptionBean")
+@WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.CircularRelationshipExceptionBean")
 public class CircularRelationshipException extends Exception {
 
 	private static final long serialVersionUID = -6652661226236017610L;

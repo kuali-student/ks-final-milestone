@@ -32,9 +32,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
-
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSOR_ORG_ORG_RELTN")
 @NamedQueries( {

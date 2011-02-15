@@ -17,13 +17,14 @@ package org.kuali.student.common.ui.client.configurable.mvc.views;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
+
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.ModelDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

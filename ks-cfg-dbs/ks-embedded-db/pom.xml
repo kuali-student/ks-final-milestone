@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-db</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <artifactId>ks-cfg-dbs</artifactId>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <artifactId>ks-embedded-db</artifactId>
   <name>KS Embedded Impex</name>
@@ -14,23 +14,22 @@
   </properties>
   <profiles>
     <profile>
-      <id>export-impex</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>export-impex</id>
-                <configuration>
-                  <includes>^KS.*,^KR.*</includes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <id>generate-xml</id>
+      <properties>
+        <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
+        <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
+        <ks.impex.export.tables.pattern>^KS.*,^KR.*</ks.impex.export.tables.pattern>
+        <ks.impex.pre.export.phase>none</ks.impex.pre.export.phase>
+      </properties>
+    </profile>
+    <profile>
+      <id>oracle-db</id>
+      <properties>
+        <ks.impex.show.clean.config.phase>initialize</ks.impex.show.clean.config.phase>
+        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
+        <ks.impex.show.initialize.config.phase>initialize</ks.impex.show.initialize.config.phase>
+        <ks.impex.show.verify.config.phase>verify</ks.impex.show.verify.config.phase>
+      </properties>
     </profile>
   </profiles>
 </project>

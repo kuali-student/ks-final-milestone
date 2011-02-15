@@ -17,7 +17,7 @@ package org.kuali.student.core.exceptions;
 
 import javax.xml.ws.WebFault;
 
-@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DependentObjectsExistExceptionBean")
+@WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.DependentObjectsExistExceptionBean")
 public class DependentObjectsExistException extends Exception {
 	/**
 	 *

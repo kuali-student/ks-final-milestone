@@ -18,6 +18,7 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -40,7 +41,6 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;

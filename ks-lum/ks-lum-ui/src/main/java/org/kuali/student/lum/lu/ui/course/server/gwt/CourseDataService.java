@@ -18,8 +18,8 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;

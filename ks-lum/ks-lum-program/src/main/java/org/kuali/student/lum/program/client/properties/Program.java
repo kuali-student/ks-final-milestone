@@ -2,7 +2,7 @@ package org.kuali.student.lum.program.client.properties;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	D:/programming/projects/exadel_projects/berkeley/kuali/trunk/ks-lum/ks-lum-program/src/main/java/org/kuali/student/lum/program/client/properties/program.properties'.
+ * 	C:/Users/gboushey/workspace/trunk/ks-lum/ks-lum-program/src/main/java/org/kuali/student/lum/program/client/properties/program.properties'.
  */
 public interface Program extends com.google.gwt.i18n.client.Messages {
   
@@ -797,6 +797,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Add {0}")
   @Key("programRequirements.summaryViewPageAddRule")
   String programRequirements_summaryViewPageAddRule(String arg0);
+
+  /**
+   * Translated "Are you sure you want to delete this requirement?".
+   * 
+   * @return translated "Are you sure you want to delete this requirement?"
+   */
+  @DefaultMessage("Are you sure you want to delete this requirement?")
+  @Key("programRequirements.summaryViewPageDeleteRequirementDialogMsg")
+  String programRequirements_summaryViewPageDeleteRequirementDialogMsg();
+
+  /**
+   * Translated "Delete Requirement".
+   * 
+   * @return translated "Delete Requirement"
+   */
+  @DefaultMessage("Delete Requirement")
+  @Key("programRequirements.summaryViewPageDeleteRequirementDialogTitle")
+  String programRequirements_summaryViewPageDeleteRequirementDialogTitle();
 
   /**
    * Translated "Are you sure you want to delete this rule?".

@@ -45,7 +45,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected static final String DOCUMENT_CONTENT_XML_ORG_ID_KEY = "organizationIdDocumentContentKey";
 
     // below string MUST match
-    // org.kuali.student.core.assembly.transform.ProposalWorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    // org.kuali.student.common.assembly.transform.ProposalWorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME = "info";
 
     public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";

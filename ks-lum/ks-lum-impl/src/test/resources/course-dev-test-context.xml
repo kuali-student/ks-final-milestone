@@ -26,7 +26,7 @@
 	</bean>
     
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
 
 	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSLumTestContext"/>	

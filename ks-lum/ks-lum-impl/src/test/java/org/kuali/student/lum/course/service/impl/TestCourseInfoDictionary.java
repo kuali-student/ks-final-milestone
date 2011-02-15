@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.common.test.mock.MockProxyFactoryBean;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
@@ -22,7 +23,6 @@ import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;

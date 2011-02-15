@@ -32,7 +32,7 @@
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 
 	<!-- Service Clients -->
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -176,7 +176,7 @@
 		<!--<property name="permissionService" ref="permissionClient" />-->
 	</bean>
 
-	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+	<bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
 	</bean>
 
@@ -203,7 +203,7 @@
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
-	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
+	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.core.document.ui.server.UploadStatusRpcGwtServlet">
 	</bean>
 
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">

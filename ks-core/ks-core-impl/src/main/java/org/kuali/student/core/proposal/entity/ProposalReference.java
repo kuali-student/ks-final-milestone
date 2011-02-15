@@ -28,7 +28,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.common.entity.BaseEntity;
 
 /**
  * Join table between Proposal and what it references

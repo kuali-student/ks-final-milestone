@@ -18,11 +18,11 @@ package org.kuali.student.lum.lu.ui.tools.server.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;

@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -207,6 +207,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
                         .disassemble(activity, NodeOperation.CREATE);
+                activityNode.getNodeData().setState(format.getState());
                 results.add(activityNode);
 
                 // Create the relationship and add it as well
@@ -232,6 +233,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				// activity
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
 						.disassemble(activity, NodeOperation.UPDATE);
+				activityNode.getNodeData().setState(format.getState());
 				results.add(activityNode);
 
 				// remove this entry from the map so we can tell what needs to

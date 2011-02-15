@@ -16,10 +16,10 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;

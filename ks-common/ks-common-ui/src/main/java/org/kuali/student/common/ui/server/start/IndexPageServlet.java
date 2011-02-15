@@ -206,7 +206,7 @@ public class IndexPageServlet extends HttpServlet {
 						+ "\n"
 						+ "	<span class=\"ExampleStyledList\">\n"
 						+ "	<ul> \n"
-						+ "		<li><a href=\"org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp\">Organizations</a> </li> \n"
+						+ "		<li><a href=\"org.kuali.student.common.organization.ui.OrgEntry/OrgEntry.jsp\">Organizations</a> </li> \n"
 						+ "		<li><a href=\"org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp\">Curriculum Management</a> </li> \n"
 						+ "		<li><a href=\""
 						+ riceUrl

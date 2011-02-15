@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
-  <artifactId>ks-db</artifactId>
+  <artifactId>ks-cfg-dbs</artifactId>
   <packaging>pom</packaging>
   <name>KS Impex</name>
   <description>Kuali Student Impex</description>
@@ -24,57 +24,116 @@
     </repository>
   </repositories>
   <properties>
-    <kuali.site.download.path>org/kuali/student/db</kuali.site.download.path>
-    <ks.impex.sql.phase>generate-sources</ks.impex.sql.phase>
-    <ks.impex.oracle.phase>${ks.impex.sql.phase}</ks.impex.oracle.phase>
-    <ks.impex.mysql.phase>${ks.impex.sql.phase}</ks.impex.mysql.phase>
-    <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
-    <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
-    <ks.masterdb.username>KSMASTER</ks.masterdb.username>
-    <ks.masterdb.password>KSMASTER</ks.masterdb.password>
-    <ks.masterdb.dba.username>KSDBA</ks.masterdb.dba.username>
-    <ks.masterdb.dba.password>KSDBA</ks.masterdb.dba.password>
+    <ks.impex.sql.plugin.escapeProcessing>false</ks.impex.sql.plugin.escapeProcessing>
+    <ks.impex.sql.plugin.orderFile>ascending</ks.impex.sql.plugin.orderFile>
+    <ks.impex.sql.plugin.keepFormat>true</ks.impex.sql.plugin.keepFormat>
+    <ks.impex.sql.plugin.printResultSet>false</ks.impex.sql.plugin.printResultSet>
+    <ks.impex.sql.plugin.delimiter.type>row</ks.impex.sql.plugin.delimiter.type>
+    <ks.impex.sql.plugin.force.execution>false</ks.impex.sql.plugin.force.execution>
+    <ks.impex.sql.plugin.skip>false</ks.impex.sql.plugin.skip>
+    <ks.impex.ant.compatibility.mode>false</ks.impex.ant.compatibility.mode>
+    <ks.impex.include.version.in.comment>false</ks.impex.include.version.in.comment>
 
-    <ks.impex.jdbc.driver.oracle>oracle.jdbc.driver.OracleDriver</ks.impex.jdbc.driver.oracle>
+    <ks.impex.show.clean.config.phase>none</ks.impex.show.clean.config.phase>
+    <ks.impex.show.initialize.config.phase>none</ks.impex.show.initialize.config.phase>
+    <ks.impex.show.verify.config.phase>none</ks.impex.show.verify.config.phase>
+    <ks.impex.show.validate.config.phase>none</ks.impex.show.validate.config.phase>
 
-    <!-- Oracle JDBC url's don't contain a database name -->
-    <ks.impex.url.oracle>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url.oracle>
-    <ks.impex.dba.username.oracle>KSDBA</ks.impex.dba.username.oracle>
-    <ks.impex.dba.password.oracle>KSDBA</ks.impex.dba.password.oracle>
-
-    <!-- MySQL JDBC url's do contain a database name -->
-    <ks.impex.url.mysql>jdbc:mysql://localhost/ksembedded</ks.impex.url.mysql>
-    <ks.impex.dba.username.mysql>ksdba</ks.impex.dba.username.mysql>
-    <ks.impex.dba.password.mysql>ksdba</ks.impex.dba.password.mysql>
-
-    <!-- *** Start REQUIRED properties *** -->
-    <!-- JDBC url -->
-    <ks.impex.url>${ks.impex.url.oracle}</ks.impex.url>
-    <!-- User with DBA privileges -->
-    <ks.impex.dba.username>${ks.impex.dba.username.oracle}</ks.impex.dba.username>
-    <!-- Password for the DBA user -->
-    <ks.impex.dba.password>${ks.impex.dba.password.oracle}</ks.impex.dba.password>
-    <!-- *** End REQUIRED properties *** -->
-
-    <!-- *** Start OPTIONAL properties *** -->
-    <!-- Platform specific logic generates default values for these if they are not specified -->
-    <!-- A url for connecting directly to the database server ie no database specified -->
-    <ks.impex.server.url></ks.impex.server.url>
-
-    <!-- Aka "schema" for Oracle. This database/schema gets dropped/created by the DBA user -->
-    <ks.impex.database></ks.impex.database>
-
-    <!-- This is the user the application will connect to the database as. -->
-    <!-- This user gets dropped/created by the DBA user -->
-    <ks.impex.username></ks.impex.username>
-    <ks.impex.password></ks.impex.password>
+    <ks.impex.generate.phase>generate-resources</ks.impex.generate.phase>
+    <ks.impex.generate.sql.phase>${ks.impex.generate.phase}</ks.impex.generate.sql.phase>
+    <ks.impex.generate.sql.oracle.phase>${ks.impex.generate.sql.phase}</ks.impex.generate.sql.oracle.phase>
+    <ks.impex.generate.sql.mysql.phase>${ks.impex.generate.sql.phase}</ks.impex.generate.sql.mysql.phase>
+    <ks.impex.generate.morph.phase>${ks.impex.generate.phase}</ks.impex.generate.morph.phase>
+    <ks.impex.generate.dtd.phase>${ks.impex.generate.phase}</ks.impex.generate.dtd.phase>
+    <ks.impex.validate.phase>none</ks.impex.validate.phase>
+    <ks.impex.dba.validate.preclean.phase>none</ks.impex.dba.validate.preclean.phase>
+    <ks.impex.drop.phase>none</ks.impex.drop.phase>
+    <ks.impex.create.phase>none</ks.impex.create.phase>
+    <ks.impex.grant.phase>none</ks.impex.grant.phase>
+    <ks.impex.import.phase>none</ks.impex.import.phase>
+    <ks.impex.export.phase>none</ks.impex.export.phase>
 
     <!-- This is the format dates will be exported/imported as -->
     <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
-    <!-- *** End OPTIONAL properties *** -->
 
-    <!-- Properties located in the properties file, override POM properties, but not system properties -->
-    <ks.impex.properties>${user.home}/impex.properties</ks.impex.properties>
+    <!-- Oracle specific properties -->
+    <ks.impex.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.masterdb.url>
+    <ks.impex.masterdb.schema>KSMASTER</ks.impex.masterdb.schema>
+    <ks.impex.masterdb.username>KSMASTER</ks.impex.masterdb.username>
+    <ks.impex.masterdb.password>KSMASTER</ks.impex.masterdb.password>
+    <ks.impex.oracle.driver>oracle.jdbc.driver.OracleDriver</ks.impex.oracle.driver>
+    <ks.impex.oracle.default.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.oracle.default.url>
+    <ks.impex.oracle.delimiter>/</ks.impex.oracle.delimiter>
+    <ks.impex.oracle.defaultTablespace>users</ks.impex.oracle.defaultTablespace>
+    <ks.impex.oracle.temporaryTablespace>temp</ks.impex.oracle.temporaryTablespace>
+    <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
+    <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
+    <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
+    <ks.impex.oracle.dba.username>SYS AS SYSDBA</ks.impex.oracle.dba.username>
+    <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
+
+    <!-- Simple select query for validating connection properties -->
+    <ks.impex.oracle.sql.validate>
+      SELECT SYSDATE FROM DUAL
+    </ks.impex.oracle.sql.validate>
+
+    <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
+    <ks.impex.oracle.sql.drop>
+      BEGIN
+      EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
+      EXCEPTION WHEN OTHERS THEN
+      IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
+      RAISE;
+      END IF;
+      END;
+      /
+    </ks.impex.oracle.sql.drop>
+
+    <!-- Create an Oracle user with some sensible defaults -->
+    <ks.impex.oracle.sql.create>
+      CREATE USER ${ks.impex.username}
+      IDENTIFIED BY ${ks.impex.password}
+      DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
+      TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
+      QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
+      /
+    </ks.impex.oracle.sql.create>
+
+    <!-- Grant permissions needed for KS -->
+    <ks.impex.oracle.sql.grants>
+      GRANT CREATE PROCEDURE
+      , CREATE SEQUENCE
+      , CREATE SESSION
+      , CREATE SYNONYM
+      , CREATE TABLE
+      , CREATE TRIGGER
+      , CREATE TYPE
+      , CREATE VIEW
+      TO ${ks.impex.username}
+      /
+
+      GRANT SELECT ON pending_trans$ to ${ks.impex.username}
+      /
+
+      GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
+      /
+
+      GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
+      /
+
+      GRANT EXECUTE ON dbms_system to ${ks.impex.username}
+      /
+    </ks.impex.oracle.sql.grants>
+    <!-- This is executed just before generating XML from the master db -->
+    <ks.impex.oracle.sql.pre.export>
+    </ks.impex.oracle.sql.pre.export>
+    <!-- This is executed after materializing the master db from database control files -->
+    <ks.impex.oracle.sql.post.process>
+      UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
+      /
+      purge recyclebin
+      /
+    </ks.impex.oracle.sql.post.process>
   </properties>
   <build>
     <resources>
@@ -83,6 +142,81 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>drop-db-config</id>
+            <phase>${ks.impex.show.clean.config.phase}</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>JDBC Url - ${ks.impex.url}</echo>
+                <echo>JDBC Driver - ${ks.impex.driver}</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>SQL:</echo>
+                <echo>---------------------------------</echo>
+                <echo>${ks.impex.sql.drop}</echo>
+                <echo>---------------------------------</echo>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>init-db-config</id>
+            <phase>${ks.impex.show.initialize.config.phase}</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>JDBC Url - ${ks.impex.url}</echo>
+                <echo>JDBC Driver - ${ks.impex.driver}</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>SQL:</echo>
+                <echo>---------------------------------</echo>
+                <echo>${ks.impex.sql.initialize}</echo>
+                <echo>---------------------------------</echo>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>db-config</id>
+            <phase>${ks.impex.show.verify.config.phase}</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>JDBC Url - ${ks.impex.url}</echo>
+                <echo>JDBC Driver - ${ks.impex.driver}</echo>
+                <echo>Username - ${ks.impex.username}</echo>
+                <echo>Password - ${ks.impex.password}</echo>
+                <echo>SQL: '${ks.impex.sql.validate}'</echo>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>dba-config</id>
+            <phase>${ks.impex.show.validate.config.phase}</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>JDBC Url - ${ks.impex.url}</echo>
+                <echo>JDBC Driver - ${ks.impex.driver}</echo>
+                <echo>Username - ${ks.impex.dba.username}</echo>
+                <echo>Password - ${ks.impex.dba.password}</echo>
+                <echo>SQL: '${ks.impex.sql.validate}'</echo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
@@ -94,6 +228,7 @@
         <executions>
           <execution>
             <id>attach-sources</id>
+            <!-- No need to attach sources -->
             <phase>none</phase>
           </execution>
         </executions>
@@ -115,27 +250,182 @@
           </dependency>
         </dependencies>
         <configuration>
+          <includes>${ks.impex.export.tables.pattern}</includes>
+          <schema>${ks.impex.schema}</schema>
+          <username>${ks.impex.username}</username>
+          <password>${ks.impex.password}</password>
+          <url>${ks.impex.url}</url>
+          <driver>${ks.impex.driver}</driver>
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
           <dateFormat>${ks.impex.date.format}</dateFormat>
-          <includeVersionInComment>false</includeVersionInComment>
+          <includeVersionInComment>${ks.impex.include.version.in.comment}</includeVersionInComment>
+          <antCompatibilityMode>${ks.impex.ant.compatibility.mode}</antCompatibilityMode>
         </configuration>
+        <executions>
+          <execution>
+            <id>morph-xml</id>
+            <phase>${ks.impex.generate.morph.phase}</phase>
+            <goals>
+              <goal>morphschema</goal>
+              <goal>morphdata</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-data-dtd</id>
+            <phase>${ks.impex.generate.dtd.phase}</phase>
+            <goals>
+              <goal>datadtd</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-oracle-sql</id>
+            <phase>${ks.impex.generate.sql.oracle.phase}</phase>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>oracle</targetDatabase>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-mysql-sql</id>
+            <phase>${ks.impex.generate.sql.mysql.phase}</phase>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>mysql</targetDatabase>
+            </configuration>
+          </execution>
+          <execution>
+            <id>import-data</id>
+            <phase>${ks.impex.import.phase}</phase>
+            <goals>
+              <goal>import</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>export-db</id>
+            <phase>${ks.impex.export.phase}</phase>
+            <goals>
+              <goal>exportschema</goal>
+              <goal>exportdata</goal>
+              <goal>datadtd</goal>
+            </goals>
+            <configuration>
+              <schemaXMLFile>${basedir}/src/main/impex/schema.xml</schemaXMLFile>
+              <dataXMLDir>${basedir}/src/main/impex</dataXMLDir>
+              <copyToFile>${basedir}/src/main/impex/data.dtd</copyToFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sql-maven-plugin</artifactId>
+        <version>1.4</version>
+        <configuration>
+          <username>${ks.impex.username}</username>
+          <password>${ks.impex.password}</password>
+          <url>${ks.impex.url}</url>
+          <driver>${ks.impex.driver}</driver>
+          <delimiter>${ks.impex.delimiter}</delimiter>
+          <delimiterType>${ks.impex.sql.plugin.delimiter.type}</delimiterType>
+          <forceMojoExecution>${ks.impex.sql.plugin.force.execution}</forceMojoExecution>
+          <skip>${ks.impex.sql.plugin.skip}</skip>
+          <keepFormat>${ks.impex.sql.plugin.keepFormat}</keepFormat>
+          <printResultSet>${ks.impex.sql.plugin.printResultSet}</printResultSet>
+          <outputFile>${ks.impex.sql.plugin.outputFile}</outputFile>
+          <orderFile>${ks.impex.sql.plugin.orderFile}</orderFile>
+          <escapeProcessing>${ks.impex.sql.plugin.escapeProcessing}</escapeProcessing>
+        </configuration>
+        <executions>
+          <execution>
+            <id>validate-dba-config</id>
+            <phase>${ks.impex.dba.validate.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <sqlCommand>
+                ${ks.impex.sql.validate}
+              </sqlCommand>
+            </configuration>
+          </execution>
+          <execution>
+            <id>validate-db-config</id>
+            <phase>${ks.impex.validate.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.username}</username>
+              <password>${ks.impex.password}</password>
+              <sqlCommand>
+                ${ks.impex.sql.validate}
+              </sqlCommand>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-db</id>
+            <phase>${ks.impex.drop.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <sqlCommand>
+                ${ks.impex.sql.drop}
+              </sqlCommand>
+            </configuration>
+          </execution>
+          <execution>
+            <id>init-db</id>
+            <phase>${ks.impex.create.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <username>${ks.impex.dba.username}</username>
+              <password>${ks.impex.dba.password}</password>
+              <sqlCommand>
+                ${ks.impex.sql.initialize}
+              </sqlCommand>
+            </configuration>
+          </execution>
+          <execution>
+            <id>execute-pre-export-sql</id>
+            <phase>${ks.impex.pre.export.phase}</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <sqlCommand>
+                ${ks.impex.sql.pre.export}
+              </sqlCommand>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
   <profiles>
     <profile>
-      <id>skip-impex</id>
-      <!-- Don't include any modules -->
-      <activation>
-        <property>
-          <name>skipImpex</name>
-        </property>
-      </activation>
-    </profile>
-    <profile>
-      <id>default</id>
+      <id>all-dbs</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -144,311 +434,128 @@
         <module>ks-embedded-db</module>
         <module>ks-standalone-db</module>
       </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <phase>${ks.impex.oracle.phase}</phase>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <phase>${ks.impex.mysql.phase}</phase>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
-      <id>generate-impex-jar</id>
+      <id>skip-impex</id>
+      <!-- Turn off SQL generation and don't include any modules -->
+      <properties>
+        <ks.impex.generate.phase>none</ks.impex.generate.phase>
+      </properties>
+      <activation>
+        <property>
+          <name>skipImpex</name>
+        </property>
+      </activation>
+    </profile>
+    <profile>
+      <id>embedded-only</id>
       <modules>
-        <module>${ks.impex.module}</module>
+        <module>ks-embedded-db</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>standalone-only</id>
+      <modules>
+        <module>ks-standalone-db</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>rice-only</id>
+      <modules>
+        <module>ks-rice-db</module>
+      </modules>
+    </profile>
+    <profile>
+      <!--
+        This profile sets properties that connect the dropping/creating/loading of an Oracle schema to appropriate
+        phases of the Maven build lifecycle. The "clean" phase drops the schema, the "initialize" phase creates the
+        schema and grants permissions, and the "install" phase loads data into the schema
+      -->
+      <id>oracle-db</id>
+      <properties>
+        <ks.impex.url>${ks.impex.oracle.default.url}</ks.impex.url>
+        <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
+        <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
+        <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
+        <ks.impex.drop.phase>initialize</ks.impex.drop.phase>
+        <ks.impex.dba.validate.phase>validate</ks.impex.dba.validate.phase>
+        <ks.impex.create.phase>initialize</ks.impex.create.phase>
+        <ks.impex.validate.phase>verify</ks.impex.validate.phase>
+        <ks.impex.import.phase>install</ks.impex.import.phase>
+        <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
+        <ks.impex.generate.sql.mysql.phase>none</ks.impex.generate.sql.mysql.phase>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.sql.drop>${ks.impex.oracle.sql.drop}</ks.impex.sql.drop>
+        <ks.impex.sql.initialize>
+          ${ks.impex.oracle.sql.create}
+          ${ks.impex.oracle.sql.grants}
+        </ks.impex.sql.initialize>
+        <ks.impex.sql.pre.export>${ks.impex.oracle.sql.pre.export}</ks.impex.sql.pre.export>
+      </properties>
+    </profile>
+    <profile>
+      <!--
+        This profile generates XML data from the "master" Oracle db and places it on the file system
+      -->
+      <id>generate-xml</id>
+      <modules>
+        <module>ks-standalone-db</module>
+        <module>ks-embedded-db</module>
       </modules>
       <properties>
-        <ks.impex.module>ks-embedded-db</ks.impex.module>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.validate.phase>validate</ks.impex.validate.phase>
+        <ks.impex.url>${ks.impex.masterdb.url}</ks.impex.url>
+        <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
+        <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
+        <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
+        <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
+        <ks.impex.generate.phase>none</ks.impex.generate.phase>
+        <ks.impex.sql.plugin.force.execution>true</ks.impex.sql.plugin.force.execution>
+        <ks.impex.pre.export.phase>initialize</ks.impex.pre.export.phase>
+        <ks.impex.export.phase>generate-resources</ks.impex.export.phase>
+        <ks.impex.schema>${ks.impex.masterdb.schema}</ks.impex.schema>
+        <ks.impex.ant.compatibility.mode>true</ks.impex.ant.compatibility.mode>
       </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <phase>${ks.impex.oracle.phase}</phase>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <phase>${ks.impex.mysql.phase}</phase>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
-      <id>oracle-dba</id>
+      <!--
+        This profile handles re-creating the "master" Oracle db from the combination of Kuali Student SQL
+        files and Rice Impex XML files. The true "master" for Kuali Student is the set of SQL files and
+        Rice Impex XML files checked into SCM. The "master" database is a temporary materialization of
+        that data inside an Oracle database.
+      -->
+      <id>master-oracle-db</id>
       <properties>
-        <ks.impex.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url>
-        <ks.impex.driver>oracle.jdbc.driver.OracleDriver</ks.impex.driver>
-        <ks.impex.username>KSEMBEDDED</ks.impex.username>
-        <ks.impex.password>KSEMBEDDED</ks.impex.password>
-        <ks.impex.dba.username>SYS AS SYSDBA</ks.impex.dba.username>
-        <ks.impex.oracle.defaultTablespace>users</ks.impex.oracle.defaultTablespace>
-        <ks.impex.oracle.temporaryTablespace>temp</ks.impex.oracle.temporaryTablespace>
-        <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
-        <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
+        <ks.impex.url>${ks.impex.masterdb.url}</ks.impex.url>
+        <ks.impex.driver>${ks.impex.oracle.driver}</ks.impex.driver>
+        <ks.impex.schema>${ks.impex.masterdb.schema}</ks.impex.schema>
+        <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
+        <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
+        <ks.impex.dba.username>${ks.impex.oracle.dba.username}</ks.impex.dba.username>
+        <ks.impex.dba.password>${ks.impex.oracle.dba.password}</ks.impex.dba.password>
+
+        <ks.impex.show.clean.config.phase>clean</ks.impex.show.clean.config.phase>
+        <ks.impex.show.initialize.config.phase>initialize</ks.impex.show.initialize.config.phase>
+        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
+
+        <ks.impex.drop.phase>clean</ks.impex.drop.phase>
+        <ks.impex.create.phase>initialize</ks.impex.create.phase>
+        <ks.impex.dba.validate.phase>validate</ks.impex.dba.validate.phase>
+
+        <ks.impex.generate.phase>none</ks.impex.generate.phase>
+        <ks.impex.delimiter>${ks.impex.oracle.delimiter}</ks.impex.delimiter>
+        <ks.impex.unpack.sql.phase>generate-resources</ks.impex.unpack.sql.phase>
+        <ks.impex.build.master.db.phase>process-resources</ks.impex.build.master.db.phase>
+        <ks.impex.sql.plugin.force.execution>true</ks.impex.sql.plugin.force.execution>
+        <ks.impex.sql.post.process>${ks.impex.oracle.sql.post.process}</ks.impex.sql.post.process>
+        <ks.impex.sql.validate>${ks.impex.oracle.sql.validate}</ks.impex.sql.validate>
+        <ks.impex.sql.drop>${ks.impex.oracle.sql.drop}</ks.impex.sql.drop>
+        <ks.impex.sql.initialize>
+          ${ks.impex.oracle.sql.create}
+          ${ks.impex.oracle.sql.grants}
+        </ks.impex.sql.initialize>
       </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>sql-maven-plugin</artifactId>
-            <version>1.1</version>
-            <configuration>
-              <url>${ks.impex.url}</url>
-              <driver>${ks.impex.driver}</driver>
-              <username>${ks.impex.dba.username}</username>
-              <password>${ks.impex.dba.password}</password>
-              <delimiter>/</delimiter>
-            </configuration>
-            <executions>
-              <execution>
-                <id>drop-oracle-db</id>
-                <phase>clean</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <sqlCommand>
-                    BEGIN
-                    EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
-                    EXCEPTION WHEN OTHERS THEN
-                    IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
-                    RAISE;
-                    END IF;
-                    END;
-                    /
-                  </sqlCommand>
-                </configuration>
-              </execution>
-              <execution>
-                <id>create-oracle-db</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <sqlCommand>
-                    CREATE USER ${ks.impex.username}
-                    IDENTIFIED BY ${ks.impex.password}
-                    DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
-                    TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
-                    QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
-                    /
-                  </sqlCommand>
-                </configuration>
-              </execution>
-              <execution>
-                <id>grant-oracle-permissions</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <sqlCommand>
-                    GRANT CREATE PROCEDURE
-                    , CREATE SEQUENCE
-                    , CREATE SESSION
-                    , CREATE SYNONYM
-                    , CREATE TABLE
-                    , CREATE TRIGGER
-                    , CREATE TYPE
-                    , CREATE VIEW
-                    TO ${ks.impex.username}
-                    /
-
-                    GRANT SELECT ON pending_trans$ to ${ks.impex.username}
-                    /
-
-                    GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
-                    /
-
-                    GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
-                    /
-
-                    GRANT EXECUTE ON dbms_system to ${ks.impex.username}
-                    /
-                  </sqlCommand>
-                </configuration>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>${oracle.ojdbc.version}</version>
-              </dependency>
-            </dependencies>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>reset-db</id>
-      <modules>
-        <module>${ks.impex.module}</module>
-      </modules>
-      <properties>
-        <ks.impex.module>ks-embedded-db</ks.impex.module>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.properties</groupId>
-            <artifactId>maven-properties-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <id>properties</id>
-                <goals>
-                  <goal>properties</goal>
-                </goals>
-                <configuration>
-                  <properties>${ks.impex.properties}</properties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <configuration>
-              <url>${ks.impex.url}</url>
-              <username>${ks.impex.username}</username>
-              <password>${ks.impex.password}</password>
-            </configuration>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>purge-db</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>drop</goal>
-                  <goal>create</goal>
-                </goals>
-                <configuration>
-                  <serverUrl>${ks.impex.server.url}</serverUrl>
-                  <username>${ks.impex.dba.username}</username>
-                  <password>${ks.impex.dba.password}</password>
-                  <database>${ks.impex.database}</database>
-                  <databaseUsername>${ks.impex.username}</databaseUsername>
-                  <databasePassword>${ks.impex.password}</databasePassword>
-                </configuration>
-              </execution>
-              <execution>
-                <id>import-data</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>import</goal>
-                </goals>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.connector.version}</version>
-              </dependency>
-              <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>${oracle.ojdbc.version}</version>
-              </dependency>
-            </dependencies>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>build-master-db</id>
       <build>
         <plugins>
           <plugin>
@@ -456,7 +563,7 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
               <execution>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.unpack.sql.phase}</phase>
                 <goals>
                   <goal>unpack</goal>
                 </goals>
@@ -510,38 +617,15 @@
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
               <forceMojoExecution>true</forceMojoExecution>
-              <url>${ks.masterdb.url}</url>
-              <username>${ks.masterdb.username}</username>
-              <password>${ks.masterdb.password}</password>
-              <database>${ks.masterdb.username}</database>
+              <url>${ks.impex.url}</url>
+              <username>${ks.impex.username}</username>
+              <password>${ks.impex.password}</password>
               <importDir>${project.build.directory}/gen/data/rice/sql</importDir>
             </configuration>
             <executions>
               <execution>
-                <id>morph-xml</id>
-                <phase>none</phase>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <phase>none</phase>
-              </execution>
-              <execution>
-                <id>drop-create-db</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>drop</goal>
-                  <goal>create</goal>
-                </goals>
-                <configuration>
-                  <username>${ks.masterdb.dba.username}</username>
-                  <password>${ks.masterdb.dba.password}</password>
-                  <databaseUsername>${ks.masterdb.username}</databaseUsername>
-                  <databasePassword>${ks.masterdb.password}</databasePassword>
-                </configuration>
-              </execution>
-              <execution>
                 <id>create-rice-schema</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>import</goal>
                 </goals>
@@ -551,7 +635,7 @@
               </execution>
               <execution>
                 <id>load-rice-data</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>import</goal>
                 </goals>
@@ -561,7 +645,7 @@
               </execution>
               <execution>
                 <id>add-rice-constraints</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>import</goal>
                 </goals>
@@ -574,26 +658,10 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>sql-maven-plugin</artifactId>
-            <version>1.1</version>
-            <dependencies>
-              <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>${oracle.ojdbc.version}</version>
-              </dependency>
-            </dependencies>
-            <configuration>
-              <driver>${ks.masterdb.driver}</driver>
-              <url>${ks.masterdb.url}</url>
-              <username>${ks.masterdb.username}</username>
-              <password>${ks.masterdb.password}</password>
-              <delimiter>/</delimiter>
-              <orderFile>ascending</orderFile>
-            </configuration>
             <executions>
               <execution>
                 <id>create-schema</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
@@ -608,7 +676,7 @@
               </execution>
               <execution>
                 <id>load-data</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
@@ -623,7 +691,7 @@
               </execution>
               <execution>
                 <id>add-constraints</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
@@ -638,7 +706,7 @@
               </execution>
               <execution>
                 <id>run-upgrades</id>
-                <phase>process-resources</phase>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
@@ -652,15 +720,15 @@
                 </configuration>
               </execution>
               <execution>
-                <id>clear-recyle-bin</id>
-                <phase>process-resources</phase>
+                <!-- Perform cleanup on the imported data as needed -->
+                <id>execute-post-process-sql</id>
+                <phase>${ks.impex.build.master.db.phase}</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
                 <configuration>
                   <sqlCommand>
-                    purge recyclebin
-                    /
+                    ${ks.impex.sql.post.process}
                   </sqlCommand>
                 </configuration>
               </execution>
@@ -670,87 +738,7 @@
       </build>
     </profile>
     <profile>
-      <id>export-impex</id>
-      <modules>
-        <module>ks-embedded-db</module>
-        <module>ks-standalone-db</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>sql-maven-plugin</artifactId>
-            <version>1.1</version>
-            <dependencies>
-              <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>${oracle.ojdbc.version}</version>
-              </dependency>
-            </dependencies>
-            <configuration>
-              <driver>${ks.masterdb.driver}</driver>
-              <url>${ks.masterdb.url}</url>
-              <username>${ks.masterdb.username}</username>
-              <password>${ks.masterdb.password}</password>
-              <delimiter>/</delimiter>
-            </configuration>
-            <executions>
-              <execution>
-                <id>execute-pre-export-sql</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <sqlCommand>
-                    UPDATE KS_DB_VERSION SET UPGRADE_TIME = NULL
-                    /
-                  </sqlCommand>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <configuration>
-              <url>${ks.masterdb.url}</url>
-              <username>${ks.masterdb.username}</username>
-              <password>${ks.masterdb.password}</password>
-              <database>${ks.masterdb.username}</database>
-              <schema>${ks.masterdb.username}</schema>
-              <antCompatibilityMode>true</antCompatibilityMode>
-            </configuration>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <phase>none</phase>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <phase>none</phase>
-              </execution>
-              <execution>
-                <id>export-impex</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>exportschema</goal>
-                  <goal>exportdata</goal>
-                  <goal>datadtd</goal>
-                </goals>
-                <configuration>
-                  <schemaXMLFile>${basedir}/src/main/impex/schema.xml</schemaXMLFile>
-                  <dataXMLDir>${basedir}/src/main/impex</dataXMLDir>
-                  <copyToFile>${basedir}/src/main/impex/data.dtd</copyToFile>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
+      <!-- This profile commits any Impex changes to SCM -->
       <id>commit-impex-changes</id>
       <build>
         <plugins>
@@ -760,7 +748,7 @@
             <executions>
               <execution>
                 <id>commit-impex-changes</id>
-                <phase>prepare-package</phase>
+                <phase>process-resources</phase>
                 <goals>
                   <goal>add</goal>
                   <goal>checkin</goal>

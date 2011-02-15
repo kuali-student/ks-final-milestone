@@ -20,7 +20,6 @@ import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleUpdateService;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.rice.StudentIdentityConstants;

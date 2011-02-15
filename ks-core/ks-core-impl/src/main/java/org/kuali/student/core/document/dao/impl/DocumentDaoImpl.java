@@ -24,7 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;

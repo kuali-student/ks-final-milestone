@@ -22,12 +22,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

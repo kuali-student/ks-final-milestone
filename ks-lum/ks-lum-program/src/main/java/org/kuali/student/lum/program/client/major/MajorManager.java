@@ -1,11 +1,12 @@
 package org.kuali.student.lum.program.client.major;
 
 import com.google.gwt.event.shared.HandlerManager;
+
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;

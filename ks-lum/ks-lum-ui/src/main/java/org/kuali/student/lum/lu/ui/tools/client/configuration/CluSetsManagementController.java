@@ -17,6 +17,8 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -32,18 +34,13 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
@@ -68,9 +65,10 @@ public class CluSetsManagementController extends BasicLayout {
     private boolean initialized = false;
     CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     public static final String CLUSET_MGT_MODEL = "cluSetManagementModel";
-    private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
-
-    final KSLightBox progressWindow = new KSLightBox();
+    
+    private final BlockingTask initializingTask = new BlockingTask("Loading");
+    private final BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
+	private final BlockingTask saving = new BlockingTask("Saving");    
 
     public CluSetsManagementController(){
         super(CluSetsManagementController.class.getName());
@@ -227,22 +225,17 @@ public class CluSetsManagementController extends BasicLayout {
     }
     
     private void init(final Callback<Boolean> onReadyCallback) {
-        KSProgressIndicator progressInd = new KSProgressIndicator();
-        progressInd.setText("Loading");
-        progressInd.show();
-        progressWindow.setWidget(progressInd);
-
+		
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
-            progressWindow.show();
-
+    		KSBlockingProgressIndicator.addTask(initializingTask);
             cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
                     onReadyCallback.exec(false);
-                    progressWindow.hide();
+                    KSBlockingProgressIndicator.removeTask(initializingTask);
                     throw new RuntimeException("Failed to get model definition.", caught);                        
                 }
 
@@ -253,7 +246,7 @@ public class CluSetsManagementController extends BasicLayout {
                     init(def);
                     initialized = true;
                     onReadyCallback.exec(true);
-                    progressWindow.hide();
+                    KSBlockingProgressIndicator.removeTask(initializingTask);
                 }                
             });	        
         }
@@ -331,37 +324,14 @@ public class CluSetsManagementController extends BasicLayout {
     }
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
-        final KSLightBox saveWindow = new KSLightBox();
-        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
-        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
-
-            @Override
-            public void exec(OkEnum result) {
-                saveWindow.hide();
-                saveActionEvent.doActionComplete();                
-            }
-        });
-
-        buttonGroup.setWidth("250px");
-        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
-        buttonGroup.setContent(saveMessage);
-
-
-        if (saveActionEvent.isAcknowledgeRequired()){
-            saveWindow.setWidget(buttonGroup);
-        } else {
-            saveWindow.setWidget(saveMessage);
-        }
-        saveWindow.show();
-
+    	KSBlockingProgressIndicator.addTask(saving);    	
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
 
             @Override
             public void exec(Throwable caught) {
                 GWT.log("Save Failed.", caught);
-                saveWindow.setWidget(buttonGroup);
-                saveMessage.setText("Save Failed!  Please Try Again.");
-                buttonGroup.getButton(OkEnum.Ok).setEnabled(true);   
+                KSBlockingProgressIndicator.removeTask(saving);                
+                KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
             }
 
         };
@@ -374,24 +344,18 @@ public class CluSetsManagementController extends BasicLayout {
 
                 @Override
                 public void onSuccess(DataSaveResult result) {
-                    if (result.getValidationResults() != null &&
+                	KSBlockingProgressIndicator.removeTask(saving);
+                	if (result.getValidationResults() != null &&
                             !result.getValidationResults().isEmpty()) {
                         StringBuilder errorMessage = new StringBuilder();
                         errorMessage.append("Validation error: ");
                         for (ValidationResultInfo validationError : result.getValidationResults()) {
                             errorMessage.append(validationError.getMessage()).append(" ");
                         }
-                        saveMessage.setText(errorMessage.toString());
-                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                        KSNotifier.add(new KSNotification("Save Failed. " + errorMessage, false, 5000));                        
                     } else {
                         dataModel.setRoot(result.getValue());
-                        if (saveActionEvent.isAcknowledgeRequired()){
-                            saveMessage.setText("Save Successful");
-                            buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                        } else {
-                            saveWindow.hide();
-                            saveActionEvent.doActionComplete();
-                        }
+                        KSNotifier.add(new KSNotification("Save Successful", false, 4000));
                     }
                 }
             });

@@ -29,7 +29,6 @@ import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSFooter;
-import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
@@ -73,6 +72,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         HistoryManager.processWindowLocation();
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
+        header.setHeaderTitle(Application.getApplicationContext().getMessage("applicationTitleLabel"));
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {

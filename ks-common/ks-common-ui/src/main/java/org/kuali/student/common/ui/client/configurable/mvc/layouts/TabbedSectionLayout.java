@@ -249,14 +249,14 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 
 	public TabbedSectionLayout(String controllerId){
-	    super(controllerId);
+	    super();
 	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
 		super.initWidget(container);
 	}
 
 	public TabbedSectionLayout(String controllerId, KSTitleContainerImpl container){
-	    super(controllerId);
+	    super();
 	    this.container.setContent(tabPanel);
         this.container.setTitle(container.getTitle());
         this.container.setStatus(container.getStatus());

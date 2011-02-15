@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -61,9 +64,6 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
@@ -130,7 +130,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     final CourseRequirementsDataModel reqDataModel;
 
     public CourseProposalController(){
-        super(CourseProposalController.class.getName());
+        super();
         reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
@@ -488,6 +488,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
+		        
+		        // We need to update the current view context so that if the user clicks the back button it doesn't 
+		        // create a duplicate course proposal. 
+		        getViewContext().setIdType(docContext.getIdType());
+		        getViewContext().setId(docContext.getId());
+		        
 			}
 			
 			public void onFailure(Throwable caught) {

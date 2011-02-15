@@ -24,7 +24,7 @@ import javax.xml.ws.WebFault;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DataValidationErrorExceptionBean")
+@WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 
 	final Logger LOG = Logger.getLogger(DataValidationErrorException.class);

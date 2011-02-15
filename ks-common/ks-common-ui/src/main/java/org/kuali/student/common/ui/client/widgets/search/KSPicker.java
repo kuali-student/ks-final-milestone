@@ -20,6 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Element;
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.StringValue;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -28,8 +37,9 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
@@ -46,14 +56,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.StringValue;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -94,7 +96,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         new ArrayList<Callback<SelectedResults>>();
     private List<Callback<String>> basicSelectionTextChangeCallbacks =
         new ArrayList<Callback<String>>();
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
 
     public KSPicker(WidgetConfigInfo config) {
         this.config = config;
@@ -304,7 +306,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     private void populateListWidget(LookupMetadata inLookupMetadata){
         SearchRequest sr = initializeSearchRequest(inLookupMetadata);
-        searchRpcServiceAsync.search(sr, new KSAsyncCallback<SearchResult>(){
+        cachingSearchService.search(sr, new KSAsyncCallback<SearchResult>(){
 
             @Override
             public void onSuccess(SearchResult results) {

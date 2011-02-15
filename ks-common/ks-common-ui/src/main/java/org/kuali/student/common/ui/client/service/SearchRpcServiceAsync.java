@@ -21,5 +21,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface SearchRpcServiceAsync {
-	public void search(SearchRequest searchRequest, AsyncCallback<SearchResult> callback);
+    void search(SearchRequest searchRequest, AsyncCallback<SearchResult> callback);
+    void cachingSearch(SearchRequest searchRequest, AsyncCallback<SearchResult> callback);
 }

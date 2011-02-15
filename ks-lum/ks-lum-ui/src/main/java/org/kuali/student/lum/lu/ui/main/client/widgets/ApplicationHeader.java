@@ -188,7 +188,7 @@ public class ApplicationHeader extends Composite{
 						HistoryManager.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
 					}}));
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
-    			new WrapperNavigationHandler(lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
+    			new WrapperNavigationHandler(lumAppUrl+"/org.kuali.student.common.organization.ui.OrgEntry/OrgEntry.jsp"))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleWorkflowDocSearch"), Theme.INSTANCE.getCommonImages().getNodeIcon(),
     			new ClickHandler(){
@@ -287,4 +287,9 @@ public class ApplicationHeader extends Composite{
     private static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
+    
+    public void setHeaderTitle(String title) {
+    	ksHeader.setApplicationTitle(title);
+    }
+    
 }

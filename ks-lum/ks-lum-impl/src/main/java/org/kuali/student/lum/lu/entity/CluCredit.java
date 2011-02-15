@@ -22,8 +22,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
-import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.common.entity.BaseEntity;
+import org.kuali.student.common.entity.TimeAmount;
 
 @Entity
 @Table(name = "KSLU_CLU_CR")

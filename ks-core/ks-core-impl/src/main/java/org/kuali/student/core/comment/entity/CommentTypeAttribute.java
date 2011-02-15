@@ -20,7 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.common.entity.Attribute;;;
+
 @Entity
 @Table(name = "KSCO_COMMENT_TYPE_ATTR")
 public class CommentTypeAttribute extends Attribute<CommentType> {

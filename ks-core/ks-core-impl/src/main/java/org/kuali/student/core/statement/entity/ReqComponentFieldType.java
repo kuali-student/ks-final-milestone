@@ -19,8 +19,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
-import org.kuali.student.core.entity.FieldDescriptorEntity;
+import org.kuali.student.common.entity.BaseEntity;
+import org.kuali.student.common.entity.FieldDescriptorEntity;
 
 @Entity
 @Table(name="KSST_REQ_COM_FIELD_TYPE")

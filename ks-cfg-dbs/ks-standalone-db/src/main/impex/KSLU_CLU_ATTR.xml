@@ -5366,7 +5366,7 @@
         OBJ_ID="f76a5ccb-d7f2-4349-b576-7fea00f4e187"
         OWNER="REFERENCECOURSEPHIL256" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="coreFaculties"
-        ATTR_VALUE="Neil Gorby, Jerri Hirai, Cody Carberry, Jamie Freels, Erik Crecelius, Clayton Konieczny, Jamie Schachter, Emilia Coghlan, Cody Sunde, Sharron Simmonds"
+        ATTR_VALUE="Neil Gorby,&#xa;Jerri Hirai,&#xa;Cody Carberry,&#xa;Jamie Freels,&#xa;Erik Crecelius,&#xa;Clayton Konieczny,&#xa;Jamie Schachter,&#xa;Emilia Coghlan,&#xa;Cody Sunde,&#xa;Sharron Simmonds"
         ID="c9b83027-aa95-4f54-931b-10bd7b48bbfc"
         OBJ_ID="0c15d7cc-aa3e-46fc-bc2b-634ef790d93a"
         OWNER="REFERENCEPROG-GEOG" VER_NBR="0"/>
@@ -6068,7 +6068,7 @@
         OBJ_ID="ecc3454c-242d-4e76-b6f6-63688c76f010"
         OWNER="6c3b2706-0bc8-4f7e-97c7-f7054fa4381b" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="coreFaculties"
-        ATTR_VALUE="Earnestine Metheney, Alejandra Karlsen, Kathrine Schartz, Neva Ebright, Allyson Moberly, Avis Deady, Marylou Brunell, Rae Shy, Ashlee Messana, Allan Tugwell"
+        ATTR_VALUE="Earnestine Metheney,&#xa;Alejandra Karlsen,&#xa;Kathrine Schartz,&#xa;Neva Ebright,&#xa;Allyson Moberly,&#xa;Avis Deady,&#xa;Marylou Brunell,&#xa;Rae Shy,&#xa;Ashlee Messana,&#xa;Allan Tugwell"
         ID="e369e21c-0101-47be-9b7b-7e5914b9ce9a"
         OBJ_ID="91b89081-6d80-4aad-94c3-1125dde028f7"
         OWNER="REFERENCEPROG-BSCI" VER_NBR="0"/>
@@ -6457,7 +6457,7 @@
         OBJ_ID="c05b5d8b-b53b-4b37-8441-f8c9f5c12052"
         OWNER="REFERENCECOURSEBSCI494" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="coreFaculties"
-        ATTR_VALUE="Penelope Capote, Allan Manfre, Fernando Matyas, Noemi Rafael, Neva Turnbough, Javier Montesano, Neil Selley, Lance Bushard, Darren Vose, Darcy Meyerson, Christian Akerley"
+        ATTR_VALUE="Penelope Capote,&#xa;Allan Manfre,&#xa;Fernando Matyas,&#xa;Noemi Rafael,&#xa;Neva Turnbough,&#xa;Javier Montesano,&#xa;Neil Selley,&#xa;Lance Bushard,&#xa;Darren Vose,&#xa;Darcy Meyerson,&#xa;Christian Akerley"
         ID="f35100b9-654a-4f15-9750-736e48cd15e5"
         OBJ_ID="8a78cfaa-10f0-4b03-b8f1-6d89ec13cf4b"
         OWNER="REFERENCEPROG-CCJS" VER_NBR="0"/>

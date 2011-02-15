@@ -17,10 +17,10 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 public abstract class ItemListFieldBinding<V extends ItemValue<V>> extends ModelWidgetBindingSupport<ItemList<V>> {
 

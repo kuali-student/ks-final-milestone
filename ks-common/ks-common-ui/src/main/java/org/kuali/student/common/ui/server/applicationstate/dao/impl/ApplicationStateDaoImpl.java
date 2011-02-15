@@ -23,9 +23,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateDao;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 

@@ -34,7 +34,7 @@
     <import resource="classpath:program-context.xml"/>
 
     <bean id="propertyPlaceholder"
-          class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer"/>
+          class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer"/>
 
     <bean
             class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">

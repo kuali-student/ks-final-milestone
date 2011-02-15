@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -35,7 +36,6 @@ import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.*;
@@ -443,7 +443,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                 fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
             }
 
-            metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
+            metadataServiceAsync.getMetadataList("org.kuali.student.common.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("getMetadataList failed for req. comp. types: '" + fieldTypes.toString() + "'",caught);

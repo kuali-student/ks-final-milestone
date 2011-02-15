@@ -87,7 +87,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
-        super(CurriculumHomeController.class.getName());
+        super();
         super.setController(controller);
         super.setName(name);
         super.setViewEnum(viewType);

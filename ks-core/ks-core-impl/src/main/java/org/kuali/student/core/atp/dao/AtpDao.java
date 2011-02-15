@@ -18,13 +18,13 @@ package org.kuali.student.core.atp.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
 import org.kuali.student.core.atp.entity.Atp;
 import org.kuali.student.core.atp.entity.DateRange;
 import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
 
 
 public interface AtpDao extends CrudDao, SearchableDao {

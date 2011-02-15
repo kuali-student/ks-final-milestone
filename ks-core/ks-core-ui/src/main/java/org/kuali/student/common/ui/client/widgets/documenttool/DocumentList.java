@@ -6,11 +6,11 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.DocumentRpcService;
-import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
+import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.core.client.GWT;

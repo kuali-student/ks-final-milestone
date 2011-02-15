@@ -15,25 +15,25 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.old.BaseAssembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.old.BaseAssembler;
-import org.kuali.student.core.assembly.old.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
