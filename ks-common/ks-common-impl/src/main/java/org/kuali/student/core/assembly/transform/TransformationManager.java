@@ -18,6 +18,8 @@ public class TransformationManager {
 	private DataBeanMapper mapper = new DefaultDataBeanMapper();
 	private List<TransformFilter> filterList = new ArrayList<TransformFilter>();
 
+    private static ThreadLocal<Metadata> metadataCache = new ThreadLocal<Metadata>();
+
 	/**
 	 * This is an outbound transform request which will convert incoming DTO objects
 	 * to a Data map and apply outbound filter operation to both the data object
@@ -76,6 +78,7 @@ public class TransformationManager {
 	public Object transform(Data value, Class<?> clazz, Map<String,Object> filterProperties) throws Exception{
 		Metadata metadata = null;
 		metadata = (metadata != null ? metadata:getMetadata(clazz.getName(), filterProperties));
+        metadataCache.set(metadata);
 		applyInboundFilters(clazz.getName(), value, filterProperties,metadata);
 		Object dtoValue = mapper.convertFromData(value, clazz,metadata);
 		applyInboundFilters(clazz.getName(), dtoValue, filterProperties,metadata);
@@ -112,7 +115,7 @@ public class TransformationManager {
 	 * @throws Exception
 	 */
 	public void applyOutboundFilters(String dtoName, Object value, Map<String,Object> properties) throws Exception{
-		Metadata metadata = null;
+		Metadata metadata = metadataCache.get();
 
 		for (TransformFilter filter:filterList){
 			if (filter.getType().isInstance(value)){
