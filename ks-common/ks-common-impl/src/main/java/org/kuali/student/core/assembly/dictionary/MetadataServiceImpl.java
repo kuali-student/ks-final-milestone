@@ -671,40 +671,4 @@ public class MetadataServiceImpl {
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
-
-
-    /**
-     * Represents a unique identifier for the metadata.
-     */
-    private static class MetadataIdentifier{
-        final String key, state, nextState;
-
-        private MetadataIdentifier(String key, String state, String nextState) {
-            this.key = key;
-            this.state = state;
-            this.nextState = nextState;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            MetadataIdentifier that = (MetadataIdentifier) o;
-
-            if (nextState != null ? !nextState.equals(that.nextState) : that.nextState != null) return false;
-            if (state != null ? !state.equals(that.state) : that.state != null) return false;
-            if (key != null ? !key.equals(that.key) : that.key != null) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = key != null ? key.hashCode() : 0;
-            result = 31 * result + (state != null ? state.hashCode() : 0);
-            result = 31 * result + (nextState != null ? nextState.hashCode() : 0);
-            return result;
-        }
-    }
 }

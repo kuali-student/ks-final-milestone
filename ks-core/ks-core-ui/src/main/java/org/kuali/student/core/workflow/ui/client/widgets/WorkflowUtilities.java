@@ -272,7 +272,6 @@ public class WorkflowUtilities{
 				proposalId = modelProposalId;
 				workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));
 				proposalName = model.get(QueryPath.parse(proposalPath + "/name"));
-				updateWorkflow(model);
 			}
 		}
 	}
@@ -944,8 +943,9 @@ public class WorkflowUtilities{
 		this.workflowRpcServiceAsync = workflowRpcServiceAsync;
 	}
 
+    //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
 	public void refresh(){
-		updateWorkflow(dataModel);
+		//updateWorkflow(dataModel);
 	}
 	
     private String getLabel(String labelKey) {
