@@ -287,4 +287,9 @@ public class ApplicationHeader extends Composite{
     private static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
+    
+    public void setHeaderTitle(String title) {
+    	ksHeader.setApplicationTitle(title);
+    }
+    
 }
