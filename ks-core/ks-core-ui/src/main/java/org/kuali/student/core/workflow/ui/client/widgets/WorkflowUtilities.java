@@ -32,6 +32,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmApprovalCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
@@ -859,7 +860,11 @@ public class WorkflowUtilities{
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
             public void onClick(ClickEvent event) {	
             	final ConfirmationDialog confirmationCancelProposal =
-            		new ConfirmationDialog("Cancel Proposal","You are about to cancel the proposal. Are you sure?");
+                    new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
+            	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
+            	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
+                confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
+                
             	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
             		@Override
             		public void onClick(ClickEvent event) {
