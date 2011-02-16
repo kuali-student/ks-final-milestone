@@ -7,21 +7,30 @@
 VERSION=$1
 SVN_DIR=$2
 ENVIRONMENT=$3
+APP_WORKSPACE=$4
 
+if [ "$APP_WORSPACE" = "" ]
+then
+  echo APP_WORKSPACE is empty
+  echo ------------------------------------------------------------------------------------------
+  echo Usage: deploy-application.sh 1.1 ks-1.1 dev /opt/hudson/home/jobs/1.1-full-build/workspace
+  echo ------------------------------------------------------------------------------------------
+  exit 0
+fi
 if [ "$VERSION" = "" ]
 then
   echo VERSION is empty
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
+  echo ------------------------------------------------------------------------------------------
+  echo Usage: deploy-application.sh 1.1 ks-1.1 dev /opt/hudson/home/jobs/1.1-full-build/workspace
+  echo ------------------------------------------------------------------------------------------
   exit 0
 fi
 if [ "$SVN_DIR" = "" ]
 then
   echo SVN_DIR is empty
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
+  echo ------------------------------------------------------------------------------------------
+  echo Usage: deploy-application.sh 1.1 ks-1.1 dev /opt/hudson/home/jobs/1.1-full-build/workspace
+  echo ------------------------------------------------------------------------------------------
   exit 0
 fi
 if [ "$ENVIRONMENT" = "dev" ]
@@ -35,18 +44,18 @@ then
   REMOTE_USER=staging
   REMOTE_DIR=staging
 else
-  echo Error!!! The environment must be either dev or staging
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
+  echo Error!!  The ENVIRONMENT must be either dev or staging
+  echo ------------------------------------------------------------------------------------------
+  echo Usage: deploy-application.sh 1.1 ks-1.1 dev /opt/hudson/home/jobs/1.1-full-build/workspace
+  echo ------------------------------------------------------------------------------------------
   exit 0
 fi
 
 WAR_FILE=ks-embedded-$VERSION-SNAPSHOT.war
-LOCAL_WAR_FILE=$WORKSPACE/$SVN_DIR/ks-web/ks-embedded/target/$WAR_FILE
+LOCAL_WAR_FILE=$APP_WORKSPACE/$SVN_DIR/ks-web/ks-embedded/target/$WAR_FILE
 REMOTE_WAR_FILE=/usr/local/student/downloads/$WAR_FILE
 REMOTE_TOMCAT_DIR=/usr/local/student/embedded/$REMOTE_DIR
-LOCAL_MVN_DIR=$WORKSPACE/$SVN_DIR/ks-cfg-dbs/ks-embedded-db
+LOCAL_MVN_DIR=$APP_WORKSPACE/$SVN_DIR/ks-cfg-dbs/ks-embedded-db
 DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
 DBA_PASSWORD=gw570229
 REMOTE_SERVER=root@deploy.ks.kuali.org
