@@ -25,7 +25,7 @@
   </repositories>
   <properties>
     <ks.impex.sql.plugin.escapeProcessing>false</ks.impex.sql.plugin.escapeProcessing>
-    <ks.impex.sql.plugin.orderFile></ks.impex.sql.plugin.orderFile>
+    <ks.impex.sql.plugin.orderFile>ascending</ks.impex.sql.plugin.orderFile>
     <ks.impex.sql.plugin.keepFormat>true</ks.impex.sql.plugin.keepFormat>
     <ks.impex.sql.plugin.printResultSet>false</ks.impex.sql.plugin.printResultSet>
     <ks.impex.sql.plugin.delimiter.type>row</ks.impex.sql.plugin.delimiter.type>
