@@ -9,7 +9,7 @@ SVN_DIR=$2
 ENVIRONMENT=$3
 APP_WORKSPACE=$4
 
-if [ "$APP_WORSPACE" = "" ]
+if [ "$APP_WORKSPACE" = "" ]
 then
   echo APP_WORKSPACE is empty
   echo ------------------------------------------------------------------------------------------
