@@ -16,6 +16,13 @@
 package org.kuali.student.common.ui.client.validator;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.assembly.data.Data.StringKey;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,18 +30,12 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validator.DateParser;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.assembly.data.Data.StringKey;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import java.util.*;
 
+import static org.kuali.student.common.assembly.data.MetadataInterrogator.*;
 import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
-import static org.kuali.student.core.assembly.data.MetadataInterrogator.*;
 
 public class DataModelValidator {
 

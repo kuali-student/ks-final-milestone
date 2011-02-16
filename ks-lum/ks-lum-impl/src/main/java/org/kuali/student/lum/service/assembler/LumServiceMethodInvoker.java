@@ -3,10 +3,10 @@ package org.kuali.student.lum.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;

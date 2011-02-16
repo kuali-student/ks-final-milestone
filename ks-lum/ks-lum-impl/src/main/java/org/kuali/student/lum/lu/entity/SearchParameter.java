@@ -25,7 +25,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.common.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_SPARAM")

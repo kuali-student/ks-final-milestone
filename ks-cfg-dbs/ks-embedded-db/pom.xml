@@ -14,22 +14,76 @@
   </properties>
   <profiles>
     <profile>
+      <id>ks-db</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>drop-db-config</id>
+                <phase>pre-clean</phase>
+              </execution>
+              <execution>
+                <id>dba-config</id>
+                <phase>validate</phase>
+              </execution>
+              <execution>
+                <id>init-db-config</id>
+                <phase>initialize</phase>
+              </execution>
+              <execution>
+                <id>db-config</id>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>generate-xml</id>
       <properties>
         <ks.impex.username>${ks.impex.masterdb.username}</ks.impex.username>
         <ks.impex.password>${ks.impex.masterdb.password}</ks.impex.password>
-        <ks.impex.export.tables.pattern>^KS.*,^KR.*</ks.impex.export.tables.pattern>
-        <ks.impex.pre.export.phase>none</ks.impex.pre.export.phase>
       </properties>
-    </profile>
-    <profile>
-      <id>oracle-db</id>
-      <properties>
-        <ks.impex.show.clean.config.phase>initialize</ks.impex.show.clean.config.phase>
-        <ks.impex.show.validate.config.phase>validate</ks.impex.show.validate.config.phase>
-        <ks.impex.show.initialize.config.phase>initialize</ks.impex.show.initialize.config.phase>
-        <ks.impex.show.verify.config.phase>verify</ks.impex.show.verify.config.phase>
-      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pre-export-config</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>execute-pre-export-sql</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>export-db</id>
+                <configuration>
+                  <includes>^KS.*,^KR.*</includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

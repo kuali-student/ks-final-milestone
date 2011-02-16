@@ -1,6 +1,6 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 
 /**

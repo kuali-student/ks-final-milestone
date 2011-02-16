@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 

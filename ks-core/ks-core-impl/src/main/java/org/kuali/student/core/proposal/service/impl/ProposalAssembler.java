@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -34,7 +35,6 @@ import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.entity.ProposalType;
-import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
 /**

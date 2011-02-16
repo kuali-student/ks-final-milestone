@@ -28,9 +28,10 @@ import java.util.Set;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataFormatter;
-import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
+
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataFormatter;
+import org.kuali.student.common.assembly.dictionary.old.MetadataServiceImpl;
 import org.kuali.student.lum.lu.assembly.OldMetadataLoaderTest;
 
 public class TestOldMetadataServiceDictionary

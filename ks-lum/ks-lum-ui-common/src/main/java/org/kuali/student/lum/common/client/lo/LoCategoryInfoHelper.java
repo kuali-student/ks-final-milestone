@@ -1,7 +1,7 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.helper.PropertyEnum;
 import org.kuali.student.core.dto.MetaInfo;
 
 import java.util.Date;

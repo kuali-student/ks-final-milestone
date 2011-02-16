@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
@@ -43,7 +44,6 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -743,7 +743,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
 	 */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
@@ -755,7 +755,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
 	 */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
@@ -764,7 +764,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
 	 */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
@@ -775,7 +775,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
 	 */
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes()
@@ -784,7 +784,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
 	 */
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey)
@@ -795,7 +795,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypes()
@@ -804,7 +804,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(
@@ -816,7 +816,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(

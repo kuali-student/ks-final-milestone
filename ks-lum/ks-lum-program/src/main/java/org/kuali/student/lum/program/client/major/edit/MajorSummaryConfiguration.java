@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
@@ -17,19 +18,28 @@ import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
  */
 public class MajorSummaryConfiguration extends AbstractControllerConfiguration {
 
+    private ProgramRequirementsViewConfiguration requirementsConfiguration;
+
     public MajorSummaryConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
+        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true)/*{
+            @Override
+            public void beforeShow(Callback<Boolean> onReadyCallback) {
+                requirementsConfiguration.getProgReqcontroller().updateModel();
+                super.beforeShow(onReadyCallback);
+            }
+        }*/;
     }
 
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
+        requirementsConfiguration = new ProgramRequirementsViewConfiguration(true, true);
     	MajorInformationViewConfiguration majorInfoViewConfig = MajorInformationViewConfiguration.createSpecial();
         configurationManager.registerConfiguration(majorInfoViewConfig);
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(true));
+        configurationManager.registerConfiguration(requirementsConfiguration);
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial());
 

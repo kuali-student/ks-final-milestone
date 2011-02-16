@@ -2,12 +2,12 @@ package org.kuali.student.lum.program.server.transform;
 
 import java.util.Map;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.assembly.transform.AbstractDataFilter;
-import org.kuali.student.core.assembly.transform.DataBeanMapper;
-import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;

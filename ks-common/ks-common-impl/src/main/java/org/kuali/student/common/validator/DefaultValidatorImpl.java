@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.dto.CommonLookupParam;
@@ -38,7 +38,6 @@ import org.kuali.student.core.messages.service.MessageService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.SearchDispatcher;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {

@@ -2,9 +2,9 @@ package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentList;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;

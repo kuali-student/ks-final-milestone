@@ -22,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;
 
 /**
  *
@@ -36,7 +36,7 @@ public class ProposalType extends Type<ProposalTypeAttribute> {
     private List<ProposalTypeAttribute> attributes;
 
     /**
-     * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+     * @see org.kuali.student.common.entity.y.AttributeOwner#getAttributes()
      */
     @Override
     public List<ProposalTypeAttribute> getAttributes() {
@@ -44,7 +44,7 @@ public class ProposalType extends Type<ProposalTypeAttribute> {
     }
 
     /**
-     * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+     * @seorg.kuali.student.common.entity.ity.AttributeOwner#setAttributes(java.util.List)
      */
     @Override
     public void setAttributes(List<ProposalTypeAttribute> attributes) {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.assembly.transform.AbstractDataFilter;
-import org.kuali.student.core.assembly.transform.DataBeanMapper;
-import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;

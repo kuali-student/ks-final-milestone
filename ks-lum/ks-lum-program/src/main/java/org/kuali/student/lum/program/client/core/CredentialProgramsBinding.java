@@ -1,10 +1,11 @@
 package org.kuali.student.lum.program.client.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.core.assembly.data.Data;
 
 /**
  * @author Igor

@@ -25,8 +25,8 @@ public class ExpenditurePercentValidator extends DefaultValidatorImpl {
     }
 
     /***
-     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.core.dictionary.dto.FieldDefinition,
-     *      java.lang.Object, org.kuali.student.core.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
+     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.common.dictionary.dto.FieldDefinition,
+     *      java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
      */
     @Override
     public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack) {

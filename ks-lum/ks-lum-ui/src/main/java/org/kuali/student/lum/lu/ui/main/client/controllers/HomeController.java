@@ -27,7 +27,7 @@ public class HomeController extends LayoutController{
 	public enum HomeViews{DEFAULT, CURRICULUM_HOME, ACKNOWLEDGEMENTS}
 
 	public HomeController(Controller controller, String name, Enum<?> viewType) {
-		super(HomeController.class.getName());
+		super();
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);

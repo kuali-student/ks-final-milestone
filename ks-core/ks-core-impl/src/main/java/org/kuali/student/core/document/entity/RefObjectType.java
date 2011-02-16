@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;;
 @Entity
 @Table(name="KSDO_REF_OBJ_TYPE")
 public class RefObjectType extends Type<RefObjectTypeAttribute> {

@@ -1,11 +1,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.ModelDefinition;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.ModelDefinition;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.Widget;
 

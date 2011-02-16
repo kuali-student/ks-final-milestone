@@ -176,7 +176,7 @@
 		<!--<property name="permissionService" ref="permissionClient" />-->
 	</bean>
 
-	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+	<bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
 	</bean>
 
@@ -203,7 +203,7 @@
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
-	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
+	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.core.document.ui.server.UploadStatusRpcGwtServlet">
 	</bean>
 
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">

@@ -19,8 +19,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
-import org.kuali.student.core.entity.KSEntityConstants;
+import org.kuali.student.common.entity.BaseEntity;
+import org.kuali.student.common.entity.KSEntityConstants;
 
 @Entity
 @Table(name = "KSMG_MESSAGE")

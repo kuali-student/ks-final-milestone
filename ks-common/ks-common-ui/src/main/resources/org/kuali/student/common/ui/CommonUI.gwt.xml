@@ -36,7 +36,7 @@
 	<inherits name="org.kuali.student.core.search.Search" />
 	<inherits name="org.kuali.student.core.validation.Validation" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
-	<inherits name='org.kuali.student.core.assembly.Assembly'/>
+	<inherits name='org.kuali.student.common.assembly.Assembly'/>
 	<inherits name="org.kuali.student.core.CoreRice" />
 	<inherits name="org.kuali.student.core.statement.Statement" />
 

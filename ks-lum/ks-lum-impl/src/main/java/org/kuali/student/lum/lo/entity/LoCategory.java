@@ -28,8 +28,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 
 /**
  * @author Kuali Student Team
@@ -137,7 +137,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+	 * @see org.kuali.student.common.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
 	public List<LoCategoryAttribute> getAttributes() {
@@ -145,7 +145,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+	 * @see org.kuali.student.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
 	public void setAttributes(List<LoCategoryAttribute> attributes) {

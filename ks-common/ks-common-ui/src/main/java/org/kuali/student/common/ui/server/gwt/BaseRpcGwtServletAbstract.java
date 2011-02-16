@@ -69,7 +69,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
 
 	/**
-     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectStructure(java.lang.String)
+     * @see org.kuali.student.common.dictionary.service.old.DictionaryService#getObjectStructure(java.lang.String)
      */
     @Override
     public ObjectStructure getObjectStructure(String objectTypeKey) {
@@ -77,7 +77,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
 
     /**
-     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectTypes()
+     * @see org.kuali.student.common.dictionary.service.old.DictionaryService#getObjectTypes()
      */
     @Override
     public List<String> getObjectTypes() {
@@ -85,7 +85,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
@@ -106,7 +106,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     
     /**
      * @throws OperationFailedException 
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
@@ -119,7 +119,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
      */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
@@ -138,7 +138,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
      */
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes(){
@@ -151,7 +151,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey){
@@ -170,7 +170,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
     @Override
     public List<SearchTypeInfo> getSearchTypes(){
@@ -183,7 +183,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
@@ -196,7 +196,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
      */
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
@@ -215,7 +215,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
     
     /**
-     * @see org.kuali.student.core.search.service.SearchService#search(org.kuali.student.core.search.dto.SearchRequest)
+     * @see org.kuali.student.common.search.service.SearchService#search(org.kuali.student.common.search.dto.SearchRequest)
      */
     @Override
     public SearchResult search(SearchRequest searchRequest) {                
