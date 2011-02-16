@@ -38,13 +38,13 @@
     </bean>
 	
 	<bean id="searchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 	</bean>
 
     <bean id="dictionaryServiceDelegate"
-          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-loInfo-dictionary-context.xml</value>

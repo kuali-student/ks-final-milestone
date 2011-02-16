@@ -21,11 +21,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	<persistence-unit name="Atp" transaction-type="JTA">
-		<class>org.kuali.student.core.entity.Type</class>
-		<class>org.kuali.student.core.entity.Attribute</class>
-		<class>org.kuali.student.core.entity.Meta</class>
-		<class>org.kuali.student.core.entity.MetaEntity</class>
-        <class>org.kuali.student.core.entity.RichText</class>
+		<class>org.kuali.student.common.entity.Type</class>
+		<class>org.kuali.student.common.entity.Attribute</class>
+		<class>org.kuali.student.common.entity.Meta</class>
+		<class>org.kuali.student.common.entity.MetaEntity</class>
+        <class>org.kuali.student.common.entity.RichText</class>
 		<class>org.kuali.student.core.atp.entity.Atp</class>
 		<class>org.kuali.student.core.atp.entity.AtpAttribute</class>
 		<class>org.kuali.student.core.atp.entity.AtpDurationType</class>

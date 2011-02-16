@@ -210,7 +210,7 @@
         <property name="em" ref="emEntityManager" />
 	</bean>
 
-	<bean id="emSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+	<bean id="emSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:em-search-config.xml" />
 	</bean>
 
@@ -221,7 +221,7 @@
 	</bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
@@ -248,7 +248,7 @@
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
@@ -277,7 +277,7 @@
     </bean>
 
     <bean id="atpSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
@@ -315,12 +315,12 @@
         <property name="em" ref="luEntityManager" />
 	</bean>
 
-	<bean id="luSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+	<bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
-	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+	<bean id="lumDictionary" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
@@ -362,7 +362,7 @@
 	</bean>
 
 	<bean id="statementSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
@@ -403,7 +403,7 @@
 	</bean>
 
 	<bean id="loSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -434,7 +434,7 @@
 	</bean>
 
 	<bean id="lrcSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -448,11 +448,11 @@
 	</bean>
 
 	<!-- Search -->
-	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.common.search.service.impl.CrossSearchManager">
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
 	</bean>
 
-	<bean id="lumSearchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+	<bean id="lumSearchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
@@ -530,7 +530,7 @@
   	</bean>
 
 
-	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
 	</bean>
 
