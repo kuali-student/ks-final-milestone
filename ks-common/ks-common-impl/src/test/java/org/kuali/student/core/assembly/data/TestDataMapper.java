@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 
