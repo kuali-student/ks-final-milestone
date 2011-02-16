@@ -23,7 +23,7 @@
 	 ">
 
 
-    <bean id="dictionaryServiceDelegate" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg index="0" value="classpath:ks-document-dictionary-context.xml" />
     </bean>
 

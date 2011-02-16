@@ -4,8 +4,8 @@
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- AtpInfo-->
- <bean id="org.kuali.student.common.atp.dto.AtpInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.atp.dto.AtpInfo"/>
+ <bean id="org.kuali.student.core.atp.dto.AtpInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.atp.dto.AtpInfo"/>
   <property name="attributes">
    <list>
     <ref bean="atpInfo.desc"/>
@@ -19,7 +19,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.common.atp.dto.AtpInfo" parent="org.kuali.student.common.atp.dto.AtpInfo-parent"/>
+ <bean id="org.kuali.student.core.atp.dto.AtpInfo" parent="org.kuali.student.core.atp.dto.AtpInfo-parent"/>
 
  <bean id="atpInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
@@ -58,8 +58,8 @@
  <bean id="atpInfo.type" parent="atpInfo.type-parent"/>
 
  <!-- DateRangeInfo-->
- <bean id="org.kuali.student.common.atp.dto.DateRangeInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.atp.dto.DateRangeInfo"/>
+ <bean id="org.kuali.student.core.atp.dto.DateRangeInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.atp.dto.DateRangeInfo"/>
   <property name="attributes">
    <list>
     <ref bean="dateRangeInfo.atpId"/>
@@ -74,7 +74,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.common.atp.dto.DateRangeInfo" parent="org.kuali.student.common.atp.dto.DateRangeInfo-parent"/>
+ <bean id="org.kuali.student.core.atp.dto.DateRangeInfo" parent="org.kuali.student.core.atp.dto.DateRangeInfo-parent"/>
 
  <bean id="dateRangeInfo.atpId-parent" abstract="true" parent="baseKualiAtpId">
   <property name="name" value="atpId"/>
@@ -119,8 +119,8 @@
  <bean id="dateRangeInfo.type" parent="dateRangeInfo.type-parent"/>
 
  <!-- MilestoneInfo-->
- <bean id="org.kuali.student.common.atp.dto.MilestoneInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.atp.dto.MilestoneInfo"/>
+ <bean id="org.kuali.student.core.atp.dto.MilestoneInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.atp.dto.MilestoneInfo"/>
   <property name="attributes">
    <list>
     <ref bean="milestoneInfo.atpId"/>
@@ -134,7 +134,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.common.atp.dto.MilestoneInfo" parent="org.kuali.student.common.atp.dto.MilestoneInfo-parent"/>
+ <bean id="org.kuali.student.core.atp.dto.MilestoneInfo" parent="org.kuali.student.core.atp.dto.MilestoneInfo-parent"/>
 
  <bean id="milestoneInfo.atpId-parent" abstract="true" parent="baseKualiAtpId">
   <property name="name" value="atpId"/>

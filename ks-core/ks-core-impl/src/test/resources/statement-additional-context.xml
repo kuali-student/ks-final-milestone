@@ -240,7 +240,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="StatementDaoImpl"/>
         <property name="dictionaryServiceDelegate">
-		    <bean class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+		    <bean class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
 		        <constructor-arg>
 			        <value>classpath:ks-statement-dictionary-context.xml;</value>
 		        </constructor-arg>

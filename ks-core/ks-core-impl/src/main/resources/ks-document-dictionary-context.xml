@@ -4,8 +4,8 @@
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- DocumentInfo-->
- <bean id="org.kuali.student.common.document.dto.DocumentInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.document.dto.DocumentInfo"/>
+ <bean id="org.kuali.student.core.document.dto.DocumentInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.document.dto.DocumentInfo"/>
   <property name="attributes">
    <list>
     <ref bean="documentInfo.desc"/>
@@ -21,7 +21,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.common.document.dto.DocumentInfo" parent="org.kuali.student.common.document.dto.DocumentInfo-parent"/>
+ <bean id="org.kuali.student.core.document.dto.DocumentInfo" parent="org.kuali.student.core.document.dto.DocumentInfo-parent"/>
 
  <bean id="documentInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
@@ -31,7 +31,7 @@
 
  <bean id="documentInfo.documentBinaryInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="documentBinaryInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.document.dto.DocumentBinaryInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.core.document.dto.DocumentBinaryInfo"/>
  </bean>
  <bean id="documentInfo.documentBinaryInfo" parent="documentInfo.documentBinaryInfo-parent"/>
 
@@ -71,15 +71,15 @@
  <bean id="documentInfo.type" parent="documentInfo.type-parent"/>
 
  <!-- DocumentBinaryInfo-->
- <bean id="org.kuali.student.common.document.dto.DocumentBinaryInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.document.dto.DocumentBinaryInfo"/>
+ <bean id="org.kuali.student.core.document.dto.DocumentBinaryInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.document.dto.DocumentBinaryInfo"/>
   <property name="attributes">
    <list>
     <ref bean="documentBinaryInfo.binary"/>
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.common.document.dto.DocumentBinaryInfo" parent="org.kuali.student.common.document.dto.DocumentBinaryInfo-parent"/>
+ <bean id="org.kuali.student.core.document.dto.DocumentBinaryInfo" parent="org.kuali.student.core.document.dto.DocumentBinaryInfo-parent"/>
 
  <bean id="documentBinaryInfo.binary-parent" abstract="true" parent="baseStringReallyLong">
   <property name="name" value="binary"/>
@@ -87,8 +87,8 @@
  <bean id="documentBinaryInfo.binary" parent="documentBinaryInfo.binary-parent"/>
 
  <!-- RefDocRelationInfo-->
- <bean id="org.kuali.student.common.document.dto.RefDocRelationInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.document.dto.RefDocRelationInfo"/>
+ <bean id="org.kuali.student.core.document.dto.RefDocRelationInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.document.dto.RefDocRelationInfo"/>
   <property name="attributes">
    <list>
     <ref bean="refDocRelationInfo.desc"/>
@@ -105,7 +105,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.common.document.dto.RefDocRelationInfo" parent="org.kuali.student.common.document.dto.RefDocRelationInfo-parent"/>
+ <bean id="org.kuali.student.core.document.dto.RefDocRelationInfo" parent="org.kuali.student.core.document.dto.RefDocRelationInfo-parent"/>
 
  <bean id="refDocRelationInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
