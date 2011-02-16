@@ -116,12 +116,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-
-        if (!rules.isInitialized()) {
+        if (!rules.isInitialized() || parentController.reloadFlag) {
             retrieveProgramRequirements(onReadyCallback);
             return;
-       }
-        
+        }
         onReadyCallback.exec(true);
     }
 
@@ -144,6 +142,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
                 }
+                callback.exec(true);
+            }
+        });
+    }
+
+     public void justStoreRules(final Callback<Boolean> callback) {
+        rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
+            @Override
+            public void exec(List<ProgramRequirementInfo> programReqInfos) {
                 callback.exec(true);
             }
         });

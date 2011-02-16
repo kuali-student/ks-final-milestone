@@ -154,6 +154,10 @@ public class ProgramRequirementsDataModel {
             @Override
             public void onSuccess(List<ProgramRequirementInfo> programReqInfos) {
                 //update rules list with new program requirements
+                origProgReqInfos.clear();
+                origProgReqState.clear();
+                progReqInfos.clear();
+                progReqState.clear();
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
 
                     if (getStmtTypeInfo(programReqInfo.getStatement().getType()) == null) {
@@ -388,9 +392,11 @@ public class ProgramRequirementsDataModel {
      * 
      * @param programReqInfo
      */
-    protected void setRuleState(ProgramRequirementInfo programReqInfo){
-    	String programState = ((DataModel)model).get(ProgramConstants.STATE);
-    	programReqInfo.setState(programState);    	
+    protected void setRuleState(ProgramRequirementInfo programReqInfo) {
+        if (model != null) {
+            String programState = ((DataModel) model).get(ProgramConstants.STATE);
+            programReqInfo.setState(programState);
+        }
     }
 
     public void markRuleAsDeleted(Integer internalProgReqID) {
