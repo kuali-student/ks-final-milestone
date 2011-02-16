@@ -36,7 +36,7 @@ public class LearningObjectivesEditConfiguration extends AbstractSectionConfigur
         final VerticalSection section = new VerticalSection();
         QueryPath path = QueryPath.concat("", ProgramConstants.LEARNING_OBJECTIVES, "*", "loInfo", "desc");
         Metadata meta = configurer.getModelDefinition().getMetadata(path);
-        LOBuilder loBuilder = new LOBuilder("type", "state", "course", "kuali.loRepository.key.singleUse", meta);
+        LOBuilder loBuilder = new LOBuilder("type", "state", "course", "kuali.loRepository.key.singleUse", ProgramConstants.LEARNING_OBJECTIVES, meta);
         final FieldDescriptor fd = addField(section, ProgramConstants.LEARNING_OBJECTIVES,
                 null,
                 loBuilder,

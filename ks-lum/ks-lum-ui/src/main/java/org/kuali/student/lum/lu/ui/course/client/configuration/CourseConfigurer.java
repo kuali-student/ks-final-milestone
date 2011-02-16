@@ -755,7 +755,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);
         final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
         
         loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
