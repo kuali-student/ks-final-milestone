@@ -34,14 +34,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalInfo -->
 <!-- **************************************** -->
 <!-- Detailed information about a proposal. -->
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalInfo.CreateCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.ModifyCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.RetireaCreditCourse"/>
 	<dict:typeRef bean="type.proposalInfo.CreateProgram"/>
 	<dict:typeRef bean="type.proposalInfo.Grouped"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <!-- This is a grouping of types -->
 <dict:type key="kuali.proposal.type.course.*" id="type.proposalInfo.AllCourseProposalTypes.abstract" abstract="true">
@@ -389,10 +389,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.All Course Proposal Types.(default) -->
 <!-- ******************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -535,10 +535,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.All Course Proposal Types.draft -->
 <!-- *************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -566,10 +566,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.All Program Proposal Types.(default) -->
 <!-- ******************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -712,10 +712,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.All Program Proposal Types.draft -->
 <!-- **************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -743,10 +743,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.Grouped.(default) -->
 <!-- ************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.Grouped"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped" parent="object.field.proposalInfo.metaInfo.Grouped.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped" parent="object.field.proposalInfo.metaInfo.Grouped.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -889,10 +889,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.Grouped.draft -->
 <!-- ********************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo.Grouped.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft" parent="object.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft" parent="object.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

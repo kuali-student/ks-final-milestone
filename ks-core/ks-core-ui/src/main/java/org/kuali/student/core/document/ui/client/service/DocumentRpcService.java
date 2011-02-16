@@ -17,10 +17,10 @@ package org.kuali.student.core.document.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

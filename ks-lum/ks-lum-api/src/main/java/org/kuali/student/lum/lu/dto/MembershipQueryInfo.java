@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchParam;
 
 /**
  * Specifies a search for CLU identifiers.

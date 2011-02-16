@@ -9,10 +9,10 @@
  <bean id="uilookupconfig-parent" abstract="true"
        class="org.kuali.student.common.assembly.data.UILookupConfig" />
  <!--	<bean id="lookup" abstract="true"-->
- <!--		class="org.kuali.student.core.assembly.data.LookupMetadata" />-->
+ <!--		class="org.kuali.student.common.assembly.data.LookupMetadata" />-->
  <!--	<bean id="param" abstract="true"-->
  <!--
-  class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
+  class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
  -->
  <bean id="result" abstract="true"
        class="org.kuali.student.common.assembly.data.LookupResultMetadata" />

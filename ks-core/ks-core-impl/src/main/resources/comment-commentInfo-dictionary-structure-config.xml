@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.commentInfo -->
 <!-- *************************************** -->
 <!-- Detailed information about a comment. -->
-<dict:objectStructure key="org.kuali.student.core.comment.dto.CommentInfo" id="object.commentInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.comment.dto.CommentInfo" id="object.commentInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.commentInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.comment.dto.CommentInfo" id="object.commentInfo" parent="object.commentInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.comment.dto.CommentInfo" id="object.commentInfo" parent="object.commentInfo.abstract"/>
 
 <dict:type key="*" id="type.commentInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -87,10 +87,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.commentInfo.commentText.(default).(default) -->
 <!-- ***************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.commentInfo.commentText.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.commentInfo.commentText.abstract" abstract="true">
 	<dict:typeRef bean="type.field.commentInfo.commentText"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.commentInfo.commentText" parent="object.field.commentInfo.commentText.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.commentInfo.commentText" parent="object.field.commentInfo.commentText.abstract"/>
 
 <dict:type key="*" id="type.field.commentInfo.commentText.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -255,10 +255,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.commentInfo.metaInfo.(default).(default) -->
 <!-- ************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.commentInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.commentInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.commentInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.commentInfo.metaInfo" parent="object.field.commentInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.commentInfo.metaInfo" parent="object.field.commentInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.commentInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -443,8 +443,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="id" id="field.commentInfo.id.cd" parent="field.commentInfo.id.cd.abstract"/>
 
 <!-- TagTypeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.comment.dto.TagTypeInfo" id="object.TagTypeInfo" parent="object.TagTypeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.comment.dto.TagTypeInfo" id="object.TagTypeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.comment.dto.TagTypeInfo" id="object.TagTypeInfo" parent="object.TagTypeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.comment.dto.TagTypeInfo" id="object.TagTypeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.tagTypeInfo"/>
 </dict:objectStructure>
 
@@ -564,8 +564,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- TagInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.comment.dto.TagInfo" id="object.TagInfo" parent="object.TagInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.comment.dto.TagInfo" id="object.TagInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.comment.dto.TagInfo" id="object.TagInfo" parent="object.TagInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.comment.dto.TagInfo" id="object.TagInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.tagInfo"/>
 </dict:objectStructure>
 

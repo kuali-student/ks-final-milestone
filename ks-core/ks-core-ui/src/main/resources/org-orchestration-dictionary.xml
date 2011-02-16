@@ -20,13 +20,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
+		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
+		class="org.kuali.student.common.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor">
+		class="org.kuali.student.common.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -34,13 +34,13 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 	</bean>
 	<bean id="param" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
 	<bean id="datatype.StringValue" abstract="true"
-		class="org.kuali.student.core.assembly.data.Data$StringValue" />
+		class="org.kuali.student.common.assembly.data.Data$StringValue" />
 
 	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">

@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;

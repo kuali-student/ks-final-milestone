@@ -231,7 +231,7 @@
     </bean>
 
     <bean id="WorkflowRpcGwtServlet"
-          class="org.kuali.student.common.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
+          class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
@@ -438,7 +438,7 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
-	<bean id="collaboratorHelper" class = "org.kuali.student.common.rice.authorization.CollaboratorHelper">
+	<bean id="collaboratorHelper" class = "org.kuali.student.core.rice.authorization.CollaboratorHelper">
 		<property name="simpleDocService" ref="simpleDocActionsClient"/>
 		<property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
@@ -446,13 +446,13 @@
         <property name="roleUpdateService" ref="roleUpdateServiceClient"/>	
 	</bean>
 	
-	<bean id="collaboratorFilter" class = "org.kuali.student.common.assembly.transform.CollaboratorsFilter">
+	<bean id="collaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
 		<property name="metadataService" ref="metadataServiceImpl"/>
 		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
 		<property name="proposalService" ref="proposalClient"/>
 	</bean>
 	
-    <bean id="parentProposalWorkflowFilter" class="org.kuali.student.common.assembly.transform.ProposalWorkflowFilter" abstract="true">
+    <bean id="parentProposalWorkflowFilter" class="org.kuali.student.core.assembly.transform.ProposalWorkflowFilter" abstract="true">
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="proposalService" ref="proposalClient"/>
@@ -552,32 +552,32 @@
     </bean>
 
     <bean id="CommentRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
+          class="org.kuali.student.core.comments.ui.server.CommentRpcGwtServlet">
         <property name="service" ref="commentClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
 
     <bean id="ProposalRpcGwtServlet"
-          class="org.kuali.student.common.proposal.ui.server.gwt.ProposalRpcGwtServlet">
+          class="org.kuali.student.core.proposal.ui.server.gwt.ProposalRpcGwtServlet">
         <property name="service" ref="proposalClient"/>
     </bean>
 
     <bean id="DocumentRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
+          class="org.kuali.student.core.document.ui.server.DocumentRpcGwtServlet">
         <property name="service" ref="documentService"/>
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
 
     <bean id="OrgRpcGwtServlet"
-          class="org.kuali.student.common.organization.ui.server.gwt.OrgRpcGwtServlet">
+          class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
         <property name="service" ref="orgClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="identityServiceNonCached" ref="identityServiceClientNonCached"/>
     </bean>
 
     <bean id="atpRpcGwtServlet"
-          class="org.kuali.student.common.atp.ui.server.AtpRpcGwtServlet">
+          class="org.kuali.student.core.atp.ui.server.AtpRpcGwtServlet">
         <property name="service" ref="atpClient"/>
     </bean>
 
@@ -591,11 +591,11 @@
           class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
     </bean>
 
-    <bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+    <bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">
         <property name="documentService" ref="documentService"/>
     </bean>
 
-    <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
+    <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.core.document.ui.server.UploadStatusRpcGwtServlet">
     </bean>
 
     <bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
@@ -641,23 +641,23 @@
     </bean>
 
     <bean id="commentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.comment.service.CommentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.comment.service.CommentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/comment}CommentService"/>
     </bean>
 
     <bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.statement.service.StatementService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService"/>
     </bean>
 
     <bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.common.organization.service.OrganizationService"/>
+                  value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
 
     <bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.atp.service.AtpService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
 
@@ -672,7 +672,7 @@
     </bean>
 
     <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.proposal.service.ProposalService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
@@ -698,7 +698,7 @@
     </bean>
 
     <bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
@@ -724,7 +724,7 @@
 
     <bean id="enumServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.common.enumerationmanagement.service.EnumerationManagementService"/>
+                  value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>

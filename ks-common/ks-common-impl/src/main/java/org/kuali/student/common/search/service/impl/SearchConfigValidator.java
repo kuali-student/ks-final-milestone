@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 
 public class SearchConfigValidator {
 	private Map<String, SearchTypeInfo> searchInfoTypeMap;

@@ -16,8 +16,8 @@
 package org.kuali.student.core.statement.naturallanguage.translators;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;

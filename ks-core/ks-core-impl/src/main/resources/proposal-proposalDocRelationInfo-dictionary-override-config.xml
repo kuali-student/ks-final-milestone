@@ -34,11 +34,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalDocRelationInfo -->
 <!-- *************************************************** -->
 <!-- Information about the proposal to document relation. -->
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalDocRelationInfo" id="object.proposalDocRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalDocRelationInfo" id="object.proposalDocRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalDocRelationInfo.Syllabus"/>
 	<dict:typeRef bean="type.proposalDocRelationInfo.Other"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalDocRelationInfo" id="object.proposalDocRelationInfo" parent="object.proposalDocRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalDocRelationInfo" id="object.proposalDocRelationInfo" parent="object.proposalDocRelationInfo.abstract"/>
 
 <dict:type key="kuali.proposal.ProposalDocRelationType.syllabus" id="type.proposalDocRelationInfo.Syllabus.abstract" abstract="true">
 	<dict:name>Syllabus</dict:name>
@@ -133,10 +133,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalDocRelationInfo.desc.Syllabus.(default) -->
 <!-- ********************************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Syllabus.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Syllabus.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalDocRelationInfo.desc.Syllabus"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Syllabus" parent="object.field.proposalDocRelationInfo.desc.Syllabus.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Syllabus" parent="object.field.proposalDocRelationInfo.desc.Syllabus.abstract"/>
 
 <dict:type key="*" id="type.field.proposalDocRelationInfo.desc.Syllabus.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -219,10 +219,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalDocRelationInfo.metaInfo.Syllabus.(default) -->
 <!-- ************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalDocRelationInfo.metaInfo.Syllabus"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Syllabus" parent="object.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Syllabus" parent="object.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract"/>
 
 <dict:type key="*" id="type.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -365,10 +365,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalDocRelationInfo.desc.Other.(default) -->
 <!-- ****************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Other.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Other.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalDocRelationInfo.desc.Other"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Other" parent="object.field.proposalDocRelationInfo.desc.Other.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.proposalDocRelationInfo.desc.Other" parent="object.field.proposalDocRelationInfo.desc.Other.abstract"/>
 
 <dict:type key="*" id="type.field.proposalDocRelationInfo.desc.Other.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -451,10 +451,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalDocRelationInfo.metaInfo.Other.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Other.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Other.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalDocRelationInfo.metaInfo.Other"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Other" parent="object.field.proposalDocRelationInfo.metaInfo.Other.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalDocRelationInfo.metaInfo.Other" parent="object.field.proposalDocRelationInfo.metaInfo.Other.abstract"/>
 
 <dict:type key="*" id="type.field.proposalDocRelationInfo.metaInfo.Other.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

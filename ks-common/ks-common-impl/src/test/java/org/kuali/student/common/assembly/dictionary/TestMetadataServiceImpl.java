@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataFormatter;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataFormatter;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 
 public class TestMetadataServiceImpl {
 

@@ -109,7 +109,7 @@
  </bean>
  <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent" />
 
- <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="loCategoryInfo.desc.formatted" />
@@ -199,7 +199,7 @@
  </bean>
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
 
- <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="name" value="org.kuali.student.lo.dto.RichTextInfo" />
   <property name="attributes">
    <list>

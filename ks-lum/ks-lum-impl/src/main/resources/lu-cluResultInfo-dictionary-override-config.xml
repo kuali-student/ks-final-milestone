@@ -86,10 +86,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.desc.Credit Course Results.(default) -->
 <!-- ************************************************************************************ -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.desc.CreditCourseResults"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults" parent="object.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults" parent="object.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -305,10 +305,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Credit Awarded.(default) -->
 <!-- *************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -384,10 +384,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Credit Awarded.(default) -->
 <!-- ******************************************************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -530,10 +530,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Final Grade Awarded.(default) -->
 <!-- ******************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -609,10 +609,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Final Grade Awarded.(default) -->
 <!-- ************************************************************************************************************************************ -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -755,10 +755,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Qualitative Assessment.(default) -->
 <!-- *********************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -834,10 +834,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Qualitative Assessment.(default) -->
 <!-- *************************************************************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -1510,10 +1510,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.metaInfo.Credit Course Results.(default) -->
 <!-- **************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.metaInfo.CreditCourseResults"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults" parent="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults" parent="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.metaInfo.CreditCourseResults.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

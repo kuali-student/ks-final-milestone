@@ -4,8 +4,8 @@
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- CommentInfo-->
- <bean id="org.kuali.student.core.comment.dto.CommentInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.comment.dto.CommentInfo"/>
+ <bean id="org.kuali.student.common.comment.dto.CommentInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.comment.dto.CommentInfo"/>
   <property name="attributes">
    <list>
     <ref bean="commentInfo.commentText"/>
@@ -20,11 +20,11 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.core.comment.dto.CommentInfo" parent="org.kuali.student.core.comment.dto.CommentInfo-parent"/>
+ <bean id="org.kuali.student.common.comment.dto.CommentInfo" parent="org.kuali.student.common.comment.dto.CommentInfo-parent"/>
 
  <bean id="commentInfo.commentText-parent" abstract="true" parent="baseComplex">
   <property name="name" value="commentText"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="commentInfo.commentText" parent="commentInfo.commentText-parent"/>
 
@@ -65,8 +65,8 @@
 
 
  <!-- TagInfo-->
- <bean id="org.kuali.student.core.comment.dto.TagInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.comment.dto.TagInfo"/>
+ <bean id="org.kuali.student.common.comment.dto.TagInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.comment.dto.TagInfo"/>
   <property name="attributes">
    <list>
     <ref bean="tagInfo.effectiveDate"/>
@@ -83,7 +83,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.core.comment.dto.TagInfo" parent="org.kuali.student.core.comment.dto.TagInfo-parent"/>
+ <bean id="org.kuali.student.common.comment.dto.TagInfo" parent="org.kuali.student.common.comment.dto.TagInfo-parent"/>
 
  <bean id="tagInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>

@@ -18,6 +18,9 @@ package org.kuali.student.core.atp.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.atp.dao.AtpDao;
 import org.kuali.student.core.atp.dto.AtpInfo;
@@ -34,9 +37,6 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneAttribute;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.springframework.beans.BeanUtils;
 
 public class AtpAssembler extends BaseAssembler{

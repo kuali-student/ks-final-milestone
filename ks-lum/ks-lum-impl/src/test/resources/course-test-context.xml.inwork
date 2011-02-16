@@ -64,7 +64,7 @@
 		<property name="luService" ref="luClient"/>
 	</bean>
 	
-	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl">
+	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.poc.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
 	</bean>
 	
@@ -75,12 +75,12 @@
 	
 	<!-- Service Clients
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.common.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 
 	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.common.atp.service.AtpService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 	
@@ -95,7 +95,7 @@
 	</bean>
 	
 	<bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.common.statement.service.StatementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 	-->

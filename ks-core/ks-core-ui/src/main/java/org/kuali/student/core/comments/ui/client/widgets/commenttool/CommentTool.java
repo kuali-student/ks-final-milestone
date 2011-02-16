@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
@@ -29,9 +32,6 @@ import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;

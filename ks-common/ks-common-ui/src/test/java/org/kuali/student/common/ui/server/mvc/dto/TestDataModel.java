@@ -33,7 +33,7 @@ import org.kuali.student.common.assembly.data.Data.IntegerKey;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 
 public class TestDataModel {

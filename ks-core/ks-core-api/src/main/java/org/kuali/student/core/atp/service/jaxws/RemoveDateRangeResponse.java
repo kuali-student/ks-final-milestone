@@ -34,13 +34,13 @@ import javax.xml.bind.annotation.XmlType;
 public class RemoveDateRangeResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.core.dto.StatusInfo _return;
+    private org.kuali.student.common.dto.StatusInfo _return;
 
-    public org.kuali.student.core.dto.StatusInfo getReturn() {
+    public org.kuali.student.common.dto.StatusInfo getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.core.dto.StatusInfo new_return)  {
+    public void setReturn(org.kuali.student.common.dto.StatusInfo new_return)  {
         this._return = new_return;
     }
 

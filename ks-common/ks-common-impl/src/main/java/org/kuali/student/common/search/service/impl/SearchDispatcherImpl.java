@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchService;
+import org.kuali.student.common.search.service.SearchService;
 
 public class SearchDispatcherImpl implements SearchDispatcher{
 	final Logger LOG = Logger.getLogger(SearchDispatcherImpl.class);

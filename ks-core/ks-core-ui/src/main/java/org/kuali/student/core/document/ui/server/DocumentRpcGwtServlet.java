@@ -18,15 +18,15 @@ package org.kuali.student.core.document.ui.server;
 import java.util.List;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
 	private static final long serialVersionUID = 1L;

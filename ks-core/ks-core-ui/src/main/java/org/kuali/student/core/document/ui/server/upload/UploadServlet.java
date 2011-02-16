@@ -36,6 +36,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -44,8 +46,6 @@ import org.kuali.student.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
 
 public class UploadServlet extends HttpServlet{
 	final Logger LOG = Logger.getLogger(UploadServlet.class);

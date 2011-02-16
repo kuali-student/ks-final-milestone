@@ -50,7 +50,7 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -196,10 +196,10 @@
 		</property>
 	</bean>
 
-	<bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
+	<bean id="idTranslator" class="org.kuali.student.common.assembly.util.IdTranslator">
 		<constructor-arg ref="searchDispatcher" />
 	</bean>
-	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.old.IdTranslatorAssemblerFilter">
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.common.assembly.old.IdTranslatorAssemblerFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
@@ -217,18 +217,18 @@
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
-	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.old.BaseAssembler">
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.common.assembly.old.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
 	</bean>
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg index="0" value="${ks.core.orchestration.dictionaryContextLocations}"/>
         <!--<constructor-arg index="1" ref="coreDictionaryServiceClient"/>-->
 	</bean>
 
-	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
+	<bean id="orgAssemblerFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
 		<property name="filters">
   		<list>

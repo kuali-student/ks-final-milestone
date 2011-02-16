@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.student.common.dao.CrudDao;
 import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This data access interface stores the GUI (page, section, widget, etc.) 

@@ -38,9 +38,9 @@ import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 
 /**
  * Class to allow convenience methods to help with qualification verification and translation

@@ -4,8 +4,8 @@ import javax.xml.namespace.QName;
 
 import org.junit.Test;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.service.MessageService;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.core.test.BaseCase;
 
 public class MessageTest extends BaseCase {

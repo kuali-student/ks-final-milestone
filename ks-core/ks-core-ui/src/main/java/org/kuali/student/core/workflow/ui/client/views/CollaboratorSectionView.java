@@ -7,6 +7,8 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -33,8 +35,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
-import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
-import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
 

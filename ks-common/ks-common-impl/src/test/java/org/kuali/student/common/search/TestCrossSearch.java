@@ -3,9 +3,9 @@ package org.kuali.student.common.search;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 
 public class TestCrossSearch {
 

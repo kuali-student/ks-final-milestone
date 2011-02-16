@@ -7,11 +7,12 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.core.dictionary.dto.DataType;
 
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.MetaInfo;
+
 
 public class Bean2DictionaryConverter
 {

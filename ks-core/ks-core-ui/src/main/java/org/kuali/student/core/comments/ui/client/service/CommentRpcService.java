@@ -17,10 +17,10 @@ package org.kuali.student.core.comments.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

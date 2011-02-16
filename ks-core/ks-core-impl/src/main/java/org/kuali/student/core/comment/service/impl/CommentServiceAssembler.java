@@ -18,6 +18,9 @@ package org.kuali.student.core.comment.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.dto.ReferenceTypeInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -33,9 +36,6 @@ import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagAttribute;
 import org.kuali.student.core.comment.entity.TagType;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
 
 /**

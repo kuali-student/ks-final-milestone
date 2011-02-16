@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateDao;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
 import org.kuali.student.common.ui.server.applicationstate.entity.KeyValuePair;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 
 @PersistenceFileLocation("classpath:META-INF/application-state-persistence.xml")
 public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {

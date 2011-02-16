@@ -16,12 +16,13 @@ package org.kuali.student.core.personsearch.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.ResultColumnInfo;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+
+import org.kuali.student.common.dictionary.old.dto.FieldDescriptor;
+import org.kuali.student.common.search.dto.QueryParamInfo;
+import org.kuali.student.common.search.dto.ResultColumnInfo;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 
 public class QuickViewByGivenNameSearchTypeCreator
 {

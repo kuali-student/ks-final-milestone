@@ -4,10 +4,10 @@
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
 	<!-- CollaboratorInfo-->
-	<bean id="org.kuali.student.core.workflow.dto.CollaboratorInfo-parent"
+	<bean id="org.kuali.student.common.workflow.dto.CollaboratorInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.core.workflow.dto.CollaboratorInfo" />
+			value="org.kuali.student.common.workflow.dto.CollaboratorInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="collaboratorInfo.collaborators" />
@@ -15,17 +15,17 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.workflow.dto.CollaboratorInfo"
-		parent="org.kuali.student.core.workflow.dto.CollaboratorInfo-parent" />
+	<bean id="org.kuali.student.common.workflow.dto.CollaboratorInfo"
+		parent="org.kuali.student.common.workflow.dto.CollaboratorInfo-parent" />
 
 	<bean id="collaboratorInfo.collaborators-parent" abstract="true" parent="baseComplexRepeating">
   		<property name="name" value="collaborators" />
-		<property name="dataObjectStructure" ref="org.kuali.student.core.workflow.dto.WorkflowPersonInfo" />
+		<property name="dataObjectStructure" ref="org.kuali.student.common.workflow.dto.WorkflowPersonInfo" />
  	</bean>
  	<bean id="collaboratorInfo.collaborators" parent="collaboratorInfo.collaborators-parent" />
 
 	<!-- WorkflowPersonInfo -->
-	<bean id="org.kuali.student.core.workflow.dto.WorkflowPersonInfo-parent" abstract="true"
+	<bean id="org.kuali.student.common.workflow.dto.WorkflowPersonInfo-parent" abstract="true"
 		parent="objectStructureDefinition">
 		<property name="name" value="collaborators" />
 		<property name="attributes">
@@ -44,7 +44,7 @@
 		</property>
 		<property name="hasMetaData" value="true" />		
 	</bean>
-	<bean id="org.kuali.student.core.workflow.dto.WorkflowPersonInfo" parent="org.kuali.student.core.workflow.dto.WorkflowPersonInfo-parent" />
+	<bean id="org.kuali.student.common.workflow.dto.WorkflowPersonInfo" parent="org.kuali.student.common.workflow.dto.WorkflowPersonInfo-parent" />
 
 	<bean id="workflowPersonInfo.principalId-parent" abstract="true"
 		parent="baseString">

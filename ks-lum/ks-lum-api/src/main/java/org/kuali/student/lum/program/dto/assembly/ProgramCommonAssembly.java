@@ -15,7 +15,7 @@
 
 package org.kuali.student.lum.program.dto.assembly;
 
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.common.dto.MetaInfo;
 
 import java.util.ArrayList;
 import java.util.List;

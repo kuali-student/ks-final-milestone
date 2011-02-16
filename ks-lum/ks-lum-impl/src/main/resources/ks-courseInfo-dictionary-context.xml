@@ -384,7 +384,7 @@
  <bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
  <!-- courseInfo.descr.RichTextInfo-parent-->
- <bean id="courseInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="courseInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="courseInfo.descr.formatted" />
@@ -485,8 +485,8 @@
 
  <!-- course TimeAmountInfo-->
  <bean id="courseInfo.duration.TimeAmountInfo-parent"
-       abstract="true" parent="org.kuali.student.core.dto.TimeAmountInfo">
-  <property name="name" value="org.kuali.student.core.dto.TimeAmountInfo" />
+       abstract="true" parent="org.kuali.student.common.dto.TimeAmountInfo">
+  <property name="name" value="org.kuali.student.common.dto.TimeAmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseInfo.duration.atpDurationTypeKey" />
@@ -512,7 +512,7 @@
 
 
  <!-- courseInfo.feeJustification.RichTextInfo-parent-->
- <bean id="courseInfo.feeJustification.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="courseInfo.feeJustification.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="courseInfo.feeJustification.formatted" />
@@ -779,7 +779,7 @@
 
  <bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="courseInfo.versionInfo" parent="courseInfo.versionInfo-parent"/>
 
@@ -808,7 +808,7 @@
 
  <bean id="courseFeeInfo.descr-parent" abstract="true" parent="cluFeeRecordInfo.descr">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="courseFeeInfo.descr" parent="courseFeeInfo.descr-parent"/>
 
@@ -1137,8 +1137,8 @@
  </bean>
  <bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
 
- <bean id="activityInfo.contactHours-structure-parent" abstract="true" parent="org.kuali.student.core.dto.AmountInfo-parent">
-  <property name="name" value="org.kuali.student.core.dto.AmountInfo" />
+ <bean id="activityInfo.contactHours-structure-parent" abstract="true" parent="org.kuali.student.common.dto.AmountInfo-parent">
+  <property name="name" value="org.kuali.student.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="activityInfo.contactHours.unitType" />
@@ -1249,8 +1249,8 @@
  </bean>
  <bean id="courseInfo.outOfClassHours" parent="courseInfo.outOfClassHours-parent" />
 
- <bean id="courseInfo.outOfClassHours-structure-parent" abstract="true" parent="org.kuali.student.core.dto.AmountInfo-parent">
-  <property name="name" value="org.kuali.student.core.dto.AmountInfo" />
+ <bean id="courseInfo.outOfClassHours-structure-parent" abstract="true" parent="org.kuali.student.common.dto.AmountInfo-parent">
+  <property name="name" value="org.kuali.student.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseInfo.outOfClassHours.unitType" />
@@ -1318,7 +1318,7 @@
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.core.dto.CurrencyAmountInfo" />
+            value="org.kuali.student.common.dto.CurrencyAmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity" />
@@ -1393,8 +1393,8 @@
   <property name="dynamic" value="true"/>
  </bean>
  <!-- VersionInfo-->
- <bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -1406,7 +1406,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>
@@ -1441,8 +1441,8 @@
 
  <!-- activity TimeAmountInfo-->
  <bean id="activityInfo.duration.TimeAmountInfo-parent"
-       abstract="true" parent="org.kuali.student.core.dto.TimeAmountInfo">
-  <property name="name" value="org.kuali.student.core.dto.TimeAmountInfo" />
+       abstract="true" parent="org.kuali.student.common.dto.TimeAmountInfo">
+  <property name="name" value="org.kuali.student.common.dto.TimeAmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="activityInfo.duration.atpDurationTypeKey" />

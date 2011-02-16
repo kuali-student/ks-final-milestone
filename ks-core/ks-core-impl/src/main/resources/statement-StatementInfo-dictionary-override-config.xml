@@ -16,13 +16,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.StatementInfo -->
 <!-- ***************************************** -->
 <!-- Detailed information about a single statement. -->
-<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.StatementInfo.PrerequisiteRule"/>
 	<dict:typeRef bean="type.StatementInfo.CorequisiteRule"/>
 	<dict:typeRef bean="type.StatementInfo.EnrollmentRestriction"/>
 	<dict:typeRef bean="type.StatementInfo.AntirequisiteRule"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
 
 <dict:type key="kuali.statement.type.req.*" id="type.StatementInfo.RequisiteRules.abstract" abstract="true">
 	<dict:name>Requisite Rules</dict:name>
@@ -102,10 +102,10 @@ Should not include rules that restrict enrollment for other purposes other than 
 <!-- object structure for object.field.statementInfo.desc.Requisite Rules.(default) -->
 <!-- ****************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.statementInfo.desc.RequisiteRules.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc.RequisiteRules.abstract" abstract="true">
 	<dict:typeRef bean="type.field.statementInfo.desc.RequisiteRules"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.statementInfo.desc.RequisiteRules" parent="object.field.statementInfo.desc.RequisiteRules.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc.RequisiteRules" parent="object.field.statementInfo.desc.RequisiteRules.abstract"/>
 
 <dict:type key="*" id="type.field.statementInfo.desc.RequisiteRules.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -188,10 +188,10 @@ Should not include rules that restrict enrollment for other purposes other than 
 <!-- object structure for object.field.statementInfo.metaInfo.Requisite Rules.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.statementInfo.metaInfo.RequisiteRules.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo.RequisiteRules.abstract" abstract="true">
 	<dict:typeRef bean="type.field.statementInfo.metaInfo.RequisiteRules"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.statementInfo.metaInfo.RequisiteRules" parent="object.field.statementInfo.metaInfo.RequisiteRules.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo.RequisiteRules" parent="object.field.statementInfo.metaInfo.RequisiteRules.abstract"/>
 
 <dict:type key="*" id="type.field.statementInfo.metaInfo.RequisiteRules.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

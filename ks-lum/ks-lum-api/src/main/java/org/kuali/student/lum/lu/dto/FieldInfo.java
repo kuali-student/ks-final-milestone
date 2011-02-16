@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
 
 /**
  * Key/value pair, typically used for information which may vary from the common set of information provided about an object.

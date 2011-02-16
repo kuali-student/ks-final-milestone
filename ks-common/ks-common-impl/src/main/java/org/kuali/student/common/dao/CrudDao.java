@@ -17,7 +17,7 @@ package org.kuali.student.common.dao;
 
 import java.util.List;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 
 public interface CrudDao {
 	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException;

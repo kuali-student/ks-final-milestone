@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 
 public abstract class AbstractCrudDaoImpl implements CrudDao {
 

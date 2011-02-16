@@ -3,6 +3,7 @@ package org.kuali.student.core.document.ui.client.widgets.documenttool;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -11,7 +12,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButto
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
-import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;

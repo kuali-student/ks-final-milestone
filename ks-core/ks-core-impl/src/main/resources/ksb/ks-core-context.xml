@@ -201,7 +201,7 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="personServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.core.search.service.SearchService" />
+                <property name="serviceInterface" value="org.kuali.student.common.search.service.SearchService" />
                 <property name="localServiceName" value="personsearchService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/personsearch" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
@@ -371,7 +371,7 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="messageServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.core.messages.service.MessageService" />
+                <property name="serviceInterface" value="org.kuali.student.common.messages.service.MessageService" />
                 <property name="localServiceName" value="MessageService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />

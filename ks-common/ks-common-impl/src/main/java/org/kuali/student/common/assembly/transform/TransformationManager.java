@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dto.DtoConstants;
+import org.kuali.student.common.dto.DtoConstants;
 
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);

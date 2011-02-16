@@ -1,7 +1,7 @@
 package org.kuali.student.common.dictionary.service.impl;
 
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 
 public class DictionaryConstants
 {

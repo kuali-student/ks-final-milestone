@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -18,7 +19,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;

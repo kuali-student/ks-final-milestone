@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.impl.SearchConfigFormatter;
 import org.kuali.student.common.search.service.impl.SearchConfigValidator;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

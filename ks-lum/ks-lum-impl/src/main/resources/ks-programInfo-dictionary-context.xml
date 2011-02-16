@@ -474,7 +474,7 @@
  </bean>
  <bean id="majorDisciplineInfo.descr" parent="majorDisciplineInfo.descr-parent"/>
 
- <bean id="majorDisciplineInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="majorDisciplineInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="majorDisciplineInfo.descr.formatted" />
@@ -528,7 +528,7 @@
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr" parent="majorDisciplineInfo.catalogDescr-parent"/>
 
- <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="majorDisciplineInfo.catalogDescr.formatted" />
@@ -971,7 +971,7 @@
 
  <bean id="majorDisciplineInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
 
@@ -1064,7 +1064,7 @@
 
  <bean id="programVariationInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent"/>
 
@@ -1378,7 +1378,7 @@
 
  <bean id="coreProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
 
@@ -1536,7 +1536,7 @@
 
  <bean id="credentialProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="credentialProgramInfo.descr" parent="credentialProgramInfo.descr-parent"/>
 
@@ -1751,7 +1751,7 @@
  </bean>
  <bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
 
- <bean id="programRequirementInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="programRequirementInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="programRequirementInfo.descr.formatted" />
@@ -1840,7 +1840,7 @@
 
  <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
   <property name="name" value="statement"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.statement.dto.StatementTreeViewInfo"/>
  </bean>
  <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
 

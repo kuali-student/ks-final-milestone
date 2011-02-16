@@ -35,16 +35,16 @@ import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.old.Assembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.assembly.util.AssemblerUtils;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgPositionHelper;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
 	final Logger LOG = Logger.getLogger(OrgPositionRestrictionAssembler.class);

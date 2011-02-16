@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.kuali.student.common.dao.CrudDao;
 import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
 import org.kuali.student.core.document.entity.RefDocRelation;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

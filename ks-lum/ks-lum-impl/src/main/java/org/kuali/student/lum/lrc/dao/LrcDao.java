@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.dao.CrudDao;
 import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
 public interface LrcDao extends CrudDao, SearchableDao  {

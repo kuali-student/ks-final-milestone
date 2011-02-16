@@ -166,14 +166,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.core.exceptions.OperationFailedException" />
+            value="org.kuali.student.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>

@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import org.kuali.student.core.dictionary.dto.CommonLookup;
+import org.kuali.student.common.dictionary.dto.CommonLookup;
 
 
 public class UILookupData extends CommonLookup{

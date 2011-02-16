@@ -25,11 +25,11 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
 import org.kuali.student.core.document.entity.RefDocRelation;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

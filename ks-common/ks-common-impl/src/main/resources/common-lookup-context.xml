@@ -15,9 +15,9 @@
 		  
 
 	<bean id="commonLookup-parent" abstract="true"
-		class="org.kuali.student.core.dictionary.dto.CommonLookup" />
+		class="org.kuali.student.common.dictionary.dto.CommonLookup" />
 	<bean id="param" abstract="true"
-		class="org.kuali.student.core.dictionary.dto.CommonLookupParam" />
+		class="org.kuali.student.common.dictionary.dto.CommonLookupParam" />
 
 	<bean id="kuali.common.lookup.admin.departments.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />

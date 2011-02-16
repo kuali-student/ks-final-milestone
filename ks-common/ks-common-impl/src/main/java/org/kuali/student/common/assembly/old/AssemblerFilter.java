@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 @Deprecated
 public interface AssemblerFilter<TargetType, SourceType> {

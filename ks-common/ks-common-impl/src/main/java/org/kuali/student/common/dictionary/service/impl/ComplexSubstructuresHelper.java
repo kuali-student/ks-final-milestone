@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.core.dto.MetaInfo;
+
+import org.kuali.student.common.dto.MetaInfo;
 
 public class ComplexSubstructuresHelper
 {

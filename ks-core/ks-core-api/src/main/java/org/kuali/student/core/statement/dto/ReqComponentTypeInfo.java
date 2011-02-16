@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import org.kuali.student.core.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReqComponentTypeInfo extends TypeInfo {  

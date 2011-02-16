@@ -33,9 +33,10 @@ import org.kuali.rice.kim.bo.entity.dto.KimEntityNamePrincipalNameInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -60,7 +61,6 @@ import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPerson
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements OrgRpcService{
 	final Logger LOG = Logger.getLogger(OrgRpcGwtServlet.class);

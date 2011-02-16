@@ -4,10 +4,10 @@
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
 	<!-- ProposalInfo-->
-	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo-parent"
+	<bean id="org.kuali.student.common.proposal.dto.ProposalInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.core.proposal.dto.ProposalInfo" />
+			value="org.kuali.student.common.proposal.dto.ProposalInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="proposalInfo.detailDesc" />
@@ -27,8 +27,8 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo"
-		parent="org.kuali.student.core.proposal.dto.ProposalInfo-parent" />
+	<bean id="org.kuali.student.common.proposal.dto.ProposalInfo"
+		parent="org.kuali.student.common.proposal.dto.ProposalInfo-parent" />
 
 	<bean id="proposalInfo.detailDesc-parent" abstract="true"
 		parent="baseKualiDescription">

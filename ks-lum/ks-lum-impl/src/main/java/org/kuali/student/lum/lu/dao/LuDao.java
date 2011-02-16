@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.dao.CrudDao;
 import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;

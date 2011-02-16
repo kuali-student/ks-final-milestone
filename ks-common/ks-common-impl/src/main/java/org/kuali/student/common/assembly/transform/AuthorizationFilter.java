@@ -14,10 +14,10 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.util.AssemblerUtils;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.StudentWorkflowConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.StudentWorkflowConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
  * The AuthorizationFilter is used to filter both metadata and data structures based

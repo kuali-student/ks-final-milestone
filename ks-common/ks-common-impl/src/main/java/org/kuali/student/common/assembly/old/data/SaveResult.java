@@ -18,7 +18,7 @@ package org.kuali.student.common.assembly.old.data;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 @Deprecated
 public class SaveResult<T> implements Serializable{
