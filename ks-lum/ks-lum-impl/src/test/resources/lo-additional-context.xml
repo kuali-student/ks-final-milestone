@@ -44,7 +44,7 @@
 	</bean>
 
     <bean id="dictionaryServiceDelegate"
-          class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-loInfo-dictionary-context.xml</value>
