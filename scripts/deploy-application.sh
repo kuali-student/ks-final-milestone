@@ -64,7 +64,7 @@ PEM_FILE=/home/tomcat/ks-key.pem
 # Copy the newly generated war file into the downloads directory
 scp -i $PEM_FILE $LOCAL_WAR_FILE $REMOTE_SERVER:$REMOTE_WAR_FILE
 # Stop Tomcat
-ssh -i $PEM_FILE $REMOTE_SERVER su - staging -c /usr/local/tomcat_$REMOTE_DIR/bin/shutdown.sh
+ssh -i $PEM_FILE $REMOTE_SERVER su - staging -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh
 # Remove the previous backup
 ssh -i $PEM_FILE $REMOTE_SERVER rm -rf $REMOTE_TOMCAT_DIR.bak
 # Remove the current by moving it to a directory with a .bak extension
