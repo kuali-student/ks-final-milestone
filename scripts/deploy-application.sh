@@ -2,7 +2,7 @@
 #
 #
 
-WORKSPACE=/opt/hudson/home/jobs/1.1-full-build/workspace
+#WORKSPACE=/opt/hudson/home/jobs/1.1-full-build/workspace
 
 VERSION=$1
 SVN_DIR=$2
