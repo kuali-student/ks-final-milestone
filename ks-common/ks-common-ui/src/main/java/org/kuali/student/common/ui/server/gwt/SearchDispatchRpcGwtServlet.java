@@ -78,7 +78,6 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
                     String newValue = idTranslatorFilter.getTranslationForAtp(value);
                     if (newValue != null) {
                         searchResultCell.setValue(newValue);
-                        return;
                     }
                 }
             }
