@@ -1,26 +1,16 @@
-#!/bin/sh
-#
-#
-
-WORKSPACE=/opt/hudson/home/jobs/1.1-full-build/workspace
+RKSPACE=/opt/hudson/home/jobs/1.1-full-build/workspace
 VERSION=$1
 SVN_DIR=$2
 ENVIRONMENT=$3
 
 if [ "$VERSION" = "" ]
 then
-  echo Error!!! VERSION cannot be empty
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
+  echo VERSION is empty
   exit 0
 fi
 if [ "$SVN_DIR" = "" ]
 then
-  echo Error!!! SVN_DIR cannot be empty
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
+  echo SVN_DIR is empty
   exit 0
 fi
 if [ "$ENVIRONMENT" = "dev" ]
@@ -35,9 +25,6 @@ then
   REMOTE_DIR=staging
 else
   echo Error!!! The environment must be either dev or staging
-  echo -------------------------------------------
-  echo Usage: deploy-application.sh 1.1 ks-1.1 dev
-  echo -------------------------------------------
   exit 0
 fi
 
@@ -68,6 +55,4 @@ export M2_HOME
 cd $LOCAL_MVN_DIR
 mvn clean install -Pks-db,oracle -Dks.impex.username=$DB_SCHEMA -Dks.impex.password=$DB_SCHEMA -Dks.impex.dba.password=$DBA_PASSWORD -Dks.impex.url=$DB_URL
 
-# Perform some cleanup and restart Tomcat
-ssh -i $PEM_FILE $REMOTE_SERVER 'su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh'
-ssh -i $PEM_FILE $REMOTE_SERVER 'su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh'
+
