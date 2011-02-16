@@ -64,6 +64,7 @@ ssh -i $PEM_FILE $REMOTE_SERVER mv $REMOTE_TOMCAT_DIR $REMOTE_TOMCAT_DIR.bak
 ssh -i $PEM_FILE $REMOTE_SERVER unzip $REMOTE_WAR_FILE -d $REMOTE_TOMCAT_DIR
 
 
+# Use maven to reload the database using Impex
 M2_HOME=/opt/java/apache-maven-3.0
 export M2_HOME
 cd $LOCAL_MVN_DIR
