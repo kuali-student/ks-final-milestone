@@ -154,6 +154,10 @@ public class ProgramRequirementsDataModel {
             @Override
             public void onSuccess(List<ProgramRequirementInfo> programReqInfos) {
                 //update rules list with new program requirements
+                origProgReqInfos.clear();
+                origProgReqState.clear();
+                progReqInfos.clear();
+                progReqState.clear();
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
 
                     if (getStmtTypeInfo(programReqInfo.getStatement().getType()) == null) {

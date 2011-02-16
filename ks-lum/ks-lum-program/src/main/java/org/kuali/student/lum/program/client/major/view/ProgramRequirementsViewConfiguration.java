@@ -19,6 +19,14 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
         rootSection = progReqcontroller.getProgramRequirementsView();
     }
 
+    public ProgramRequirementsViewConfiguration(boolean special, boolean reloadRequirements) {
+           progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(),
+                                       ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true,
+                                       (special ? new MajorEditableHeader(ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null), reloadRequirements);
+           rootSection = progReqcontroller.getProgramRequirementsView();
+       }
+    
+
     @Override
     protected void buildLayout() {
     }

@@ -22,6 +22,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
+    boolean reloadFlag;
+
+    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header, boolean reloadFlag) {
+        this(controller, eventBus, name, viewType, isReadOnly, header);
+        this.reloadFlag = reloadFlag;
+    }
 
     public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header) {
         super(ProgramRequirementsViewController.class.getName());

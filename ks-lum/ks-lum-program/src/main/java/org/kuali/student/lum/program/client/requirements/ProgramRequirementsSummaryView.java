@@ -116,7 +116,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        if (!rules.isInitialized()) {
+        if (!rules.isInitialized() || parentController.reloadFlag) {
             retrieveProgramRequirements(onReadyCallback);
             return;
        }
