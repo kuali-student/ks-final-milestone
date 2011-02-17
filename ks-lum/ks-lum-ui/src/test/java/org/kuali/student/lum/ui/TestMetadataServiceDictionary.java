@@ -175,9 +175,10 @@ public class TestMetadataServiceDictionary {
 			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalLongName that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
 			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalState that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
 			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalType that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-
-			// 14 errors found when validating metadata
-			if (errors.size() != 14) {
+			//Also 16 similar ones for major discipline and variation lo search.
+			
+			// 30 errors found when validating metadata
+			if (errors.size() != 30) {
 				fail(errors.size() + " errors found when validating metadata");
 			}
 		}
