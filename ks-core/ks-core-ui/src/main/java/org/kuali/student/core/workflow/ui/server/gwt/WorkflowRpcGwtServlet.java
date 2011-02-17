@@ -29,6 +29,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.kuali.student.core.workflow.ui.client.widgets.ActionDocumentStatusDTO;
 
 public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements WorkflowRpcService {
 
@@ -492,7 +493,20 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	    }
 	}
 
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+    @Override
+    public ActionDocumentStatusDTO getActionsAndDocumentStatus(String workflowId) throws OperationFailedException {
+        ActionDocumentStatusDTO dto = new ActionDocumentStatusDTO();
+        try {
+            dto.setActions(getActionsRequested(workflowId));
+            dto.setDocumentStatus(getDocumentStatus(workflowId));
+        } catch (OperationFailedException exception) {
+            exception.printStackTrace();
+            throw exception;
+        }
+        return dto;
+    }
+
+    public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}
 	

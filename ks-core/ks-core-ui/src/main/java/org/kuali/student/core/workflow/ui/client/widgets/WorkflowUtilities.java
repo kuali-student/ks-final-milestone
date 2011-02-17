@@ -278,28 +278,22 @@ public class WorkflowUtilities{
 
 	private void updateWorkflow(DataModel model){
 		updateWorkflowIdFromModel(model);
-		
 		if (workflowId != null && !workflowId.isEmpty()){
-			//Determine which workflow actions are displayed in the drop down
-			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
-		
-				public void onSuccess(String result) {
-					workflowActions = result;
-					updateWorkflowActionsWidget();
-				}
-			});
-		
-			workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
-				@Override
-				public void handleFailure(Throwable caught) {
-					workflowStatusLabel.setText("Status: Unknown");
-				}
+            workflowRpcServiceAsync.getActionsAndDocumentStatus(workflowId, new KSAsyncCallback<ActionDocumentStatusDTO>(){
 
-				@Override
-				public void onSuccess(String result) {
-					setWorkflowStatus(result);
-				}						
-			});
+                @Override
+                public void onFailure(Throwable caught) {
+                    super.onFailure(caught);
+                    workflowStatusLabel.setText("Status: Unknown");
+                }
+
+                @Override
+                public void onSuccess(ActionDocumentStatusDTO dto) {
+                  setWorkflowStatus(dto.getDocumentStatus());
+                    workflowActions = dto.getActions();
+					updateWorkflowActionsWidget();
+                }
+            });
 		} else {
 			workflowStatusLabel.setText("Status: Draft");
 		}			

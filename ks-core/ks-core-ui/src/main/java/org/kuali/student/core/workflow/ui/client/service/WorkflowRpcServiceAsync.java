@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.kuali.student.core.workflow.ui.client.widgets.ActionDocumentStatusDTO;
 
 /**
  *  Aysnc methods to make workflow rpc service calls. 
@@ -49,4 +50,6 @@ public interface WorkflowRpcServiceAsync {
 	
     public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
     public void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
+
+    void getActionsAndDocumentStatus(String workflowId, AsyncCallback<ActionDocumentStatusDTO> callback);
 }

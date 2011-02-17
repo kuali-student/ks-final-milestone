@@ -22,6 +22,7 @@ import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.kuali.student.core.workflow.ui.client.widgets.ActionDocumentStatusDTO;
 
 @RemoteServiceRelativePath("rpcservices/WorkflowRpcService")
 public interface WorkflowRpcService extends RemoteService {
@@ -78,4 +79,6 @@ public interface WorkflowRpcService extends RemoteService {
 	
     public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
     public Boolean isAuthorizedRemoveReviewers(String workflowId) throws OperationFailedException;
+
+    ActionDocumentStatusDTO getActionsAndDocumentStatus(String workflowId) throws OperationFailedException;
 }
