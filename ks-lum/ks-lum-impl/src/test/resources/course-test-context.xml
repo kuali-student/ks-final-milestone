@@ -320,7 +320,7 @@
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
-	<bean id="lumDictionary" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+	<bean id="lumDictionary" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
@@ -530,7 +530,7 @@
   	</bean>
 
 
-	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
 	</bean>
 
