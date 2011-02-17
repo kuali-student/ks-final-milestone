@@ -173,8 +173,7 @@ public class CourseRequirementsDataModel {
         return newSubRule;
     }
 
-    public void updateCourseRequisites(final String courseId, final Callback<List<StatementTreeViewInfo>> callback) {
-
+    public void updateCourseRequisites(final String courseId, final String courseState, final Callback<List<StatementTreeViewInfo>> callback) {
         //course proposal has to be in the database before we can save rules
         if (courseId == null) {
             final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
@@ -190,6 +189,9 @@ public class CourseRequirementsDataModel {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
 
+        // recursively set the statement state to course state
+        statementTreeViewInfoStateSetter(courseState, courseReqInfos.values().iterator());
+        
         courseRemoteService.storeCourseStatements(courseId.toString(), courseReqState, courseReqInfos, new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -245,7 +247,7 @@ public class CourseRequirementsDataModel {
         if ((tree.getId() != null) && (tree.getId().indexOf(CourseRequirementsSummaryView.NEW_STMT_TREE_ID)) >= 0) {
             tree.setId(null);
         }
-        tree.setState("Active");
+        //tree.setState("Active");
 
         if ((statements != null) && (statements.size() > 0)) {
             // retrieve all statements
@@ -263,7 +265,7 @@ public class CourseRequirementsDataModel {
                     field.setId(null);
                 }
 
-                reqComponent.setState("Active");
+                //reqComponent.setState("Active");
             }
         }
     }
@@ -437,5 +439,17 @@ public class CourseRequirementsDataModel {
 
     public List<StatementTypeInfo> getStmtTypes() {
         return stmtTypes;
+    }
+   
+    public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
+    	while(itr.hasNext()) {        	
+        	StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();        	
+        	statementTreeViewInfo.setState(courseState);
+        	List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+        	for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+        		it.next().setState(courseState);
+        	
+        	statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
+        }    	
     }
 }

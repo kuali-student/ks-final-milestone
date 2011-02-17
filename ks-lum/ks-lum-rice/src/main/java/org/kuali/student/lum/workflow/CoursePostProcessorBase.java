@@ -3,6 +3,9 @@
  */
 package org.kuali.student.lum.workflow;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +17,8 @@ import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
@@ -130,6 +135,13 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             	}
             }
         }
+        
+        List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
+        
+        statementTreeViewInfoStateSetter(courseState, statementTreeViewInfos.iterator());
+        
+        for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+    		courseService.updateCourseStatement(courseInfo.getId(), it.next());
 
     }
 
@@ -143,5 +155,18 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         }
         return this.courseService;
     }
+    
+    public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
+    	while(itr.hasNext()) {
+        	StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();
+        	statementTreeViewInfo.setState(courseState);
+        	List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+        	for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+        		it.next().setState(courseState);
+
+        	statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
+        }
+    }  
+    
 
 }

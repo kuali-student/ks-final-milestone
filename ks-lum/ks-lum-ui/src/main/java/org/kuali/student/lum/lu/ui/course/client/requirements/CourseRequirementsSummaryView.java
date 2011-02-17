@@ -383,6 +383,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             @Override
             public void onModelReady(Model model) {
                 String courseId = ((DataModel)model).getRoot().get("id");
+                String courseState = ((DataModel)model).getRoot().get("state");
                 if (courseId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){
@@ -395,7 +396,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     callback.exec(false);
                 } else {
                     if (storeRules) {
-                        rules.updateCourseRequisites(courseId, new Callback<List<StatementTreeViewInfo>>() {
+                        rules.updateCourseRequisites(courseId, courseState, new Callback<List<StatementTreeViewInfo>>() {
                             @Override
                             public void exec(List<StatementTreeViewInfo> rules) {
                                 for (StatementTreeViewInfo rule : rules) {

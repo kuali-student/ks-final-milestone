@@ -1,12 +1,21 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -51,6 +60,7 @@ public class CourseStateChangeServiceImpl {
 			ret.setMessage(e.getMessage());
 		}
 
+		
 		return ret;
     }
 
@@ -79,13 +89,14 @@ public class CourseStateChangeServiceImpl {
     	} else {
     		thisVerCourse.setState(thisVerNewState);
     		courseService.updateCourse(thisVerCourse);
+    		updateStatementTreeViewInfoState(thisVerCourse); 		
     	}
 
     	// won't get called if previous exception was thrown
     	if (currVerNewState != null) {
     		currVerCourse.setState(currVerNewState);
     		courseService.updateCourse(currVerCourse);
-
+    		updateStatementTreeViewInfoState(currVerCourse);
     	}
 
     	if (makeCurrent == true) {
@@ -114,6 +125,7 @@ public class CourseStateChangeServiceImpl {
     						otherCourse.getState().equals(LUUIConstants.LU_STATE_DRAFT)) {
     					otherCourse.setState(LUUIConstants.LU_STATE_SUPERSEDED);
     					courseService.updateCourse(otherCourse);
+    					updateStatementTreeViewInfoState(otherCourse);	
     				}
     			}
     		}  		
@@ -124,4 +136,24 @@ public class CourseStateChangeServiceImpl {
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
 	}
+	
+	public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
+		while(itr.hasNext()) {
+			StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();
+			statementTreeViewInfo.setState(courseState);
+	        List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+	        for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+	        	it.next().setState(courseState);
+
+	        statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
+	    }
+	} 
+	
+	public void updateStatementTreeViewInfoState(CourseInfo courseInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+		List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
+		statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+		for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+			courseService.updateCourseStatement(courseInfo.getId(), it.next());	
+	}
+	
 }

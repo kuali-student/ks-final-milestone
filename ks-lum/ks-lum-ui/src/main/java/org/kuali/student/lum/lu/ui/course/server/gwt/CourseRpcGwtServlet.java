@@ -81,7 +81,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        statementTreeViewInfo.setState("Active");
+        //statementTreeViewInfo.setState("Active");
         CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
@@ -95,7 +95,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        statementTreeViewInfo.setState("Active");
+        //statementTreeViewInfo.setState("Active");
         CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
