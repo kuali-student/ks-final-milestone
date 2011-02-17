@@ -170,7 +170,7 @@ public class WorkflowUtilities{
 				public void onModelReady(DataModel model) {
 					//After we get the model update immediately
 					dataModel = model;
-					updateWorkflow(dataModel);
+					//updateWorkflow(dataModel);
 				}
 			});
 		}else{
@@ -242,7 +242,7 @@ public class WorkflowUtilities{
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
 		workflowActionsDropDown.setVisible(false);
-		refresh();
+		//refresh();
 /*		infoContainer.add(workflowActionsDropDown);
 		infoContainer.showWarnStyling(false);
 		infoContainer.setVisible(true);*/
@@ -945,7 +945,7 @@ public class WorkflowUtilities{
 
     //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
 	public void refresh(){
-		//updateWorkflow(dataModel);
+		updateWorkflow(dataModel);
 	}
 	
     private String getLabel(String labelKey) {
