@@ -443,7 +443,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                 fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
             }
 
-            metadataServiceAsync.getMetadataList("org.kuali.student.common.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
+            metadataServiceAsync.getMetadataList(ReqCompFieldInfo.class.getName(), fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("getMetadataList failed for req. comp. types: '" + fieldTypes.toString() + "'",caught);
