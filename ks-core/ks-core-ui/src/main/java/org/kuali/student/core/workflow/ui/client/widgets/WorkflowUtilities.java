@@ -243,7 +243,7 @@ public class WorkflowUtilities{
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
 		workflowActionsDropDown.setVisible(false);
-		refresh();
+		updateWorkflow(dataModel);
 /*		infoContainer.add(workflowActionsDropDown);
 		infoContainer.showWarnStyling(false);
 		infoContainer.setVisible(true);*/
@@ -950,7 +950,7 @@ public class WorkflowUtilities{
 
     //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
 	public void refresh(){
-		//updateWorkflow(dataModel);
+		updateWorkflow(dataModel);
 	}
 	
     private String getLabel(String labelKey) {
