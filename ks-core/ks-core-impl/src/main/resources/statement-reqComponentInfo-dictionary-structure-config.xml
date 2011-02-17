@@ -15,10 +15,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.reqComponentInfo -->
 <!-- ******************************************** -->
 <!-- Information about a requirement component. -->
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.reqComponentInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
 
 <dict:type key="*" id="type.reqComponentInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -160,10 +160,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.reqComponentInfo.reqCompField.(default).(default) -->
 <!-- *********************************************************************************** -->
 <!-- Detailed information about a requirement component field value. -->
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.abstract" abstract="true">
 	<dict:typeRef bean="type.field.reqComponentInfo.reqCompField"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField" parent="object.field.reqComponentInfo.reqCompField.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField" parent="object.field.reqComponentInfo.reqCompField.abstract"/>
 
 <dict:type key="*" id="type.field.reqComponentInfo.reqCompField.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

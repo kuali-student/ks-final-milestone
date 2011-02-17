@@ -15,10 +15,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.StatementInfo -->
 <!-- ***************************************** -->
 <!-- Detailed information about a single statement. -->
-<dict:objectStructure key="org.kuali.student.common.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.StatementInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
 
 <dict:type key="*" id="type.StatementInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

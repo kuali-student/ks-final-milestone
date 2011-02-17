@@ -16,7 +16,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.reqComponentInfo -->
 <!-- ******************************************** -->
 <!-- Information about a requirement component. -->
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.reqComponentInfo.Noneofthesecourses"/>
 	<dict:typeRef bean="type.reqComponentInfo.Oneofthesecourses-coreq"/>
 	<dict:typeRef bean="type.reqComponentInfo.Allofthesecourses-coreq"/>
@@ -29,7 +29,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:typeRef bean="type.reqComponentInfo.Oneoftheseprograms"/>
 	<dict:typeRef bean="type.reqComponentInfo.Noneoftheseprograms"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
 
 <dict:type key="kuali.reqComponent.type.requisite.*" id="type.reqComponentInfo.RequisiteRequirementComponents.abstract" abstract="true">
 	<dict:name>Requisite Requirement Components</dict:name>
@@ -240,10 +240,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.reqComponentInfo.reqCompField.Requisite Requirement Components.(default) -->
 <!-- ********************************************************************************************************** -->
 <!-- Detailed information about a requirement component field value. -->
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents.abstract" abstract="true">
 	<dict:typeRef bean="type.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents" parent="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents" parent="object.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents.abstract"/>
 
 <dict:type key="*" id="type.field.reqComponentInfo.reqCompField.RequisiteRequirementComponents.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
