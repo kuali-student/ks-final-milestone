@@ -19,7 +19,7 @@ import org.kuali.student.core.statement.entity.StatementType;
 
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceConfiguration extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.common.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")
+    @Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")
     public StatementDao dao;
 
     private boolean containsStatementType(List<OrderedStatementType> typeList, String id) {

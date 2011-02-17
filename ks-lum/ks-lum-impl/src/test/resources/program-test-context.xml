@@ -479,7 +479,7 @@
     </bean>
 
     <bean id="dictionaryService"
-          class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-programInfo-dictionary-context.xml</value>

@@ -41,14 +41,14 @@
     </bean>
 
 	<bean id="lumSearchDispatcher" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-		<property name="interfaceClass" value="org.kuali.student.core.search.service.SearchDispatcher" />
+		<property name="interfaceClass" value="org.kuali.student.common.search.service.SearchDispatcher" />
 		<property name="methodReturnMap">
 			<map>
 				<entry key="dispatchSearch">
-					<bean class="org.kuali.student.core.search.dto.SearchResult">
+					<bean class="org.kuali.student.common.search.dto.SearchResult">
 						<property name="rows">
 							<list>
-								<bean class="org.kuali.student.core.search.dto.SearchResultRow"/>
+								<bean class="org.kuali.student.common.search.dto.SearchResultRow"/>
 							</list>
 						</property>
 					</bean>
