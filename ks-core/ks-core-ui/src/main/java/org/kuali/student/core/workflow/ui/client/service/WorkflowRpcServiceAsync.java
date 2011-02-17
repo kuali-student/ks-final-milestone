@@ -15,41 +15,52 @@
 
 package org.kuali.student.core.workflow.ui.client.service;
 
-import java.util.List;
-
-import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.core.workflow.ui.client.widgets.ActionDocumentStatusDTO;
 
+import java.util.List;
+
 /**
- *  Aysnc methods to make workflow rpc service calls. 
- * 
+ * Aysnc methods to make workflow rpc service calls.
  */
 public interface WorkflowRpcServiceAsync {
 
-	public void getWorkflowIdFromDataId(String workflowDocType, String dataId, AsyncCallback<String> callback);
-	public void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback);
-	public void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
-	public void getWorkflowNodes(String workflowId, AsyncCallback<List<String>> callback);
+    void getWorkflowIdFromDataId(String workflowDocType, String dataId, AsyncCallback<String> callback);
 
-	public void getActionsRequested(String workflowId, AsyncCallback<String> callback);
-	
-	public void submitDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-    public void cancelDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void approveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void disapproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void fyiDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void withdrawDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-    public void blanketApproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-    public void returnDocumentWithId(String workflowId, String nodeName, AsyncCallback<Boolean> callback);
-    public void getPreviousRouteNodeNames(String workflowId, AsyncCallback<List<String>> callback);
-	
-	public void adhocRequest(String workflowId, String recipientPrincipalId, ActionRequestType requestType, String annotation, AsyncCallback<Boolean> callback);
-	
-    public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
-    public void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
+    void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback);
+
+    void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
+
+    void getWorkflowNodes(String workflowId, AsyncCallback<List<String>> callback);
+
+    void getActionsRequested(String workflowId, AsyncCallback<String> callback);
+
+    void submitDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void cancelDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void approveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void disapproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void fyiDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void withdrawDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void blanketApproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+
+    void returnDocumentWithId(String workflowId, String nodeName, AsyncCallback<Boolean> callback);
+
+    void getPreviousRouteNodeNames(String workflowId, AsyncCallback<List<String>> callback);
+
+    void adhocRequest(String workflowId, String recipientPrincipalId, ActionRequestType requestType, String annotation, AsyncCallback<Boolean> callback);
+
+    void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
+
+    void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
 
     void getActionsAndDocumentStatus(String workflowId, AsyncCallback<ActionDocumentStatusDTO> callback);
 }
