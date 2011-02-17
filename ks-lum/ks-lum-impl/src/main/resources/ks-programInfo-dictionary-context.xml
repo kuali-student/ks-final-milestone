@@ -1840,7 +1840,7 @@
 
  <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
   <property name="name" value="statement"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.statement.dto.StatementTreeViewInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
  </bean>
  <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
 
