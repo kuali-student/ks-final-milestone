@@ -11,7 +11,6 @@ APP_WORKSPACE=$4
 WAR_FILE=ks-embedded-$VERSION-SNAPSHOT.war
 LOCAL_WAR_FILE=$APP_WORKSPACE/$SVN_DIR/ks-web/ks-embedded/target/$WAR_FILE
 REMOTE_WAR_FILE=/usr/local/student/downloads/$WAR_FILE
-REMOTE_TOMCAT_DIR=/usr/local/student/embedded/$REMOTE_DIR
 LOCAL_MVN_DIR=$APP_WORKSPACE/$SVN_DIR/ks-cfg-dbs/ks-embedded-db
 DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
 DBA_PASSWORD=gw570229
@@ -74,6 +73,8 @@ else
   echo ------------------------------------------------------------------------------------------
   exit 0
 fi
+
+REMOTE_TOMCAT_DIR=/usr/local/student/embedded/$REMOTE_DIR
 
 # Copy the newly generated war file into the downloads directory
 scp -i $PEM_FILE $LOCAL_WAR_FILE $REMOTE_SERVER:$REMOTE_WAR_FILE
