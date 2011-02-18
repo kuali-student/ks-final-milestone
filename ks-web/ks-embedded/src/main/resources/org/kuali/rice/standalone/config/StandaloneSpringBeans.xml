@@ -43,7 +43,7 @@
 	
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
-	<import resource="classpath:org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml" />
+	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 		
 	
 </beans>
