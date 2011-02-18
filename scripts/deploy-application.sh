@@ -17,9 +17,9 @@ DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
 DBA_PASSWORD=gw570229
 REMOTE_SERVER=root@deploy.ks.kuali.org
 PEM_FILE=/home/tomcat/ks-key.pem
-SHUTDOWN_CMD=su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh
-CLEANUP_CMD=su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh
-STARTUP_CMDsu - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh
+SHUTDOWN_CMD='su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh'
+CLEANUP_CMD='su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh'
+STARTUP_CMD='su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh'
 
 
 
