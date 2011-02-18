@@ -1203,7 +1203,8 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
                         Data idItem = p.getValue();
                         String id = idItem.get(key);
                         Data runtimeData = idItem.get("_runtimeData");
-                        Data translationData = runtimeData.get(key);
+                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                        Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
                         newIdsData = (newIdsData == null) ? new Data() : newIdsData;
                         newIdsData.add(id);
                         newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;
