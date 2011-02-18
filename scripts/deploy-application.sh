@@ -95,6 +95,6 @@ cd $LOCAL_MVN_DIR
 mvn clean install -Pks-db,oracle -Dks.impex.username=$DB_SCHEMA -Dks.impex.password=$DB_SCHEMA -Dks.impex.dba.password=$DBA_PASSWORD -Dks.impex.url=$DB_URL
 
 # Perform some cleanup and restart Tomcat
-ssh -i $PEM_FILE $REMOTE_SERVER $SHUTDOWN_CMD
+ssh -i $PEM_FILE $REMOTE_SERVER $CLEANUP_CMD
 ssh -i $PEM_FILE $REMOTE_SERVER $STARTUP_CMD
 
