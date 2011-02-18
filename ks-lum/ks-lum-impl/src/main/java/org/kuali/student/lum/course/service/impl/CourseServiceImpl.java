@@ -29,6 +29,9 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -279,9 +282,24 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
+    	    
+    	// use search here because we don't care about data.
+    	SearchRequest req = new SearchRequest();
+    	req.setSearchKey("lu.search.generic");
+    	List<SearchParam> params = new ArrayList<SearchParam>();
+    	SearchParam id = new SearchParam();
+    	id.setKey("lu.queryParam.luOptionalId");
+    	id.setValue(courseId);      
+    	params.add(id);
+    	req.setParams(params);
 
     	try {
-			CluInfo clu = luService.getClu(courseId);
+//			CluInfo clu = luService.getClu(courseId);
+    	    SearchResult res = luService.search(req);
+    	    if (res.getRows().size() != 1 ) {
+    	        throw new DoesNotExistException();
+    	    }
+			
 		} catch (DoesNotExistException e) {
 			throw new InvalidParameterException("course does not exist");
 		}
