@@ -53,7 +53,7 @@
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@deploy.ks.kuali.org</argument>
+                <argument>root@demo.ks.kuali.org</argument>
                 <argument>/usr/local/tomcat/bin/shutdown.sh</argument>
                 <argument>60</argument>
                 <argument>-force</argument>
@@ -71,7 +71,7 @@
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@deploy.ks.kuali.org</argument>
+                <argument>root@demo.ks.kuali.org</argument>
                 <argument>/usr/local/tomcat/bin/cleanup.sh</argument>
               </arguments>
             </configuration>
@@ -87,7 +87,7 @@
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@deploy.ks.kuali.org</argument>
+                <argument>root@demo.ks.kuali.org</argument>
                 <argument>/usr/local/tomcat/bin/startup.sh</argument>
               </arguments>
             </configuration>
