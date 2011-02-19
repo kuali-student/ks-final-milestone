@@ -145,6 +145,7 @@
             </goals>
             <configuration>
               <tasks>
+                <echo>Generating ${ks.deploy.local.config.file}</echo>
                 <echo file="${ks.deploy.local.config.file}">${ks.deploy.embedded.config}</echo>
               </tasks>
             </configuration>
