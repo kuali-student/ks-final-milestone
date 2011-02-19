@@ -35,12 +35,37 @@
       </snapshots>
     </repository>
   </repositories>
+  <properties>
+    <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
+  </properties>
+  <profiles>
+    <profile>
+      <id>demo</id>
+      <properties>
+        <ks.deploy.remote.user>root</ks.deploy.remote.user>
+        <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
+        <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
+        <ks.deploy.remote.shutdown>${ks.deploy.remote.tomcat.home}/shutdown.sh</ks.deploy.remote.shutdown>
+        <ks.deploy.remote.shutdown.timeout>60</ks.deploy.remote.shutdown.timeout>
+        <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
+        <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/startup.sh</ks.deploy.remote.startup>
+      </properties>
+    </profile>
+  </profiles>
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.1</version>
+        <configuration>
+          <arguments>
+            <argument>-i</argument>
+            <argument>${ks.deploy.auth}</argument>
+            <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+          </arguments>
+        </configuration>
         <executions>
           <execution>
             <id>shutdown-remote-tomcat</id>
@@ -51,12 +76,9 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
-                <argument>-i</argument>
-                <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@demo.ks.kuali.org</argument>
-                <argument>/usr/local/tomcat/bin/shutdown.sh</argument>
-                <argument>60</argument>
-                <argument>-force</argument>
+                <argument>${ks.deploy.remote.shutdown}</argument>
+                <argument>${ks.deploy.remote.shutdown.timeout}</argument>
+                <argument>${ks.deploy.remote.shutdown.force}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -69,10 +91,7 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
-                <argument>-i</argument>
-                <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@demo.ks.kuali.org</argument>
-                <argument>/usr/local/tomcat/bin/cleanup.sh</argument>
+                <argument>${ks.deploy.remote.cleanup}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -85,10 +104,7 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
-                <argument>-i</argument>
-                <argument>/home/tomcat/ks-key.pem</argument>
-                <argument>root@demo.ks.kuali.org</argument>
-                <argument>/usr/local/tomcat/bin/startup.sh</argument>
+                <argument>${ks.deploy.remote.startup}</argument>
               </arguments>
             </configuration>
           </execution>
