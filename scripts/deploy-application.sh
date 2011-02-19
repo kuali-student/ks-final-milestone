@@ -44,20 +44,20 @@ then
 fi
 if [ "$ENVIRONMENT" = "dev" ]
 then
-  DB_SCHEMA=KSDEV
-  REMOTE_USER=deploy
-  REMOTE_DIR=dev
-  SHUTDOWN_CMD="su - $REMOTE_USER -c '/usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force'"
-  CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
-  STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
+  REMOTE_DB_SCHEMA=KSDEV
+  REMOTE_USER_HOME=/usr/local/tomcat_deploy
+  REMOTE_TOMCAT_HOME=/usr/local/tomcat_deploy
+  REMOTE_SHUTDOWN_CMD="su - $REMOTE_USER -c '$REMOTE_TOMCAT_HOME/bin/shutdown.sh 60 -force'"
+  REMOTE_CLEANUP_CMD="su - $REMOTE_USER -c $REMOTE_TOMCAT_HOME/bin/cleanup.sh"
+  REMOTE_STARTUP_CMD="su - $REMOTE_USER -c $REMOTE_TOMCAT_HOME/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "staging" ]
 then
   DB_SCHEMA=KSSTAGING
   REMOTE_USER=staging
   REMOTE_DIR=staging
-  SHUTDOWN_CMD="su - $REMOTE_USER -c '/usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force'"
-  CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
-  STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
+  SHUTDOWN_CMD="su - $REMOTE_USER -c '$REMOTE_TOMCAT_HOME/bin/shutdown.sh 60 -force'"
+  CLEANUP_CMD="su - $REMOTE_USER -c $REMOTE_TOMCAT_HOME/bin/cleanup.sh"
+  STARTUP_CMD="su - $REMOTE_USER -c $REMOTE_TOMCAT_HOME/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "demo" ]
 then
   REMOTE_SERVER=root@demo.ks.kuali.org
