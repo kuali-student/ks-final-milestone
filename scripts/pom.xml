@@ -59,13 +59,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.1</version>
-        <configuration>
-          <arguments>
-            <argument>-i</argument>
-            <argument>${ks.deploy.auth}</argument>
-            <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-          </arguments>
-        </configuration>
         <executions>
           <execution>
             <id>shutdown-remote-tomcat</id>
@@ -76,6 +69,9 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
                 <argument>${ks.deploy.remote.shutdown}</argument>
                 <argument>${ks.deploy.remote.shutdown.timeout}</argument>
                 <argument>${ks.deploy.remote.shutdown.force}</argument>
@@ -91,6 +87,9 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
                 <argument>${ks.deploy.remote.cleanup}</argument>
               </arguments>
             </configuration>
@@ -104,6 +103,9 @@
             <configuration>
               <executable>/usr/bin/ssh</executable>
               <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
                 <argument>${ks.deploy.remote.startup}</argument>
               </arguments>
             </configuration>
