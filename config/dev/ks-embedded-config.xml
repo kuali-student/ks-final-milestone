@@ -1,0 +1,9 @@
+<config>
+  <param name="appserver.url">http://deploy.ks.kuali.org</param>
+  <param name="app.context.name">dev</param>
+  <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:KS</param>
+  <param name="datasource.username">KSDEV</param>
+  <param name="datasource.password">KSDEV</param>
+  <param name="datasource.pool.maxSize">20</param>
+  <param name="encryption.key">i44AED6CACC70B4CE47B1A0488ECB1288</param>
+</config>
