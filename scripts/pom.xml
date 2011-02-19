@@ -50,7 +50,7 @@
     <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.local.config.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
-        <param name="appserver.url">http://${ks.deploy.remote.hostname}</param>
+        <param name="appserver.url">http://${ks.deploy.remote.public.url}</param>
         <param name="app.context.name"/>
         <param name="app.code"/>
         <param name="application.url">${appserver.url}</param>
@@ -93,6 +93,7 @@
         <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
+        <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout} ${ks.deploy.remote.shutdown.force}</ks.deploy.remote.shutdown>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
@@ -109,11 +110,12 @@
         <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
+        <ks.deploy.remote.public.url>dev.ks.kuali.org</ks.deploy.remote.public.url>
 
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
-        <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
-        <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
+        <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.startup>
 
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEV</ks.impex.username>
