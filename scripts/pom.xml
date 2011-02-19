@@ -37,23 +37,25 @@
   </repositories>
   <build>
     <plugins>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>exec-maven-plugin</artifactId>
-      <version>1.1</version>
-      <executions>
-        <execution>
-          <id>stop-remote-tomcat</id>
-          <goals>
-            <goal>exec</goal>
-          </goals>
-          <configuration>
-            <executable>ssh</executable>
-            <arguments>
-              <argument>-i /home/tomcat/ks-key.pem root@demo.ks.kuali.org /usr/local/tomcat/bin/shutdown.sh 60 -force</argument>
-            </arguments>
-          </configuration>
-        </execution>
-      </executions>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>stop-remote-tomcat</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i /home/tomcat/ks-key.pem root@demo.ks.kuali.org /usr/local/tomcat/bin/shutdown.sh 60 -force</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
