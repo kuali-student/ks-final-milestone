@@ -83,7 +83,7 @@
             </goals>
             <configuration>
               <tasks>
-                <echo file="${project.build.directory}/ks-embedded-config.xml">${ks.deploy.embedded.config}</echo>
+                <echo file="${project.basedir}/ks-embedded-config.xml">${ks.deploy.embedded.config}</echo>
               </tasks>
             </configuration>
           </execution>
