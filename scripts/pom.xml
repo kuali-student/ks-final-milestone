@@ -220,14 +220,15 @@
             <configuration>
               <workingDirectory>${ks.hudson.working.copy}</workingDirectory>
               <executable>/opt/java/apache-maven-3.0/bin</executable>
-              <argument>clean</argument>
-              <argument>install</argument>
-              <argument>-Pks-db,oracle</argument>
-              <argument>-Dks.impex.username=${ks.impex.username}</argument>
-              <argument>-Dks.impex.password=${ks.impex.password}</argument>
-              <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
-              <argument>-Dks.impex.url=${ks.impex.url}</argument>
-            </arguments>
+              <arguments>
+                <argument>clean</argument>
+                <argument>install</argument>
+                <argument>-Pks-db,oracle</argument>
+                <argument>-Dks.impex.username=${ks.impex.username}</argument>
+                <argument>-Dks.impex.password=${ks.impex.password}</argument>
+                <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
+                <argument>-Dks.impex.url=${ks.impex.url}</argument>
+              </arguments>
             </configuration>
           </execution>
           <execution>
