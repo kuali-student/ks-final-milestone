@@ -138,6 +138,20 @@
               </tasks>
             </configuration>
           </execution>
+          <execution>
+            <id>stop-remote-tomcat</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <exec executable="/usr/bin/ssh">
+                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname} ${ks.deploy.remote.shutdown} ${ks.deploy.remote.shutdown.timeout} ${ks.deploy.remote.shutdown.force}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -147,7 +161,7 @@
         <executions>
           <execution>
             <id>stop-remote-tomcat</id>
-            <phase>clean</phase>
+            <phase>none</phase>
             <goals>
               <goal>exec</goal>
             </goals>
