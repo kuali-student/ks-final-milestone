@@ -39,7 +39,11 @@
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
-    <ks.deploy.local.war.file>/opt/hudson/home/jobs/1.1-full-build/workspace/ks-1.1/ks-web/ks-embedded/target/ks-embedded-1.1-SNAPSHOT.war</ks.deploy.local.war.file>
+    <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
+    <ks.hudson.job>1.1-full-build</ks.hudson.job>
+    <ks.hudson.svn.suffix>ks-1.1</ks.hudson.svn.suffix>
+    <ks.deploy.version>1.1-SNAPSHOT</ks.deploy.version>
+    <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.jop}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
   </properties>
   <profiles>
     <profile>
@@ -64,7 +68,7 @@
         <version>1.1</version>
         <executions>
           <execution>
-            <id>shutdown-remote-tomcat</id>
+            <id>stop-remote-tomcat</id>
             <phase>clean</phase>
             <goals>
               <goal>exec</goal>
@@ -150,7 +154,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>startup-remote-tomcat</id>
+            <id>start-remote-tomcat</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>exec</goal>
