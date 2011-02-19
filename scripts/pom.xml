@@ -41,8 +41,9 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.hudson.working.copy>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/</ks.hudson.working.copy>
-    <ks.hudson.ks-embedde.dir>${ks.hudson.working.copy}/ks-web/ks-embedded</ks.hudson.ks-embedde.dir>
-    <ks.deploy.local.war.file>${ks.hudson.ks-embedde.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
+    <ks.hudson.ks-embedded.dir>${ks.hudson.working.copy}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
+    <ks.hudson.ks-embedded-db.dir>${ks.hudson.working.copy}/ks-cfg-dbs/ks-embedded-db</ks.hudson.ks-embedded-db.dir>
+    <ks.deploy.local.war.file>${ks.hudson.ks-embedded.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
     <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.local.config.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
