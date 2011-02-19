@@ -235,7 +235,7 @@
           </execution>
           <execution>
             <id>cleanup-remote-tomcat</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -251,7 +251,7 @@
           </execution>
           <execution>
             <id>start-remote-tomcat</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
