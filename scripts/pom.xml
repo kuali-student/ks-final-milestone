@@ -145,7 +145,7 @@
           </execution>
           <execution>
             <id>remove-remote-war-dir</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -163,7 +163,7 @@
           </execution>
           <execution>
             <id>remove-remote-war-file</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -181,7 +181,7 @@
           </execution>
           <execution>
             <id>copy-local-config-file-to-remote</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -197,7 +197,7 @@
           </execution>
           <execution>
             <id>copy-local-war-file-to-remote</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -213,13 +213,13 @@
           </execution>
           <execution>
             <id>reset-remote-database</id>
-            <phase>deploy</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
             <configuration>
               <workingDirectory>${ks.hudson.working.copy}</workingDirectory>
-              <executable>/opt/java/apache-maven-3.0/bin</executable>
+              <executable>/opt/java/apache-maven-3.0/bin/mvn</executable>
               <arguments>
                 <argument>clean</argument>
                 <argument>install</argument>
