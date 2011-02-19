@@ -43,7 +43,7 @@
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
-        <param name="appserver.url">http://demo.ks.kuali.org</param>
+        <param name="appserver.url">http://${ks.deploy.remote.hostname}</param>
         <param name="app.context.name"/>
         <param name="app.code"/>
         <param name="application.url">${appserver.url}</param>
