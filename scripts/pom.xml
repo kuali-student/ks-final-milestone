@@ -80,6 +80,9 @@
         <ks.deploy.remote.shutdown.timeout>60</ks.deploy.remote.shutdown.timeout>
         <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
+        <ks.impex.username>KSDEMO</ks.impex.username>
+        <ks.impex.password>KSEDMO</ks.impex.password>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
       </properties>
     </profile>
