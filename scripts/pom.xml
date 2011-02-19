@@ -81,6 +81,42 @@
             </configuration>
           </execution>
           <execution>
+            <id>remove-remote-war-dir</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>/usr/bin/ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>rm</argument>
+                <argument>-rf</argument>
+                <argument>${ks.deploy.remote.war.dir}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>remove-remote-war-file</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>/usr/bin/ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>rm</argument>
+                <argument>-f</argument>
+                <argument>${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>cleanup-remote-tomcat</id>
             <phase>pre-integration-test</phase>
             <goals>
