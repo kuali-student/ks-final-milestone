@@ -95,13 +95,15 @@
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
+
         <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout} ${ks.deploy.remote.shutdown.force}</ks.deploy.remote.shutdown>
-        <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} ${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
+
         <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEMO</ks.impex.username>
         <ks.impex.dba.password>gw570229</ks.impex.dba.password>
         <ks.impex.password>KSEDMO</ks.impex.password>
-        <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
       </properties>
     </profile>
     <profile>
@@ -158,6 +160,36 @@
               </tasks>
             </configuration>
           </execution>
+          <execution>
+            <id>cleanup-remote-tomcat</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.cleanup}</echo>
+                <exec executable="${ks.deploy.ssh.path}">
+                  <arg line="ks.deploy.remote.cleanup"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-remote-tomcat</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.startup}</echo>
+                <exec executable="${ks.deploy.ssh.path}">
+                  <arg line="ks.deploy.remote.startup"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -165,24 +197,6 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.1</version>
         <executions>
-          <execution>
-            <id>stop-remote-tomcat</id>
-            <phase>none</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>${ks.deploy.remote.shutdown}</argument>
-                <argument>${ks.deploy.remote.shutdown.timeout}</argument>
-                <argument>${ks.deploy.remote.shutdown.force}</argument>
-              </arguments>
-            </configuration>
-          </execution>
           <execution>
             <id>remove-remote-war-dir</id>
             <phase>install</phase>
@@ -268,46 +282,6 @@
                 <argument>-Dks.impex.password=${ks.impex.password}</argument>
                 <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
                 <argument>-Dks.impex.url=${ks.impex.url}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>cleanup-remote-tomcat</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>${ks.deploy.remote.cleanup.1}</argument>
-                <argument>${ks.deploy.remote.cleanup.2}</argument>
-                <argument>${ks.deploy.remote.cleanup.3}</argument>
-                <argument>${ks.deploy.remote.cleanup.4}</argument>
-                <argument>${ks.deploy.remote.cleanup}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>start-remote-tomcat</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>${ks.deploy.remote.startup.1}</argument>
-                <argument>${ks.deploy.remote.startup.2}</argument>
-                <argument>${ks.deploy.remote.startup.3}</argument>
-                <argument>${ks.deploy.remote.startup.4}</argument>
-                <argument>${ks.deploy.remote.startup}</argument>
               </arguments>
             </configuration>
           </execution>
