@@ -220,7 +220,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <workingDirectory>${ks.hudson.working.copy}</workingDirectory>
+              <workingDirectory>${ks.hudson.ks-embedded-db.dir}</workingDirectory>
               <executable>/opt/java/apache-maven-3.0/bin/mvn</executable>
               <arguments>
                 <argument>clean</argument>
