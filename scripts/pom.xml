@@ -43,7 +43,7 @@
         <version>1.1</version>
         <executions>
           <execution>
-            <id>stop-remote-tomcat</id>
+            <id>shutdown-remote-tomcat</id>
             <phase>clean</phase>
             <goals>
               <goal>exec</goal>
@@ -77,7 +77,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>start-remote-tomcat</id>
+            <id>startup-remote-tomcat</id>
             <phase>initialize</phase>
             <goals>
               <goal>exec</goal>
