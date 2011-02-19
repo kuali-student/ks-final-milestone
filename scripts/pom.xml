@@ -37,6 +37,8 @@
   </repositories>
   <properties>
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
+    <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
+    <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
   </properties>
   <profiles>
     <profile>
@@ -62,7 +64,7 @@
         <executions>
           <execution>
             <id>shutdown-remote-tomcat</id>
-            <phase>clean</phase>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -80,7 +82,7 @@
           </execution>
           <execution>
             <id>cleanup-remote-tomcat</id>
-            <phase>clean</phase>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -96,7 +98,7 @@
           </execution>
           <execution>
             <id>startup-remote-tomcat</id>
-            <phase>initialize</phase>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>exec</goal>
             </goals>
