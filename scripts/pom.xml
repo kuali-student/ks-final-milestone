@@ -36,6 +36,8 @@
     </repository>
   </repositories>
   <properties>
+    <ks.deply.ssh.path>/usr/bin/ssh</ks.deply.ssh.path>
+    <ks.deply.scp.path>/usr/bin/scp</ks.deply.scp.path>
     <ks.deploy.remote.cmd.prefix>-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</ks.deploy.remote.cmd.prefix>
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
@@ -147,8 +149,8 @@
             </goals>
             <configuration>
               <tasks>
-                <echo>+ /usr/bin/ssh ${ks.deploy.remote.shutdown}</echo>
-                <exec executable="/usr/bin/ssh">
+                <echo>+ ${ks.deply.ssh.path} ${ks.deploy.remote.shutdown}</echo>
+                <exec executable="${ks.deply.ssh.path}">
                   <arg line="${ks.deploy.remote.shutdown}"/>
                 </exec>
               </tasks>
@@ -168,7 +170,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/ssh</executable>
+              <executable>${ks.deply.ssh.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -186,7 +188,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/ssh</executable>
+              <executable>${ks.deply.ssh.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -204,7 +206,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/ssh</executable>
+              <executable>${ks.deply.ssh.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -222,7 +224,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/scp</executable>
+              <executable>${ks.deply.scp.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -238,7 +240,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/scp</executable>
+              <executable>${ks.deply.scp.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -274,7 +276,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/ssh</executable>
+              <executable>${ks.deply.ssh.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
@@ -294,7 +296,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>/usr/bin/ssh</executable>
+              <executable>${ks.deply.ssh.path}</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
