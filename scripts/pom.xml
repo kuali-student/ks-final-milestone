@@ -40,12 +40,17 @@
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
-    <ks.hudson.job>1.1-full-build</ks.hudson.job>
-    <ks.hudson.svn.suffix>ks-1.1</ks.hudson.svn.suffix>
-    <ks.deploy.version>1.1-SNAPSHOT</ks.deploy.version>
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.jop}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
   </properties>
   <profiles>
+    <profile>
+      <id>1.1</id>
+      <properties>
+        <ks.hudson.job>1.1-full-build</ks.hudson.job>
+        <ks.hudson.svn.suffix>ks-1.1</ks.hudson.svn.suffix>
+        <ks.deploy.version>1.1-SNAPSHOT</ks.deploy.version>
+      </properties>
+    </profile>
     <profile>
       <id>demo</id>
       <properties>
