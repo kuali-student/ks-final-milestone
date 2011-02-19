@@ -147,9 +147,9 @@
             </goals>
             <configuration>
               <tasks>
-                <echo>+ /usr/bin/ssh -i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname} ${ks.deploy.remote.shutdown}</echo>
+                <echo>+ /usr/bin/ssh -i ${ks.deploy.remote.shutdown}</echo>
                 <exec executable="/usr/bin/ssh">
-                  <arg line="${ks.deploy.remote.shutdown}"/> 
+                  <arg line="${ks.deploy.remote.shutdown}"/>
                 </exec>
               </tasks>
             </configuration>
