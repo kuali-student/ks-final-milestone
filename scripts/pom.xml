@@ -49,7 +49,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>ssh</executable>
+              <executable>/usr/bin/ssh</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
@@ -67,7 +67,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>ssh</executable>
+              <executable>/usr/bin/ssh</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
@@ -83,7 +83,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>ssh</executable>
+              <executable>/usr/bin/ssh</executable>
               <arguments>
                 <argument>-i</argument>
                 <argument>/home/tomcat/ks-key.pem</argument>
