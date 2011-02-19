@@ -41,25 +41,24 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
-    <ks.deploy.embedded.config><![CDATA[
-      <config>
-        <param name="appserver.url">http://${ks.deploy.remote.hostname}</param>
-        <param name="app.context.name"/>
-        <param name="app.code"/>
-        <param name="application.url">${appserver.url}</param>
-        <param name="externalizable.help.url">/kr/static/help/</param>
-        <param name="externalizable.images.url">/kr/static/images/</param>
-        <param name="kr.externalizable.images.url">${externalizable.images.url}</param>
-        <param name="travel.externalizable.images.url">${externalizable.images.url}</param>
-        <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:KS</param>
-        <param name="datasource.username">KSDEMO</param>
-        <param name="datasource.password">KSDEMO</param>
-        <param name="datasource.pool.maxSize">20</param>
-        <param name="ks.core.datasource.pool.maxSize">20</param>
-        <param name="ks.lum.datasource.pool.maxSize">20</param>
-        <param name="encryption.key">i44AED6CACC70B4CE47B1A0488ECB1288</param>
-      </config>
-      ]]>
+    <ks.deploy.embedded.config>
+      &lt;config&gt;
+        &lt;param name="appserver.url"&gt;http://${ks.deploy.remote.hostname}&lt;/param&gt;
+        &lt;param name="app.context.name"/&gt;
+        &lt;param name="app.code"/&gt;
+        &lt;param name="application.url"&gt;${appserver.url}&lt;/param&gt;
+        &lt;param name="externalizable.help.url"&gt;/kr/static/help/&lt;/param&gt;
+        &lt;param name="externalizable.images.url"&gt;/kr/static/images/&lt;/param&gt;
+        &lt;param name="kr.externalizable.images.url"&gt;${externalizable.images.url}&lt;/param&gt;
+        &lt;param name="travel.externalizable.images.url"&gt;${externalizable.images.url}&lt;/param&gt;
+        &lt;param name="datasource.url"&gt;jdbc:oracle:thin:@localhost:1521:KS&lt;/param&gt;
+        &lt;param name="datasource.username"&gt;KSDEMO&lt;/param&gt;
+        &lt;param name="datasource.password"&gt;KSDEMO&lt;/param&gt;
+        &lt;param name="datasource.pool.maxSize"&gt;20&lt;/param&gt;
+        &lt;param name="ks.core.datasource.pool.maxSize"&gt;20&lt;/param&gt;
+        &lt;param name="ks.lum.datasource.pool.maxSize"&gt;20&lt;/param&gt;
+        &lt;param name="encryption.key"&gt;i44AED6CACC70B4CE47B1A0488ECB1288&lt;/param&gt;
+      &lt;/config&gt;
     </ks.deploy.embedded.config>
   </properties>
   <profiles>
