@@ -16,9 +16,6 @@ DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
 DBA_PASSWORD=gw570229
 REMOTE_SERVER=root@deploy.ks.kuali.org
 PEM_FILE=/home/tomcat/ks-key.pem
-SHUTDOWN_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh"
-CLEANUP_CMD='su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh'
-STARTUP_CMD='su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh'
 
 
 
@@ -51,11 +48,17 @@ then
   DB_SCHEMA=KSDEV
   REMOTE_USER=deploy
   REMOTE_DIR=dev
+  SHUTDOWN_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh"
+  CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
+  STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "staging" ]
 then
   DB_SCHEMA=KSSTAGING
   REMOTE_USER=staging
   REMOTE_DIR=staging
+  SHUTDOWN_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh"
+  CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
+  STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "demo" ]
 then
   DB_SCHEMA=KSDEMO
