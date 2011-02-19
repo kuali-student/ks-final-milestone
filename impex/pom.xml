@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali</groupId>
+    <artifactId>kuali</artifactId>
+    <version>75</version>
+  </parent>
+  <groupId>org.kuali.db.impex</groupId>
+  <artifactId>impex</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.21-SNAPSHOT</version>
+  <name>Impex Parent</name>
+  <description>This is the parent pom for Kuali's database Import/Export software</description>
+  <url>http://${kuali.site.hostname}/db/impex/${project.version}</url>
+  <properties>
+    <!-- The test-javadoc report is throwing a NullPointerException -->
+    <kuali.javadoc.report.2>javadoc</kuali.javadoc.report.2>
+    <impex.spring.version>3.0.5.RELEASE</impex.spring.version>
+    <impex.junit.version>4.8.1</impex.junit.version>
+  </properties>
+  <developers>
+    <developer>
+      <id>jcaddel</id>
+      <name>Jeff Caddel</name>
+      <email>jcaddel@kuali.org</email>
+      <organization>rSmart</organization>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
+  <modules>
+    <module>db-jdbc</module>
+    <module>torque-generator</module>
+    <module>torque-templates</module>
+    <module>db-impex</module>
+    <module>maven-impex-plugin</module>
+  </modules>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${impex.junit.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
+  </scm>
+</project>

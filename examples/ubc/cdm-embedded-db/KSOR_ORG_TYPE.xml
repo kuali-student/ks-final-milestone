@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20000101000000"
+        NAME="Faculty" TYPE_DESC="A Faculty" TYPE_KEY="kuali.org.Faculty"/>
+</dataset>
