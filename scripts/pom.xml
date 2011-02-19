@@ -255,7 +255,7 @@
             <configuration>
               <tasks>
                 <echo>+ ${ks.deploy.mvn.path} ${ks.deploy.mvn.reset.database}</echo>
-                <exec executable="${ks.deploy.mvn.path}">
+                <exec executable="${ks.deploy.mvn.path}" dir="${ks.hudson.ks-embedded-db.dir}">
                   <arg line="${ks.deploy.mvn.reset.database}"/>
                 </exec>
               </tasks>
