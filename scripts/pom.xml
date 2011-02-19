@@ -112,7 +112,7 @@
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
 
-        <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
+        <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEV</ks.impex.username>
         <ks.impex.password>KSDEV</ks.impex.password>
         <ks.impex.dba.password>gw570229</ks.impex.dba.password>
