@@ -21,7 +21,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
-  <url>http://${kuali.site.hostname}/deploy/</url>
+  <url>http://${kuali.site.hostname}/student/deploy/</url>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
