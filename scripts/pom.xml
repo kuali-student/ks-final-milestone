@@ -41,6 +41,7 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
+    <ks.deploy.embedded.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.embedded.config.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
         <param name="appserver.url">http://${ks.deploy.remote.hostname}</param>
@@ -102,7 +103,7 @@
             </goals>
             <configuration>
               <tasks>
-                <echo file="${project.basedir}/ks-embedded-config.xml">${ks.deploy.embedded.config}</echo>
+                <echo file="${ks.deploy.embedded.config.file}">${ks.deploy.embedded.config}</echo>
               </tasks>
             </configuration>
           </execution>
