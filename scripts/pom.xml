@@ -41,7 +41,7 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
-    <ks.deploy.embedded.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.embedded.config.file>
+    <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.local.config.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
         <param name="appserver.url">http://${ks.deploy.remote.hostname}</param>
@@ -74,6 +74,7 @@
     <profile>
       <id>demo</id>
       <properties>
+        <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
@@ -103,7 +104,7 @@
             </goals>
             <configuration>
               <tasks>
-                <echo file="${ks.deploy.embedded.config.file}">${ks.deploy.embedded.config}</echo>
+                <echo file="${ks.deploy.local.config.file}">${ks.deploy.embedded.config}</echo>
               </tasks>
             </configuration>
           </execution>
@@ -165,6 +166,22 @@
                 <argument>rm</argument>
                 <argument>-f</argument>
                 <argument>${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-local-config-file-to-remote</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>/usr/bin/scp</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.local.config.file}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</argument>
               </arguments>
             </configuration>
           </execution>
