@@ -66,7 +66,7 @@ then
   REMOTE_DIR=demo
   DB_URL=jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS
   REMOTE_SERVER=root@demo.ks.kuali.org
-  SHUTDOWN_CMD="pkill java"
+  SHUTDOWN_CMD=/usr/local/tomcat/bin/shutdown.sh
   STARTUP_CMD=/usr/local/tomcat/bin/startup.sh
   CLEANUP_CMD=/usr/local/tomcat/bin/cleanup.sh
 else
