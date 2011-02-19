@@ -38,6 +38,7 @@
   <properties>
     <ks.deploy.ssh.path>/usr/bin/ssh</ks.deploy.ssh.path>
     <ks.deploy.scp.path>/usr/bin/scp</ks.deploy.scp.path>
+    <ks.deploy.mvn.path>/opt/java/apache-maven-3.0/bin/mvn</ks.deploy.mvn.path>
     <ks.deploy.remote.cmd.prefix>-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</ks.deploy.remote.cmd.prefix>
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
@@ -161,6 +162,81 @@
             </configuration>
           </execution>
           <execution>
+            <id>remove-remote-war-dir</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.dir}</echo>
+                <exec executable="${ks.deploy.ssh.path}">
+                  <arg line="${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.dir}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>remove-remote-war-file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.file}</echo>
+                <exec executable="${ks.deploy.ssh.path}">
+                  <arg line="${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.file}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-local-config-file-to-remote</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.scp.path} -i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</echo>
+                <exec executable="${ks.deploy.scp.path}">
+                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-local-war-file-to-remote</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.scp.path} -i ${ks.deploy.auth} ${ks.deploy.local.war.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</echo>
+                <exec executable="${ks.deploy.scp.path}">
+                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.local.war.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>reset-remote-database</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.mvn.path} clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}</echo>
+                <exec executable="${ks.deploy.mvn.path}">
+                  <arg line="clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
             <id>cleanup-remote-tomcat</id>
             <phase>install</phase>
             <goals>
@@ -170,7 +246,7 @@
               <tasks>
                 <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.cleanup}</echo>
                 <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="ks.deploy.remote.cleanup"/>
+                  <arg line="${ks.deploy.remote.cleanup}"/>
                 </exec>
               </tasks>
             </configuration>
@@ -185,104 +261,9 @@
               <tasks>
                 <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.startup}</echo>
                 <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="ks.deploy.remote.startup"/>
+                  <arg line="${ks.deploy.remote.startup}"/>
                 </exec>
               </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <id>remove-remote-war-dir</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>rm</argument>
-                <argument>-rf</argument>
-                <argument>${ks.deploy.remote.war.dir}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>remove-remote-war-file</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>rm</argument>
-                <argument>-f</argument>
-                <argument>${ks.deploy.remote.war.file}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-local-config-file-to-remote</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.scp.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.local.config.file}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-local-war-file-to-remote</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.scp.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.local.war.file}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>reset-remote-database</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <workingDirectory>${ks.hudson.ks-embedded-db.dir}</workingDirectory>
-              <executable>/opt/java/apache-maven-3.0/bin/mvn</executable>
-              <arguments>
-                <argument>clean</argument>
-                <argument>install</argument>
-                <argument>-Pks-db,oracle</argument>
-                <argument>-Dks.impex.username=${ks.impex.username}</argument>
-                <argument>-Dks.impex.password=${ks.impex.password}</argument>
-                <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
-                <argument>-Dks.impex.url=${ks.impex.url}</argument>
-              </arguments>
             </configuration>
           </execution>
         </executions>
