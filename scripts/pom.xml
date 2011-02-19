@@ -91,7 +91,7 @@
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
-        <ks.deploy.remote.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.shutdown>
+        <ks.deploy.remote.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout} ${ks.deploy.remote.shutdown.force}</ks.deploy.remote.shutdown>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEMO</ks.impex.username>
@@ -108,7 +108,7 @@
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
 
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
-        <ks.deploy.remote.shutdown>su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.shutdown>
+        <ks.deploy.remote.shutdown>su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
 
@@ -147,7 +147,7 @@
             <configuration>
               <tasks>
                 <exec executable="/usr/bin/ssh">
-                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname} ${ks.deploy.remote.shutdown} ${ks.deploy.remote.shutdown.timeout}"/> 
+                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname} ${ks.deploy.remote.shutdown}"/> 
                   <!-- <arg line="-i /home/tomcat/ks-key.pem root@deploy.ks.kuali.org su - deploy -c '/usr/local/tomcat_deploy/bin/shutdown.sh 60 -force'"/>-->
                   <!-- <arg line="-i /home/tomcat/ks-key.pem root@deploy.ks.kuali.org su - deploy -c /usr/local/tomcat_deploy/bin/shutdown.sh 60"/>-->
                 </exec>
