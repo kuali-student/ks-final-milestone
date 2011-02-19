@@ -72,6 +72,14 @@
       </properties>
     </profile>
     <profile>
+      <id>1.2</id>
+      <properties>
+        <ks.hudson.job>1.2-full-build</ks.hudson.job>
+        <ks.hudson.svn.suffix>trunk</ks.hudson.svn.suffix>
+        <ks.deploy.version>1.2-SNAPSHOT</ks.deploy.version>
+      </properties>
+    </profile>
+    <profile>
       <id>demo</id>
       <properties>
         <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
