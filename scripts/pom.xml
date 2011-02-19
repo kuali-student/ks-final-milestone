@@ -41,6 +41,9 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
+    <ks.deploy.embedded.config>
+      Hello World
+    </ks.deploy.embedded.config>
   </properties>
   <profiles>
     <profile>
@@ -62,9 +65,6 @@
         <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
-        <ks.deploy.embedded.config>
-          Hello World
-        </ks.deploy.embedded.config>
       </properties>
     </profile>
   </profiles>
