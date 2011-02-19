@@ -45,6 +45,7 @@ fi
 if [ "$ENVIRONMENT" = "dev" ]
 then
   REMOTE_DB_SCHEMA=KSDEV
+  REMOTE_USER=deploy
   REMOTE_USER_HOME=/usr/local/tomcat_deploy
   REMOTE_TOMCAT_HOME=/usr/local/tomcat_deploy
   REMOTE_SHUTDOWN_CMD="su - $REMOTE_USER -c '$REMOTE_TOMCAT_HOME/bin/shutdown.sh 60 -force'"
