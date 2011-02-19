@@ -39,6 +39,7 @@
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
+    <ks.deploy.local.war.file>/opt/hudson/home/jobs/1.1-full-build/workspace/ks-1.1/ks-web/ks-embedded/target/ks-embedded-1.2-SNAPSHOT.war</ks.deploy.local.war.file>
   </properties>
   <profiles>
     <profile>
@@ -113,6 +114,22 @@
                 <argument>rm</argument>
                 <argument>-f</argument>
                 <argument>${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-local-war-file-to-remote</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>/usr/bin/scp</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.local.war.file}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</argument>
               </arguments>
             </configuration>
           </execution>
