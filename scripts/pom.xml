@@ -93,6 +93,7 @@
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEMO</ks.impex.username>
+        <ks.impex.dba.password>gw570229</ks.impex.dba.password>
         <ks.impex.password>KSEDMO</ks.impex.password>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
       </properties>
@@ -208,6 +209,25 @@
                 <argument>${ks.deploy.local.war.file}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</argument>
               </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>reset-remote-database</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${ks.hudson.working.copy}</workingDirectory>
+              <executable>/opt/java/apache-maven-3.0/bin</executable>
+              <argument>clean</argument>
+              <argument>install</argument>
+              <argument>-Pks-db,oracle</argument>
+              <argument>-Dks.impex.username=${ks.impex.username}</argument>
+              <argument>-Dks.impex.password=${ks.impex.password}</argument>
+              <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
+              <argument>-Dks.impex.url=${ks.impex.url}</argument>
+            </arguments>
             </configuration>
           </execution>
           <execution>
