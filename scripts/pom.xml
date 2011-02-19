@@ -45,6 +45,7 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.deploy.remote.remove.war.dir>${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.dir}</ks.deploy.remote.remove.war.dir>
     <ks.deploy.remote.remove.war.file>${ks.deploy.remote.cmd.prefix} rm -f ${ks.deploy.remote.war.file}</ks.deploy.remote.remove.war.file>
+    <ks.deploy.remote.copy.config.file>-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</ks.deploy.remote.copy.config.file>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
     <ks.hudson.working.copy>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/</ks.hudson.working.copy>
     <ks.hudson.ks-embedded.dir>${ks.hudson.working.copy}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
@@ -149,6 +150,21 @@
             </configuration>
           </execution>
           <execution>
+            <id>copy-local-config-file-to-remote</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>+ ${ks.deploy.scp.path} ${ks.deploy.remote.copy.config.file}</echo>
+                <exec executable="${ks.deploy.scp.path}">
+                  <arg line="${ks.deploy.remote.copy.config.file}"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
             <id>stop-remote-tomcat</id>
             <phase>clean</phase>
             <goals>
@@ -189,21 +205,6 @@
                 <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.remove.war.file}</echo>
                 <exec executable="${ks.deploy.ssh.path}">
                   <arg line="${ks.deploy.remote.remove.war.file}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-local-config-file-to-remote</id>
-            <phase>none</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.scp.path} -i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</echo>
-                <exec executable="${ks.deploy.scp.path}">
-                  <arg line="-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
                 </exec>
               </tasks>
             </configuration>
