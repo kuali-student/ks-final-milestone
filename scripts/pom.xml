@@ -114,7 +114,7 @@
     <profile>
       <id>dev</id>
       <properties>
-        <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
+        <ks.deploy.remote.config.file>/usr/local/tomcat_deploy/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>dev.ks.kuali.org</ks.deploy.remote.public.url>
