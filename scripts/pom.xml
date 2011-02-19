@@ -64,6 +64,8 @@
         <param name="encryption.key">i44AED6CACC70B4CE47B1A0488ECB1288</param>
       </config>]]>
     </ks.deploy.embedded.config>
+    <ks.deploy.remote.shutdown.timeout>60</ks.deploy.remote.shutdown.timeout>
+    <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
   </properties>
   <profiles>
     <profile>
@@ -90,14 +92,30 @@
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.shutdown>
-        <ks.deploy.remote.shutdown.timeout>60</ks.deploy.remote.shutdown.timeout>
-        <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
         <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEMO</ks.impex.username>
         <ks.impex.dba.password>gw570229</ks.impex.dba.password>
         <ks.impex.password>KSEDMO</ks.impex.password>
         <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
+      </properties>
+    </profile>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
+        <ks.deploy.remote.user>root</ks.deploy.remote.user>
+        <ks.deploy.remote.hostname>dev.ks.kuali.org</ks.deploy.remote.hostname>
+
+        <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
+        <ks.deploy.remote.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.shutdown>
+        <ks.deploy.remote.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
+
+        <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
+        <ks.impex.username>KSDEV</ks.impex.username>
+        <ks.impex.password>KSDEV</ks.impex.password>
+        <ks.impex.dba.password>gw570229</ks.impex.dba.password>
       </properties>
     </profile>
   </profiles>
@@ -139,6 +157,10 @@
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>${ks.deploy.remote.shutdown.1}</argument>
+                <argument>${ks.deploy.remote.shutdown.2}</argument>
+                <argument>${ks.deploy.remote.shutdown.3}</argument>
+                <argument>${ks.deploy.remote.shutdown.4}</argument>
                 <argument>${ks.deploy.remote.shutdown}</argument>
                 <argument>${ks.deploy.remote.shutdown.timeout}</argument>
                 <argument>${ks.deploy.remote.shutdown.force}</argument>
@@ -245,6 +267,10 @@
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>${ks.deploy.remote.cleanup.1}</argument>
+                <argument>${ks.deploy.remote.cleanup.2}</argument>
+                <argument>${ks.deploy.remote.cleanup.3}</argument>
+                <argument>${ks.deploy.remote.cleanup.4}</argument>
                 <argument>${ks.deploy.remote.cleanup}</argument>
               </arguments>
             </configuration>
@@ -261,6 +287,10 @@
                 <argument>-i</argument>
                 <argument>${ks.deploy.auth}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>${ks.deploy.remote.startup.1}</argument>
+                <argument>${ks.deploy.remote.startup.2}</argument>
+                <argument>${ks.deploy.remote.startup.3}</argument>
+                <argument>${ks.deploy.remote.startup.4}</argument>
                 <argument>${ks.deploy.remote.startup}</argument>
               </arguments>
             </configuration>
