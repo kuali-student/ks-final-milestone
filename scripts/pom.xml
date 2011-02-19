@@ -51,9 +51,9 @@
         <param name="externalizable.images.url">/kr/static/images/</param>
         <param name="kr.externalizable.images.url">${externalizable.images.url}</param>
         <param name="travel.externalizable.images.url">${externalizable.images.url}</param>
-        <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:KS</param>
-        <param name="datasource.username">KSDEMO</param>
-        <param name="datasource.password">KSDEMO</param>
+        <param name="datasource.url">${ks.impex.url}</param>
+        <param name="datasource.username">${ks.impex.username}</param>
+        <param name="datasource.password">${ks.impex.password}</param>
         <param name="datasource.pool.maxSize">20</param>
         <param name="ks.core.datasource.pool.maxSize">20</param>
         <param name="ks.lum.datasource.pool.maxSize">20</param>
