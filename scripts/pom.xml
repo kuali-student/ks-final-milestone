@@ -60,6 +60,38 @@
               </arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>cleanup-remote-tomcat</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>/home/tomcat/ks-key.pem</argument>
+                <argument>root@deploy.ks.kuali.org</argument>
+                <argument>/usr/local/tomcat/bin/cleanup.sh</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-remote-tomcat</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>/home/tomcat/ks-key.pem</argument>
+                <argument>root@deploy.ks.kuali.org</argument>
+                <argument>/usr/local/tomcat/bin/startup.sh</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
