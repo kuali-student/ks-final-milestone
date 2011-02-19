@@ -47,6 +47,7 @@
     <ks.deploy.remote.remove.war.file>${ks.deploy.remote.cmd.prefix} rm -f ${ks.deploy.remote.war.file}</ks.deploy.remote.remove.war.file>
     <ks.deploy.remote.copy.config.file>-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</ks.deploy.remote.copy.config.file>
     <ks.deploy.remote.copy.war.file>-i ${ks.deploy.auth} ${ks.deploy.local.war.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</ks.deploy.remote.copy.war.file>
+    <ks.deploy.mvn.reset.database>clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}</ks.deploy.mvn.reset.database>
     <ks.hudson.base.dir>/opt/hudson/home/jobs</ks.hudson.base.dir>
     <ks.hudson.working.copy>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}</ks.hudson.working.copy>
     <ks.hudson.ks-embedded.dir>${ks.hudson.working.copy}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
@@ -247,15 +248,15 @@
           </execution>
           <execution>
             <id>reset-remote-database</id>
-            <phase>none</phase>
+            <phase>install</phase>
             <goals>
               <goal>run</goal>
             </goals>
             <configuration>
               <tasks>
-                <echo>+ ${ks.deploy.mvn.path} clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}</echo>
+                <echo>+ ${ks.deploy.mvn.path} ${ks.deploy.mvn.reset.database}</echo>
                 <exec executable="${ks.deploy.mvn.path}">
-                  <arg line="clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}"/>
+                  <arg line="${ks.deploy.mvn.reset.database}"/>
                 </exec>
               </tasks>
             </configuration>
