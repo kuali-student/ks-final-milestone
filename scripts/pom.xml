@@ -78,7 +78,7 @@
           </execution>
           <execution>
             <id>start-remote-tomcat</id>
-            <phase>clean</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>exec</goal>
             </goals>
