@@ -65,7 +65,7 @@
         <executions>
           <execution>
             <id>shutdown-remote-tomcat</id>
-            <phase>pre-integration-test</phase>
+            <phase>clean</phase>
             <goals>
               <goal>exec</goal>
             </goals>
