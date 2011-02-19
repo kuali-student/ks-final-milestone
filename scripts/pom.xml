@@ -51,7 +51,7 @@
             <configuration>
               <executable>ssh</executable>
               <arguments>
-                <argument>-i /home/tomcat/ks-key.pem root@demo.ks.kuali.org /usr/local/tomcat/bin/shutdown.sh 60 -force</argument>
+                <argument>"-i /home/tomcat/ks-key.pem root@demo.ks.kuali.org /usr/local/tomcat/bin/shutdown.sh 60 -force"</argument>
               </arguments>
             </configuration>
           </execution>
