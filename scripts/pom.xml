@@ -105,7 +105,7 @@
       <properties>
         <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.user>root</ks.deploy.remote.user>
-        <ks.deploy.remote.hostname>dev.ks.kuali.org</ks.deploy.remote.hostname>
+        <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
 
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.shutdown>
