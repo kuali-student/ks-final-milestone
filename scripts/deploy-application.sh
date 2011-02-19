@@ -11,8 +11,8 @@ APP_WORKSPACE=$4
 WAR_FILE=ks-embedded-$VERSION-SNAPSHOT.war
 LOCAL_WAR_FILE=$APP_WORKSPACE/$SVN_DIR/ks-web/ks-embedded/target/$WAR_FILE
 LOCAL_MVN_DIR=$APP_WORKSPACE/$SVN_DIR/ks-cfg-dbs/ks-embedded-db
-DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
-DBA_PASSWORD=gw570229
+REMOTE_DB_URL=jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS
+REMOTE_DBA_PASSWORD=gw570229
 REMOTE_SERVER=root@deploy.ks.kuali.org
 PEM_FILE=/home/tomcat/ks-key.pem
 
@@ -90,11 +90,11 @@ ssh -i $PEM_FILE $REMOTE_SERVER rm $REMOTE_WAR_FILE
 # Copy the newly generated war file into the webapps directory
 scp -i $PEM_FILE $LOCAL_WAR_FILE $REMOTE_SERVER:$REMOTE_WAR_FILE
 
-# Drop/create the underlying database using Impex
+# Drop/create the remote database using Impex
 M2_HOME=/opt/java/apache-maven-3.0
 export M2_HOME
 cd $LOCAL_MVN_DIR
-mvn clean install -Pks-db,oracle -Dks.impex.username=$DB_SCHEMA -Dks.impex.password=$DB_SCHEMA -Dks.impex.dba.password=$DBA_PASSWORD -Dks.impex.url=$DB_URL
+mvn clean install -Pks-db,oracle -Dks.impex.username=$REMOTE_DB_SCHEMA -Dks.impex.password=$REMOTE_DB_SCHEMA -Dks.impex.dba.password=$REMOTE_DBA_PASSWORD -Dks.impex.url=$REMOTE_DB_URL
 
 # Perform some cleanup and restart Tomcat
 ssh -i $PEM_FILE $REMOTE_SERVER $REMOTE_CLEANUP_CMD
