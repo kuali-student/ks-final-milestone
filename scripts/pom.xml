@@ -40,7 +40,7 @@
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.hudson.base.dir>/opt/hudson/home/jobs/</ks.hudson.base.dir>
-    <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.jop}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
+    <ks.deploy.local.war.file>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}/ks-web/ks-embedded/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
   </properties>
   <profiles>
     <profile>
