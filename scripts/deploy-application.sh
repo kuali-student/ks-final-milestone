@@ -48,7 +48,7 @@ then
   DB_SCHEMA=KSDEV
   REMOTE_USER=deploy
   REMOTE_DIR=dev
-  SHUTDOWN_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force"
+  SHUTDOWN_CMD="su - $REMOTE_USER -c '/usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force'"
   CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
   STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "staging" ]
@@ -56,7 +56,7 @@ then
   DB_SCHEMA=KSSTAGING
   REMOTE_USER=staging
   REMOTE_DIR=staging
-  SHUTDOWN_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force"
+  SHUTDOWN_CMD="su - $REMOTE_USER -c '/usr/local/tomcat_$REMOTE_USER/bin/shutdown.sh 60 -force'"
   CLEANUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/cleanup.sh"
   STARTUP_CMD="su - $REMOTE_USER -c /usr/local/tomcat_$REMOTE_USER/bin/startup.sh"
 elif [ "$ENVIRONMENT" = "demo" ]
