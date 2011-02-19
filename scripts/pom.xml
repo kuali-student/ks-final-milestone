@@ -148,7 +148,7 @@
               <tasks>
                 <exec executable="/usr/bin/ssh">
                   <!-- <arg line="-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname} ${ks.deploy.remote.shutdown} ${ks.deploy.remote.shutdown.timeout} ${ks.deploy.remote.shutdown.force}"/> -->
-                  <arg line="-i /home/tomcat/ks-key.pem root@deploy.ks.kuali.org su - deploy -c /usr/local/tomcat_deploy/shutdown.sh 60 -force"/>
+                  <arg line="-i /home/tomcat/ks-key.pem root@deploy.ks.kuali.org 'su - deploy -c /usr/local/tomcat_deploy/shutdown.sh 60 -force'"/>
                 </exec>
               </tasks>
             </configuration>
