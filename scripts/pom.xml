@@ -39,7 +39,7 @@
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
-    <ks.deploy.local.war.file>/opt/hudson/home/jobs/1.1-full-build/workspace/ks-1.1/ks-web/ks-embedded/target/ks-embedded-1.2-SNAPSHOT.war</ks.deploy.local.war.file>
+    <ks.deploy.local.war.file>/opt/hudson/home/jobs/1.1-full-build/workspace/ks-1.1/ks-web/ks-embedded/target/ks-embedded-1.1-SNAPSHOT.war</ks.deploy.local.war.file>
   </properties>
   <profiles>
     <profile>
