@@ -131,7 +131,6 @@
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSSTAGING</ks.impex.username>
         <ks.impex.password>KSSTAGING</ks.impex.password>
-        <ks.impex.dba.password>gw570229</ks.impex.dba.password>
       </properties>
     </profile>
   </profiles>
