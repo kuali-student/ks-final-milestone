@@ -113,6 +113,10 @@
             <executions>
               <execution>
                 <id>stop-remote-tomcat</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
                 <configuration>
                   <executable>${ks.deploy.ssh.path}</executable>
                   <arguments>
@@ -125,6 +129,10 @@
               </execution>
               <execution>
                 <id>cleanup-remote-tomcat</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
                 <configuration>
                   <executable>${ks.deploy.ssh.path}</executable>
                   <arguments>
@@ -137,6 +145,10 @@
               </execution>
               <execution>
                 <id>start-remote-tomcat</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
                 <configuration>
                   <executable>${ks.deploy.ssh.path}</executable>
                   <arguments>
