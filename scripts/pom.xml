@@ -45,9 +45,7 @@
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
     <ks.deploy.remote.tomcat.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.tomcat.cleanup>
     <ks.deploy.remote.tomcat.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.tomcat.startup>
-    <ks.deploy.remote.tomcat.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.tomcat.shutdown>
-    <ks.deploy.remote.tomcat.shutdown.timeout>60</ks.deploy.remote.tomcat.shutdown.timeout>
-    <ks.deploy.remote.tomcat.shutdown.force>-force</ks.deploy.remote.tomcat.shutdown.force>
+    <ks.deploy.remote.tomcat.shutdown>${ks.deploy.remote.tomcat.home}/bin/forced-shutdown.sh</ks.deploy.remote.tomcat.shutdown>
 
     <ks.hudson.base.dir>/opt/hudson/home/jobs</ks.hudson.base.dir>
     <ks.hudson.working.dir>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}</ks.hudson.working.dir>
@@ -190,10 +188,6 @@
                 <argument>${ks.deploy.remote.tomcat.user}</argument>
                 <argument>--command</argument>
                 <argument>${ks.deploy.remote.tomcat.shutdown}</argument>
-                <argument>${ks.deploy.remote.tomcat.shutdown.timeout}</argument>
-                <!-- TODO Make this work.  The value of "-force" on the command line is causing an issue 
-                <argument>${ks.deploy.remote.tomcat.shutdown.force}</argument>
-                 -->
               </arguments>
             </configuration>
           </execution>
@@ -235,6 +229,26 @@
           </execution>
           <execution>
             <id>cleanup-remote-tomcat</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.ssh.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>su</argument>
+                <argument>--login</argument>
+                <argument>${ks.deploy.remote.tomcat.user}</argument>
+                <argument>--command</argument>
+                <argument>${ks.deploy.remote.tomcat.cleanup}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-remote-tomcat</id>
             <phase>initialize</phase>
             <goals>
               <goal>exec</goal>
