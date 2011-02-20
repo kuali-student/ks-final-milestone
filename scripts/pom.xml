@@ -291,7 +291,7 @@
         <version>1.1</version>
         <executions>
           <execution>
-            <id>generate-ks-embedded-config</id>
+            <id>generate-local-config-file</id>
             <phase>validate</phase>
             <goals>
               <goal>run</goal>
