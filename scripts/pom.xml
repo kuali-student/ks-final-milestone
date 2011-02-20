@@ -138,6 +138,10 @@
                 </configuration>
               </execution>
               <execution>
+                <id>copy-local-config-file-to-remote</id>
+                <phase>${ks.deploy.copy.config.file.phase}</phase>
+              </execution>
+              <execution>
                 <id>cleanup-remote-tomcat</id>
                 <phase>${ks.deploy.cleanup.remote.tomcat.phase}</phase>
                 <goals>
