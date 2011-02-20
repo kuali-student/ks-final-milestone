@@ -160,7 +160,7 @@
         <executions>
           <execution>
             <id>generate-ks-embedded-config</id>
-            <phase>install</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -173,7 +173,7 @@
           </execution>
           <execution>
             <id>copy-local-config-file-to-remote</id>
-            <phase>install</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -181,7 +181,9 @@
               <tasks>
                 <echo>+ ${ks.deploy.scp.path} ${ks.deploy.remote.copy.config.file}</echo>
                 <exec executable="${ks.deploy.scp.path}">
-                  <arg line="${ks.deploy.remote.copy.config.file}"/>
+                  <arg value="-i"/>
+                  <arg value="${ks.deploy.local.config.file}"/>
+                  <arg value="${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
                 </exec>
               </tasks>
             </configuration>
