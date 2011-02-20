@@ -177,7 +177,7 @@
             <id>stop-remote-tomcat</id>
             <phase>clean</phase>
             <goals>
-              <goal>run</goal>
+              <goal>exec</goal>
             </goals>
             <configuration>
               <executable>${ks.deploy.ssh.path}</executable>
