@@ -105,6 +105,52 @@
         <ks.impex.username>KSDEMO</ks.impex.username>
         <ks.impex.password>KSEDMO</ks.impex.password>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>stop-remote-tomcat</id>
+                <configuration>
+                  <executable>${ks.deploy.ssh.path}</executable>
+                  <arguments>
+                    <argument>-i</argument>
+                    <argument>${ks.deploy.auth}</argument>
+                    <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                    <argument>${ks.deploy.remote.tomcat.shutdown}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cleanup-remote-tomcat</id>
+                <configuration>
+                  <executable>${ks.deploy.ssh.path}</executable>
+                  <arguments>
+                    <argument>-i</argument>
+                    <argument>${ks.deploy.auth}</argument>
+                    <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                    <argument>${ks.deploy.remote.tomcat.cleanup}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>start-remote-tomcat</id>
+                <configuration>
+                  <executable>${ks.deploy.ssh.path}</executable>
+                  <arguments>
+                    <argument>-i</argument>
+                    <argument>${ks.deploy.auth}</argument>
+                    <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                    <argument>${ks.deploy.remote.tomcat.startup}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>dev</id>
