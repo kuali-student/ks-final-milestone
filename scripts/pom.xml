@@ -53,12 +53,8 @@
     <ks.deploy.remote.user>root</ks.deploy.remote.user>
     <ks.impex.dba.password>gw570229</ks.impex.dba.password>
 
-    <ks.deploy.remote.cmd.prefix>-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</ks.deploy.remote.cmd.prefix>
     <ks.deploy.remote.remove.war.dir>${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.dir}</ks.deploy.remote.remove.war.dir>
     <ks.deploy.remote.remove.war.file>${ks.deploy.remote.cmd.prefix} rm -f ${ks.deploy.remote.war.file}</ks.deploy.remote.remove.war.file>
-    <ks.deploy.remote.copy.config.file>-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</ks.deploy.remote.copy.config.file>
-    <ks.deploy.remote.copy.war.file>-i ${ks.deploy.auth} ${ks.deploy.local.war.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</ks.deploy.remote.copy.war.file>
-    <ks.deploy.mvn.reset.database>clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}</ks.deploy.mvn.reset.database>
     <ks.hudson.ks-embedded.dir>${ks.hudson.working.dir}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
     <ks.hudson.ks-embedded-db.dir>${ks.hudson.working.dir}/ks-cfg-dbs/ks-embedded-db</ks.hudson.ks-embedded-db.dir>
     <ks.deploy.local.war.file>${ks.hudson.ks-embedded.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
@@ -244,6 +240,26 @@
             </configuration>
           </execution>
           <execution>
+            <id>reset-remote-database</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.mvn.path}</executable>
+              <workingDirectory>${ks.hudson.ks-embedded-db.dir}</workingDirectory>
+              <arguments>
+                <argument>clean</argument>
+                <argument>install</argument>
+                <argument>-Pks-db,oracle</argument>
+                <argument>-Dks.impex.username=${ks.impex.username}</argument>
+                <argument>-Dks.impex.password=${ks.impex.password}</argument>
+                <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
+                <argument>-Dks.impex.url=${ks.impex.url}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>cleanup-remote-tomcat</id>
             <phase>initialize</phase>
             <goals>
@@ -300,22 +316,6 @@
               <tasks>
                 <echo>Generating ${ks.deploy.local.config.file}</echo>
                 <echo file="${ks.deploy.local.config.file}">${ks.deploy.embedded.config}</echo>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>reset-remote-database</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ Working Directory - ${ks.hudson.ks-embedded-db.dir}</echo>
-                <echo>+ ${ks.deploy.mvn.path} ${ks.deploy.mvn.reset.database}</echo>
-                <exec executable="${ks.deploy.mvn.path}" dir="${ks.hudson.ks-embedded-db.dir}">
-                  <arg line="${ks.deploy.mvn.reset.database}"/>
-                </exec>
               </tasks>
             </configuration>
           </execution>
