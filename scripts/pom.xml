@@ -123,7 +123,7 @@
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
-        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.startup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
 
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEV</ks.impex.username>
@@ -142,7 +142,7 @@
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_staging</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
         <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
-        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.startup>
+        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
 
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSSTAGING</ks.impex.username>
