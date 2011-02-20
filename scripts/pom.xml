@@ -228,6 +228,22 @@
             </configuration>
           </execution>
           <execution>
+            <id>copy-local-war-file-to-remote</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.scp.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.local.war.file}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>cleanup-remote-tomcat</id>
             <phase>initialize</phase>
             <goals>
