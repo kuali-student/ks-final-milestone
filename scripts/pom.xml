@@ -154,13 +154,34 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>copy-local-config-file-to-remote-exec-maven-plugin</id>
+            <phase>none</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.scp.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>myproject:dist</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.1</version>
         <executions>
           <execution>
             <id>generate-ks-embedded-config</id>
-            <phase>initialize</phase>
+            <phase>validate</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -182,6 +203,7 @@
                 <echo>+ ${ks.deploy.scp.path} ${ks.deploy.remote.copy.config.file}</echo>
                 <exec executable="${ks.deploy.scp.path}">
                   <arg value="-i"/>
+                  <arg value="${ks.deploy.auth}"/>
                   <arg value="${ks.deploy.local.config.file}"/>
                   <arg value="${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
                 </exec>
