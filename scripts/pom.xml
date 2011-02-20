@@ -191,7 +191,7 @@
                 <argument>--command</argument>
                 <argument>${ks.deploy.remote.tomcat.shutdown}</argument>
                 <argument>${ks.deploy.remote.tomcat.shutdown.timeout}</argument>
-                <!-- TODO Make this work the value of "-force" on the command line is causing an issue 
+                <!-- TODO Make this work.  The value of "-force" on the command line is causing an issue 
                 <argument>${ks.deploy.remote.tomcat.shutdown.force}</argument>
                  -->
               </arguments>
@@ -212,6 +212,24 @@
                 <argument>rm</argument>
                 <argument>-f</argument>
                 <argument>${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>remove-remote-war-dir</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.ssh.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>rm</argument>
+                <argument>-rf</argument>
+                <argument>${ks.deploy.remote.war.dir}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -246,21 +264,6 @@
                 <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.shutdown}</echo>
                 <exec executable="${ks.deploy.ssh.path}">
                   <arg line="${ks.deploy.remote.shutdown}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>remove-remote-war-dir</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.remove.war.dir}</echo>
-                <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="${ks.deploy.remote.remove.war.dir}"/>
                 </exec>
               </tasks>
             </configuration>
