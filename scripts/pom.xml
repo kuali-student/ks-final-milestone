@@ -83,8 +83,8 @@
     <ks.deploy.generate.config.file.phase>integration-test</ks.deploy.generate.config.file.phase>
     <ks.deploy.copy.config.file.phase>integration-test</ks.deploy.copy.config.file.phase>
     <ks.deploy.reset.remote.db.phase>integration-test</ks.deploy.reset.remote.db.phase>
-    <ks.deploy.cleanup.remote.tomcat.phase>integration-test</ks.deploy.cleanup.remote.tomcat.phase>
-    <ks.deploy.start.remote.tomcat.phase>integration-test</ks.deploy.start.remote.tomcat.phase>
+    <ks.deploy.cleanup.remote.tomcat.phase>post-integration-test</ks.deploy.cleanup.remote.tomcat.phase>
+    <ks.deploy.start.remote.tomcat.phase>post-integration-test</ks.deploy.start.remote.tomcat.phase>
 
   </properties>
   <profiles>
