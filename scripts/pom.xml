@@ -79,8 +79,8 @@
 
     <ks.deploy.shutdown.remote.tomcat.phase>pre-integration-test</ks.deploy.shutdown.remote.tomcat.phase>
     <ks.deploy.remove.old.war.dir.phase>pre-integration-test</ks.deploy.remove.old.war.dir.phase>
+    <ks.deploy.generate.config.file.phase>pre-integration-test</ks.deploy.generate.config.file.phase>
     <ks.deploy.install.new.war.file.phase>integration-test</ks.deploy.install.new.war.file.phase>
-    <ks.deploy.generate.config.file.phase>integration-test</ks.deploy.generate.config.file.phase>
     <ks.deploy.copy.config.file.phase>integration-test</ks.deploy.copy.config.file.phase>
     <ks.deploy.reset.remote.db.phase>integration-test</ks.deploy.reset.remote.db.phase>
     <ks.deploy.cleanup.remote.tomcat.phase>post-integration-test</ks.deploy.cleanup.remote.tomcat.phase>
