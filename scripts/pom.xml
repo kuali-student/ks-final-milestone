@@ -197,6 +197,24 @@
               </arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>remove-remote-war-file</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.ssh.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>rm</argument>
+                <argument>-f</argument>
+                <argument>${ks.deploy.remote.war.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -243,21 +261,6 @@
                 <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.remove.war.dir}</echo>
                 <exec executable="${ks.deploy.ssh.path}">
                   <arg line="${ks.deploy.remote.remove.war.dir}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>remove-remote-war-file</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.remove.war.file}</echo>
-                <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="${ks.deploy.remote.remove.war.file}"/>
                 </exec>
               </tasks>
             </configuration>
