@@ -295,7 +295,7 @@
                 <argument>--login</argument>
                 <argument>${ks.deploy.remote.tomcat.user}</argument>
                 <argument>--command</argument>
-                <argument>${ks.deploy.remote.tomcat.cleanup}</argument>
+                <argument>${ks.deploy.remote.tomcat.startup}</argument>
               </arguments>
             </configuration>
           </execution>
