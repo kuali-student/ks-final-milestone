@@ -160,7 +160,7 @@
         <executions>
           <execution>
             <id>copy-local-config-file-to-remote-exec-maven-plugin</id>
-            <phase>none</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -168,7 +168,9 @@
               <executable>${ks.deploy.scp.path}</executable>
               <arguments>
                 <argument>-i</argument>
-                <argument>myproject:dist</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.local.config.file}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -194,7 +196,7 @@
           </execution>
           <execution>
             <id>copy-local-config-file-to-remote</id>
-            <phase>initialize</phase>
+            <phase>none</phase>
             <goals>
               <goal>run</goal>
             </goals>
