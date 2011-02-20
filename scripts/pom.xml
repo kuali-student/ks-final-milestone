@@ -97,13 +97,12 @@
     <profile>
       <id>demo</id>
       <properties>
-        <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
+        <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEMO</ks.impex.username>
-        <ks.impex.dba.password>gw570229</ks.impex.dba.password>
         <ks.impex.password>KSEDMO</ks.impex.password>
       </properties>
     </profile>
