@@ -142,7 +142,7 @@
         <executions>
           <execution>
             <id>copy-local-config-file-to-remote</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -178,7 +178,7 @@
           </execution>
           <execution>
             <id>remove-remote-war-file</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -196,7 +196,7 @@
           </execution>
           <execution>
             <id>remove-remote-war-dir</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -214,7 +214,7 @@
           </execution>
           <execution>
             <id>copy-local-war-file-to-remote</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -230,7 +230,7 @@
           </execution>
           <execution>
             <id>reset-remote-database</id>
-            <phase>none</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -250,7 +250,7 @@
           </execution>
           <execution>
             <id>cleanup-remote-tomcat</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -270,7 +270,7 @@
           </execution>
           <execution>
             <id>start-remote-tomcat</id>
-            <phase>initialize</phase>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -297,7 +297,7 @@
         <executions>
           <execution>
             <id>generate-local-config-file</id>
-            <phase>validate</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>run</goal>
             </goals>
