@@ -186,12 +186,14 @@
                 <argument>${ks.deploy.auth}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
                 <argument>su</argument>
-                <argument>-</argument>
+                <argument>--login</argument>
                 <argument>${ks.deploy.remote.tomcat.user}</argument>
-                <argument>-c</argument>
+                <argument>--command</argument>
                 <argument>${ks.deploy.remote.tomcat.shutdown}</argument>
                 <argument>${ks.deploy.remote.tomcat.shutdown.timeout}</argument>
+                <!-- TODO Make this work the value of "-force" on the command line is causing an issue 
                 <argument>${ks.deploy.remote.tomcat.shutdown.force}</argument>
+                 -->
               </arguments>
             </configuration>
           </execution>
