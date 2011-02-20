@@ -76,6 +76,16 @@
         <param name="encryption.key">i44AED6CACC70B4CE47B1A0488ECB1288</param>
       </config>]]>
     </ks.deploy.embedded.config>
+
+    <ks.deploy.shutdown.remote.tomcat.phase>pre-integration-test</ks.deploy.shutdown.remote.tomcat.phase>
+    <ks.deploy.remove.old.war.dir.phase>pre-integration-test</ks.deploy.remove.old.war.dir.phase>
+    <ks.deploy.install.new.war.file.phase>integration-test</ks.deploy.install.new.war.file.phase>
+    <ks.deploy.generate.config.file.phase>integration-test</ks.deploy.generate.config.file.phase>
+    <ks.deploy.copy.config.file.phase>integration-test</ks.deploy.copy.config.file.phase>
+    <ks.deploy.reset.remote.db.phase>integration-test</ks.deploy.reset.remote.db.phase>
+    <ks.deploy.cleanup.remote.tomcat.phase>integration-test</ks.deploy.cleanup.remote.tomcat.phase>
+    <ks.deploy.start.remote.tomcat.phase>integration-test</ks.deploy.start.remote.tomcat.phase>
+
   </properties>
   <profiles>
     <profile>
@@ -113,7 +123,7 @@
             <executions>
               <execution>
                 <id>stop-remote-tomcat</id>
-                <phase>install</phase>
+                <phase>${ks.deploy.shutdown.remote.tomcat.phase}</phase>
                 <goals>
                   <goal>exec</goal>
                 </goals>
@@ -129,7 +139,7 @@
               </execution>
               <execution>
                 <id>cleanup-remote-tomcat</id>
-                <phase>install</phase>
+                <phase>${ks.deploy.cleanup.remote.tomcat.phase}</phase>
                 <goals>
                   <goal>exec</goal>
                 </goals>
@@ -145,7 +155,7 @@
               </execution>
               <execution>
                 <id>start-remote-tomcat</id>
-                <phase>install</phase>
+                <phase>${ks.deploy.start.remote.tomcat.phase}</phase>
                 <goals>
                   <goal>exec</goal>
                 </goals>
@@ -200,7 +210,7 @@
         <executions>
           <execution>
             <id>copy-local-config-file-to-remote</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.copy.config.file.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -216,7 +226,7 @@
           </execution>
           <execution>
             <id>stop-remote-tomcat</id>
-            <phase>clean</phase>
+            <phase>${ks.deploy.shutdown.remote.tomcat.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -235,26 +245,8 @@
             </configuration>
           </execution>
           <execution>
-            <id>remove-remote-war-file</id>
-            <phase>install</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${ks.deploy.ssh.path}</executable>
-              <arguments>
-                <argument>-i</argument>
-                <argument>${ks.deploy.auth}</argument>
-                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
-                <argument>rm</argument>
-                <argument>-f</argument>
-                <argument>${ks.deploy.remote.war.file}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>remove-remote-war-dir</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.remove.old.war.dir.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -272,7 +264,7 @@
           </execution>
           <execution>
             <id>copy-local-war-file-to-remote</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.install.new.war.file.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -288,7 +280,7 @@
           </execution>
           <execution>
             <id>reset-remote-database</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.reset.remote.db.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -308,7 +300,7 @@
           </execution>
           <execution>
             <id>cleanup-remote-tomcat</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.cleanup.remote.tomcat.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -328,7 +320,7 @@
           </execution>
           <execution>
             <id>start-remote-tomcat</id>
-            <phase>install</phase>
+            <phase>${ks.deploy.start.remote.tomcat.phase}</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -355,7 +347,7 @@
         <executions>
           <execution>
             <id>generate-local-config-file</id>
-            <phase>initialize</phase>
+            <phase>${ks.deploy.generate.config.file.phase}</phase>
             <goals>
               <goal>run</goal>
             </goals>
