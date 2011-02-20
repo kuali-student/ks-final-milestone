@@ -241,7 +241,7 @@
           </execution>
           <execution>
             <id>reset-remote-database</id>
-            <phase>initialize</phase>
+            <phase>none</phase>
             <goals>
               <goal>exec</goal>
             </goals>
