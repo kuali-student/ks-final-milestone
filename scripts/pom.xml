@@ -233,6 +233,26 @@
               </arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>cleanup-remote-tomcat</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.ssh.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>su</argument>
+                <argument>--login</argument>
+                <argument>${ks.deploy.remote.tomcat.user}</argument>
+                <argument>--command</argument>
+                <argument>${ks.deploy.remote.tomcat.cleanup}</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
