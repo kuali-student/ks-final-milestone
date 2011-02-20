@@ -38,20 +38,31 @@
   <properties>
     <ks.deploy.ssh.path>/usr/bin/ssh</ks.deploy.ssh.path>
     <ks.deploy.scp.path>/usr/bin/scp</ks.deploy.scp.path>
-    <ks.deploy.mvn.path>/opt/java/apache-maven-3.0/bin/mvn</ks.deploy.mvn.path>
-    <ks.deploy.remote.cmd.prefix>-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</ks.deploy.remote.cmd.prefix>
     <ks.deploy.auth>/home/tomcat/ks-key.pem</ks.deploy.auth>
+    <ks.deploy.mvn.path>/opt/java/apache-maven-3.0/bin/mvn</ks.deploy.mvn.path>
+
     <ks.deploy.remote.war.file>${ks.deploy.remote.tomcat.home}/webapps/ROOT.war</ks.deploy.remote.war.file>
     <ks.deploy.remote.war.dir>${ks.deploy.remote.tomcat.home}/webapps/ROOT</ks.deploy.remote.war.dir>
+    <ks.deploy.remote.tomcat.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.tomcat.cleanup>
+    <ks.deploy.remote.tomcat.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.tomcat.startup>
+    <ks.deploy.remote.tomcat.shutdown>${ks.deploy.remote.tomcat.home}/bin/shutdown.sh</ks.deploy.remote.tomcat.shutdown>
+    <ks.deploy.remote.tomcat.shutdown.timeout>60</ks.deploy.remote.tomcat.shutdown.timeout>
+    <ks.deploy.remote.tomcat.shutdown.force>-force</ks.deploy.remote.tomcat.shutdown.force>
+
+    <ks.hudson.base.dir>/opt/hudson/home/jobs</ks.hudson.base.dir>
+    <ks.hudson.working.dir>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}</ks.hudson.working.dir>
+
+    <ks.deploy.remote.user>root</ks.deploy.remote.user>
+    <ks.impex.dba.password>gw570229</ks.impex.dba.password>
+
+    <ks.deploy.remote.cmd.prefix>-i ${ks.deploy.auth} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</ks.deploy.remote.cmd.prefix>
     <ks.deploy.remote.remove.war.dir>${ks.deploy.remote.cmd.prefix} rm -rf ${ks.deploy.remote.war.dir}</ks.deploy.remote.remove.war.dir>
     <ks.deploy.remote.remove.war.file>${ks.deploy.remote.cmd.prefix} rm -f ${ks.deploy.remote.war.file}</ks.deploy.remote.remove.war.file>
     <ks.deploy.remote.copy.config.file>-i ${ks.deploy.auth} ${ks.deploy.local.config.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</ks.deploy.remote.copy.config.file>
     <ks.deploy.remote.copy.war.file>-i ${ks.deploy.auth} ${ks.deploy.local.war.file} ${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.war.file}</ks.deploy.remote.copy.war.file>
     <ks.deploy.mvn.reset.database>clean install -Pks-db,oracle -Dks.impex.username=${ks.impex.username} -Dks.impex.password=${ks.impex.password} -Dks.impex.dba.password=${ks.impex.dba.password} -Dks.impex.url=${ks.impex.url}</ks.deploy.mvn.reset.database>
-    <ks.hudson.base.dir>/opt/hudson/home/jobs</ks.hudson.base.dir>
-    <ks.hudson.working.copy>${ks.hudson.base.dir}/${ks.hudson.job}/workspace/${ks.hudson.svn.suffix}</ks.hudson.working.copy>
-    <ks.hudson.ks-embedded.dir>${ks.hudson.working.copy}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
-    <ks.hudson.ks-embedded-db.dir>${ks.hudson.working.copy}/ks-cfg-dbs/ks-embedded-db</ks.hudson.ks-embedded-db.dir>
+    <ks.hudson.ks-embedded.dir>${ks.hudson.working.dir}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
+    <ks.hudson.ks-embedded-db.dir>${ks.hudson.working.dir}/ks-cfg-dbs/ks-embedded-db</ks.hudson.ks-embedded-db.dir>
     <ks.deploy.local.war.file>${ks.hudson.ks-embedded.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
     <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.local.config.file>
     <ks.deploy.embedded.config><![CDATA[
@@ -73,8 +84,6 @@
         <param name="encryption.key">i44AED6CACC70B4CE47B1A0488ECB1288</param>
       </config>]]>
     </ks.deploy.embedded.config>
-    <ks.deploy.remote.shutdown.timeout>60</ks.deploy.remote.shutdown.timeout>
-    <ks.deploy.remote.shutdown.force>-force</ks.deploy.remote.shutdown.force>
   </properties>
   <profiles>
     <profile>
@@ -97,7 +106,6 @@
       <id>demo</id>
       <properties>
         <ks.deploy.remote.config.file>/usr/local/tomcat/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
@@ -115,34 +123,25 @@
     <profile>
       <id>dev</id>
       <properties>
-        <ks.deploy.remote.config.file>/usr/local/tomcat_deploy/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.deploy.remote.user>root</ks.deploy.remote.user>
+        <ks.deploy.remote.tomcat.user>deploy</ks.deploy.remote.tomcat.user>
+        <ks.deploy.remote.tomcat.home>/usr/local/tomcat_${ks.deploy.remote.tomcat.user}</ks.deploy.remote.tomcat.home>
+        <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>dev.ks.kuali.org</ks.deploy.remote.public.url>
-
-        <ks.deploy.remote.tomcat.home>/usr/local/tomcat_deploy</ks.deploy.remote.tomcat.home>
-        <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
-        <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
-        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - deploy -c ${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
-
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSDEV</ks.impex.username>
         <ks.impex.password>KSDEV</ks.impex.password>
-        <ks.impex.dba.password>gw570229</ks.impex.dba.password>
       </properties>
     </profile>
     <profile>
       <id>staging</id>
       <properties>
         <ks.deploy.remote.config.file>/usr/local/tomcat_staging/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.deploy.remote.user>root</ks.deploy.remote.user>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>staging.ks.kuali.org</ks.deploy.remote.public.url>
 
-        <ks.deploy.remote.tomcat.home>/usr/local/tomcat_staging</ks.deploy.remote.tomcat.home>
-        <ks.deploy.remote.shutdown>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/shutdown.sh ${ks.deploy.remote.shutdown.timeout}</ks.deploy.remote.shutdown>
-        <ks.deploy.remote.cleanup>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.cleanup>
-        <ks.deploy.remote.startup>${ks.deploy.remote.cmd.prefix} su - staging -c ${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.startup>
+        <ks.deploy.remote.tomcat.user>staging</ks.deploy.remote.tomcat.user>
+        <ks.deploy.remote.tomcat.home>/usr/local/tomcat_${ks.deploy.remote.tomcat.user}</ks.deploy.remote.tomcat.home>
 
         <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
         <ks.impex.username>KSSTAGING</ks.impex.username>
@@ -159,7 +158,7 @@
         <version>1.1</version>
         <executions>
           <execution>
-            <id>copy-local-config-file-to-remote-exec-maven-plugin</id>
+            <id>copy-local-config-file-to-remote</id>
             <phase>initialize</phase>
             <goals>
               <goal>exec</goal>
@@ -171,6 +170,28 @@
                 <argument>${ks.deploy.auth}</argument>
                 <argument>${ks.deploy.local.config.file}</argument>
                 <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-remote-tomcat</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <executable>${ks.deploy.ssh.path}</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${ks.deploy.auth}</argument>
+                <argument>${ks.deploy.remote.user}@${ks.deploy.remote.hostname}</argument>
+                <argument>su</argument>
+                <argument>-</argument>
+                <argument>${ks.deploy.remote.tomcat.user}</argument>
+                <argument>-c</argument>
+                <argument>${ks.deploy.remote.tomcat.shutdown}</argument>
+                <argument>${ks.deploy.remote.tomcat.shutdown.timeout}</argument>
+                <argument>${ks.deploy.remote.tomcat.shutdown.force}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -191,24 +212,6 @@
               <tasks>
                 <echo>Generating ${ks.deploy.local.config.file}</echo>
                 <echo file="${ks.deploy.local.config.file}">${ks.deploy.embedded.config}</echo>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-local-config-file-to-remote</id>
-            <phase>none</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.scp.path} ${ks.deploy.remote.copy.config.file}</echo>
-                <exec executable="${ks.deploy.scp.path}">
-                  <arg value="-i"/>
-                  <arg value="${ks.deploy.auth}"/>
-                  <arg value="${ks.deploy.local.config.file}"/>
-                  <arg value="${ks.deploy.remote.user}@${ks.deploy.remote.hostname}:${ks.deploy.remote.config.file}"/>
-                </exec>
               </tasks>
             </configuration>
           </execution>
