@@ -304,36 +304,6 @@
             </configuration>
           </execution>
           <execution>
-            <id>stop-remote-tomcat</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.shutdown}</echo>
-                <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="${ks.deploy.remote.shutdown}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-local-war-file-to-remote</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.scp.path} ${ks.deploy.remote.copy.war.file}</echo>
-                <exec executable="${ks.deploy.scp.path}">
-                  <arg line="${ks.deploy.remote.copy.war.file}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
             <id>reset-remote-database</id>
             <phase>install</phase>
             <goals>
@@ -345,36 +315,6 @@
                 <echo>+ ${ks.deploy.mvn.path} ${ks.deploy.mvn.reset.database}</echo>
                 <exec executable="${ks.deploy.mvn.path}" dir="${ks.hudson.ks-embedded-db.dir}">
                   <arg line="${ks.deploy.mvn.reset.database}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>cleanup-remote-tomcat</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.cleanup}</echo>
-                <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="${ks.deploy.remote.cleanup}"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>start-remote-tomcat</id>
-            <phase>install</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo>+ ${ks.deploy.ssh.path} ${ks.deploy.remote.startup}</echo>
-                <exec executable="${ks.deploy.ssh.path}">
-                  <arg line="${ks.deploy.remote.startup}"/>
                 </exec>
               </tasks>
             </configuration>
