@@ -17,7 +17,7 @@
     <version>75</version>
   </parent>
   <groupId>org.kuali.student.deploy</groupId>
-  <artifactId>deploy</artifactId>
+  <artifactId>ks-embedded</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student Deploy</name>
