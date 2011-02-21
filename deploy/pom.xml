@@ -47,6 +47,11 @@
       </snapshots>
     </repository>
   </repositories>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/deploy</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/deploy</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/deploy</url>
+  </scm>
   <properties>
     <ks.deploy.ssh.path>/usr/bin/ssh</ks.deploy.ssh.path>
     <ks.deploy.scp.path>/usr/bin/scp</ks.deploy.scp.path>
