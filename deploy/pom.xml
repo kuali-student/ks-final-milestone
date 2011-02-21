@@ -34,7 +34,6 @@
     7 - Perform any cleanup necessary (by default, it removes the old Tomcat logs and the old Tomcat "work" directory)
     8 - Restart Tomcat
   </description>
-  <url>http://${kuali.site.hostname}/student/deploy/</url>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
