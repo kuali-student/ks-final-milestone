@@ -27,7 +27,7 @@
     The steps it follows are:
     1 - Stop the remote Tomcat instance
     2 - Remove the directory on the remote server containing the old unpacked WAR file
-    3 - Generate the config file
+    3 - Generate ks-embedded-config.xml using properties appropriate for the target environment
     4 - Copy ks-embedded-config.xml into the environment
     5 - Copy a new WAR file into the environment
     6 - Reset the remote database
