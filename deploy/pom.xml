@@ -20,7 +20,20 @@
   <artifactId>deploy</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Kuali Student</name>
+  <name>Kuali Student Deploy</name>
+  <description>
+    This POM makes use of the maven-exec-plugin to deploy live instances of Kuali Student Embedded to the dev, staging, and demo environments on EC2.
+    The ks-embedded-config.xml file needed for each environment is automatically generated and copied over.  The database is reset using Impex data.
+    The steps it follows are:
+    1 - Stop the remote Tomcat instance
+    2 - Remove the directory on the remote server containing the old unpacked WAR file
+    3 - Generate the config file
+    4 - Copy ks-embedded-config.xml into the environment
+    5 - Copy a new WAR file into the environment
+    6 - Reset the remote database
+    7 - Perform any cleanup necessary (by default, it removes the old Tomcat logs and the old Tomcat "work" directory)
+    8 - Restart Tomcat
+  </description>
   <url>http://${kuali.site.hostname}/student/deploy/</url>
   <repositories>
     <repository>
