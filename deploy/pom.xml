@@ -66,7 +66,7 @@
     <ks.hudson.ks-embedded.dir>${ks.hudson.working.dir}/ks-web/ks-embedded</ks.hudson.ks-embedded.dir>
     <ks.hudson.ks-embedded-db.dir>${ks.hudson.working.dir}/ks-cfg-dbs/ks-embedded-db</ks.hudson.ks-embedded-db.dir>
 
-    <ks.impex.dba.password>gw570229</ks.impex.dba.password>
+    <ks.deploy.impex.dba.password>gw570229</ks.deploy.impex.dba.password>
 
     <ks.deploy.local.war.file>${ks.hudson.ks-embedded.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
     <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config-${ks.deploy.environment.name}.xml</ks.deploy.local.config.file>
@@ -80,9 +80,9 @@
         <param name="externalizable.images.url">/kr/static/images/</param>
         <param name="kr.externalizable.images.url">${externalizable.images.url}</param>
         <param name="travel.externalizable.images.url">${externalizable.images.url}</param>
-        <param name="datasource.url">${ks.impex.url}</param>
-        <param name="datasource.username">${ks.impex.username}</param>
-        <param name="datasource.password">${ks.impex.password}</param>
+        <param name="datasource.url">${ks.deploy.impex.url}</param>
+        <param name="datasource.username">${ks.deploy.impex.username}</param>
+        <param name="datasource.password">${ks.deploy.impex.password}</param>
         <param name="datasource.pool.maxSize">20</param>
         <param name="ks.core.datasource.pool.maxSize">20</param>
         <param name="ks.lum.datasource.pool.maxSize">20</param>
@@ -125,9 +125,9 @@
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.impex.url>
-        <ks.impex.username>KSDEMO</ks.impex.username>
-        <ks.impex.password>KSEDMO</ks.impex.password>
+        <ks.deploy.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.deploy.impex.url>
+        <ks.deploy.impex.username>KSDEMO</ks.deploy.impex.username>
+        <ks.deploy.impex.password>KSEDMO</ks.deploy.impex.password>
       </properties>
       <build>
         <plugins>
@@ -197,9 +197,9 @@
         <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>dev.ks.kuali.org</ks.deploy.remote.public.url>
-        <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
-        <ks.impex.username>KSDEV</ks.impex.username>
-        <ks.impex.password>KSDEV</ks.impex.password>
+        <ks.deploy.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.deploy.impex.url>
+        <ks.deploy.impex.username>KSDEV</ks.deploy.impex.username>
+        <ks.deploy.impex.password>KSDEV</ks.deploy.impex.password>
       </properties>
     </profile>
     <profile>
@@ -211,9 +211,9 @@
         <ks.deploy.remote.tomcat.user>staging</ks.deploy.remote.tomcat.user>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_${ks.deploy.remote.tomcat.user}</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.impex.url>
-        <ks.impex.username>KSSTAGING</ks.impex.username>
-        <ks.impex.password>KSSTAGING</ks.impex.password>
+        <ks.deploy.impex.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.deploy.impex.url>
+        <ks.deploy.impex.username>KSSTAGING</ks.deploy.impex.username>
+        <ks.deploy.impex.password>KSSTAGING</ks.deploy.impex.password>
       </properties>
     </profile>
   </profiles>
@@ -307,10 +307,10 @@
                 <argument>clean</argument>
                 <argument>install</argument>
                 <argument>-Pks-db,oracle</argument>
-                <argument>-Dks.impex.username=${ks.impex.username}</argument>
-                <argument>-Dks.impex.password=${ks.impex.password}</argument>
-                <argument>-Dks.impex.dba.password=${ks.impex.dba.password}</argument>
-                <argument>-Dks.impex.url=${ks.impex.url}</argument>
+                <argument>-Dks.impex.username=${ks.deploy.impex.username}</argument>
+                <argument>-Dks.impex.password=${ks.deploy.impex.password}</argument>
+                <argument>-Dks.impex.dba.password=${ks.deploy.impex.dba.password}</argument>
+                <argument>-Dks.impex.url=${ks.deploy.impex.url}</argument>
               </arguments>
             </configuration>
           </execution>
