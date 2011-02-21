@@ -69,7 +69,7 @@
     <ks.impex.dba.password>gw570229</ks.impex.dba.password>
 
     <ks.deploy.local.war.file>${ks.hudson.ks-embedded.dir}/target/ks-embedded-${ks.deploy.version}.war</ks.deploy.local.war.file>
-    <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config.xml</ks.deploy.local.config.file>
+    <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config-${ks.deploy.environment.name}.xml</ks.deploy.local.config.file>
     <ks.deploy.embedded.config><![CDATA[
       <config>
         <param name="appserver.url">http://${ks.deploy.remote.public.url}</param>
@@ -120,6 +120,7 @@
     <profile>
       <id>demo</id>
       <properties>
+        <ks.deploy.environment.name>demo</ks.deploy.environment.name>
         <ks.deploy.remote.hostname>demo.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
@@ -190,6 +191,7 @@
     <profile>
       <id>dev</id>
       <properties>
+        <ks.deploy.environment.name>dev</ks.deploy.environment.name>
         <ks.deploy.remote.tomcat.user>deploy</ks.deploy.remote.tomcat.user>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat_${ks.deploy.remote.tomcat.user}</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
@@ -203,6 +205,7 @@
     <profile>
       <id>staging</id>
       <properties>
+        <ks.deploy.environment.name>staging</ks.deploy.environment.name>
         <ks.deploy.remote.hostname>deploy.ks.kuali.org</ks.deploy.remote.hostname>
         <ks.deploy.remote.public.url>staging.ks.kuali.org</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.user>staging</ks.deploy.remote.tomcat.user>
