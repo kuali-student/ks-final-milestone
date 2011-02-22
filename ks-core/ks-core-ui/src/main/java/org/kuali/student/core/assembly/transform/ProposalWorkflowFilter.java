@@ -212,10 +212,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
         	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
+        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent, "");
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent);
+        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent);
         }
 
         //Check if there were errors saving
