@@ -106,8 +106,8 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 
 		instructions.addStyleName("KS-LOBuilder-Instructions");
 
-        this.add(searchMainPanel);
-        this.add(instructions);
+        this.addWidget(searchMainPanel);
+        this.addWidget(instructions);
         this.addSection(loList);
 	}
 

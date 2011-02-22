@@ -745,6 +745,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct"));
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
