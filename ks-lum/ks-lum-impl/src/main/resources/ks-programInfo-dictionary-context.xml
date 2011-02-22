@@ -889,6 +889,32 @@
 
  <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsDeployment"/>
+    <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent"/>
 
