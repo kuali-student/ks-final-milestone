@@ -15,7 +15,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -26,7 +25,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -182,9 +180,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         String docTitle = proposalInfo.getName(); 
         
         //Get the workflow document or create one if workflow document doesn't exist
-        DocumentDetailDTO docDetail;
+        String docStatus;
         if (workflowId != null){
-        	docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+        	docStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(workflowId));
         } else  {
             LOG.info("Creating Workflow Document.");
                         
@@ -198,7 +196,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+				docStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(workflowId));
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}			
@@ -209,13 +207,13 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         
         //Save
         StandardResponse stdResp;
-        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
-        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
+        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docStatus)) ||
+        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docStatus)) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
+        	stdResp = simpleDocService.save(workflowId, username, docTitle, docContent, "");
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent);
+        	stdResp = simpleDocService.saveDocumentContent(workflowId, username, docTitle, docContent);
         }
 
         //Check if there were errors saving
