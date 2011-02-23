@@ -308,15 +308,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setShortName(course.getTranscriptTitle());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setDivision(course.getSubjectArea());
-
-		//Custom logic to set the code as the concatenation of division and course number suffix if code not provided
-		if (StringUtils.hasText(course.getCode())){
-			identifier.setCode(course.getCode());
-		} else if(StringUtils.hasText(course.getCourseNumberSuffix()) && StringUtils.hasText(course.getSubjectArea())){
-			identifier.setCode(calculateCourseCode(course.getSubjectArea(),course.getCourseNumberSuffix()));			
-		}else{
-			identifier.setCode(null);
-		}
+		identifier.setCode(course.getCode());
 		
 		//Custom logic to set the level, if level not provided
 		if(StringUtils.hasText(course.getLevel())) {
@@ -353,7 +345,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setState(course.getState());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
-		//Add in ings
+		//Add in crosslistings
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 			cluIdentifier.setId(crossListing.getId());
@@ -363,16 +355,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setState(course.getState());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
 			cluIdentifier.setAttributes(crossListing.getAttributes());
-
-	        //Custom logic to set the code as the concatenation of division and course number suffix if code not provided
-	        if (StringUtils.hasText(crossListing.getCode())){
-	            cluIdentifier.setCode(crossListing.getCode());
-	        } else if(StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())){
-	            cluIdentifier.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));         
-	        }else{
-	            cluIdentifier.setCode(null);
-	        }
-	        			
+            cluIdentifier.setCode(crossListing.getCode());	        			
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 
@@ -1186,18 +1169,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
 		
 		return results;
-	}
-
-	/**
-	 * 
-	 * This method calculates code for course and cross listed course.
-	 * 
-	 * @param subjectArea
-	 * @param suffixNumber
-	 * @return
-	 */
-	private String calculateCourseCode(String subjectArea, String suffixNumber) {
-	    return subjectArea + suffixNumber;
 	}
 	
 	public void setLuService(LuService luService) {
