@@ -596,7 +596,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="309" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.enrolled.all"
-        TEMPLATE="%lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>" VER_NBR="0"/>
+        TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="313" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min"
