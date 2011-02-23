@@ -127,7 +127,6 @@ public class TestCourseServiceImpl {
             assertNotNull(retrievedCourse);
 
             // confirm it has the right contents
-            assertEquals("323", retrievedCourse.getCode().substring(4));
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
             assertEquals("level-36", retrievedCourse.getLevel());
@@ -532,8 +531,7 @@ public class TestCourseServiceImpl {
             
             for(CourseCrossListingInfo rcc : rcInfo.getCrossListings()) {
                 
-                if("100".equals(rcc.getCourseNumberSuffix())) {
-                    assertEquals("CHEM100", rcc.getCode());                    
+                if("100".equals(rcc.getCourseNumberSuffix())) {                   
                     assertEquals("VALUE1", rcc.getAttributes().get("KEY1"));
                 } else {
                     assertEquals("LIFE042", rcc.getCode());
