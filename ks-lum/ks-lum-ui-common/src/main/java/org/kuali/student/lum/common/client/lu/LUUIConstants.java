@@ -40,18 +40,7 @@ public class LUUIConstants {
 		    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luLuRelationType.contains";
 		    public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
 		    public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
-		
-		    // Valid states for Credit Course
-		    public final static String LU_STATE_DRAFT = "Draft"; 
-		    public final static String LU_STATE_SUBMITTED = "Submitted";
-		    public final static String LU_STATE_WITHDRAWN = "Withdrawn";
-		    public final static String LU_STATE_APPROVED = "Approved";
-		    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
-		    public final static String LU_STATE_ACTIVE = "Active";
-		    public final static String LU_STATE_INACTIVE = "Inactive";
-		    public final static String LU_STATE_SUPERSEDED  = "Superseded";
-		    public final static String LU_STATE_RETIRED = "Retired";
-		    
+			    
 		    // Dictionary definitions
 		    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
 		    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";

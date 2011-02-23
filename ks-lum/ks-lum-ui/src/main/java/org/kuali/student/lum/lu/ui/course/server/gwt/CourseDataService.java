@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
@@ -33,7 +34,7 @@ public class CourseDataService extends AbstractDataService {
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
-	private static final String DEFAULT_METADATA_STATE = "draft";
+	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
 	

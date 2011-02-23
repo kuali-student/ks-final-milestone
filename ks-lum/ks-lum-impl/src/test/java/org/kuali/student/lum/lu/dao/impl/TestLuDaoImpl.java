@@ -23,7 +23,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.junit.Test;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -43,6 +46,18 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	public LuDao dao;
 
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
+	
+	@Test
+	public void testJPQL(){
+		
+		Query query = ((AbstractSearchableCrudDaoImpl)dao).getEm().createQuery(
+				"SELECT clu.id, clu.officialIdentifier.code, rel.loId " + 
+                "FROM CluLoRelation rel " + 
+                "JOIN rel.clu clu " +
+                "LEFT JOIN clu.adminOrgs adminOrg " );                              
+		
+		query.getResultList();
+	}
 	
 	@Test
 	public void testGetLuLuRelationTypeInfo(){

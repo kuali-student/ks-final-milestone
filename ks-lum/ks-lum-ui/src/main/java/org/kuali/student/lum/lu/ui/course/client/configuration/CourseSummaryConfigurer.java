@@ -6,6 +6,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
@@ -80,7 +81,7 @@ public class CourseSummaryConfigurer implements
     private static final String OPTIONAL = "o";
 
     protected String type = "course";
-    protected String state = "draft";
+    protected String state = DtoConstants.STATE_DRAFT;
     protected String groupName;
     protected DataModelDefinition modelDefinition;
     private List<StatementTypeInfo> stmtTypes;

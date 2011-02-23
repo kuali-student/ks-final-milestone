@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.entity.Amount;
 import org.kuali.student.common.entity.TimeAmount;
@@ -3100,7 +3101,7 @@ public class LuServiceImpl implements LuService {
 
     private void clearCluIds(CluInfo clu) {
 	    // Clear out all ids so a copy can be made
-        clu.setState(LUConstants.LU_STATE_DRAFT);// TODO check if this should be set from outside
+        clu.setState(DtoConstants.STATE_DRAFT);// TODO check if this should be set from outside
     	clu.setId(null);
 	    	    	    
 	    if(clu.getAccountingInfo()!=null){

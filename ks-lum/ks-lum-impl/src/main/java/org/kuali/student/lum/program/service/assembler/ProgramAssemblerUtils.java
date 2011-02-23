@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -243,7 +244,7 @@ public class ProgramAssemblerUtils {
         official.setLongName(program.getLongTitle());
         official.setShortName(program.getShortTitle());
         String existingState = program.getState();
-        official.setState((null != existingState && existingState.length() > 0) ? existingState : ProgramAssemblerConstants.ACTIVE);
+        official.setState((null != existingState && existingState.length() > 0) ? existingState : DtoConstants.STATE_ACTIVE);
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
 
@@ -269,7 +270,7 @@ public class ProgramAssemblerUtils {
         if (program.getDiplomaTitle() != null) {
             if (diplomaInfo == null) {
                 diplomaInfo = new CluIdentifierInfo();
-                diplomaInfo.setState(ProgramAssemblerConstants.ACTIVE);
+                diplomaInfo.setState(DtoConstants.STATE_ACTIVE);
                 clu.getAlternateIdentifiers().add(diplomaInfo);
             }
             diplomaInfo.setCode(official.getCode());
@@ -280,7 +281,7 @@ public class ProgramAssemblerUtils {
         if (program.getTranscriptTitle() != null) {
             if (transcriptInfo == null) {
                 transcriptInfo = new CluIdentifierInfo();
-                transcriptInfo.setState(ProgramAssemblerConstants.ACTIVE);
+                transcriptInfo.setState(DtoConstants.STATE_ACTIVE);
                 clu.getAlternateIdentifiers().add(transcriptInfo);
             }
             transcriptInfo.setCode(official.getCode());
@@ -734,7 +735,7 @@ public class ProgramAssemblerUtils {
             relation.setCluId(program.getCredentialProgramId());
             relation.setRelatedCluId(program.getId());
             relation.setType(relationType);
-            relation.setState(ProgramAssemblerConstants.ACTIVE);
+            relation.setState(DtoConstants.STATE_ACTIVE);
 
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
@@ -880,7 +881,7 @@ public class ProgramAssemblerUtils {
                 List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
 
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(ProgramAssemblerConstants.ACTIVE))) {
+                    if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(DtoConstants.STATE_ACTIVE))) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation);
                     }
                 }
@@ -899,7 +900,7 @@ public class ProgramAssemblerUtils {
         relation.setCluId(cluId);
         relation.setRelatedCluId(relatedCluId);
         relation.setType(relationType);
-        relation.setState(ProgramAssemblerConstants.ACTIVE);
+        relation.setState(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                 null);
@@ -928,7 +929,7 @@ public class ProgramAssemblerUtils {
         for (Map.Entry<String, CluCluRelationInfo> entry : currentRelations.entrySet()) {
             CluCluRelationInfo inactiveRelation = new CluCluRelationInfo();
             inactiveRelation = entry.getValue();
-            inactiveRelation.setState(ProgramAssemblerConstants.INACTIVE);
+            inactiveRelation.setState(DtoConstants.STATE_INACTIVE);
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> inactiveRelationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
             inactiveRelationNode.setNodeData(inactiveRelation);
@@ -1028,7 +1029,7 @@ public class ProgramAssemblerUtils {
         CluPublicationInfo pubInfo = new CluPublicationInfo();
         pubInfo.setType(publicationType);
         pubInfo.setCluId(programId);
-        pubInfo.setState(ProgramAssemblerConstants.ACTIVE);
+        pubInfo.setState(DtoConstants.STATE_ACTIVE);
 
         return pubInfo;
     }

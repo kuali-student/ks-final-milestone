@@ -14,6 +14,7 @@ import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -294,7 +295,7 @@ public class ProgramServiceImpl implements ProgramService {
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
 	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-	        relation.setState(ProgramAssemblerConstants.ACTIVE);
+	        relation.setState(DtoConstants.STATE_ACTIVE);
 			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
 	        
 			//Set variation id & versionInfo to new variation clu

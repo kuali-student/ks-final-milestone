@@ -25,6 +25,7 @@ import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -281,7 +282,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			try {
 				variationClu = luService.getClu(variationId);
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true);
-				delVariation.setState(ProgramAssemblerConstants.INACTIVE);
+				delVariation.setState(DtoConstants.STATE_ACTIVE);
 				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE);
 				if (variationNode != null) nodes.add(variationNode);
 			} catch (Exception e) {

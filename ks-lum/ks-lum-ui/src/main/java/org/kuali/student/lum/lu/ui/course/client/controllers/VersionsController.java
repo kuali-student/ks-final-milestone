@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
@@ -48,7 +49,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private VerticalSectionView compare;
     private static final String MSG_GROUP = "course";
     private String type = "course";
-    private String state = "draft";
+    private String state = DtoConstants.STATE_DRAFT;
     private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 	CourseSummaryConfigurer summaryConfigurer;
 	CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);

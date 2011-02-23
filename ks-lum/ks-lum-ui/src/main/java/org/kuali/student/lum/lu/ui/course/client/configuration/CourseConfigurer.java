@@ -39,6 +39,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -147,7 +148,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
      */
     public void configure(final CourseProposalController layout) {
     	type = "course";
-        state = "draft";
+        state = DtoConstants.STATE_DRAFT;
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         if (modelDefinition.getMetadata().isCanEdit()) {
