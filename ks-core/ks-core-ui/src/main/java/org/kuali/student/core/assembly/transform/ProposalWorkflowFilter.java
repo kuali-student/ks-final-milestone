@@ -118,7 +118,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				String referenceId = data.query("id");
 				proposalInfo.setProposalReferenceType(getProposalReferenceType());
 				proposalInfo.getProposalReference().add(referenceId);
-				proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+				
 				proposalInfo.setState("Saved");
 								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
