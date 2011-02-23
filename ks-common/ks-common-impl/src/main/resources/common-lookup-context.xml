@@ -818,7 +818,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 							<value>Submitted</value>
 							<value>Withdrawn</value>
 							<value>Approved</value>
@@ -995,7 +995,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 							<value>Submitted</value>
 							<value>Withdrawn</value>
 							<value>Approved</value>
@@ -1184,7 +1184,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 							<value>Submitted</value>
 							<value>Withdrawn</value>
 							<value>Approved</value>
@@ -1431,7 +1431,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -1503,7 +1503,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
