@@ -32,9 +32,10 @@ public class ProgramUtils {
 
     public static void addCredentialProgramDataToVariation(Data variationData, DataModel model) {
         Data credentialProgram = new Data();
+        
         credentialProgram.set(ProgramConstants.INSTITUTION, model.<Data>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION));
         credentialProgram.set(ProgramConstants.PROGRAM_LEVEL, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL));
-        credentialProgram.set(ProgramConstants.SHORT_TITLE, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.SHORT_TITLE));
+        credentialProgram.set(ProgramConstants.CREDENTIAL_PROGRAM, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.SHORT_TITLE));
 
         variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credentialProgram);
     }
