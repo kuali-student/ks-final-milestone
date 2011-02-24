@@ -71,7 +71,9 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
         
-        Enumeration enumerationMetaEntity = enumDAO.fetch(Enumeration.class, enumerationKey);
+        Enumeration enumerationMetaEntity = null;
+        if (enumerationKey != null)
+        	enumerationMetaEntity = enumDAO.fetch(Enumeration.class, enumerationKey);
         EnumerationInfo enumerationMeta = null;
         if(enumerationMetaEntity != null){
         	enumerationMeta = new EnumerationInfo();

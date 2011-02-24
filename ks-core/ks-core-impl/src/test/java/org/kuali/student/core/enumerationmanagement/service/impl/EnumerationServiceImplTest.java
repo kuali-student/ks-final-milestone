@@ -203,6 +203,17 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	assertEquals(dao.getId(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
     	assertEquals(dao.getDescr(), dto.getDescr());
+    	
+    	//fetchEnumerationMeta for "NULL" key
+    	EnumerationInfo dto_null = null;
+		try {
+			dto_null = enumService.getEnumeration("NULL");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+		assertEquals(dto_null, null);
+		
 	}
 	
 	@Test
