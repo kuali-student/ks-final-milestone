@@ -282,7 +282,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			try {
 				variationClu = luService.getClu(variationId);
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true);
-				delVariation.setState(DtoConstants.STATE_ACTIVE);
+				delVariation.setState(DtoConstants.STATE_INACTIVE);
 				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE);
 				if (variationNode != null) nodes.add(variationNode);
 			} catch (Exception e) {
