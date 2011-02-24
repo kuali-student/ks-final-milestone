@@ -26,7 +26,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -58,7 +57,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private SimpleDocumentActionsWebService simpleDocService;
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
-	private DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
+	private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
 		
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
@@ -119,6 +118,11 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				proposalInfo.setProposalReferenceType(getProposalReferenceType());
 				proposalInfo.getProposalReference().add(referenceId);
 				
+                // TODO: this needs to be defined as a constant where all references will resolve
+                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())) {
+                    proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+                }
+
 				proposalInfo.setState("Saved");
 								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
