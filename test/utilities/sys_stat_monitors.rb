@@ -49,6 +49,8 @@ optparse = OptionParser.new do |opts|
   
 end
 
+optparse.parse!
+
 
 # MAIN
 
@@ -64,7 +66,54 @@ end
 start_monitors
 
 
+
 # METHODS
+
+# Save off config
+def save_config
+  
+  # Write yml file 
+  yf = File.open(@config[:output], "w+")
+  YAML.dump(@config, yf)
+  yf.close
+  
+end
+
+
+# Parse the passed in config file
+def parse_config(config)
+  @config = YAML.load_file(config)
+end
+
+
+# Start log, return File obj
+def start_log(log)
+  File.open(log, '+w')
+end
+
+
+# Start monitors
+def start_monitors
+  
+  @config[:phases].each do |phase|
+    
+    info_msg("Launching phase 1 monitors...")
+    info_msg(Time.now.to_s)
+    
+    `mem-stat.plx #{@config[:pid]} #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} > #{@config[:base_log_name]}-phase#{phase}-mem_stats.log &`
+    `sar -u -x #{@config[:pid]} #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} > #{@config[:base_log_name]}-phase#{phase}-cpu_stats.log &`
+    `net-mon.plx #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} #{@config[:http_port]} > #{@config[:base_log_name]}-phase#{phase}-cpu_stats.log`
+    
+  end
+  
+end
+
+# Print messages to log and stdout
+def info_msg(msg)
+  @log.puts(msg)
+  puts msg
+end
+
 
 # Build the config hash
 def generate_config
@@ -116,47 +165,6 @@ def generate_config
 end
 
 
-# Save off config
-def save_config
-  
-  # Write yml file 
-  yf = File.open(@config[:output], "w+")
-  YAML.dump(@config, yf)
-  yf.close
-  
-end
 
 
-# Parse the passed in config file
-def parse_config(config)
-  @config = YAML.load_file(config)
-end
 
-
-# Start log, return File obj
-def start_log(log)
-  File.open(log, '+w')
-end
-
-
-# Start monitors
-def start_monitors
-  
-  @config[:phases].each do |phase|
-    
-    info_msg("Launching phase 1 monitors...")
-    info_msg(Time.now.to_s)
-    
-    `mem-stat.plx #{@config[:pid]} #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} > #{@config[:base_log_name]}-phase#{phase}-mem_stats.log &`
-    `sar -u -x #{@config[:pid]} #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} > #{@config[:base_log_name]}-phase#{phase}-cpu_stats.log &`
-    `net-mon.plx #{@config[:phases][phase][:interval]} #{@config[:phases][phase][:amount]} #{@config[:http_port]} > #{@config[:base_log_name]}-phase#{phase}-cpu_stats.log`
-    
-  end
-  
-end
-
-# Print messages to log and stdout
-def info_msg(msg)
-  @log.puts(msg)
-  puts msg
-end
