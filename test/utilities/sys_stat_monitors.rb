@@ -52,21 +52,6 @@ end
 optparse.parse!
 
 
-# MAIN
-
-# If we have a passed in config, parse it, else build it
-if(@config[:config_file].nil?)
-  generate_config
-  save_config
-else
-  parse_config(@config[:config_file])
-end
-
-@log = start_log(@config[:log])
-start_monitors
-
-
-
 # METHODS
 
 # Save off config
@@ -163,6 +148,24 @@ def generate_config
   end while(phase <= @config[:num_phases])
   
 end
+
+
+
+
+# MAIN
+
+# If we have a passed in config, parse it, else build it
+if(@config[:config_file].nil?)
+  generate_config
+  save_config
+else
+  parse_config(@config[:config_file])
+end
+
+@log = start_log(@config[:log])
+start_monitors
+
+
 
 
 
