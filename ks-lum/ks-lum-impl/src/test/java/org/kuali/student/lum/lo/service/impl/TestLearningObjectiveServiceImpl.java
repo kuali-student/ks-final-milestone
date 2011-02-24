@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
@@ -83,7 +84,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
         loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState("draft");
+        loInfo.setState(DtoConstants.STATE_DRAFT);
 
         LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
         assertNotNull(created);
@@ -102,7 +103,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
         assertEquals("kuali.lo.type.singleUse", created.getType()); 
-        assertEquals("draft", created.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, created.getState());
 
         loInfo = client.getLo(loId);
         loInfo.setName("Lo in the mid 30s");
@@ -120,7 +121,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
         assertEquals("kuali.lo.type.singleUse", updated.getType()); 
-        assertEquals("draft", updated.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, updated.getState());
 
         try {
             client.updateLo(loId, loInfo);
@@ -235,7 +236,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
         loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState("draft");
+        loInfo.setState(DtoConstants.STATE_DRAFT);
 
         try {
         	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getType (), loInfo);
@@ -529,7 +530,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals("81abea67-3bcc-4088-8348-e265f3670145", llrInfo.getLoId());
     	assertEquals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
         // Detecting expected errors
         try {
     		client.getLoLoRelation(null);
@@ -596,7 +597,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", llrInfo.getLoId());
     	assertEquals("91a91860-d796-4a17-976b-a6165b1a0b05", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
         // Detecting expected errors
         try {
     		client.createLoLoRelation(null, "foo", "bar", llrInfo);
