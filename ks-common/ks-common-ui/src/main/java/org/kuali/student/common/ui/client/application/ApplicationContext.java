@@ -17,10 +17,15 @@ package org.kuali.student.common.ui.client.application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
@@ -51,6 +56,11 @@ public class ApplicationContext {
 	private SecurityContext securityContext;
 	private String applicationContextUrl;
 	
+	//These maps are used to store query paths to their corresponding fieldDefinitions, and also whcih fields have cross constraints
+	private String parentPath = "";
+	private HashMap<String,HashMap<String,FieldDescriptor>> pathToFieldMapping = new HashMap<String,HashMap<String,FieldDescriptor>>();
+	private HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>> crossConstraints = new HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>>();
+//	private HashMap<String,HashMap<FieldDescriptor, String>> defaultValueMapping = new HashMap<String,HashMap<FieldDescriptor, String>>();
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
 	 * required outside this package do Application.getApplicationContext();
@@ -215,4 +225,175 @@ public class ApplicationContext {
 		return version;
 	}
 	
+	/**
+	 * Adds a mapping from path to a list of field descriptors for a given namespace
+	 * namespace defaults to _default if null
+	 * @param path
+	 * @param fd
+	 */
+	public void putCrossConstraint(String namespace, String path, HasCrossConstraints fd){
+		if(namespace==null){
+			namespace="_default";
+		}
+		
+		HashMap<String,HashSet<HasCrossConstraints>> crossConstraintMap = crossConstraints.get(namespace);
+		if(crossConstraintMap==null){
+			crossConstraintMap = new HashMap<String,HashSet<HasCrossConstraints>>();
+			crossConstraints.put(namespace, crossConstraintMap);
+		}
+		HashSet<HasCrossConstraints> fieldDescriptors = crossConstraintMap.get(path);
+		if(fieldDescriptors == null){
+			fieldDescriptors = new HashSet<HasCrossConstraints>();
+			crossConstraintMap.put(path, fieldDescriptors);
+		}
+		fieldDescriptors.add(fd);
+	}
+
+	
+	
+	public HashSet<HasCrossConstraints> getCrossConstraint(String namespace, String path){
+		if(namespace==null){
+			namespace="_default";
+		}
+		HashMap<String,HashSet<HasCrossConstraints>> crossConstraintMap = crossConstraints.get(namespace);
+		if(crossConstraintMap!=null){
+			return crossConstraintMap.get(path);
+		}
+		return null;
+	}
+	public void clearCrossConstraintMap(String namespace){
+		if(namespace==null){
+			namespace="_default";
+		}
+		crossConstraints.remove(namespace);
+	}
+	public void putPathToFieldMapping(String namespace, String path, FieldDescriptor fd){
+		if(namespace==null){
+			namespace="_default";
+		}
+		
+		HashMap<String,FieldDescriptor> pathToField = pathToFieldMapping.get(namespace);
+		if(pathToField==null){
+			pathToField = new HashMap<String,FieldDescriptor>();
+			pathToFieldMapping.put(namespace, pathToField);
+		}
+		pathToField.put(path, fd);
+	}
+
+	public FieldDescriptor getPathToFieldMapping(String namespace, String path){
+		if(namespace==null){
+			namespace="_default";
+		}
+		
+		HashMap<String,FieldDescriptor> pathToField = pathToFieldMapping.get(namespace);
+		if(pathToField!=null){
+			return pathToField.get(path);
+		}
+		return null;
+	}
+	public void clearPathToFieldMapping(String namespace){
+		if(namespace==null){
+			namespace="_default";
+		}
+		pathToFieldMapping.remove(namespace);
+	}
+
+	/**
+	 * Removes the bidirectional mapping for all paths that start with the path prefix
+	 * This means if Field A had a dependency on Field B, and you cleared A, first all mappings with
+	 * dependencies to A would be removed, then all mappings with dependencies to A would be removed. 
+	 * @param namespace
+	 * @param pathPrefix
+	 */
+	public void clearCrossConstraintsWithStartingPath(String namespace, String pathPrefix){
+		if(namespace==null){
+			namespace="_default";
+		}
+		//First delete any cross constraint mappings based on this field
+		HashMap<String,HashSet<HasCrossConstraints>> crossConstraintMap = crossConstraints.get(namespace);
+		if(crossConstraintMap!=null){
+			Iterator<Map.Entry<String,HashSet<HasCrossConstraints>>> constraintMapIter = crossConstraintMap.entrySet().iterator();
+			while(constraintMapIter.hasNext()){
+				Map.Entry<String,HashSet<HasCrossConstraints>> entry = constraintMapIter.next();
+				if(entry.getKey().startsWith(pathPrefix)){
+					constraintMapIter.remove();
+				}
+			}
+
+			//Find all the fieldDescriptors that start with the prefix and remove the cross constraint mapping to them 
+			HashMap<String,FieldDescriptor> pathToField = pathToFieldMapping.get(namespace);
+			if(pathToField!=null){
+				Iterator<Entry<String, FieldDescriptor>> pathMapIter = pathToField.entrySet().iterator();
+				while(pathMapIter.hasNext()){
+					Entry<String, FieldDescriptor> entry = pathMapIter.next();
+					if(entry.getKey().startsWith(pathPrefix)){
+						FieldDescriptor fd = entry.getValue();
+						if(fd.getFieldWidget()!=null && fd.getFieldWidget() instanceof HasCrossConstraints && ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints()!=null){
+							//Loop through the constraint paths and remove any mapping to the existing field descriptor
+							for(String path:((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints()){
+								HashSet<HasCrossConstraints> set = crossConstraintMap.get(path);
+								if(set!=null){
+									set.remove(fd.getFieldWidget());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
+	public HashSet<HasCrossConstraints> getCrossConstraints(String namespace) {
+		if(namespace==null){
+			namespace="_default";
+		}
+		HashSet<HasCrossConstraints> results = new HashSet<HasCrossConstraints>();
+		HashMap<String,HashSet<HasCrossConstraints>> crossConstraintMap = crossConstraints.get(namespace);
+		if(crossConstraintMap!=null){
+			for(HashSet<HasCrossConstraints> fds: crossConstraintMap.values()){
+				results.addAll(fds);
+			}
+		}
+		return results;
+	}
+
+	public String getParentPath() {
+		return parentPath;
+	}
+
+	public void setParentPath(String parentPath) {
+		this.parentPath = parentPath;
+	}
+
+//	public void putDefaultValueMapping(String namespace,
+//			FieldDescriptor fieldDescriptor, String defaultValuePath) {
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		HashMap<FieldDescriptor, String> defaultValueMap = defaultValueMapping.get(namespace);
+//		if(defaultValueMap==null){
+//			defaultValueMap = new HashMap<FieldDescriptor, String>();
+//			defaultValueMapping.put(namespace, defaultValueMap);
+//		}
+//		defaultValueMap.put(fieldDescriptor, defaultValuePath);
+//	}
+//
+//	public HashMap<FieldDescriptor, String> getDefaultValueMapping(String namespace) {
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		HashMap<FieldDescriptor, String> result = defaultValueMapping.get(namespace);
+//		if(result==null){
+//			result = new HashMap<FieldDescriptor, String>();
+//		}
+//		return result;
+//	}
+//	public void clearDefaultValueMapping(String namespace){
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		defaultValueMapping.remove(namespace);
+//	}
+
 }

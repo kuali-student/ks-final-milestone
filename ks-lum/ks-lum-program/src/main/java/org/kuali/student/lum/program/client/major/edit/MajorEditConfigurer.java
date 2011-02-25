@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 
@@ -9,6 +10,8 @@ import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 public class MajorEditConfigurer extends AbstractProgramConfigurer {
 
     public MajorEditConfigurer() {
+    	Application.getApplicationContext().clearCrossConstraintMap(null);
+    	Application.getApplicationContext().clearPathToFieldMapping(null);
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(new MajorInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());

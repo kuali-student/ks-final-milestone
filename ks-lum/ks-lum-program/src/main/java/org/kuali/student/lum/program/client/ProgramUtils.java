@@ -45,6 +45,19 @@ public class ProgramUtils {
         newSpecializationData.set(ProgramConstants.STATE, programModel.<String>get(ProgramConstants.STATE));
         newSpecializationData.set(ProgramConstants.TYPE, ProgramConstants.VARIATION_TYPE_KEY);
         newSpecializationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+        
+        //Manually copy default values here... we don't have access to the metadata and we only want to default the first time
+        newSpecializationData.set(ProgramConstants.FINANCIAL_CONTROL_DIVISION, programModel.<Data>get(ProgramConstants.FINANCIAL_CONTROL_DIVISION)==null?null:programModel.<Data>get(ProgramConstants.FINANCIAL_CONTROL_DIVISION).copy());
+        newSpecializationData.set(ProgramConstants.FINANCIAL_CONTROL_UNIT, programModel.<Data>get(ProgramConstants.FINANCIAL_CONTROL_UNIT)==null?null:programModel.<Data>get(ProgramConstants.FINANCIAL_CONTROL_UNIT).copy());
+        newSpecializationData.set(ProgramConstants.FINANCIAL_RESOURCES_DIVISION, programModel.<Data>get(ProgramConstants.FINANCIAL_RESOURCES_DIVISION)==null?null:programModel.<Data>get(ProgramConstants.FINANCIAL_RESOURCES_DIVISION).copy());
+        newSpecializationData.set(ProgramConstants.FINANCIAL_RESOURCES_UNIT, programModel.<Data>get(ProgramConstants.FINANCIAL_RESOURCES_UNIT)==null?null:programModel.<Data>get(ProgramConstants.FINANCIAL_RESOURCES_UNIT).copy());
+        newSpecializationData.set(ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, programModel.<Data>get(ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION)==null?null:programModel.<Data>get(ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION).copy());
+        newSpecializationData.set(ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, programModel.<Data>get(ProgramConstants.CURRICULUM_OVERSIGHT_UNIT)==null?null:programModel.<Data>get(ProgramConstants.CURRICULUM_OVERSIGHT_UNIT).copy());
+        newSpecializationData.set(ProgramConstants.DEPLOYMENT_DIVISION, programModel.<Data>get(ProgramConstants.DEPLOYMENT_DIVISION)==null?null:programModel.<Data>get(ProgramConstants.DEPLOYMENT_DIVISION).copy());
+        newSpecializationData.set(ProgramConstants.DEPLOYMENT_UNIT, programModel.<Data>get(ProgramConstants.DEPLOYMENT_UNIT)==null?null:programModel.<Data>get(ProgramConstants.DEPLOYMENT_UNIT).copy());
+        newSpecializationData.set(ProgramConstants.STUDENT_OVERSIGHT_DIVISION, programModel.<Data>get(ProgramConstants.STUDENT_OVERSIGHT_DIVISION)==null?null:programModel.<Data>get(ProgramConstants.STUDENT_OVERSIGHT_DIVISION).copy());
+        newSpecializationData.set(ProgramConstants.STUDENT_OVERSIGHT_UNIT, programModel.<Data>get(ProgramConstants.STUDENT_OVERSIGHT_UNIT)==null?null:programModel.<Data>get(ProgramConstants.STUDENT_OVERSIGHT_UNIT).copy());
+
         addCredentialProgramDataToVariation(newSpecializationData, programModel);
         return newSpecializationData;
     }

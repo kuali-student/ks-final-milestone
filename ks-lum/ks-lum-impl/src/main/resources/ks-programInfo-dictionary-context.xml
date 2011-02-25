@@ -1101,28 +1101,33 @@
 
  <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
   <property name="name" value="divisionsContentOwner"/>
+  <property name="defaultValuePath" value="/divisionsContentOwner"/>
  </bean>
  <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
 
  <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="majorDisciplineInfo.divisionsDeployment-parent">
   <property name="name" value="divisionsDeployment"/>
+  <property name="defaultValuePath" value="/divisionsDeployment"/>
  </bean>
  <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
  <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialControl-parent">
   <property name="name" value="divisionsFinancialControl"/>
+  <property name="defaultValuePath" value="/divisionsFinancialControl"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialControl"
        parent="programVariationInfo.divisionsFinancialControl-parent"/>
 
  <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialResources-parent">
   <property name="name" value="divisionsFinancialResources"/>
+  <property name="defaultValuePath" value="/divisionsFinancialResources"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialResources"
        parent="programVariationInfo.divisionsFinancialResources-parent"/>
 
  <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
+  <property name="defaultValuePath" value="/divisionsStudentOversight"/>
  </bean>
  <bean id="programVariationInfo.divisionsStudentOversight"
        parent="programVariationInfo.divisionsStudentOversight-parent"/>
@@ -1134,11 +1139,13 @@
 
  <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm-parent">
   <property name="name" value="endProgramEntryTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
  </bean>
  <bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
 
  <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
   <property name="name" value="endTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endTerm"/>
  </bean>
  <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
@@ -1183,6 +1190,7 @@
  <bean id="programVariationInfo.resultOptions-parent" abstract="true"
        parent="majorDisciplineInfo.resultOptions-parent">
   <property name="name" value="resultOptions"/>
+  <property name="maxOccurs" value="1"/>
  </bean>
  <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
 
@@ -1200,8 +1208,99 @@
 
  <bean id="programVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
   <property name="name" value="startTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
  </bean>
  <bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
+
+
+<bean id="constraint.lookup.programVariation.endTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endTerm"/>
+   </bean>
+  <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endTerm" parent="constraint.lookup.programVariation.endTerm-parent"/>
+
+<bean id="constraint.lookup.programVariation.endInstAdmitTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endInstAdmitTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endInstAdmitTerm" parent="constraint.lookup.programVariation.endInstAdmitTerm-parent"/>
+
+<bean id="constraint.lookup.programVariation.endProgramEntryTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endProgramEntryTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endProgramEntryTerm" parent="constraint.lookup.programVariation.endProgramEntryTerm-parent"/>
+
+
+<bean id="constraint.lookup.programVariation.startTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.startTerm" parent="constraint.lookup.programVariation.startTerm-parent"/>
 
  <bean id="programVariationInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="stdDuration"/>
@@ -1227,24 +1326,28 @@
  <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true"
        parent="majorDisciplineInfo.unitsContentOwner-parent">
   <property name="name" value="unitsContentOwner"/>
+  <property name="defaultValuePath" value="/unitsContentOwner"/>
  </bean>
  <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
 
  <bean id="programVariationInfo.unitsDeployment-parent" abstract="true"
        parent="majorDisciplineInfo.unitsDeployment-parent">
   <property name="name" value="unitsDeployment"/>
+  <property name="defaultValuePath" value="/unitsDeployment"/>
  </bean>
  <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
 
  <bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true"
        parent="majorDisciplineInfo.unitsFinancialControl-parent">
   <property name="name" value="unitsFinancialControl"/>
+  <property name="defaultValuePath" value="/unitsFinancialControl"/>
  </bean>
  <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
 
  <bean id="programVariationInfo.unitsFinancialResources-parent" abstract="true"
        parent="majorDisciplineInfo.unitsFinancialResources-parent">
   <property name="name" value="unitsFinancialResources"/>
+  <property name="defaultValuePath" value="/unitsFinancialResources"/>
  </bean>
  <bean id="programVariationInfo.unitsFinancialResources"
        parent="programVariationInfo.unitsFinancialResources-parent"/>
@@ -1252,6 +1355,7 @@
  <bean id="programVariationInfo.unitsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
+  <property name="defaultValuePath" value="/unitsStudentOversight"/>
  </bean>
  <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
 
@@ -1343,6 +1447,7 @@
  <bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="programVariationInfo.endTerm-parent">
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endInstAdmitTerm"/>
  </bean>
 
  <bean id="programVariationInfo.endInstAdmitTerm" parent="programVariationInfo.endInstAdmitTerm-parent"/>

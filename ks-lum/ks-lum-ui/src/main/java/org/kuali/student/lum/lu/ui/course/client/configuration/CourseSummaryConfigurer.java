@@ -33,6 +33,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
@@ -76,6 +77,8 @@ public class CourseSummaryConfigurer implements
     public static final String PROPOSAL = "";
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+	private static final String REQ_COMP_TYPE_CREDITS_REPEAT_MAX = "kuali.reqComponent.type.course.credits.repeat.max";
+
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
     private static final String OPTIONAL = "o";
@@ -212,22 +215,75 @@ public class CourseSummaryConfigurer implements
 
 									@Override
 									public void exec(
-											List<ValidationResultInfo> validationResult) {
+											final List<ValidationResultInfo> validationResult) {
 										//validationInfos = validationResult;
 										tableSection.enableValidation(showingValidation);
-										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
+										
+										//Custom validation to see if CourseRequisites are required...
+										//
+						                if(controller instanceof CourseProposalController){
+						                    final CourseProposalController courseProposalController = (CourseProposalController) controller;
+						                    courseProposalController.requestModel(new ModelRequestCallback<DataModel>() {
+												public void onModelReady(
+														DataModel model) {
+													String courseNumber = model.get(COURSE_NUMBER_SUFFIX);
+													if(courseNumber != null
+													&& (courseNumber.endsWith("8") || courseNumber.endsWith("9"))){
+									                    boolean foundStmtType = false;
+														for(StatementTypeInfo stmtType:stmtTypes){
+										                    List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+										                    if (hasStatementType(statementTreeViewInfos,
+																	REQ_COMP_TYPE_CREDITS_REPEAT_MAX)) {
+																foundStmtType = true;
+																break;
+															}
+									                    }
+														if(!foundStmtType){
+															ValidationResultInfo vr = new ValidationResultInfo();
+															vr.setElement(COURSE + "/" + "requisites/kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
+															vr.setError("validation.missingCreditsRepeatMax");
+															validationResult.add(vr);
+														}
 
-										validationInfos = validationResult;
-			                        	if(isValid != ErrorLevel.ERROR){
-			                				infoContainer1.showWarningLayout(false);
-			                				infoContainer2.showWarningLayout(false);
-			                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
-			                        	}
-			                        	else{
-			                        		infoContainer1.showWarningLayout(true);
-			                        		infoContainer2.showWarningLayout(true);
-			                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
-			                        	}
+													}
+													
+													ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
+
+													validationInfos = validationResult;
+						                        	if(isValid != ErrorLevel.ERROR){
+						                				infoContainer1.showWarningLayout(false);
+						                				infoContainer2.showWarningLayout(false);
+						                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
+						                        	}
+						                        	else{
+						                        		infoContainer1.showWarningLayout(true);
+						                        		infoContainer2.showWarningLayout(true);
+						                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
+						                        	}
+												}
+												public void onRequestFail(
+														Throwable cause) {
+													
+												}
+											});
+
+							                  
+										
+						                }else{
+											ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
+	
+											validationInfos = validationResult;
+				                        	if(isValid != ErrorLevel.ERROR){
+				                				infoContainer1.showWarningLayout(false);
+				                				infoContainer2.showWarningLayout(false);
+				                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
+				                        	}
+				                        	else{
+				                        		infoContainer1.showWarningLayout(true);
+				                        		infoContainer2.showWarningLayout(true);
+				                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
+				                        	}
+						                }
 										onReadyCallback.exec(result);
 
 									}});
@@ -255,6 +311,21 @@ public class CourseSummaryConfigurer implements
 
     }
 
+	private boolean hasStatementType(
+			List<StatementTreeViewInfo> statementTrees,
+			String statementType) {
+		for (StatementTreeViewInfo statementTree : statementTrees) {
+			for (ReqComponentInfo reqComp : statementTree.getReqComponents()) {
+				if (statementType.equals(reqComp.getType())) {
+					return true;
+				}
+			}
+			return hasStatementType(statementTree.getStatements(),
+					statementType);
+		}
+		return false;
+	}
+	
     private SummaryTableFieldBlock generateProposalDocumentsSection() {
     	SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.DOCUMENTS));
@@ -587,7 +658,7 @@ public class CourseSummaryConfigurer implements
             }
         };
 
-        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
+        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + "requisites/"+stmtType.getId(), new MessageKeyInfo(stmtType.getName()), null, panel);
         requisiteField.setWidgetBinding(widgetBinding);
 
         return requisiteField;

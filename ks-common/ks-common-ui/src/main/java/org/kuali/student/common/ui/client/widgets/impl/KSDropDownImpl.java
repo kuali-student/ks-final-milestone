@@ -120,11 +120,21 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
 
 	public void selectItem(String id){
 	    if (id != null){
+	    	boolean matched = false;
     		for(int i = 0; i < listBox.getItemCount(); i++){
     			if(id.equals(listBox.getValue(i))){
+    				matched = true;
     				listBox.setSelectedIndex(i);
     				fireChangeEvent(false);
+    				break;
     			}
+    		}
+    		if(!matched){
+	    		//Default to select the first item if the id does not match and make it a user event
+				if(blankFirstItem && listBox.getSelectedIndex() != 0){
+					listBox.setSelectedIndex(0);
+					fireChangeEvent(false);
+				}
     		}
 	    }
 	}

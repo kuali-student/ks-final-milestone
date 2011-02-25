@@ -3,6 +3,8 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
+
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -140,6 +142,7 @@ public class CurriculumHomeController extends LayoutController {
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
                     public void onSuccess() {
+                    	Application.getApplicationContext().setParentPath("");//Reset the parent path when navigating back
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             majorManager = new MajorManager();

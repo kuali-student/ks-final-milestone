@@ -97,8 +97,14 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	            }
 	            
 	    		//Set the bean property
-	    		if(pd.getWriteMethod() != null & propValue != null){    
-	                pd.getWriteMethod().invoke(result, new Object[] {propValue});
+	    		if(pd.getWriteMethod() != null & propValue != null){
+	    			if(!(propValue instanceof List) && pd.getPropertyType().isAssignableFrom(List.class)){
+	    				ArrayList<Object> list = new ArrayList<Object>(1);
+	    				list.add(propValue);
+	    				pd.getWriteMethod().invoke(result, new Object[] {list});
+	    			}else{
+	    				pd.getWriteMethod().invoke(result, new Object[] {propValue});
+	    			}
 	            }
 	            
 	    		//Hold onto the property so we know it is not dynamic

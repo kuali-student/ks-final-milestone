@@ -31,7 +31,7 @@ public abstract class VariationController extends ProgramController {
 
     private String parentName;
 
-    private MajorController majorController;
+    protected MajorController majorController;
 
     /**
      * Constructor.

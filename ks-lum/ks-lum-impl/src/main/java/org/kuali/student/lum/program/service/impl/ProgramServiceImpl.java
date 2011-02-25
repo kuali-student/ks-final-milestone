@@ -1403,7 +1403,8 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 	}
-
+	
+	//FIXME, this validation should be moved into a custom validation class + configuration
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		
 		String startTerm = programVariationInfo.getStartTerm();
@@ -1424,7 +1425,7 @@ public class ProgramServiceImpl implements ProgramService {
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		return atpService.getAtp(atpKey);
 	}
-	
+	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		AtpInfo atpInfo1 = null;
 		AtpInfo atpInfo2 = null;
@@ -1436,7 +1437,7 @@ public class ProgramServiceImpl implements ProgramService {
 		
 		if(atpInfo1 != null && atpInfo1 != null){
 			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){			
-				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
+				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
 					vri.setElement(path);

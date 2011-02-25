@@ -34,6 +34,7 @@ public class LookupParamMetadata implements Serializable {
     
     private ArrayList<String> defaultValueList;
     private String defaultValueString;
+    private String fieldPath;
     
     private String name;      
     private String desc;    
@@ -152,5 +153,12 @@ public class LookupParamMetadata implements Serializable {
 	public void setDefaultValueString(String defaultValueString) {
 		this.defaultValueString = defaultValueString;
 	}
+	
+    public String getFieldPath() {
+		return fieldPath;
+	}
 
+	public void setFieldPath(String fieldPath) {
+		this.fieldPath = fieldPath;
+	}
 }

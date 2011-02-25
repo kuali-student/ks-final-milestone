@@ -43,6 +43,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -128,7 +129,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
     final CourseRequirementsDataModel reqDataModel;
-
+   
     public CourseProposalController(){
         super();
         reqDataModel = new CourseRequirementsDataModel(this);
@@ -158,7 +159,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
-        super.setDefaultModelId(cfg.getModelId());
+   		super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
             @Override
@@ -208,6 +209,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 doSaveAction(saveAction);
             }
         });
+
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
@@ -293,6 +295,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                    comparisonModel.setDefinition(def);
 
 		                    configureScreens(def, onReadyCallback);
+
 		                }
 			          });
 					
@@ -330,6 +333,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
 
+                //Update any cross fields
+                for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+                	crossConstraint.reprocessWithUpdatedConstraints();
+                }
+                
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }

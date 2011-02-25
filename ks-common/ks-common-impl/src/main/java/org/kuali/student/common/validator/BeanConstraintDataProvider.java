@@ -50,24 +50,26 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 
 		dataMap = new HashMap<String, Object>();
 		
-		Map<String, PropertyDescriptor> beanInfo = getBeanInfo(o.getClass());
-
-		for (String propName : beanInfo.keySet()) {
-					    		    
-		    PropertyDescriptor pd = beanInfo.get(propName);
-			Object value = null;
-			try {
-				value = pd.getReadMethod().invoke(o);
-			} catch (Exception e) {
-				LOG.warn("Method invokation failed",e);
+		try {
+			BeanInfo beanInfo = Introspector.getBeanInfo(o.getClass());
+		
+			for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
+				Object value = null;
+				try {
+					value = pd.getReadMethod().invoke(o);
+				} catch (Exception e) {
+					LOG.warn("Method invokation failed",e);
+				}
+	
+	            // Extract dynamic attributes
+	            if(DYNAMIC_ATTRIBUTE.equals(pd.getName())) {
+	                dataMap.putAll((Map<String, String>)value);
+	            } else {
+					dataMap.put(pd.getName(), value);
+	            }
 			}
-
-            // Extract dynamic attributes
-            if(DYNAMIC_ATTRIBUTE.equals(propName)) {
-                dataMap.putAll((Map<String, String>)value);
-            } else {
-				dataMap.put(propName, value);
-            }
+		} catch (IntrospectionException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -86,19 +88,4 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 		return dataMap.containsKey(fieldKey);
 	}
 
-	private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
-		Map<String, PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
-		BeanInfo beanInfo = null;
-		try {
-			beanInfo = Introspector.getBeanInfo(clazz);
-		} catch (IntrospectionException e) {
-			throw new RuntimeException(e);
-		}
-		PropertyDescriptor[] propertyDescriptors = beanInfo
-				.getPropertyDescriptors();
-		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-			properties.put(propertyDescriptor.getName(), propertyDescriptor);
-		}
-		return properties;
-	}
 }

@@ -36,7 +36,7 @@
  <bean id="course.endTerm" parent="uilookupconfig-parent">
   <property name="path" value="courseInfo.endTerm" />
   <property name="initialLookup"
-            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+            ref="kuali.lu.lookup.course.endTerm.suggest" />
  </bean>
  <bean id="courseInfo.termsOffered" parent="uilookupconfig-parent">
   <property name="path" value="courseInfo.termsOffered" />
@@ -1333,6 +1333,254 @@
   </property>
  </bean>
 
+<bean id="constraint.lookup.course.endTerm" parent="kuali.common.lookup.firstexpectedoffering.suggest">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+
+<bean id="constraint.lookup.programVariation.startTerm" parent="kuali.common.lookup.firstexpectedoffering.suggest">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+
+<bean id="constraint.lookup.programVariation.endTerm" parent="kuali.common.lookup.firstexpectedoffering.suggest">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+
+<bean id="constraint.lookup.programVariation.endInstAdmitTerm" parent="kuali.common.lookup.firstexpectedoffering.suggest">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endInstAdmitTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endProgramEntryTerm" parent="kuali.common.lookup.firstexpectedoffering.suggest">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endProgramEntryTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+
+ <bean id="kuali.lu.lookup.programVariation.endTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="constraint.lookup.programVariation.endTerm">
+  <property name="id"
+            value="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  <property name="name" value="Advanced ATP match" />
+  <property name="desc"
+            value="Search atp type described by session, duration and year" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpId" />
+     <property name="name" value="ATP Key" />
+     <property name="desc" value="ATP Key" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpDescrPlain" />
+     <property name="name" value="Atp Description" />
+     <property name="desc" value="Atp Description" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+ 
+  <bean id="kuali.lu.lookup.programVariation.endInstAdmitTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="constraint.lookup.programVariation.endInstAdmitTerm">
+  <property name="id"
+            value="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  <property name="name" value="Advanced ATP match" />
+  <property name="desc"
+            value="Search atp type described by session, duration and year" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpId" />
+     <property name="name" value="ATP Key" />
+     <property name="desc" value="ATP Key" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpDescrPlain" />
+     <property name="name" value="Atp Description" />
+     <property name="desc" value="Atp Description" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+ 
+
+ <bean id="kuali.lu.lookup.programVariation.endProgramEntryTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="constraint.lookup.programVariation.endProgramEntryTerm">
+  <property name="id"
+            value="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  <property name="name" value="Advanced ATP match" />
+  <property name="desc"
+            value="Search atp type described by session, duration and year" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpId" />
+     <property name="name" value="ATP Key" />
+     <property name="desc" value="ATP Key" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpDescrPlain" />
+     <property name="name" value="Atp Description" />
+     <property name="desc" value="Atp Description" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+ <bean id="kuali.lu.lookup.programVariation.startTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="constraint.lookup.programVariation.startTerm">
+  <property name="id"
+            value="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  <property name="name" value="Advanced ATP match" />
+  <property name="desc"
+            value="Search atp type described by session, duration and year" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpId" />
+     <property name="name" value="ATP Key" />
+     <property name="desc" value="ATP Key" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpDescrPlain" />
+     <property name="name" value="Atp Description" />
+     <property name="desc" value="Atp Description" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+ <bean id="kuali.lu.lookup.course.endTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="constraint.lookup.course.endTerm">
+  <property name="id"
+            value="kuali.lu.lookup.firstexpectedoffering.suggest" />
+  <property name="name" value="Advanced ATP match" />
+  <property name="desc"
+            value="Search atp type described by session, duration and year" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
+  <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpId" />
+     <property name="name" value="ATP Key" />
+     <property name="desc" value="ATP Key" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="atp.resultColumn.atpDescrPlain" />
+     <property name="name" value="Atp Description" />
+     <property name="desc" value="Atp Description" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.firstexpectedoffering.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
        parent="kuali.common.lookup.firstexpectedoffering.suggest">
   <property name="id"
@@ -3839,8 +4087,10 @@
 
  <bean id="endProgramEntryTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endProgramEntryTerm" />
+          <!--<property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.programVariation.startTerm.suggest" />
   </bean>
 
     <bean id="credentialProgramInfo.endProgramEntryTerm" parent="uilookupconfig-parent">
@@ -3857,8 +4107,10 @@
 
 	  <bean id="endInstAdmitTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endInstAdmitTerm" />
+          <!--<property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.programVariation.startTerm.suggest" />
    </bean>
 
     <bean id="majorDisciplineInfo.startTerm" parent="uilookupconfig-parent">
@@ -3889,8 +4141,10 @@
 
   <bean id="majorDisciplineInfo.endTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endTerm" />
+          <!--<property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.programVariation.startTerm.suggest" />
   </bean>
 
   <bean id="credentialProgramInfo.endTerm" parent="uilookupconfig-parent">
@@ -3940,27 +4194,34 @@
 
 	<bean id="programVariationInfo.startTerm" parent="uilookupconfig-parent">
 	       <property name="path" value="majorDisciplineInfo.variations.startTerm" />
-	       <property name="initialLookup"
-	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
-
+	       <!--<property name="initialLookup"
+	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
+  <property name="initialLookup"
+            ref="kuali.lu.lookup.programVariation.startTerm.suggest" />
 	</bean>
 
 	<bean id="programVariationInfo.endInstAdmitTerm" parent="uilookupconfig-parent">
 	       <property name="path" value="majorDisciplineInfo.variations.endInstAdmitTerm" />
-	       <property name="initialLookup"
-	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	       <!--<property name="initialLookup"
+	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
+   	       <property name="initialLookup"
+	           ref="kuali.lu.lookup.programVariation.endInstAdmitTerm.suggest" />
 	</bean>
 
 	<bean id="programVariationInfo.endProgramEntryTerm" parent="uilookupconfig-parent">
 		<property name="path" value="majorDisciplineInfo.variations.endProgramEntryTerm" />
-		<property name="initialLookup"
-			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+		<!--<property name="initialLookup"
+			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
+        <property name="initialLookup"
+            ref="kuali.lu.lookup.programVariation.endProgramEntryTerm.suggest" />
 	</bean>
 
 	<bean id="programVariationInfo.endTerm" parent="uilookupconfig-parent">
 	        <property name="path" value="majorDisciplineInfo.variations.endTerm" />
-	        <property name="initialLookup"
-	            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	        <!--<property name="initialLookup"
+	            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />-->
+	              <property name="initialLookup"
+            ref="kuali.lu.lookup.programVariation.endTerm.suggest" />
 	</bean>
 
 
@@ -4258,13 +4519,83 @@
  </bean>
  <bean id="programVariationInfo.resultOptions" parent="uilookupconfig-parent">
   <property name="path" value="majorDisciplineInfo.variations.resultOptions" />
-  <property name="initialLookup" ref="kuali.lu.lookup.degree.types" />
+  <property name="initialLookup" ref="kuali.lu.lookup.programVariation.degree.types" />
  </bean>
  <bean id="credentialProgramInfo.resultOptions" parent="uilookupconfig-parent">
   <property name="path" value="credentialProgramInfo.resultOptions" />
   <property name="initialLookup" ref="kuali.lu.lookup.degree.types" />
  </bean>
+ <bean id="kuali.common.lookup.programVariation.degree.types" parent="commonLookup-parent">
+	<property name="id" value="kuali.common.lookup.programVariation.degree.types"/>
+	<property name="searchTypeId" value="lrc.search.resultComponent"/>
+	<property name="name" value="Outcome"/>
+	<property name="desc" value="Search for program degree types"/>
+	<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+	<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id"/>
+	<property name="params">
+      <list>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.id"/>
+              <property name="name" value="Result Component"/>
+              <property name="desc" value="Result Component Id"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="ALWAYS"/>
+          </bean>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>
+              <property name="name" value="Result Component ids"/>
+              <property name="desc" value="Result Component Id List"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="NEVER"/>
+              <property name="fieldPath" value="/resultOptions"/>
+          </bean>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.type"/>
+              <property name="name" value="Result Component Type"/>
+              <property name="desc" value="Result Component Type"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="NEVER"/>
+              <property name="defaultValueString" value="kuali.resultComponentType.degree"/>
+          </bean>
+      </list>
+	</property>
+ </bean>
 
+ <bean id="kuali.lu.lookup.programVariation.degree.types" parent="kuali.common.lookup.programVariation.degree.types" class="org.kuali.student.common.assembly.data.UILookupData">
+  <property name="name" value="Result Options Scale" />
+  <property name="desc" value="Degree Types" />
+  <property name="widget" value="DROP_DOWN" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc" value="The id of the result component" />
+     <property name="hidden" value="false" />
+     <property name="key" value="lrc.resultColumn.resultComponent.id" />
+     <property name="name" value="Result Component Id" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc" value="The name of the result component" />
+     <property name="hidden" value="false" />
+     <property name="key" value="lrc.resultColumn.resultComponent.name" />
+     <property name="name" value="Result Component Name" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc" value="The result component type" />
+     <property name="hidden" value="true" />
+     <property name="key" value="lrc.resultColumn.resultComponent.type" />
+     <property name="name" value="Result Component Type" />
+    </bean>
+   </list>
+  </property>
+  <property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
+  <property name="resultSortKey" value="lrc.resultColumn.resultComponent.id" />
+  <property name="usage" value="DEFAULT" />
+  <property name="id" value="kuali.lu.lookup.degree.types" />
+ </bean>
+ 
  <bean id="kuali.lu.lookup.degree.types" parent="kuali.common.lookup.degree.types" class="org.kuali.student.common.assembly.data.UILookupData">
   <property name="name" value="Result Options Scale" />
   <property name="desc" value="Degree Types" />

@@ -197,7 +197,8 @@ public class MetadataServiceImpl {
                 metadata.setDynamic(fd.isDynamic());
                 metadata.setLabelKey(fd.getLabelKey());
                 metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));
-
+                metadata.setDefaultValuePath(fd.getDefaultValuePath());
+                
 	           	if (fd.isPartialMask()){
 	           		metadata.setPartialMaskFormatter(fd.getPartialMaskFormatter());
 	           	}

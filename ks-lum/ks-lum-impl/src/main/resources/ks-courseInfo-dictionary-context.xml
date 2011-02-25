@@ -200,6 +200,7 @@
          <property name="minLength" value="3" />
          <property name="maxLength" value="3" />
          <property name="validChars" ref="digits" />
+         <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator"/>
         </bean>
        </property>
       </bean>
@@ -620,8 +621,25 @@
  <bean id="courseInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endTerm" />
   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActiveDatesValidator"/>
+  <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
  </bean>
- <bean id="courseInfo.endTerm" parent="courseInfo.endTerm-parent" />
+<bean id="courseInfo.endTerm" parent="courseInfo.endTerm-parent" />
+
+<bean id="constraint.lookup.course.endTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.course.endTerm" parent="constraint.lookup.course.endTerm-parent"/>
 
  <bean id="courseInfo.formats-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="formats" />

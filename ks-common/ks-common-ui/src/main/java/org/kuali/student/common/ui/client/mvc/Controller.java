@@ -30,9 +30,9 @@ import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,7 +59,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
     private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
-
+    
     protected Controller() {
     }
     
@@ -305,7 +305,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public void requestModel(final ModelRequestCallback callback) {
         requestModel((String)null, callback);
     }
-    
+
     public <T extends Model> void registerModel(String modelId, ModelProvider<T> provider) {
         models.put(modelId, provider);
     }
