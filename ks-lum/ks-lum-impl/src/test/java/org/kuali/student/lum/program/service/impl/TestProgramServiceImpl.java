@@ -124,7 +124,7 @@ public class TestProgramServiceImpl {
         assertEquals("Desc4", loInfo1.getDesc().getPlain());
         assertEquals("Edit Wiki Message Structure", loInfo1.getName());
         assertEquals("kuali.loRepository.key.singleUse", loInfo1.getLoRepositoryKey());
-        assertEquals("draft", loInfo1.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, loInfo1.getState());
         assertEquals("kuali.lo.type.singleUse", loInfo1.getType());
     }
 
