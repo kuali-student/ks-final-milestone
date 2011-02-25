@@ -31,6 +31,7 @@ import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -56,6 +57,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -602,7 +604,14 @@ public class SearchPanel extends Composite{
             }
         }
         else if (widget instanceof KSPicker){
-            param.setValue(((KSPicker)widget).getDisplayValue());
+        	KSPicker pickerWidget = (KSPicker)widget; 
+        	String pickerValue = pickerWidget.getValue().toString();
+        	if (UtilConstants.IMPOSSIBLE_CHARACTERS.equals(pickerValue)){
+        		SuggestBox suggestBox = (SuggestBox)pickerWidget.getInputWidget();
+        		pickerValue = suggestBox.getText();
+        	}
+        	
+            param.setValue(pickerValue);
         }
         else {
             param.setValue("");

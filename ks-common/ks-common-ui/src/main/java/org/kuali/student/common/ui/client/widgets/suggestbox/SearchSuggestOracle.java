@@ -256,7 +256,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                     String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, index + query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
                                     theSuggestion.setDisplayString(htmlString);
                                     theSuggestion.setReplacementString(itemText);
-
+                                    if (c.getKey().equals(resultIdKey)){
+                                        theSuggestion.setId(c.getValue());
+                                    }
                                 } else if(c.getKey().equals(resultIdKey)){
                                      theSuggestion.setId(c.getValue());
                                      theSuggestion.addAttr(c.getKey(), c.getValue());
