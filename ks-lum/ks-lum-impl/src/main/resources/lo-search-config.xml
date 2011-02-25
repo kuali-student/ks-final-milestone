@@ -49,8 +49,6 @@
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
-		<!--long name is not a result column on the lu.search.allLoQuickView search-->
-		<!--<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="clu" resultParam="lo.resultColumn.loCluOptionalLongName"/>-->
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 	</search:crossSearchType>
 	
@@ -61,6 +59,7 @@
         	<ref bean="lo.result.loCluByCategory" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
+        	<!-- Note this doesn't include all the criteria, b/c it would need to reference lu context -->
         	<ref bean="lo.criteria.byOptionalCategoryName"/>
         </search:searchCriteriaTypeInfo>
         <search:subSearch searchkey="lo.search.loByCategory" key="lo">
@@ -72,7 +71,8 @@
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDivision" subSearchParam="lu.queryParam.luOptionalDivision"/>			
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
-			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>			
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalAdminOrgIds" subSearchParam="lu.queryParam.luOptionalAdminOrgIds"/>			
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
@@ -82,6 +82,8 @@
 		</search:joinCriteria>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluType" subSearchKey="clu" resultParam="lo.resultColumn.loCluType"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluState" subSearchKey="clu" resultParam="lo.resultColumn.loCluState"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.categoryName" subSearchKey="lo" resultParam="lo.resultColumn.categoryName"/>
@@ -345,6 +347,8 @@
             <ref bean="lo.resultColumn.loCluId" />
             <ref bean="lo.resultColumn.loCluCode" />
             <ref bean="lo.resultColumn.loDescPlain" />
+            <ref bean="lo.resultColumn.loCluType" />
+            <ref bean="lo.resultColumn.loCluState" />            
             <ref bean="lo.resultColumn.categoryName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>    
@@ -412,6 +416,18 @@
 	<search:resultColumn id="lo.resultColumn.loCluCode-parent"  abstract="true">
         <search:name>Clu Code</search:name>
         <search:desc>Clu Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    <search:resultColumn id="lo.resultColumn.loCluType" parent="lo.resultColumn.loCluType-parent"/>
+	<search:resultColumn id="lo.resultColumn.loCluType-parent"  abstract="true">
+        <search:name>Clu Type</search:name>
+        <search:desc>Clu Type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    <search:resultColumn id="lo.resultColumn.loCluState" parent="lo.resultColumn.loCluState-parent"/>
+	<search:resultColumn id="lo.resultColumn.loCluState-parent"  abstract="true">
+        <search:name>Clu State</search:name>
+        <search:desc>Clu State</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 	<search:resultColumn id="lo.resultColumn.loCluOptionalLongName" parent="lo.resultColumn.loCluOptionalLongName-parent"/>

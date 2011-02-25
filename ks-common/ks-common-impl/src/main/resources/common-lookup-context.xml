@@ -341,6 +341,74 @@
 		<property name="id" value="kuali.common.lookup.campusLocations" />
 	</bean>
 
+	<bean id="kuali.common.enumeration.management.objectState" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.state" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.objectState" />
+	</bean>
+
+	<bean id="kuali.common.enumeration.management.adminOrgType" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.objectState" />
+	</bean>
+
 	<bean id="kuali.common.lookup.feeTypes" parent="commonLookup-parent">
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
@@ -397,7 +465,7 @@
 			</list>
 		</property>
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-		<property name="id" value="kuali.common.lookup.feeTypes" />
+		<property name="id" value="kuali.common.lookup.feeTypes" />		
 	</bean>
 
 	<bean id="kuali.common.lookup.rateTypes" parent="commonLookup-parent">

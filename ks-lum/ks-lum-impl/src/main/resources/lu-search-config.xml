@@ -431,6 +431,8 @@
 			<ref bean="lu.queryParam.luOptionalDivision"/>
 			<ref bean="lu.queryParam.luOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalLongName"/>
+			<ref bean="lu.queryParam.luOptionalAdminOrgIds"/>
+			<ref bean="lu.queryParam.luOptionalAdminOrgTypes"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -440,8 +442,10 @@
 		<search:desc>Quick view of the CLU with LO ids</search:desc>
 		<search:resultColumns>
 			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluType" />
+			<ref bean="lu.resultColumn.cluState"/>
 			<ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
-			<ref bean="lu.resultColumn.loId" />
+			<ref bean="lu.resultColumn.loId" />			
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -539,6 +543,20 @@
         <search:desc>Official code of a Clu</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+
+    <search:resultColumn id="lu.resultColumn.cluType" parent="lu.resultColumn.cluType-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluType-parent"  abstract="true">
+        <search:name>Clu Type</search:name>
+        <search:desc>Type of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+    <search:resultColumn id="lu.resultColumn.cluState" parent="lu.resultColumn.cluState-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluState-parent"  abstract="true">
+        <search:name>Clu State</search:name>
+        <search:desc>State of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+	</search:resultColumn>
 
     <search:queryParam id="lu.queryParam.cluState" parent="lu.queryParam.cluState-parent"/>
 	<search:queryParam id="lu.queryParam.cluState-parent"  abstract="true">
@@ -1205,6 +1223,13 @@
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
+	<search:resultColumn id="lu.resultColumn.luOptionalCluAdminOrgId" parent="lu.resultColumn.luOptionalCluAdminOrgId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalCluAdminOrgId-parent"  abstract="true">
+		<search:name>AdminOrgId</search:name>
+		<search:desc>Administrative Organization Id</search:desc>
+		<search:dataType>String</search:dataType>
+	</search:resultColumn>
+
 	<search:resultColumn id="lu.resultColumn.luOptionalAdminOrgType" parent="lu.resultColumn.luOptionalAdminOrgType-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalAdminOrgType-parent"  abstract="true">
 		<search:name>Administrative Org Type</search:name>
@@ -1297,7 +1322,7 @@
 				</entry>
 		        <entry key="lu.search.clus">
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.version.versionIndId FROM Clu clu
-		              WHERE LOWER(clu.state) NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
+		              WHERE LOWER(clu.state) NOT IN ('Draft') ORDER BY clu.officialIdentifier.longName </value>
 		        </entry>
 		        <entry key="lu.search.cluByCode">
 		            <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
@@ -1374,7 +1399,7 @@
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
-                    WHERE LOWER(clu.state) != 'draft' 
+                    WHERE LOWER(clu.state) != 'Draft' 
                     AND 
 						( (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) ) 
 						    OR (clu.version.currentVersionStart IS NULL AND clu.version.currentVersionEnd IS NULL 
@@ -1384,7 +1409,7 @@
 						        	WHERE (c1.version.versionIndId, c1.version.sequenceNumber) = (
 						        		SELECT c2.version.versionIndId, max(c2.version.sequenceNumber) 
 						        		FROM org.kuali.student.lum.lu.entity.Clu c2 
-						        		WHERE LOWER(c2.state) != 'draft' 
+						        		WHERE LOWER(c2.state) != 'Draft' 
 						        		AND (c2.version.currentVersionStart IS NULL AND c2.version.currentVersionEnd IS NULL) 
 						        		AND c2.version.versionIndId not in (
 						        			SELECT c3.version.versionIndId 
@@ -1504,7 +1529,12 @@
 				</entry>
 				
 				<entry key="lu.search.allLoQuickView">
-					<value>SELECT clu.id, clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel JOIN rel.clu clu</value>
+					<value>
+                       SELECT DISTINCT clu.id, clu.luType.name, clu.state, clu.officialIdentifier.code, rel.loId 
+                       FROM CluLoRelation rel 
+                       JOIN rel.clu clu
+                       LEFT JOIN clu.adminOrgs adminOrg                              
+                    </value>
 				</entry>
 				<entry key="lu.search.all.lu.Types">
 					<value>SELECT lut.id, lut.name, lut.descr, lut.effectiveDate, lut.expirationDate FROM LuType lut</value>
