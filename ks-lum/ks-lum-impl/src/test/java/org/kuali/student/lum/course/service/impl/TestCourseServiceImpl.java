@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TimeAmountInfo;
@@ -89,7 +90,7 @@ public class TestCourseServiceImpl {
             assertNotNull(cInfo = generator.getCourseTestData());
             CourseInfo createdCourse = courseService.createCourse(cInfo);
             assertNotNull(createdCourse);
-            assertEquals("draft", createdCourse.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCourse.getState());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
             assertEquals(cInfo.getStartTerm(), createdCourse.getStartTerm());
             assertEquals(cInfo.getEndTerm(), createdCourse.getEndTerm());
@@ -197,7 +198,7 @@ public class TestCourseServiceImpl {
             assertEquals("orgId-43", instructor.getOrgId());
             assertEquals("personId-44", instructor.getPersonId());
 
-            assertEquals("draft", retrievedCourse.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
 
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
@@ -277,7 +278,7 @@ public class TestCourseServiceImpl {
         // Add two New formats
         FormatInfo newFormat = new FormatInfo();
         newFormat.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
-        newFormat.setState("DRAFT");
+        newFormat.setState(DtoConstants.STATE_DRAFT);
         
         TimeAmountInfo timeInfo = new TimeAmountInfo();
         timeInfo.setAtpDurationTypeKey("kuali.atp.duration.Semester");
@@ -295,19 +296,19 @@ public class TestCourseServiceImpl {
         // Add two new activities to new formats
         ActivityInfo newActivity1 = new ActivityInfo();
         newActivity1.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
-        newActivity1.setState("DRAFT");
+        newActivity1.setState(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity1);
 
         ActivityInfo newActivity2 = new ActivityInfo();
         newActivity2.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE);
-        newActivity2.setState("DRAFT");
+        newActivity2.setState(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity2);
 
         createdCourse.getFormats().add(newFormat);
 
         FormatInfo newFormat2 = new FormatInfo();
         newFormat2.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
-        newFormat2.setState("DRAFT");
+        newFormat2.setState(DtoConstants.STATE_DRAFT);
         createdCourse.getFormats().add(newFormat2);
 
         Map<String, String> attributes = createdCourse.getAttributes();
@@ -466,7 +467,7 @@ public class TestCourseServiceImpl {
             assertNotNull(cInfo);
             CourseInfo createdCourse = courseService.createCourse(cInfo);
             assertNotNull(createdCourse);
-            assertEquals("draft", createdCourse.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCourse.getState());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
             String courseId = createdCourse.getId();
             CourseInfo retrievedCourse = courseService.getCourse(courseId);
