@@ -39,7 +39,7 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL
 /
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR) values ('91c476ec-89f5-4386-a52f-ab69064d0caa', 'Deployment Unit', 'kuali.adminOrg.type.DeploymentUnit', to_date('2000-01-01', 'yyyy-mm-dd'), null, 0, 'Deployment Unit', 'kuali.lu.adminOrg', SYS_GUID(), 1)
 /
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR) values ('7db97425-d6bb-45b2-9873-1905d228f203', 'Financial Resources Unit', 'kuali.adminOrg.type.FinancialResourcesUnit', to_date('2000-01-01', 'yyyy-mm-dd'), null, 0, 'Financial Resources Unit', SYS_GUID(), 1)
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR) values ('7db97425-d6bb-45b2-9873-1905d228f203', 'Financial Resources Unit', 'kuali.adminOrg.type.FinancialResourcesUnit', to_date('2000-01-01', 'yyyy-mm-dd'), null, 0, 'Financial Resources Unit', 'kuali.lu.adminOrg', SYS_GUID(), 1)
 /
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR) values ('4bd0e397-0764-4f7a-a010-d9191e7c7af9', 'Financial Control Unit', 'kuali.adminOrg.type.FinancialControlUnit', to_date('2000-01-01', 'yyyy-mm-dd'), null, 0, 'Financial Control Unit', 'kuali.lu.adminOrg', SYS_GUID(), 1)
 /
