@@ -19,4 +19,11 @@
   </parent>
   <artifactId>ks-services-impl</artifactId>
   <name>KS Services Impl</name>
+  <dependencies>
+    <dependency>
+      <groupId>org.kuali.student.poc.services</groupId>
+      <artifactId>ks-services-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
