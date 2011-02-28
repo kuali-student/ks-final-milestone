@@ -64,6 +64,7 @@
         </search:searchCriteriaTypeInfo>
         <search:subSearch searchkey="lo.search.loByCategory" key="lo">
 	        <search:subSearchParamMappings crossSearchParam="lo.queryParam.loOptionalCategoryName" subSearchParam="lo.queryParam.loOptionalCategoryName"/>
+			<search:subSearchParamMappings crossSearchParam="lo.queryParam.loDescPlain" subSearchParam="lo.queryParam.loDescPlain"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.allLoQuickView" key="clu">
 			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
@@ -225,6 +226,7 @@
 		<search:name>LoByCategoryCriteria</search:name>
 		<search:queryParams>
 			<ref bean="lo.queryParam.loOptionalCategoryName" />
+			<ref bean="lo.queryParam.loDescPlain" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
