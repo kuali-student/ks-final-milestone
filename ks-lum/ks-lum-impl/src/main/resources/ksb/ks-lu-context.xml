@@ -498,9 +498,9 @@
 				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
 					<property name="atpService" ref="atpClient"/>
 				</bean>
-				<bean  class="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator">
+				<!--<bean  class="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator">
 					<property name="courseService" ref="courseServiceImpl"/>
-				</bean>
+				</bean>-->
 			</list>
         </property>
     </bean>
