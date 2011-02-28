@@ -19,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student.poc</groupId>
   <artifactId>ks-r2-poc</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>KS R2 POC</name>
   <url>http://${kuali.site.hostname}/student/poc/ks-r2-poc/${project.version}/</url>
