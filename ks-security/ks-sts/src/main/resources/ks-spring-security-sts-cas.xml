@@ -33,7 +33,7 @@
 	
 	
 	<bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 		
 	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
     	<security:intercept-url pattern="/auth/*" filters="none"/>
