@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.5.2.201102280943-SR3]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/resources/ks-spring-security-cas.xml</config>
+		<config>src/main/resources/ks-spring-security-saml.xml</config>
+		<config>src/main/resources/ks-spring-security.xml</config>
+		<config>src/main/resources/ksss-auth-common.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[main]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/ks-common-util/src/main/resources/org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml</config>
+				<config>src/main/resources/ks-spring-security.xml</config>
+				<config>src/main/resources/ks-spring-security-cas.xml</config>
+				<config>src/main/resources/ks-spring-security-saml.xml</config>
+				<config>src/main/resources/ksss-auth-common.xml</config>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[test]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/ks-common-util/src/test/resources/test-modprop-context.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>
