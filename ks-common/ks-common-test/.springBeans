@@ -18,7 +18,7 @@
 	</configs>
 	<configSets>
 		<configSet>
-			<name><![CDATA[ks-common-test-main]]></name>
+			<name><![CDATA[main]]></name>
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
@@ -31,7 +31,7 @@
 			</configs>
 		</configSet>
 		<configSet>
-			<name><![CDATA[ks-common-test-test]]></name>
+			<name><![CDATA[test]]></name>
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>

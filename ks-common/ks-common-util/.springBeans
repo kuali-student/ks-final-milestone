@@ -12,7 +12,7 @@
 	</configs>
 	<configSets>
 		<configSet>
-			<name><![CDATA[ks-common-util-main]]></name>
+			<name><![CDATA[main]]></name>
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
@@ -20,7 +20,7 @@
 			</configs>
 		</configSet>
 		<configSet>
-			<name><![CDATA[ks-common-util-test]]></name>
+			<name><![CDATA[test]]></name>
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
