@@ -99,6 +99,18 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 									}
 								}
 							}
+						} else if(((Data)prop.getValue()).size()==1 && ((Data)prop.getValue()).get(0)!=null){
+							//Check for things that are lists of size 1
+							if (fieldMetadata.getInitialLookup() != null) {
+								//This is a string with a lookup so do the translation
+								IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(),	((Data)prop.getValue()).get(0).toString());
+								if (trans != null) {
+									setTranslation(data, prop.getKey().toString(), null, trans.getDisplay());
+								}
+							}				
+							//Transform the list of 1 to a straight string value
+							data.set(prop.getKey().toString(), ((Data)prop.getValue()).get(0).toString());
+							iter.remove();
 						} else {
 							//Otherwise just use the fieldMetadata
 							translateIds((Data) prop.getValue(), fieldMetadata);

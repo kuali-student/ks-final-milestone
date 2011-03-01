@@ -332,7 +332,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setStatementTypes(stmtTypesOut);
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
-
+                
                 //Update any cross fields
                 for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
                 	crossConstraint.reprocessWithUpdatedConstraints();
@@ -663,7 +663,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-		init(onReadyCallback);
+    	Application.getApplicationContext().clearCrossConstraintMap(null);
+    	Application.getApplicationContext().clearPathToFieldMapping(null);
+    	Application.getApplicationContext().setParentPath("");
+    	
+    	init(onReadyCallback);
 	}
     
    @Override

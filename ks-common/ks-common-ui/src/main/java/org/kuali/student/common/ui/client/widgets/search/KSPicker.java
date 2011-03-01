@@ -776,6 +776,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		basicWidget.addValuesChangeHandler(handler);
 	}
 
+	public void addSelectionChangeHandler(SelectionChangeHandler handler) {
+        if(basicWidget != null)
+		basicWidget.addSelectionChangeHandler(handler);
+	}
+
+	
 	@Override
 	public void addFocusLostCallback(Callback<Boolean> callback) {
 		basicWidget.addFocusLostCallback(callback);

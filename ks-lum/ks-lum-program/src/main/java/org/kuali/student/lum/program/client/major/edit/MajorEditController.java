@@ -8,9 +8,11 @@ import com.google.gwt.user.client.Window;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -390,4 +392,15 @@ public class MajorEditController extends MajorController {
             }
         }
     }
+
+	@Override
+	public void beforeShow(Callback<Boolean> onReadyCallback) {
+		
+		super.beforeShow(onReadyCallback);
+		
+        //Update any cross fields
+        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+        	crossConstraint.reprocessWithUpdatedConstraints();
+        }
+	}
 }

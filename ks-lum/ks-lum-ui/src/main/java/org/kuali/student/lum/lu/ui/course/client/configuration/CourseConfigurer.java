@@ -150,9 +150,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     	type = "course";
         state = DtoConstants.STATE_DRAFT;
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
-    	Application.getApplicationContext().clearCrossConstraintMap(null);
-    	Application.getApplicationContext().clearPathToFieldMapping(null);
-    	Application.getApplicationContext().setParentPath("");
+
     	if (modelDefinition.getMetadata().isCanEdit()) {
         	addCluStartSection(layout);
             String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
