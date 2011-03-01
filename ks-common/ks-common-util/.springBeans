@@ -11,5 +11,14 @@
 		<config>src/test/resources/test-modprop-context.xml</config>
 	</configs>
 	<configSets>
+		<configSet>
+			<name><![CDATA[ks-common-util]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>src/main/resources/org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml</config>
+				<config>src/test/resources/test-modprop-context.xml</config>
+			</configs>
+		</configSet>
 	</configSets>
 </beansProjectDescription>
