@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;

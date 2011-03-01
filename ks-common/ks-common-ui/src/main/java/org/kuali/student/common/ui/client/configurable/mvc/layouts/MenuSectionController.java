@@ -61,8 +61,8 @@ public class MenuSectionController extends LayoutController implements ContentNa
         }
     };
 
-    public MenuSectionController(String controllerId) {
-        super(controllerId);
+    public MenuSectionController() {
+        super();
         List<View> list = new ArrayList<View>();
         menuViewMap.put("", list);
         menu.setStyleName("ks-menu-layout-menu");

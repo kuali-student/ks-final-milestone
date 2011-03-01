@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
@@ -27,12 +28,11 @@ import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,7 +51,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		}
 	};
 	
-	private final String controllerId;
     protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
@@ -60,9 +59,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
     private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
-
-    protected Controller(final String controllerId) {
-        this.controllerId = controllerId;
+    
+    protected Controller() {
     }
     
     /**
@@ -307,7 +305,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public void requestModel(final ModelRequestCallback callback) {
         requestModel((String)null, callback);
     }
-    
+
     public <T extends Model> void registerModel(String modelId, ModelProvider<T> provider) {
         models.put(modelId, provider);
     }

@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.Map;
 
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.common.rice.authorization.PermissionType;
 
 
 /**

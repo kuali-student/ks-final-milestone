@@ -26,7 +26,7 @@ public class TabMenuController extends LayoutController{
 	protected KSDocumentHeader header = new KSDocumentHeader(false);
 	
 	public TabMenuController(String controllerId) {
-		super(controllerId);
+		super();
 		header.addStyleName("tabLayout-ContentHeader");
 		layout.add(header);
 		header.setVisible(false);

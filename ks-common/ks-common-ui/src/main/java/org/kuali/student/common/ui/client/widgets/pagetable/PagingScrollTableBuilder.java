@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.widgets.pagetable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;

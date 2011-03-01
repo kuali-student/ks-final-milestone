@@ -1,7 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.table.summary;
 
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
 
 public class SummaryTableFieldRow extends SummaryTableRow{
     private FieldDescriptor fieldDescriptor1;

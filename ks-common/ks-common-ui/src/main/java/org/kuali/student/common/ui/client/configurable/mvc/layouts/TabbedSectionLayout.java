@@ -34,8 +34,8 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -249,14 +249,14 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 
 	public TabbedSectionLayout(String controllerId){
-	    super(controllerId);
+	    super();
 	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
 		super.initWidget(container);
 	}
 
 	public TabbedSectionLayout(String controllerId, KSTitleContainerImpl container){
-	    super(controllerId);
+	    super();
 	    this.container.setContent(tabPanel);
         this.container.setTitle(container.getTitle());
         this.container.setStatus(container.getStatus());

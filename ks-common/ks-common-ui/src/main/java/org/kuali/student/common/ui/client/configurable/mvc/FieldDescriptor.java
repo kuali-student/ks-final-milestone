@@ -15,10 +15,15 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -26,8 +31,6 @@ import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
@@ -113,6 +116,21 @@ public class FieldDescriptor {
     	setMessageKey(messageKey);
     	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
     	setupField();
+    	
+    	//Add mapping from path to field definition
+    	if(getFieldWidget() instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
+    		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
+		}
+
+    	//Add cross constraints
+    	if(fieldElement.getFieldWidget() instanceof HasCrossConstraints){
+    		HasCrossConstraints crossConstraintWidget = (HasCrossConstraints) fieldElement.getFieldWidget();
+    		if(crossConstraintWidget!=null&&crossConstraintWidget.getCrossConstraints()!=null){
+    			for(String path:crossConstraintWidget.getCrossConstraints()){
+    		    	Application.getApplicationContext().putCrossConstraint(null, path, crossConstraintWidget);
+    			}
+    		}
+    	}
     }
 
     /**
@@ -132,6 +150,22 @@ public class FieldDescriptor {
     	addStyleToWidget(fieldWidget);
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
+    	
+    	//Add mapping from path to field definition if the definition has a data value
+    	if(fieldWidget instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
+    		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
+		}
+    	
+    	//Add cross constraints
+    	if(fieldElement.getFieldWidget() instanceof HasCrossConstraints){
+    		HasCrossConstraints crossConstraintWidget = (HasCrossConstraints) fieldElement.getFieldWidget();
+    		if(crossConstraintWidget!=null&&crossConstraintWidget.getCrossConstraints()!=null){
+    			for(String path:crossConstraintWidget.getCrossConstraints()){
+    		    	Application.getApplicationContext().putCrossConstraint(null, path, crossConstraintWidget);
+    			}
+    		}
+    	}
+    	
     }
 
     protected void addStyleToWidget(Widget w){

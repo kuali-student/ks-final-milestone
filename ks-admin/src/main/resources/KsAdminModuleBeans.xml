@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <bean id="ksAdminModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KS-ADMIN" />
+    <property name="dataSourceName" value="ksAdminDataSource" />
+    <property name="databaseRepositoryFilePaths">
+      <list>
+        <value>OJB-repository-ksadmin.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.student.core.messages</value>
+        <value>org.kuali.student.core.enumerationmanagement</value>
+        <value>org.kuali.student.core.atp</value>
+      </list>
+    </property>
+    <property name="initializeDataDictionary" value="true" />
+    <property name="dataDictionaryPackages">
+      <!-- this doesn't work when loaded from a jar -->
+      <!--
+        <list>
+          <value>classpath:org/kuali/student/core/bo/datadictionary</value>
+          <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary</value>
+          <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary</value>
+          <value>classpath:org/kuali/student/core/messages/bo/datadictionary</value>
+          <value>classpath:org/kuali/student/core/messages/document/datadictionary</value>
+          <value>classpath:org/kuali/student/core/atp/bo/datadictionary</value>
+          <value>classpath:org/kuali/student/core/atp/document/datadictionary</value>
+        </list>
+      -->
+
+      <list>
+        <value>classpath:org/kuali/student/core/bo/datadictionary/CoreAttributeReference.xml</value>
+        <value>classpath:org/kuali/student/core/bo/datadictionary/CoreTypeReference.xml</value>
+        <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumeratedValue.xml</value>
+        <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/Enumeration.xml</value>
+        <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumeratedValueMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumerationMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/messages/bo/datadictionary/MessageEntity.xml</value>
+        <value>classpath:org/kuali/student/core/messages/document/datadictionary/MessageEntityMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/Atp.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/AtpDurationType.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/AtpSeasonalType.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/AtpType.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/DateRange.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/DateRangeType.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/Milestone.xml</value>
+        <value>classpath:org/kuali/student/core/atp/bo/datadictionary/MilestoneType.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/AtpDurationTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/AtpMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/AtpSeasonalTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/AtpTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/DateRangeTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/atp/document/datadictionary/MilestoneTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/AffiliatedOrg.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/Clu.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluAccreditation.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluAdminOrg.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluAtpTypeKey.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluAttribute.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluCampusLocation.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluCluRelation.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluFee.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluFeeAmount.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluFeeRecord.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluIdentifier.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/CluInstructor.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuCode.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuLuRelationType.xml</value>
+        <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuType.xml</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ksAdminModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+    <property name="moduleConfiguration" ref="ksAdminModuleConfiguration" />
+  </bean>
+
+  <bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+    <property name="localServiceName" value="KSCoreContext" />
+  </bean>
+
+  <bean id="ks.messageService" class="org.kuali.student.admin.messages.service.impl.MessageServiceImpl" >
+  	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
+  	<property name="cachingEnabled" value="true"/>
+  </bean>
+        
+</beans>

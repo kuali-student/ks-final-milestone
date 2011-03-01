@@ -681,6 +681,7 @@
 }
 .gwt-SuggestBoxPopup {
   margin-left: 3px;
+  z-index: 2;
 }
 .gwt-SuggestBoxPopup .item {
     color: 424242;

@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandler
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 
 /**
  * Adds the appropriate handler to the widget contained within the FieldDescriptor for when
@@ -47,6 +48,13 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
                     if (event.isUserInitiated()) {
                         processValidationEvent(fd);
                     }
+                }
+            });
+        } else if(w instanceof KSPicker && ((KSPicker)w).getInputWidget() instanceof HasSelectionChangeHandlers){
+            ((HasSelectionChangeHandlers) ((KSPicker)w).getInputWidget()).addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    processValidationEvent(fd);
                 }
             });
         } else if (w instanceof HasBlurHandlers) {

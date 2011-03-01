@@ -40,8 +40,8 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,10 +72,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     /**
      * Constructor
      * Sets up event handlers fro section update events and validation request events.
-     * @param controllerId - not used
      */
-    public LayoutController(String controllerId){
-        super(controllerId);
+    public LayoutController(){
+        super();
         //Global section update Event handling
 		addApplicationEventHandler(SectionUpdateEvent.TYPE, new SectionUpdateHandler(){
 
@@ -387,7 +386,8 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 	
 	/**
- 	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
+ 	 * Check to see if current/all section(s) is valid (ie. does not contain any errors) - also displays
+ 	 * them in the ui if possible
  	 *
 	 * @param validationResults List of validation results for the layouts model.
 	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked

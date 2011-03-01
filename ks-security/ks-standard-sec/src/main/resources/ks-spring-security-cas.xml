@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:cxf="http://cxf.apache.org/core"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
+  	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+  	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+  	
+	<import resource="ksss-auth-common.xml"/>
+	
+	
+	<bean id="propertyPlaceholder"
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+		
+	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
+    	<security:intercept-url pattern="/auth/*" filters="none"/>
+    	<security:intercept-url pattern="/services/*" filters="none"/>
+        <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
+        <security:intercept-url pattern="/login.jsp*" filters="none"/>
+		<security:form-login login-page="/login.jsp" />
+        <security:logout/>
+    </security:http>
+
+	<bean id="proxyTicketRetrieverFilter" class="org.kuali.student.security.filter.ProxyTicketRetrieverFilter">
+    	<security:custom-filter before="AUTHENTICATION_PROCESSING_FILTER"/>
+    	<property name="proxyTargetService" value="${ks.default.security.saml.samlIssuerServiceAddress}"/> 
+    	<property name="samlIssuerService" ref="samlIssuerClient"/>
+    	<property name="useCasProxyMechanism" value="${ks.default.security.cas.useCasProxyMechanism}"/>
+  	</bean>
+  	
+  	<bean id="serviceProperties" class="org.springframework.security.ui.cas.ServiceProperties">
+		<property name="service" value="${ks.default.security.cas.webapp.service.context}/j_spring_cas_security_check"/>
+		<property name="sendRenew" value="false"/>
+	</bean>
+
+	<security:authentication-manager alias="authenticationManager"/>
+	<bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
+	<bean id="proxyRetriever" class="org.jasig.cas.client.proxy.Cas20ProxyRetriever">
+		<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> 
+	</bean>
+
+	<bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
+		<security:custom-filter position="CAS_PROCESSING_FILTER"/>
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="authenticationFailureUrl" value="/auth/${ks.defualt.security.cas.authenticationFailureUrl}"/>
+		<property name="defaultTargetUrl" value="/"/>
+		<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
+        <property name="proxyReceptorUrl" value="/secure/receptor"/>
+	</bean>
+	
+	<bean id="casProcessingFilterEntryPoint" class="org.springframework.security.ui.cas.CasProcessingFilterEntryPoint">
+		<property name="loginUrl" value="${ks.default.security.cas.serverAddress}/login"/>
+		<property name="serviceProperties" ref="serviceProperties"/>
+	</bean>
+	
+	<bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
+		<security:custom-authentication-provider />
+		<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
+		<property name="serviceProperties" ref="serviceProperties"/>
+		<property name="ticketValidator">
+			<bean class="org.jasig.cas.client.validation.Cas20ProxyTicketValidator">
+				<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> 
+				<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
+        		<property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/> 
+        		<property name="proxyRetriever" ref="proxyRetriever"/>
+			</bean>
+		</property>
+		<property name="key" value="an_id_for_this_auth_provider_only"/>
+	</bean>
+
+	<!-- Client for proxy ticket validation and SAML -->
+
+	<bean id="samlIssuerClient"
+		class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.security.saml.service.SamlIssuerService"/>
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/security/saml}SamlIssuerService"/>
+	</bean>
+	
+	
+	<!-- 
+		SamlTokenCxfInInterceptor, SamlTokenCxfOutInterceptor are no longer used as the interceptors in the SamlIssuerServiceImpl.
+		The SAML is now created inside the methods of SamlIssuerServiceImpl, instead of being in the interceptors above. We create
+		the SAML this way because something about the way CXF is used in the KSB does not allow the XML config elements such as 
+		<jaxws:outInterceptors> to be recognized.
+		
+		Leaving these commented declarations below and the beans in the package because it was a lot of work 
+		to figure all this out and it might be useful later.
+	-->
+	<!--  
+	<bean id="wss4jInInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfInInterceptor">
+		<constructor-arg>
+			<map>
+	           	<entry key="action" value="Signature SAMLTokenSigned"/>
+	           	<entry key="signaturePropFile" value="crypto.properties"/>
+	        </map>
+		</constructor-arg>
+		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
+		<property name="ignoreActions" value="true"/>
+	</bean>
+	-->
+	<!--
+	<bean id="wss4jOutInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor">
+		<constructor-arg>
+			<map>
+	           	<entry key="action" value="SAMLTokenSigned"/>
+	           	<entry key="signatureKeyIdentifier" value="DirectReference"/>
+	           	<entry key="samlPropFile" value="saml.properties"/>
+	           			
+	           	***   experimenting with holder-of-key confirmation method
+	           	<entry key="signaturePropFile" value="crypto.properties"/>
+	           	<entry key="user" value="tomcat"/>
+	           	***
+	        </map>
+		</constructor-arg>
+	</bean>
+	-->
+</beans>

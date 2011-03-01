@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.kuali.student.common.dictionary.dto.Constraint;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.dictionary.dto.Constraint;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 /**
  * This is a sample Validator used for customized validation. Inject this validator into ValidatorFactory.
