@@ -48,8 +48,8 @@
       <modules>
         <module>ks-common</module>
         <module>ks-security</module>
-        <module>ks-admin</module>
         <module>ks-core</module>
+        <module>ks-admin</module>
         <module>ks-lum</module>
         <module>ks-web</module>
       </modules>
