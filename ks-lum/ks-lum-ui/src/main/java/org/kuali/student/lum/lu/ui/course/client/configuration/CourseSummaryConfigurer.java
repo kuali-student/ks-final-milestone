@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 
 public class CourseSummaryConfigurer implements
 	CreditCourseProposalConstants,
@@ -575,14 +576,14 @@ public class CourseSummaryConfigurer implements
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
                 panel.clear();
-                if(controller instanceof CourseProposalController){
-                CourseProposalController courseProposalController = (CourseProposalController) controller;
-                List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
-                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
-                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
-                    panel.add(ruleWidget);
+                if (controller instanceof HasRequirements) {
+                    HasRequirements requirementsController = (HasRequirements) controller;
+                    List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+                    for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                        panel.add(ruleWidget);
+                    }
                 }
-            }
             }
         };
 
