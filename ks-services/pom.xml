@@ -21,19 +21,6 @@
   <artifactId>ks-services</artifactId>
   <packaging>pom</packaging>
   <name>KS Services</name>
-  <repositories>
-    <repository>
-      <id>kuali.nexus</id>
-      <name>Nexus Repository Manager</name>
-      <url>http://nexus.kuali.org/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <modules>
     <module>ks-services-impl</module>
     <module>ks-services-api</module>
