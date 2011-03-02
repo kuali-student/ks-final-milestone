@@ -757,7 +757,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);
         final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
         
         loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
@@ -1205,7 +1205,8 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
                         Data idItem = p.getValue();
                         String id = idItem.get(key);
                         Data runtimeData = idItem.get("_runtimeData");
-                        Data translationData = runtimeData.get(key);
+                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                        Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
                         newIdsData = (newIdsData == null) ? new Data() : newIdsData;
                         newIdsData.add(id);
                         newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;

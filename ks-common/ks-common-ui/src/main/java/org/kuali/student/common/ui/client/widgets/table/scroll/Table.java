@@ -1,25 +1,41 @@
 package org.kuali.student.common.ui.client.widgets.table.scroll;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasChangeHandlers;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 /**
  * A table with UiBinder.
@@ -31,7 +47,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     private FocusType focusType = FocusType.NONE;
 
     private static TableUiBinder uiBinder = GWT.create(TableUiBinder.class);
-    private List<RetrieveAdditionalDataHandler> retrieveDataHandlers = new ArrayList<RetrieveAdditionalDataHandler>();
+    private final List<RetrieveAdditionalDataHandler> retrieveDataHandlers = new ArrayList<RetrieveAdditionalDataHandler>();
 
     interface TableUiBinder extends UiBinder<Widget, Table> {
     }
@@ -68,7 +84,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
     HTMLPanel panel;
 
     private TableModel tableModel;
-    private LoadingDiv loading = new LoadingDiv();
+    private final LoadingDiv loading = new LoadingDiv();
 
     public Table() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -77,11 +93,14 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             @Override
             public void onScroll(ScrollEvent event) {
                 int position = scrollPanel.getScrollPosition();
-                int size = scrollPanel.getWidget().getOffsetHeight();
-                int diff = size - scrollPanel.getOffsetHeight();
-                if (position == diff) {
-                    for (int i = 0; i < retrieveDataHandlers.size(); i++) {
-                        retrieveDataHandlers.get(i).onAdditionalDataRequest();
+                // see 6th comment in KSLAB-1790; possibly not created yet?
+                if (null != scrollPanel.getWidget()) {
+                    int size = scrollPanel.getWidget().getOffsetHeight();
+                    int diff = size - scrollPanel.getOffsetHeight();
+                    if (position == diff) {
+                        for (int i = 0; i < retrieveDataHandlers.size(); i++) {
+                            retrieveDataHandlers.get(i).onAdditionalDataRequest();
+                        }
                     }
                 }
             }

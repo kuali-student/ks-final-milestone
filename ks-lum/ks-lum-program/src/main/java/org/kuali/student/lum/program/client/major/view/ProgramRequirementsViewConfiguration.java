@@ -37,8 +37,4 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
             progReqcontroller.setParentController(controller);
         }
     }
-
-    public ProgramRequirementsViewController getProgReqcontroller() {
-        return progReqcontroller;
-    }
 }

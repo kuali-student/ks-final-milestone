@@ -13,6 +13,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -197,7 +199,7 @@ public class VariationEditController extends VariationController {
                             okToChange.exec(true);
                         } else {
                             okToChange.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });

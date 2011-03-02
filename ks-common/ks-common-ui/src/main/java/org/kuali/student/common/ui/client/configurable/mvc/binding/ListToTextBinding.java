@@ -54,7 +54,13 @@ public class ListToTextBinding implements ModelWidgetBinding<HasText> {
                 		DataModel m = new DataModel();
                 		m.setRoot((Data)value);
                 		Object innerObject = m.get(innerObjectKey);
-                		resultString = resultString + innerObject.toString() + ", ";
+                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                        resultString = resultString + (null != innerObject ?
+                                                        innerObject.toString() :
+                                                        "<no value found for item #" +
+                                                            number.toString() +
+                                                            " in list of " +
+                                                            (path.startsWith("/") ? path.substring(1) : path) + ">") + ", ";
                 	}
                 	else{
                 		resultString = resultString + value.toString() + ", ";

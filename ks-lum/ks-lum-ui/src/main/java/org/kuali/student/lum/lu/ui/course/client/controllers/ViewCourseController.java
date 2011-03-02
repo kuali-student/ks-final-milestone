@@ -50,6 +50,7 @@ import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
@@ -68,7 +69,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class ViewCourseController extends TabMenuController implements DocumentLayoutController { 
+public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements{
     private final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
@@ -88,11 +89,14 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private final KSLabel statusLabel = new KSLabel("");
 	
 	private final List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+
+    private final CourseRequirementsDataModel reqDataModel;
 	            
     public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
         initialize();
         addStyleName("courseView");
+        reqDataModel = new CourseRequirementsDataModel(this);
         this.tabPanel.addStyleName("standard-content-padding");
         this.setViewEnum(viewType);
     }
@@ -290,7 +294,15 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 updateCourseActionItems();
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                reqDataModel.retrieveStatementTypes(cluModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                        if (result) {
+                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+                        }
+                    }
+                });
+
             }
 
         });
@@ -456,4 +468,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 		return cluModel.get("id");
 	}
 
+    @Override
+    public CourseRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
+    }
 }
