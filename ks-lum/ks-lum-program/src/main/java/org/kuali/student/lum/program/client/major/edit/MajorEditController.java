@@ -145,7 +145,7 @@ public class MajorEditController extends MajorController {
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -290,7 +290,7 @@ public class MajorEditController extends MajorController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });

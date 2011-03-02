@@ -14,6 +14,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
@@ -24,7 +26,6 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -125,9 +126,9 @@ public class ProgramUtils {
             resultMessage = resultMessage.substring(0, resultMessage.length() - 2);
             
             if (failedSpecializations.size() == 1) {
-                Window.alert(ProgramProperties.get().major_variationFailed(resultMessage));
+            	KSNotifier.add(new KSNotification(ProgramProperties.get().major_variationFailed(resultMessage), false, true, 5000));
             } else {
-                Window.alert(ProgramProperties.get().major_variationsFailed(resultMessage));
+            	KSNotifier.add(new KSNotification(ProgramProperties.get().major_variationsFailed(resultMessage), false, true, 5000));
             }
         }
     }
