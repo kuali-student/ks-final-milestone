@@ -11,10 +11,12 @@
 		<config>src/main/resources/META-INF/default-dao-context-test.xml</config>
 		<config>src/main/resources/META-INF/default-property-config-context-test.xml</config>
 		<config>src/main/resources/META-INF/default-service-context-test.xml</config>
+		<!-- 
+		jaxws-context.xml is intentionally being excluded as the Spring tooling was 
+		locking up when trying to load it.  Suspect this is because it contains a reference to 
+		http://jax-ws.dev.java.net which is unresponsive
 		<config>src/main/resources/META-INF/jaxws-context.xml</config>
-		<config>src/test/resources/META-INF/load-my-beans.xml</config>
-		<config>src/test/resources/META-INF/test-persistence.xml</config>
-		<config>src/test/resources/test-my-additional-context.xml</config>
+		-->
 	</configs>
 	<configSets>
 		<configSet>
@@ -22,23 +24,13 @@
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
-				<config>/ks-common-util/src/main/resources/org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml</config>
 				<config>src/main/resources/META-INF/cxf-context.xml</config>
 				<config>src/main/resources/META-INF/default-dao-context-test.xml</config>
 				<config>src/main/resources/META-INF/default-property-config-context-test.xml</config>
 				<config>src/main/resources/META-INF/default-service-context-test.xml</config>
-				<config>src/main/resources/META-INF/jaxws-context.xml</config>
-			</configs>
-		</configSet>
-		<configSet>
-			<name><![CDATA[test]]></name>
-			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
-			<incomplete>false</incomplete>
-			<configs>
-				<config>/ks-common-util/src/test/resources/test-modprop-context.xml</config>
-				<config>src/test/resources/META-INF/load-my-beans.xml</config>
-				<config>src/test/resources/META-INF/test-persistence.xml</config>
-				<config>src/test/resources/test-my-additional-context.xml</config>
+                <!--
+		        <config>src/main/resources/META-INF/jaxws-context.xml</config>
+		        -->
 			</configs>
 		</configSet>
 	</configSets>
