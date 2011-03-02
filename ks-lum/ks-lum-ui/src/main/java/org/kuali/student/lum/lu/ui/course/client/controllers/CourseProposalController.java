@@ -433,24 +433,32 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                createNewCluProposalModel(proposalModelRequestCallback, workCompleteCallback);
 	                KSBlockingProgressIndicator.removeTask(loadDataTask);
 	            }
-	    		
-				@Override
-				public void onSuccess(Data result) {
-					if(result != null){
-						comparisonModel.setRoot(result);
-					}
-					proposalModelRequestCallback.onModelReady(cluProposalModel);
-					workCompleteCallback.exec(true);
-					KSBlockingProgressIndicator.removeTask(loadDataTask);
-				}
-			});
-		}
-		else{
-			proposalModelRequestCallback.onModelReady(cluProposalModel);
-			workCompleteCallback.exec(true);
-			KSBlockingProgressIndicator.removeTask(loadDataTask);
-		}
-	}
+
+                @Override
+                public void onSuccess(Data result) {
+                    if (result != null) {
+                        comparisonModel.setRoot(result);
+                    }
+                    proposalModelRequestCallback.onModelReady(cluProposalModel);
+                    workCompleteCallback.exec(true);
+                    reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                        @Override
+                        public void exec(Boolean result) {
+                            if (result) {
+                                //getCourseComparisonModel(proposalModelRequestCallback, workCompleteCallback);
+                                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                            }
+                        }
+                    });
+
+                }
+            });
+        } else {
+            proposalModelRequestCallback.onModelReady(cluProposalModel);
+            workCompleteCallback.exec(true);
+            KSBlockingProgressIndicator.removeTask(loadDataTask);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
