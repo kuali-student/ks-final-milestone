@@ -391,16 +391,17 @@ public class MajorEditController extends MajorController {
                 showView(ProgramSections.SUMMARY);
             }
         }
-    }
-
-	@Override
-	public void beforeShow(Callback<Boolean> onReadyCallback) {
-		
-		super.beforeShow(onReadyCallback);
-		
         //Update any cross fields
         for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
         	crossConstraint.reprocessWithUpdatedConstraints();
         }
+    }
+
+	@Override
+	public void beforeShow(Callback<Boolean> onReadyCallback) {
+    	Application.getApplicationContext().clearCrossConstraintMap(null);
+    	Application.getApplicationContext().clearPathToFieldMapping(null);
+    	
+		super.beforeShow(onReadyCallback);
 	}
 }
