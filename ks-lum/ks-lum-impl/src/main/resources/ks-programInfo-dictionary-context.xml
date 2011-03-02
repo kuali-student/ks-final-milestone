@@ -1140,12 +1140,60 @@
  <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm-parent">
   <property name="name" value="endProgramEntryTerm"/>
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endProgramEntryTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>  
  </bean>
  <bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
 
  <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
   <property name="name" value="endTerm"/>
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.endTerm"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
@@ -1412,7 +1460,7 @@
  </bean>
  <bean id="majorDisciplineInfo.isVariationRequired" parent="majorDisciplineInfo.isVariationRequired-parent"/>
 
- <bean id="majorDisciplineInfo.endInstAdmitTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+ <bean id="majorDisciplineInfo.endInstAdmitTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
  </bean>
@@ -1444,10 +1492,34 @@
  </bean>
  <bean id="programVariationInfo.coreFaculties" parent="programVariationInfo.coreFaculties-parent"/>
 
- <bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="programVariationInfo.endTerm-parent">
+ <bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="majorDisciplineInfo.endInstAdmitTerm-parent">
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.endInstAdmitTerm"/>
+    <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endInstAdmitTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
 
  <bean id="programVariationInfo.endInstAdmitTerm" parent="programVariationInfo.endInstAdmitTerm-parent"/>

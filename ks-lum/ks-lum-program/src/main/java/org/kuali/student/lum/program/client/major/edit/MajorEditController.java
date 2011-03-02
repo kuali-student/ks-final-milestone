@@ -1,12 +1,13 @@
 package org.kuali.student.lum.program.client.major.edit;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -18,7 +19,6 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -145,7 +145,7 @@ public class MajorEditController extends MajorController {
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
-                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+                            Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
                 });
@@ -290,7 +290,7 @@ public class MajorEditController extends MajorController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+                            Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
                 });
@@ -318,10 +318,7 @@ public class MajorEditController extends MajorController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                Data data = result.getValue();
-                if (data != null) {
-                    programModel.setRoot(result.getValue());
-                }
+
                 List<ValidationResultInfo> validationResults = result.getValidationResults();
                 if (validationResults != null && !validationResults.isEmpty()) {
                     if (previousState != null) {
@@ -330,8 +327,28 @@ public class MajorEditController extends MajorController {
                     ProgramUtils.retrofitValidationResults(validationResults);
                     isValid(validationResults, false, true);
                     ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
+                    
+                    //Clean up anything created by earlier code
+                    Data currentVariations = getDataProperty(ProgramConstants.VARIATIONS);
+
+                    existingVariationIds.clear();
+
+                    for (Iterator<Property> iter = currentVariations.iterator();iter.hasNext();) {
+                    	Property prop = iter.next();
+                        String existingId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                        if(existingId==null){
+                        	iter.remove();
+                        }else{
+                        	existingVariationIds.add(existingId);
+                        }
+                    }
+                    
                     okCallback.exec(false);
                 } else {
+                    Data data = result.getValue();
+                    if (data != null) {
+                        programModel.setRoot(result.getValue());
+                    }
                     previousState = null;
                     setHeaderTitle();
                     setStatus();
