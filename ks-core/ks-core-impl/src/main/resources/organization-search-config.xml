@@ -66,6 +66,7 @@
 			<ref bean="org.queryParam.orgOptionalLongName"/>
 			<ref bean="org.queryParam.orgOptionalLocation"/>
 			<ref bean="org.queryParam.orgOptionalId"/>
+			<ref bean="org.queryParam.orgOptionalIds"/>
 			<ref bean="org.queryParam.orgOptionalShortName"/>
 			<ref bean="org.queryParam.startswith.orgOptionalShortName"/>
 			<ref bean="org.queryParam.orgOptionalType"/>
@@ -86,6 +87,15 @@
 	<search:queryParam id="org.queryParam.orgOptionalId-parent" 
 		optional="true" abstract="true">
 		<ref bean="field.orgInfo.id.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgOptionalIds" parent="org.queryParam.orgOptionalIds-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalIds-parent" 
+		optional="true" abstract="true">
+		<dict:fieldDescriptor abstract="true">
+			<dict:name>Ids</dict:name>
+			<dict:desc>Organization Ids</dict:desc>
+			<dict:dataType>list</dict:dataType>
+		</dict:fieldDescriptor>
 	</search:queryParam>
 	<search:queryParam id="org.queryParam.orgPositionId" parent="org.queryParam.orgPositionId-parent"/>
 	<search:queryParam id="org.queryParam.orgPositionId-parent" 
@@ -707,7 +717,10 @@
 				</entry>
 				<entry key="org.queryParam.orgOptionalId">
 					<value>org.id = :org_queryParam_orgOptionalId</value>
-				</entry>	
+				</entry>
+				<entry key="org.queryParam.orgOptionalIds">
+					<value>org.id IN (:org_queryParam_orgOptionalIds)</value>
+				</entry>		
 				<entry key="org.queryParam.orgPositionId">
 					<value>org.org.id = :org_queryParam_orgPositionId</value>
 				</entry>				

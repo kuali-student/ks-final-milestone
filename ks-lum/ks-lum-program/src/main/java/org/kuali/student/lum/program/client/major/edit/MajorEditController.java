@@ -433,9 +433,10 @@ public class MajorEditController extends MajorController {
 
 	@Override
 	public void beforeShow(Callback<Boolean> onReadyCallback) {
-    	Application.getApplicationContext().clearCrossConstraintMap(null);
-    	Application.getApplicationContext().clearPathToFieldMapping(null);
-    	
+		if(!initialized){
+			Application.getApplicationContext().clearCrossConstraintMap(null);
+			Application.getApplicationContext().clearPathToFieldMapping(null);
+		}
 		super.beforeShow(onReadyCallback);
 	}
 }
