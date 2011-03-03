@@ -13,31 +13,30 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali</groupId>
-    <artifactId>kuali</artifactId>
-    <version>75</version>
+    <groupId>org.kuali.student.poc.services</groupId>
+    <artifactId>ks-services</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.student.poc</groupId>
-  <artifactId>ks-r2-poc</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>KS R2 POC</name>
-  <url>http://${kuali.site.hostname}/student/poc/ks-r2-poc/${project.version}/</url>
-  <repositories>
-    <repository>
-      <id>kuali.nexus</id>
-      <name>Nexus Repository Manager</name>
-      <url>http://nexus.kuali.org/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  <modules>
-    <module>ks-services</module>
-    <module>ks-rules</module>
-  </modules>
+  <artifactId>ks-services-api</artifactId>
+  <name>KS Services API</name>
+      <dependencies>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-api</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+        </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>1.1.1-SNAPSHOT</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    </dependencies>
+  
 </project>
