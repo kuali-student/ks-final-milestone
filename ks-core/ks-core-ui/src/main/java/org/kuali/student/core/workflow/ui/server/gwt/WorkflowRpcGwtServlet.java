@@ -327,8 +327,10 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	protected List<String> getCurrentActiveNodeNames(Long routeHeaderId) throws OperationFailedException, WorkflowException {
         List<String> currentActiveNodeNames = new ArrayList<String>();
         RouteNodeInstanceDTO[] nodeInstances = getWorkflowUtilityService().getActiveNodeInstances(routeHeaderId);
-        for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
-            currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
+        if (null != nodeInstances) {
+            for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
+                currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
+            }
         }
         return currentActiveNodeNames;
 	}
