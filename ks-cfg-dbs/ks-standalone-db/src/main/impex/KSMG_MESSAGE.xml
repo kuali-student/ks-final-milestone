@@ -1307,18 +1307,18 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9D48CDA68F8F5F94E040C60AF05B46C1" LOCALE="en"
+        ID="9D9C20F7134E0422E040C60AF05B6124" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9D48CDA68F905F94E040C60AF05B46C1" VER_NBR="1"/>
+        OBJ_ID="9D9C20F7134F0422E040C60AF05B6124" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9D48CDA68F915F94E040C60AF05B46C1" LOCALE="en"
+        ID="9D9C20F713500422E040C60AF05B6124" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9D48CDA68F925F94E040C60AF05B46C1" VER_NBR="1"/>
+        OBJ_ID="9D9C20F713510422E040C60AF05B6124" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
-        MSG_ID="cluDurationLiteral" MSG_VALUE="Duration"
+        MSG_ID="cluDurationLiteral" MSG_VALUE="Duration Count"
         OBJ_ID="da532069-8756-40f1-b33a-973144108fdb" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="9bda2766-e54d-491c-aeb2-8332037c256a" LOCALE="en"
@@ -1975,7 +1975,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="ea2a246c-618c-46b9-ae99-7e68109f0bb0" LOCALE="en"
         MSG_ID="cluDurationLiteral-instruct"
-        MSG_VALUE="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/>courses will have 1 13 week standard term."
+        MSG_VALUE="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course. Most courses will have 1 or 2 terms, for example."
         OBJ_ID="89111ddc-1180-4070-bacb-5598a3731d36" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="eab564e5-c04b-4c6b-abe6-285eccfbf91f" LOCALE="en"
