@@ -40,9 +40,10 @@ public class ProgramUtils {
     public static void addCredentialProgramDataToVariation(Data variationData, DataModel model) {
         Data credentialProgram = new Data();
         
+        // this should mimic the formats in VariationInformationEditConfiguration::createReadOnlySection
         credentialProgram.set(ProgramConstants.INSTITUTION, model.<Data>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION));
-        credentialProgram.set(ProgramConstants.PROGRAM_LEVEL, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL));
-        credentialProgram.set(ProgramConstants.CREDENTIAL_PROGRAM, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.SHORT_TITLE));
+        credentialProgram.set(ProgramConstants.PROGRAM_LEVEL, model.<String>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL));        
+        credentialProgram.set(ProgramConstants.RUNTIME_DATA, model.<Data>get(ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.RUNTIME_DATA));
 
         variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credentialProgram);
     }
