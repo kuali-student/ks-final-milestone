@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -29,8 +30,10 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- *Detailed information about the human readable form of a CLU Identifier
+ * Detailed information about the human readable form of a CLU
+ * Identifier.
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluIdentifierInfo implements Serializable, Idable {
 
@@ -73,9 +76,15 @@ public class CluIdentifierInfo implements Serializable, Idable {
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
     
+
     /**
-     * The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
+     * The composite string that is used to officially reference or
+     * publish the CLU. Note it may have an internal structure that
+     * each Institution may want to enforce. This structure may be
+     * composed from the other parts of the structure such as Level
+     * amp; Division, but may include items such as cluType.
      */
+
     public String getCode() {
         return code;
     }
@@ -84,9 +93,11 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.code = code;
     }
 
+
     /**
      * Abbreviated name of the CLU, commonly used on transcripts
      */
+
     public String getShortName() {
         return shortName;
     }
@@ -103,9 +114,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.longName = longName;
     }
 
+
     /**
-     * A code that indicates whether this is introductory, advanced, etc.
+     * A code that indicates whether this is introductory, advanced,
+     * etc.
      */
+
     public String getLevel() {
         return level;
     }
@@ -114,9 +128,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.level = level;
     }
 
+
     /**
-     * A code that indicates what school, program, major, subject area, etc. Examples: "Chem", "18"
+     * A code that indicates what school, program, major, subject
+     * area, etc. Examples: "Chem", "18"
      */
+
     public String getDivision() {
         return division;
     }
@@ -125,9 +142,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.division = division;
     }
     
+
     /*
-     * The "extra" portion of the code, which usually corresponds with the most detailed part of the number. 
+     * The "extra" portion of the code, which usually corresponds with
+     * the most detailed part of the number.
      */    
+
     public String getSuffixCode() {
         return suffixCode;
     }
@@ -135,10 +155,14 @@ public class CluIdentifierInfo implements Serializable, Idable {
     public void setSuffixCode(String suffixCode) {
         this.suffixCode = suffixCode;
     }
+
     
     /**
-     * A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier
+     * A number that indicates the sequence or order of versions in
+     * cases where several different Clus have the same offical
+     * Identifier
      */
+
     public String getVariation() {
         return variation;
     }
@@ -147,9 +171,11 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.variation = variation;
     }
 
+
     /*
      * The identifier of the organization associated with this cluIdentifier.
      */
+
     public String getOrgId() {
         return orgId;
     }
@@ -158,9 +184,14 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.orgId = orgId;
     }
 
+
     /**
-     * Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)
+     * Identifies the type of usage for the identifier. While most
+     * usages will have the same data constraints, this may provide
+     * some context around what the specific intent is for this
+     * identifier. (Ex. Why does this alternate identifier exist?)
      */
+
     public String getType() {
         return type;
     }
@@ -169,9 +200,13 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.type = type;
     }
 
+
     /**
-     * Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.
+     * Identifies the state of the identifier. Values for this field
+     * are constrained to values present within the cluIdentifierState
+     * enumeration.
      */
+
     public String getState() {
         return state;
     }
@@ -180,9 +215,16 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.state = state;
     }
 
+
     /**
-     * Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.
+     * Identifies the particular identifier structure. This is set by
+     * the service to be able to determine changes and alterations to
+     * the structure as well as provides a handle for searches. This
+     * structure is not accessible through unique operations, and it
+     * is strongly recommended that no external references to this
+     * particular identifier be maintained.
      */
+
     public String getId() {
         return id;
     }

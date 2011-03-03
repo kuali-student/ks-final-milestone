@@ -1,17 +1,17 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2010 The Kuali Foundation 
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 
 package org.kuali.student.enrollment.lui.dto;
@@ -32,6 +32,7 @@ import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 /**
  * Detailed information about a LUI to LUI relationship.
@@ -73,6 +74,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     /**
      * Unique identifier for a Learning Unit Instance (LUI).
+     * 
+     * @return a LUI identifier
      */
 
     public String getLuiId() {
@@ -86,6 +89,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     /**
      * Unique identifier for a Learning Unit Instance (LUI).
+     *
+     * @return a LUI identifier
      */
 
     public String getRelatedLuiId() {
@@ -102,6 +107,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
      * effective. This is a similar concept to the effective date on
      * enumerated values. When an expiration date has been specified,
      * this field must be less than or equal to the expiration date.
+     *
+     * @return the effective date
      */
 
     public Date getEffectiveDate() {
@@ -120,6 +127,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
      * equal to the effective date. If this field is not specified,
      * then no expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     *
+     * @return the expiration date
      */
 
     public Date getExpirationDate() {
@@ -133,6 +142,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     /**
      * List of key/value pairs, typically used for dynamic attributes.
+     *
+     * @return an attribute map
      */
 
     public Map<String, String> getAttributes() {
@@ -152,6 +163,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
      * Create and last update info for the structure. This is optional
      * and treated as read only since the data is set by the internals
      * of the service during maintenance operations.
+     *
+     * @return metainfo
      */
 
     public MetaInfo getMetaInfo() {
@@ -165,6 +178,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     /**
      * Unique identifier for the LU to LU relation type.
+     *
+     * @return the relation type key
      */
 
     public String getType() {
@@ -180,6 +195,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
      * for this field are constrained to those in the
      * luLuRelationState enumeration. A separate setup operation does
      * not exist for retrieval of the meta data around this value.
+     *
+     * @return the state
      */
 
     public String getState() {
@@ -195,6 +212,8 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
      * Unique identifier for a LUI to LUI relation. This is optional,
      * due to the identifier being set at the time of creation. Once
      * the relation has been created, this should be seen as required.
+     *
+     * @return the identifier for this relationship
      */
 
     public String getId() {

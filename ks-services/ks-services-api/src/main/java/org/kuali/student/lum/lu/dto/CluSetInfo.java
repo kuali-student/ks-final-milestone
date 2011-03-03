@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -34,9 +35,11 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
- *Detailed information about a single CLU Set.
+ * Detailed information about a single CLU Set.
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
@@ -88,9 +91,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     @XmlAttribute
     private String id;
 
+
     /**
      * Friendly name of the CLU Set.
      */
+
     public String getName() {
         return name;
     }
@@ -99,9 +104,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.name = name;
     }
 
+
     /**
      * Narrative description of the CLU Set.
      */
+
     public RichTextInfo getDescr() {
         return descr;
     }
@@ -110,9 +117,14 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.descr = descr;
     }
 
+
     /**
-     * Date and time that this CLU Set became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this CLU Set became effective. This is a
+     * similar concept to the effective date on enumerated
+     * values. When an expiration date has been specified, this field
+     * must be less than or equal to the expiration date.
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -121,9 +133,16 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.effectiveDate = effectiveDate;
     }
 
+
     /**
-     * Date and time that this CLU Set expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this CLU Set expires. This is a similar
+     * concept to the expiration date on enumerated values. If
+     * specified, this should be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -143,13 +162,17 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 //        this.cluCriteria = cluCriteria;
 //    }
 
+
     /**
-     * List of identifiers of directly contained CLU Sets. Present for enumerated CLU Sets.
+     * List of identifiers of directly contained CLU Sets. Present for
+     * enumerated CLU Sets.
      */
+
     public List<String> getCluSetIds() {
         if (cluSetIds == null) {
             cluSetIds = new ArrayList<String>();
         }
+
         return cluSetIds;
     }
 
@@ -157,13 +180,17 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.cluSetIds = cluSetIds;
     }
 
+
     /**
-     * List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.
+     * List of identifiers of directly contained CLUs. Present for
+     * enumerated CLU Sets.
      */
+
     public List<String> getCluIds() {
         if (cluIds == null) {
             cluIds = new ArrayList<String>();
         }
+
         return cluIds;
     }
 
@@ -171,13 +198,16 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.cluIds = cluIds;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
@@ -185,9 +215,13 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.attributes = attributes;
     }
 
+
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -196,9 +230,13 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.metaInfo = metaInfo;
     }
 
+
     /**
-     * Unique identifier for a CLU Set. This is optional, due to the identifier being set at the time of creation. Once the CLU Set has been created, this should be seen as required.
+     * Unique identifier for a CLU Set. This is optional, due to the
+     * identifier being set at the time of creation. Once the CLU Set
+     * has been created, this should be seen as required.
      */
+
     public String getId() {
         return id;
     }
@@ -207,63 +245,67 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.id = id;
     }
 
-	public MembershipQueryInfo getMembershipQuery() {
-		return membershipQuery;
-	}
+    public MembershipQueryInfo getMembershipQuery() {
+	return membershipQuery;
+    }
+    
+    public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
+	this.membershipQuery = membershipQuery;
+    }
+    
 
-	public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
-		this.membershipQuery = membershipQuery;
-	}
+    /**
+     * Gets the clu set type.  Once set at create time, this field may
+     * not be updated.
+     * 
+     * @return Clu set type
+     */
+    
+    public String getType() {
+	return type;
+    }
 
-	/**
-	 * Gets the clu set type. 
-	 * Once set at create time, this field may not be updated.
-	 * 
-	 * @return Clu set type
-	 */
-	public String getType() {
-		return type;
-	}
 
-	/**
-	 * Sets the clu set type. 
-	 * Once set at create time, this field may not be updated.
-	 * 
-	 * @param type Clu set type
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * Sets the clu set type. 
+     * Once set at create time, this field may not be updated.
+     * 
+     * @param type Clu set type
+     */
 
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getAdminOrg() {
-		return adminOrg;
-	}
-
-	public void setAdminOrg(String adminOrg) {
-		this.adminOrg = adminOrg;
-	}
-
-	public Boolean getIsReusable() {
-		return isReusable;
-	}
-
-	public void setIsReusable(Boolean isReusable) {
-		this.isReusable = isReusable;
-	}
-
-	public Boolean getIsReferenceable() {
-		return isReferenceable;
-	}
-
-	public void setIsReferenceable(Boolean isReferenceable) {
-		this.isReferenceable = isReferenceable;
-	}    		
+    public void setType(String type) {
+	this.type = type;
+    }
+    
+    public String getState() {
+	return state;
+    }
+    
+    public void setState(String state) {
+	this.state = state;
+    }
+    
+    public String getAdminOrg() {
+	return adminOrg;
+    }
+    
+    public void setAdminOrg(String adminOrg) {
+	this.adminOrg = adminOrg;
+    }
+    
+    public Boolean getIsReusable() {
+	return isReusable;
+    }
+    
+    public void setIsReusable(Boolean isReusable) {
+	this.isReusable = isReusable;
+    }
+    
+    public Boolean getIsReferenceable() {
+	return isReferenceable;
+    }
+    
+    public void setIsReferenceable(Boolean isReferenceable) {
+	this.isReferenceable = isReferenceable;
+    }    		
 }

@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -30,9 +31,11 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
- *Detailed information about learning unit codes.
+ * Detailed information about learning unit codes.
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuCodeInfo implements Serializable, Idable, HasAttributes {
 
@@ -57,9 +60,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     @XmlAttribute
     private String id;
 
+
     /**
      * The description of the code.
      */
+
     public String getDescr() {
         return descr;
     }
@@ -68,9 +73,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         this.descr = descr;
     }
 
+
     /**
      * The code's type
      */
+
     public void setType(String type) {
         this.type = type;
     }
@@ -79,9 +86,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         return type;
     }
 
+
     /**
      * The code's value.
      */
+
     public String getValue() {
         return value;
     }
@@ -90,15 +99,18 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         this.value = value;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
-        return attributes;
+        
+	return attributes;
     }
 
     @Override
@@ -106,9 +118,13 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         this.attributes = attributes;
     }
 
+
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -117,9 +133,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         this.metaInfo = metaInfo;
     }
 
+
     /**
      * Unique identifier for an LU code record.
      */
+
     @Override
     public String getId() {
         return id;

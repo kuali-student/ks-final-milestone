@@ -1,10 +1,11 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -34,15 +35,14 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
  * Detailed information about publishing a clu.
  *
- * @Author KSContractMojo
  * @Author Kamal
  * @Since Mon Jan 11 15:21:19 PST 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/cluPublicationInfo+Structure+v1.0-rc3">CluPublicationInfo v1.0-rc3</>
- *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluPublicationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -82,9 +82,12 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
     @XmlAttribute
     private String id;
 
+
     /**
-     * The identifier for the canonical learning unit which is described by this publication information.
+     * The identifier for the canonical learning unit which is
+     * described by this publication information.
      */
+
     public String getCluId() {
         return cluId;
     }
@@ -93,13 +96,17 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.cluId = cluId;
     }
 
+
     /**
-     * Fields in cluInfo whose values are overridden as part of this publication.
+     * Fields in cluInfo whose values are overridden as part of this
+     * publication.
      */
+
     public List<FieldInfo> getVariants() {
         if (variants == null) {
             variants = new ArrayList<FieldInfo>(0);
         }
+
         return variants;
     }
 
@@ -107,9 +114,13 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.variants = variants;
     }
 
+
     /**
-     * The start academic time period for when the CLU should be published in this type of usage. Should be less than or equal to endCycle.
+     * The start academic time period for when the CLU should be
+     * published in this type of usage. Should be less than or equal
+     * to endCycle.
      */
+
     public String getStartCycle() {
         return startCycle;
     }
@@ -118,9 +129,13 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.startCycle = startCycle;
     }
 
+
     /**
-     * The end academic time period for when the CLU should be published in this type of usage. If specified, should be greater than or equal to startCycle.
+     * The end academic time period for when the CLU should be
+     * published in this type of usage. If specified, should be
+     * greater than or equal to startCycle.
      */
+
     public String getEndCycle() {
         return endCycle;
     }
@@ -129,9 +144,14 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.endCycle = endCycle;
     }
 
+
     /**
-     * Date and time that this LU publication type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this LU publication type became
+     * effective. This is a similar concept to the effective date on
+     * enumerated values. When an expiration date has been specified,
+     * this field must be less than or equal to the expiration date.
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -140,9 +160,16 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.effectiveDate = effectiveDate;
     }
 
+
     /**
-     * Date and time that this LU publication type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this LU publication type expires. This is a
+     * similar concept to the expiration date on enumerated values. If
+     * specified, this should be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -151,13 +178,16 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.expirationDate = expirationDate;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
@@ -165,9 +195,13 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.attributes = attributes;
     }
 
+
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -176,9 +210,11 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.metaInfo = metaInfo;
     }
 
+
     /**
      * Type of publication for which this information should be used.
      */
+
     public String getType() {
         return type;
     }
@@ -187,9 +223,16 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.type = type;
     }
 
+
     /**
-     * Current state of the information for this publication type. This value should be constrained to those within the cluPublishingState enumeration. In general, an "active" record for a type indicates that the clu should be published within that media, though that may be further constrained by the cycle information included.
+     * Current state of the information for this publication
+     * type. This value should be constrained to those within the
+     * cluPublishingState enumeration. In general, an "active" record
+     * for a type indicates that the clu should be published within
+     * that media, though that may be further constrained by the cycle
+     * information included.
      */
+
     public String getState() {
         return state;
     }
@@ -198,9 +241,16 @@ public class CluPublicationInfo implements Serializable, Idable, HasTypeState, H
         this.state = state;
     }
 
+
     /**
-     * Identifier for the publishing information. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not currently accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.
+     * Identifier for the publishing information. This is set by the
+     * service to be able to determine changes and alterations to the
+     * structure as well as provides a handle for searches. This
+     * structure is not currently accessible through unique
+     * operations, and it is strongly recommended that no external
+     * references to this particular identifier be maintained.
      */
+
     public String getId() {
         return id;
     }

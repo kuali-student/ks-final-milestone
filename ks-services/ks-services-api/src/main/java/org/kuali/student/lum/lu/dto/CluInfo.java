@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -39,8 +40,9 @@ import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- *Detailed information about a single CLU.
+ * Detailed information about a single CLU.
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -151,8 +153,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
 
     /**
-     * Information related to the official identification of the clu, typically in human readable form. Used to officially reference or publish.
+     * Information related to the official identification of the clu,
+     * typically in human readable form. Used to officially reference
+     * or publish.
      */
+
     public CluIdentifierInfo getOfficialIdentifier() {
         return officialIdentifier;
     }
@@ -161,13 +166,17 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.officialIdentifier = officialIdentifier;
     }
 
+
     /**
-     * Information related to alternate identifications of the clu, typically in human readable form. Used to reference or publish.
+     * Information related to alternate identifications of the clu,
+     * typically in human readable form. Used to reference or publish.
      */
+
     public List<CluIdentifierInfo> getAlternateIdentifiers() {
         if (alternateIdentifiers == null) {
             alternateIdentifiers = new ArrayList<CluIdentifierInfo>();
         }
+
         return alternateIdentifiers;
     }
 
@@ -177,8 +186,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
 
     /**
-     * The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.
+     * The Study Subject Area is used to identify the area of study
+     * associated with the clu. It may be a general study area
+     * (e.g. Chemistry) or very specific (e.g. Naval Architecture)
+     * depending on the level of specificity of the clu.
      */
+
     public String getStudySubjectArea() {
         return studySubjectArea;
     }
@@ -187,9 +200,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.studySubjectArea = studySubjectArea;
     }
 
+
     /**
      * Narrative description of the CLU, used for the catalog.
      */
+
     public RichTextInfo getDescr() {
         return descr;
     }
@@ -198,13 +213,16 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.descr = descr;
     }
 
+
     /*
      * Information around the accreditation of the clu.
      */
+
     public List<AccreditationInfo> getAccreditations() {
         if (accreditations == null) {
             accreditations = new ArrayList<AccreditationInfo>();
         }
+
         return accreditations;
     }
 
@@ -212,9 +230,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.accreditations = accreditations;
     }
 
+
     /*
      * Places where this clu might be offered
      */
+
     public List<String> getCampusLocations() {
         if (campusLocations == null) {
             campusLocations = new ArrayList<String>();
@@ -230,6 +250,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         if (adminOrgs == null) {
         	adminOrgs = new ArrayList<AdminOrgInfo>();
         }
+
         return adminOrgs;
     }
 
@@ -237,9 +258,13 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.adminOrgs = adminOrgs;
     }
 
+
     /**
-     * Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor.
+     * Primary potential instructor for the clu. This is primarily for
+     * use in advertising the clu and may not be the actual
+     * instructor.
      */
+
     public CluInstructorInfo getPrimaryInstructor() {
         return primaryInstructor;
     }
@@ -248,13 +273,18 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.primaryInstructor = primaryInstructor;
     }
 
+
     /**
-     * Instructors associated with this clu. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.
+     * Instructors associated with this clu. This may not be an
+     * exhaustive list, and instead may only be used to indicate
+     * potential instructors in publication.
      */
+
     public List<CluInstructorInfo> getInstructors() {
         if (instructors == null) {
             instructors = new ArrayList<CluInstructorInfo>();
         }
+
         return instructors;
     }
 
@@ -262,9 +292,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.instructors = instructors;
     }
 
+
     /**
-     * Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time the CLU became effective. This is a similar
+     * concept to the effective date on enumerated values. When an
+     * expiration date has been specified, this field must be less
+     * than or equal to the expiration date.
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -273,9 +308,16 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.effectiveDate = effectiveDate;
     }
 
+
     /**
-     * Date and time that this CLU expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this CLU expires. This is a similar concept
+     * to the expiration date on enumerated values. If specified, this
+     * should be greater than or equal to the effective date. If this
+     * field is not specified, then no expiration date has been
+     * currently defined and should automatically be considered
+     * greater than the effective date.
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -284,9 +326,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.expirationDate = expirationDate;
     }
 
+
     /*
-     * The expected level of time commitment between the student and the CLU meetings.
+     * The expected level of time commitment between the student and
+     * the CLU meetings.
      */
+
     public AmountInfo getIntensity() {
         return intensity;
     }
@@ -295,9 +340,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.intensity = intensity;
     }
 
+
     /**
      * The standard duration of the learning unit.
      */
+
     public TimeAmountInfo getStdDuration() {
         return stdDuration;
     }
@@ -306,9 +353,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.stdDuration = stdDuration;
     }
 
+
     /**
      * Indicates if the CLU can be used to instantiate LUIs (offerings).
      */
+
     public boolean isCanCreateLui() {
         return canCreateLui;
     }
@@ -317,9 +366,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.canCreateLui = canCreateLui;
     }
 
+
     /**
-     * An URL for additional information about the CLU. This could be a reference to a document which might in turn have references to other documents (e.g. course syllabus provided by the faculty or department, standard schedule of classes, etc.).
+     * An URL for additional information about the CLU. This could be
+     * a reference to a document which might in turn have references
+     * to other documents (e.g. course syllabus provided by the
+     * faculty or department, standard schedule of classes, etc.).
      */
+
     public String getReferenceURL() {
         return referenceURL;
     }
@@ -328,13 +382,18 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.referenceURL = referenceURL;
     }
 
+
     /**
-     * List of LU code info structures. These are structures so that many different types of codes can be associated with the clu. This allows them to be put into categories.
+     * List of LU code info structures. These are structures so that
+     * many different types of codes can be associated with the
+     * clu. This allows them to be put into categories.
      */
+
     public List<LuCodeInfo> getLuCodes() {
         if (luCodes == null) {
             luCodes = new ArrayList<LuCodeInfo>();
         }
+
         return luCodes;
     }
 
@@ -342,9 +401,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.luCodes = luCodes;
     }
 
+
     /**
      * When the next review should be
      */
+
     public String getNextReviewPeriod() {
         return nextReviewPeriod;
     }
@@ -354,8 +415,10 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     }
 
     /**
-     * Indicates if Luis generated from this Clu are intended to be enrolled in by Students directly
+     * Indicates if Luis generated from this Clu are intended to be
+     * enrolled in by Students directly
      */
+
     public boolean isEnrollable() {
         return isEnrollable;
     }
@@ -364,13 +427,17 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.isEnrollable = isEnrollable;
     }
 
+
     /**
-     * The academic time period types in which this CLU is typically offered. Standard usage would equate to terms.
+     * The academic time period types in which this CLU is typically
+     * offered. Standard usage would equate to terms.
      */
+
     public List<String> getOfferedAtpTypes() {
         if (offeredAtpTypes == null) {
             offeredAtpTypes = new ArrayList<String>();
         }
+
         return offeredAtpTypes;
     }
 
@@ -378,9 +445,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.offeredAtpTypes = offeredAtpTypes;
     }
 
+
     /**
-     * Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are designated as such to maximize access to courses that have historically experienced high demand and high attrition. Default is "false".
+     * Indicates if the CLU has an Early Drop Deadline (EDD). Certain
+     * courses are designated as such to maximize access to courses
+     * that have historically experienced high demand and high
+     * attrition. Default is "false".
      */
+
     public boolean isHasEarlyDropDeadline() {
         return hasEarlyDropDeadline;
     }
@@ -389,9 +461,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.hasEarlyDropDeadline = hasEarlyDropDeadline;
     }
 
+
     /**
      * Default enrollment estimate for this CLU.
      */
+
     public int getDefaultEnrollmentEstimate() {
         return defaultEnrollmentEstimate;
     }
@@ -400,9 +474,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
     }
 
+
     /**
      * Default maximum enrollment for this CLU.
      */
+
     public int getDefaultMaximumEnrollment() {
         return defaultMaximumEnrollment;
     }
@@ -411,9 +487,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.defaultMaximumEnrollment = defaultMaximumEnrollment;
     }
 
+
     /**
-     * Indicates if the CLU may be hazardous for students with disabilities. Would default to "false".
+     * Indicates if the CLU may be hazardous for students with
+     * disabilities. Would default to "false".
      */
+
     public boolean isHazardousForDisabledStudents() {
         return isHazardousForDisabledStudents;
     }
@@ -422,9 +501,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
     }
 
+
     /**
      * Fee information associated with this CLU.
      */
+
     public CluFeeInfo getFeeInfo() {
         return feeInfo;
     }
@@ -433,9 +514,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.feeInfo = feeInfo;
     }
 
+
     /**
      * Accounting information associated with this CLU.
      */
+
     public CluAccountingInfo getAccountingInfo() {
         return accountingInfo;
     }
@@ -444,13 +527,16 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.accountingInfo = accountingInfo;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
@@ -458,9 +544,13 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.attributes = attributes;
     }
 
+
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -478,9 +568,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.versionInfo = versionInfo;
     }
 
+
     /**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
+     * Unique identifier for a learning unit type. Once set at create
+     * time, this field may not be updated.
      */
+
     public String getType() {
         return type;
     }
@@ -489,9 +582,16 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.type = type;
     }
 
+
     /**
-     * The current status of the clu. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.
+     * The current status of the clu. The values for this field are
+     * constrained to those in the luState enumeration. A separate
+     * setup operation does not exist for retrieval of the meta data
+     * around this value. This field may not be updated through
+     * updating this structure and must instead be updated through a
+     * dedicated operation.
      */
+
     public String getState() {
         return state;
     }
@@ -500,9 +600,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.state = state;
     }
 
+
     /**
-     * Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of creation. Once the CLU has been created, this should be seen as required.
+     * Unique identifier for a Canonical Learning Unit (CLU). This is
+     * optional, due to the identifier being set at the time of
+     * creation. Once the CLU has been created, this should be seen as
+     * required.
      */
+
     public String getId() {
         return id;
     }
@@ -511,13 +616,13 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.id = id;
     }
 
-	public String getExpectedFirstAtp() {
-		return expectedFirstAtp;
-	}
-
-	public void setExpectedFirstAtp(String expectedFirstAtp) {
-		this.expectedFirstAtp = expectedFirstAtp;
-	}
+    public String getExpectedFirstAtp() {
+	return expectedFirstAtp;
+    }
+    
+    public void setExpectedFirstAtp(String expectedFirstAtp) {
+	this.expectedFirstAtp = expectedFirstAtp;
+    }
 
     public String getLastAtp() {
         return lastAtp;
@@ -539,5 +644,4 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public String toString() {
     	return "CluInfo[id=" + id + ", type=" + type + "]";
     }
-
 }

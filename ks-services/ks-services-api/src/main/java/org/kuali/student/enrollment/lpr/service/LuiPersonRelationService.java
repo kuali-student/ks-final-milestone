@@ -1,9 +1,9 @@
 /*
  * Copyright 2009 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
@@ -49,7 +49,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 public interface LuiPersonRelationService { 
     /** 
      * Retrieves the list of LUIPersonRelation types
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return list of luiPersonRelationTypes
      * @throws OperationFailedException unable to complete request
 	 */
@@ -57,7 +57,7 @@ public interface LuiPersonRelationService {
 
     /** 
      * Retrieves the list of LUI Person Relation States
-     * @param context Context information containing the principalId and locale information about the caller of service opperation     
+     * @param context Context information containing the principalId and locale information about the caller of service operation     
      * @return list of relation states
      * @throws OperationFailedException unable to complete request
 	 */
@@ -66,7 +66,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves the list of Allowed Relation States
      * @param luiPersonRelationType Type of LUI Person Relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return list of relationState
      * @throws DoesNotExistException luiPersonRelationType not found
      * @throws InvalidParameterException invalid luiPersonRelationType
@@ -78,7 +78,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves the Relation for the specified LUI Person Relation
      * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return LUI Person Relation information
      * @throws DoesNotExistException luiPersonRelationId not found
      * @throws InvalidParameterException invalid luiPersonRelationId
@@ -91,7 +91,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves the Relation for the specified list of LUI Person Relation Ids
      * @param luiPersonRelationIdList List of identifiers for LUI Person Relations
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of LUI Person Relation information
      * @throws DoesNotExistException One or more luiPersonRelationIds not found
      * @throws InvalidParameterException One or more invalid luiPersonRelationIds
@@ -106,7 +106,7 @@ public interface LuiPersonRelationService {
      * @param personId Identifier for the LUI Person Relation
      * @param luiPersonRelationType Type of LUI Person Relation
      * @param relationState Relation State
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of LUI Ids
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, person to LUI relationship not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -122,7 +122,7 @@ public interface LuiPersonRelationService {
      * @param luiId Identifier for the LUI
      * @param luiPersonRelationType Type of LUI Person Relation
      * @param relationState Relation State
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of Person Ids
      * @throws DoesNotExistException luiId, luiPersonRelationType, relationState, LUI to person relationship not found
      * @throws InvalidParameterException invalid luiId, luiPersonRelationType, relationState
@@ -137,7 +137,7 @@ public interface LuiPersonRelationService {
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
      * @param relationState Relation State
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of LUI Person Relation Types
      * @throws DoesNotExistException personId, luiId, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -152,7 +152,7 @@ public interface LuiPersonRelationService {
      * Retrieves Person Relation for LUI
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param context Context information containing the principalId and locale information about the caller of service opperation 
+     * @param context Context information containing the principalId and locale information about the caller of service operation 
      * @return List of LUI Person Relation info
      * @throws DoesNotExistException personId, luiId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -167,7 +167,7 @@ public interface LuiPersonRelationService {
      * Retrieves LUI Person Relation Ids
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of LUI Person Relation display info
      * @throws DoesNotExistException personId, luiId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -181,7 +181,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves LUI Person Relation for Person
      * @param personId Identifier for person
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of LUI Person Relation info
      * @throws DoesNotExistException personId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -195,7 +195,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves LUI Person Relation Ids for Person
      * @param personId Identifier for person
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of person relation identifiers
      * @throws DoesNotExistException personId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -209,7 +209,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves LUI Person Relation for a specified LUI
      * @param luiId Identifier for LUI
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of LUI Person Relation info
      * @throws DoesNotExistException luiId not found
      * @throws InvalidParameterException invalid luiId
@@ -222,7 +222,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves LUIPersonRelation for LUI
      * @param luiId Identifier for LUI
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of LUI Person Relation identifiers
      * @throws DoesNotExistException luiId not found
      * @throws InvalidParameterException invalid luiId
@@ -237,7 +237,7 @@ public interface LuiPersonRelationService {
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
      * @param luiPersonRelationType Type of LUI Person Relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return list of valid relation states
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -254,7 +254,7 @@ public interface LuiPersonRelationService {
      * @param luiId Identifier for LUI
      * @param luiPersonRelationType Type of LUI Person relation
      * @param relationState Relation state
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return true if relation of specified type and state is ok to create between person and lui
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -271,7 +271,7 @@ public interface LuiPersonRelationService {
      * @param luiId Identifier for LUI
      * @param luiPersonRelationType Type of LUI Person Relation
      * @param relationState Relation state
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return true if relation of specified type and state exists between person and lui
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -288,7 +288,7 @@ public interface LuiPersonRelationService {
      * @param luiId Identifier for LUI
      * @param luiPersonRelationType Type of luiPersonRelation
      * @param relationState Relation State
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return result from validation operation not sure of specifics
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -305,7 +305,7 @@ public interface LuiPersonRelationService {
      * @param luiPersonRelationType Type of luiPersonRelationI
      * @param relationState Relation State
      * @param atpId Identifier for academic time period
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of LUIs
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -321,7 +321,7 @@ public interface LuiPersonRelationService {
      * @param luiId Identifier for LUI
      * @param luiPersonRelationType Type of LUI Person Relation
      * @param relationState Relation state
-     * @param context Context information containing the principalId and locale information about the caller of service opperation     
+     * @param context Context information containing the principalId and locale information about the caller of service operation     
      * @return List of people that could have a particular relation with a LUI
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -335,7 +335,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves an ordered list of the "history" of a particular LUI Person Relation, including state and date of change
      * @param luiPersonRelationId Identifier for LUI Person Relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation 
+     * @param context Context information containing the principalId and locale information about the caller of service operation 
      * @return List of LUI Person Relation info Andy Bucior This might need to be slightly different from the normal luiPersonRelation display listing, since it is dealing with a relationship history type concept.
      * @throws DoesNotExistException luiPersonRelationId not found
      * @throws InvalidParameterException invalid luiPersonRelationId
@@ -348,7 +348,7 @@ public interface LuiPersonRelationService {
     /** 
      * Retrieves detail of LUI Person Relation Ids
      * @param luiPersonRelationCriteria Criteria to be used for retrieval of multiple LUI Person Relation identifiers
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of LUI Person Relation identifiers
      * @throws InvalidParameterException invalid relation criteria
      * @throws MissingParameterException missing relation criteria
@@ -363,7 +363,7 @@ public interface LuiPersonRelationService {
      * @param luiId LUI Identifier
      * @param luiPersonRelationType Type of LUI to Person Relation
      * @param luiPersonRelationInfo Information required to create the LUI Person relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Structure containing LUI Person relation identifiers
      * @throws AlreadyExistsException relation already exists
      * @throws DoesNotExistException personId, luiId, relationState, luiPersonRelationType does not exist
@@ -382,7 +382,7 @@ public interface LuiPersonRelationService {
      * @param relationState Relation state
      * @param luiPersonRelationType Type of LUI Person relation
      * @param luiPersonRelationInfo Information required to create the LUI Person relation
-     * @param context Context information containing the principalId and locale information about the caller of service opperation
+     * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Structure containing LUI Person relation identifiers
      * @throws AlreadyExistsException relation already exists
      * @throws DoesNotExistException personId, luiId, relationState, luiPersonRelationType does not exist

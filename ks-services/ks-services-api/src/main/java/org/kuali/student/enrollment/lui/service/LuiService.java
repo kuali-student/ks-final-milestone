@@ -1,9 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2010 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
@@ -62,9 +62,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Retrieves information about a LUI.
      *
-     * @param luiId identifier of the LUI
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the LUI
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return information about a LUI
      * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId
@@ -78,9 +79,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Retrieves information about LUIs from a list of Ids.
      *
-     * @param luiIdList List of LUI identifiers
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiIdList List of LUI identifiers
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return information about a list of LUIs
      * @throws DoesNotExistException One or more luis not found
      * @throws InvalidParameterException One or more invalid luiIds
@@ -94,10 +96,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Retrieves the list of LUIs for the specified CLU and period.
      *
-     * @param cluId identifier of the CLU
-     * @param atpKey identifier for the academic time period
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  cluId identifier of the CLU
+     * @param  atpKey identifier for the academic time period
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI information
      * @throws DoesNotExistException clu, atp not found
      * @throws InvalidParameterException invalid cluId, atpKey
@@ -111,9 +114,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Retrieves the list of LUI ids for the specified CLU.
      *
-     * @param cluId identifier of the CLU
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  cluId identifier of the CLU
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException clu not found
      * @throws InvalidParameterException invalid cluId
@@ -127,10 +131,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Retrieves the list of LUI ids for the specified CLU and Time period.
      *
-     * @param cluId identifier of the CLU
-     * @param atpKey identifier for the academic time period
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  cluId identifier of the CLU
+     * @param  atpKey identifier for the academic time period
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException clu, atp not found
      * @throws InvalidParameterException invalid cluId, atpKey
@@ -145,10 +150,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * Retrieves the list of allowed relation types between the two
      * specified LUIs.
      *
-     * @param luiId identifier of the first LUI
-     * @param relatedLuiId identifier of the second LUI
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the first LUI
+     * @param  relatedLuiId identifier of the second LUI
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LU to LU relation types
      * @throws DoesNotExistException lui, relatedLui not found
      * @throws InvalidParameterException invalid luiId, relatedLuiId
@@ -165,9 +171,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      *
      * (getRelatedLuisByLuiId from the other direction)
      * @param relatedLuiId identifier of the LUI
-     * @param luLuRelationType the LU to LU relation type
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luLuRelationType the LU to LU relation type
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI information
      * @throws DoesNotExistException relatedLui, luLuRelationType not found
      * @throws InvalidParameterException invalid relatedLuiId, luLuRelationType
@@ -183,10 +190,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * and LU to LU relation type (getRelatedLuiIdsByLuiId from the
      * other direction).
      *
-     * @param relatedLuiId identifier of the LUI
-     * @param luLuRelationType the LU to LU relation type
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  relatedLuiId identifier of the LUI
+     * @param  luLuRelationType the LU to LU relation type
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException relatedLui, luLuRelationType not found
      * @throws InvalidParameterException invalid relatedLuiId, luLuRelationType
@@ -202,10 +210,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * LUI Id and LU to LU relation type (getLuisByRelation from the
      * other direction).
      *
-     * @param luiId identifier of the LUI
-     * @param luLuRelationType the LU to LU relation type
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the LUI
+     * @param  luLuRelationType the LU to LU relation type
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI information
      * @throws DoesNotExistException lui, luLuRelationType not found
      * @throws InvalidParameterException invalid luiId, luLuRelationType
@@ -221,10 +230,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * and LU to LU relation type. (getLuiIdsByRelation from the other
      * direction).
      *
-     * @param luiId identifier of the LUI
-     * @param luLuRelationType the LU to LU relation type
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the LUI
+     * @param  luLuRelationType the LU to LU relation type
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException luiId, luLuRelationType not found
      * @throws InvalidParameterException invalid luiId, luLuRelationType
@@ -239,9 +249,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * Retrieves the relationship information between LUIs given a
      * specific relation instance.
      *
-     * @param luiLuiRelationId identifier of LUI to LUI relatio
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operationn
+     * @param  luiLuiRelationId identifier of LUI to LUI relatio
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return information on the relation between two LUIs
      * @throws DoesNotExistException luiLuiRelation not found
      * @throws InvalidParameterException invalid luiLuiRelationId
@@ -256,9 +267,10 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * Retrieves the list of relationship information for the
      * specified LUI.
      *
-     * @param luiId identifier of the LUI
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the LUI
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return list of LUI to LUI relation information
      * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId
@@ -283,10 +295,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * those performed by setting the validationType to the current
      * object.
      *
-     * @param validationType identifier of the extent of validation
-     * @param luiInfo LUI information to be tested.
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  validationType identifier of the extent of validation
+     * @param  luiInfo LUI information to be tested.
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, luiInfo
@@ -300,14 +313,17 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Creates a new LUI.
      *
-     * @param cluId identifier of the CLU for the LUI being created
-     * @param atpKey identifier of the academic time period for the LUI being created
-     * @param luiInfo information about the LUI being created
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  cluId identifier of the CLU for the LUI being created
+     * @param  atpKey identifier of the academic time period for the
+     *         LUI being created
+     * @param  luiInfo information about the LUI being created
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return the created LUI information
      * @throws AlreadyExistsException LUI already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
      * @throws DoesNotExistException clu, atp not found
      * @throws InvalidParameterException invalid cluId, atpKey, luiInfo
      * @throws MissingParameterException missing cluId, atpKey, luiInfo
@@ -321,18 +337,21 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Updates an existing LUI.
      *
-     * @param luiId identifier for the LUI to be updated
-     * @param luiInfo updated information about the LUI
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier for the LUI to be updated
+     * @param  luiInfo updated information about the LUI
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return the updated LUI information
-     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
      * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId, luiInfo
      * @throws MissingParameterException missing luiId, luiInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws VersionMismatchException The action was attempted on an
+     *         out of date version.
      */
 
     public LuiInfo updateLui(@WebParam(name="luiId")String luiId, @WebParam(name="luiInfo")LuiInfo luiInfo, @WebParam(name="context")ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -341,12 +360,13 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Deletes a LUI record.
      *
-     * @param luiId identifier for the LUI to be deleted
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier for the LUI to be deleted
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return status of the operation
-     * @throws DependentObjectsExistException delete would leave orphaned objects or violate 
-     *         integrity constraints
+     * @throws DependentObjectsExistException delete would leave
+     *         orphaned objects or violate integrity constraints
      * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId
      * @throws MissingParameterException missing luiId
@@ -360,13 +380,15 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Updates the state of the LUI.
      *
-     * @param luiId identifier for the LUI to be updated
-     * @param luState New state for LUI. Value is expected to be constrained to those in 
-     *        the luState enumeration.
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier for the LUI to be updated
+     * @param  luState New state for LUI. Value is expected to be
+     *         constrained to those in the luState enumeration.
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return the updated LUI information
-     * @throws DataValidationErrorException New state not valid for existing state of LUI
+     * @throws DataValidationErrorException New state not valid for
+     *         existing state of LUI
      * @throws DoesNotExistException lui, luState not found
      * @throws InvalidParameterException invalid luiId, luState
      * @throws MissingParameterException missing luiId, luState
@@ -391,14 +413,18 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
      * will be much shallower, typically mimicking those performed by
      * setting the validationType to the current object.
      *
-     * @param validationType identifier of the extent of validation
-     * @param luiLuiRelationInfo LUI to LUI relationship information to be tested.
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  validationType identifier of the extent of validation
+     * @param  luiLuiRelationInfo LUI to LUI relationship information
+     *         to be tested.
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, luiLuiRelationInfo
-     * @throws MissingParameterException missing validationTypeKey, luiLuiRelationInfo
+     * @throws InvalidParameterException invalid validationTypeKey,
+     *         luiLuiRelationInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     *         luiLuiRelationInfo
      * @throws OperationFailedException unable to complete request
      */
 
@@ -408,19 +434,27 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Create a relationship between two LUIs.
      *
-     * @param luiId identifier of the first LUI in the relationship
-     * @param relatedLuiId identifier of the second LUI in the relationship to be related to
-     * @param luLuRelationType the LU to LU relationship type of the relationship
-     * @param luiLuiRelationInfo information about the relationship between the two LUIs
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiId identifier of the first LUI in the relationship
+     * @param  relatedLuiId identifier of the second LUI in the
+     *         relationship to be related to
+     * @param  luLuRelationType the LU to LU relationship type of the
+     *         relationship
+     * @param  luiLuiRelationInfo information about the relationship
+     *         between the two LUIs
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return the created LUI to LUI relation information
      * @throws AlreadyExistsException relationship already exists
      * @throws CircularRelationshipException luiId equals relatedLuiId
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException luiId, relatedLuiId, luLuRelationType not found
-     * @throws InvalidParameterException invalid luiIds, luluRelationType, luiLuiRelationInfo
-     * @throws MissingParameterException missing luiIds, luluRelationType, luiLuiRelationInfo
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
+     * @throws DoesNotExistException luiId, relatedLuiId,
+     *         luLuRelationType not found
+     * @throws InvalidParameterException invalid luiIds,
+     *         luluRelationType, luiLuiRelationInfo
+     * @throws MissingParameterException missing luiIds,
+     *         luluRelationType, luiLuiRelationInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -431,18 +465,24 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Updates a relationship between two LUIs.
      *
-     * @param luiLuiRelationId identifier of the LUI to LUI relation to update
-     * @param luiLuiRelationInfo changed information about the relationship between the two LUIs
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiLuiRelationId identifier of the LUI to LUI relation to update
+     * @param  luiLuiRelationInfo changed information about the
+     *         relationship between the two LUIs
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return the update LUI to LUI relation information
-     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
      * @throws DoesNotExistException luiLuiRelation not found
-     * @throws InvalidParameterException invalid luiLuiRelationId, luiLuiRelationInfo
-     * @throws MissingParameterException missing luiLuiRelationId, luiLuiRelationInfo
+     * @throws InvalidParameterException invalid luiLuiRelationId, 
+     *         luiLuiRelationInfo
+     * @throws MissingParameterException missing luiLuiRelationId, 
+     *         luiLuiRelationInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws VersionMismatchException The action was attempted on an
+     *         out of date version.
      */
 
     public LuiLuiRelationInfo updateLuiLuiRelation(@WebParam(name="luiLuiRelationId")String luiLuiRelationId, @WebParam(name="luiLuiRelationInfo")LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name="context")ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -451,9 +491,11 @@ public interface LuiService extends DictionaryService, SearchService, VersionMan
     /** 
      * Deletes a relationship between two LUIs.
      *
-     * @param luiLuiRelationId identifier of the LUI to LUI relation to delete
-     * @param context Context information containing the principalId and locale 
-     *        information about the caller of service operation
+     * @param  luiLuiRelationId identifier of the LUI to LUI relation
+     *         to delete
+     * @param  context Context information containing the principalId
+     *         and locale information about the caller of service
+     *         operation
      * @return status of the operation (success or failure)
      * @throws DoesNotExistException luiLuiRelation not found
      * @throws InvalidParameterException invalid luiLuiRelationId

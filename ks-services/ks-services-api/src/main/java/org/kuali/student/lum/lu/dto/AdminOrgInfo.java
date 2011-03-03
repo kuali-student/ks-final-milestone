@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -30,12 +31,14 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This is a description of what this class does - hjohnson don't
+ * forget to fill this in.
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
- *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     
@@ -64,6 +67,7 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     /*
      * Unique identifier for the accreditation.
      */
+
     public String getId() {
         return id;
     }
@@ -72,9 +76,12 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
         this.id = id;
     }
     
+
     /*
-     * Unique identifier for the organization responsible for the accreditation.
+     * Unique identifier for the organization responsible for the
+     * accreditation.
      */
+
     public String getOrgId() {
         return orgId;
     }
@@ -82,10 +89,12 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
+
     
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();

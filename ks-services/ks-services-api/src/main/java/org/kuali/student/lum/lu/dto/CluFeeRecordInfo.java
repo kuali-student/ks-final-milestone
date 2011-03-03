@@ -1,15 +1,17 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file
+ * except in compliance with the License.  You may obtain a copy of
+ * the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -34,15 +36,14 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
  * Information about a fee related to a clu.
  *
- * @Author KSContractMojo
  * @Author Kamal
  * @Since Mon Jan 11 15:20:48 PST 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/cluFeeRecordInfo+Structure+v1.0-rc2">CluFeeRecordInfo</>
- *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
 
@@ -73,9 +74,12 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     @XmlAttribute
     private String id;
 
+
     /**
-     * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
+     * A code that identifies the type of the fee. For example: Lab
+     * Fee or Tuition Fee or CMF for Course Materials Fee.
      */
+
     public String getFeeType() {
         return feeType;
     }
@@ -84,24 +88,31 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
         this.feeType = feeType;
     }
 
+
     /**
-     * Indicates the structure and interpretation of the fee amounts, i.e. Fixed, Variable, Multiple.
+     * Indicates the structure and interpretation of the fee amounts,
+     * i.e. Fixed, Variable, Multiple.
      */
+
     public String getRateType() {
-		return rateType;
-	}
-
-	public void setRateType(String rateType) {
-		this.rateType = rateType;
-	}
-
-	/**
-     * The amount or amounts associated with the fee. The number fee amounts and interpretation depends on the rate type.
+	return rateType;
+    }
+    
+    public void setRateType(String rateType) {
+	this.rateType = rateType;
+    }
+    
+    
+    /**
+     * The amount or amounts associated with the fee. The number fee
+     * amounts and interpretation depends on the rate type.
      */
+
     public List<CurrencyAmountInfo> getFeeAmounts() {
-    	if(feeAmounts==null){
-    		feeAmounts = new ArrayList<CurrencyAmountInfo>();
+    	if (feeAmounts==null){
+	    feeAmounts = new ArrayList<CurrencyAmountInfo>();
     	}
+
         return feeAmounts;
     }
 
@@ -109,65 +120,78 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
         this.feeAmounts = feeAmounts;
     }
 
+
     /**
      * List of affiliated organizations.
      */
+
     public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
         if (affiliatedOrgs == null) {
             affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>(0);
         }
+
         return affiliatedOrgs;
     }
+
 
     public void setAffiliatedOrgs(List<AffiliatedOrgInfo> affiliatedOrgs) {
         this.affiliatedOrgs = affiliatedOrgs;
     }
+    
+	
+    /**
+     * 	Narrative description of the CLU Fee Record. 
+     */
 
-	/**
-	 * 	Narrative description of the CLU Fee Record. 
-	 */
     public RichTextInfo getDescr() {
-		return descr;
-	}
-
-	public void setDescr(RichTextInfo descr) {
-		this.descr = descr;
-	}
-
-	/**
+	return descr;
+    }
+    
+    public void setDescr(RichTextInfo descr) {
+	this.descr = descr;
+    }
+    
+    
+    /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
-
+    
     
     /**
-	 * Create and last update info for the structure. This is optional and treated as read only since the 
-	 * data is set by the internals of the service during maintenance operations.     
-	 */
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
+     */
+
     public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
-
-	/**
+	return metaInfo;
+    }
+    
+    public void setMetaInfo(MetaInfo metaInfo) {
+	this.metaInfo = metaInfo;
+    }
+    
+    
+    /**
      * Identifier for the clu fee record.
      */
+
     public String getId() {
         return id;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }

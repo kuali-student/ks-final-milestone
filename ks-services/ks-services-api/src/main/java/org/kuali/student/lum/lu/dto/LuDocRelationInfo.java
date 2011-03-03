@@ -1,10 +1,11 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -33,9 +34,11 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
- *Information about the LU to document relation.
+ * Information about the LU to document relation.
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -75,9 +78,11 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
     @XmlAttribute
     private String id;
 
+
     /**
      * Unique identifier for a Canonical Learning Unit (CLU).
      */
+
     public String getCluId() {
         return cluId;
     }
@@ -86,9 +91,11 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.cluId = cluId;
     }
 
+
     /**
      * Unique identifier for a document.
      */
+
     public String getDocumentId() {
         return documentId;
     }
@@ -97,9 +104,11 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.documentId = documentId;
     }
 
+
     /**
      * The title of the document usage in the context of the CLU.
      */
+
     public String getTitle() {
         return title;
     }
@@ -108,9 +117,11 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.title = title;
     }
 
+
     /**
      * The description of the document usage in the context of the CLU.
      */
+
     public RichTextInfo getDesc() {
         return desc;
     }
@@ -119,9 +130,14 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.desc = desc;
     }
 
+
     /**
-     * Date and time that this LU Doc Relation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this LU Doc Relation became effective. This
+     * is a similar concept to the effective date on enumerated
+     * values. When an expiration date has been specified, this field
+     * must be less than or equal to the expiration date.
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -130,9 +146,16 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.effectiveDate = effectiveDate;
     }
 
+
     /**
-     * Date and time that this LU Doc Relation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this LU Doc Relation expires. This is a
+     * similar concept to the expiration date on enumerated values. If
+     * specified, this should be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -141,13 +164,16 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.expirationDate = expirationDate;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
@@ -155,9 +181,13 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.attributes = attributes;
     }
 
+
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -166,9 +196,12 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.metaInfo = metaInfo;
     }
 
+
     /**
-     * Unique identifier for an LU document relationship type. Describes the type of usage of the document.
+     * Unique identifier for an LU document relationship
+     * type. Describes the type of usage of the document.
      */
+
     public String getType() {
         return type;
     }
@@ -177,9 +210,14 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.type = type;
     }
 
+
     /**
-     * The current status of the LU to document relationship. The values for this field are constrained to those in the luDocRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
+     * The current status of the LU to document relationship. The
+     * values for this field are constrained to those in the
+     * luDocRelationState enumeration. A separate setup operation does
+     * not exist for retrieval of the meta data around this value.
      */
+
     public String getState() {
         return state;
     }
@@ -188,9 +226,14 @@ public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, Ha
         this.state = state;
     }
 
+
     /**
-     * Unique identifier for a LU to document relation. This is optional, due to the identifier being set at the time of creation. Once the connection has been created, this should be seen as required.
+     * Unique identifier for a LU to document relation. This is
+     * optional, due to the identifier being set at the time of
+     * creation. Once the connection has been created, this should be
+     * seen as required.
      */
+
     public String getId() {
         return id;
     }

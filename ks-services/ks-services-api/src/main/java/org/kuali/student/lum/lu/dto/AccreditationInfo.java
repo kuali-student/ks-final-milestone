@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -24,12 +25,14 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 
+
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This is a description of what this class does - hjohnson don't
+ * forget to fill this in.
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
- *
  */
+
 public class AccreditationInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +41,7 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
 
     private String orgId;
 
-
     private Date effectiveDate;
-
 
     private Date expirationDate;
 
@@ -48,12 +49,11 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
 
     private MetaInfo metaInfo;
 
-
-
-
     /*
-     * Unique identifier for the organization responsible for the accreditation.
+     * Unique identifier for the organization responsible for the
+     * accreditation.
      */
+
     public String getOrgId() {
         return orgId;
     }
@@ -62,9 +62,11 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
         this.orgId = orgId;
     }
 
+
     /*
      * Date and time the accreditation became effective. 
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -73,9 +75,11 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
         this.effectiveDate = effectiveDate;
     }
 
+
     /*
      * Date and time the accreditation expires. 
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -84,9 +88,11 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
         this.expirationDate = expirationDate;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -98,10 +104,13 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
         this.attributes = attributes;
     }
     
+
     /*
-     * Create and last update info for the structure. 
-     * This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure.  This is
+     * optional and treated as read only since the data is set by the
+     * internals of the service during maintenance operations.
      */
+
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -109,10 +118,12 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
     }
+
     
     /*
      * Unique identifier for the accreditation.
      */
+
     public String getId() {
         return id;
     }

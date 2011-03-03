@@ -1,15 +1,16 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -30,9 +31,11 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
 /**
- *Detailed information about a single LU document relationship type.
+ * Detailed information about a single LU document relationship type.
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttributes {
 
@@ -57,9 +60,11 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
     @XmlAttribute(name="key")
     private String id;
 
+
     /**
      * Friendly name of the LU document relationship type
      */
+
     public String getName() {
         return name;
     }
@@ -68,9 +73,11 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
         this.name = name;
     }
 
+
     /**
      * Narrative description of the LU document relationship type
      */
+
     public String getDesc() {
         return desc;
     }
@@ -79,9 +86,14 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
         this.desc = desc;
     }
 
+
     /**
-     * Date and time that this LU document relationship type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this LU document relationship type became
+     * effective. This is a similar concept to the effective date on
+     * enumerated values. When an expiration date has been specified,
+     * this field must be less than or equal to the expiration date.
      */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -90,9 +102,16 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
         this.effectiveDate = effectiveDate;
     }
 
+
     /**
-     * Date and time that this LU document relationship type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this LU document relationship type
+     * expires. This is a similar concept to the expiration date on
+     * enumerated values. If specified, this should be greater than or
+     * equal to the effective date. If this field is not specified,
+     * then no expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -101,13 +120,16 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
         this.expirationDate = expirationDate;
     }
 
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
+
         return attributes;
     }
 
@@ -115,9 +137,11 @@ public class LuDocRelationTypeInfo implements Serializable, Idable, HasAttribute
         this.attributes = attributes;
     }
 
+
     /**
      * The page luDocumentTypeKey Structure does not exist.
      */
+
     public String getId() {
         return id;
     }
