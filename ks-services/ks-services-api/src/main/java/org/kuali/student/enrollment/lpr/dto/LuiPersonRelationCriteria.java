@@ -43,4 +43,39 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 public class LuiPersonRelationCriteria implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+     @XmlElement
+    private String fieldKey;
+
+    @XmlElement
+    private String value;
+
+ /**
+  * Name: Field Key
+  *
+  * Dot path notation to identity the name of field to be compared
+  */
+ public String getFieldKey () {
+  return fieldKey;
+ }
+
+ public void setFieldKey (String fieldKey)  {
+  this.fieldKey = fieldKey;
+ }
+
+
+ /**
+  * Name: Criteria Value
+  *
+  * Value to be compared
+  */
+ public String getValue () {
+  return value;
+ }
+
+ public void setValue (String value) {
+  this.value = value;
+ }
+
+    
 }
