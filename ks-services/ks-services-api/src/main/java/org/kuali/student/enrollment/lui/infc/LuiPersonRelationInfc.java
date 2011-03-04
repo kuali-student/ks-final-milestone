@@ -16,11 +16,18 @@
 package org.kuali.student.enrollment.lui.infc;
 
 
+//import com.sun.xml.internal.bind.AnyTypeAdapter;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.kuali.student.enrollment.common.infc.AttributeInfc;
 import org.kuali.student.enrollment.common.infc.MetaInfc;
 
-
+@XmlRootElement
+//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public interface LuiPersonRelationInfc
 {
 	
@@ -119,22 +126,22 @@ public interface LuiPersonRelationInfc
 	/**
 	* Set ????
 	*
-	* Type: Map<String, String>
+	* Type:
 	*
 	* Name: Generic/dynamic 
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
-	public void setAttributes(Map<String, String> attributes);
+	public void setAttributes(List<AttributeInfc> attributes);
 	
 	/**
 	* Get ????
 	*
-	* Type: Map<String, String>
+	* Type: List<AttributeInfc>
 	*
 	* Name: Generic/dynamic 
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
-	public Map<String, String> getAttributes();
+	public List<AttributeInfc> getAttributes();
 	
 	
 	

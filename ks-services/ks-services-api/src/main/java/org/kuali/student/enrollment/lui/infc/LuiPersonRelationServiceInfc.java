@@ -16,19 +16,25 @@
 package org.kuali.student.enrollment.lui.infc;
 
 
-import java.security.InvalidParameterException;
 import java.util.List;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DisabledIdentifierException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.enrollment.common.infc.StatusInfc;
 import org.kuali.student.enrollment.common.infc.ValidationResultInfc;
 
-
+@WebService(name = "LuiPersonRelationServiceInfc", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelationServiceInfc")
+@XmlSeeAlso({ContextBean.class, LuiPersonRelationBean.class, LuiPersonRelationCriteriaBean.class, LuiPersonRelationStateBean.class, LuiPersonRelationTypeBean.class })
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationServiceInfc
 {
 	
@@ -411,7 +417,7 @@ public interface LuiPersonRelationServiceInfc
 	* and locale information about the caller of service opperation
 	* @return Simple list of LUI Person Relation identifiers
 	*/
-	public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteria luiPersonRelationCriteria, ContextInfc context)
+	public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteriaInfc luiPersonRelationCriteria, ContextInfc context)
 		throws InvalidParameterException
 		      ,MissingParameterException
 		      ,OperationFailedException
@@ -472,13 +478,14 @@ public interface LuiPersonRelationServiceInfc
 	* the LUI Person Relation
 	* @return Updated information about the LUI Person Relation
 	*/
-	public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo)
+	public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
 		      ,ReadOnlyException
 		      ,OperationFailedException
 		      ,PermissionDeniedException
+        ,VersionMismatchException
 	;
 	
 	/**
@@ -487,7 +494,7 @@ public interface LuiPersonRelationServiceInfc
 	* @param luiPersonRelationId - String - Identifier for the LUI Person Relation
 	* @return status of the operation (success, failed)
 	*/
-	public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId)
+	public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId, ContextInfc context)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
@@ -502,12 +509,13 @@ public interface LuiPersonRelationServiceInfc
 	* @param relationState - LuiPersonRelationStateInfo - Relation state
 	* @return status of the operation (success or failure)
 	*/
-	public StatusInfc updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfc relationState)
+	public StatusInfc updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfc relationState, ContextInfc context)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
 		      ,OperationFailedException
 		      ,PermissionDeniedException
+                      ,ReadOnlyException
 	;
 }
 

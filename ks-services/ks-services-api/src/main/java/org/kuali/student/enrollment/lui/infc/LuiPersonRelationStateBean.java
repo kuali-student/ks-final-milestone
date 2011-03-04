@@ -18,7 +18,9 @@
 	
 	import java.io.Serializable;
 	import java.util.Date;
-	import java.util.Map;
+import java.util.List;
+import java.util.Map;
+import org.kuali.student.enrollment.common.infc.AttributeInfc;
 	
 	
 	public class LuiPersonRelationStateBean
@@ -139,17 +141,17 @@
 			return this.expirationDate;
 		}
 						
-		private Map<String, String> attributes;
+		private List<AttributeInfc> attributes;
 		
 		/**
 		* Set ????
 		*
-		* Type: Map<String, String>
+		* Type: List<AttributeInfc>
 		*
 		* ???
 		*/
 		@Override
-		public void setAttributes(Map<String, String> attributes)
+		public void setAttributes(List<AttributeInfc> attributes)
 		{
 			this.attributes = attributes;
 		}
@@ -157,12 +159,12 @@
 		/**
 		* Get ????
 		*
-		* Type: Map<String, String>
+		* Type: List<AttributeInfc>
 		*
 		* ???
 		*/
 		@Override
-		public Map<String, String> getAttributes()
+		public List<AttributeInfc> getAttributes()
 		{
 			return this.attributes;
 		}

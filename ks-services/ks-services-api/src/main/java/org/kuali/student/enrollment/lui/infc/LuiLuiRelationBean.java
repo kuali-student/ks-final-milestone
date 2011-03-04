@@ -18,7 +18,8 @@
 	
 	import java.io.Serializable;
 	import java.util.Date;
-	import java.util.Map;
+	import java.util.List;
+import org.kuali.student.enrollment.common.infc.AttributeInfc;
 	import org.kuali.student.enrollment.common.infc.MetaInfc;
 	
 	
@@ -156,17 +157,17 @@
 			return this.expirationDate;
 		}
 						
-		private Map<String, String> attributes;
+		private List<AttributeInfc> attributes;
 		
 		/**
 		* Set ????
 		*
-		* Type: Map<String, String>
+		* Type: List<AttributeInfc>
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
-		public void setAttributes(Map<String, String> attributes)
+		public void setAttributes(List<AttributeInfc> attributes)
 		{
 			this.attributes = attributes;
 		}
@@ -174,12 +175,12 @@
 		/**
 		* Get ????
 		*
-		* Type: Map<String, String>
+		* Type: List<AttributeInfc>
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
-		public Map<String, String> getAttributes()
+		public List<AttributeInfc> getAttributes()
 		{
 			return this.attributes;
 		}

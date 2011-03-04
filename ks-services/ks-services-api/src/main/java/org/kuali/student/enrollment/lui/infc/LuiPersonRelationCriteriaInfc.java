@@ -15,9 +15,16 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
+//import com.sun.xml.internal.bind.AnyTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
-public interface LuiPersonRelationCriteria
+@XmlRootElement
+//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
+@XmlAccessorType(XmlAccessType.PROPERTY)
+public interface LuiPersonRelationCriteriaInfc
 {
 	
 	/**

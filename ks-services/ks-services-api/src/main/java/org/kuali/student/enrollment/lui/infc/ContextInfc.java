@@ -15,8 +15,15 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
+//import com.sun.xml.internal.bind.AnyTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
+@XmlRootElement
+//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public interface ContextInfc
 {
 	

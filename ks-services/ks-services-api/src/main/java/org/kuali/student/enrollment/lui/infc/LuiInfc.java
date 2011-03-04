@@ -17,7 +17,8 @@ package org.kuali.student.enrollment.lui.infc;
 
 
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
+import org.kuali.student.enrollment.common.infc.AttributeInfc;
 import org.kuali.student.enrollment.common.infc.MetaInfc;
 
 
@@ -165,20 +166,20 @@ public interface LuiInfc
 	/**
 	* Set ????
 	*
-	* Type: Map<String, String>
+	* Type: List<AttributeInfc>
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
-	public void setAttributes(Map<String, String> attributes);
+	public void setAttributes(List<AttributeInfc> attributes);
 	
 	/**
 	* Get ????
 	*
-	* Type: Map<String, String>
+	* Type: List<AttributeInfc>
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
-	public Map<String, String> getAttributes();
+	public List<AttributeInfc> getAttributes();
 	
 	
 	
