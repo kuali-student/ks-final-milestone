@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.client.controllers;
+package org.kuali.student.lum.lu.ui.main.client.controllers;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -11,9 +11,10 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
-import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 import org.kuali.student.lum.program.client.ProgramRegistry;
