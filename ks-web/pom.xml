@@ -43,7 +43,6 @@
   </profiles>
   <properties>
     <derby.version>10.4.2.0</derby.version>
-    <kuali.site.download.path>org/kuali/student/web</kuali.site.download.path>
   </properties>
   <repositories>
     <repository>

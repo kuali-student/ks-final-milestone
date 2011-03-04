@@ -10,9 +10,6 @@
   <packaging>pom</packaging>
   <name>KS Security</name>
   <description>KS Security</description>
-  <properties>
-    <kuali.site.download.path>org/kuali/student/security</kuali.site.download.path>
-  </properties>
   <modules>
     <module>ks-standard-sec</module>
     <module>ks-sts</module>
