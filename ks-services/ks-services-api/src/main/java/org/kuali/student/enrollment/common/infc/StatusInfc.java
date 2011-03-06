@@ -15,50 +15,42 @@
  */
 package org.kuali.student.enrollment.common.infc;
 
+public interface StatusInfc {
 
+ /**
+  * Set ????
+  *
+  * Type: Boolean
+  *
+  * ???
+  */
+ public void setSuccess(Boolean success);
 
-public interface StatusInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: Boolean
-	*
-	* ???
-	*/
-	public void setSuccess(Boolean success);
-	
-	/**
-	* Get ????
-	*
-	* Type: Boolean
-	*
-	* ???
-	*/
-	public Boolean isSuccess();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setMessage(String message);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getMessage();
-	
-	
-	
+ /**
+  * Get ????
+  *
+  * Type: Boolean
+  *
+  * ???
+  */
+ public Boolean isSuccess();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setMessage(String message);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getMessage();
 }
 

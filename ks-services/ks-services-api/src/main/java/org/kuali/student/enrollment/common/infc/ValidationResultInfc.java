@@ -15,150 +15,132 @@
  */
 package org.kuali.student.enrollment.common.infc;
 
+public interface ValidationResultInfc {
 
+ /**
+  * Set ????
+  *
+  * Type: Integer
+  *
+  * ???
+  */
+ public void setLevel(Integer level);
 
-public interface ValidationResultInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: Integer
-	*
-	* ???
-	*/
-	public void setLevel(Integer level);
-	
-	/**
-	* Get ????
-	*
-	* Type: Integer
-	*
-	* ???
-	*/
-	public Integer getLevel();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setMessage(String message);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getMessage();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setElement(String element);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getElement();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: Integer
-	*
-	* Returns the ValidationResult's error level
-	*/
-	public void setErrorLevel(Integer errorLevel);
-	
-	/**
-	* Get ????
-	*
-	* Type: Integer
-	*
-	* Returns the ValidationResult's error level
-	*/
-	public Integer getErrorLevel();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-	*/
-	public void setOk(Boolean ok);
-	
-	/**
-	* Get ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-	*/
-	public Boolean isOk();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-	*/
-	public void setWarn(Boolean warn);
-	
-	/**
-	* Get ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-	*/
-	public Boolean isWarn();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-	*/
-	public void setError(Boolean error);
-	
-	/**
-	* Get ????
-	*
-	* Type: boolean
-	*
-	* Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-	*/
-	public Boolean isError();
-	
-	
-	
+ /**
+  * Get ????
+  *
+  * Type: Integer
+  *
+  * ???
+  */
+ public Integer getLevel();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setMessage(String message);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getMessage();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setElement(String element);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getElement();
+
+ /**
+  * Set ????
+  *
+  * Type: Integer
+  *
+  * Returns the ValidationResult's error level
+  */
+ public void setErrorLevel(Integer errorLevel);
+
+ /**
+  * Get ????
+  *
+  * Type: Integer
+  *
+  * Returns the ValidationResult's error level
+  */
+ public Integer getErrorLevel();
+
+ /**
+  * Set ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
+  */
+ public void setOk(Boolean ok);
+
+ /**
+  * Get ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
+  */
+ public Boolean isOk();
+
+ /**
+  * Set ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
+  */
+ public void setWarn(Boolean warn);
+
+ /**
+  * Get ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
+  */
+ public Boolean isWarn();
+
+ /**
+  * Set ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
+  */
+ public void setError(Boolean error);
+
+ /**
+  * Get ????
+  *
+  * Type: boolean
+  *
+  * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
+  */
+ public Boolean isError();
 }
 

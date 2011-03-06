@@ -15,47 +15,42 @@
  */
 package org.kuali.student.enrollment.common.infc;
 
+public interface AttributeInfc {
 
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setKey(String key);
 
-public interface AttributeInfc
-{
-		
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setKey(String key);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getKey();
-	
-		/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setValue(String value);
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getKey();
 
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getValue();
-	
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setValue(String value);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getValue();
 }
 

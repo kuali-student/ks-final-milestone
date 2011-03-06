@@ -20,56 +20,49 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public interface LuiPersonRelationCriteriaInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* Name: Field 
-	* Dot path notation to identity the name of field to be compared
-	*/
-	public void setFieldKey(String fieldKey);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* Name: Field 
-	* Dot path notation to identity the name of field to be compared
-	*/
-	public String getFieldKey();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* Name: Criteria 
-	* Value to be compared
-	*/
-	public void setValue(String value);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* Name: Criteria 
-	* Value to be compared
-	*/
-	public String getValue();
-	
-	
-	
+public interface LuiPersonRelationCriteriaInfc {
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * Name: Field
+  * Dot path notation to identity the name of field to be compared
+  */
+ public void setFieldKey(String fieldKey);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * Name: Field
+  * Dot path notation to identity the name of field to be compared
+  */
+ public String getFieldKey();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * Name: Criteria
+  * Value to be compared
+  */
+ public void setValue(String value);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * Name: Criteria
+  * Value to be compared
+  */
+ public String getValue();
 }
 

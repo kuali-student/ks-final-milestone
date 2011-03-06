@@ -15,50 +15,42 @@
  */
 package org.kuali.student.enrollment.common.infc;
 
+public interface TimeAmountInfc {
 
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setAtpDurationTypeKey(String atpDurationTypeKey);
 
-public interface TimeAmountInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setAtpDurationTypeKey(String atpDurationTypeKey);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getAtpDurationTypeKey();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: Integer
-	*
-	* ???
-	*/
-	public void setTimeQuantity(Integer timeQuantity);
-	
-	/**
-	* Get ????
-	*
-	* Type: Integer
-	*
-	* ???
-	*/
-	public Integer getTimeQuantity();
-	
-	
-	
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getAtpDurationTypeKey();
+
+ /**
+  * Set ????
+  *
+  * Type: Integer
+  *
+  * ???
+  */
+ public void setTimeQuantity(Integer timeQuantity);
+
+ /**
+  * Get ????
+  *
+  * Type: Integer
+  *
+  * ???
+  */
+ public Integer getTimeQuantity();
 }
 

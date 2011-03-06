@@ -18,34 +18,29 @@ package org.kuali.student.enrollment.common.infc;
 import java.io.Serializable;
 
 public class AttributeBean
-  implements AttributeInfc, Serializable
-{
+        implements AttributeInfc, Serializable {
 
  private static final long serialVersionUID = 1L;
  private String key;
  private String value;
 
  @Override
- public String getKey ()
- {
+ public String getKey() {
   return key;
  }
 
  @Override
- public String getValue ()
- {
+ public String getValue() {
   return value;
  }
 
  @Override
- public void setKey (String key)
- {
+ public void setKey(String key) {
   this.key = key;
  }
 
  @Override
- public void setValue (String value)
- {
+ public void setValue(String value) {
   this.value = value;
  }
 }

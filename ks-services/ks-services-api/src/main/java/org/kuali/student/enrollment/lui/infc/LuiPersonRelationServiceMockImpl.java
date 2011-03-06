@@ -477,7 +477,7 @@ public class LuiPersonRelationServiceMockImpl implements
   } catch (VersionMismatchException ex) {
    throw new OperationFailedException("id changed between fetch and update", ex);
   }
-  StatusInfc status = new StatusBean ();
+  StatusInfc status = new StatusBean();
   status.setSuccess(Boolean.TRUE);
   return status;
  }

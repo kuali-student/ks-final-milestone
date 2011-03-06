@@ -15,50 +15,42 @@
  */
 package org.kuali.student.enrollment.common.infc;
 
+public interface RichTextInfc {
 
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setPlain(String plain);
 
-public interface RichTextInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setPlain(String plain);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getPlain();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setFormatted(String formatted);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getFormatted();
-	
-	
-	
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getPlain();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setFormatted(String formatted);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getFormatted();
 }
 

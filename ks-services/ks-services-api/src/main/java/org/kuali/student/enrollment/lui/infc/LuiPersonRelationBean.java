@@ -22,8 +22,7 @@ import org.kuali.student.enrollment.common.infc.AttributeInfc;
 import org.kuali.student.enrollment.common.infc.MetaInfc;
 
 public class LuiPersonRelationBean
-  implements LuiPersonRelationInfc, Serializable
-{
+        implements LuiPersonRelationInfc, Serializable {
 
  private static final long serialVersionUID = 1L;
  private String luiId;
@@ -37,8 +36,7 @@ public class LuiPersonRelationBean
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  @Override
- public void setLuiId (String luiId)
- {
+ public void setLuiId(String luiId) {
   this.luiId = luiId;
  }
 
@@ -51,8 +49,7 @@ public class LuiPersonRelationBean
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  @Override
- public String getLuiId ()
- {
+ public String getLuiId() {
   return this.luiId;
  }
  private String personId;
@@ -66,8 +63,7 @@ public class LuiPersonRelationBean
   * Unique identifier for a person record.
   */
  @Override
- public void setPersonId (String personId)
- {
+ public void setPersonId(String personId) {
   this.personId = personId;
  }
 
@@ -80,8 +76,7 @@ public class LuiPersonRelationBean
   * Unique identifier for a person record.
   */
  @Override
- public String getPersonId ()
- {
+ public String getPersonId() {
   return this.personId;
  }
  private Date effectiveDate;
@@ -96,8 +91,7 @@ public class LuiPersonRelationBean
   * expirationDate specified.
   */
  @Override
- public void setEffectiveDate (Date effectiveDate)
- {
+ public void setEffectiveDate(Date effectiveDate) {
   this.effectiveDate = effectiveDate;
  }
 
@@ -111,8 +105,7 @@ public class LuiPersonRelationBean
   * expirationDate specified.
   */
  @Override
- public Date getEffectiveDate ()
- {
+ public Date getEffectiveDate() {
   return this.effectiveDate;
  }
  private Date expirationDate;
@@ -127,8 +120,7 @@ public class LuiPersonRelationBean
   * equal to the effectiveDate specified.
   */
  @Override
- public void setExpirationDate (Date expirationDate)
- {
+ public void setExpirationDate(Date expirationDate) {
   this.expirationDate = expirationDate;
  }
 
@@ -142,8 +134,7 @@ public class LuiPersonRelationBean
   * equal to the effectiveDate specified.
   */
  @Override
- public Date getExpirationDate ()
- {
+ public Date getExpirationDate() {
   return this.expirationDate;
  }
  private List<AttributeInfc> attributes;
@@ -157,8 +148,7 @@ public class LuiPersonRelationBean
   * List of key/value pairs, typically used for dynamic attributes.
   */
  @Override
- public void setAttributes (List<AttributeInfc> attributes)
- {
+ public void setAttributes(List<AttributeInfc> attributes) {
   this.attributes = attributes;
  }
 
@@ -171,8 +161,7 @@ public class LuiPersonRelationBean
   * List of key/value pairs, typically used for dynamic attributes.
   */
  @Override
- public List<AttributeInfc> getAttributes ()
- {
+ public List<AttributeInfc> getAttributes() {
   return this.attributes;
  }
  private MetaInfc metaInfo;
@@ -188,8 +177,7 @@ public class LuiPersonRelationBean
   * maintenance operations.
   */
  @Override
- public void setMetaInfo (MetaInfc metaInfo)
- {
+ public void setMetaInfo(MetaInfc metaInfo) {
   this.metaInfo = metaInfo;
  }
 
@@ -204,8 +192,7 @@ public class LuiPersonRelationBean
   * maintenance operations.
   */
  @Override
- public MetaInfc getMetaInfo ()
- {
+ public MetaInfc getMetaInfo() {
   return this.metaInfo;
  }
  private String type;
@@ -219,8 +206,7 @@ public class LuiPersonRelationBean
   * Unique identifier for the type of LUI to Person relation.
   */
  @Override
- public void setType (String type)
- {
+ public void setType(String type) {
   this.type = type;
  }
 
@@ -233,8 +219,7 @@ public class LuiPersonRelationBean
   * Unique identifier for the type of LUI to Person relation.
   */
  @Override
- public String getType ()
- {
+ public String getType() {
   return this.type;
  }
  private String state;
@@ -248,8 +233,7 @@ public class LuiPersonRelationBean
   * Unique identifier for the state of the relationship between a LUI and person.
   */
  @Override
- public void setState (String state)
- {
+ public void setState(String state) {
   this.state = state;
  }
 
@@ -262,8 +246,7 @@ public class LuiPersonRelationBean
   * Unique identifier for the state of the relationship between a LUI and person.
   */
  @Override
- public String getState ()
- {
+ public String getState() {
   return this.state;
  }
  private String id;
@@ -279,8 +262,7 @@ public class LuiPersonRelationBean
   * created, this should be seen as required.
   */
  @Override
- public void setId (String id)
- {
+ public void setId(String id) {
   this.id = id;
  }
 
@@ -295,8 +277,7 @@ public class LuiPersonRelationBean
   * created, this should be seen as required.
   */
  @Override
- public String getId ()
- {
+ public String getId() {
   return this.id;
  }
 }

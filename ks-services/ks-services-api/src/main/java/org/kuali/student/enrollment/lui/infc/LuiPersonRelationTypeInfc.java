@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
 import java.util.Date;
 import java.util.List;
@@ -28,128 +27,114 @@ import org.kuali.student.enrollment.common.infc.AttributeInfc;
 @XmlRootElement
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public interface LuiPersonRelationTypeInfc
-{
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setName(String name);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getName();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setDescr(String descr);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getDescr();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: Date
-	*
-	* ???
-	*/
-	public void setEffectiveDate(Date effectiveDate);
-	
-	/**
-	* Get ????
-	*
-	* Type: Date
-	*
-	* ???
-	*/
-	public Date getEffectiveDate();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: Date
-	*
-	* ???
-	*/
-	public void setExpirationDate(Date expirationDate);
-	
-	/**
-	* Get ????
-	*
-	* Type: Date
-	*
-	* ???
-	*/
-	public Date getExpirationDate();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type:List<AttributeInfc>
-	*
-	* ???
-	*/
-	public void setAttributes(List<AttributeInfc> attributes);
-	
-	/**
-	* Get ????
-	*
-	* Type: List<AttributeInfc>
-	*
-	* ???
-	*/
-	public List<AttributeInfc> getAttributes();
-	
-	
-	
-	/**
-	* Set ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public void setKey(String key);
-	
-	/**
-	* Get ????
-	*
-	* Type: String
-	*
-	* ???
-	*/
-	public String getKey();
-	
-	
-	
+public interface LuiPersonRelationTypeInfc {
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setName(String name);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getName();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setDescr(String descr);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getDescr();
+
+ /**
+  * Set ????
+  *
+  * Type: Date
+  *
+  * ???
+  */
+ public void setEffectiveDate(Date effectiveDate);
+
+ /**
+  * Get ????
+  *
+  * Type: Date
+  *
+  * ???
+  */
+ public Date getEffectiveDate();
+
+ /**
+  * Set ????
+  *
+  * Type: Date
+  *
+  * ???
+  */
+ public void setExpirationDate(Date expirationDate);
+
+ /**
+  * Get ????
+  *
+  * Type: Date
+  *
+  * ???
+  */
+ public Date getExpirationDate();
+
+ /**
+  * Set ????
+  *
+  * Type:List<AttributeInfc>
+  *
+  * ???
+  */
+ public void setAttributes(List<AttributeInfc> attributes);
+
+ /**
+  * Get ????
+  *
+  * Type: List<AttributeInfc>
+  *
+  * ???
+  */
+ public List<AttributeInfc> getAttributes();
+
+ /**
+  * Set ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public void setKey(String key);
+
+ /**
+  * Get ????
+  *
+  * Type: String
+  *
+  * ???
+  */
+ public String getKey();
 }
 
