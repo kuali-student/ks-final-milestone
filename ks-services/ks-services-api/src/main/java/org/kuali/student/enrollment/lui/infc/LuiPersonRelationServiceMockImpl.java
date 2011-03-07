@@ -189,7 +189,66 @@ public class LuiPersonRelationServiceMockImpl implements
          ContextInfc context)
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException {
-  throw new UnsupportedOperationException("Not supported yet.");
+  // check type is valid
+  this.getLuiPersonRelationTypeEnum(luiPersonRelationType);
+  if (isInstructorType(luiPersonRelationType)) {
+   List<LuiPersonRelationStateInfc> states = new ArrayList(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+   MockImplHelper helper = new MockImplHelper();
+   for (LuiPersonRelationStateInfc state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+    states.add(helper.makeCopy(state));
+   }
+   return states;
+  }
+  if (luiPersonRelationType.equals(LuiPersonRelationTypeEnum.ADVISOR.getKey())) {
+   List<LuiPersonRelationStateInfc> states = new ArrayList(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+   MockImplHelper helper = new MockImplHelper();
+   for (LuiPersonRelationStateInfc state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+    states.add(helper.makeCopy(state));
+   }
+   return states;
+  }
+  if (isStudentCourseType(luiPersonRelationType)) {
+   List<LuiPersonRelationStateInfc> states = new ArrayList(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
+   MockImplHelper helper = new MockImplHelper();
+   for (LuiPersonRelationStateInfc state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+    states.add(helper.makeCopy(state));
+   }
+   return states;
+  }
+  if (isStudentProgramType(luiPersonRelationType)) {
+   List<LuiPersonRelationStateInfc> states = new ArrayList(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
+   MockImplHelper helper = new MockImplHelper();
+   for (LuiPersonRelationStateInfc state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+    states.add(helper.makeCopy(state));
+   }
+   return states;
+  }
+  throw new IllegalArgumentException(luiPersonRelationType);
+ }
+
+ private boolean isInstructorType(String typeKey) {
+  for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
+   if (type.getKey().equals(typeKey)) {
+    return true;
+   }
+  }
+  return false;
+ }
+
+ private boolean isStudentCourseType(String typeKey) {
+  for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
+   if (type.getKey().equals(typeKey)) {
+    return true;
+   }
+  }
+  return false;
+ }
+
+ private boolean isStudentProgramType(String typeKey) {
+  if (LuiPersonRelationTypeEnum.STUDENT.getKey ().equals(typeKey)) {
+   return true;
+  }
+  return false;
  }
 
  @Override
@@ -280,7 +339,12 @@ public class LuiPersonRelationServiceMockImpl implements
  public List<LuiPersonRelationStateInfc> findLuiPersonRelationStates(
          ContextInfc context)
          throws OperationFailedException {
-  throw new UnsupportedOperationException("Not supported yet.");
+  List<LuiPersonRelationStateInfc> states = new ArrayList();
+  MockImplHelper helper = new MockImplHelper();
+  for (LuiPersonRelationStateEnum state : LuiPersonRelationStateEnum.values()) {
+   states.add(helper.makeCopy(state));
+  }
+  return states;
  }
 
  @Override
@@ -296,19 +360,21 @@ public class LuiPersonRelationServiceMockImpl implements
  }
 
  // TODO: Add this method to the service interface
- private LuiPersonRelationTypeInfc getLuiPersonRelationType (String typeKey)
-   throws DoesNotExistException
- {
-  for (LuiPersonRelationTypeInfc type : LuiPersonRelationTypeEnum.values())
-  {
-   if (type.getKey().equals(typeKey))
-   {
-    return new MockImplHelper ().makeCopy(type);
+ private LuiPersonRelationTypeEnum getLuiPersonRelationTypeEnum(String typeKey)
+         throws DoesNotExistException {
+  for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.values()) {
+   if (type.getKey().equals(typeKey)) {
+    return type;
    }
   }
-  throw new DoesNotExistException (typeKey);
+  throw new DoesNotExistException(typeKey);
  }
 
+ // TODO: Add this method to the service interface
+ private LuiPersonRelationTypeInfc getLuiPersonRelationType(String typeKey)
+         throws DoesNotExistException {
+  return new MockImplHelper().makeCopy(this.getLuiPersonRelationTypeEnum(typeKey));
+ }
 
  @Override
  public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypesForLuiPersonRelation(
