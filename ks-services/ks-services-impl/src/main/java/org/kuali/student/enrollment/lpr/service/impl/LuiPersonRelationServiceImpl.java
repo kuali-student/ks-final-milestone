@@ -27,6 +27,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao;
 import org.kuali.student.enrollment.lpr.dto.ContextInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -39,11 +40,22 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 /**
  *
  * @Author sambit
- * @since 
+ * @since
   *
  */
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService  {
-	
+
+    private LuiPersonRelationDao personRelationDao;
+
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
+            String luiId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 	@Override
 	public List<String> createBulkRelationshipsForPerson(String personId,
 			List<String> luiIdList, String relationState,
@@ -205,15 +217,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService  {
 	}
 
 	@Override
-	public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
-			String luiId, ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(
 			String personId, ContextInfo context) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
@@ -316,6 +319,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService  {
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
-	} 
+	}
 
+    public void setPersonRelationDao(LuiPersonRelationDao personRelationDao) {
+        this.personRelationDao = personRelationDao;
+    }
 }
