@@ -46,7 +46,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/atp") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService { 
+public interface LuiPersonRelationService {
     /** 
      * Retrieves the list of LUIPersonRelation types
      * @param context Context information containing the principalId and locale information about the caller of service operation
