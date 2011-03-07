@@ -2,11 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       <bean name="personRelationConverter" class="org.kuali.student.enrollment.lpr.conversion.PersonRelationConverter">
 
-    <import resource="classpath:services.xml"/>
-
-    <bean name="dataLoader" class="org.kuali.student.enrollment.lpr.test.utilities.DataLoader">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
-
+       </bean>
 </beans>
