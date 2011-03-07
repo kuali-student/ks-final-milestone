@@ -12,7 +12,6 @@
         <class>org.kuali.student.enrollment.lpr.model.DynamicAttribute</class>
         <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelation</class>
         <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationState</class>
-        <class>org.kuali.student.enrollment.lpr.model.LuiStateTypeBase</class>
         <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationType</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

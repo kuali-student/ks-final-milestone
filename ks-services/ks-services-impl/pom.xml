@@ -23,17 +23,14 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-api</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -42,53 +39,24 @@
             <artifactId>ks-services-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Spring framework -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
-            <version>2.5.6</version>
-        </dependency>
-
-        <!-- AOP dependency -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.5.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.1</version>
-        </dependency>
-
     </dependencies>
 
 </project>
