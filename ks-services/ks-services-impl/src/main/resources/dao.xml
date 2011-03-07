@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="persistentUnit"/>
-    </bean>
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+    <property name="persistenceUnitName" value="persistentUnit" />
+  </bean>
 
-    <bean id="luiPersonRelationDao" class="org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+  <bean id="luiPersonRelationDao" class="org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+  </bean>
 
 </beans>
