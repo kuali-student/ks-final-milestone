@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.kuali</groupId>
-		<artifactId>kuali</artifactId>
-		<version>75</version>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>student</artifactId>
+		<version>1.2-SNAPSHOT</version>
 	</parent>
 	<groupId>org.kuali.student.poc.rules</groupId>
 	<artifactId>ks-rules</artifactId>
@@ -18,9 +18,22 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-impl</artifactId>
+			<version>1.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.common</groupId>
+			<artifactId>ks-common-test</artifactId>
+			<version>1.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-impl</artifactId>
+			<version>1.2-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -27,12 +27,20 @@ import org.kuali.rice.krms.engine.impl.BasicContext;
 import org.kuali.rice.krms.engine.impl.BasicRule;
 import org.kuali.rice.krms.engine.impl.ComparableTermBasedProposition;
 import org.kuali.rice.krms.engine.impl.CompoundProposition;
-import org.kuali.rice.krms.engine.impl.ResultLogger;
 import org.kuali.rice.krms.engine.impl.ProviderBasedEngine;
+import org.kuali.rice.krms.engine.impl.ResultLogger;
+import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.lum.course.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class KRMSTest {
 	private static final ResultLogger LOG = ResultLogger.getInstance();
-
+	
+    @Autowired
+    CourseService courseService;
+    @Autowired
+    StatementService statementService;
+    
 	@Test
 	public void integrationTest() {
 
