@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DisabledIdentifierException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -289,8 +287,28 @@ public class LuiPersonRelationServiceMockImpl implements
  public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypes(
          ContextInfc context)
          throws OperationFailedException {
-  throw new UnsupportedOperationException("Not supported yet.");
+  List<LuiPersonRelationTypeInfc> types = new ArrayList();
+  MockImplHelper helper = new MockImplHelper();
+  for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.values()) {
+   types.add(helper.makeCopy(type));
+  }
+  return types;
  }
+
+ // TODO: Add this method to the service interface
+ private LuiPersonRelationTypeInfc getLuiPersonRelationType (String typeKey)
+   throws DoesNotExistException
+ {
+  for (LuiPersonRelationTypeInfc type : LuiPersonRelationTypeEnum.values())
+  {
+   if (type.getKey().equals(typeKey))
+   {
+    return new MockImplHelper ().makeCopy(type);
+   }
+  }
+  throw new DoesNotExistException (typeKey);
+ }
+
 
  @Override
  public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypesForLuiPersonRelation(
@@ -301,7 +319,22 @@ public class LuiPersonRelationServiceMockImpl implements
          throws DoesNotExistException, DisabledIdentifierException,
          InvalidParameterException, MissingParameterException,
          OperationFailedException, PermissionDeniedException {
-  throw new UnsupportedOperationException("Not supported yet.");
+  // TODO: reevaluate if this method is needed -- I can see no use case for it
+  Map<String, LuiPersonRelationTypeInfc> types = new HashMap();
+  for (LuiPersonRelationInfc lpr : this.luiPersonRelationInfcCache.values()) {
+   if (!lpr.getPersonId().equals(personId)) {
+    continue;
+   }
+   if (!lpr.getLuiId().equals(luiId)) {
+    continue;
+   }
+   if (!lpr.getState().equals(relationState)) {
+    continue;
+   }
+   LuiPersonRelationTypeInfc type = this.getLuiPersonRelationType(lpr.getType());
+   types.put(type.getKey(), type);
+  }
+  return new ArrayList(types.values());
  }
 
  @Override

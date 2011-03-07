@@ -39,6 +39,17 @@ public class MockImplHelper {
   return copy;
  }
 
+ public LuiPersonRelationTypeInfc makeCopy (LuiPersonRelationTypeInfc orig)
+ {
+  if (orig == null) {
+   return null;
+  }
+  LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeBean ();
+  BeanUtils.copyProperties(orig, copy);
+  copy.setAttributes(makeCopy (orig.getAttributes()));
+  return copy;
+ }
+
  public AttributeInfc makeCopy(AttributeInfc orig) {
   if (orig == null) {
    return null;
