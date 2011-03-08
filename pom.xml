@@ -134,7 +134,7 @@
 
         <ks.deploy.impex.dba.password>gw570229</ks.deploy.impex.dba.password>
 
-        <ks.deploy.local.war.file>${project.basedir}/ks-web/ks-embedded/target/ks-embedded-${project.version}.war</ks.deploy.local.war.file>
+        <ks.deploy.local.war.file>${project.build.directory}/${project.artifactId}-${project.version}.${project.packaging}</ks.deploy.local.war.file>
         <ks.deploy.local.config.file>${project.basedir}/ks-embedded-config-${ks.deploy.environment.name}.xml</ks.deploy.local.config.file>
         <ks.deploy.embedded.config><![CDATA[
       <config>
