@@ -118,7 +118,7 @@
       </properties>
     </profile>
     <profile>
-      <id>deploy-app</id>
+      <id>deploy-embedded</id>
       <properties>
         <ks.deploy.ssh.path>/usr/bin/ssh</ks.deploy.ssh.path>
         <ks.deploy.scp.path>/usr/bin/scp</ks.deploy.scp.path>
