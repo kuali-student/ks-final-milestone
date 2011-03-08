@@ -56,7 +56,7 @@ public class LuiPersonRelationAdapter
      * @return the underlying provider
      */
 
-    protected LuiPersonRelationServiceInfc getProvider()
+    public LuiPersonRelationServiceInfc getProvider()
 	throws OperationFailedException {
 	
 	if (this.service == null) {
@@ -73,7 +73,7 @@ public class LuiPersonRelationAdapter
      * @param provider the underlying provider
      */
 
-    protected void setProvider(LuiPersonRelationServiceInfc provider) {
+    public void setProvider(LuiPersonRelationServiceInfc provider) {
 	this.service = provider;
 	return;
     }
