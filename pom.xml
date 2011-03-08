@@ -131,6 +131,7 @@
         <ks.deploy.remote.tomcat.cleanup>${ks.deploy.remote.tomcat.home}/bin/cleanup.sh</ks.deploy.remote.tomcat.cleanup>
         <ks.deploy.remote.tomcat.startup>${ks.deploy.remote.tomcat.home}/bin/startup.sh</ks.deploy.remote.tomcat.startup>
         <ks.deploy.remote.tomcat.shutdown>${ks.deploy.remote.tomcat.home}/bin/forced-shutdown.sh</ks.deploy.remote.tomcat.shutdown>
+        <ks.deploy.impex.dir>${project.basedir}/ks-cfg-dbs/ks-embedded-db</ks.deploy.impex.dir>
 
         <ks.deploy.impex.dba.password>gw570229</ks.deploy.impex.dba.password>
 
@@ -250,7 +251,7 @@
                 </goals>
                 <configuration>
                   <executable>${ks.deploy.mvn.path}</executable>
-                  <workingDirectory>${ks.hudson.ks-embedded-db.dir}</workingDirectory>
+                  <workingDirectory>${ks.deploy.impex.dir}</workingDirectory>
                   <arguments>
                     <argument>clean</argument>
                     <argument>install</argument>
