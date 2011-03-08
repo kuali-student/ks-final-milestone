@@ -13,7 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.adapter.authorization;
+package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
 import java.util.List;
 
@@ -37,17 +37,16 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
 /**
- * A example of an adapter that might sit at the top of the stack and converts any
- * runtime exceptions into the formal OperationFailedException
- *
- * This could be genrated automatically from the contract definitions too.
+ * A example of an adaptor that could be generated from the contract defintions
+ * to do the drudge work of checking for missing parameters.
  *
  * @Author Norm
  */
-public class LuiPersonRelationRuntimeExceptionCatcherAdapter
+public class LuiPersonRelationMissingParameterCheckerAdapter
         extends LuiPersonRelationAdapter
         implements LuiPersonRelationServiceInfc {
 
+ 
  @Override
  public String createLuiPersonRelation(String personId, String luiId,
          String luiPersonRelationType,
@@ -57,15 +56,17 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
          DisabledIdentifierException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException {
-  try {
+   checkParameter("personId", personId);
+   checkParameter("luiId", luiId);
+   checkParameter("luiPersonRelationType", luiPersonRelationType);
+   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+   checkParameter("context", context);
    return (getProvider().createLuiPersonRelation(personId, luiId,
            luiPersonRelationType,
            luiPersonRelationInfo,
            context));
-  } catch (RuntimeException ex) {
-   throw new OperationFailedException("Got RuntimeException", ex);
-  }
  }
+
 
  @Override
  public List<String> createBulkRelationshipsForPerson(String personId,
@@ -79,15 +80,17 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
          MissingParameterException, OperationFailedException,
          PermissionDeniedException {
 
-  try {
+   checkParameter("personId", personId);
+   checkParameter("luiIdList", luiIdList);
+   checkParameter("luiIdList", luiIdList);
+   checkParameter("relationState", relationState);
+   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+   checkParameter("context", context);
    return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
            relationState,
            luiPersonRelationType,
            luiPersonRelationInfo,
            context));
-  } catch (RuntimeException ex) {
-   throw new OperationFailedException("Got RuntimeException", ex);
-  }
  }
 
  @Override
@@ -97,14 +100,14 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, ReadOnlyException, OperationFailedException,
          PermissionDeniedException, VersionMismatchException {
-  try {
+   checkParameter("luiPersonRelationId", luiPersonRelationId);
+   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+   checkParameter("context", context);
    return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
            luiPersonRelationInfo,
            context));
-  } catch (RuntimeException ex) {
-   throw new OperationFailedException("Got RuntimeException", ex);
-  }
  }
+
 
  @Override
  public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
@@ -112,12 +115,11 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
          DoesNotExistException, InvalidParameterException, MissingParameterException,
          OperationFailedException,
          PermissionDeniedException {
-  try {
+   checkParameter("luiPersonRelationId", luiPersonRelationId);
+   checkParameter("context", context);
    return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
-  } catch (RuntimeException ex) {
-   throw new OperationFailedException("Got RuntimeException", ex);
-  }
  }
+
 
  @Override
  public StatusInfc updateRelationState(String luiPersonRelationId,
@@ -126,11 +128,19 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException, ReadOnlyException {
-  try {
+   checkParameter("luiPersonRelationId", luiPersonRelationId);
+   checkParameter("relationState", relationState);
+   checkParameter("context", context);
    return (getProvider().updateRelationState(luiPersonRelationId,
            relationState, context));
-  } catch (RuntimeException ex) {
-   throw new OperationFailedException("Got RuntimeException", ex);
+ }
+
+
+ protected void checkParameter(String parameterName, Object parameter)
+         throws MissingParameterException {
+
+  if (parameter == null) {
+   throw new MissingParameterException (parameterName);
   }
  }
 }

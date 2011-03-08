@@ -13,11 +13,9 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.adapter.authorization;
+package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.kuali.student.common.infc.ContextBean;
 
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DisabledIdentifierException;
@@ -26,12 +24,12 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.ReadOnlyException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 
 
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
@@ -39,48 +37,16 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
 /**
- * A example of an adaptor that will default the context if not supplied based
- * on the requset.
+ * A example of an adapter that might sit at the top of the stack and converts any
+ * runtime exceptions into the formal OperationFailedException
  *
- * This could be generated from the contract definitions as well.
+ * This could be genrated automatically from the contract definitions too.
  *
  * @Author Norm
  */
-public class LuiPersonRelationDefaultContextFromRequestAdapter
+public class LuiPersonRelationRuntimeExceptionCatcherAdapter
         extends LuiPersonRelationAdapter
         implements LuiPersonRelationServiceInfc {
-
- private HttpServletRequest request;
-
- // TODO: add logic to the servlet to actually set this variable because it cannot be configured
- public HttpServletRequest getRequest() {
-  return request;
- }
-
- public void setRequest(HttpServletRequest request) {
-  this.request = request;
- }
-
- private ContextInfc defaultContext(ContextInfc context) {
-  if (context == null) {
-   context = new ContextBean();
-  }
-  if (context.getPrincipalId() == null) {
-   context.setPrincipalId(request.getRemoteUser());
-  }
-  if (context.getLocaleLanguage() == null) {
-   context.setLocaleLanguage(request.getLocale().getLanguage());
-  }
-  // TODO: check if Region and country are supposed to the same thing
-  if (context.getLocaleRegion() == null) {
-   context.setLocaleLanguage(request.getLocale().getCountry());
-  }
-  if (context.getLocaleVariant() == null) {
-   context.setLocaleLanguage(request.getLocale().getVariant());
-  }
-  // TODO: default script from the character set
-  return context;
- }
 
  @Override
  public String createLuiPersonRelation(String personId, String luiId,
@@ -91,11 +57,14 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
          DisabledIdentifierException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException {
-  context = defaultContext(context);
-  return (getProvider().createLuiPersonRelation(personId, luiId,
-          luiPersonRelationType,
-          luiPersonRelationInfo,
-          context));
+  try {
+   return (getProvider().createLuiPersonRelation(personId, luiId,
+           luiPersonRelationType,
+           luiPersonRelationInfo,
+           context));
+  } catch (RuntimeException ex) {
+   throw new OperationFailedException("Got RuntimeException", ex);
+  }
  }
 
  @Override
@@ -109,12 +78,16 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
          DisabledIdentifierException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException {
-  context = defaultContext(context);
-  return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
-          relationState,
-          luiPersonRelationType,
-          luiPersonRelationInfo,
-          context));
+
+  try {
+   return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
+           relationState,
+           luiPersonRelationType,
+           luiPersonRelationInfo,
+           context));
+  } catch (RuntimeException ex) {
+   throw new OperationFailedException("Got RuntimeException", ex);
+  }
  }
 
  @Override
@@ -124,10 +97,13 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, ReadOnlyException, OperationFailedException,
          PermissionDeniedException, VersionMismatchException {
-  context = defaultContext(context);
-  return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
-          luiPersonRelationInfo,
-          context));
+  try {
+   return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
+           luiPersonRelationInfo,
+           context));
+  } catch (RuntimeException ex) {
+   throw new OperationFailedException("Got RuntimeException", ex);
+  }
  }
 
  @Override
@@ -136,8 +112,11 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
          DoesNotExistException, InvalidParameterException, MissingParameterException,
          OperationFailedException,
          PermissionDeniedException {
-  context = defaultContext(context);
-  return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+  try {
+   return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+  } catch (RuntimeException ex) {
+   throw new OperationFailedException("Got RuntimeException", ex);
+  }
  }
 
  @Override
@@ -147,8 +126,11 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException, ReadOnlyException {
-  context = defaultContext(context);
-  return (getProvider().updateRelationState(luiPersonRelationId,
-          relationState, context));
+  try {
+   return (getProvider().updateRelationState(luiPersonRelationId,
+           relationState, context));
+  } catch (RuntimeException ex) {
+   throw new OperationFailedException("Got RuntimeException", ex);
+  }
  }
 }
