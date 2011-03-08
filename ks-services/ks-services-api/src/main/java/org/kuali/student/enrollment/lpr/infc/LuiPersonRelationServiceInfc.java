@@ -16,9 +16,10 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlSeeAlso;
+
+import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.common.infc.StatusInfc;
+import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DisabledIdentifierException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -28,14 +29,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.ContextBean;
-import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.common.infc.ValidationResultInfc;
 
-@WebService(name = "LuiPersonRelationServiceInfc", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelationServiceInfc")
-@XmlSeeAlso({ContextBean.class, LuiPersonRelationBean.class, LuiPersonRelationCriteriaBean.class, LuiPersonRelationStateBean.class, LuiPersonRelationTypeBean.class})
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationServiceInfc {
 
  /**

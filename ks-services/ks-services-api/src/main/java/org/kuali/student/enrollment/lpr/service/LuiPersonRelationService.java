@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
 
 /**
  * @Author Kamal
@@ -46,7 +47,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/atp") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService {
+public interface LuiPersonRelationService extends LuiPersonRelationServiceInfc {
 
     /** 
      * Retrieves the list of LUIPersonRelation types
