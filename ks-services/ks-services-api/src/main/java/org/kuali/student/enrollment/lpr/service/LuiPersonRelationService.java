@@ -488,6 +488,6 @@ public interface LuiPersonRelationService {
      * @throws PermissionDeniedException authorization failure
      */
 
-    public StatusInfo updateRelationState(@WebParam(name="luiPersonRelationId")String luiPersonRelationId, @WebParam(name="relationState")LuiPersonRelationStateInfo relationState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo updateRelationState(@WebParam(name="luiPersonRelationId")String luiPersonRelationId, @WebParam(name="relationState")LuiPersonRelationStateInfo relationState, @WebParam(name="context")ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
