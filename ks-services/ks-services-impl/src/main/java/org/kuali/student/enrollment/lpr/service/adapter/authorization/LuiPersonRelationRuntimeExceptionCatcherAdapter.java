@@ -37,10 +37,12 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
 /**
- * A example of an authorization adapter that extends the adapter
- * template and inserts some example authorization calls.
+ * A example of an adapter that might sit at the top of the stack and converts any
+ * runtime exceptions into the formal OperationFailedException
  *
- * @Author Tom
+ * This could be genrated automatically from the contract definitions too.
+ *
+ * @Author Norm
  */
 public class LuiPersonRelationRuntimeExceptionCatcherAdapter
         extends LuiPersonRelationAdapter
