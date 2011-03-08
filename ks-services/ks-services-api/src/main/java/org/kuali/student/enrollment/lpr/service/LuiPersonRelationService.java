@@ -47,7 +47,7 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
 
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/atp") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService extends LuiPersonRelationServiceInfc {
+public interface LuiPersonRelationService {
 
     /** 
      * Retrieves the list of LUIPersonRelation types
