@@ -336,7 +336,7 @@
         <ks.deploy.remote.public.url>${ks.deploy.remote.hostname}</ks.deploy.remote.public.url>
         <ks.deploy.remote.tomcat.home>/usr/local/tomcat</ks.deploy.remote.tomcat.home>
         <ks.deploy.remote.config.file>${ks.deploy.remote.tomcat.home}/kuali/main/dev/ks-embedded-config.xml</ks.deploy.remote.config.file>
-        <ks.deploy.impex.url>jdbc:oracle:thin:@demo.ks.kuali.org:1521:KS</ks.deploy.impex.url>
+        <ks.deploy.impex.url>jdbc:oracle:thin:@${ks.deploy.remote.hostname}:1521:KS</ks.deploy.impex.url>
         <ks.deploy.impex.username>KSDEMO</ks.deploy.impex.username>
         <ks.deploy.impex.password>KSDEMO</ks.deploy.impex.password>
       </properties>
