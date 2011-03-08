@@ -43,7 +43,7 @@ import org.kuali.student.core.versionmanagement.service.VersionManagementService
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 
-import org.kuali.student.enrollment.lpr.dto.ContextInfo;
+import org.kuali.student.common.dto.ContextInfo;
 
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lui.infc;
+package org.kuali.student.enrollment.lpr.infc;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.MetaInfc;
 
-public class LuiLuiRelationBean
-        implements LuiLuiRelationInfc, Serializable {
+public class LuiPersonRelationBean
+        implements LuiPersonRelationInfc, Serializable {
 
  private static final long serialVersionUID = 1L;
  private String luiId;
@@ -32,6 +32,7 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
+  * Name: LUI
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  @Override
@@ -44,24 +45,26 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
+  * Name: LUI
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  @Override
  public String getLuiId() {
   return this.luiId;
  }
- private String relatedLuiId;
+ private String personId;
 
  /**
   * Set ????
   *
   * Type: String
   *
-  * Unique identifier for a Learning Unit Instance (LUI).
+  * Name: Person
+  * Unique identifier for a person record.
   */
  @Override
- public void setRelatedLuiId(String relatedLuiId) {
-  this.relatedLuiId = relatedLuiId;
+ public void setPersonId(String personId) {
+  this.personId = personId;
  }
 
  /**
@@ -69,11 +72,12 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * Unique identifier for a Learning Unit Instance (LUI).
+  * Name: Person
+  * Unique identifier for a person record.
   */
  @Override
- public String getRelatedLuiId() {
-  return this.relatedLuiId;
+ public String getPersonId() {
+  return this.personId;
  }
  private Date effectiveDate;
 
@@ -82,10 +86,9 @@ public class LuiLuiRelationBean
   *
   * Type: Date
   *
-  * Date and time that this LUI to LUI relationship type
-  * effective. This is a similar concept to the effective date
-  * enumerated values. When an expiration date has been
-  * this field must be less than or equal to the expiration date.
+  * Name:Effective
+  * Date/time this relationship became effective. Must be less than or equal to the
+  * expirationDate specified.
   */
  @Override
  public void setEffectiveDate(Date effectiveDate) {
@@ -97,10 +100,9 @@ public class LuiLuiRelationBean
   *
   * Type: Date
   *
-  * Date and time that this LUI to LUI relationship type
-  * effective. This is a similar concept to the effective date
-  * enumerated values. When an expiration date has been
-  * this field must be less than or equal to the expiration date.
+  * Name:Effective
+  * Date/time this relationship became effective. Must be less than or equal to the
+  * expirationDate specified.
   */
  @Override
  public Date getEffectiveDate() {
@@ -113,12 +115,9 @@ public class LuiLuiRelationBean
   *
   * Type: Date
   *
-  * Date and time that this LUI to LUI relationship
-  * expires. This is a similar concept to the expiration date
-  * enumerated values. If specified, this should be greater than
-  * equal to the effective date. If this field is not
-  * then no expiration date has been currently defined and
-  * automatically be considered greater than the effective date.
+  * Name: Expiration
+  * Date/time this relationship is no longer effective. Must be greater than or
+  * equal to the effectiveDate specified.
   */
  @Override
  public void setExpirationDate(Date expirationDate) {
@@ -130,12 +129,9 @@ public class LuiLuiRelationBean
   *
   * Type: Date
   *
-  * Date and time that this LUI to LUI relationship
-  * expires. This is a similar concept to the expiration date
-  * enumerated values. If specified, this should be greater than
-  * equal to the effective date. If this field is not
-  * then no expiration date has been currently defined and
-  * automatically be considered greater than the effective date.
+  * Name: Expiration
+  * Date/time this relationship is no longer effective. Must be greater than or
+  * equal to the effectiveDate specified.
   */
  @Override
  public Date getExpirationDate() {
@@ -148,6 +144,7 @@ public class LuiLuiRelationBean
   *
   * Type: List<AttributeInfc>
   *
+  * Name: Generic/dynamic
   * List of key/value pairs, typically used for dynamic attributes.
   */
  @Override
@@ -160,6 +157,7 @@ public class LuiLuiRelationBean
   *
   * Type: List<AttributeInfc>
   *
+  * Name: Generic/dynamic
   * List of key/value pairs, typically used for dynamic attributes.
   */
  @Override
@@ -173,9 +171,10 @@ public class LuiLuiRelationBean
   *
   * Type: MetaInfo
   *
-  * Create and last update info for the structure. This is
-  * and treated as read only since the data is set by the
-  * of the service during maintenance operations.
+  * Name: Create/Update meta
+  * Create and last update info for the structure. This is optional and treated as
+  * read only since the data is set by the internals of the service during
+  * maintenance operations.
   */
  @Override
  public void setMetaInfo(MetaInfc metaInfo) {
@@ -187,9 +186,10 @@ public class LuiLuiRelationBean
   *
   * Type: MetaInfo
   *
-  * Create and last update info for the structure. This is
-  * and treated as read only since the data is set by the
-  * of the service during maintenance operations.
+  * Name: Create/Update meta
+  * Create and last update info for the structure. This is optional and treated as
+  * read only since the data is set by the internals of the service during
+  * maintenance operations.
   */
  @Override
  public MetaInfc getMetaInfo() {
@@ -202,7 +202,8 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * Unique identifier for the LU to LU relation type.
+  * Name: LUI Person Relation
+  * Unique identifier for the type of LUI to Person relation.
   */
  @Override
  public void setType(String type) {
@@ -214,7 +215,8 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * Unique identifier for the LU to LU relation type.
+  * Name: LUI Person Relation
+  * Unique identifier for the type of LUI to Person relation.
   */
  @Override
  public String getType() {
@@ -227,10 +229,8 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * The current status of the LUI to LUI relationship. The
-  * for this field are constrained to those in
-  * luLuRelationState enumeration. A separate setup operation
-  * not exist for retrieval of the meta data around this value.
+  * Name: Relation
+  * Unique identifier for the state of the relationship between a LUI and person.
   */
  @Override
  public void setState(String state) {
@@ -242,10 +242,8 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * The current status of the LUI to LUI relationship. The
-  * for this field are constrained to those in
-  * luLuRelationState enumeration. A separate setup operation
-  * not exist for retrieval of the meta data around this value.
+  * Name: Relation
+  * Unique identifier for the state of the relationship between a LUI and person.
   */
  @Override
  public String getState() {
@@ -258,9 +256,10 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * Unique identifier for a LUI to LUI relation. This is
-  * due to the identifier being set at the time of creation.
-  * the relation has been created, this should be seen as required.
+  * Name: LUI Person Relation
+  * Unique identifier for the LUI to Person relation. This is optional, due to the
+  * identifier being set at the time of creation. Once the relation has been
+  * created, this should be seen as required.
   */
  @Override
  public void setId(String id) {
@@ -272,9 +271,10 @@ public class LuiLuiRelationBean
   *
   * Type: String
   *
-  * Unique identifier for a LUI to LUI relation. This is
-  * due to the identifier being set at the time of creation.
-  * the relation has been created, this should be seen as required.
+  * Name: LUI Person Relation
+  * Unique identifier for the LUI to Person relation. This is optional, due to the
+  * identifier being set at the time of creation. Once the relation has been
+  * created, this should be seen as required.
   */
  @Override
  public String getId() {

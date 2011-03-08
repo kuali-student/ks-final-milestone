@@ -26,8 +26,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.enrollment.common.infc.StatusInfc;
-import org.kuali.student.enrollment.common.infc.ValidationResultInfc;
+import org.kuali.student.common.infc.StatusInfc;
+import org.kuali.student.common.infc.ValidationResultInfc;
 
 public interface LuiServiceInfc {
 

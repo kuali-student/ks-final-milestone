@@ -58,7 +58,7 @@ import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 
-import org.kuali.student.enrollment.lpr.dto.ContextInfo;
+import org.kuali.student.common.dto.ContextInfo;
 
 
 /**

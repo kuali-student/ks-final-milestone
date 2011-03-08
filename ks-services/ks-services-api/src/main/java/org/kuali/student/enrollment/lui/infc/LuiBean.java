@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.lui.infc;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.common.infc.AttributeInfc;
-import org.kuali.student.enrollment.common.infc.MetaInfc;
+import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.MetaInfc;
 
 public class LuiBean
         implements LuiInfc, Serializable {
