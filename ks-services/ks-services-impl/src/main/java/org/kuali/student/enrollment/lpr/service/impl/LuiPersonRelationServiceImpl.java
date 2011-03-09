@@ -57,8 +57,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO stub mock impl
+    	List<String> bulkRelationshipValues = new ArrayList<String> ();
+		
+		bulkRelationshipValues.add(personId);
+		
+		System.out.print("created bulk records");
+		
+		return bulkRelationshipValues;
+
     }
 
     @Override
