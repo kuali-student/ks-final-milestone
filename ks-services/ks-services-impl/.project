@@ -1,0 +1,29 @@
+<projectDescription>
+  <name>ks-services-impl</name>
+  <comment>Kuali is a community of universities, colleges, businesses, and other
+    organizations that have partnered to build and
+    sustain open-source administrative software for higher education, by higher
+    education. Kuali software is designed to
+    meet the needs of all sizes of institutions, from land-grant research
+    universities to community colleges. The members
+    of the Kuali Community share a common vision of open, modular, and
+    distributed systems for their software requirements.
+    Kuali software is released under the Educational Community License. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.maven.ide.eclipse.maven2Builder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.springframework.ide.eclipse.core.springbuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.springframework.ide.eclipse.core.springnature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>org.maven.ide.eclipse.maven2Nature</nature>
+  </natures>
+</projectDescription>
