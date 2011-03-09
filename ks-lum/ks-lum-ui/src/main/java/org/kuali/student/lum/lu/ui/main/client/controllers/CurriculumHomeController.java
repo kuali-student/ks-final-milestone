@@ -1,9 +1,5 @@
 package org.kuali.student.lum.lu.ui.main.client.controllers;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.Window;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -15,12 +11,17 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalContr
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
+import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.user.client.Window;
 
 /**
  * Curriculum home controller which controls the main LayoutController views of the lum application.  The
@@ -57,6 +58,7 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
+    private LayoutController dependencyAnalysisController;
     private MajorManager majorManager = new MajorManager();
     private CredentialManager credentialManager = new CredentialManager();
     private CoreManager coreManager = new CoreManager();
@@ -86,7 +88,8 @@ public class CurriculumHomeController extends LayoutController {
         BACC_PROGRAM_VERSIONS,
         CORE_PROGRAM_VIEW,
         CORE_PROGRAM_EDIT,
-        CORE_PROGRAM_VERSIONS
+        CORE_PROGRAM_VERSIONS,
+        DEPENDENCY_ANALYSIS
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -277,6 +280,14 @@ public class CurriculumHomeController extends LayoutController {
                     }
                 });
                 break;
+            case DEPENDENCY_ANALYSIS:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(getDependencyAnalysisController());
+                    }
+                });
+                break;
             default:
                 callback.exec(home);
         }
@@ -307,6 +318,11 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController getBrowseCatalogController() {
         browseCatalogController = new CatalogBrowserController(this);
         return browseCatalogController;
+    }
+
+    private LayoutController getDependencyAnalysisController() {
+    	dependencyAnalysisController = new DependencyAnalysisController("DependencyAnalaysis");
+        return dependencyAnalysisController;
     }
 
     @Override
