@@ -40,7 +40,6 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateEnum;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeEnum;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
-import org.kuali.student.enrollment.lpr.infc.CopierHelper;
 
 import org.kuali.student.enrollment.lui.infc.LuiInfc;
 import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
@@ -104,6 +103,9 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
   CopierHelper helper = new CopierHelper();
   LuiPersonRelationInfc copy = helper.makeCopy(luiPersonRelationInfo);
   copy.setId(UUID.randomUUID().toString());
+  copy.setPersonId(personId);
+  copy.setLuiId(luiId);
+  copy.setType(luiPersonRelationType);
   copy.setMetaInfo(helper.createMeta(context));
   this.luiPersonRelationInfcCache.put(copy.getId(), copy);
   return copy.getId();
@@ -133,6 +135,10 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
          PermissionDeniedException {
   LuiPersonRelationInfc bean = this.luiPersonRelationInfcCache.get(
           luiPersonRelationId);
+  if (bean == null)
+  {
+   throw new DoesNotExistException (luiPersonRelationId);
+  }
   return bean;
  }
 
@@ -570,7 +576,8 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
            + existing.getMetaInfo().getVersionInd());
   }
   copy.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
-  return copy;
+  this.luiPersonRelationInfcCache.put(luiPersonRelationId, copy);
+  return helper.makeCopy(copy);
  }
 
  @Override

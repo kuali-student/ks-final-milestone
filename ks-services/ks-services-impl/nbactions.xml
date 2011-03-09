@@ -10,4 +10,11 @@
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-install update snapshots</actionName>
+            <displayName>install update snapshots</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+        </action>
     </actions>
