@@ -15,17 +15,13 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.config;
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceMockImpl;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 import org.kuali.student.enrollment.lpr.service.adapter.authorization.LuiPersonRelationAuthorizationAdapter;
 import org.kuali.student.enrollment.lpr.service.adapter.checker.LuiPersonRelationRuntimeExceptionCatcherAdapter;
-
+import org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceMockPersistenceImpl;
 
 /**
  * A example of an adapter that might sit at the top of the stack and converts any
@@ -35,8 +31,8 @@ import org.kuali.student.enrollment.lpr.service.adapter.checker.LuiPersonRelatio
  *
  * @Author Norm
  */
-public class ExampleLuiPersonRelationAdaptorConfigurer
- {
+public class ExampleLuiPersonRelationAdaptorConfigurer {
+
  private List<LuiPersonRelationAdapter> adapters;
  private LuiPersonRelationServiceInfc bottom;
 
@@ -56,43 +52,37 @@ public class ExampleLuiPersonRelationAdaptorConfigurer
   this.bottom = bottom;
  }
 
-
- public LuiPersonRelationServiceInfc configure ()
- {
+ public LuiPersonRelationServiceInfc configure() {
   int i = 0;
   LuiPersonRelationAdapter top = this.adapters.get(i);
   LuiPersonRelationAdapter current = top;
-  for (i = 1; i < this.adapters.size (); i++)
-  {
-    current.setProvider(this.adapters.get(i));
-    current = this.adapters.get(i);
-   }
+  for (i = 1; i < this.adapters.size(); i++) {
+   current.setProvider(this.adapters.get(i));
+   current = this.adapters.get(i);
+  }
   current.setProvider(bottom);
   return top;
  }
 
- public static List<LuiPersonRelationAdapter> getStandardAdapters ()
- {
-   List<LuiPersonRelationAdapter> adapters = new ArrayList ();
-  adapters.add(new LuiPersonRelationRuntimeExceptionCatcherAdapter ());
-  adapters.add(new LuiPersonRelationRuntimeExceptionCatcherAdapter ());
-  adapters.add(new LuiPersonRelationAuthorizationAdapter ());
+ public static List<LuiPersonRelationAdapter> getStandardAdapters() {
+  List<LuiPersonRelationAdapter> adapters = new ArrayList();
+  adapters.add(new LuiPersonRelationRuntimeExceptionCatcherAdapter());
+  adapters.add(new LuiPersonRelationRuntimeExceptionCatcherAdapter());
+  adapters.add(new LuiPersonRelationAuthorizationAdapter());
   return adapters;
  }
 
-  public static LuiPersonRelationServiceInfc getReal ()
- {
-  ExampleLuiPersonRelationAdaptorConfigurer config = new ExampleLuiPersonRelationAdaptorConfigurer ();
-  config.setAdapters(getStandardAdapters ());
-  config.setBottom(new LuiPersonRelationServiceMockImpl ());
+ public static LuiPersonRelationServiceInfc getReal() {
+  ExampleLuiPersonRelationAdaptorConfigurer config = new ExampleLuiPersonRelationAdaptorConfigurer();
+  config.setAdapters(getStandardAdapters());
+  config.setBottom(new LuiPersonRelationServiceMockPersistenceImpl());
   return config.configure();
  }
 
- public static LuiPersonRelationServiceInfc getMock ()
- {
-  ExampleLuiPersonRelationAdaptorConfigurer config = new ExampleLuiPersonRelationAdaptorConfigurer ();
-  config.setAdapters(getStandardAdapters ());
-  config.setBottom(new LuiPersonRelationServiceMockImpl ());
+ public static LuiPersonRelationServiceInfc getMock() {
+  ExampleLuiPersonRelationAdaptorConfigurer config = new ExampleLuiPersonRelationAdaptorConfigurer();
+  config.setAdapters(getStandardAdapters());
+  config.setBottom(new LuiPersonRelationServiceMockPersistenceImpl());
   return config.configure();
  }
 }
