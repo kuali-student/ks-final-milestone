@@ -20,11 +20,11 @@ package org.kuali.student.lum.lu.service;
 /**
  * This is a description of what this class does - Kamal don't forget
  * to fill this in.
- * 
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 
 public class LuServiceConstants {
     public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
-    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";    
+    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
 }

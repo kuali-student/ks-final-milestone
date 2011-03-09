@@ -16,106 +16,105 @@
  */
 
 package org.kuali.student.lum.lu.dto;
- 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Detailed information associated with this CLU related to the
  * calculation of fees.
  */
- 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluFeeInfo implements Serializable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
-    private String id;    
-    
+    private String id;
+
     @XmlElement
     private RichTextInfo descr;
-        
+
     @XmlElement
     private List<CluFeeRecordInfo> cluFeeRecords;
-    
+
     @XmlElement
-	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+    private Map<String, String> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
 
-    
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
 
-    public Map<String,String> getAttributes() {
+    public Map<String, String> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
 
         return attributes;
     }
 
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
     public List<CluFeeRecordInfo> getCluFeeRecords() {
-	if(cluFeeRecords == null){
-	    cluFeeRecords = new ArrayList<CluFeeRecordInfo>(0);
-	}
-	return cluFeeRecords;
+        if (cluFeeRecords == null) {
+            cluFeeRecords = new ArrayList<CluFeeRecordInfo>(0);
+        }
+        return cluFeeRecords;
     }
-    
+
     public void setCluFeeRecords(List<CluFeeRecordInfo> cluFeeRecords) {
-	this.cluFeeRecords = cluFeeRecords;
+        this.cluFeeRecords = cluFeeRecords;
     }
-    
+
     public String getId() {
-	return id;
+        return id;
     }
-    
+
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
-    
+
 
     /**
      * Narrative description of the CLU Fee
      */
 
     public RichTextInfo getDescr() {
-	return descr;
+        return descr;
     }
-    
+
     public void setDescr(RichTextInfo descr) {
-		this.descr = descr;
+        this.descr = descr;
     }
-    
+
     public MetaInfo getMetaInfo() {
-	return metaInfo;
+        return metaInfo;
     }
-    
+
     public void setMetaInfo(MetaInfo metaInfo) {
-	this.metaInfo = metaInfo;
+        this.metaInfo = metaInfo;
     }
 }

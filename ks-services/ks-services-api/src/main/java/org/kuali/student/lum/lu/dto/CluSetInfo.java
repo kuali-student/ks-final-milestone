@@ -16,29 +16,24 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.*;
+
 
 /**
  * Detailed information about a single CLU Set.
- */ 
+ */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluSetInfo implements Serializable, Idable, HasAttributes {
@@ -59,7 +54,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private MembershipQueryInfo membershipQuery;
-    
+
     @XmlElement
     private String adminOrg;
 
@@ -68,7 +63,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private Boolean isReferenceable;
-    
+
     @XmlElement
     private List<String> cluSetIds;
 
@@ -246,66 +241,66 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     }
 
     public MembershipQueryInfo getMembershipQuery() {
-	return membershipQuery;
+        return membershipQuery;
     }
-    
+
     public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
-	this.membershipQuery = membershipQuery;
+        this.membershipQuery = membershipQuery;
     }
-    
+
 
     /**
      * Gets the clu set type.  Once set at create time, this field may
      * not be updated.
-     * 
+     *
      * @return Clu set type
      */
-    
+
     public String getType() {
-	return type;
+        return type;
     }
 
 
     /**
-     * Sets the clu set type. 
+     * Sets the clu set type.
      * Once set at create time, this field may not be updated.
-     * 
+     *
      * @param type Clu set type
      */
 
     public void setType(String type) {
-	this.type = type;
+        this.type = type;
     }
-    
+
     public String getState() {
-	return state;
+        return state;
     }
-    
+
     public void setState(String state) {
-	this.state = state;
+        this.state = state;
     }
-    
+
     public String getAdminOrg() {
-	return adminOrg;
+        return adminOrg;
     }
-    
+
     public void setAdminOrg(String adminOrg) {
-	this.adminOrg = adminOrg;
+        this.adminOrg = adminOrg;
     }
-    
+
     public Boolean getIsReusable() {
-	return isReusable;
+        return isReusable;
     }
-    
+
     public void setIsReusable(Boolean isReusable) {
-	this.isReusable = isReusable;
+        this.isReusable = isReusable;
     }
-    
+
     public Boolean getIsReferenceable() {
-	return isReferenceable;
+        return isReferenceable;
     }
-    
+
     public void setIsReferenceable(Boolean isReferenceable) {
-	this.isReferenceable = isReferenceable;
-    }    		
+        this.isReferenceable = isReferenceable;
+    }
 }

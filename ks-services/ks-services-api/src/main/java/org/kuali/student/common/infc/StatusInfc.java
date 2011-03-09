@@ -17,40 +17,40 @@ package org.kuali.student.common.infc;
 
 public interface StatusInfc {
 
- /**
-  * Set ????
-  *
-  * Type: Boolean
-  *
-  * ???
-  */
- public void setSuccess(Boolean success);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Boolean
+     * <p/>
+     * ???
+     */
+    public void setSuccess(Boolean success);
 
- /**
-  * Get ????
-  *
-  * Type: Boolean
-  *
-  * ???
-  */
- public Boolean isSuccess();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Boolean
+     * <p/>
+     * ???
+     */
+    public Boolean isSuccess();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setMessage(String message);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setMessage(String message);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getMessage();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getMessage();
 }
 

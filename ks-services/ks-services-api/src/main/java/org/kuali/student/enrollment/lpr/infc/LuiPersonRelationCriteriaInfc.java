@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,44 +26,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public interface LuiPersonRelationCriteriaInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Name: Field
-  * Dot path notation to identity the name of field to be compared
-  */
- public void setFieldKey(String fieldKey);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Name: Field
+     * Dot path notation to identity the name of field to be compared
+     */
+    public void setFieldKey(String fieldKey);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Name: Field
-  * Dot path notation to identity the name of field to be compared
-  */
- public String getFieldKey();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Name: Field
+     * Dot path notation to identity the name of field to be compared
+     */
+    public String getFieldKey();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Name: Criteria
-  * Value to be compared
-  */
- public void setValue(String value);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Name: Criteria
+     * Value to be compared
+     */
+    public void setValue(String value);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Name: Criteria
-  * Value to be compared
-  */
- public String getValue();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Name: Criteria
+     * Value to be compared
+     */
+    public String getValue();
 }
 

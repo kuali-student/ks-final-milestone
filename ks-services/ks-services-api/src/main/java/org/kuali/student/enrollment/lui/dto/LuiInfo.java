@@ -16,27 +16,26 @@
 
 package org.kuali.student.enrollment.lui.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Detailed information about a single LUI.
  */
- 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiInfo implements Serializable, Idable, HasAttributes {
 
@@ -48,7 +47,7 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private String cluId;
 
-    @XmlElement(name="atpKey")
+    @XmlElement(name = "atpKey")
     private String atpId;
 
     @XmlElement

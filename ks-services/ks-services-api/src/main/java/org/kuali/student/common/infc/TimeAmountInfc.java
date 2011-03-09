@@ -17,40 +17,40 @@ package org.kuali.student.common.infc;
 
 public interface TimeAmountInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setAtpDurationTypeKey(String atpDurationTypeKey);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setAtpDurationTypeKey(String atpDurationTypeKey);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getAtpDurationTypeKey();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getAtpDurationTypeKey();
 
- /**
-  * Set ????
-  *
-  * Type: Integer
-  *
-  * ???
-  */
- public void setTimeQuantity(Integer timeQuantity);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * ???
+     */
+    public void setTimeQuantity(Integer timeQuantity);
 
- /**
-  * Get ????
-  *
-  * Type: Integer
-  *
-  * ???
-  */
- public Integer getTimeQuantity();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * ???
+     */
+    public Integer getTimeQuantity();
 }
 

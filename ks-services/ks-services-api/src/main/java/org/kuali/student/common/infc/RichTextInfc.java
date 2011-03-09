@@ -17,40 +17,40 @@ package org.kuali.student.common.infc;
 
 public interface RichTextInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setPlain(String plain);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setPlain(String plain);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getPlain();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getPlain();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setFormatted(String formatted);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setFormatted(String formatted);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getFormatted();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getFormatted();
 }
 

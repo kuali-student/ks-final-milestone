@@ -15,20 +15,10 @@
  */
 package org.kuali.student.enrollment.lpr.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
 
 /**
  * Query to return some information regarding LUI to person relationships.
@@ -37,45 +27,44 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @Author Kamal
  * @Since Tue Mar 01 15:54:06 PST 2011
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationCriteria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-     @XmlElement
+    @XmlElement
     private String fieldKey;
 
     @XmlElement
     private String value;
 
- /**
-  * Name: Field Key
-  *
-  * Dot path notation to identity the name of field to be compared
-  */
- public String getFieldKey () {
-  return fieldKey;
- }
+    /**
+     * Name: Field Key
+     * <p/>
+     * Dot path notation to identity the name of field to be compared
+     */
+    public String getFieldKey() {
+        return fieldKey;
+    }
 
- public void setFieldKey (String fieldKey)  {
-  this.fieldKey = fieldKey;
- }
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
 
 
- /**
-  * Name: Criteria Value
-  *
-  * Value to be compared
-  */
- public String getValue () {
-  return value;
- }
+    /**
+     * Name: Criteria Value
+     * <p/>
+     * Value to be compared
+     */
+    public String getValue() {
+        return value;
+    }
 
- public void setValue (String value) {
-  this.value = value;
- }
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-    
+
 }

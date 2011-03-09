@@ -16,18 +16,18 @@
 
 package org.kuali.student.lum.lu.dto;
 
+import org.kuali.student.core.dto.TypeInfo;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.TypeInfo;
-
 /**
  * Information about a LU to LU relationship type.
  */
- 
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuLuRelationTypeInfo extends TypeInfo{
+public class LuLuRelationTypeInfo extends TypeInfo {
 
     private static final long serialVersionUID = 1L;
 

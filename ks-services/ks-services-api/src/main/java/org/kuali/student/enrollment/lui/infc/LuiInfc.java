@@ -15,225 +15,226 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-import java.util.Date;
-import java.util.List;
 import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.MetaInfc;
 
+import java.util.Date;
+import java.util.List;
+
 public interface LuiInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Code identifier/name for the LUI. This is typically used
-  * human readable form (e.g. ENGL 100 section 123).
-  */
- public void setLuiCode(String luiCode);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Code identifier/name for the LUI. This is typically used
+     * human readable form (e.g. ENGL 100 section 123).
+     */
+    public void setLuiCode(String luiCode);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Code identifier/name for the LUI. This is typically used
-  * human readable form (e.g. ENGL 100 section 123).
-  */
- public String getLuiCode();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Code identifier/name for the LUI. This is typically used
+     * human readable form (e.g. ENGL 100 section 123).
+     */
+    public String getLuiCode();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Unique identifier for a Canonical Learning Unit (CLU).
-  */
- public void setCluId(String cluId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for a Canonical Learning Unit (CLU).
+     */
+    public void setCluId(String cluId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Unique identifier for a Canonical Learning Unit (CLU).
-  */
- public String getCluId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for a Canonical Learning Unit (CLU).
+     */
+    public String getCluId();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Unique identifier for an Academic Time Period (ATP).
-  */
- public void setAtpId(String atpId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for an Academic Time Period (ATP).
+     */
+    public void setAtpId(String atpId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Unique identifier for an Academic Time Period (ATP).
-  */
- public String getAtpId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for an Academic Time Period (ATP).
+     */
+    public String getAtpId();
 
- /**
-  * Set ????
-  *
-  * Type: Integer
-  *
-  * Maximum number of "seats" that the LUI will hold for registration.
-  */
- public void setMaxSeats(Integer maxSeats);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * Maximum number of "seats" that the LUI will hold for registration.
+     */
+    public void setMaxSeats(Integer maxSeats);
 
- /**
-  * Get ????
-  *
-  * Type: Integer
-  *
-  * Maximum number of "seats" that the LUI will hold for registration.
-  */
- public Integer getMaxSeats();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * Maximum number of "seats" that the LUI will hold for registration.
+     */
+    public Integer getMaxSeats();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * Date and time that this LUI became effective. This is a
-  * concept to the effective date on enumerated values. When
-  * expiration date has been specified, this field must be
-  * than or equal to the expiration date.
-  */
- public void setEffectiveDate(Date effectiveDate);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * Date and time that this LUI became effective. This is a
+     * concept to the effective date on enumerated values. When
+     * expiration date has been specified, this field must be
+     * than or equal to the expiration date.
+     */
+    public void setEffectiveDate(Date effectiveDate);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * Date and time that this LUI became effective. This is a
-  * concept to the effective date on enumerated values. When
-  * expiration date has been specified, this field must be
-  * than or equal to the expiration date.
-  */
- public Date getEffectiveDate();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * Date and time that this LUI became effective. This is a
+     * concept to the effective date on enumerated values. When
+     * expiration date has been specified, this field must be
+     * than or equal to the expiration date.
+     */
+    public Date getEffectiveDate();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * Date and time that this LUI expires. This is a similar
-  * to the expiration date on enumerated values. If specified,
-  * should be greater than or equal to the effective date. If
-  * field is not specified, then no expiration date has
-  * currently defined and should automatically be
-  * greater than the effective date.
-  */
- public void setExpirationDate(Date expirationDate);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * Date and time that this LUI expires. This is a similar
+     * to the expiration date on enumerated values. If specified,
+     * should be greater than or equal to the effective date. If
+     * field is not specified, then no expiration date has
+     * currently defined and should automatically be
+     * greater than the effective date.
+     */
+    public void setExpirationDate(Date expirationDate);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * Date and time that this LUI expires. This is a similar
-  * to the expiration date on enumerated values. If specified,
-  * should be greater than or equal to the effective date. If
-  * field is not specified, then no expiration date has
-  * currently defined and should automatically be
-  * greater than the effective date.
-  */
- public Date getExpirationDate();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * Date and time that this LUI expires. This is a similar
+     * to the expiration date on enumerated values. If specified,
+     * should be greater than or equal to the effective date. If
+     * field is not specified, then no expiration date has
+     * currently defined and should automatically be
+     * greater than the effective date.
+     */
+    public Date getExpirationDate();
 
- /**
-  * Set ????
-  *
-  * Type: List<AttributeInfc>
-  *
-  * List of key/value pairs, typically used for dynamic attributes.
-  */
- public void setAttributes(List<AttributeInfc> attributes);
+    /**
+     * Set ????
+     * <p/>
+     * Type: List<AttributeInfc>
+     * <p/>
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public void setAttributes(List<AttributeInfc> attributes);
 
- /**
-  * Get ????
-  *
-  * Type: List<AttributeInfc>
-  *
-  * List of key/value pairs, typically used for dynamic attributes.
-  */
- public List<AttributeInfc> getAttributes();
+    /**
+     * Get ????
+     * <p/>
+     * Type: List<AttributeInfc>
+     * <p/>
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public List<AttributeInfc> getAttributes();
 
- /**
-  * Set ????
-  *
-  * Type: MetaInfo
-  *
-  * Create and last update info for the structure. This is
-  * and treated as read only since the data is set by the
-  * of the service during maintenance operations.
-  */
- public void setMetaInfo(MetaInfc metaInfo);
+    /**
+     * Set ????
+     * <p/>
+     * Type: MetaInfo
+     * <p/>
+     * Create and last update info for the structure. This is
+     * and treated as read only since the data is set by the
+     * of the service during maintenance operations.
+     */
+    public void setMetaInfo(MetaInfc metaInfo);
 
- /**
-  * Get ????
-  *
-  * Type: MetaInfo
-  *
-  * Create and last update info for the structure. This is
-  * and treated as read only since the data is set by the
-  * of the service during maintenance operations.
-  */
- public MetaInfc getMetaInfo();
+    /**
+     * Get ????
+     * <p/>
+     * Type: MetaInfo
+     * <p/>
+     * Create and last update info for the structure. This is
+     * and treated as read only since the data is set by the
+     * of the service during maintenance operations.
+     */
+    public MetaInfc getMetaInfo();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * The current status of the LUI. The values for this field
-  * constrained to those in the luState enumeration. A
-  * setup operation does not exist for retrieval of the meta
-  * around this value.
-  */
- public void setState(String state);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The current status of the LUI. The values for this field
+     * constrained to those in the luState enumeration. A
+     * setup operation does not exist for retrieval of the meta
+     * around this value.
+     */
+    public void setState(String state);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * The current status of the LUI. The values for this field
-  * constrained to those in the luState enumeration. A
-  * setup operation does not exist for retrieval of the meta
-  * around this value.
-  */
- public String getState();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The current status of the LUI. The values for this field
+     * constrained to those in the luState enumeration. A
+     * setup operation does not exist for retrieval of the meta
+     * around this value.
+     */
+    public String getState();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Unique identifier for a Learning Unit Instance (LUI). This
-  * optional, due to the identifier being set at the time
-  * creation. Once the LUI has been created, this should be seen
-  * required.
-  */
- public void setId(String id);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for a Learning Unit Instance (LUI). This
+     * optional, due to the identifier being set at the time
+     * creation. Once the LUI has been created, this should be seen
+     * required.
+     */
+    public void setId(String id);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Unique identifier for a Learning Unit Instance (LUI). This
-  * optional, due to the identifier being set at the time
-  * creation. Once the LUI has been created, this should be seen
-  * required.
-  */
- public String getId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for a Learning Unit Instance (LUI). This
+     * optional, due to the identifier being set at the time
+     * creation. Once the LUI has been created, this should be seen
+     * required.
+     */
+    public String getId();
 }
 

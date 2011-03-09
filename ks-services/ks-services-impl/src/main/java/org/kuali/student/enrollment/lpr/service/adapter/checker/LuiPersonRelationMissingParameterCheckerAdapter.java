@@ -15,26 +15,15 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
-import java.util.List;
-
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DisabledIdentifierException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-
-
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
+
+import java.util.List;
 
 /**
  * A example of an adaptor that could be generated from the contract defintions
@@ -46,101 +35,101 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
         extends LuiPersonRelationAdapter
         implements LuiPersonRelationServiceInfc {
 
- 
- @Override
- public String createLuiPersonRelation(String personId, String luiId,
-         String luiPersonRelationType,
-         LuiPersonRelationInfc luiPersonRelationInfo,
-         ContextInfc context)
-         throws AlreadyExistsException, DoesNotExistException,
-         DisabledIdentifierException, InvalidParameterException,
-         MissingParameterException, OperationFailedException,
-         PermissionDeniedException {
-   checkParameter("personId", personId);
-   checkParameter("luiId", luiId);
-   checkParameter("luiPersonRelationType", luiPersonRelationType);
-   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-   checkParameter("context", context);
-   return (getProvider().createLuiPersonRelation(personId, luiId,
-           luiPersonRelationType,
-           luiPersonRelationInfo,
-           context));
- }
+
+    @Override
+    public String createLuiPersonRelation(String personId, String luiId,
+                                          String luiPersonRelationType,
+                                          LuiPersonRelationInfc luiPersonRelationInfo,
+                                          ContextInfc context)
+            throws AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        checkParameter("personId", personId);
+        checkParameter("luiId", luiId);
+        checkParameter("luiPersonRelationType", luiPersonRelationType);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getProvider().createLuiPersonRelation(personId, luiId,
+                luiPersonRelationType,
+                luiPersonRelationInfo,
+                context));
+    }
 
 
- @Override
- public List<String> createBulkRelationshipsForPerson(String personId,
-         List<String> luiIdList,
-         String relationState,
-         String luiPersonRelationType,
-         LuiPersonRelationInfc luiPersonRelationInfo,
-         ContextInfc context)
-         throws AlreadyExistsException, DoesNotExistException,
-         DisabledIdentifierException, InvalidParameterException,
-         MissingParameterException, OperationFailedException,
-         PermissionDeniedException {
+    @Override
+    public List<String> createBulkRelationshipsForPerson(String personId,
+                                                         List<String> luiIdList,
+                                                         String relationState,
+                                                         String luiPersonRelationType,
+                                                         LuiPersonRelationInfc luiPersonRelationInfo,
+                                                         ContextInfc context)
+            throws AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
-   checkParameter("personId", personId);
-   checkParameter("luiIdList", luiIdList);
-   checkParameter("luiIdList", luiIdList);
-   checkParameter("relationState", relationState);
-   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-   checkParameter("context", context);
-   return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
-           relationState,
-           luiPersonRelationType,
-           luiPersonRelationInfo,
-           context));
- }
+        checkParameter("personId", personId);
+        checkParameter("luiIdList", luiIdList);
+        checkParameter("luiIdList", luiIdList);
+        checkParameter("relationState", relationState);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
+                relationState,
+                luiPersonRelationType,
+                luiPersonRelationInfo,
+                context));
+    }
 
- @Override
- public LuiPersonRelationInfc updateLuiPersonRelation(
-         String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo,
-         ContextInfc context)
-         throws DoesNotExistException, InvalidParameterException,
-         MissingParameterException, ReadOnlyException, OperationFailedException,
-         PermissionDeniedException, VersionMismatchException {
-   checkParameter("luiPersonRelationId", luiPersonRelationId);
-   checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-   checkParameter("context", context);
-   return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
-           luiPersonRelationInfo,
-           context));
- }
-
-
- @Override
- public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
-         ContextInfc context) throws
-         DoesNotExistException, InvalidParameterException, MissingParameterException,
-         OperationFailedException,
-         PermissionDeniedException {
-   checkParameter("luiPersonRelationId", luiPersonRelationId);
-   checkParameter("context", context);
-   return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
- }
+    @Override
+    public LuiPersonRelationInfc updateLuiPersonRelation(
+            String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo,
+            ContextInfc context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, ReadOnlyException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException {
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
+                luiPersonRelationInfo,
+                context));
+    }
 
 
- @Override
- public StatusInfc updateRelationState(String luiPersonRelationId,
-         LuiPersonRelationStateInfc relationState,
-         ContextInfc context)
-         throws DoesNotExistException, InvalidParameterException,
-         MissingParameterException, OperationFailedException,
-         PermissionDeniedException, ReadOnlyException {
-   checkParameter("luiPersonRelationId", luiPersonRelationId);
-   checkParameter("relationState", relationState);
-   checkParameter("context", context);
-   return (getProvider().updateRelationState(luiPersonRelationId,
-           relationState, context));
- }
+    @Override
+    public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
+                                              ContextInfc context) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("context", context);
+        return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+    }
 
 
- protected void checkParameter(String parameterName, Object parameter)
-         throws MissingParameterException {
+    @Override
+    public StatusInfc updateRelationState(String luiPersonRelationId,
+                                          LuiPersonRelationStateInfc relationState,
+                                          ContextInfc context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("relationState", relationState);
+        checkParameter("context", context);
+        return (getProvider().updateRelationState(luiPersonRelationId,
+                relationState, context));
+    }
 
-  if (parameter == null) {
-   throw new MissingParameterException (parameterName);
-  }
- }
+
+    protected void checkParameter(String parameterName, Object parameter)
+            throws MissingParameterException {
+
+        if (parameter == null) {
+            throw new MissingParameterException(parameterName);
+        }
+    }
 }

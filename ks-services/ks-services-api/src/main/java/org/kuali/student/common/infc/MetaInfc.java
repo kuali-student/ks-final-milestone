@@ -19,104 +19,104 @@ import java.util.Date;
 
 public interface MetaInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * An indicator of the version of the thing being described with this meta
-  * information. This is set by the service implementation and will be used to
-  * determine conflicts in updates.
-  */
- public void setVersionInd(String versionInd);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * An indicator of the version of the thing being described with this meta
+     * information. This is set by the service implementation and will be used to
+     * determine conflicts in updates.
+     */
+    public void setVersionInd(String versionInd);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * An indicator of the version of the thing being described with this meta
-  * information. This is set by the service implementation and will be used to
-  * determine conflicts in updates.
-  */
- public String getVersionInd();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * An indicator of the version of the thing being described with this meta
+     * information. This is set by the service implementation and will be used to
+     * determine conflicts in updates.
+     */
+    public String getVersionInd();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * The date and time the thing being described with this meta information was last
-  * updated
-  */
- public void setCreateTime(Date createTime);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time the thing being described with this meta information was last
+     * updated
+     */
+    public void setCreateTime(Date createTime);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * The date and time the thing being described with this meta information was last
-  * updated
-  */
- public Date getCreateTime();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time the thing being described with this meta information was last
+     * updated
+     */
+    public Date getCreateTime();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * The principal who created the thing being described with this meta information
-  */
- public void setCreateId(String createId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The principal who created the thing being described with this meta information
+     */
+    public void setCreateId(String createId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * The principal who created the thing being described with this meta information
-  */
- public String getCreateId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The principal who created the thing being described with this meta information
+     */
+    public String getCreateId();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * The date and time the thing being described with this meta information was last
-  * updated
-  */
- public void setUpdateTime(Date updateTime);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time the thing being described with this meta information was last
+     * updated
+     */
+    public void setUpdateTime(Date updateTime);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * The date and time the thing being described with this meta information was last
-  * updated
-  */
- public Date getUpdateTime();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time the thing being described with this meta information was last
+     * updated
+     */
+    public Date getUpdateTime();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * The principal who last updated the thing being described with this meta
-  * information
-  */
- public void setUpdateId(String updateId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The principal who last updated the thing being described with this meta
+     * information
+     */
+    public void setUpdateId(String updateId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * The principal who last updated the thing being described with this meta
-  * information
-  */
- public String getUpdateId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * The principal who last updated the thing being described with this meta
+     * information
+     */
+    public String getUpdateId();
 }
 

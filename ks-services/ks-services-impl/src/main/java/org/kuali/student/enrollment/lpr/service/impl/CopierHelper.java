@@ -15,106 +15,97 @@
  */
 package org.kuali.student.enrollment.lpr.service.impl;
 
+import org.kuali.student.common.infc.*;
+import org.kuali.student.enrollment.lpr.infc.*;
+import org.springframework.beans.BeanUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.common.infc.AttributeBean;
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.MetaBean;
-import org.kuali.student.common.infc.MetaInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationBean;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateBean;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeBean;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
-import org.springframework.beans.BeanUtils;
 
 /**
- *
  * @author nwright
  */
 public class CopierHelper {
 
- public MetaInfc makeCopy(MetaInfc orig) {
-  if (orig == null) {
-   return null;
-  }
-  MetaInfc copy = new MetaBean();
-  BeanUtils.copyProperties(orig, copy);
-  return copy;
- }
+    public MetaInfc makeCopy(MetaInfc orig) {
+        if (orig == null) {
+            return null;
+        }
+        MetaInfc copy = new MetaBean();
+        BeanUtils.copyProperties(orig, copy);
+        return copy;
+    }
 
- public LuiPersonRelationTypeInfc makeCopy(LuiPersonRelationTypeInfc orig) {
-  if (orig == null) {
-   return null;
-  }
-  LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeBean();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(makeCopy(orig.getAttributes()));
-  return copy;
- }
+    public LuiPersonRelationTypeInfc makeCopy(LuiPersonRelationTypeInfc orig) {
+        if (orig == null) {
+            return null;
+        }
+        LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeBean();
+        BeanUtils.copyProperties(orig, copy);
+        copy.setAttributes(makeCopy(orig.getAttributes()));
+        return copy;
+    }
 
- public LuiPersonRelationStateInfc makeCopy(LuiPersonRelationStateInfc orig) {
-  if (orig == null) {
-   return null;
-  }
-  LuiPersonRelationStateInfc copy = new LuiPersonRelationStateBean();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(makeCopy(orig.getAttributes()));
-  return copy;
- }
+    public LuiPersonRelationStateInfc makeCopy(LuiPersonRelationStateInfc orig) {
+        if (orig == null) {
+            return null;
+        }
+        LuiPersonRelationStateInfc copy = new LuiPersonRelationStateBean();
+        BeanUtils.copyProperties(orig, copy);
+        copy.setAttributes(makeCopy(orig.getAttributes()));
+        return copy;
+    }
 
- public AttributeInfc makeCopy(AttributeInfc orig) {
-  if (orig == null) {
-   return null;
-  }
-  AttributeInfc copy = new AttributeBean();
-  BeanUtils.copyProperties(orig, copy);
-  return copy;
- }
+    public AttributeInfc makeCopy(AttributeInfc orig) {
+        if (orig == null) {
+            return null;
+        }
+        AttributeInfc copy = new AttributeBean();
+        BeanUtils.copyProperties(orig, copy);
+        return copy;
+    }
 
- public List<AttributeInfc> makeCopy(List<AttributeInfc> orig) {
-  if (orig == null) {
-   return null;
-  }
-  List<AttributeInfc> copy = new ArrayList();
-  for (AttributeInfc attr : orig) {
-   copy.add(this.makeCopy(attr));
-  }
-  return copy;
- }
+    public List<AttributeInfc> makeCopy(List<AttributeInfc> orig) {
+        if (orig == null) {
+            return null;
+        }
+        List<AttributeInfc> copy = new ArrayList();
+        for (AttributeInfc attr : orig) {
+            copy.add(this.makeCopy(attr));
+        }
+        return copy;
+    }
 
- public LuiPersonRelationInfc makeCopy(LuiPersonRelationInfc orig) {
-  if (orig == null) {
-   return null;
-  }
-  LuiPersonRelationInfc copy = new LuiPersonRelationBean();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(this.makeCopy(orig.getAttributes()));
-  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
-  return copy;
- }
+    public LuiPersonRelationInfc makeCopy(LuiPersonRelationInfc orig) {
+        if (orig == null) {
+            return null;
+        }
+        LuiPersonRelationInfc copy = new LuiPersonRelationBean();
+        BeanUtils.copyProperties(orig, copy);
+        copy.setAttributes(this.makeCopy(orig.getAttributes()));
+        copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
+        return copy;
+    }
 
- public MetaInfc createMeta(ContextInfc context) {
-  MetaInfc meta = new MetaBean();
-  Date now = new Date();
-  meta.setCreateId(context.getPrincipalId());
-  meta.setCreateTime(now);
-  meta.setUpdateId(context.getPrincipalId());
-  meta.setUpdateTime(now);
-  meta.setVersionInd("1");
-  return meta;
- }
+    public MetaInfc createMeta(ContextInfc context) {
+        MetaInfc meta = new MetaBean();
+        Date now = new Date();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(now);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(now);
+        meta.setVersionInd("1");
+        return meta;
+    }
 
- public MetaInfc updateMeta(MetaInfc orig, ContextInfc context) {
-  MetaInfc meta = makeCopy (orig);
-  Date now = new Date();
-  meta.setUpdateId(context.getPrincipalId());
-  meta.setUpdateTime(now);
-  int oldVersionInd = Integer.parseInt(meta.getVersionInd());
-  meta.setVersionInd("" + (oldVersionInd + 1));
-  return meta;
- }
+    public MetaInfc updateMeta(MetaInfc orig, ContextInfc context) {
+        MetaInfc meta = makeCopy(orig);
+        Date now = new Date();
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(now);
+        int oldVersionInd = Integer.parseInt(meta.getVersionInd());
+        meta.setVersionInd("" + (oldVersionInd + 1));
+        return meta;
+    }
 }

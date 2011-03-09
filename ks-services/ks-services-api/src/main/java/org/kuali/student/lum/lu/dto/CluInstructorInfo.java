@@ -15,23 +15,22 @@
  */
 
 package org.kuali.student.lum.lu.dto;
- 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Information about a potential instructor for a clu.
  */
- 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInstructorInfo implements Serializable, HasAttributes {
 
@@ -45,10 +44,10 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
 
     @XmlElement
     private String personInfoOverride;
-    
+
     @XmlElement
-	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+    private Map<String, String> attributes;
 
 
     /**
@@ -83,15 +82,15 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
      * List of key/value pairs, typically used for dynamic attributes.
      */
 
-    public Map<String,String> getAttributes() {
+    public Map<String, String> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
 
         return attributes;
     }
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
@@ -111,5 +110,5 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
 
     public void setPersonInfoOverride(String personInfoOverride) {
         this.personInfoOverride = personInfoOverride;
-    }     
+    }
 }

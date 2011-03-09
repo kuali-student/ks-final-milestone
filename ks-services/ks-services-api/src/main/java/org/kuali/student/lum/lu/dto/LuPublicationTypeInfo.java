@@ -16,10 +16,10 @@
 
 package org.kuali.student.lum.lu.dto;
 
+import org.kuali.student.core.dto.TypeInfo;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-
-import org.kuali.student.core.dto.TypeInfo;
 
 
 /**
@@ -30,7 +30,7 @@ import org.kuali.student.core.dto.TypeInfo;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuPublicationTypeInfo extends TypeInfo  {
+public class LuPublicationTypeInfo extends TypeInfo {
 
     private static final long serialVersionUID = 1L;
 }

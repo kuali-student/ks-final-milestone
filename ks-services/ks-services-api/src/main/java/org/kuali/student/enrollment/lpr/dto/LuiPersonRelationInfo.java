@@ -15,22 +15,21 @@
  */
 package org.kuali.student.enrollment.lpr.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Detailed information about a single LUI to Person Relation.
@@ -39,7 +38,6 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @Author Kamal
  * @Since Tue Mar 01 15:53:57 PST 2011
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
@@ -76,7 +74,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: LUI identifier
-     * 
+     * <p/>
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getLuiId() {
@@ -89,7 +87,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: Person Identifier
-     * 
+     * <p/>
      * Unique identifier for a person record.
      */
     public String getPersonId() {
@@ -102,7 +100,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name:Effective Date
-     * 
+     * <p/>
      * Date/time this relationship became effective. Must be less than or equal to the expirationDate specified.
      */
     public Date getEffectiveDate() {
@@ -115,7 +113,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: Expiration Date
-     * 
+     * <p/>
      * Date/time this relationship is no longer effective. Must be greater than or equal to the effectiveDate specified.
      */
     public Date getExpirationDate() {
@@ -128,7 +126,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: Generic/dynamic attributes
-     * 
+     * <p/>
      * List of key/value pairs, typically used for dynamic attributes.
      */
     public Map<String, String> getAttributes() {
@@ -144,7 +142,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: Create/Update meta info
-     * 
+     * <p/>
      * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
      */
     public MetaInfo getMetaInfo() {
@@ -157,7 +155,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: LUI Person Relation Type
-     * 
+     * <p/>
      * Unique identifier for the type of LUI to Person relation.
      */
     public String getType() {
@@ -170,7 +168,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: Relation State
-     * 
+     * <p/>
      * Unique identifier for the state of the relationship between a LUI and person.
      */
     public String getState() {
@@ -184,7 +182,7 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     /**
      * Name: LUI Person Relation identifier
-     * 
+     * <p/>
      * Unique identifier for the LUI to Person relation. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.
      */
     public String getId() {

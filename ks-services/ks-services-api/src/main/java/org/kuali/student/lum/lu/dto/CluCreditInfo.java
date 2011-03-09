@@ -15,21 +15,20 @@
  */
 
 package org.kuali.student.lum.lu.dto;
- 
-import java.io.Serializable;
+
+import org.kuali.student.core.dto.TimeAmountInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.dto.TimeAmountInfo;
+import java.io.Serializable;
 
 
 /**
  * Detailed information about credit for a CLU, including common
  * data-driven constraints around repetition.
  */
- 
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluCreditInfo implements Serializable {
 

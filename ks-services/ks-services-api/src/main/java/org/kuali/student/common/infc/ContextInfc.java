@@ -16,122 +16,122 @@
 package org.kuali.student.common.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public interface ContextInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setPrincipalId(String principalId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setPrincipalId(String principalId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getPrincipalId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getPrincipalId();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setLocaleLanguage(String localeLanguage);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setLocaleLanguage(String localeLanguage);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getLocaleLanguage();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getLocaleLanguage();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setLocaleVariant(String localeVariant);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setLocaleVariant(String localeVariant);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getLocaleVariant();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getLocaleVariant();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setLocaleRegion(String localeRegion);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setLocaleRegion(String localeRegion);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getLocaleRegion();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getLocaleRegion();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setLocaleScript(String localeScript);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setLocaleScript(String localeScript);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getLocaleScript();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getLocaleScript();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setTimeZone(String timeZone);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setTimeZone(String timeZone);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getTimeZone();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getTimeZone();
 }
 

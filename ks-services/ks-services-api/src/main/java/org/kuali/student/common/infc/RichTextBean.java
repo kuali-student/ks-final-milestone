@@ -20,56 +20,57 @@ import java.io.Serializable;
 public class RichTextBean
         implements RichTextInfc, Serializable {
 
- private static final long serialVersionUID = 1L;
- private String plain;
+    private static final long serialVersionUID = 1L;
+    private String plain;
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- @Override
- public void setPlain(String plain) {
-  this.plain = plain;
- }
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    @Override
+    public void setPlain(String plain) {
+        this.plain = plain;
+    }
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- @Override
- public String getPlain() {
-  return this.plain;
- }
- private String formatted;
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    @Override
+    public String getPlain() {
+        return this.plain;
+    }
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- @Override
- public void setFormatted(String formatted) {
-  this.formatted = formatted;
- }
+    private String formatted;
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- @Override
- public String getFormatted() {
-  return this.formatted;
- }
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    @Override
+    public void setFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    @Override
+    public String getFormatted() {
+        return this.formatted;
+    }
 }
 

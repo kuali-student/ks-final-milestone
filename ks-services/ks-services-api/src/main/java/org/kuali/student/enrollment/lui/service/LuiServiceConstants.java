@@ -20,7 +20,7 @@ package org.kuali.student.enrollment.lui.service;
 /**
  * This is a description of what this class does - Kamal don't forget
  * to fill this in.
- * 
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 

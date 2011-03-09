@@ -1,6 +1,6 @@
 /**
  * Copyright 2010 The Kuali Foundation 
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,10 +16,10 @@
 
 package org.kuali.student.lum.lu.dto;
 
+import org.kuali.student.core.dto.TypeInfo;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-
-import org.kuali.student.core.dto.TypeInfo;
 
 
 /**

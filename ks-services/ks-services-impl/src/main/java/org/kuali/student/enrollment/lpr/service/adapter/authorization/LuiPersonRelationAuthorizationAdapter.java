@@ -16,28 +16,15 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter.authorization;
 
-import java.util.List;
-
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DisabledIdentifierException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-
-
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.common.infc.ValidationResultInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
-
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
+
+import java.util.List;
 
 
 /**
@@ -47,199 +34,199 @@ import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter
  * @Author Tom
  */
 
-public class LuiPersonRelationAuthorizationAdapter 
-    extends LuiPersonRelationAdapter
-    implements LuiPersonRelationServiceInfc { 
-    
-	
-    /** 
+public class LuiPersonRelationAuthorizationAdapter
+        extends LuiPersonRelationAdapter
+        implements LuiPersonRelationServiceInfc {
+
+
+    /**
      * Creates relation between the specified Person and LUI.
      *
-     * @param personId Person Identifier
-     * @param luiId LUI Identifier
+     * @param personId              Person Identifier
+     * @param luiId                 LUI Identifier
      * @param luiPersonRelationType Type of LUI to Person Relation
      * @param luiPersonRelationInfo Information required to create the
-     *        LUI Person relation
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
+     *                              LUI Person relation
+     * @param context               Context information containing the principalId
+     *                              and locale information about the caller of service
+     *                              operation
      * @return Structure containing LUI Person relation identifiers
-     * @throws AlreadyExistsException relation already exists
-     * @throws DoesNotExistException personId, luiId, relationState,
-     *         luiPersonRelationType does not exist
+     * @throws AlreadyExistsException      relation already exists
+     * @throws DoesNotExistException       personId, luiId, relationState,
+     *                                     luiPersonRelationType does not exist
      * @throws DisabledIdentifierException personId found, but has
-     *         been retired
-     * @throws InvalidParameterException invalid personId, luiId,
-     *         relationState, luiPersonRelationType,
-     *         luiPersonRelationInfo
-     * @throws MissingParameterException missing personId, luiId,
-     *         relationState, luiPersonRelationType,
-     *         luiPersonRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     *                                     been retired
+     * @throws InvalidParameterException   invalid personId, luiId,
+     *                                     relationState, luiPersonRelationType,
+     *                                     luiPersonRelationInfo
+     * @throws MissingParameterException   missing personId, luiId,
+     *                                     relationState, luiPersonRelationType,
+     *                                     luiPersonRelationInfo
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
      */
 
     @Override
-    public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context) 
-	throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
+            throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-	if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {
-	    return (getProvider().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
-	} else {
-	    throw new PermissionDeniedException("unauthorized to create LPR");
-	}
+        if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {
+            return (getProvider().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
+        } else {
+            throw new PermissionDeniedException("unauthorized to create LPR");
+        }
     }
 
 
-    /** 
+    /**
      * Creates bulk relationships for one specified person. This is an
      * all or nothing transaction - any error will invalidate the
      * entire transaction.
      *
-     * @param personId Identifier for Person
-     * @param luiIdList Simple list of LUI identifiers
-     * @param relationState Relation state
+     * @param personId              Identifier for Person
+     * @param luiIdList             Simple list of LUI identifiers
+     * @param relationState         Relation state
      * @param luiPersonRelationType Type of LUI Person relation
      * @param luiPersonRelationInfo Information required to create the
-     *        LUI Person relation
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
+     *                              LUI Person relation
+     * @param context               Context information containing the principalId
+     *                              and locale information about the caller of service
+     *                              operation
      * @return Structure containing LUI Person relation identifiers
-     * @throws AlreadyExistsException relation already exists
-     * @throws DoesNotExistException personId, luiId, relationState,
-     *         luiPersonRelationType does not exist
+     * @throws AlreadyExistsException      relation already exists
+     * @throws DoesNotExistException       personId, luiId, relationState,
+     *                                     luiPersonRelationType does not exist
      * @throws DisabledIdentifierException personId found, but has
-     *         been retired
-     * @throws InvalidParameterException invalid personId, luiId,
-     *         relationState, luiPersonRelationType,
-     *         luiPersonRelationInfo
-     * @throws MissingParameterException missing personId, luiId,
-     *         relationState, luiPersonRelationType,
-     *         luiPersonRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     *                                     been retired
+     * @throws InvalidParameterException   invalid personId, luiId,
+     *                                     relationState, luiPersonRelationType,
+     *                                     luiPersonRelationInfo
+     * @throws MissingParameterException   missing personId, luiId,
+     *                                     relationState, luiPersonRelationType,
+     *                                     luiPersonRelationInfo
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
      */
-    
-    @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context) 
-	throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-	if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {	
-	    return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
-	} else {
-	    throw new PermissionDeniedException("unauthorized to create LPR");
-	}
+    @Override
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
+            throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {
+            return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
+        } else {
+            throw new PermissionDeniedException("unauthorized to create LPR");
+        }
     }
 
 
-    /** 
+    /**
      * Update relation between Person and LUI.
      *
-     * @param luiPersonRelationId Identifier for the LUI Person
-     *        Relation
+     * @param luiPersonRelationId   Identifier for the LUI Person
+     *                              Relation
      * @param luiPersonRelationInfo Changed information about the LUI
-     *        Person Relation
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
+     *                              Person Relation
+     * @param context               Context information containing the principalId
+     *                              and locale information about the caller of service
+     *                              operation
      * @return Updated information about the LUI Person Relation
-     * @throws DoesNotExistException luiPersonRelationId does not
-     *         exist
+     * @throws DoesNotExistException     luiPersonRelationId does not
+     *                                   exist
      * @throws InvalidParameterException invalid luiPersonRelationId,
-     *         luiPersonRelationInfo
-     * @throws MissingParameterException missing luiPersonRelationId, 
-     *         luiPersonRelationInfo
-     * @throws ReadOnlyException attempt to update a read only attribute
-     * @throws OperationFailedException unable to complete request
+     *                                   luiPersonRelationInfo
+     * @throws MissingParameterException missing luiPersonRelationId,
+     *                                   luiPersonRelationInfo
+     * @throws ReadOnlyException         attempt to update a read only attribute
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
 
     @Override
-    public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-	if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {		
-	    return (getProvider().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
-	} else {
-	    throw new PermissionDeniedException("unauthorized to update LPR " + luiPersonRelationId);
-	}
+        if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {
+            return (getProvider().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
+        } else {
+            throw new PermissionDeniedException("unauthorized to update LPR " + luiPersonRelationId);
+        }
     }
 
 
-    /** 
+    /**
      * Deletes relation between the specified Person and LUI.
      *
      * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
+     * @param context             Context information containing the principalId
+     *                            and locale information about the caller of service
+     *                            operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException luiPersonRelationId does not exist
+     * @throws DoesNotExistException     luiPersonRelationId does not exist
      * @throws InvalidParameterException invalid luiPersonRelationId
      * @throws MissingParameterException missing luiPersonRelationId
-     * @throws OperationFailedException unable to complete request
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
 
     @Override
     public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId, ContextInfc context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	
-	if (isAuthorized(context.getPrincipalId(), "delete lpr", luiPersonRelationId)) {
-	    return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
-	} else {
-	    throw new PermissionDeniedException("unauthorized to delete LPR " + luiPersonRelationId);
-	}
-    }
 
-
-    /** 
-     * Update relation state.
-     *
-     * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param relationState Relation state
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException luiPersonRelationId,
-     *         relationState does not exist
-     * @throws InvalidParameterException invalid luiPersonRelationId,
-     *         relationState
-     * @throws MissingParameterException missing luiPersonRelationId, 
-     *         relationState
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    
-    @Override
-    public StatusInfc updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfc relationState, ContextInfc context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
-	if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {			
-	    return (getProvider().updateRelationState(luiPersonRelationId, relationState, context));
-	} else {
-	    throw new PermissionDeniedException("unauthorized to update LPR state for " + luiPersonRelationId);
-	}
+        if (isAuthorized(context.getPrincipalId(), "delete lpr", luiPersonRelationId)) {
+            return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+        } else {
+            throw new PermissionDeniedException("unauthorized to delete LPR " + luiPersonRelationId);
+        }
     }
 
 
     /**
-     *  Fake authorization method.
+     * Update relation state.
      *
-     *  @param principal
-     *  @param function the authorization permission
-     *  @param qualifier an authorization qualifier
-     *  @return true if authorization successful
+     * @param luiPersonRelationId Identifier for the LUI Person Relation
+     * @param relationState       Relation state
+     * @param context             Context information containing the principalId
+     *                            and locale information about the caller of service
+     *                            operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException     luiPersonRelationId,
+     *                                   relationState does not exist
+     * @throws InvalidParameterException invalid luiPersonRelationId,
+     *                                   relationState
+     * @throws MissingParameterException missing luiPersonRelationId,
+     *                                   relationState
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+
+    @Override
+    public StatusInfc updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfc relationState, ContextInfc context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {
+            return (getProvider().updateRelationState(luiPersonRelationId, relationState, context));
+        } else {
+            throw new PermissionDeniedException("unauthorized to update LPR state for " + luiPersonRelationId);
+        }
+    }
+
+
+    /**
+     * Fake authorization method.
+     *
+     * @param principal
+     * @param function  the authorization permission
+     * @param qualifier an authorization qualifier
+     * @return true if authorization successful
      */
 
     protected boolean isAuthorized(String principal, String function, String qualifier)
-	throws OperationFailedException {
-	
-	if ("destroy".equals(function) && "system".equals(qualifier)) {
-	    return (false);
-	} else {
-	    return (true);
-	}
+            throws OperationFailedException {
+
+        if ("destroy".equals(function) && "system".equals(qualifier)) {
+            return (false);
+        } else {
+            return (true);
+        }
     }
 }

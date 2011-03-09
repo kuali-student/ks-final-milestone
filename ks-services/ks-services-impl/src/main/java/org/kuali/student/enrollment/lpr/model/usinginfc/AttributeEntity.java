@@ -1,8 +1,9 @@
 package org.kuali.student.enrollment.lpr.model.usinginfc;
 
+import org.kuali.student.common.infc.AttributeInfc;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import org.kuali.student.common.infc.AttributeInfc;
 
 /**
  * @author Igor
@@ -34,7 +35,7 @@ public class AttributeEntity implements AttributeInfc, Serializable {
         return path;
     }
 
-    public void setPath (String path) {
+    public void setPath(String path) {
         this.path = path;
     }
 

@@ -16,14 +16,13 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
+import org.kuali.student.core.dto.Idable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.dto.Idable;
+import java.io.Serializable;
 
 
 /**
@@ -42,7 +41,7 @@ public class FieldInfo implements Serializable, Idable {
     @XmlElement
     private String value;
 
-    @XmlAttribute(name="key")
+    @XmlAttribute(name = "key")
     private String id;
 
 

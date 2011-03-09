@@ -16,28 +16,17 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.core.dto.*;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Detailed information about a single CLU.
@@ -248,7 +237,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     public List<AdminOrgInfo> getAdminOrgs() {
         if (adminOrgs == null) {
-        	adminOrgs = new ArrayList<AdminOrgInfo>();
+            adminOrgs = new ArrayList<AdminOrgInfo>();
         }
 
         return adminOrgs;
@@ -617,11 +606,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     }
 
     public String getExpectedFirstAtp() {
-	return expectedFirstAtp;
+        return expectedFirstAtp;
     }
-    
+
     public void setExpectedFirstAtp(String expectedFirstAtp) {
-	this.expectedFirstAtp = expectedFirstAtp;
+        this.expectedFirstAtp = expectedFirstAtp;
     }
 
     public String getLastAtp() {
@@ -642,6 +631,6 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @Override
     public String toString() {
-    	return "CluInfo[id=" + id + ", type=" + type + "]";
+        return "CluInfo[id=" + id + ", type=" + type + "]";
     }
 }

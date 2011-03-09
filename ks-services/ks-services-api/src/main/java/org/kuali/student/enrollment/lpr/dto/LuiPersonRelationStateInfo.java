@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @Author Kamal
  * @Since Tue Mar 01 15:53:56 PST 2011
  * @See <a href="https://wiki.kuali.org/display/KULSTU/relationState+Structure">RelationState</a>
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationStateInfo extends StateInfo {

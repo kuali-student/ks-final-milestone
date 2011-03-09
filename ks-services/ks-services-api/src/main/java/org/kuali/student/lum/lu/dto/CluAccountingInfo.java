@@ -15,25 +15,24 @@
  */
 
 package org.kuali.student.lum.lu.dto;
- 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * Detailed information about accounting for a clu.
- */ 
+ */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluAccountingInfo implements Serializable, HasAttributes {
@@ -41,12 +40,12 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private List<AffiliatedOrgInfo> affiliatedOrgs;    
-    
+    private List<AffiliatedOrgInfo> affiliatedOrgs;
+
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
-    
+    private Map<String, String> attributes;
+
     @XmlAttribute
     private String id;
 
@@ -54,17 +53,17 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    
-    public Map<String,String> getAttributes() {
-	
+
+    public Map<String, String> getAttributes() {
+
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
 
         return attributes;
     }
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
@@ -82,5 +81,5 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
 
     public void setId(String id) {
         this.id = id;
-    }        
+    }
 }

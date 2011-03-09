@@ -2,16 +2,16 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <log4j:configuration debug="false" threshold="debug"
-	xmlns:log4j="http://jakarta.apache.org/log4j/">
+                     xmlns:log4j="http://jakarta.apache.org/log4j/">
 
     <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%p [%t] (%c) - %m%n" />
+            <param name="ConversionPattern" value="%p [%t] (%c) - %m%n"/>
         </layout>
     </appender>
 
     <root>
-        <level value="info" />
-        <appender-ref ref="consoleAppender" />
+        <level value="info"/>
+        <appender-ref ref="consoleAppender"/>
     </root>
 </log4j:configuration>

@@ -19,112 +19,112 @@ import java.util.Date;
 
 public interface VersionInfc {
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Version independent Id that remains the same across all versions
-  */
- public void setVersionIndId(String versionIndId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Version independent Id that remains the same across all versions
+     */
+    public void setVersionIndId(String versionIndId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Version independent Id that remains the same across all versions
-  */
- public String getVersionIndId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Version independent Id that remains the same across all versions
+     */
+    public String getVersionIndId();
 
- /**
-  * Set ????
-  *
-  * Type: Long
-  *
-  * The sequence number of the version
-  */
- public void setSequenceNumber(Long sequenceNumber);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Long
+     * <p/>
+     * The sequence number of the version
+     */
+    public void setSequenceNumber(Long sequenceNumber);
 
- /**
-  * Get ????
-  *
-  * Type: Long
-  *
-  * The sequence number of the version
-  */
- public Long getSequenceNumber();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Long
+     * <p/>
+     * The sequence number of the version
+     */
+    public Long getSequenceNumber();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * The date and time this version became current.
-  */
- public void setCurrentVersionStart(Date currentVersionStart);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time this version became current.
+     */
+    public void setCurrentVersionStart(Date currentVersionStart);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * The date and time this version became current.
-  */
- public Date getCurrentVersionStart();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time this version became current.
+     */
+    public Date getCurrentVersionStart();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * The date and time when this version stopped being current.
-  */
- public void setCurrentVersionEnd(Date currentVersionEnd);
+    /**
+     * Set ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time when this version stopped being current.
+     */
+    public void setCurrentVersionEnd(Date currentVersionEnd);
 
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * The date and time when this version stopped being current.
-  */
- public Date getCurrentVersionEnd();
+    /**
+     * Get ????
+     * <p/>
+     * Type: Date
+     * <p/>
+     * The date and time when this version stopped being current.
+     */
+    public Date getCurrentVersionEnd();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * Comments associated with the verison
-  */
- public void setVersionComment(String versionComment);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Comments associated with the verison
+     */
+    public void setVersionComment(String versionComment);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * Comments associated with the verison
-  */
- public String getVersionComment();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Comments associated with the verison
+     */
+    public String getVersionComment();
 
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setVersionedFromId(String versionedFromId);
+    /**
+     * Set ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setVersionedFromId(String versionedFromId);
 
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getVersionedFromId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getVersionedFromId();
 }
 

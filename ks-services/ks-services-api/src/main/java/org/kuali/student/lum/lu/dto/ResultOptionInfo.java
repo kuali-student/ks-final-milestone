@@ -16,17 +16,16 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import java.io.Serializable;
+import java.util.Date;
 
 
 /**

@@ -15,24 +15,23 @@
  */
 
 package org.kuali.student.lum.lu.dto;
- 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Detailed information about the human readable form of a CLU
  * Identifier.
- */ 
+ */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluIdentifierInfo implements Serializable, Idable {
@@ -75,7 +74,7 @@ public class CluIdentifierInfo implements Serializable, Idable {
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
-    
+
 
     /**
      * The composite string that is used to officially reference or
@@ -141,12 +140,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
     public void setDivision(String division) {
         this.division = division;
     }
-    
+
 
     /*
-     * The "extra" portion of the code, which usually corresponds with
-     * the most detailed part of the number.
-     */    
+    * The "extra" portion of the code, which usually corresponds with
+    * the most detailed part of the number.
+    */
 
     public String getSuffixCode() {
         return suffixCode;
@@ -156,7 +155,7 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.suffixCode = suffixCode;
     }
 
-    
+
     /**
      * A number that indicates the sequence or order of versions in
      * cases where several different Clus have the same offical
@@ -237,11 +236,11 @@ public class CluIdentifierInfo implements Serializable, Idable {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
         }
-        
+
         return attributes;
     }
 
-    public void setAttributes(Map<String, String> attributes) {       
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
-    }    
+    }
 }

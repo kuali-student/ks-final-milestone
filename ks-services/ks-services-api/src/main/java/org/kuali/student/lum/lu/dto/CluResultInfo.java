@@ -1,6 +1,6 @@
 /**
  * Copyright 2010 The Kuali Foundation 
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,20 +16,19 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -208,6 +207,6 @@ public class CluResultInfo implements Serializable, Idable, HasTypeState {
 
     @Override
     public String toString() {
-    	return "CluResultInfo[id=" + id + ", cluId=" + cluId + ", type=" + type + "]";
+        return "CluResultInfo[id=" + id + ", cluId=" + cluId + ", type=" + type + "]";
     }
 }

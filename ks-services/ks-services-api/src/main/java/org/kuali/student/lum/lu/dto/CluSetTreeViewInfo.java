@@ -15,28 +15,26 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- *Detailed information about a single CLU Set.
- */ 
+ * Detailed information about a single CLU Set.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluSetTreeViewInfo implements Serializable, Idable, HasAttributes {
 
@@ -53,7 +51,7 @@ public class CluSetTreeViewInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private Date expirationDate;
-    
+
     @XmlElement
     private String adminOrg;
 
@@ -62,7 +60,7 @@ public class CluSetTreeViewInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private Boolean isReferenceable;
-    
+
     @XmlElement
     private List<CluSetTreeViewInfo> cluSets;
 
@@ -177,71 +175,71 @@ public class CluSetTreeViewInfo implements Serializable, Idable, HasAttributes {
         this.id = id;
     }
 
-	/**
-	 * Gets the clu set type. 
-	 * Once set at create time, this field may not be updated.
-	 * 
-	 * @return Clu set type
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * Gets the clu set type.
+     * Once set at create time, this field may not be updated.
+     *
+     * @return Clu set type
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * Sets the clu set type. 
-	 * Once set at create time, this field may not be updated.
-	 * 
-	 * @param type Clu set type
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * Sets the clu set type.
+     * Once set at create time, this field may not be updated.
+     *
+     * @param type Clu set type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public String getAdminOrg() {
-		return adminOrg;
-	}
+    public String getAdminOrg() {
+        return adminOrg;
+    }
 
-	public void setAdminOrg(String adminOrg) {
-		this.adminOrg = adminOrg;
-	}
+    public void setAdminOrg(String adminOrg) {
+        this.adminOrg = adminOrg;
+    }
 
-	public Boolean getIsReusable() {
-		return isReusable;
-	}
+    public Boolean getIsReusable() {
+        return isReusable;
+    }
 
-	public void setIsReusable(Boolean isReusable) {
-		this.isReusable = isReusable;
-	}
+    public void setIsReusable(Boolean isReusable) {
+        this.isReusable = isReusable;
+    }
 
-	public Boolean getIsReferenceable() {
-		return isReferenceable;
-	}
+    public Boolean getIsReferenceable() {
+        return isReferenceable;
+    }
 
-	public void setIsReferenceable(Boolean isReferenceable) {
-		this.isReferenceable = isReferenceable;
-	}
+    public void setIsReferenceable(Boolean isReferenceable) {
+        this.isReferenceable = isReferenceable;
+    }
 
-	public List<CluSetTreeViewInfo> getCluSets() {
-		return cluSets;
-	}
+    public List<CluSetTreeViewInfo> getCluSets() {
+        return cluSets;
+    }
 
-	public void setCluSets(List<CluSetTreeViewInfo> cluSets) {
-		this.cluSets = cluSets;
-	}
+    public void setCluSets(List<CluSetTreeViewInfo> cluSets) {
+        this.cluSets = cluSets;
+    }
 
-	public List<CluInfo> getClus() {
-		return clus;
-	}
+    public List<CluInfo> getClus() {
+        return clus;
+    }
 
-	public void setClus(List<CluInfo> clus) {
-		this.clus = clus;
-	}    			
+    public void setClus(List<CluInfo> clus) {
+        this.clus = clus;
+    }
 }

@@ -15,14 +15,16 @@
  */
 package org.kuali.student.enrollment.lpr.service.impl;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.dto.ContextInfo;
-
 import org.kuali.student.enrollment.lpr.conversion.PersonRelationConverter;
 import org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao;
-import org.kuali.student.enrollment.lpr.dto.*;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
@@ -59,13 +61,13 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO stub mock impl
-    	List<String> bulkRelationshipValues = new ArrayList<String> ();
-		
-		bulkRelationshipValues.add(personId);
-		
-		System.out.print("created bulk records");
-		
-		return bulkRelationshipValues;
+        List<String> bulkRelationshipValues = new ArrayList<String>();
+
+        bulkRelationshipValues.add(personId);
+
+        System.out.print("created bulk records");
+
+        return bulkRelationshipValues;
 
     }
 
@@ -293,7 +295,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public LuiPersonRelationInfo updateLuiPersonRelation(
             String luiPersonRelationId,
             LuiPersonRelationInfo luiPersonRelationInfo,
-	    ContextInfo context)
+            ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, ReadOnlyException,
             OperationFailedException, PermissionDeniedException {
@@ -304,7 +306,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public StatusInfo updateRelationState(String luiPersonRelationId,
                                           LuiPersonRelationStateInfo relationState,
-					  ContextInfo context)
+                                          ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

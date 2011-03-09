@@ -16,20 +16,20 @@
 
 package org.kuali.student.lum.lu.dto;
 
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-
 
 /**
  * This is a description of what this class does - hjohnson don't
  * forget to fill this in.
- * 
+ *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  */
 
@@ -103,13 +103,13 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
-    
+
 
     /*
-     * Create and last update info for the structure.  This is
-     * optional and treated as read only since the data is set by the
-     * internals of the service during maintenance operations.
-     */
+    * Create and last update info for the structure.  This is
+    * optional and treated as read only since the data is set by the
+    * internals of the service during maintenance operations.
+    */
 
     public MetaInfo getMetaInfo() {
         return metaInfo;
@@ -119,10 +119,10 @@ public class AccreditationInfo implements Serializable, Idable, HasAttributes {
         this.metaInfo = metaInfo;
     }
 
-    
+
     /*
-     * Unique identifier for the accreditation.
-     */
+    * Unique identifier for the accreditation.
+    */
 
     public String getId() {
         return id;

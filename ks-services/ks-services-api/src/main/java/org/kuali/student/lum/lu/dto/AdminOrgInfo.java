@@ -16,57 +16,56 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * This is a description of what this class does - hjohnson don't
  * forget to fill this in.
- * 
+ *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @XmlAttribute
     private String id;
 
     @XmlElement
     private String orgId;
-    
+
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
-    
+
     @XmlElement
     private MetaInfo metaInfo;
 
     @XmlAttribute
     private String type;
-    
+
     @XmlElement
     private boolean isPrimary;
-    
-    
+
+
     /*
-     * Unique identifier for the accreditation.
-     */
+    * Unique identifier for the accreditation.
+    */
 
     public String getId() {
         return id;
@@ -75,12 +74,12 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     public void setId(String id) {
         this.id = id;
     }
-    
+
 
     /*
-     * Unique identifier for the organization responsible for the
-     * accreditation.
-     */
+    * Unique identifier for the organization responsible for the
+    * accreditation.
+    */
 
     public String getOrgId() {
         return orgId;
@@ -90,7 +89,7 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
         this.orgId = orgId;
     }
 
-    
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
@@ -128,5 +127,5 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
 
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
-    }       
+    }
 }

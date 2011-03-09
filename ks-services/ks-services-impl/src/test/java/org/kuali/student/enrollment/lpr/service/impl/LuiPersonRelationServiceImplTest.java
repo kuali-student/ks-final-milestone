@@ -15,54 +15,47 @@
  */
 package org.kuali.student.enrollment.lpr.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
-
 import org.junit.Test;
-
-
-
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.List;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 
 /**
- *
  * @Author sambit
- *  
-  *
  */
 
-public class LuiPersonRelationServiceImplTest   {
-	
-	
-	public  LuiPersonRelationService lprService ;
-	
-
-	public void setLprService(LuiPersonRelationService lprService) {
-		this.lprService = lprService;
-	}
+public class LuiPersonRelationServiceImplTest {
 
 
-	@Test
-	public void testCreateBulkRelationshipsForPerson() {
-		ApplicationContext appContext =
-            new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml","testContext.xml"});
-		lprService = (LuiPersonRelationService) appContext.getBean("lprService");
-		
-		try{
-			List<String>  createResults =   lprService.createBulkRelationshipsForPerson("123", null, null, null, null, null);
-			assertNull(createResults);
-		} catch(Exception ex){
-			fail("exception from service call :"+ex.getMessage() );
-		}
-		
-					
-	}
-	
-	
+    public LuiPersonRelationService lprService;
+
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
+
+    @Test
+    public void testCreateBulkRelationshipsForPerson() {
+        ApplicationContext appContext =
+                new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
+        lprService = (LuiPersonRelationService) appContext.getBean("lprService");
+
+        try {
+            List<String> createResults = lprService.createBulkRelationshipsForPerson("123", null, null, null, null, null);
+            assertNull(createResults);
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+
+
+    }
+
 
 }

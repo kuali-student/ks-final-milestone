@@ -16,16 +16,15 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.core.search.dto.SearchParam;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.search.dto.SearchParam;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -42,7 +41,7 @@ public class MembershipQueryInfo implements Serializable {
 
     @XmlAttribute
     private String id;
-    
+
     @XmlElement
     private String searchTypeKey;
 
@@ -81,10 +80,10 @@ public class MembershipQueryInfo implements Serializable {
     }
 
     public String getId() {
-	return id;
+        return id;
     }
-    
+
     public void setId(String id) {
-	this.id = id;
-    }    
+        this.id = id;
+    }
 }

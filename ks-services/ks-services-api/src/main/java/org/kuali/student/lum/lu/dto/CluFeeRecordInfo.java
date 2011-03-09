@@ -17,24 +17,19 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.core.dto.*;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.CurrencyAmountInfo;
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -57,13 +52,13 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
-        
+
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
     @XmlElement
     private RichTextInfo descr;
-    
+
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
@@ -95,23 +90,23 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
      */
 
     public String getRateType() {
-	return rateType;
+        return rateType;
     }
-    
+
     public void setRateType(String rateType) {
-	this.rateType = rateType;
+        this.rateType = rateType;
     }
-    
-    
+
+
     /**
      * The amount or amounts associated with the fee. The number fee
      * amounts and interpretation depends on the rate type.
      */
 
     public List<CurrencyAmountInfo> getFeeAmounts() {
-    	if (feeAmounts==null){
-	    feeAmounts = new ArrayList<CurrencyAmountInfo>();
-    	}
+        if (feeAmounts == null) {
+            feeAmounts = new ArrayList<CurrencyAmountInfo>();
+        }
 
         return feeAmounts;
     }
@@ -137,21 +132,21 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     public void setAffiliatedOrgs(List<AffiliatedOrgInfo> affiliatedOrgs) {
         this.affiliatedOrgs = affiliatedOrgs;
     }
-    
-	
+
+
     /**
-     * 	Narrative description of the CLU Fee Record. 
+     * Narrative description of the CLU Fee Record.
      */
 
     public RichTextInfo getDescr() {
-	return descr;
+        return descr;
     }
-    
+
     public void setDescr(RichTextInfo descr) {
-	this.descr = descr;
+        this.descr = descr;
     }
-    
-    
+
+
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
@@ -167,8 +162,8 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
-    
-    
+
+
     /**
      * Create and last update info for the structure. This is optional
      * and treated as read only since the data is set by the internals
@@ -176,14 +171,14 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
      */
 
     public MetaInfo getMetaInfo() {
-	return metaInfo;
+        return metaInfo;
     }
-    
+
     public void setMetaInfo(MetaInfo metaInfo) {
-	this.metaInfo = metaInfo;
+        this.metaInfo = metaInfo;
     }
-    
-    
+
+
     /**
      * Identifier for the clu fee record.
      */
@@ -191,7 +186,7 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
