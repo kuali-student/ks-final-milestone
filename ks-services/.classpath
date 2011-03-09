@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="M2_REPO/org/springframework/spring-core/2.5.6/spring-core-2.5.6.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-core"/>
+			<attribute name="maven.version" value="2.5.6"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="M2_REPO/org/aspectj/aspectjrt/1.6.1/aspectjrt-1.6.1.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.aspectj"/>
+			<attribute name="maven.artifactId" value="aspectjrt"/>
+			<attribute name="maven.version" value="1.6.1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="src" path="ks-services-api/src/main/resources"/>
+	<classpathentry kind="src" path="ks-services-api/src/main/java"/>
+	<classpathentry kind="src" path="ks-services-api/src/test/resources"/>
+	<classpathentry kind="src" path="ks-services-api/src/test/java"/>
+	<classpathentry kind="src" path="ks-services-impl/src/main/resources"/>
+	<classpathentry kind="src" path="ks-services-impl/src/main/java"/>
+	<classpathentry kind="src" path="ks-services-impl/src/test/resources"/>
+	<classpathentry kind="src" path="ks-services-impl/src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="M2_REPO/aspectj/aspectjweaver/1.5.4/aspectjweaver-1.5.4.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
