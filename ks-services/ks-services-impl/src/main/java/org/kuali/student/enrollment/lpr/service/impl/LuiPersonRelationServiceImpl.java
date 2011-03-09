@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 
