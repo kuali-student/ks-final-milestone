@@ -19,8 +19,6 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.conversion.PersonRelationConverter;
-import org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
@@ -38,17 +36,12 @@ import java.util.List;
  */
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
-    private LuiPersonRelationDao personRelationDao;
-
-    private PersonRelationConverter personRelationConverter;
-
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
             String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelation> luiPersonRelations = personRelationDao.getByLuiId(luiId);
-        return personRelationConverter.fromEntities(luiPersonRelations);
+        return null;
     }
 
     @Override
@@ -323,13 +316,5 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    public void setPersonRelationDao(LuiPersonRelationDao personRelationDao) {
-        this.personRelationDao = personRelationDao;
-    }
-
-    public void setPersonRelationConverter(PersonRelationConverter personRelationConverter) {
-        this.personRelationConverter = personRelationConverter;
     }
 }
