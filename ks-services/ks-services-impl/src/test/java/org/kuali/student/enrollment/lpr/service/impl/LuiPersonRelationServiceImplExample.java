@@ -30,7 +30,7 @@ import static org.junit.Assert.fail;
  * @Author sambit
  */
 
-public class LuiPersonRelationServiceImplTest {
+public class LuiPersonRelationServiceImplExample {
 
 
     public LuiPersonRelationService lprService;
