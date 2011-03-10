@@ -11,6 +11,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!-- authorization advice -->
     <bean id="lprAuthorizationBean"
           class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl"/>
+ 	<bean id="lprValidationBean"
+          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl"/>
 
     <!--
         <aop:config>
@@ -23,10 +25,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <aop:config>
         <aop:aspect id="securityAspect" ref="lprAuthorizationBean">
-            <aop:pointcut id="lprCreatePointcut" expression="bean(*lprService)"/>
-            <aop:around pointcut-ref="lprCreatePointcut" method="createBulkRelationshipsForPersonAuthorization"/>
+            <aop:pointcut id="lprCreateAuthPointcut" expression="bean(*lprService)"/>
+            <aop:around pointcut-ref="lprCreateAuthPointcut" method="createBulkRelationshipsForPersonAuthorization"/>
         </aop:aspect>
     </aop:config>
+    
+    <aop:aspect id="validationAspect" ref="lprValidationBean">
+     <aop:pointcut id="lprCreateValidatePointcut" expression="bean(*lprService)"/>
+     <aop:around pointcut-ref="lprCreateValidatePointcut" method="createBulkRelationshipsForPersonValidation" />
+  </aop:aspect>
 
 
 </beans>
