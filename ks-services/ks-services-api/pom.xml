@@ -33,4 +33,20 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <build>
+     <plugins>
+      <plugin>
+       <groupId>org.kuali.student.mojo</groupId>
+       <artifactId>maven-kscontractdoc-plugin</artifactId>
+       <version>0.0.1-SNAPSHOT</version>
+       <configuration>
+        <commonDirectory>src\main\java</commonDirectory>
+        <coreDirectory>xxxxx</coreDirectory>
+        <lumDirectory>yyyyyy</lumDirectory>
+        <htmlDirectory>target/html</htmlDirectory>
+       </configuration>
+      </plugin>
+     </plugins>
+    </build>
+
 </project>
