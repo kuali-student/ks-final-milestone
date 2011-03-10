@@ -29,6 +29,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/cluLoRelationTypeInfo+Structure+v1.0-rc1">CluLoRelationTypeInfo v1.0-rc1</>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationTypeInfo extends TypeInfo {
+public class LuiPersonRelationTypeInfo extends TypeStateInfo {
     private static final long serialVersionUID = 1L;
 }

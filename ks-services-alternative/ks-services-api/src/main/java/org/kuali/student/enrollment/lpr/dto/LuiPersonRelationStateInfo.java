@@ -26,6 +26,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/relationState+Structure">RelationState</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationStateInfo extends StateInfo {
+public class LuiPersonRelationStateInfo extends TypeStateInfo {
     private static final long serialVersionUID = 1L;
 }

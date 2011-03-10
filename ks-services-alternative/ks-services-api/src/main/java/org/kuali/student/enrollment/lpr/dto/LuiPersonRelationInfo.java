@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
@@ -29,6 +28,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +40,7 @@ import java.util.Map;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class LuiPersonRelationInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,17 +57,16 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
     private Date expirationDate;
 
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    private List<DynamicAttributeInfo> dynamicAttributes;
 
     @XmlElement
     private MetaInfo metaInfo;
 
     @XmlAttribute
-    private String type;
+    private LuiPersonRelationTypeInfo type;
 
     @XmlAttribute
-    private String state;
+    private LuiPersonRelationStateInfo state;
 
     @XmlAttribute
     private String id;
@@ -124,20 +123,12 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * Name: Generic/dynamic attributes
-     * <p/>
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
+    public List<DynamicAttributeInfo> getDynamicAttributes() {
+        return dynamicAttributes;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
+    public void setDynamicAttributes(List<DynamicAttributeInfo> dynamicAttributes) {
+        this.dynamicAttributes = dynamicAttributes;
     }
 
     /**
@@ -153,30 +144,19 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
         this.metaInfo = metaInfo;
     }
 
-    /**
-     * Name: LUI Person Relation Type
-     * <p/>
-     * Unique identifier for the type of LUI to Person relation.
-     */
-    public String getType() {
+    public LuiPersonRelationTypeInfo getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(LuiPersonRelationTypeInfo type) {
         this.type = type;
     }
 
-    /**
-     * Name: Relation State
-     * <p/>
-     * Unique identifier for the state of the relationship between a LUI and person.
-     */
-    public String getState() {
+    public LuiPersonRelationStateInfo getState() {
         return state;
     }
 
-    @Override
-    public void setState(String state) {
+    public void setState(LuiPersonRelationStateInfo state) {
         this.state = state;
     }
 
