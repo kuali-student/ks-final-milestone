@@ -27,6 +27,8 @@ import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityService;
 
 /**
  * A example of an adaptor that will default the context if not supplied based
@@ -41,6 +43,7 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
         implements LuiPersonRelationServiceInfc {
 
     private HttpServletRequest request;
+    private IdentityService identityService;
 
     // TODO: add logic to the servlet to actually set this variable because it cannot be configured
     public HttpServletRequest getRequest() {
@@ -51,12 +54,21 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
         this.request = request;
     }
 
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
     private ContextInfc defaultContext(ContextInfc context) {
         if (context == null) {
             context = new ContextBean();
         }
         if (context.getPrincipalId() == null) {
-            context.setPrincipalId(request.getRemoteUser());
+            KimPrincipalInfo principalInfo = identityService.getPrincipalByPrincipalName(request.getRemoteUser());
+            context.setPrincipalId(principalInfo.getPrincipalId());
         }
         if (context.getLocaleLanguage() == null) {
             context.setLocaleLanguage(request.getLocale().getLanguage());
