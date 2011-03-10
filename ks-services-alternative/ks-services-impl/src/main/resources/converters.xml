@@ -3,14 +3,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="personRelationConverter" class="org.kuali.student.enrollment.lpr.conversion.PersonRelationConverter">
         <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+        <property name="personRelationStateConverter" ref="personRelationStateConverter"/>
+        <property name="personRelationTypeConverter" ref="personRelationTypeConverter"/>
     </bean>
 
     <bean name="dynamicAttributesConverter"
           class="org.kuali.student.enrollment.lpr.conversion.DynamicAttributeConverter"/>
 
     <bean name="personRelationTypeConverter"
-          class="org.kuali.student.enrollment.lpr.conversion.PersonRelationTypeConverter"/>
+          class="org.kuali.student.enrollment.lpr.conversion.PersonRelationTypeConverter">
+        <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+    </bean>
 
     <bean name="personRelationStateConverter"
-          class="org.kuali.student.enrollment.lpr.conversion.PersonRelationStateConverter"/>
+          class="org.kuali.student.enrollment.lpr.conversion.PersonRelationStateConverter">
+        <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+    </bean>
 </beans>

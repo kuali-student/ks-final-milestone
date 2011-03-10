@@ -1,42 +1,59 @@
 package org.kuali.student.enrollment.lpr.conversion;
 
+import org.kuali.student.enrollment.lpr.dto.DynamicAttributeInfo;
 import org.kuali.student.enrollment.lpr.model.DynamicAttribute;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Igor
  */
-public class DynamicAttributeConverter implements SimpleConverter<List<DynamicAttribute>, Map<String, String>> {
+public class DynamicAttributeConverter implements Converter<DynamicAttribute, DynamicAttributeInfo> {
 
     @Override
-    public List<DynamicAttribute> fromDto(Map<String, String> attributes) {
-        List<DynamicAttribute> dynamicAttributes = new ArrayList<DynamicAttribute>();
-        dtoToEntity(attributes, dynamicAttributes);
-        return dynamicAttributes;
-    }
-
-    @Override
-    public Map<String, String> fromEntity(List<DynamicAttribute> dynamicAttributes) {
-        Map<String, String> attributes = new HashMap<String, String>();
-        entityToDto(dynamicAttributes, attributes);
-        return attributes;
-    }
-
-    @Override
-    public void entityToDto(List<DynamicAttribute> dynamicAttributes, Map<String, String> attributes) {
-        for (DynamicAttribute dynamicAttribute : dynamicAttributes) {
-            attributes.put(dynamicAttribute.getKey(), dynamicAttribute.getValue());
+    public List<DynamicAttribute> fromDtos(List<DynamicAttributeInfo> dtos) {
+        List<DynamicAttribute> entities = new ArrayList<DynamicAttribute>();
+        for (DynamicAttributeInfo dto : dtos) {
+            entities.add(fromDto(dto));
         }
+        return entities;
     }
 
     @Override
-    public void dtoToEntity(Map<String, String> attributes, List<DynamicAttribute> dynamicAttributes) {
-        for (String key : attributes.keySet()) {
-            dynamicAttributes.add(new DynamicAttribute(key, attributes.get(key)));
+    public List<DynamicAttributeInfo> fromEntities(List<DynamicAttribute> entities) {
+        List<DynamicAttributeInfo> dtos = new ArrayList<DynamicAttributeInfo>();
+        for (DynamicAttribute entity : entities) {
+            dtos.add(fromEntity(entity));
         }
+        return dtos;
+    }
+
+    @Override
+    public DynamicAttribute fromDto(DynamicAttributeInfo dto) {
+        DynamicAttribute entity = new DynamicAttribute();
+        dtoToEntity(dto, entity);
+        return entity;
+    }
+
+    @Override
+    public DynamicAttributeInfo fromEntity(DynamicAttribute entity) {
+        DynamicAttributeInfo dto = new DynamicAttributeInfo();
+        entityToDto(entity, dto);
+        return dto;
+    }
+
+    @Override
+    public void entityToDto(DynamicAttribute entity, DynamicAttributeInfo dto) {
+        dto.setId(entity.getId());
+        dto.setKey(entity.getKey());
+        dto.setValue(entity.getValue());
+    }
+
+    @Override
+    public void dtoToEntity(DynamicAttributeInfo dto, DynamicAttribute entity) {
+        entity.setId(dto.getId());
+        entity.setKey(dto.getKey());
+        entity.setValue(dto.getValue());
     }
 }

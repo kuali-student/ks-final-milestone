@@ -12,10 +12,21 @@ import java.io.Serializable;
 public class DynamicAttributeInfo implements Serializable {
 
     @XmlElement
+    private Long id;
+
+    @XmlElement
     private String key;
 
     @XmlElement
     private String value;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getKey() {
         return key;

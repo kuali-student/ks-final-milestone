@@ -10,6 +10,8 @@ import java.util.List;
  * @author Igor
  */
 public class LuiPersonRelationDao extends JpaDaoSupport {
+
+    @SuppressWarnings({"unchecked"})
     public List<LuiPersonRelation> getByLuiId(String luiId) {
         EntityManager entityManager = getJpaTemplate().getEntityManagerFactory().createEntityManager();
         return (List<LuiPersonRelation>) entityManager.createQuery("from LuiPersonRelation pr where pr.luiId=:luiId").setParameter("luiId", luiId).getResultList();
