@@ -222,12 +222,12 @@ public class LuiPersonRelationServiceMockPersistenceImplTest {
         assertEquals(fetched.getAttributes().size(), updated.getAttributes().size());
         assertNotSame(fetched.getAttributes(), updated.getAttributes());
 
-        for (AttributeInfc origDa : fetched.getAttributes()) {
-            AttributeInfc fetchedDa = findMatching(origDa, updated.getAttributes());
-            assertNotNull(fetchedDa);
-            assertNotSame(origDa, fetchedDa);
-            assertEquals(origDa.getKey(), fetchedDa.getKey());
-            assertEquals(origDa.getValue(), fetchedDa.getValue());
+        for (AttributeInfc fetchedDa : fetched.getAttributes()) {
+            AttributeInfc updateDa = findMatching(fetchedDa, updated.getAttributes());
+            assertNotNull(updateDa);
+            assertNotSame(fetchedDa, updateDa);
+            assertEquals(fetchedDa.getKey(), updateDa.getKey());
+            assertEquals(fetchedDa.getValue(), updateDa.getValue());
         }
         assertNotNull(updated.getMetaInfo());
         assertEquals(context.getPrincipalId(), updated.getMetaInfo().getUpdateId());
