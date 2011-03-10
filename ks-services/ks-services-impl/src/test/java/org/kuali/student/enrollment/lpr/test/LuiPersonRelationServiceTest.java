@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.kuali.student.enrollment.lpr.test.Constants.LUI_ID1;
 
 /**
  * @author Igor
@@ -41,9 +42,12 @@ public class LuiPersonRelationServiceTest {
 
     @Test
     public void testFindLuiPersonRelationsForLui() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        final String luiId = "Lui1";
-        List<LuiPersonRelationInfo> personRelationInfos = personRelationService.findLuiPersonRelationsForLui(luiId, new ContextInfo());
+        List<LuiPersonRelationInfo> personRelationInfos = personRelationService.findLuiPersonRelationsForLui(LUI_ID1, new ContextInfo());
         assertNotNull(personRelationInfos);
         assertEquals(personRelationInfos.size(), 1);
+
+        LuiPersonRelationInfo personRelationInfo = personRelationInfos.get(0);
+        assertNotNull(personRelationInfo.getAttributes());
+        assertEquals(personRelationInfo.getAttributes().size(), 2);
     }
 }

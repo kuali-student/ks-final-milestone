@@ -26,13 +26,13 @@ public class LuiPersonRelation implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private LuiPersonRelationType personRelationType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private LuiPersonRelationState personRelationState;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "lui_person_relation_id")
     private List<DynamicAttribute> dynamicAttributes;
 
@@ -90,5 +90,13 @@ public class LuiPersonRelation implements Serializable {
 
     public void setPersonRelationState(LuiPersonRelationState personRelationState) {
         this.personRelationState = personRelationState;
+    }
+
+    public List<DynamicAttribute> getDynamicAttributes() {
+        return dynamicAttributes;
+    }
+
+    public void setDynamicAttributes(List<DynamicAttribute> dynamicAttributes) {
+        this.dynamicAttributes = dynamicAttributes;
     }
 }

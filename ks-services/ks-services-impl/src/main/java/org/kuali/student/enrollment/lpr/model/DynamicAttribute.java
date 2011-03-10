@@ -21,6 +21,20 @@ public class DynamicAttribute implements Serializable {
 
     private String value;
 
+    public DynamicAttribute() {
+    }
+
+    public DynamicAttribute(DynamicType dynamicType, String key, String value) {
+        this.dynamicType = dynamicType;
+        this.key = key;
+        this.value = value;
+    }
+
+    public DynamicAttribute(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
     public Long getId() {
         return id;
     }

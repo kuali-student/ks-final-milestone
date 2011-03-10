@@ -99,7 +99,7 @@ public class LuiPersonRelationServiceMockPersistenceImplTest {
     public void testCreateBulkRelationshipsForPerson() throws Exception {
         System.out.println("createBulkRelationshipsForPerson");
         String personId = "person1";
-        List<String> luiIdList = new ArrayList();
+        List<String> luiIdList = new ArrayList<String>();
         luiIdList.add("luiId1");
         luiIdList.add("luiId2");
         luiIdList.add("luiId3");
@@ -111,7 +111,7 @@ public class LuiPersonRelationServiceMockPersistenceImplTest {
 
         List<String> lprIds = service.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
         assertEquals(3, lprIds.size());
-        Set<String> unique = new HashSet(lprIds.size());
+        Set<String> unique = new HashSet<String>(lprIds.size());
         for (String lprId : lprIds) {
             if (!unique.add(lprId)) {
                 fail("lprIds are not unique");
