@@ -124,7 +124,7 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
                 relationState, context));
     }
 
-
+	
     protected void checkParameter(String parameterName, Object parameter)
             throws MissingParameterException {
 
