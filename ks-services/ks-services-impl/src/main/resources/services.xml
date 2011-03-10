@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
+    <import resource="classpath:dao.xml"/>
+    <import resource="classpath:converters.xml"/>
+    <bean id="luiPersonRelationService"
+          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl">
+        <property name="personRelationDao" ref="luiPersonRelationDao"/>
+        <property name="personRelationConverter" ref="personRelationConverter"/>
+    </bean>
+</beans>

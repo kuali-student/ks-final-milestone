@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+    <bean id="lprService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl"/>
+
+    <!-- authorization advice -->
+    <bean id="lprAuthorizationBean"
+          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl"/>
+
+    <!--
+        <aop:config>
+       <aop:aspect id="lprCreateMethod" ref="lprAuthorizationBean">
+          <aop:around pointcut="execution(* org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationService*.*(..))"
+                   method="createBulkRelationshipsForPersonAuthorization"/>
+       </aop:aspect>
+    </aop:config>
+    -->
+
+    <aop:config>
+        <aop:aspect id="securityAspect" ref="lprAuthorizationBean">
+            <aop:pointcut id="lprCreatePointcut" expression="bean(*lprService)"/>
+            <aop:around pointcut-ref="lprCreatePointcut" method="createBulkRelationshipsForPersonAuthorization"/>
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>
