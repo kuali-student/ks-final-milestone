@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.List;
 /**
  * @Author sambit
  */
+@Service
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
