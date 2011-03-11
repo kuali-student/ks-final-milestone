@@ -41,15 +41,20 @@ public class LuiPersonRelationServiceImplTest {
 	public void setLprService(LuiPersonRelationService lprService) {
 		this.lprService = lprService;
 	}
-
+ 
 	@Before
 	public void setUp() {
+	}
+
+	
+	@After
+	public void tearDown() {
 	}
 
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
 		ApplicationContext appContext =
-			new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
+			new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
 		lprService = (LuiPersonRelationService) appContext.getBean("lprService");
 
 		try {
