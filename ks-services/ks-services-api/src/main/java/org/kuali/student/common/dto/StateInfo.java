@@ -17,19 +17,17 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.StateInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class StateInfo implements StateInfc, Serializable {
+public abstract class StateInfo extends HasAttributesInfo implements StateInfc, Serializable {
 	
 	@XmlAttribute
 	private String key;
@@ -45,20 +43,19 @@ public abstract class StateInfo implements StateInfc, Serializable {
 	
 	@XmlElement
 	private Date expirationDate;
-	
-    @XmlElement
-    private List<AttributeInfo> attributes;
 
     /**
      * @return the key
      */
+    @Override
     public String getKey() {
         return key;
     }
 
     /**
      * @param key the key to set
-     */
+    */
+    @Override
     public void setKey(String key) {
         this.key = key;
     }
@@ -66,6 +63,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -73,6 +71,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @param name the name to set
      */
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -80,6 +79,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @return the descr
      */
+    @Override
     public String getDescr() {
         return descr;
     }
@@ -87,6 +87,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @param descr the descr to set
      */
+    @Override
     public void setDescr(String descr) {
         this.descr = descr;
     }
@@ -94,6 +95,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @return the effectiveDate
      */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -101,6 +103,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @param effectiveDate the effectiveDate to set
      */
+    @Override
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
@@ -108,6 +111,7 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @return the expirationDate
      */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -115,22 +119,9 @@ public abstract class StateInfo implements StateInfc, Serializable {
     /**
      * @param expirationDate the expirationDate to set
      */
+    @Override
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * @return the attributes
-     */
-    public List<AttributeInfo> getAttributes() {
-        return attributes;
-    }
-
-    /**
-     * @param attributes the attributes to set
-     */
-    @SuppressWarnings("unchecked")
-    public void setAttributes(List<? extends AttributeInfc> attributes) {
-        this.attributes = (List<AttributeInfo>) attributes;
-    }
 }

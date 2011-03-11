@@ -15,19 +15,10 @@
  */
 package org.kuali.student.common.infc;
 
-//import com.sun.xml.internal.bind.AnyTypeAdapter;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
-import org.kuali.student.common.dto.HasAttributes;
-
-@XmlRootElement
-//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
-@XmlAccessorType(XmlAccessType.PROPERTY)
-public interface TypeInfc extends HasAttributes {
+public interface TypeInfc extends HasKeyInfc, HasAttributesInfc, HasEffectiveDatesInfc {
 
  /**
   * Set ????
@@ -65,58 +56,5 @@ public interface TypeInfc extends HasAttributes {
   */
  public String getDescr();
 
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * ???
-  */
- public void setEffectiveDate(Date effectiveDate);
-
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * ???
-  */
- public Date getEffectiveDate();
-
- /**
-  * Set ????
-  *
-  * Type: Date
-  *
-  * ???
-  */
- public void setExpirationDate(Date expirationDate);
-
- /**
-  * Get ????
-  *
-  * Type: Date
-  *
-  * ???
-  */
- public Date getExpirationDate();
-
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setKey(String key);
-
- /**
-  * Get ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public String getKey();
 }
 

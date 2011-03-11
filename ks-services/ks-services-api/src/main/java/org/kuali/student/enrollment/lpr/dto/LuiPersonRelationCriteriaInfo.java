@@ -29,7 +29,7 @@ import java.io.Serializable;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationCriteria implements Serializable {
+public class LuiPersonRelationCriteriaInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

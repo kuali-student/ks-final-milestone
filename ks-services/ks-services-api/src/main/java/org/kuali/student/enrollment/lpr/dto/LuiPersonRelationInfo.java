@@ -15,10 +15,7 @@
  */
 package org.kuali.student.enrollment.lpr.dto;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
+
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,9 +24,18 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.dto.HasAttributesInfo;
+import org.kuali.student.common.infc.HasAttributesInfc;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
 
 /**
  * Detailed information about a single LUI to Person Relation.
@@ -40,7 +46,7 @@ import java.util.Map;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class LuiPersonRelationInfo extends HasAttributesInfo implements LuiPersonRelationInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,10 +61,6 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
 
     @XmlElement
     private Date expirationDate;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
@@ -124,33 +126,20 @@ public class LuiPersonRelationInfo implements Serializable, Idable, HasTypeState
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * Name: Generic/dynamic attributes
-     * <p/>
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
+  
     /**
      * Name: Create/Update meta info
      * <p/>
      * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
      */
+    @Override
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
+    @Override
+    public void setMetaInfo(MetaInfc metaInfo) {
+        this.metaInfo = (MetaInfo) metaInfo;
     }
 
     /**

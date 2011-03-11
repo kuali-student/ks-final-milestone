@@ -20,7 +20,7 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
@@ -413,7 +413,7 @@ public interface LuiPersonRelationService {
      * @throws PermissionDeniedException authorization failure
      */
 
-    public List<String> searchForLuiPersonRelationIds(@WebParam(name = "luiPersonRelationCriteria") LuiPersonRelationCriteria luiPersonRelationCriteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForLuiPersonRelationIds(@WebParam(name = "luiPersonRelationCriteria") LuiPersonRelationCriteriaInfo luiPersonRelationCriteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**

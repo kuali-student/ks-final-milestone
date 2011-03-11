@@ -24,12 +24,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.TypeInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class TypeInfo implements TypeInfc, Serializable {
+public abstract class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializable {
 	
     @XmlAttribute
 	private String key;
@@ -63,20 +62,6 @@ public abstract class TypeInfo implements TypeInfc, Serializable {
         this.key = key;
     }
 
-    /**
-     * @param attributes the attributes to set
-     */
-    @SuppressWarnings("unchecked")
-    public void setAttributes(List<? extends AttributeInfc> attributes) {
-        this.attributes = (List<AttributeInfo>) attributes;
-    }
-
-    /**
-     * @return the attributes
-     */
-    public List<AttributeInfo> getAttributes() {
-        return attributes;
-    }
 
     /**
      * @return the name

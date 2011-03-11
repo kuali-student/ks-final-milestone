@@ -15,10 +15,11 @@
 
 package org.kuali.student.enrollment.lpr.dto;
 
-import org.kuali.student.core.dto.TypeInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 
 /**
  * Information about a CLU LO relation type.
@@ -29,6 +30,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/cluLoRelationTypeInfo+Structure+v1.0-rc1">CluLoRelationTypeInfo v1.0-rc1</>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationTypeInfo extends TypeInfo {
+public class LuiPersonRelationTypeInfo extends TypeInfo implements LuiPersonRelationTypeInfc {
     private static final long serialVersionUID = 1L;
 }

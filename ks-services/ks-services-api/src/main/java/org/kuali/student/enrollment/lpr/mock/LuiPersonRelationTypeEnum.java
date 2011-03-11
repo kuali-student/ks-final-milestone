@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.infc;
+package org.kuali.student.enrollment.lpr.mock;
 
 import org.kuali.student.common.infc.AttributeInfc;
 
@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 
 /**
  * Types for Learning Person Relations
@@ -55,7 +56,7 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     private String descr;
     private Date effectiveDate;
     private Date expirationDate;
-    private List<AttributeInfc> attributes;
+    private List<? extends AttributeInfc> attributes;
     private String key;
 
     LuiPersonRelationTypeEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<AttributeInfc> attributes) {
@@ -108,12 +109,12 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     }
 
     @Override
-    public void setAttributes(List<AttributeInfc> attributes) {
+    public void setAttributes(List<? extends AttributeInfc> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<AttributeInfc> getAttributes() {
+    public List<? extends AttributeInfc> getAttributes() {
         return this.attributes;
     }
 

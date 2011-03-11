@@ -15,23 +15,9 @@
 
 package org.kuali.student.common.infc;
 
-import java.util.Date;
-
-import org.kuali.student.common.dto.HasAttributes;
-
-
-public interface StateInfc extends HasAttributes {
+public interface StateInfc extends HasKeyInfc, HasAttributesInfc, HasEffectiveDatesInfc {
     
-    /**
-     * @return the key
-     */
-    public String getKey();
-
-    /**
-     * @param key the key to set
-     */
-    public void setKey(String key);
-    
+   
     /**
      * @return the name
      */
@@ -51,26 +37,6 @@ public interface StateInfc extends HasAttributes {
      * @param descr the descr to set
      */
     public void setDescr(String descr);
-
-    /**
-     * @return the effectiveDate
-     */
-    public Date getEffectiveDate();
-
-    /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate);
-
-    /**
-     * @return the expirationDate
-     */
-    public Date getExpirationDate();
-    
-    /**
-     * @param expirationDate the expirationDate to set
-     */
-    public void setExpirationDate(Date expirationDate);
-    
+   
 
 }

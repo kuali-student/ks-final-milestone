@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.infc;
+package org.kuali.student.enrollment.lpr.service;
 
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
@@ -21,6 +21,10 @@ import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.*;
 
 import java.util.List;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationCriteriaInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 
 public interface LuiPersonRelationServiceInfc {
 

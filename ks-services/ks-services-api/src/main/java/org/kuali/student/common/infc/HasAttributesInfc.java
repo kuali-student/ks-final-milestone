@@ -12,14 +12,12 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-package org.kuali.student.common.dto;
+package org.kuali.student.common.infc;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.AttributeInfc;
 
-public interface HasAttributes {
+public interface HasAttributesInfc {
 	public List<? extends AttributeInfc> getAttributes();
 	public void setAttributes(List<? extends AttributeInfc> attributes);
 }

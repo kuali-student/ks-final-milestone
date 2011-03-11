@@ -16,211 +16,65 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
-
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.MetaInfc;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.common.infc.HasAttributesInfc;
+import org.kuali.student.common.infc.HasEffectiveDatesInfc;
+import org.kuali.student.common.infc.HasMetaInfc;
+import org.kuali.student.common.infc.HasStateInfc;
+import org.kuali.student.common.infc.HasTypeInfc;
+import org.kuali.student.core.dto.Idable;
 
 @XmlRootElement
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public interface LuiPersonRelationInfc {
+public interface LuiPersonRelationInfc
+        extends HasAttributesInfc,
+        HasMetaInfc,
+        Idable,
+        HasTypeInfc,
+        HasStateInfc,
+        HasEffectiveDatesInfc {
 
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI
-     * Unique identifier for a Learning Unit Instance (LUI).
-     */
-    public void setLuiId(String luiId);
+ /**
+  * Set ????
+  * <p/>
+  * Type: String
+  * <p/>
+  * Name: LUI
+  * Unique identifier for a Learning Unit Instance (LUI).
+  */
+ public void setLuiId(String luiId);
 
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI
-     * Unique identifier for a Learning Unit Instance (LUI).
-     */
-    public String getLuiId();
+ /**
+  * Get ????
+  * <p/>
+  * Type: String
+  * <p/>
+  * Name: LUI
+  * Unique identifier for a Learning Unit Instance (LUI).
+  */
+ public String getLuiId();
 
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Person
-     * Unique identifier for a person record.
-     */
-    public void setPersonId(String personId);
+ /**
+  * Set ????
+  * <p/>
+  * Type: String
+  * <p/>
+  * Name: Person
+  * Unique identifier for a person record.
+  */
+ public void setPersonId(String personId);
 
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Person
-     * Unique identifier for a person record.
-     */
-    public String getPersonId();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name:Effective
-     * Date/time this relationship became effective. Must be less than or equal to the
-     * expirationDate specified.
-     */
-    public void setEffectiveDate(Date effectiveDate);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name:Effective
-     * Date/time this relationship became effective. Must be less than or equal to the
-     * expirationDate specified.
-     */
-    public Date getEffectiveDate();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name: Expiration
-     * Date/time this relationship is no longer effective. Must be greater than or
-     * equal to the effectiveDate specified.
-     */
-    public void setExpirationDate(Date expirationDate);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name: Expiration
-     * Date/time this relationship is no longer effective. Must be greater than or
-     * equal to the effectiveDate specified.
-     */
-    public Date getExpirationDate();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type:
-     * <p/>
-     * Name: Generic/dynamic
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public void setAttributes(List<AttributeInfc> attributes);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: List<AttributeInfc>
-     * <p/>
-     * Name: Generic/dynamic
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public List<AttributeInfc> getAttributes();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: MetaInfo
-     * <p/>
-     * Name: Create/Update meta
-     * Create and last update info for the structure. This is optional and treated as
-     * read only since the data is set by the internals of the service during
-     * maintenance operations.
-     */
-    public void setMetaInfo(MetaInfc metaInfo);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: MetaInfo
-     * <p/>
-     * Name: Create/Update meta
-     * Create and last update info for the structure. This is optional and treated as
-     * read only since the data is set by the internals of the service during
-     * maintenance operations.
-     */
-    public MetaInfc getMetaInfo();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the type of LUI to Person relation.
-     */
-    public void setType(String type);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the type of LUI to Person relation.
-     */
-    public String getType();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Relation
-     * Unique identifier for the state of the relationship between a LUI and person.
-     */
-    public void setState(String state);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Relation
-     * Unique identifier for the state of the relationship between a LUI and person.
-     */
-    public String getState();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the LUI to Person relation. This is optional, due to the
-     * identifier being set at the time of creation. Once the relation has been
-     * created, this should be seen as required.
-     */
-    public void setId(String id);
-
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the LUI to Person relation. This is optional, due to the
-     * identifier being set at the time of creation. Once the relation has been
-     * created, this should be seen as required.
-     */
-    public String getId();
+ /**
+  * Get ????
+  * <p/>
+  * Type: String
+  * <p/>
+  * Name: Person
+  * Unique identifier for a person record.
+  */
+ public String getPersonId();
 }
 

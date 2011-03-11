@@ -15,16 +15,7 @@
  */
 package org.kuali.student.common.infc;
 
-//import com.sun.xml.internal.bind.AnyTypeAdapter;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
-@XmlAccessorType(XmlAccessType.PROPERTY)
-public interface ContextInfc {
+public interface ContextInfc extends HasAttributesInfc {
 
     /**
      * Set ????

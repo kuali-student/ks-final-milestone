@@ -43,7 +43,7 @@ import org.kuali.student.common.infc.ContextInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ContextInfo implements ContextInfc, Serializable {
+public class ContextInfo extends HasAttributesInfo implements ContextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
