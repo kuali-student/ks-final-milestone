@@ -41,7 +41,7 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
                                           String luiPersonRelationType,
                                           LuiPersonRelationInfc luiPersonRelationInfo,
                                           ContextInfc context)
-            throws AlreadyExistsException, DoesNotExistException,
+            throws AlreadyExistsException, DoesNotExistException, ReadOnlyException,
             DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -65,7 +65,7 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
                                                          LuiPersonRelationInfc luiPersonRelationInfo,
                                                          ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 

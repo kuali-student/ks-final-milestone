@@ -90,7 +90,7 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
                                           LuiPersonRelationInfc luiPersonRelationInfo,
                                           ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         context = defaultContext(context);
@@ -108,7 +108,7 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
                                                          LuiPersonRelationInfc luiPersonRelationInfo,
                                                          ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         context = defaultContext(context);

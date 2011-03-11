@@ -43,7 +43,7 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
                                           LuiPersonRelationInfc luiPersonRelationInfo,
                                           ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -64,7 +64,7 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
                                                          LuiPersonRelationInfc luiPersonRelationInfo,
                                                          ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
