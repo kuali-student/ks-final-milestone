@@ -504,10 +504,10 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo </value>
 				</entry>
 				<entry key="lo.search.loByDesc">
-                    <value>SELECT lo.id, loDesc.plain FROM Lo lo JOIN lo.descr loDesc</value>
+                    <value>SELECT lo.id, lo.descr.plain FROM Lo lo</value>
 				</entry>	
 				<entry key="lo.queryParam.loDescPlain">
-					<value>loDesc.plain</value>
+					<value>lo.descr.plain</value>
 				</entry>						
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
@@ -522,7 +522,7 @@
                     <value>SELECT cat.id FROM LoCategory cat WHERE LOWER(cat.name) = :lo_queryParam_loCategoryName AND cat.loRepository.id = :lo_queryParam_loCategoryRepo AND cat.loCategoryType.id = :lo_queryParam_loCategoryType AND cat.state = :lo_queryParam_loCategoryState</value>
 				</entry>
     			<entry key="lo.search.loByCategory">				
-					<value>SELECT lo.id, loDesc.plain, cat.name FROM Lo lo, LoCategory cat, LoLoCategoryJoin lolocat JOIN lo.descr loDesc where lo.id = lolocat.lo.id and cat.id = lolocat.loCategory.id</value>
+					<value>SELECT lo.id, lo.descr.plain, cat.name FROM Lo lo LEFT JOIN lo.categories lolocat LEFT JOIN lolocat.loCategory cat </value>
 				</entry>
 				<entry key="lo.queryParam.loOptionalCategoryName">
 					<value>cat.name</value>
