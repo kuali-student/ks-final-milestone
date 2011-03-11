@@ -16,31 +16,34 @@
 
 package org.kuali.student.common.dto;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import java.io.Serializable;
+
+import org.kuali.student.common.infc.ContextInfc;
 
 
 /**
  * This is a generic context container to be used by services to pass
  * user identity and preferences
- * <p/>
- * Note:
- * 1. ISO3 standard can now be interpreted by looking at the
- * language and country codes
- * 2. Time zone is defined in GMT +/- hours and minutes format
- * 3. Should Locale contain currency
- * <p/>
+ * 
+ * Note: 
+ *      1. ISO3 standard can now be interpreted by looking at the 
+ *         language and country codes
+ *      2. Time zone is defined in GMT +/- hours and minutes format
+ *      3. Should Locale contain currency 
+ *
  * References:
  * ftp://ftp.rfc-editor.org/in-notes/bcp/bcp47.txt
  * http://download.oracle.com/javase/1.4.2/docs/api/java/util/TimeZone.html
- *
+ * 
  * @author Kamal
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ContextInfo implements Serializable {
+public class ContextInfo implements ContextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +52,7 @@ public class ContextInfo implements Serializable {
 
     @XmlElement
     private String localeLanguage;
-
+    
     @XmlElement
     private String localeVariant;
 
@@ -58,7 +61,7 @@ public class ContextInfo implements Serializable {
 
     @XmlElement
     private String localeScript;
-
+    
     @XmlElement
     private String timeZone;
 
@@ -168,5 +171,5 @@ public class ContextInfo implements Serializable {
 
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
-    }
+    }    
 }
