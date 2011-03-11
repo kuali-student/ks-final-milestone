@@ -17,17 +17,19 @@ package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
 import org.junit.*;
 import org.kuali.student.common.infc.*;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationBean;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateEnum;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeEnum;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
 import org.kuali.student.enrollment.lpr.service.impl.CopierHelper;
 import org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceMockPersistenceImpl;
 
@@ -74,7 +76,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 	}
 
 	private ContextInfc getContext1() {
-		ContextInfc context = new ContextBean();
+		ContextInfc context = new ContextInfo();
 		context.setPrincipalId("principalId.1");
 		context.setLocaleLanguage("en");
 		context.setLocaleRegion("us");
@@ -82,7 +84,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 	}
 
 	private ContextInfc getContext2() {
-		ContextInfc context = new ContextBean();
+		ContextInfc context = new ContextInfo();
 		context.setPrincipalId("principalId.2");
 		context.setLocaleLanguage("fr");
 		context.setLocaleRegion("ca");
@@ -111,7 +113,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc orig = new LuiPersonRelationBean();
+		LuiPersonRelationInfc orig = new LuiPersonRelationInfo();
 		orig.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
 		orig.setEffectiveDate(parseDate("2010-01-01"));
 		ContextInfc context = getContext1();
@@ -126,7 +128,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		orig.setId(null);
 		try {
 			// TODO: decide if an empty MetaInfo is bad or just one that is filled in with some values
-			orig.setMetaInfo(new MetaBean ());			
+			orig.setMetaInfo(new MetaInfo ());
 			getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
 			fail("should have thrown a readOnly Exception because the metaInfo is not allowed to be supplied on the create");
 		} catch (ReadOnlyException ex) {

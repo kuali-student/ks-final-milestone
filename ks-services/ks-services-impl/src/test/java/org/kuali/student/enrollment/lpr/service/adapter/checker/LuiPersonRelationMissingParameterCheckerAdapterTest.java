@@ -26,17 +26,21 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.common.infc.ContextBean;
+import org.kuali.student.common.dto.ContextInfo;
+
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationBean;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationCriteriaBean;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
+
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationCriteriaInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateBean;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
+
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeBean;
+
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 import static org.junit.Assert.fail;
 
@@ -156,19 +160,19 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 			return Boolean.TRUE;
 		}
 		if (type.equals(LuiPersonRelationInfc.class)) {
-			return new LuiPersonRelationBean();
+			return new LuiPersonRelationInfo();
 		}
 		if (type.equals(ContextInfc.class)) {
-			return new ContextBean();
+			return new ContextInfo();
 		}
 		if (type.equals(LuiPersonRelationCriteriaInfc.class)) {
-			return new LuiPersonRelationCriteriaBean();
+			return new LuiPersonRelationCriteriaInfo();
 		}
 		if (type.equals(LuiPersonRelationStateInfc.class)) {
-			return new LuiPersonRelationStateBean();
+			return new LuiPersonRelationStateInfo();
 		}
 		if (type.equals(LuiPersonRelationTypeInfc.class)) {
-			return new LuiPersonRelationTypeBean();
+			return new LuiPersonRelationTypeInfo();
 		}
 		throw new IllegalArgumentException("unhandled type " + type.getName());
 	}

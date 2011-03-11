@@ -15,7 +15,7 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.config;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 import org.kuali.student.enrollment.lpr.service.adapter.authorization.LuiPersonRelationAuthorizationAdapter;
 import org.kuali.student.enrollment.lpr.service.adapter.checker.LuiPersonRelationRuntimeExceptionCatcherAdapter;

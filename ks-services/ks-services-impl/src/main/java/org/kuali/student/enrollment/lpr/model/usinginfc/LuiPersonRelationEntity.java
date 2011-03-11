@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.lpr.model.usinginfc;
 
-import org.kuali.student.common.infc.AttributeBean;
 import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.MetaInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
@@ -10,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.common.dto.AttributeInfo;
 
 /**
  * @author Igor
@@ -118,7 +118,7 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
         }
         List<AttributeInfc> list = new ArrayList(dynamicAttributes.size());
         for (AttributeEntity dae : this.dynamicAttributes) {
-            AttributeInfc da = new AttributeBean();
+            AttributeInfc da = new AttributeInfo();
             da.setKey(dae.getKey());
             da.setValue(dae.getValue());
         }
@@ -126,7 +126,7 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     }
 
     @Override
-    public void setAttributes(List<AttributeInfc> attributes) {
+    public void setAttributes(List<? extends AttributeInfc> attributes) {
         // TODO: write match to existing AttributeEntity updating as needed, removeing as needed and adding as needed
         // TODO: add an ID to the AttributeInfc interface to make the matching easier
     }

@@ -16,12 +16,12 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter.defaults;
 
-import org.kuali.student.common.infc.ContextBean;
+
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.common.dto.ContextInfo;
 
 /**
  * A example of an adaptor that will default the context if not supplied based
@@ -64,7 +65,7 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
 
     private ContextInfc defaultContext(ContextInfc context) {
         if (context == null) {
-            context = new ContextBean();
+            context = new ContextInfo();
         }
         if (context.getPrincipalId() == null) {
             KimPrincipalInfo principalInfo = identityService.getPrincipalByPrincipalName(request.getRemoteUser());

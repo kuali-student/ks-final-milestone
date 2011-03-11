@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter;
 
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;

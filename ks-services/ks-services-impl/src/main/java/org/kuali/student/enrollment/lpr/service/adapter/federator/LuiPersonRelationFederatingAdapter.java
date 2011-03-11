@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter.federator;
 
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.*;

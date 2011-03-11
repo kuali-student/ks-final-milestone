@@ -22,6 +22,11 @@ import org.springframework.beans.BeanUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 
 /**
  * @author nwright
@@ -32,7 +37,7 @@ public class CopierHelper {
         if (orig == null) {
             return null;
         }
-        MetaInfc copy = new MetaBean();
+        MetaInfc copy = new MetaInfo();
         BeanUtils.copyProperties(orig, copy);
         return copy;
     }
@@ -41,7 +46,7 @@ public class CopierHelper {
         if (orig == null) {
             return null;
         }
-        LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeBean();
+        LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeInfo();
         BeanUtils.copyProperties(orig, copy);
         copy.setAttributes(makeCopy(orig.getAttributes()));
         return copy;
@@ -51,7 +56,7 @@ public class CopierHelper {
         if (orig == null) {
             return null;
         }
-        LuiPersonRelationStateInfc copy = new LuiPersonRelationStateBean();
+        LuiPersonRelationStateInfc copy = new LuiPersonRelationStateInfo();
         BeanUtils.copyProperties(orig, copy);
         copy.setAttributes(makeCopy(orig.getAttributes()));
         return copy;
@@ -61,12 +66,12 @@ public class CopierHelper {
         if (orig == null) {
             return null;
         }
-        AttributeInfc copy = new AttributeBean();
+        AttributeInfc copy = new AttributeInfo();
         BeanUtils.copyProperties(orig, copy);
         return copy;
     }
 
-    public List<AttributeInfc> makeCopy(List<AttributeInfc> orig) {
+    public List<AttributeInfc> makeCopy(List<? extends AttributeInfc> orig) {
         if (orig == null) {
             return null;
         }
@@ -81,7 +86,7 @@ public class CopierHelper {
         if (orig == null) {
             return null;
         }
-        LuiPersonRelationInfc copy = new LuiPersonRelationBean();
+        LuiPersonRelationInfc copy = new LuiPersonRelationInfo();
         BeanUtils.copyProperties(orig, copy);
         copy.setAttributes(this.makeCopy(orig.getAttributes()));
         copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
@@ -89,7 +94,7 @@ public class CopierHelper {
     }
 
     public MetaInfc createMeta(ContextInfc context) {
-        MetaInfc meta = new MetaBean();
+        MetaInfc meta = new MetaInfo();
         Date now = new Date();
         meta.setCreateId(context.getPrincipalId());
         meta.setCreateTime(now);

@@ -18,17 +18,18 @@ package org.kuali.student.enrollment.lpr.service.impl;
 import org.junit.*;
 import org.kuali.student.common.infc.*;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationBean;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateEnum;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeEnum;
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
 
 import static org.junit.Assert.*;
 
@@ -70,7 +71,7 @@ public class LuiPersonRelationServicePersistenceImplTest {
 	}
 
 	private ContextInfc getContext1() {
-		ContextInfc context = new ContextBean();
+		ContextInfc context = new ContextInfo();
 		context.setPrincipalId("principalId.1");
 		context.setLocaleLanguage("en");
 		context.setLocaleRegion("us");
@@ -78,7 +79,7 @@ public class LuiPersonRelationServicePersistenceImplTest {
 	}
 
 	private ContextInfc getContext2() {
-		ContextInfc context = new ContextBean();
+		ContextInfc context = new ContextInfo();
 		context.setPrincipalId("principalId.2");
 		context.setLocaleLanguage("fr");
 		context.setLocaleRegion("ca");
@@ -109,7 +110,7 @@ public class LuiPersonRelationServicePersistenceImplTest {
 		luiIdList.add("luiId3");
 		String relationState = LuiPersonRelationStateEnum.APPLIED.getKey();
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc luiPersonRelationInfo = new LuiPersonRelationBean();
+		LuiPersonRelationInfc luiPersonRelationInfo = new LuiPersonRelationInfo();
 		luiPersonRelationInfo.setEffectiveDate(parseDate("2010-01-01"));
 		ContextInfc context = getContext1();
 
@@ -132,20 +133,20 @@ public class LuiPersonRelationServicePersistenceImplTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc orig = new LuiPersonRelationBean();
+		LuiPersonRelationInfc orig = new LuiPersonRelationInfo();
 		orig.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
 		orig.setEffectiveDate(parseDate("2010-01-01"));
 		AttributeInfc da = null;
 		List<AttributeInfc> das = new ArrayList();
-		da = new AttributeBean();
+		da = new AttributeInfo();
 		da.setKey("dynamic.attribute.key.1");
 		da.setValue("dynamic attribute value 1");
 		das.add(da);
-		da = new AttributeBean();
+		da = new AttributeInfo();
 		da.setKey("dynamic.attribute.key.2");
 		da.setValue("dynamic attribute value 2a");
 		das.add(da);
-		da = new AttributeBean();
+		da = new AttributeInfo();
 		da.setKey("dynamic.attribute.key.2");
 		da.setValue("dynamic attribute value 2b");
 		das.add(da);
@@ -201,12 +202,14 @@ public class LuiPersonRelationServicePersistenceImplTest {
 		fetched.setState(LuiPersonRelationStateEnum.ADMITTED.getKey());
 		fetched.setEffectiveDate(parseDate("2010-01-01"));
 		fetched.setExpirationDate(parseDate("2010-02-01"));
-		da = new AttributeBean();
-		da.setKey("dynamic.attribute.key.3");
-		da.setValue("dynamic.attribute.value.3");
-		fetched.getAttributes().add(da);
-		fetched.getAttributes().get(1).setValue("dynamic.attribute.value.2C");
-		fetched.getAttributes().remove(0);
+	    AttributeInfc newDa = new AttributeInfo();
+		newDa.setKey("dynamic.attribute.key.3");
+		newDa.setValue("dynamic.attribute.value.3");
+		das = new ArrayList<AttributeInfc> (fetched.getAttributes());
+		das.add(newDa);
+		das.get(1).setValue("dynamic.attribute.value.2C");
+		das.remove(0);
+		fetched.setAttributes(das);
 		context = getContext2();
 
 		Date beforeUpdate = new Date();
@@ -264,7 +267,7 @@ public class LuiPersonRelationServicePersistenceImplTest {
 
 	}
 
-	private AttributeInfc findMatching(AttributeInfc search, List<AttributeInfc> list) {
+	private AttributeInfc findMatching(AttributeInfc search, List<? extends AttributeInfc> list) {
 		// TODO: when AttributeInfo gets it's own ID do the find by ID instead of values
 		for (AttributeInfc da : list) {
 			if (search.getKey().equals(da.getKey())) {

@@ -15,8 +15,10 @@
  */
 package org.kuali.student.enrollment.lpr.service.impl;
 
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
 import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.StatusBean;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.*;
@@ -25,6 +27,7 @@ import org.kuali.student.enrollment.lui.infc.LuiInfc;
 import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
 
 import java.util.*;
+import org.kuali.student.common.dto.StatusInfo;
 
 
 /**
@@ -104,7 +107,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             throw new DoesNotExistException(luiPersonRelationId);
         }
         this.luiPersonRelationInfcCache.remove(luiPersonRelationId);
-        StatusInfc status = new StatusBean();
+        StatusInfc status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -577,7 +580,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
         } catch (VersionMismatchException ex) {
             throw new OperationFailedException("id changed between fetch and update", ex);
         }
-        StatusInfc status = new StatusBean();
+        StatusInfc status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
