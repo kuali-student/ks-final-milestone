@@ -41,7 +41,7 @@ public class LuiPersonRelationServiceImplExample {
     }
 
 
-//    @Test
+//  @Test
     public void testCreateBulkRelationshipsForPerson() {
         ApplicationContext appContext =
                 new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
