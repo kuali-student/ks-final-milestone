@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.stereotype.Service;
 

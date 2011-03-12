@@ -14,7 +14,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteria;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
@@ -236,7 +236,7 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 
 	@Override
 	public List<String> searchForLuiPersonRelationIds(
-			LuiPersonRelationCriteria luiPersonRelationCriteria,
+			LuiPersonRelationCriteriaInfo luiPersonRelationCriteria,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
