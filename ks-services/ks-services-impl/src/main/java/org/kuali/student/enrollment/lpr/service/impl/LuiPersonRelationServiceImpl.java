@@ -60,7 +60,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
         bulkRelationshipValues.add(personId);
 
-        System.out.print("created bulk records");
+        System.out.println("Inside core impl for createBulkRelationshipsForPerson" );
 
         return bulkRelationshipValues;
 

@@ -4,44 +4,41 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl;
+
 
 public class ServiceAspectLayering {
 
-	List  serviceImpls ; 
-	LuiPersonRelationServiceAuthorizationImpl authImpl;
+	List <String>  serviceImpls ; 
+
+	public void setServiceImpls(List<String> serviceImpls) {
+		this.serviceImpls = serviceImpls;
+	}
 	
-	public LuiPersonRelationServiceAuthorizationImpl getAuthImpl() {
-		return authImpl;
-	}
-	public void setAuthImpl(LuiPersonRelationServiceAuthorizationImpl authImpl) {
-		this.authImpl = authImpl;
-	}
+	/**
+	 * Aspect method, this is the controller which invokes other impl method using reflection. 
+	 * One of this method could be defined per web service operation or there could just be one generic method for the service if the 
+	 * @param call
+	 * @throws Throwable
+	 */
 	public void performLayeringCalls(ProceedingJoinPoint call) throws Throwable{
 
 		try{
 			call.proceed();
-			//authImpl.createBulkRelationshipsForPerson("123", null, null, null, null, null);
-			Class classC = Class.forName("org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl");
-			Object obj = classC.newInstance();
-			for (Method s :classC.getMethods()){
-				System.out.println(s);
-				if(s.getName().equals(call.getSignature().getName())){
-					s.invoke(obj, call.getArgs());
+			for ( String serviceName:serviceImpls){
+				Class<?> classC = Class.forName(serviceName);
+				Object obj = classC.newInstance();
+				for (Method s :classC.getMethods()){
+					if(s.getName().equals(call.getSignature().getName())){
+						s.invoke(obj, call.getArgs());
+					}
 				}
 			}
-			
-//			Method m = classC.getMethod(call.getSignature().getName());
-//			m.invoke(obj, call.getArgs());
-//			
 		}
-		
+
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
 
-
 	}
-
 
 }

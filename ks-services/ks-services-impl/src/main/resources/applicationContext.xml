@@ -5,54 +5,27 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-   
-   
-   	<!-- entry point service -->
   
-   
+  <!-- Infrastructure code which handles invocation for all service impls -->
   <bean id = "layeringAspects" class="org.kuali.student.enrollment.lpr.service.aspect.ServiceAspectLayering">
-    <property name="authImpl" ref="lprServiceauth"/>
+    
+    <!-- Declare various impls here -->
+    <property name="serviceImpls" >
+         <list>
+            <value>org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl</value>
+            <value>org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl</value>
+         </list>
+         </property>
   </bean>
-      
+  
    <aop:config>
-    <aop:aspect id="layeringAspectId" ref="layeringAspects">
-     <aop:pointcut id="lprLayeringPointcut" expression="bean(*lprService)"/>
-      <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
-    </aop:aspect>
-   </aop:config>
-    
-    <bean id="lprService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl"/>
-     <!--  -->
-    <!-- advices -->
-    <bean id="lprServiceauth"
-          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl"/>
- 	
-    <bean id="lprValidationBean"
-          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl"/>
-    
-    <bean id="lprCoreImplBean" 
-          class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceMockPersistenceImpl"/>
-
-
-
-<!-- 
-    <aop:config>
-     <aop:aspect id="lprCoreCreateMethod" ref="lprCoreImplBean">
-       <aop:around pointcut="execution(* org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl.create*(..))"
-                  method="createBulkRelationshipsForPerson"/>
+      <aop:aspect id="layeringAspectId" ref="layeringAspects">
+        <aop:pointcut id="lprLayeringPointcut" expression="bean(*lprService)"/>
+        <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
       </aop:aspect>
-    </aop:config>
- 
-   <aop:config>
-    <aop:aspect id="securityAspect" ref="lprAuthorizationBean">
-     <aop:pointcut id="lprCreateAuthPointcut" expression="bean(*lprService)"/>
-      <aop:around pointcut-ref="lprCreateAuthPointcut" method="createBulkRelationshipsForPersonAuthorization"/>
-    </aop:aspect>
-    
-    <aop:aspect id="validationAspect" ref="lprValidationBean">
-     <aop:pointcut id="lprCreateValidatePointcut" expression="bean(*lprService)"/>
-     <aop:around pointcut-ref="lprCreateValidatePointcut" method="createBulkRelationshipsForPersonValidation" />
-  	</aop:aspect>
    </aop:config>
-    -->
+   
+   <!-- entry point service -->
+   <bean id="lprService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl"/>
+    
 </beans>

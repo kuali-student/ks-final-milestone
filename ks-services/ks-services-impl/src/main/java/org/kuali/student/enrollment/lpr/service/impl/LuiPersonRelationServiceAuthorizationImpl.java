@@ -266,7 +266,7 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
-		  System.out.println("PersonId needed............");
+		  System.out.println("Inside authorization impl for createBulkRelationshipsForPerson");
 		return null;
 	}
 
