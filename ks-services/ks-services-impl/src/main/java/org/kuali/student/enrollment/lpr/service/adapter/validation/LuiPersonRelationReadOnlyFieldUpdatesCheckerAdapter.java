@@ -13,7 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.adapter.checker;
+package org.kuali.student.enrollment.lpr.service.adapter.validation;
 
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
@@ -51,7 +51,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 		if (luiPersonRelationInfo.getMetaInfo() != null) {
 			throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
 		}
-		return this.getProvider().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
+		return this.getLprService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 		if (luiPersonRelationInfo.getMetaInfo() != null) {
 			throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
 		}
-		return this.getProvider().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+		return this.getLprService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 			checkReadOnly("updateId", orig.getMetaInfo().getUpdateId(), luiPersonRelationInfo.getMetaInfo().getUpdateId());
 			checkReadOnly("updateTime", orig.getMetaInfo().getUpdateTime(), luiPersonRelationInfo.getMetaInfo().getUpdateTime());
 		}
-		return this.getProvider().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+		return this.getLprService().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
 
 	private void checkReadOnly(String field, Object orig, Object supplied)

@@ -13,7 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.adapter.checker;
+package org.kuali.student.enrollment.lpr.service.adapter.cleanup;
 
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
@@ -26,36 +26,35 @@ import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter
 import java.util.List;
 
 /**
- * A example of an adaptor that could be generated from the contract defintions
- * to do the drudge work of checking for missing parameters.
+ * A example of an adapter that might sit at the top of the stack and converts any
+ * runtime exceptions into the formal OperationFailedException
+ * <p/>
+ * This could be genrated automatically from the contract definitions too.
  *
  * @Author Norm
  */
-public class LuiPersonRelationMissingParameterCheckerAdapter
+public class LuiPersonRelationRuntimeExceptionCatcherAdapter
         extends LuiPersonRelationAdapter
         implements LuiPersonRelationServiceInfc {
-
 
     @Override
     public String createLuiPersonRelation(String personId, String luiId,
                                           String luiPersonRelationType,
                                           LuiPersonRelationInfc luiPersonRelationInfo,
                                           ContextInfc context)
-            throws AlreadyExistsException, DoesNotExistException, ReadOnlyException,
-            DisabledIdentifierException, InvalidParameterException,
+            throws AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        checkParameter("personId", personId);
-        checkParameter("luiId", luiId);
-        checkParameter("luiPersonRelationType", luiPersonRelationType);
-        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-        checkParameter("context", context);
-        return (getProvider().createLuiPersonRelation(personId, luiId,
-                luiPersonRelationType,
-                luiPersonRelationInfo,
-                context));
+        try {
+            return (getLprService().createLuiPersonRelation(personId, luiId,
+                    luiPersonRelationType,
+                    luiPersonRelationInfo,
+                    context));
+        } catch (RuntimeException ex) {
+            throw new OperationFailedException("Got RuntimeException", ex);
+        }
     }
-
 
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId,
@@ -69,17 +68,15 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        checkParameter("personId", personId);
-        checkParameter("luiIdList", luiIdList);
-        checkParameter("luiIdList", luiIdList);
-        checkParameter("relationState", relationState);
-        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-        checkParameter("context", context);
-        return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
-                relationState,
-                luiPersonRelationType,
-                luiPersonRelationInfo,
-                context));
+        try {
+            return (getLprService().createBulkRelationshipsForPerson(personId, luiIdList,
+                    relationState,
+                    luiPersonRelationType,
+                    luiPersonRelationInfo,
+                    context));
+        } catch (RuntimeException ex) {
+            throw new OperationFailedException("Got RuntimeException", ex);
+        }
     }
 
     @Override
@@ -89,14 +86,14 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        checkParameter("luiPersonRelationId", luiPersonRelationId);
-        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
-        checkParameter("context", context);
-        return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
-                luiPersonRelationInfo,
-                context));
+        try {
+            return (getLprService().updateLuiPersonRelation(luiPersonRelationId,
+                    luiPersonRelationInfo,
+                    context));
+        } catch (RuntimeException ex) {
+            throw new OperationFailedException("Got RuntimeException", ex);
+        }
     }
-
 
     @Override
     public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
@@ -104,11 +101,12 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        checkParameter("luiPersonRelationId", luiPersonRelationId);
-        checkParameter("context", context);
-        return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+        try {
+            return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
+        } catch (RuntimeException ex) {
+            throw new OperationFailedException("Got RuntimeException", ex);
+        }
     }
-
 
     @Override
     public StatusInfc updateRelationState(String luiPersonRelationId,
@@ -117,19 +115,11 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        checkParameter("luiPersonRelationId", luiPersonRelationId);
-        checkParameter("relationState", relationState);
-        checkParameter("context", context);
-        return (getProvider().updateRelationState(luiPersonRelationId,
-                relationState, context));
-    }
-
-	
-    protected void checkParameter(String parameterName, Object parameter)
-            throws MissingParameterException {
-
-        if (parameter == null) {
-            throw new MissingParameterException(parameterName);
+        try {
+            return (getLprService().updateRelationState(luiPersonRelationId,
+                    relationState, context));
+        } catch (RuntimeException ex) {
+            throw new OperationFailedException("Got RuntimeException", ex);
         }
     }
 }

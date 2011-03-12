@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
+import org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter;
 import org.junit.*;
 import org.kuali.student.common.infc.*;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
@@ -28,10 +29,10 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.mock.CopierHelper;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
-import org.kuali.student.enrollment.lpr.service.impl.CopierHelper;
-import org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceMockPersistenceImpl;
 
 import static org.junit.Assert.*;
 
@@ -65,7 +66,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		if (service == null) {
 			// TODO: configure this via spring testing framework instead so we can test other persistence impls instead of just the mock
 			LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter adapter = new LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter();
-			adapter.setProvider(new LuiPersonRelationServiceMockPersistenceImpl());
+			adapter.setLprService(new LuiPersonRelationServiceMockPersistenceImpl());
 			service = adapter;
 		}
 		return service;

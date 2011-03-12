@@ -20,11 +20,14 @@ import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
 import java.util.List;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.common.infc.HoldsPermissionServiceInfc;
+
 
 
 /**
@@ -36,7 +39,20 @@ import java.util.List;
 
 public class LuiPersonRelationAuthorizationAdapter
         extends LuiPersonRelationAdapter
-        implements LuiPersonRelationServiceInfc {
+        implements HoldsPermissionServiceInfc
+{
+
+	private PermissionService permissionService;
+
+	@Override
+	public PermissionService getPermissionService() {
+		return permissionService;
+	}
+
+	@Override
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
 
 
     /**
@@ -71,7 +87,7 @@ public class LuiPersonRelationAuthorizationAdapter
             throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {
-            return (getProvider().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
+            return (getLprService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
         } else {
             throw new PermissionDeniedException("unauthorized to create LPR");
         }
@@ -113,7 +129,7 @@ public class LuiPersonRelationAuthorizationAdapter
             throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (isAuthorized(context.getPrincipalId(), "create lpr", null)) {
-            return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
+            return (getLprService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
         } else {
             throw new PermissionDeniedException("unauthorized to create LPR");
         }
@@ -147,7 +163,7 @@ public class LuiPersonRelationAuthorizationAdapter
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {
-            return (getProvider().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
+            return (getLprService().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
         } else {
             throw new PermissionDeniedException("unauthorized to update LPR " + luiPersonRelationId);
         }
@@ -173,7 +189,7 @@ public class LuiPersonRelationAuthorizationAdapter
     public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId, ContextInfc context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (isAuthorized(context.getPrincipalId(), "delete lpr", luiPersonRelationId)) {
-            return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+            return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
         } else {
             throw new PermissionDeniedException("unauthorized to delete LPR " + luiPersonRelationId);
         }
@@ -204,29 +220,30 @@ public class LuiPersonRelationAuthorizationAdapter
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {
-            return (getProvider().updateRelationState(luiPersonRelationId, relationState, context));
+            return (getLprService().updateRelationState(luiPersonRelationId, relationState, context));
         } else {
             throw new PermissionDeniedException("unauthorized to update LPR state for " + luiPersonRelationId);
         }
     }
 
-
+   public static final String ENRLLMENT_NAMESPACE = "KS-Enrollment";
     /**
      * Fake authorization method.
      *
      * @param principal
-     * @param function  the authorization permission
+     * @param permissionName  the authorization permission
      * @param qualifier an authorization qualifier
      * @return true if authorization successful
      */
 
-    protected boolean isAuthorized(String principal, String function, String qualifier)
-            throws OperationFailedException {
-
-        if ("destroy".equals(function) && "system".equals(qualifier)) {
-            return (false);
-        } else {
-            return (true);
-        }
-    }
+	protected boolean isAuthorized(String principal, String permissionName, String qualifier) {
+		AttributeSet permissionDetails = null;
+		AttributeSet qualifierDetails = new AttributeSet();
+		qualifierDetails.put("qualifierKey", qualifier);
+		return this.permissionService.isAuthorized(principal,
+				ENRLLMENT_NAMESPACE,
+				permissionName,
+				permissionDetails,
+				qualifierDetails);
+	}
 }

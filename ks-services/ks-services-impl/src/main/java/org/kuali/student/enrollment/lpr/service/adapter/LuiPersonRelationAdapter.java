@@ -24,6 +24,7 @@ import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.*;
 
 import java.util.List;
+import org.kuali.student.common.infc.HoldsLprServiceInfc;
 
 
 /**
@@ -33,37 +34,19 @@ import java.util.List;
  */
 
 public class LuiPersonRelationAdapter
-        implements LuiPersonRelationServiceInfc {
+        implements LuiPersonRelationServiceInfc, HoldsLprServiceInfc {
 
-    private LuiPersonRelationServiceInfc service;
+    private LuiPersonRelationServiceInfc lprService;
 
-
-    /**
-     * Gets the underlying service provider.
-     *
-     * @return the underlying provider
-     */
-
-    public LuiPersonRelationServiceInfc getProvider()
-            throws OperationFailedException {
-
-        if (this.service == null) {
-            throw new OperationFailedException("no LPR service configured");
-        }
-
-        return (this.service);
+	@Override
+    public LuiPersonRelationServiceInfc getLprService() {
+        return this.lprService;
     }
 
 
-    /**
-     * Sets the underlying service provider.
-     *
-     * @param provider the underlying provider
-     */
-
-    public void setProvider(LuiPersonRelationServiceInfc provider) {
-        this.service = provider;
-        return;
+@Override
+    public void setLprService(LuiPersonRelationServiceInfc lprService) {
+        this.lprService = lprService;
     }
 
 
@@ -81,7 +64,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypes(ContextInfc context)
             throws OperationFailedException {
 
-        return (getProvider().findLuiPersonRelationTypes(context));
+        return (getLprService().findLuiPersonRelationTypes(context));
     }
 
 
@@ -99,7 +82,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationStateInfc> findLuiPersonRelationStates(ContextInfc context)
             throws OperationFailedException {
 
-        return (getProvider().findLuiPersonRelationStates(context));
+        return (getLprService().findLuiPersonRelationStates(context));
     }
 
 
@@ -121,7 +104,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationStateInfc> findAllowedRelationStates(String luiPersonRelationType, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        return (this.service.findAllowedRelationStates(luiPersonRelationType, context));
+        return (this.lprService.findAllowedRelationStates(luiPersonRelationType, context));
     }
 
 
@@ -144,7 +127,7 @@ public class LuiPersonRelationAdapter
     public LuiPersonRelationInfc fetchLUIPersonRelation(String luiPersonRelationId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().fetchLUIPersonRelation(luiPersonRelationId, context));
+        return (getLprService().fetchLUIPersonRelation(luiPersonRelationId, context));
     }
 
 
@@ -170,7 +153,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationInfc> findLuiPersonRelationsByIdList(List<String> luiPersonRelationIdList, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationsByIdList(luiPersonRelationIdList, context));
+        return (getLprService().findLuiPersonRelationsByIdList(luiPersonRelationIdList, context));
     }
 
 
@@ -200,7 +183,7 @@ public class LuiPersonRelationAdapter
     public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiIdsRelatedToPerson(personId, luiPersonRelationType, relationState, context));
+        return (getLprService().findLuiIdsRelatedToPerson(personId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -228,7 +211,7 @@ public class LuiPersonRelationAdapter
     public List<String> findPersonIdsRelatedToLui(String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findPersonIdsRelatedToLui(luiId, luiPersonRelationType, relationState, context));
+        return (getLprService().findPersonIdsRelatedToLui(luiId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -254,7 +237,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypesForLuiPersonRelation(String personId, String luiId, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationTypesForLuiPersonRelation(personId, luiId, relationState, context));
+        return (getLprService().findLuiPersonRelationTypesForLuiPersonRelation(personId, luiId, relationState, context));
     }
 
 
@@ -279,7 +262,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationInfc> findLuiPersonRelations(String personId, String luiId, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelations(personId, luiId, context));
+        return (getLprService().findLuiPersonRelations(personId, luiId, context));
     }
 
 
@@ -304,7 +287,7 @@ public class LuiPersonRelationAdapter
     public List<String> findLuiPersonRelationIds(String personId, String luiId, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationIds(personId, luiId, context));
+        return (getLprService().findLuiPersonRelationIds(personId, luiId, context));
     }
 
 
@@ -329,7 +312,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationInfc> findLuiPersonRelationsForPerson(String personId, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationsForPerson(personId, context));
+        return (getLprService().findLuiPersonRelationsForPerson(personId, context));
     }
 
 
@@ -353,7 +336,7 @@ public class LuiPersonRelationAdapter
     public List<String> findLuiPersonRelationIdsForPerson(String personId, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationIdsForPerson(personId, context));
+        return (getLprService().findLuiPersonRelationIdsForPerson(personId, context));
     }
 
 
@@ -376,7 +359,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationInfc> findLuiPersonRelationsForLui(String luiId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationsForLui(luiId, context));
+        return (getLprService().findLuiPersonRelationsForLui(luiId, context));
     }
 
 
@@ -399,7 +382,7 @@ public class LuiPersonRelationAdapter
     public List<String> findLuiPersonRelationIdsForLui(String luiId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findLuiPersonRelationIdsForLui(luiId, context));
+        return (getLprService().findLuiPersonRelationIdsForLui(luiId, context));
     }
 
 
@@ -429,7 +412,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationStateInfc> findValidRelationStatesForLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findValidRelationStatesForLuiPersonRelation(personId, luiId, luiPersonRelationType, context));
+        return (getLprService().findValidRelationStatesForLuiPersonRelation(personId, luiId, luiPersonRelationType, context));
     }
 
 
@@ -462,7 +445,7 @@ public class LuiPersonRelationAdapter
     public Boolean isValidLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().isValidLuiPersonRelation(personId, luiId, luiPersonRelationType, relationState, context));
+        return (getLprService().isValidLuiPersonRelation(personId, luiId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -495,7 +478,7 @@ public class LuiPersonRelationAdapter
     public Boolean isRelated(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().isRelated(personId, luiId, luiPersonRelationType, relationState, context));
+        return (getLprService().isRelated(personId, luiId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -527,7 +510,7 @@ public class LuiPersonRelationAdapter
     public ValidationResultInfc validateLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().validateLuiPersonRelation(personId, luiId, luiPersonRelationType, relationState, context));
+        return (getLprService().validateLuiPersonRelation(personId, luiId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -560,7 +543,7 @@ public class LuiPersonRelationAdapter
     public List<String> findAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState, String atpId, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findAllValidLuisForPerson(personId, luiPersonRelationType, relationState, atpId, context));
+        return (getLprService().findAllValidLuisForPerson(personId, luiPersonRelationType, relationState, atpId, context));
     }
 
 
@@ -592,7 +575,7 @@ public class LuiPersonRelationAdapter
     public List<String> findAllValidPeopleForLui(String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findAllValidPeopleForLui(luiId, luiPersonRelationType, relationState, context));
+        return (getLprService().findAllValidPeopleForLui(luiId, luiPersonRelationType, relationState, context));
     }
 
 
@@ -616,7 +599,7 @@ public class LuiPersonRelationAdapter
     public List<LuiPersonRelationInfc> findOrderedRelationStatesForLuiPersonRelation(String luiPersonRelationId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().findOrderedRelationStatesForLuiPersonRelation(luiPersonRelationId, context));
+        return (getLprService().findOrderedRelationStatesForLuiPersonRelation(luiPersonRelationId, context));
     }
 
 
@@ -639,7 +622,7 @@ public class LuiPersonRelationAdapter
     public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteriaInfc luiPersonRelationCriteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().searchForLuiPersonRelationIds(luiPersonRelationCriteria, context));
+        return (getLprService().searchForLuiPersonRelationIds(luiPersonRelationCriteria, context));
     }
 
 
@@ -674,7 +657,7 @@ public class LuiPersonRelationAdapter
     public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
+        return (getLprService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context));
     }
 
 
@@ -712,7 +695,7 @@ public class LuiPersonRelationAdapter
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
             throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
+        return (getLprService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context));
     }
 
 
@@ -742,7 +725,7 @@ public class LuiPersonRelationAdapter
     public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        return (getProvider().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
+        return (getLprService().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context));
     }
 
 
@@ -764,7 +747,7 @@ public class LuiPersonRelationAdapter
     @Override
     public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId, ContextInfc context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+        return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
     }
 
 
@@ -791,6 +774,6 @@ public class LuiPersonRelationAdapter
     public StatusInfc updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfc relationState, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return (getProvider().updateRelationState(luiPersonRelationId, relationState, context));
+        return (getLprService().updateRelationState(luiPersonRelationId, relationState, context));
     }
 }

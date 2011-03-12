@@ -13,9 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-package org.kuali.student.enrollment.lpr.service.adapter.defaults;
-
+package org.kuali.student.enrollment.lpr.service.adapter.validation;
 
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
@@ -25,81 +23,39 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.student.common.dto.ContextInfo;
 
 /**
- * A example of an adaptor that will default the context if not supplied based
- * on the requset.
- * <p/>
- * This could be generated from the contract definitions as well.
+ * A example of an adaptor that could be generated from the contract defintions
+ * to do the drudge work of checking for missing parameters.
  *
  * @Author Norm
  */
-public class LuiPersonRelationDefaultContextFromRequestAdapter
+public class LuiPersonRelationMissingParameterCheckerAdapter
         extends LuiPersonRelationAdapter
         implements LuiPersonRelationServiceInfc {
 
-    private HttpServletRequest request;
-    private IdentityService identityService;
-
-    // TODO: add logic to the servlet to actually set this variable because it cannot be configured
-    public HttpServletRequest getRequest() {
-        return request;
-    }
-
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
-    }
-
-    public IdentityService getIdentityService() {
-        return identityService;
-    }
-
-    public void setIdentityService(IdentityService identityService) {
-        this.identityService = identityService;
-    }
-
-    private ContextInfc defaultContext(ContextInfc context) {
-        if (context == null) {
-            context = new ContextInfo();
-        }
-        if (context.getPrincipalId() == null) {
-            KimPrincipalInfo principalInfo = identityService.getPrincipalByPrincipalName(request.getRemoteUser());
-            context.setPrincipalId(principalInfo.getPrincipalId());
-        }
-        if (context.getLocaleLanguage() == null) {
-            context.setLocaleLanguage(request.getLocale().getLanguage());
-        }
-        // TODO: check if Region and country are supposed to the same thing
-        if (context.getLocaleRegion() == null) {
-            context.setLocaleLanguage(request.getLocale().getCountry());
-        }
-        if (context.getLocaleVariant() == null) {
-            context.setLocaleLanguage(request.getLocale().getVariant());
-        }
-        // TODO: default script from the character set
-        return context;
-    }
 
     @Override
     public String createLuiPersonRelation(String personId, String luiId,
                                           String luiPersonRelationType,
                                           LuiPersonRelationInfc luiPersonRelationInfo,
                                           ContextInfc context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
+            throws AlreadyExistsException, DoesNotExistException, ReadOnlyException,
+            DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        context = defaultContext(context);
-        return (getProvider().createLuiPersonRelation(personId, luiId,
+        checkParameter("personId", personId);
+        checkParameter("luiId", luiId);
+        checkParameter("luiPersonRelationType", luiPersonRelationType);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getLprService().createLuiPersonRelation(personId, luiId,
                 luiPersonRelationType,
                 luiPersonRelationInfo,
                 context));
     }
+
 
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId,
@@ -112,8 +68,14 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
             DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        context = defaultContext(context);
-        return (getProvider().createBulkRelationshipsForPerson(personId, luiIdList,
+
+        checkParameter("personId", personId);
+        checkParameter("luiIdList", luiIdList);
+        checkParameter("luiIdList", luiIdList);
+        checkParameter("relationState", relationState);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getLprService().createBulkRelationshipsForPerson(personId, luiIdList,
                 relationState,
                 luiPersonRelationType,
                 luiPersonRelationInfo,
@@ -127,11 +89,14 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        context = defaultContext(context);
-        return (getProvider().updateLuiPersonRelation(luiPersonRelationId,
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
+        checkParameter("context", context);
+        return (getLprService().updateLuiPersonRelation(luiPersonRelationId,
                 luiPersonRelationInfo,
                 context));
     }
+
 
     @Override
     public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
@@ -139,9 +104,11 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        context = defaultContext(context);
-        return (getProvider().deleteLuiPersonRelation(luiPersonRelationId, context));
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("context", context);
+        return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
     }
+
 
     @Override
     public StatusInfc updateRelationState(String luiPersonRelationId,
@@ -150,8 +117,19 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        context = defaultContext(context);
-        return (getProvider().updateRelationState(luiPersonRelationId,
+        checkParameter("luiPersonRelationId", luiPersonRelationId);
+        checkParameter("relationState", relationState);
+        checkParameter("context", context);
+        return (getLprService().updateRelationState(luiPersonRelationId,
                 relationState, context));
+    }
+
+	
+    protected void checkParameter(String parameterName, Object parameter)
+            throws MissingParameterException {
+
+        if (parameter == null) {
+            throw new MissingParameterException(parameterName);
+        }
     }
 }

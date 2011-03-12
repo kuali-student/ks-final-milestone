@@ -30,6 +30,8 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.junit.Assert.*;
 
@@ -60,8 +62,9 @@ public class LuiPersonRelationServicePersistenceImplTest {
 
 	public LuiPersonRelationServiceInfc getService() {
 		if (service == null) {
-			// TODO: configure this via spring testing framework instead so we can test other persistence impls instead of just the mock
-			service = new LuiPersonRelationServiceMockPersistenceImpl();
+			ApplicationContext appContext =
+                new ClassPathXmlApplicationContext(new String[]{"classpath:applicationContext.xml", "classpath:testContext.xml"});
+			service = (LuiPersonRelationServiceInfc) appContext.getBean("lprServiceToTest");
 		}
 		return service;
 	}

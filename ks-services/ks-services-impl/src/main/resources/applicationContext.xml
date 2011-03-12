@@ -24,8 +24,53 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
       </aop:aspect>
    </aop:config>
-   
-   <!-- entry point service -->
-   <bean id="lprService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl"/>
-    
+
+<!--TODO create a luiStacker and configure it too-->
+<bean id = "luiMockImpl" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
+<bean id = "mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
+<bean id = "mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
+
+<bean id = "lprMockImpl" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
+      init-method="init">
+    <!--
+	// Default support services to use if not otherwise configured
+    -->
+	<property name="luiService" ref="luiMockImpl" />
+	<property name="identityService" ref="mockIdentityService" />
+	<property name="permissionService" ref="mockPermissionService" />
+
+    <!--
+	// Implementation Stack
+    -->
+	<property name="cleanupImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.cleanup.LuiPersonRelationRuntimeExceptionCatcherAdapter" />
+		</list>
+	</property>
+	<property name="calculationImpls" >
+		<list>
+		</list>
+	</property>	
+	<property name="authorizationImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.authorization.LuiPersonRelationAuthorizationAdapter" />
+		</list>
+	</property>	
+	<property name="validaitonImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationMissingParameterCheckerAdapter" />
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter" />
+		</list>
+	</property>
+	<property name="sideEffectImpls" >
+		<list>
+		</list>
+	</property>
+	<property name="persistenceImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl" />
+		</list>
+	</property>
+</bean>
+
 </beans>

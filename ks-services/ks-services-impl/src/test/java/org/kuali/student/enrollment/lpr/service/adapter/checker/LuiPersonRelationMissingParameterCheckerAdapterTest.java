@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
+import org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationMissingParameterCheckerAdapter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
