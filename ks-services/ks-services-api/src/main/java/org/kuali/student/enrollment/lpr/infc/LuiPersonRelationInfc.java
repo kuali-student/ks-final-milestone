@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.kuali.student.common.infc.HasAttributesInfc;
 import org.kuali.student.common.infc.HasEffectiveDatesInfc;
+import org.kuali.student.common.infc.HasIdInfc;
 import org.kuali.student.common.infc.HasMetaInfc;
 import org.kuali.student.common.infc.HasStateInfc;
 import org.kuali.student.common.infc.HasTypeInfc;
-import org.kuali.student.core.dto.Idable;
 
 @XmlRootElement
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
@@ -32,7 +32,7 @@ import org.kuali.student.core.dto.Idable;
 public interface LuiPersonRelationInfc
         extends HasAttributesInfc,
         HasMetaInfc,
-        Idable,
+        HasIdInfc,
         HasTypeInfc,
         HasStateInfc,
         HasEffectiveDatesInfc {

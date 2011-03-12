@@ -26,26 +26,28 @@ import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
 
 import java.util.*;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.infc.HoldsLuiServiceInfc;
 
 
 /**
  * @author nwright
  */
 public class LuiPersonRelationServiceMockPersistenceImpl implements
-        LuiPersonRelationServiceInfc {
+        LuiPersonRelationServiceInfc, HoldsLuiServiceInfc {
 
     private LuiServiceInfc luiService;
 
+    @Override
     public LuiServiceInfc getLuiService() {
         return luiService;
     }
 
+    @Override
     public void setLuiService(LuiServiceInfc luiService) {
         this.luiService = luiService;
     }
 
-    private Map<String, LuiPersonRelationInfc> luiPersonRelationInfcCache =
-            new HashMap();
+    private Map<String, LuiPersonRelationInfc> lprCache = new HashMap<String, LuiPersonRelationInfc>();
 
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId,
@@ -90,7 +92,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
         copy.setLuiId(luiId);
         copy.setType(luiPersonRelationType);
         copy.setMetaInfo(helper.createMeta(context));
-        this.luiPersonRelationInfcCache.put(copy.getId(), copy);
+        this.lprCache.put(copy.getId(), copy);
         return copy.getId();
     }
 
@@ -101,10 +103,9 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        if (!this.luiPersonRelationInfcCache.containsKey(luiPersonRelationId)) {
+        if (this.lprCache.remove(luiPersonRelationId) == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        this.luiPersonRelationInfcCache.remove(luiPersonRelationId);
         StatusInfc status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -116,12 +117,12 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        LuiPersonRelationInfc bean = this.luiPersonRelationInfcCache.get(
+        LuiPersonRelationInfc bean = this.lprCache.get(
                 luiPersonRelationId);
         if (bean == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        return bean;
+        return new CopierHelper ().makeCopy(bean);
     }
 
     @Override
@@ -137,21 +138,21 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException,
             PermissionDeniedException {
         List<String> luiIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
-            if (!personId.equals(bean.getPersonId())) {
+        for (LuiPersonRelationInfc lpr : this.lprCache.values()) {
+            if (!personId.equals(lpr.getPersonId())) {
                 continue;
             }
-            if (!luiPersonRelationType.equals(bean.getType())) {
+            if (!luiPersonRelationType.equals(lpr.getType())) {
                 continue;
             }
-            if (!relationState.equals(bean.getState())) {
+            if (!relationState.equals(lpr.getState())) {
                 continue;
             }
-            LuiInfc lui = luiService.getLui(bean.getLuiId());
-            if (!atpId.equals(lui.getAtpId())) {
+            LuiInfc lui = luiService.getLui(lpr.getLuiId(), context);
+            if (!atpId.equals(lui.getAtpKey())) {
                 continue;
             }
-            luiIds.add(bean.getLuiId());
+            luiIds.add(lpr.getLuiId());
         }
         return luiIds;
     }
@@ -168,7 +169,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException,
             PermissionDeniedException {
         List<String> personIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!luiId.equals(bean.getLuiId())) {
                 continue;
             }
@@ -178,7 +179,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             if (!relationState.equals(bean.getState())) {
                 continue;
             }
-            LuiInfc lui = luiService.getLui(bean.getLuiId());
+            LuiInfc lui = luiService.getLui(bean.getLuiId(), context);
             personIds.add(bean.getPersonId());
         }
         return personIds;
@@ -264,7 +265,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException,
             PermissionDeniedException {
         List<String> luiIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!personId.equals(bean.getPersonId())) {
                 continue;
             }
@@ -290,7 +291,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException,
             PermissionDeniedException {
         List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!personId.equals(bean.getPersonId())) {
                 continue;
             }
@@ -311,7 +312,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException,
             PermissionDeniedException {
         List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!luiId.equals(bean.getLuiId())) {
                 continue;
             }
@@ -327,7 +328,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!personId.equals(bean.getPersonId())) {
                 continue;
             }
@@ -388,7 +389,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException, PermissionDeniedException {
         // TODO: reevaluate if this method is needed -- I can see no use case for it
         Map<String, LuiPersonRelationTypeInfc> types = new HashMap();
-        for (LuiPersonRelationInfc lpr : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc lpr : this.lprCache.values()) {
             if (!lpr.getPersonId().equals(personId)) {
                 continue;
             }
@@ -413,7 +414,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfc> lprs = new ArrayList();
         CopierHelper helper = new CopierHelper();
-        for (LuiPersonRelationInfc bean : this.luiPersonRelationInfcCache.values()) {
+        for (LuiPersonRelationInfc bean : this.lprCache.values()) {
             if (!personId.equals(bean.getPersonId())) {
                 continue;
             }
@@ -543,7 +544,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        LuiPersonRelationInfc existing = this.luiPersonRelationInfcCache.get(
+        LuiPersonRelationInfc existing = this.lprCache.get(
                 luiPersonRelationId);
         if (existing == null) {
             throw new DoesNotExistException(luiPersonRelationId);
@@ -558,7 +559,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
                             + existing.getMetaInfo().getVersionInd());
         }
         copy.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
-        this.luiPersonRelationInfcCache.put(luiPersonRelationId, copy);
+        this.lprCache.put(luiPersonRelationId, copy);
         return helper.makeCopy(copy);
     }
 
@@ -569,7 +570,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
         try {
-            LuiPersonRelationInfc existing = this.luiPersonRelationInfcCache.get(luiPersonRelationId);
+            LuiPersonRelationInfc existing = this.lprCache.get(luiPersonRelationId);
             if (existing == null) {
                 throw new DoesNotExistException(luiPersonRelationId);
             }

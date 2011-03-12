@@ -20,6 +20,7 @@ import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.*;
 
 import java.util.List;
+import org.kuali.student.common.infc.ContextInfc;
 
 public interface LuiServiceInfc {
 
@@ -29,7 +30,7 @@ public interface LuiServiceInfc {
      * @param luiId - String - identifier of the LUI
      * @return information about a LUI
      */
-    public LuiInfc getLui(String luiId)
+    public LuiInfc getLui(String luiId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -38,7 +39,7 @@ public interface LuiServiceInfc {
      * @param luiIdList - StringList - List of LUI identifiers
      * @return information about a list of LUIs
      */
-    public List<LuiInfc> getLuisByIdList(List<String> luiIdList)
+    public List<LuiInfc> getLuisByIdList(List<String> luiIdList, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -48,7 +49,7 @@ public interface LuiServiceInfc {
      * @param atpKey - String - identifier for the academic time period
      * @return list of LUI information
      */
-    public List<LuiInfc> getLuisInAtpByCluId(String cluId, String atpKey)
+    public List<LuiInfc> getLuisInAtpByCluId(String cluId, String atpKey, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -57,7 +58,7 @@ public interface LuiServiceInfc {
      * @param cluId - String - identifier of the CLU
      * @return list of LUI identifiers
      */
-    public List<String> getLuiIdsByCluId(String cluId)
+    public List<String> getLuiIdsByCluId(String cluId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -67,7 +68,7 @@ public interface LuiServiceInfc {
      * @param atpKey - String - identifier for the academic time period
      * @return list of LUI identifiers
      */
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
+    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -78,7 +79,7 @@ public interface LuiServiceInfc {
      * @param relatedLuiId - String - identifier of the second LUI
      * @return list of LU to LU relation types
      */
-    public List<String> getAllowedLuiLuiRelationTypesByLuiId(String luiId, String relatedLuiId)
+    public List<String> getAllowedLuiLuiRelationTypesByLuiId(String luiId, String relatedLuiId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -90,7 +91,7 @@ public interface LuiServiceInfc {
      * @param luLuRelationType - String - the LU to LU relation type
      * @return list of LUI information
      */
-    public List<LuiInfc> getLuisByRelation(String relatedLuiId, String luLuRelationType)
+    public List<LuiInfc> getLuisByRelation(String relatedLuiId, String luLuRelationType, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -102,7 +103,7 @@ public interface LuiServiceInfc {
      * @param luLuRelationType - String - the LU to LU relation type
      * @return list of LUI identifiers
      */
-    public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationType)
+    public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationType, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -114,7 +115,7 @@ public interface LuiServiceInfc {
      * @param luLuRelationType - String - the LU to LU relation type
      * @return list of LUI information
      */
-    public List<LuiInfc> getRelatedLuisByLuiId(String luiId, String luLuRelationType)
+    public List<LuiInfc> getRelatedLuisByLuiId(String luiId, String luLuRelationType, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -126,7 +127,7 @@ public interface LuiServiceInfc {
      * @param luLuRelationType - String - the LU to LU relation type
      * @return list of LUI identifiers
      */
-    public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationType)
+    public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationType, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -136,7 +137,7 @@ public interface LuiServiceInfc {
      * @param luiLuiRelationId - String - identifier of LUI to LUI relation
      * @return information on the relation between two LUIs
      */
-    public LuiLuiRelationInfc getLuiLuiRelation(String luiLuiRelationId)
+    public LuiLuiRelationInfc getLuiLuiRelation(String luiLuiRelationId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -146,7 +147,7 @@ public interface LuiServiceInfc {
      * @param luiId - String - identifier of the LUI
      * @return list of LUI to LUI relation information
      */
-    public List<LuiLuiRelationInfc> getLuiLuiRelationsByLui(String luiId)
+    public List<LuiLuiRelationInfc> getLuiLuiRelationsByLui(String luiId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -167,7 +168,7 @@ public interface LuiServiceInfc {
      * @param luiInfo        - LuiInfo - LUI information to be tested.
      * @return results from performing the validation
      */
-    public List<ValidationResultInfc> validateLui(String validationType, LuiInfc luiInfo)
+    public List<ValidationResultInfc> validateLui(String validationType, LuiInfc luiInfo, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -179,7 +180,7 @@ public interface LuiServiceInfc {
      * @param luiInfo - LuiInfo - information about the LUI being created
      * @return the created LUI information
      */
-    public LuiInfc createLui(String cluId, String atpKey, LuiInfc luiInfo)
+    public LuiInfc createLui(String cluId, String atpKey, LuiInfc luiInfo, ContextInfc context)
             throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -189,7 +190,7 @@ public interface LuiServiceInfc {
      * @param luiInfo - LuiInfo - updated information about the LUI
      * @return the updated LUI information
      */
-    public LuiInfc updateLui(String luiId, LuiInfc luiInfo)
+    public LuiInfc updateLui(String luiId, LuiInfc luiInfo, ContextInfc context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
@@ -198,7 +199,7 @@ public interface LuiServiceInfc {
      * @param luiId - String - identifier for the LUI to be deleted
      * @return status of the operation
      */
-    public StatusInfc deleteLui(String luiId)
+    public StatusInfc deleteLui(String luiId, ContextInfc context)
             throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -210,7 +211,7 @@ public interface LuiServiceInfc {
      *                the luState enumeration.
      * @return the updated LUI information
      */
-    public LuiInfc updateLuiState(String luiId, String luState)
+    public LuiInfc updateLuiState(String luiId, String luState, ContextInfc context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -232,7 +233,7 @@ public interface LuiServiceInfc {
      *                           information to be tested.
      * @return results from performing the validation
      */
-    public List<ValidationResultInfc> validateLuiLuiRelation(String validationType, LuiLuiRelationInfc luiLuiRelationInfo)
+    public List<ValidationResultInfc> validateLuiLuiRelation(String validationType, LuiLuiRelationInfc luiLuiRelationInfo, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -247,7 +248,11 @@ public interface LuiServiceInfc {
      *                           relationship between the two LUIs
      * @return the created LUI to LUI relation information
      */
-    public LuiLuiRelationInfc createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationType, LuiLuiRelationInfc luiLuiRelationInfo)
+    public LuiLuiRelationInfc createLuiLuiRelation(String luiId, 
+      String relatedLuiId,
+      String luLuRelationType,
+      LuiLuiRelationInfc luiLuiRelationInfo,
+      ContextInfc context)
             throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -259,7 +264,7 @@ public interface LuiServiceInfc {
      *                           relationship between the two LUIs
      * @return the update LUI to LUI relation information
      */
-    public LuiLuiRelationInfc updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfc luiLuiRelationInfo)
+    public LuiLuiRelationInfc updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfc luiLuiRelationInfo, ContextInfc context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
@@ -269,7 +274,7 @@ public interface LuiServiceInfc {
      *                         delete
      * @return status of the operation (success or failure)
      */
-    public StatusInfc deleteLuiLuiRelation(String luiLuiRelationId)
+    public StatusInfc deleteLuiLuiRelation(String luiLuiRelationId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
 

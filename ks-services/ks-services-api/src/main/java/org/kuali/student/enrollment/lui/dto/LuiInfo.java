@@ -16,8 +16,6 @@
 
 package org.kuali.student.enrollment.lui.dto;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
@@ -28,8 +26,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.enrollment.lui.infc.LuiInfc;
 
 
 /**
@@ -37,7 +36,8 @@ import java.util.Map;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiInfo implements Serializable, Idable, HasAttributes {
+public class LuiInfo extends HasAttributesAndMetaInfo
+  implements Serializable, LuiInfc {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     private String cluId;
 
     @XmlElement(name = "atpKey")
-    private String atpId;
+    private String atpKey;
 
     @XmlElement
     private Integer maxSeats;
@@ -58,13 +58,6 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private Date expirationDate;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
 
     @XmlAttribute
     private String state;
@@ -76,11 +69,12 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
      * Code identifier/name for the LUI. This is typically used in
      * human readable form (e.g. ENGL 100 section 123).
      */
-
+    @Override
     public String getLuiCode() {
         return luiCode;
     }
 
+    @Override
     public void setLuiCode(String luiCode) {
         this.luiCode = luiCode;
     }
@@ -89,11 +83,12 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     /**
      * Unique identifier for a Canonical Learning Unit (CLU).
      */
-
+    @Override
     public String getCluId() {
         return cluId;
     }
 
+    @Override
     public void setCluId(String cluId) {
         this.cluId = cluId;
     }
@@ -102,24 +97,26 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     /**
      * Unique identifier for an Academic Time Period (ATP).
      */
-
-    public String getAtpId() {
-        return atpId;
+    @Override
+    public String getAtpKey() {
+        return atpKey;
     }
 
-    public void setAtpId(String atpId) {
-        this.atpId = atpId;
+    @Override
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
     }
 
 
     /**
      * Maximum number of "seats" that the LUI will hold for registration.
      */
-
+    @Override
     public Integer getMaxSeats() {
         return maxSeats;
     }
 
+    @Override
     public void setMaxSeats(Integer maxSeats) {
         this.maxSeats = maxSeats;
     }
@@ -131,7 +128,7 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
      * expiration date has been specified, this field must be less
      * than or equal to the expiration date.
      */
-
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -157,39 +154,6 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-
-    /**
-     * Create and last update info for the structure. This is optional
-     * and treated as read only since the data is set by the internals
-     * of the service during maintenance operations.
-     */
-
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
 
     /**
      * The current status of the LUI. The values for this field are

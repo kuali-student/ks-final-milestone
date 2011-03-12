@@ -16,25 +16,14 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import org.kuali.student.common.dto.AttributeInfo;
-import org.kuali.student.common.dto.HasAttributesInfo;
-import org.kuali.student.common.infc.HasAttributesInfc;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.MetaInfc;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
 
 /**
@@ -46,7 +35,8 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationInfo extends HasAttributesInfo implements LuiPersonRelationInfc, Serializable {
+public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
+  implements LuiPersonRelationInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,8 +52,6 @@ public class LuiPersonRelationInfo extends HasAttributesInfo implements LuiPerso
     @XmlElement
     private Date expirationDate;
 
-    @XmlElement
-    private MetaInfo metaInfo;
 
     @XmlAttribute
     private String type;
@@ -126,21 +114,6 @@ public class LuiPersonRelationInfo extends HasAttributesInfo implements LuiPerso
         this.expirationDate = expirationDate;
     }
 
-  
-    /**
-     * Name: Create/Update meta info
-     * <p/>
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    @Override
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    @Override
-    public void setMetaInfo(MetaInfc metaInfo) {
-        this.metaInfo = (MetaInfo) metaInfo;
-    }
 
     /**
      * Name: LUI Person Relation Type

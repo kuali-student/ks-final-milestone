@@ -27,6 +27,10 @@ import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiInfc;
+import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
 
 /**
  * A helper class for the Mock implementation
@@ -88,6 +92,29 @@ public class CopierHelper {
    return null;
   }
   LuiPersonRelationInfc copy = new LuiPersonRelationInfo();
+  BeanUtils.copyProperties(orig, copy);
+  copy.setAttributes(this.makeCopy(orig.getAttributes()));
+  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
+  return copy;
+ }
+
+  public LuiInfc makeCopy(LuiInfc orig) {
+  if (orig == null) {
+   return null;
+  }
+  LuiInfc copy = new LuiInfo();
+  BeanUtils.copyProperties(orig, copy);
+  copy.setAttributes(this.makeCopy(orig.getAttributes()));
+  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
+  return copy;
+ }
+
+
+  public LuiLuiRelationInfc makeCopy(LuiLuiRelationInfc orig) {
+  if (orig == null) {
+   return null;
+  }
+  LuiLuiRelationInfc copy = new LuiLuiRelationInfo();
   BeanUtils.copyProperties(orig, copy);
   copy.setAttributes(this.makeCopy(orig.getAttributes()));
   copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));

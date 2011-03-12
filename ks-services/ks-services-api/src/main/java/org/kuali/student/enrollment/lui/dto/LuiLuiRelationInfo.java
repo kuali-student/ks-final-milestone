@@ -16,9 +16,6 @@
 
 package org.kuali.student.enrollment.lui.dto;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
@@ -31,6 +28,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
 
 
 /**
@@ -38,7 +37,8 @@ import java.util.Map;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo 
+  implements Serializable, LuiLuiRelationInfc {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,6 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     @XmlElement
     private Date expirationDate;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
 
     @XmlAttribute
     private String type;
@@ -136,42 +129,6 @@ public class LuiLuiRelationInfo implements Serializable, Idable, HasTypeState, H
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
-    }
-
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     *
-     * @return an attribute map
-     */
-
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-
-    /**
-     * Create and last update info for the structure. This is optional
-     * and treated as read only since the data is set by the internals
-     * of the service during maintenance operations.
-     *
-     * @return metainfo
-     */
-
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
     }
 
 
