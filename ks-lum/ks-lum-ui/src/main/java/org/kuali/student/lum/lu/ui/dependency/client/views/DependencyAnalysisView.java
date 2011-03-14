@@ -3,16 +3,20 @@ package org.kuali.student.lum.lu.ui.dependency.client.views;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.ModelDefinition;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
@@ -21,13 +25,15 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController.DependencyViews;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcService;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel;
+import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel.DependencyTypeSection;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DependencyAnalysisView extends ViewComposite{
        
@@ -35,19 +41,20 @@ public class DependencyAnalysisView extends ViewComposite{
     
     protected DependencyAnalysisRpcServiceAsync depRpcServiceAsync = GWT.create(DependencyAnalysisRpcService.class);
     protected MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
+    protected SearchRpcServiceAsync searchServiceAsync = GWT.create(SearchRpcService.class);
 
 	private ModelDefinition searchDefinition;
 	private VerticalFieldLayout container = new VerticalFieldLayout();
 	protected boolean initialized = false;
+	
 	protected String selectedCourseId;
-	protected KSLabel courseTitleLabel = new KSLabel();
-    protected SectionTitle sectionTitle = SectionTitle.generateH3Title("");	
-    protected VerticalSection section = new VerticalSection(sectionTitle);
-
+	protected String selectedCourseCd;
+	
+	protected DependencyResultPanel depResultPanel;
+		
 	public DependencyAnalysisView(Controller controller) {
 		super(controller, "Dependency Analysis", DependencyViews.MAIN);
         this.initWidget(container);
-        
         this.addStyleName("blockLayout");
 	}
 	
@@ -90,32 +97,88 @@ public class DependencyAnalysisView extends ViewComposite{
             public void exec(SelectedResults result) {
                 if (result != null && result.getReturnKey() != null && result.getReturnKey().trim().length() > 0) {
                     selectedCourseId = result.getReturnKey();
-                    sectionTitle.setText(result.getDisplayKey());
+                    selectedCourseCd = result.getDisplayKey();
+                    if (depResultPanel != null){
+                    	container.remove(depResultPanel);
+                    }
+                    depResultPanel = new DependencyResultPanel();
+                    depResultPanel.setHeaderTitle(selectedCourseCd);		
+                    container.add(depResultPanel);
                     updateDependencyResults();
                 }
             }
         });
 
-		courseTitleLabel.addStyleName("cluSetTitle");
 		container.setTitleWidget(header);
 		container.addStyleName("blockLayout");
 		container.setInstructions("Search for an item to view its dependenciess");
         container.addWidget(triggerPicker);
-		container.add(section);
 				
-        section.addStyleName(LUUIConstants.STYLE_SECTION_DIVIDER);
-        section.setVisible(false);
-        
-        CollapsableSection preReq = new CollapsableSection("This course is a pre-requisite for the following courses");                
-        CollapsableSection coReq = new CollapsableSection("This course is a co-requisite for the following courses");
-        CollapsableSection antiReq = new CollapsableSection("This course is a anti-requisite for the following courses");
-        
-        section.add(preReq);
-        section.add(coReq);
-        section.add(antiReq);        
 	}
 
 	protected void updateDependencyResults(){
-		section.setVisible(true);
+
+		depResultPanel.addSection("courses","Course Dependencies");		
+		depResultPanel.addSection("programs","Program Dependencies");
+		depResultPanel.addSection("course sets", "Course Set Inclusions");		
+
+			
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.dependencyAnalysis");
+		
+		SearchParam searchParam = new SearchParam();
+		searchParam.setKey("lu.queryParam.luOptionalCluId");
+		searchParam.setValue(selectedCourseId);				
+		searchRequest.getParams().add(searchParam);
+				
+		searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+
+			@Override
+			public void onSuccess(SearchResult searchResults) {				
+				for (SearchResultRow searchResultRow : searchResults.getRows ()) {
+					String cluCode = "";
+					String cluName = "";
+					String cluType = "";
+					String dependencyType = "";
+					String cluDetailsStr = "";
+					VerticalFieldLayout crsDetails = new VerticalFieldLayout();
+					crsDetails.addStyleName("KS-Indent");
+					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
+						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
+							cluCode = searchResultCell.getValue();							
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalLongName")){
+							cluName = searchResultCell.getValue();
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.cluType")){
+							cluType = searchResultCell.getValue();
+							if (cluType.equals("kuali.lu.type.CreditCourse")){
+								cluType = "courses";
+							} else if (cluType != null){
+								cluType = "programs";
+							} else {
+								cluType = "course sets";
+							}
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyType")){
+							dependencyType = searchResultCell.getValue();
+						} else {
+							cluDetailsStr += searchResultCell.getKey() + "=" + searchResultCell.getValue() + " ";
+						}
+					}
+					
+					crsDetails.addWidget(new KSLabel("Details coming soon"));
+					DependencyTypeSection typeSection = depResultPanel.getDependencyTypeSection(cluType, dependencyType);
+					if (typeSection == null){						
+						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getTypeLabel(cluType, dependencyType));
+					}
+					typeSection.addDependencyItem(cluCode + " - " + cluName, crsDetails);
+				}
+				
+			}
+		});
 	}
+	
+
+	private String getTypeLabel(String cluType, String dependencyType) {			
+		return selectedCourseCd + " is an " + dependencyType + " for the following " + cluType + ":";
+	}			
+
 }

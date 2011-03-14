@@ -32,17 +32,22 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CollapsablePanel extends Composite {
-	private KSButton label;
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
-	private HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
+	protected KSButton label;
+	protected VerticalFlowPanel layout = new VerticalFlowPanel();
+	protected HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
 	protected SimplePanel content = new SimplePanel();
-	private boolean isOpen = false;
-	private ContentAnimation animation = new ContentAnimation();
-	private boolean withImages;
-	private String buttonLabel;
+	protected ContentAnimation animation = new ContentAnimation();
 
-	Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
-	Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
+	protected boolean isOpen = false;
+	protected boolean withImages = true;
+	protected ImagePosition imagePosition = ImagePosition.ALIGN_LEFT;
+	
+	public enum ImagePosition {
+		ALIGN_LEFT, ALIGN_RIGHT
+	}
+	
+	protected Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
+	protected Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 
 	private static class ContentAnimation extends Animation {
 		/**
@@ -117,27 +122,46 @@ public class CollapsablePanel extends Composite {
 		}
 	}
 
+	protected CollapsablePanel(){		
+	}
+	
 	public CollapsablePanel(String name, Widget content, boolean isOpen) {
-		init(name, content, isOpen, true);
+		init(name, content, isOpen, true, ImagePosition.ALIGN_RIGHT);
 	}
 
 	public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages) {
-		init(name, content, isOpen, withImages);
+		init(name, content, isOpen, withImages, ImagePosition.ALIGN_RIGHT);
 	}
 
-	private void init(String name, Widget content, boolean isOpen, boolean withImages) {
+	public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		init(name, content, isOpen, withImages, imagePosition);
+	}
+
+	protected void init(String name, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		this.isOpen = isOpen;
 		this.withImages = withImages;
+		this.imagePosition = imagePosition;
+		
 		label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
 		this.content.setWidget(content);
 		label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
-		linkPanel.add(label);
+
+		if (this.imagePosition == ImagePosition.ALIGN_RIGHT){
+			linkPanel.add(label);
+		}
+		
+		if (this.withImages){
+			linkPanel.add(closedImage);
+			linkPanel.add(openedImage);
+			setImageState();
+		}
+
+		if (this.imagePosition == ImagePosition.ALIGN_LEFT){
+			linkPanel.add(label);
+		}
+
 		if (!isOpen) {
 			this.content.setVisible(false);
-			if (this.withImages)
-				linkPanel.add(closedImage);
-		} else {
-			if (this.withImages)
-				linkPanel.add(openedImage);
 		}
 
 		label.addClickHandler(new ClickHandler() {
@@ -171,8 +195,7 @@ public class CollapsablePanel extends Composite {
 	public void open() {
 		isOpen = true;
 		if (withImages) {
-			linkPanel.remove(closedImage);
-			linkPanel.add(openedImage);
+			setImageState();
 		}
 		animation.setOpen(this, true);
 	}
@@ -180,10 +203,17 @@ public class CollapsablePanel extends Composite {
 	public void close() {
 		isOpen = false;
 		if (withImages) {
-			linkPanel.remove(openedImage);
-			linkPanel.add(closedImage);
+			setImageState();
 		}
 		animation.setOpen(this, true);
+	}
+		
+	/**
+	 * Update the image state to display opened/closed image based in isOpen() status
+	 */
+	protected void setImageState(){
+		closedImage.setVisible(!isOpen);
+		openedImage.setVisible(isOpen);						
 	}
 
 }
