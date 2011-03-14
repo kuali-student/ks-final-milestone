@@ -102,4 +102,15 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         	throw new DoesNotExistException("No entity for key '" + childId + "' found",e);
         }
     }
+
+	@Override
+	public List<Statement> getStatementsWithDependencies(
+			List<String> cluVersionIndIds, List<String> cluSetIds) {
+        Query query = em.createNamedQuery("Statement.getStatementsWithDependencies");
+        query.setParameter("cluVersionIndIds", cluVersionIndIds);
+        query.setParameter("cluSetIds", cluSetIds);
+        @SuppressWarnings("unchecked")
+        List<Statement> resultList = query.getResultList();
+        return resultList;
+	}
 }

@@ -90,5 +90,9 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<CluPublication> getCluPublicationsByType(
 			String luPublicationTypeKey);
 	public List<CluPublication> getCluPublicationsByCluId(String cluId);
+	public List<CluSet> getCluSetsByCluVersionIndId(List<String> cluVersionIndId);
+	public List<CluSet> getAllDynamicCluSets();
+	List<Clu> getClusByRelatedCluId(String relatedCluId,
+			String luLuRelationTypeId);
 
 }

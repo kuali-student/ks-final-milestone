@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,18 +52,19 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -143,17 +145,17 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
-
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
+
+	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
 
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
 	private LuDao luDao;
 	private SearchManager searchManager;
+	private SearchDispatcher searchDispatcher;
 	private DictionaryService dictionaryServiceDelegate;
 	private ValidatorFactory validatorFactory;
 
@@ -2963,7 +2965,182 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
+        
+        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
+        	String cluId = null;
+    		for(SearchParam param:searchRequest.getParams()){
+    			if("lu.queryParam.luOptionalCluId".equals(param.getKey())){
+    				cluId = (String)param.getValue();
+    				break;
+    			}
+    		}
+        	try {
+				return doDependencyAnalysisSearch(cluId);
+			} catch (DoesNotExistException e) {
+				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
+			}
+        }
         return searchManager.search(searchRequest, luDao);
+	}
+
+	private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException, DoesNotExistException {
+
+		checkForMissingParameter(cluId, "cluId");
+
+		Clu triggerClu = luDao.fetch(Clu.class, cluId);
+		
+		List<String> cluVersionIndIds = new ArrayList<String>();
+		cluVersionIndIds.add(triggerClu.getVersion().getVersionIndId());
+		
+		//Lookup crosslistings
+//		List<String> crossListedCodes = new ArrayList<String>();
+//		for(CluIdentifier altId:triggerClu.getAlternateIdentifiers()){
+//			if("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())){
+//				crossListedCodes.add(altId.getCode());
+//			}
+//		}
+//		List<Clu> crosslistedClus = luDao.getCrossListedClus(crossListedCodes); 
+//		for(Clu crosslistedClu:crosslistedClus){
+//			cluVersionIndIds.add(crosslistedClu.getVersion().getVersionIndId());
+//		}
+		
+		
+		//Find all clusets that contain this course
+		List<CluSet> cluSets = luDao.getCluSetsByCluVersionIndId(cluVersionIndIds);
+		
+		//Get a mapping of clusetId to cluset for easy referencing
+		Map<String, CluSet> cluSetMap = new HashMap<String, CluSet>();
+		if(cluSets!=null){
+			for(CluSet cluSet:cluSets){
+				cluSetMap.put(cluSet.getId(), cluSet);
+			}
+		}
+		
+		//Execute all dynamic queries to see if the target clu is in the cluset and add those clusets
+		List<CluSet> dynamicCluSets = luDao.getAllDynamicCluSets();
+		if(dynamicCluSets!=null){
+			for(CluSet cluSet:dynamicCluSets){
+				MembershipQueryInfo queryInfo = LuServiceAssembler.toMembershipQueryInfo(cluSet.getMembershipQuery());
+				List<String> memberCluVersionIndIds = getMembershipQuerySearchResult(queryInfo);
+				if(memberCluVersionIndIds!=null){
+					for(String cluVersionIndId:cluVersionIndIds){
+						if(memberCluVersionIndIds.contains(cluVersionIndId)){
+							cluSetMap.put(cluSet.getId(),cluSet);
+							break;
+						}
+					}
+				}
+			}
+		}		
+		//TODO Is it possible we need to search up the cluset hierarchies? - Most likely
+		//If Cluset A contains clu 1 and cluset B contains cluset A, do we also return cluset B as a dependency?
+		
+		//Now we have the clu id and the list of clusets that the id appears in,
+		//We need to do a statement service search to see what statements use these as 
+		//dependencies
+		SearchRequest statementSearchRequest;
+		
+		statementSearchRequest = new SearchRequest();
+		statementSearchRequest.setSearchKey("stmt.search.dependencyAnalysis");
+		
+		statementSearchRequest.getParams().add(new SearchParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet())));
+		statementSearchRequest.getParams().add(new SearchParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds));
+		
+		SearchResult statementSearchResult;
+		statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
+		
+		//Create a search result for the return value
+		SearchResult searchResult = new SearchResult();
+		
+		//Now we need to take the statement ids and find the clus that relate to them
+		//We will also transform the search result from the statement search result to 
+		//the dependency analysis search result
+		Set<String> processed = new HashSet<String>();
+		for(SearchResultRow stmtRow:statementSearchResult.getRows()){
+
+			//Determine result column values
+			String refObjId = null;
+			String statementType = null;
+	
+			for(SearchResultCell stmtCell:stmtRow.getCells()){
+				if("stmt.resultColumn.refObjId".equals(stmtCell.getKey())){
+					refObjId = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.statementTypeId".equals(stmtCell.getKey())){
+					statementType = stmtCell.getValue();
+				}
+			}
+			
+			//Find the clu
+			Clu clu = luDao.fetch(Clu.class, refObjId);
+
+			//Program statements are attached to dummy clus, so look up the parent program
+			if("kuali.lu.type.Requirement".equals(clu.getLuType().getId())){
+				
+				List<Clu> clus = luDao.getClusByRelatedCluId(clu.getId(), "kuali.lu.lu.relation.type.hasProgramRequirement");
+				
+				if(clus==null||clus.size()==0){
+					throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
+				}else if(clus.size()>1){
+					throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
+				}
+				
+				clu = clus.get(0);
+			}
+
+			//Only process clus that are not active and that we have not already processed
+			String rowId = clu.getId()+"|"+statementType;
+			
+			if("Active".equals(clu.getState()) && !processed.contains(rowId)){
+				
+				processed.add(rowId);
+				
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				//Map the result cells
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId",clu.getId()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluType",clu.getLuType().getId()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalCode",clu.getOfficialIdentifier().getCode()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName",clu.getOfficialIdentifier().getShortName()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName",clu.getOfficialIdentifier().getLongName()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType",statementType));
+				
+				searchResult.getRows().add(resultRow);
+			}
+		}
+				
+		//Add in CluSets and ignore ones named AdHoc
+		for(CluSet cluSet:cluSetMap.values()){
+			if(!"AdHock".equals(cluSet.getName())){
+
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId",cluSet.getId()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType","cluSet"));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName",cluSet.getName()));
+				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName",cluSet.getName()));
+				
+				searchResult.getRows().add(resultRow);
+			}
+		}
+		
+		//Get any joints here and add them into the results
+		List<Clu> joints = luDao.getClusByRelation(cluId,"kuali.lu.relation.type.co-located");
+
+		for(Clu clu:joints){
+			
+			SearchResultRow resultRow = new SearchResultRow();
+			
+			resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId", clu.getId()));
+			resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode()));
+			resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName()));
+			resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName()));	
+			resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType", "joint"));
+			
+			searchResult.getRows().add(resultRow);
+		}
+		
+		return searchResult;
 	}
 
 	/**
@@ -3287,7 +3464,7 @@ public class LuServiceImpl implements LuService {
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
        		versionInfos = luDao.getVersions(refObjectId, refObjectTypeURI);
        		if(versionInfos==null){
-       			versionInfos = Collections.emptyList();
+       			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
         	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
@@ -3301,11 +3478,15 @@ public class LuServiceImpl implements LuService {
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
     		versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to);
        		if(versionInfos==null){
-       			versionInfos = Collections.emptyList();
+       			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
         	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
         }
 		return versionInfos;
     }
+
+	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+		this.searchDispatcher = searchDispatcher;
+	}
 }

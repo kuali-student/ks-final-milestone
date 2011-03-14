@@ -198,6 +198,20 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		return relatedClus;
 	}
 
+    @Override
+	public List<Clu> getClusByRelatedCluId(String relatedCluId,
+			String luLuRelationTypeId) {
+		Query query = em
+				.createNamedQuery("CluCluRelation.getClusByRelatedCluId");
+		query.setParameter("relatedCluId", relatedCluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		@SuppressWarnings("unchecked")
+		List<Clu> relatedClus = query.getResultList();
+		return relatedClus;
+	}
+    
+    
+    
 	@Override
 	public List<String> getRelatedLuiIdsByLuiId(String luiId,
 			String luLuRelationTypeId) {
@@ -503,6 +517,21 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         query.setParameter("cluId", cluId);
         List<CluPublication> cluPublications = query.getResultList();
         return cluPublications;
+	}
+
+	@Override
+	public List<CluSet> getCluSetsByCluVersionIndId(List<String> cluVersionIndIds) {
+        Query query = em.createNamedQuery("CluSet.findCluSetsByCluVersionIndIds");
+        query.setParameter("cluVersionIndIds", cluVersionIndIds);
+        List<CluSet> cluSetIds = query.getResultList();
+        return cluSetIds;
+	}
+
+	@Override
+	public List<CluSet> getAllDynamicCluSets() {
+        Query query = em.createNamedQuery("CluSet.findAllDynamicCluSets");
+        List<CluSet> cluSetIds = query.getResultList();
+        return cluSetIds;
 	}
 	
 }

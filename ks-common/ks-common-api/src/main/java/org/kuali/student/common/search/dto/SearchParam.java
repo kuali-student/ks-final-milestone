@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchParam implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private String value;
@@ -32,6 +33,23 @@ public class SearchParam implements Serializable {
 	@XmlAttribute
 	private String key;
 
+	public SearchParam(){
+		super();
+	}
+	
+	public SearchParam(String key, String value) {
+		this();
+		this.key = key;
+		this.value = value;
+	}
+
+	public SearchParam(String key, List<String> value) {
+		this();
+		this.key = key;
+		this.listValue = value;
+	}
+
+	
 	public Object getValue() {
 		if (value != null) {
 			return value;
