@@ -102,7 +102,45 @@
 	</search:crossSearchType>
 	
 	
+	<!-- Dependency Analysis Search -->
+	<search:searchType id="lu.search.dependencyAnalysis">
+		<search:name>Dependency Analysis</search:name>
+		<search:desc>Search for Clus that are dependencies of the target Clu</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.dependencyAnalysis"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.dependencyAnalysis"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 	
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis" parent="lu.result.dependencyAnalysis-parent"/>
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Results</search:name>
+		<search:desc>Full view of clus/clusets that are dependencies of the target Clu</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType" parent="lu.resultColumn.luOptionalDependencyType-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType-parent" abstract="true">
+		<search:name>Dependency Type</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Criteria</search:name>
+		<search:desc>Dependency Analysis Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalVersionIndId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 	
 	<!-- definition for generic search component -->
 	<search:searchType id="lu.search.current" parent="lu.search.generic-parent"/>
