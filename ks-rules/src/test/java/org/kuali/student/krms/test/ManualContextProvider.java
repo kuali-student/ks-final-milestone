@@ -2,10 +2,10 @@ package org.kuali.student.krms.test;
 
 import java.util.Map;
 
-import org.kuali.rice.krms.engine.Asset;
-import org.kuali.rice.krms.engine.Context;
-import org.kuali.rice.krms.engine.ContextProvider;
-import org.kuali.rice.krms.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.Asset;
+import org.kuali.rice.krms.api.Context;
+import org.kuali.rice.krms.api.ContextProvider;
+import org.kuali.rice.krms.api.SelectionCriteria;
 
 public class ManualContextProvider implements ContextProvider {
 

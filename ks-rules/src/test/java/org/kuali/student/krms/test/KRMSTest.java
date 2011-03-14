@@ -4,31 +4,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.rice.krms.engine.Agenda;
-import org.kuali.rice.krms.engine.Asset;
-import org.kuali.rice.krms.engine.AssetResolver;
-import org.kuali.rice.krms.engine.ComparisonOperator;
-import org.kuali.rice.krms.engine.Context;
-import org.kuali.rice.krms.engine.ContextProvider;
-import org.kuali.rice.krms.engine.EngineResults;
-import org.kuali.rice.krms.engine.ExecutionOptions;
-import org.kuali.rice.krms.engine.LogicalOperator;
-import org.kuali.rice.krms.engine.Proposition;
-import org.kuali.rice.krms.engine.Rule;
-import org.kuali.rice.krms.engine.SelectionCriteria;
-import org.kuali.rice.krms.engine.impl.AgendaTree;
-import org.kuali.rice.krms.engine.impl.BasicAgenda;
-import org.kuali.rice.krms.engine.impl.BasicContext;
-import org.kuali.rice.krms.engine.impl.BasicRule;
-import org.kuali.rice.krms.engine.impl.ComparableTermBasedProposition;
-import org.kuali.rice.krms.engine.impl.CompoundProposition;
-import org.kuali.rice.krms.engine.impl.ProviderBasedEngine;
-import org.kuali.rice.krms.engine.impl.ResultLogger;
+import org.kuali.rice.krms.api.Agenda;
+import org.kuali.rice.krms.api.Asset;
+import org.kuali.rice.krms.api.AssetResolver;
+import org.kuali.rice.krms.api.Context;
+import org.kuali.rice.krms.api.ContextProvider;
+import org.kuali.rice.krms.api.EngineResults;
+import org.kuali.rice.krms.api.ExecutionOptions;
+import org.kuali.rice.krms.api.Proposition;
+import org.kuali.rice.krms.api.Rule;
+import org.kuali.rice.krms.api.SelectionCriteria;
+import org.kuali.rice.krms.framework.engine.AgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicContext;
+import org.kuali.rice.krms.framework.engine.BasicRule;
+import org.kuali.rice.krms.framework.engine.ComparableTermBasedProposition;
+import org.kuali.rice.krms.framework.engine.ComparisonOperator;
+import org.kuali.rice.krms.framework.engine.CompoundProposition;
+import org.kuali.rice.krms.framework.engine.LogicalOperator;
+import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
+import org.kuali.rice.krms.framework.engine.ResultLogger;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +77,11 @@ public class KRMSTest {
 		HashMap<String, String> xOptions = new HashMap<String, String>();
 		xOptions.put(ExecutionOptions.LOG_EXECUTION.toString(), Boolean.toString(true));
 		
+		HashMap<Asset, Object> execFacts = new HashMap<Asset, Object>();
+		execFacts.put(studentId, new String("013005779"));
+		
 		LOG.init();
-		EngineResults results = engine.execute(selectionCriteria, new HashMap<Asset, Object>(), xOptions);
+		EngineResults results = engine.execute(selectionCriteria, execFacts, xOptions);
 		
 	}
 	
@@ -97,6 +101,31 @@ public class KRMSTest {
 		@Override
 		public Integer resolve(Map<Asset, Object> resolvedPrereqs) {
 			return 5;
+		}
+	};
+	
+	private static final Asset gpaAsset = new Asset("gpa","Float");
+	private static final Asset studentId = new Asset("gpa","String");
+	
+	private static final AssetResolver<Float> gpaResolver = new AssetResolver<Float>(){
+		
+		@Override
+		public int getCost() { return 1; }
+		
+		@Override
+		public Asset getOutput() { return gpaAsset; }
+		
+		@Override
+		public Set<Asset> getPrerequisites() {
+			Set<Asset> preReqs = new HashSet<Asset>();
+			
+			preReqs.add(studentId);
+			return preReqs; 
+		}
+		
+		@Override
+		public Float resolve(Map<Asset, Object> resolvedPrereqs) {
+			return new Float(3.2);
 		}
 	};
 
