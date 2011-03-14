@@ -17,10 +17,12 @@ package org.kuali.student.enrollment.lpr.service.impl;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.springframework.context.ApplicationContext;
@@ -29,6 +31,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -41,6 +45,9 @@ public class LuiPersonRelationServiceImplTest {
 
 
 	public LuiPersonRelationServiceInfc lprService;
+	public ApplicationContext appContext;
+	public static String principalId = "123";
+	public ContextInfc callContext = new ContextInfo();
 
 
 	public void setLprService(LuiPersonRelationServiceInfc lprService) {
@@ -49,25 +56,34 @@ public class LuiPersonRelationServiceImplTest {
  
 	@Before
 	public void setUp() {
+		principalId = "123";
+		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
+		lprService = (LuiPersonRelationServiceInfc) appContext.getBean("lprService");
+		callContext.setPrincipalId(principalId);
 	}
 
 	
 	@After
 	public void tearDown() {
 	}
+	
+	@Ignore
+	public void testFindLuiPersonRelationTypes() {
+		try {
+			List<LuiPersonRelationTypeInfc> relationTypes = lprService.findLuiPersonRelationTypes(callContext);
+			assertNotNull(relationTypes);
+		} catch (Exception ex) {
+			fail("exception from service call :" + ex.getMessage());
+		}
+		
+	}
 
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
-		String principalId = "123";
-		ApplicationContext appContext =
-			new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
-		lprService = (LuiPersonRelationServiceInfc) appContext.getBean("lprService");
-		ContextInfc callContext = new ContextInfo();
-		
-		callContext.setPrincipalId(principalId);
 		try {
 			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
-			assertNull(createResults);
+			assertNotNull(createResults);
+			assertEquals(1, createResults.size());
 		} catch (Exception ex) {
 			fail("exception from service call :" + ex.getMessage());
 		}

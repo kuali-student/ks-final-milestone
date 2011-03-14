@@ -12,12 +12,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!-- Declare various impls here -->
     <property name="serviceImpls" >
          <list>
-            <value>org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl</value>
-            <value>org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl</value>
+            <ref bean="lprServiceAuthorizer" />
+            <ref bean="lprServiceValidator" />
          </list>
          </property>
   </bean>
   
+   <bean id="lprServiceAuthorizer" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl" />
+   <bean id="lprServiceValidator" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl" />
+   
    <aop:config>
       <aop:aspect id="layeringAspectId" ref="layeringAspects">
         <aop:pointcut id="lprLayeringPointcut" expression="bean(*lprService)"/>
@@ -30,7 +33,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 <bean id = "mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
 <bean id = "mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
 
-<bean id = "lprService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
+<bean id = "lprService" class = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl" />
+
+<bean id = "lprMockService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
       init-method="init">
     <!--
 	// Default support services to use if not otherwise configured

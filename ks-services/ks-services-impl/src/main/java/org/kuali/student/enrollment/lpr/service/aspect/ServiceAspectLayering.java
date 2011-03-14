@@ -6,12 +6,12 @@ import java.util.List;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 
-public class ServiceAspectLayering {
+public class ServiceAspectLayering<T> {
 
-	List <String>  serviceImpls ; 
+	List <T>  serviceImplObjs; 
 
-	public void setServiceImpls(List<String> serviceImpls) {
-		this.serviceImpls = serviceImpls;
+	public void setServiceImpls(List<T> serviceImplObjs) {
+		this.serviceImplObjs = serviceImplObjs;
 	}
 	
 	/**
@@ -20,25 +20,24 @@ public class ServiceAspectLayering {
 	 * @param call
 	 * @throws Throwable
 	 */
-	public void performLayeringCalls(ProceedingJoinPoint call) throws Throwable{
+	public Object performLayeringCalls(ProceedingJoinPoint call) throws Throwable{
 
 		try{
-			call.proceed();
-			for ( String serviceName:serviceImpls){
-				Class<?> classC = Class.forName(serviceName);
-				Object obj = classC.newInstance();
-				for (Method s :classC.getMethods()){
-					if(s.getName().equals(call.getSignature().getName())){
-						s.invoke(obj, call.getArgs());
+			for (Object service : serviceImplObjs){
+				for (Method s : service.getClass().getMethods()){
+					if (s.getName().equals(call.getSignature().getName())) {
+						s.invoke(service, call.getArgs());
+						break;
 					}
 				}
 			}
+			return call.proceed();
 		}
 
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-
+		return null;
 	}
 
 }
