@@ -71,8 +71,8 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
 
         checkParameter("personId", personId);
         checkParameter("luiIdList", luiIdList);
-        checkParameter("luiIdList", luiIdList);
         checkParameter("relationState", relationState);
+        checkParameter("luiPersonRelationType", luiPersonRelationType);
         checkParameter("luiPersonRelationInfo", luiPersonRelationInfo);
         checkParameter("context", context);
         return (getLprService().createBulkRelationshipsForPerson(personId, luiIdList,

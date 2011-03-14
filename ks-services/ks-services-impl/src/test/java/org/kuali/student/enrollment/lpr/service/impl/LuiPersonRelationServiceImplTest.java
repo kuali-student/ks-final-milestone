@@ -18,10 +18,15 @@ package org.kuali.student.enrollment.lpr.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNull;
@@ -35,10 +40,10 @@ import static org.junit.Assert.fail;
 public class LuiPersonRelationServiceImplTest {
 
 
-	public LuiPersonRelationService lprService;
+	public LuiPersonRelationServiceInfc lprService;
 
 
-	public void setLprService(LuiPersonRelationService lprService) {
+	public void setLprService(LuiPersonRelationServiceInfc lprService) {
 		this.lprService = lprService;
 	}
  
@@ -53,12 +58,15 @@ public class LuiPersonRelationServiceImplTest {
 
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
+		String principalId = "123";
 		ApplicationContext appContext =
 			new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
-		lprService = (LuiPersonRelationService) appContext.getBean("lprService");
-
+		lprService = (LuiPersonRelationServiceInfc) appContext.getBean("lprService");
+		ContextInfc callContext = new ContextInfo();
+		
+		callContext.setPrincipalId(principalId);
 		try {
-			List<String> createResults = lprService.createBulkRelationshipsForPerson("123", null, null, null, null, null);
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
 			assertNull(createResults);
 		} catch (Exception ex) {
 			fail("exception from service call :" + ex.getMessage());
