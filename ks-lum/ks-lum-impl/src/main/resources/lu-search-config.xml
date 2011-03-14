@@ -120,6 +120,7 @@
 		<search:desc>Full view of clus/clusets that are dependencies of the target Clu</search:desc>
 		<search:resultColumns>
 			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluType" />
 			<ref bean="lu.resultColumn.luOptionalShortName"/>
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
