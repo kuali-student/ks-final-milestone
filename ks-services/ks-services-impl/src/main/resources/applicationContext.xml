@@ -35,7 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 <bean id = "lprService" class = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl" />
 
-<bean id = "lprMockService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
+<bean id = "lprAdapterStackerService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
       init-method="init">
     <!--
 	// Default support services to use if not otherwise configured
