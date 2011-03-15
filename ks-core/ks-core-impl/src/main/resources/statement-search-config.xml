@@ -26,6 +26,8 @@
 		<search:desc>Statement Dependency Analysis Results</search:desc>
 		<search:resultColumns>
 			<ref bean="stmt.resultColumn.refObjId" />
+			<ref bean="stmt.resultColumn.rootId" />
+			<ref bean="stmt.resultColumn.requirementComponentIds" />
 			<ref bean="stmt.resultColumn.statementTypeId" />
 			<ref bean="stmt.resultColumn.statementTypeName" />
 		</search:resultColumns>
@@ -119,6 +121,20 @@
     <search:resultColumn id="stmt.resultColumn.reqComponentTypeDesc-parent" abstract="true">
         <search:name>Requirement Component Type Description</search:name>
         <search:desc>Description a requirement type component</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="stmt.resultColumn.rootId" parent="stmt.resultColumn.rootId-parent" />
+    <search:resultColumn id="stmt.resultColumn.rootId-parent" abstract="true">
+        <search:name>Root Id</search:name>
+        <search:desc>Root statement id or root Program clu id</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="stmt.resultColumn.requirementComponentIds" parent="stmt.resultColumn.requirementComponentIds-parent" />
+    <search:resultColumn id="stmt.resultColumn.requirementComponentIds-parent" abstract="true">
+        <search:name>Requirement Component Ids</search:name>
+        <search:desc>Comma delimited requirement component ids</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 

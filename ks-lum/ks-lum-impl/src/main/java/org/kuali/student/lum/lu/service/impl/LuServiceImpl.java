@@ -3049,6 +3049,8 @@ public class LuServiceImpl implements LuService {
 			String refObjId = null;
 			String statementType = null;
 			String statementTypeName = null;
+			String rootId = null;
+			String requirementComponentIds = null;
 			
 			for(SearchResultCell stmtCell:stmtRow.getCells()){
 				if("stmt.resultColumn.refObjId".equals(stmtCell.getKey())){
@@ -3059,6 +3061,11 @@ public class LuServiceImpl implements LuService {
 					continue;
 				}else if("stmt.resultColumn.statementTypeName".equals(stmtCell.getKey())){
 					statementTypeName = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.rootId".equals(stmtCell.getKey())){
+					rootId = stmtCell.getValue();
+				}else if("stmt.resultColumn.requirementComponentIds".equals(stmtCell.getKey())){
+					requirementComponentIds = stmtCell.getValue();
 				}
 			}
 			
@@ -3070,17 +3077,18 @@ public class LuServiceImpl implements LuService {
 				
 				List<Clu> clus = luDao.getClusByRelatedCluId(clu.getId(), "kuali.lu.lu.relation.type.hasProgramRequirement");
 				
+				rootId = clu.getId();
+
 				if(clus==null||clus.size()==0){
 					throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
 				}else if(clus.size()>1){
 					throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
 				}
-				
 				clu = clus.get(0);
 			}
 
 			//Only process clus that are not active and that we have not already processed
-			String rowId = clu.getId()+"|"+statementType;
+			String rowId = clu.getId()+"|"+statementType+"|"+rootId;
 			
 			if("Active".equals(clu.getState()) && !processed.contains(rowId)){
 				
@@ -3096,6 +3104,8 @@ public class LuServiceImpl implements LuService {
 				resultRow.addCell("lu.resultColumn.luOptionalLongName",clu.getOfficialIdentifier().getLongName());
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyType",statementType);
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName",statementTypeName);	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId",rootId);
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementComponentIds",requirementComponentIds);
 				
 				searchResult.getRows().add(resultRow);
 			}
@@ -3142,7 +3152,7 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 		if(crossListedCodes.isEmpty()){
-			crossListedCodes.add("");
+			crossListedCodes.add(""); //Add a blank param value because jpql IN(:var) has problems with empty lists
 		}
 		List<Clu> crosslistedClus = luDao.getCrossListedClusByCodes(crossListedCodes); 
 		if(crosslistedClus!=null){

@@ -126,6 +126,8 @@
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
 			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRootId"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -140,6 +142,20 @@
 	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName-parent" abstract="true">
 		<search:name>Dependency Type Name</search:name>
 		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId" parent="lu.resultColumn.luOptionalDependencyRootId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId-parent" abstract="true">
+		<search:name>Dependency Root Id</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds" parent="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent" abstract="true">
+		<search:name>Dependency Requirement Component Ids</search:name>
+		<search:desc>Comma delimited list of requirement component ids</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	

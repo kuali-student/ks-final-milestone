@@ -739,13 +739,33 @@ public class StatementServiceImpl implements StatementService {
 			List<String> cluVersionIndIds, List<String> cluSetIds) {
     	//First look up all the statements that have requirement components that reference the 
     	//given cluIds and clusets
-    	List<Statement> statements = statementDao.getStatementsWithDependencies(cluVersionIndIds,cluSetIds);
+    	List<Object[]> results = statementDao.getStatementsWithDependencies(cluVersionIndIds,cluSetIds);
+    	
+    	//From the Object[], which contains a statement at index 0, and a result component id at index 1
+    	//obtain a list of statements and a comma delimited list of requirement component ids for each 
+    	//statement which contain the target clu/cluset
+    	Map<String,String> statementToResultComponentIds = new HashMap<String,String>();
+    	Map<String, Statement> statements = new HashMap<String,Statement>();
+    	for(Object[] result:results){
+    		Statement statement = (Statement) result[0];
+    		statements.put(statement.getId(),statement);
+    		String resultComponentIds = statementToResultComponentIds.get(statement.getId());
+    		if(resultComponentIds == null){
+    			resultComponentIds = (String)result[1];
+    		}else{
+    			resultComponentIds+="," + (String)result[1];
+    		}
+    		statementToResultComponentIds.put(statement.getId(), resultComponentIds);
+    	}
+    	
     	
     	//HashMap of root statements used to store non duplicate root statements 
     	Map<String,Statement> rootStatements = new HashMap<String,Statement>();
     	
+    	Map<String,String> rootToRequirementComponentList = new HashMap<String,String>();
+    	
     	//Next find the root statements since only the root is related to a clu
-    	for(Statement statement:statements){
+    	for(Statement statement:statements.values()){
     		Statement child = statement;
     		Statement parent = child;
     		while(parent!=null){
@@ -756,6 +776,17 @@ public class StatementServiceImpl implements StatementService {
 	    		}catch(DoesNotExistException e){
 	    			//This is the root (no parent) so add to list of roots
 	    			rootStatements.put(child.getId(), child);
+	    			
+	    			//Create a comma delimited mapping of all the requirement components
+	    			//ids that contain the trigger clu within this root statement
+	        		String childStatementList = rootToRequirementComponentList.get(child.getId());
+	        		if(childStatementList==null){
+	        			childStatementList = statementToResultComponentIds.get(statement.getId());
+	        		}else{
+	        			childStatementList += ","+statementToResultComponentIds.get(statement.getId());
+	        		}
+	        		rootToRequirementComponentList.put(child.getId(), childStatementList);
+	    			
 	    			//Exit condition(hopefully there are no cyclic statements)
 	    			parent = null;
 	    		}
@@ -775,6 +806,8 @@ public class StatementServiceImpl implements StatementService {
     				processed.add(rowId);
 	    			SearchResultRow row = new SearchResultRow();
 	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.refObjId",relation.getRefObjectId()));
+	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.rootId",statement.getId()));
+	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.requirementComponentIds",rootToRequirementComponentList.get(statement.getId())));
 	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeId",statement.getStatementType().getId()));
 	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeName",statement.getStatementType().getName()));
 	     			searchResult.getRows().add(row);
