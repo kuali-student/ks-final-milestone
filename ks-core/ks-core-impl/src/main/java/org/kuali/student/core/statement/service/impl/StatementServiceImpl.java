@@ -776,6 +776,7 @@ public class StatementServiceImpl implements StatementService {
 	    			SearchResultRow row = new SearchResultRow();
 	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.refObjId",relation.getRefObjectId()));
 	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeId",statement.getStatementType().getId()));
+	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeName",statement.getStatementType().getName()));
 	     			searchResult.getRows().add(row);
     			}
     		}

@@ -125,6 +125,7 @@
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -134,6 +135,14 @@
 		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName" parent="lu.resultColumn.luOptionalDependencyTypeName-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName-parent" abstract="true">
+		<search:name>Dependency Type Name</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">
 		<search:name>Dependency Analysis Criteria</search:name>

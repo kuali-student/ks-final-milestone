@@ -533,5 +533,13 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         List<CluSet> cluSetIds = query.getResultList();
         return cluSetIds;
 	}
+
+	@Override
+	public List<Clu> getCrossListedClusByCodes(List<String> crossListedCodes) {
+        Query query = em.createNamedQuery("Clu.getCrossListedClusByCodes");
+        query.setParameter("crossListedCodes", crossListedCodes);
+        List<Clu> clus = query.getResultList();
+        return clus;
+	}
 	
 }

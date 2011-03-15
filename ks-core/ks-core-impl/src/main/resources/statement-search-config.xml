@@ -27,6 +27,7 @@
 		<search:resultColumns>
 			<ref bean="stmt.resultColumn.refObjId" />
 			<ref bean="stmt.resultColumn.statementTypeId" />
+			<ref bean="stmt.resultColumn.statementTypeName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	

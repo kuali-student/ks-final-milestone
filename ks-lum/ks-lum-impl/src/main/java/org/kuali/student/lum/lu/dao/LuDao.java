@@ -94,5 +94,6 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<CluSet> getAllDynamicCluSets();
 	List<Clu> getClusByRelatedCluId(String relatedCluId,
 			String luLuRelationTypeId);
+	public List<Clu> getCrossListedClusByCodes(List<String> crossListedCodes);
 
 }

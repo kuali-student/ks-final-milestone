@@ -227,6 +227,7 @@
 		<search:queryParams>
 			<ref bean="lo.queryParam.loOptionalCategoryName" />
 			<ref bean="lo.queryParam.loDescPlain" />
+			<ref bean="lo.queryParam.groupCategories" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -260,6 +261,15 @@
     <search:queryParam id="lo.queryParam.loName" parent="lo.queryParam.loName-parent"/>
 	<search:queryParam id="lo.queryParam.loName-parent"  abstract="true">
 	    <ref bean="field.loInfo.name.fd"/>
+    </search:queryParam>
+    
+	<search:queryParam id="lo.queryParam.groupCategories" parent="lo.queryParam.groupCategories-parent"/>
+	<search:queryParam id="lo.queryParam.groupCategories-parent"  optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Group Categories</dict:name>
+			<dict:desc>Group Categories into a comma delimited string</dict:desc>
+			<dict:dataType>String</dict:dataType>
+		</dict:fieldDescriptor>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loDescPlain" parent="lo.queryParam.loDescPlain-parent"/>
