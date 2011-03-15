@@ -139,7 +139,7 @@
 		<search:name>Dependency Analysis Criteria</search:name>
 		<search:desc>Dependency Analysis Criteria</search:desc>
 		<search:queryParams>
-			<ref bean="lu.queryParam.luOptionalId"/>
+			<ref bean="lu.queryParam.luOptionalCluId"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -182,6 +182,10 @@
 
 	<search:queryParam id="lu.queryParam.luOptionalId" parent="lu.queryParam.luOptionalId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalCluId" parent="lu.queryParam.luOptionalCluId-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCluId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalShortName" parent="lu.queryParam.luOptionalShortName-parent"/>
