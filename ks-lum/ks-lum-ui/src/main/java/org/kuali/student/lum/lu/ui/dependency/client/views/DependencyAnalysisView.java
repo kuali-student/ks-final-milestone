@@ -127,7 +127,7 @@ public class DependencyAnalysisView extends ViewComposite{
 		searchRequest.setSearchKey("lu.search.dependencyAnalysis");
 		
 		SearchParam searchParam = new SearchParam();
-		searchParam.setKey("lu.queryParam.luOptionalCluId");
+		searchParam.setKey("lu.queryParam.luOptionalId");
 		searchParam.setValue(selectedCourseId);				
 		searchRequest.getParams().add(searchParam);
 				
