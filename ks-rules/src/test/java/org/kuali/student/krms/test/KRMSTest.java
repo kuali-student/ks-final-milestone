@@ -32,6 +32,9 @@ import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
 import org.kuali.rice.krms.framework.engine.ResultLogger;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.lum.program.service.ProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class KRMSTest {
@@ -62,10 +65,11 @@ public class KRMSTest {
 		Map<String, String> contextQualifiers = new HashMap<String, String>();
 		contextQualifiers.put("docTypeName", "Proposal");
 		
-		List<AssetResolver<?>> testResolvers = new ArrayList<AssetResolver<?>>();
-		testResolvers.add(testResolver);
+		List<AssetResolver<?>> resolvers = new ArrayList<AssetResolver<?>>();
+		resolvers.add(gpaResolver);
+		resolvers.add(learningResultsResolver);
 		
-		Context context = new BasicContext(contextQualifiers, Arrays.asList(agenda), testResolvers);
+		Context context = new BasicContext(contextQualifiers, Arrays.asList(agenda), resolvers);
 		ContextProvider contextProvider = new ManualContextProvider(context);
 		
 		SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria("test", contextQualifiers, Collections.EMPTY_MAP);
@@ -104,8 +108,10 @@ public class KRMSTest {
 		}
 	};
 	
-	private static final Asset gpaAsset = new Asset("gpa","Float");
+
 	private static final Asset studentId = new Asset("gpa","String");
+	
+	private static final Asset gpaAsset = new Asset("gpa","Float");
 	
 	private static final AssetResolver<Float> gpaResolver = new AssetResolver<Float>(){
 		
@@ -128,5 +134,67 @@ public class KRMSTest {
 			return new Float(3.2);
 		}
 	};
+	
+	
+	private class LearningResult {
+		private String grade;
+		private CluInfo clu;
+	}
+	
+	private static final Asset learningResultsAsset = new Asset("academicRecord","ListOfLearningResults");
+	
+	private static final AssetResolver<List<LearningResult>> learningResultsResolver = new AssetResolver<List<LearningResult>>(){
+		
+		@Override
+		public int getCost() { return 1; }
+		
+		@Override
+		public Asset getOutput() { return gpaAsset; }
+		
+		@Override
+		public Set<Asset> getPrerequisites() {
+			Set<Asset> preReqs = new HashSet<Asset>();
+			
+			preReqs.add(studentId);
+			return preReqs; 
+		}
+		
+		@Override
+		public List<LearningResult> resolve(Map<Asset, Object> resolvedPrereqs) {
+			return new ArrayList<LearningResult>();
+		}
+	};
 
+	private static final Asset enrolledProgramsAsset = new Asset("academicRecord","ListOfPrograms");
+	
+	private static final AssetResolver<List<CredentialProgramInfo>> enrolledProgramsResolver = new AssetResolver<List<CredentialProgramInfo>>(){
+		
+	    @Autowired
+	    ProgramService programService;
+		
+		@Override
+		public int getCost() { return 1; }
+		
+		@Override
+		public Asset getOutput() { return gpaAsset; }
+		
+		@Override
+		public Set<Asset> getPrerequisites() {
+			Set<Asset> preReqs = new HashSet<Asset>();
+			
+			preReqs.add(studentId);
+			return preReqs; 
+		}
+		
+		@Override
+		public List<CredentialProgramInfo> resolve(Map<Asset, Object> resolvedPrereqs) {
+			List<CredentialProgramInfo> programs = new ArrayList<CredentialProgramInfo>();
+			String id = "asdfasdfasdf";
+			try {
+				programs.add(programService.getCredentialProgram(id));
+			} catch (Exception e) {}
+			
+			return programs;
+		}
+	};
 }
