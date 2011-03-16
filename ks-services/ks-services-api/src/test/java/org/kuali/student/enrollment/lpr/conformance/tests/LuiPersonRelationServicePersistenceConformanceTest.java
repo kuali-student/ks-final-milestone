@@ -38,9 +38,9 @@ import static org.junit.Assert.*;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServicePersistenceImplTest {
+public class LuiPersonRelationServicePersistenceConformanceTest {
 
-	public LuiPersonRelationServicePersistenceImplTest() {
+	public LuiPersonRelationServicePersistenceConformanceTest() {
 	}
 
 	@BeforeClass
