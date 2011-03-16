@@ -32,6 +32,11 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
      <plugins>
@@ -39,12 +44,32 @@
        <groupId>org.kuali.student.mojo</groupId>
        <artifactId>maven-kscontractdoc-plugin</artifactId>
        <version>0.0.1-SNAPSHOT</version>
+       <executions>
+         <execution>
+          <phase>install</phase>
+          <goals>
+            <goal>kscontractdoc</goal>
+          </goals>
+         </execution>
+       </executions>
        <configuration>
-        <commonDirectory>src\main\java</commonDirectory>
-        <coreDirectory>xxxxx</coreDirectory>
-        <lumDirectory>yyyyyy</lumDirectory>
+        <sourceDirs>
+            <sourceDir>src\main\java</sourceDir>
+        </sourceDirs>
         <htmlDirectory>target/html</htmlDirectory>
        </configuration>
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-jar-plugin</artifactId>
+       <version>2.2</version>
+       <executions>
+         <execution>
+           <goals>
+             <goal>test-jar</goal>
+           </goals>
+         </execution>
+       </executions>
       </plugin>
      </plugins>
     </build>
