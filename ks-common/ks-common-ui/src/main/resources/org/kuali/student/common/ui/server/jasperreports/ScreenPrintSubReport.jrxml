@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DataSourceReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="766"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="key" class="java.lang.String"/>
+	<field name="value" class="java.lang.String"/>
+	<field name="sub" class="java.lang.Boolean"/>
+	<field name="subset" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<pageHeader>
+		<band height="26">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="5" width="250" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Field]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="250" y="5" width="265" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="25">
+			<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="6" width="250" height="15">
+					<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5" rightPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0" lineColor="#CBCBCB"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{key}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="250" y="6" width="265" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="19">
+			<printWhenExpression><![CDATA[$F{sub}==true]]></printWhenExpression>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="0" width="505" height="19">
+					<printWhenExpression><![CDATA[$F{sub}==true]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="DataFile"/>
+				<subreportParameter name="SubReport">
+					<subreportParameterExpression><![CDATA[$P{SubReport}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ReportTitle"/>
+				<dataSourceExpression><![CDATA[$F{subset}]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
