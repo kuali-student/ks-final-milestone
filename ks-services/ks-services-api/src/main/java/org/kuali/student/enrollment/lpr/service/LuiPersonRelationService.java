@@ -163,6 +163,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
+    @Deprecated
     public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -282,7 +283,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-
+    @Deprecated
     public List<LuiPersonRelationStateInfo> findValidRelationStatesForLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -302,7 +303,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-
+    @Deprecated
     public Boolean isValidLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -322,7 +323,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-
+    @Deprecated
     public Boolean isRelated(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -342,7 +343,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-
+    @Deprecated
     public ValidationResultInfo validateLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -369,6 +370,8 @@ public interface LuiPersonRelationService {
     /**
      * Retrieves the list of people where the specified relation type and state would be valid for the specified LUI
      *
+     * Find all people who could teach this course
+     *
      * @param luiId                 Identifier for LUI
      * @param luiPersonRelationType Type of LUI Person Relation
      * @param relationState         Relation state
@@ -381,7 +384,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-
+    @Deprecated
     public List<String> findAllValidPeopleForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -397,7 +400,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
+    @Deprecated
     public List<LuiPersonRelationInfo> findOrderedRelationStatesForLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
@@ -508,7 +511,7 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
+    @Deprecated
     public StatusInfo updateRelationState(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "relationState") LuiPersonRelationStateInfo relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

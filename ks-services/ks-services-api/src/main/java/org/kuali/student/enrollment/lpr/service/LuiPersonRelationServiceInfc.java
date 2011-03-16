@@ -118,6 +118,7 @@ public interface LuiPersonRelationServiceInfc {
      *                      and locale information about the caller of service opperation
      * @return Simple list of LUI Person Relation Types
      */
+    @Deprecated
     public List<LuiPersonRelationTypeInfc> findLuiPersonRelationTypesForLuiPersonRelation(String personId, String luiId, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -199,6 +200,7 @@ public interface LuiPersonRelationServiceInfc {
      *                              and locale information about the caller of service opperation
      * @return list of valid relation states
      */
+    @Deprecated
     public List<LuiPersonRelationStateInfc> findValidRelationStatesForLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -215,6 +217,7 @@ public interface LuiPersonRelationServiceInfc {
      * @return true if relation of specified type and state is ok to create between
      *         person and lui
      */
+    @Deprecated
     public Boolean isValidLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -230,6 +233,7 @@ public interface LuiPersonRelationServiceInfc {
      * @return true if relation of specified type and state exists between person and
      *         lui
      */
+    @Deprecated
     public Boolean isRelated(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -244,6 +248,7 @@ public interface LuiPersonRelationServiceInfc {
      *                              and locale information about the caller of service opperation
      * @return result from validation operation not sure of specifics
      */
+    @Deprecated
     public ValidationResultInfc validateLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -266,6 +271,8 @@ public interface LuiPersonRelationServiceInfc {
      * Retrieves the list of people where the specified relation type and state would
      * be valid for the specified LUI
      *
+     * Find all people who could teach this course
+     *
      * @param luiId                 - String - Identifier for LUI
      * @param luiPersonRelationType - String - Type of LUI Person Relation
      * @param relationState         - String - Relation state
@@ -273,6 +280,7 @@ public interface LuiPersonRelationServiceInfc {
      *                              and locale information about the caller of service opperation
      * @return List of people that could have a particular relation with a LUI
      */
+    @Deprecated
     public List<String> findAllValidPeopleForLui(String luiId, String luiPersonRelationType, String relationState, ContextInfc context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -287,6 +295,7 @@ public interface LuiPersonRelationServiceInfc {
      *         slightly different from the normal luiPersonRelation display listing, since it
      *         is dealing with a relationship history type concept.
      */
+    @Deprecated
     public List<LuiPersonRelationInfc> findOrderedRelationStatesForLuiPersonRelation(String luiPersonRelationId, ContextInfc context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
