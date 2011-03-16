@@ -65,6 +65,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 			ApplicationContext appContext =
                 new ClassPathXmlApplicationContext(new String[]{"classpath:applicationContext.xml", "classpath:testContext.xml"});
 			service = (LuiPersonRelationServiceInfc) appContext.getBean("lprServiceToTest");
+            System.out.println ("Running LuiPersonRelationServicePersistence Conformance Test on " + service.getClass().getName());
 		}
 		return service;
 	}
