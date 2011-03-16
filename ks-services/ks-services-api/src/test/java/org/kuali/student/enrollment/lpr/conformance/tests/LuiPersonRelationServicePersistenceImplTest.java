@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.impl;
+package org.kuali.student.enrollment.lpr.conformance.tests;
 
 import org.junit.*;
 import org.kuali.student.common.infc.*;
