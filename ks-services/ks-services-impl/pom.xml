@@ -63,6 +63,13 @@
             <groupId>aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.5.4</version>
-        </dependency>		
+        </dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.services</groupId>
+			<artifactId>ks-services-api</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 </project>
