@@ -1,6 +1,9 @@
 package org.kuali.student.lum.lu.ui.dependency.client.views;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.search.dto.SearchParam;
@@ -23,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalF
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController.DependencyViews;
@@ -140,9 +144,11 @@ public class DependencyAnalysisView extends ViewComposite{
 					String cluName = "";
 					String cluType = "";
 					String dependencyType = "";
+					String dependencyTypeName = "";
 					String cluDetailsStr = "";
-					VerticalFieldLayout crsDetails = new VerticalFieldLayout();
-					crsDetails.addStyleName("KS-Indent");
+					String reqComponentIds = "";
+					String reqRootId = "";
+					
 					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
 							cluCode = searchResultCell.getValue();							
@@ -159,26 +165,63 @@ public class DependencyAnalysisView extends ViewComposite{
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyType")){
 							dependencyType = searchResultCell.getValue();
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyTypeName")){
+							dependencyTypeName = searchResultCell.getValue();
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRequirementComponentIds")){
+							reqComponentIds = searchResultCell.getValue();
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRootId")){
 						} else {
 							cluDetailsStr += searchResultCell.getKey() + "=" + searchResultCell.getValue() + " ";
 						}
 					}
 					
-					crsDetails.addWidget(new KSLabel("Details coming soon"));
 					DependencyTypeSection typeSection = depResultPanel.getDependencyTypeSection(cluType, dependencyType);
 					if (typeSection == null){						
-						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getTypeLabel(cluType, dependencyType));
+						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getTypeLabel(cluType, dependencyTypeName));
 					}
-					typeSection.addDependencyItem(cluCode + " - " + cluName, crsDetails);
+					
+					Widget depDetails = getDependencyDetails(cluType, dependencyType, reqRootId, reqComponentIds);
+					typeSection.addDependencyItem(cluCode + " - " + cluName, depDetails);
 				}
-				
+				depResultPanel.finishLoad();
 			}
+			
 		});
 	}
 	
 
+	private Widget getDependencyDetails(String cluType, String dependencyType, String rootId, String reqComponentIds){
+		VerticalFieldLayout depDetails = new VerticalFieldLayout();
+		depDetails.addStyleName("KS-Indent");
+		if (reqComponentIds != null && !reqComponentIds.isEmpty()){
+			List<String> reqComponentIdList = Arrays.asList(reqComponentIds.split(","));
+			final KSLabel reqCompLabel = new KSLabel();
+			depDetails.add(reqCompLabel);			
+
+			
+			//Add expand to display complex program rules
+			if (cluType.equals("programs")){
+				CollapsablePanel depFullDetails = 
+					new CollapsablePanel("Display complex requirement", new KSLabel(rootId), false, false);
+				depDetails.add(depFullDetails);
+			}
+			
+			depRpcServiceAsync.getRequirmentComponentNL(reqComponentIdList, new KSAsyncCallback<List<String>>(){
+				public void onSuccess(List<String> results) {
+					for (String reqCompNL:results){
+						reqCompLabel.setText(reqCompNL);
+					}								
+				}							
+			});
+		} else {
+			depDetails.addWidget(new KSLabel("Details coming soon"));
+		}
+
+		return depDetails;
+	}
+	
 	private String getTypeLabel(String cluType, String dependencyType) {			
-		return selectedCourseCd + " is an " + dependencyType + " for the following " + cluType + ":";
+		return selectedCourseCd + " is an " + dependencyType + " for the following " + cluType;
 	}			
 
 }
