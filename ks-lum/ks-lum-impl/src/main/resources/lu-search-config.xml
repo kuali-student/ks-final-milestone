@@ -128,6 +128,8 @@
 			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
 			<ref bean="lu.resultColumn.luOptionalDependencyRootId"/>
 			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeNames"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -158,6 +160,20 @@
 		<search:desc>Comma delimited list of requirement component ids</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds" parent="lu.resultColumn.luOptionalOversightCommitteeIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Ids</search:name>
+		<search:desc>Comma delimited list of oversight committee ids</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+		<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames" parent="lu.resultColumn.luOptionalOversightCommitteeNames-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Names</search:name>
+		<search:desc>Comma delimited list of oversight committee Names</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
 	
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">

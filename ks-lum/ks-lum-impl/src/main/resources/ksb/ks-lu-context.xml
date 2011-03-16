@@ -104,9 +104,6 @@
                        value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
                 	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-                <entry key="hibernate.show.sql" value="true"/>
-               	<!--<entry key="hibernate.connection.autocommit"
-                	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
     </bean>

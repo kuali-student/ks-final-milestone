@@ -3039,6 +3039,9 @@ public class LuServiceImpl implements LuService {
 		//Create a search result for the return value
 		SearchResult searchResult = new SearchResult();
 		
+		
+		Map<String,List<SearchResultCell>> orgIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
+		
 		//Now we need to take the statement ids and find the clus that relate to them
 		//We will also transform the search result from the statement search result to 
 		//the dependency analysis search result
@@ -3107,10 +3110,72 @@ public class LuServiceImpl implements LuService {
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId",rootId);
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementComponentIds",requirementComponentIds);
 				
+				//Make a holder cell for the org names, to be populated later
+				SearchResultCell orgIdsCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeIds",null);
+				resultRow.getCells().add(orgIdsCell);
+
+				//Make a holder cell for the org ids, to be populated later
+				SearchResultCell orgNamesCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeNames",null);
+				resultRow.getCells().add(orgNamesCell);
+				
+				//For each curriculum oversight committee we want to look up the Org Name
+				//We're going to save a mapping of the org id to a holder cell so we can make just one org 
+				//service call with all the org ids, and update the holder cells later.
+				for(CluAdminOrg adminOrg:clu.getAdminOrgs()){
+					if("kuali.adminOrg.type.CurriculumOversight".equals(adminOrg.getType()) || 
+					   "kuali.adminOrg.type.CurriculumOversightUnit".equals(adminOrg.getType())){
+						
+						//Add the cell to the mapping for that perticular org id
+						List<SearchResultCell> cells = orgIdToCellMapping.get(adminOrg.getOrgId());
+						if(cells == null){
+							cells = new ArrayList<SearchResultCell>();
+							orgIdToCellMapping.put(adminOrg.getOrgId(), cells);
+						}
+						cells.add(orgNamesCell);
+						
+						//Add the orgid to the orgIds cell so there is a comma delimited list of org ids
+						if(orgIdsCell.getValue()==null){
+							orgIdsCell.setValue(adminOrg.getId());
+						}else{
+							orgIdsCell.setValue(orgIdsCell.getValue()+","+adminOrg.getId());
+						}
+					}
+				}
+				
+				//Add the result row
 				searchResult.getRows().add(resultRow);
 			}
 		}
-				
+		
+		//Use the org search to Translate the orgIds into Org names and update the holder cells
+		if(!orgIdToCellMapping.isEmpty()){
+			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
+			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
+				String orgId="";
+				String orgName="";
+				for(SearchResultCell cell:row.getCells()){
+					if("org.resultColumn.orgId".equals(cell.getKey())){
+						orgId = cell.getValue();
+						continue;
+					}else if("org.resultColumn.orgShortName".equals(cell.getKey())){
+						orgName = cell.getValue();
+					}
+				}
+				List<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+				if(cells!=null){
+					for(SearchResultCell cell:cells){
+						if(cell.getValue()==null){
+							cell.setValue(orgName);
+						}else{
+							cell.setValue(cell.getValue()+", "+orgName);
+						}
+					}
+				}
+			}
+		}
+		
 		//Add in CluSets and ignore ones named AdHoc
 		for(CluSet cluSet:cluSetMap.values()){
 			if(!"AdHock".equals(cluSet.getName())){
