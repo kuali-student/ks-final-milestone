@@ -23,19 +23,24 @@ public class DependencyResultPanel extends FlowPanel{
 	public static class DependencyTypeSection extends CollapsablePanel{
 
 		VerticalFieldLayout content = new VerticalFieldLayout();
-		String label; 
+		String label;
 		
 		int numItems = 0;
 		
 		public DependencyTypeSection(String label) {
 			this.label = label;
 			this.init(label, content, isOpen, true, ImagePosition.ALIGN_LEFT);
-    		this.addStyleName("ks-menu-layout-rightColumn");
+    		content.addStyleName("ks-menu-layout-rightColumn");
 			content.addStyleName("KS-Indent");
 		}
 						
-		public void finalize(){
-			this.getLabel().setText(label + "(" + numItems + ")");
+		public void finishLoad(){
+			this.getLabel().setText(label + " (" + numItems + "):");
+			if (numItems <= 5){
+				super.content.setVisible(true);
+				super.isOpen = true;
+				super.setImageState();
+			}
 		}
 		
 		public void addDependencyItem(String label, Widget widget){
@@ -43,6 +48,7 @@ public class DependencyResultPanel extends FlowPanel{
 			CollapsablePanel depItem = new CollapsablePanel(label, widget, false, true, ImagePosition.ALIGN_LEFT);
 			content.addWidget(depItem);			
 		}
+		 
 	}
 	
 	public DependencyResultPanel(){
@@ -82,7 +88,9 @@ public class DependencyResultPanel extends FlowPanel{
     /**
      * 
      */
-    public void finalize(){
-    	
+    public void finishLoad(){
+    	for (DependencyTypeSection typeSection:dependencyTypeSections.values()){
+    		typeSection.finishLoad();
+    	}
     }
 }

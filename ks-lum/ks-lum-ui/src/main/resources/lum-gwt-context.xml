@@ -363,7 +363,8 @@
     </bean>
 
     <bean id="DependencyAnalysisRpcGwtServlet" class="org.kuali.student.lum.lu.ui.dependency.server.DependencyAnalysisRpcServlet">
-        <property name="statementService" ref="statementServiceClient"/>        
+        <property name="statementService" ref="statementServiceClient"/> 
+        <property name="programService" ref="programClient"/>       
     </bean>
 
 	<!--  Transformation Managers -->
