@@ -620,7 +620,7 @@ public class LuiPersonRelationAdapter
      */
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfc> criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return (getLprService().searchForLuiPersonRelationIds(criteria, context));

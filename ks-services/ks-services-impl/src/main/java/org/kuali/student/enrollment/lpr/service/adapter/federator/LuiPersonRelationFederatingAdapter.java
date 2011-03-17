@@ -594,7 +594,7 @@ public class LuiPersonRelationFederatingAdapter
      */
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfc> criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Set<String> ids = new HashSet<String>();

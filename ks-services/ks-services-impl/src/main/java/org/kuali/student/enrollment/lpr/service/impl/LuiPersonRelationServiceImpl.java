@@ -277,7 +277,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> searchForLuiPersonRelationIds(
-            CriteriaInfo criteria,
+            List<CriteriaInfo> criteria,
             ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
