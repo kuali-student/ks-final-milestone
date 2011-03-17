@@ -24,6 +24,7 @@ import org.kuali.student.core.exceptions.*;
 import org.kuali.student.enrollment.lpr.infc.*;
 
 import java.util.List;
+import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.common.infc.HoldsLprServiceInfc;
 
 
@@ -619,10 +620,10 @@ public class LuiPersonRelationAdapter
      */
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteriaInfc luiPersonRelationCriteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (getLprService().searchForLuiPersonRelationIds(luiPersonRelationCriteria, context));
+        return (getLprService().searchForLuiPersonRelationIds(criteria, context));
     }
 
 

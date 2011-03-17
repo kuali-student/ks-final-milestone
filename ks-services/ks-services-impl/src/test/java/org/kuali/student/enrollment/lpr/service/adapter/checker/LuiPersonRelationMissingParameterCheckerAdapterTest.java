@@ -28,15 +28,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.CriteriaInfo;
 
 import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationCriteriaInfc;
+
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 
@@ -166,8 +167,8 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 		if (type.equals(ContextInfc.class)) {
 			return new ContextInfo();
 		}
-		if (type.equals(LuiPersonRelationCriteriaInfc.class)) {
-			return new LuiPersonRelationCriteriaInfo();
+		if (type.equals(CriteriaInfc.class)) {
+			return new CriteriaInfo();
 		}
 		if (type.equals(LuiPersonRelationStateInfc.class)) {
 			return new LuiPersonRelationStateInfo();

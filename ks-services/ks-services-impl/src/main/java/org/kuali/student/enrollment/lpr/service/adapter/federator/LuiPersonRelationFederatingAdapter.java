@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.common.infc.CriteriaInfc;
 
 
 /**
@@ -593,14 +594,14 @@ public class LuiPersonRelationFederatingAdapter
      */
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteriaInfc luiPersonRelationCriteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Set<String> ids = new HashSet<String>();
 
-        ids.addAll(getLprService().searchForLuiPersonRelationIds(luiPersonRelationCriteria, context));
+        ids.addAll(getLprService().searchForLuiPersonRelationIds(criteria, context));
         for (LuiPersonRelationServiceInfc provider : getExternalProviders()) {
-            ids.addAll(provider.searchForLuiPersonRelationIds(luiPersonRelationCriteria, context));
+            ids.addAll(provider.searchForLuiPersonRelationIds(criteria, context));
         }
 
         return (new ArrayList<String>(ids));

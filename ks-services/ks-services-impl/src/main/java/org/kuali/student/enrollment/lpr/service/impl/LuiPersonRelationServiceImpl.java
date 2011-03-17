@@ -19,7 +19,6 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
@@ -29,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.common.dto.CriteriaInfo;
 
 
 /**
@@ -277,7 +277,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> searchForLuiPersonRelationIds(
-            LuiPersonRelationCriteriaInfo luiPersonRelationCriteria,
+            CriteriaInfo criteria,
             ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

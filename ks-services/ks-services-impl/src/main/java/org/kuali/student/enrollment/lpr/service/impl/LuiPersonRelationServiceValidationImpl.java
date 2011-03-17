@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DisabledIdentifierException;
@@ -14,7 +15,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationCriteriaInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
@@ -238,7 +238,7 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
 
 	@Override
 	public List<String> searchForLuiPersonRelationIds(
-			LuiPersonRelationCriteriaInfo luiPersonRelationCriteria,
+			CriteriaInfo criteria,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
