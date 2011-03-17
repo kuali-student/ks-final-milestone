@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
 
 import java.util.*;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.common.infc.HoldsLuiServiceInfc;
 
 
@@ -528,7 +529,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
 
     @Override
     public List<String> searchForLuiPersonRelationIds(
-            LuiPersonRelationCriteriaInfc luiPersonRelationCriteria,
+            CriteriaInfc criteria,
             ContextInfc context) throws
             InvalidParameterException,
             MissingParameterException,

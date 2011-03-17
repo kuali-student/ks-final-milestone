@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.dto;
+package org.kuali.student.common.dto;
 
+import org.kuali.student.common.infc.CriteriaInfc;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,12 +30,15 @@ import java.io.Serializable;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationCriteriaInfo implements Serializable {
+public class CriteriaInfo implements CriteriaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String fieldKey;
+
+    @XmlElement
+    private String operator;
 
     @XmlElement
     private String value;
@@ -44,13 +48,26 @@ public class LuiPersonRelationCriteriaInfo implements Serializable {
      * <p/>
      * Dot path notation to identity the name of field to be compared
      */
+    @Override
     public String getFieldKey() {
         return fieldKey;
     }
 
+    @Override
     public void setFieldKey(String fieldKey) {
         this.fieldKey = fieldKey;
     }
+
+    @Override
+    public String getOperator() {
+        return operator;
+    }
+
+    @Override
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
 
 
     /**
@@ -58,10 +75,12 @@ public class LuiPersonRelationCriteriaInfo implements Serializable {
      * <p/>
      * Value to be compared
      */
+    @Override
     public String getValue() {
         return value;
     }
 
+    @Override
     public void setValue(String value) {
         this.value = value;
     }

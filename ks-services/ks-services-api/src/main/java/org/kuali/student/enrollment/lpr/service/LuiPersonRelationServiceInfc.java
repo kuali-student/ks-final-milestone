@@ -21,7 +21,7 @@ import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.*;
 
 import java.util.List;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationCriteriaInfc;
+import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
@@ -308,7 +308,7 @@ public interface LuiPersonRelationServiceInfc {
      *                                  and locale information about the caller of service opperation
      * @return Simple list of LUI Person Relation identifiers
      */
-    public List<String> searchForLuiPersonRelationIds(LuiPersonRelationCriteriaInfc luiPersonRelationCriteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
