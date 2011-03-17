@@ -41,7 +41,7 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.kuali.student.mojo</groupId>
+        <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-kscontractdoc-plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <executions>
