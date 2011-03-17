@@ -37,7 +37,7 @@ import java.util.List;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service">LuiPersonRelationService</>
  */
 
-@WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/atp")
+@WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelation")
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationService {
