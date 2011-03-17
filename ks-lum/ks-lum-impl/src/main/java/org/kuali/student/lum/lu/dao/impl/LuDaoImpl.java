@@ -536,6 +536,9 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 
 	@Override
 	public List<Clu> getCrossListedClusByCodes(List<String> crossListedCodes) {
+		if(crossListedCodes!=null && crossListedCodes.isEmpty()){
+			crossListedCodes.add(""); //Add a blank param value because jpql IN(:var) has problems with empty lists
+		}
         Query query = em.createNamedQuery("Clu.getCrossListedClusByCodes");
         query.setParameter("crossListedCodes", crossListedCodes);
         List<Clu> clus = query.getResultList();

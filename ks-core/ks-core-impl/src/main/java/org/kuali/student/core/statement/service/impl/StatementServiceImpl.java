@@ -41,7 +41,6 @@ import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
@@ -805,11 +804,11 @@ public class StatementServiceImpl implements StatementService {
     				//This row does not exist yet so we can add it to the results.
     				processed.add(rowId);
 	    			SearchResultRow row = new SearchResultRow();
-	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.refObjId",relation.getRefObjectId()));
-	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.rootId",statement.getId()));
-	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.requirementComponentIds",rootToRequirementComponentList.get(statement.getId())));
-	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeId",statement.getStatementType().getId()));
-	    			row.getCells().add(new SearchResultCell("stmt.resultColumn.statementTypeName",statement.getStatementType().getName()));
+	    			row.addCell("stmt.resultColumn.refObjId",relation.getRefObjectId());
+	    			row.addCell("stmt.resultColumn.rootId",statement.getId());
+	    			row.addCell("stmt.resultColumn.requirementComponentIds",rootToRequirementComponentList.get(statement.getId()));
+	    			row.addCell("stmt.resultColumn.statementTypeId",statement.getStatementType().getId());
+	    			row.addCell("stmt.resultColumn.statementTypeName",statement.getStatementType().getName());
 	     			searchResult.getRows().add(row);
     			}
     		}

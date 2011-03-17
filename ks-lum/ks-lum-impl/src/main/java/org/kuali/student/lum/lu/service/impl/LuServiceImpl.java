@@ -3019,26 +3019,21 @@ public class LuServiceImpl implements LuService {
 				}
 			}
 		}		
-		//TODO Is it possible we need to search up the cluset hierarchies? - Most likely
-		//If Cluset A contains clu 1 and cluset B contains cluset A, do we also return cluset B as a dependency?
+		//TODO Is it possible we need to search up the cluset hierarchies?
+		//	If Cluset A contains clu 1 and cluset B contains cluset A, do we also return cluset B as a dependency?
 		
 		//Now we have the clu id and the list of clusets that the id appears in,
 		//We need to do a statement service search to see what statements use these as 
 		//dependencies
-		SearchRequest statementSearchRequest;
+		SearchRequest statementSearchRequest = new SearchRequest("stmt.search.dependencyAnalysis");
 		
-		statementSearchRequest = new SearchRequest();
-		statementSearchRequest.setSearchKey("stmt.search.dependencyAnalysis");
+		statementSearchRequest.addParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet()));
+		statementSearchRequest.addParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds);
 		
-		statementSearchRequest.getParams().add(new SearchParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet())));
-		statementSearchRequest.getParams().add(new SearchParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds));
-		
-		SearchResult statementSearchResult;
-		statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
+		SearchResult statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
 		
 		//Create a search result for the return value
 		SearchResult searchResult = new SearchResult();
-		
 		
 		Map<String,List<SearchResultCell>> orgIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
 		
@@ -3067,6 +3062,7 @@ public class LuServiceImpl implements LuService {
 					continue;
 				}else if("stmt.resultColumn.rootId".equals(stmtCell.getKey())){
 					rootId = stmtCell.getValue();
+					continue;
 				}else if("stmt.resultColumn.requirementComponentIds".equals(stmtCell.getKey())){
 					requirementComponentIds = stmtCell.getValue();
 				}
@@ -3149,10 +3145,15 @@ public class LuServiceImpl implements LuService {
 		
 		//Use the org search to Translate the orgIds into Org names and update the holder cells
 		if(!orgIdToCellMapping.isEmpty()){
+			//Perform the Org search
 			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
 			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+			
+			//For each translation, update the result cell with the translated org name
 			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
+				
+				//Get Params
 				String orgId="";
 				String orgName="";
 				for(SearchResultCell cell:row.getCells()){
@@ -3163,6 +3164,8 @@ public class LuServiceImpl implements LuService {
 						orgName = cell.getValue();
 					}
 				}
+				
+				//Concatenate org names in the holder cells
 				List<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
 				if(cells!=null){
 					for(SearchResultCell cell:cells){
@@ -3182,11 +3185,11 @@ public class LuServiceImpl implements LuService {
 
 				SearchResultRow resultRow = new SearchResultRow();
 				
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId",cluSet.getId()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType","cluSet"));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName",cluSet.getName()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName",cluSet.getName()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyTypeName", "Course Set"));			
+				resultRow.addCell("lu.resultColumn.cluId",cluSet.getId());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName",cluSet.getName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName",cluSet.getName());
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType","cluSet");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "Course Set");			
 
 				searchResult.getRows().add(resultRow);
 			}
@@ -3199,41 +3202,32 @@ public class LuServiceImpl implements LuService {
 				
 				SearchResultRow resultRow = new SearchResultRow();
 				
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId", clu.getId()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName()));	
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType", "joint"));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyTypeName", "jointly offered"));			
+				resultRow.addCell("lu.resultColumn.cluId", clu.getId());
+				resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName());	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "joint");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "jointly offered");
+				
 				searchResult.getRows().add(resultRow);
 			}
 		}
 		
 		//Lookup cross-listings and add to the results
-		List<String> crossListedCodes = new ArrayList<String>();
 		for(CluIdentifier altId:triggerClu.getAlternateIdentifiers()){
 			if("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())){
-				crossListedCodes.add(altId.getCode());
-			}
-		}
-		if(crossListedCodes.isEmpty()){
-			crossListedCodes.add(""); //Add a blank param value because jpql IN(:var) has problems with empty lists
-		}
-		List<Clu> crosslistedClus = luDao.getCrossListedClusByCodes(crossListedCodes); 
-		if(crosslistedClus!=null){
-			for(Clu clu:crosslistedClus){
 				SearchResultRow resultRow = new SearchResultRow();
 				
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.cluId", clu.getId()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName()));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName()));	
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyType", "crossListed"));
-				resultRow.getCells().add(new SearchResultCell("lu.resultColumn.luOptionalDependencyTypeName", "cross-listed"));			
+				resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName", altId.getShortName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName", altId.getLongName());	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "crossListed");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "cross-listed");		
+				
 				searchResult.getRows().add(resultRow);
 			}
 		}
-		
+
 		return searchResult;
 	}
 
