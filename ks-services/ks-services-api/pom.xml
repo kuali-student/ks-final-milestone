@@ -46,7 +46,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <executions>
           <execution>
-            <phase>install</phase>
+            <phase>site</phase>
             <goals>
               <goal>kscontractdoc</goal>
             </goals>
@@ -54,9 +54,8 @@
         </executions>
         <configuration>
           <sourceDirs>
-            <sourceDir>src\main\java</sourceDir>
+            <sourceDir>${project.basedir}/src/main/java</sourceDir>
           </sourceDirs>
-          <htmlDirectory>target/html</htmlDirectory>
         </configuration>
       </plugin>
       <plugin>
