@@ -529,7 +529,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
 
     @Override
     public List<String> searchForLuiPersonRelationIds(
-            CriteriaInfc criteria,
+            List<CriteriaInfc> criteria,
             ContextInfc context) throws
             InvalidParameterException,
             MissingParameterException,

@@ -36,6 +36,8 @@ public interface CriteriaInfc  {
      * Operator to use to compare the field to the value, =, >, <, >=, <=
      *
      * TODO: Decide on other operators such as "like" or in range xxx-xxxx
+     * TODO: Deicde on operators to search collections inside such as any
+     * TODO: Decide how to search on dynamic attributes
      *
      */
     public String getOperator();

@@ -302,13 +302,13 @@ public interface LuiPersonRelationServiceInfc {
     /**
      * Retrieves detail of LUI Person Relation Ids
      *
-     * @param luiPersonRelationCriteria - LuiPersonRelationCriteria - Criteria to be
+     * @param criteria - List<Criteria> - Criteria to be
      *                                  used for retrieval of multiple LUI Person Relation identifiers
      * @param context                   - ContextInfo - Context information containing the principalId
      *                                  and locale information about the caller of service opperation
      * @return Simple list of LUI Person Relation identifiers
      */
-    public List<String> searchForLuiPersonRelationIds(CriteriaInfc criteria, ContextInfc context)
+    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfc> criteria, ContextInfc context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
