@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+  <!-- Infrastructure code which handles invocation for all service impls -->
+  <bean id = "layeringAspects" class="org.kuali.student.enrollment.lpr.service.aspect.ServiceAspectLayering">
+    
+    <!-- Declare various impls here -->
+    <property name="serviceImpls" >
+         <list>
+            <ref bean="lprServiceAuthorizer" />
+            <ref bean="lprServiceValidator" />
+         </list>
+         </property>
+  </bean>
+  
+   <bean id="lprServiceAuthorizer" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl" />
+   <bean id="lprServiceValidator" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl" />
+   
+   <aop:config>
+      <aop:aspect id="layeringAspectId" ref="layeringAspects">
+        <aop:pointcut id="lprLayeringPointcut" expression="bean(*lprService)"/>
+        <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
+      </aop:aspect>
+   </aop:config>
+
+<!--TODO create a luiStacker and configure it too-->
+<bean id = "luiMockImpl" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
+<bean id = "mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
+<bean id = "mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
+
+<bean id = "lprService" class = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl" />
+
+<bean id = "lprAdapterStackerService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
+      init-method="init">
+    <!--
+	// Default support services to use if not otherwise configured
+    -->
+	<property name="luiService" ref="luiMockImpl" />
+	<property name="identityService" ref="mockIdentityService" />
+	<property name="permissionService" ref="mockPermissionService" />
+
+    <!--
+	// Implementation Stack
+    -->
+	<property name="cleanupImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.cleanup.LuiPersonRelationRuntimeExceptionCatcherAdapter" />
+		</list>
+	</property>
+	<property name="calculationImpls" >
+		<list>
+		</list>
+	</property>	
+	<property name="authorizationImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.authorization.LuiPersonRelationAuthorizationAdapter" />
+		</list>
+	</property>	
+	<property name="validaitonImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationMissingParameterCheckerAdapter" />
+			<bean class="org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter" />
+		</list>
+	</property>
+	<property name="sideEffectImpls" >
+		<list>
+		</list>
+	</property>
+	<property name="persistenceImpls" >
+		<list>
+			<bean class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl" />
+		</list>
+	</property>
+</bean>
+
+</beans>
