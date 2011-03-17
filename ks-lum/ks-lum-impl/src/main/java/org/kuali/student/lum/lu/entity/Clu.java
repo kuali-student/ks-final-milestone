@@ -95,7 +95,9 @@ import org.kuali.student.common.entity.VersionEntity;
     @NamedQuery(name = "Clu.findCurrentClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
     @NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
-    @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
+    @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)"),
+    @NamedQuery(name = "Clu.getCrossListedClusByCodes", query = "SELECT c FROM Clu c WHERE c.state='Active' AND c.officialIdentifier.code IN (:crossListedCodes) ")
+   
 })
 public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 

@@ -86,6 +86,8 @@
                        value-ref="credentialProgramRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
                        value-ref="coreProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DependencyAnalysisRpcService"
+                       value-ref="dependencyAnalysisRpcServletController"/>
             </map>
         </property>
     </bean>
@@ -221,6 +223,12 @@
         <property name="servletName" value="MetadataRpcGwtServlet"/>
         <property name="servletInstance" ref="MetadataRpcGwtServlet"/>
     </bean>
+    
+    <bean id="dependencyAnalysisRpcServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="DependencyAnalysisRpcGwtServlet"/>
+        <property name="servletInstance" ref="DependencyAnalysisRpcGwtServlet"/>
+    </bean>
+    
 
     <!-- GWT Servlets -->
 
@@ -352,6 +360,11 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="DependencyAnalysisRpcGwtServlet" class="org.kuali.student.lum.lu.ui.dependency.server.DependencyAnalysisRpcServlet">
+        <property name="statementService" ref="statementServiceClient"/> 
+        <property name="programService" ref="programClient"/>       
     </bean>
 
 	<!--  Transformation Managers -->

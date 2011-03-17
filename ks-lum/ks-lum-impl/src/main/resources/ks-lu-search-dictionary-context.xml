@@ -13,6 +13,7 @@
     <ref bean="freestanding.search.cluset" />
     <ref bean="freestanding.search.courseset" />
     <ref bean="freestanding.search.findCourse" />
+    <ref bean="freestanding.search.courseId" />
     <ref bean="freestanding.search.courseVersions" />
     <ref bean="freestanding.search.findProposal" />
     <ref bean="freestanding.search.findMajor" />
@@ -46,6 +47,12 @@
   <property name="name" value="findCourse" />
  </bean>
  <bean id="freestanding.search.findCourse" parent="freestanding.search.findCourse-parent" />
+
+ <bean id="freestanding.search.courseId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseId" />
+ </bean>
+ <bean id="freestanding.search.courseId" parent="freestanding.search.courseId-parent" />
+
 
  <bean id="freestanding.search.findProposal-parent" abstract="true" parent="baseKualiProposalId">
   <property name="name" value="findProposal" />

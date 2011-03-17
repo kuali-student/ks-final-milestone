@@ -102,7 +102,87 @@
 	</search:crossSearchType>
 	
 	
+	<!-- Dependency Analysis Search -->
+	<search:searchType id="lu.search.dependencyAnalysis">
+		<search:name>Dependency Analysis</search:name>
+		<search:desc>Search for Clus that are dependencies of the target Clu</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.dependencyAnalysis"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.dependencyAnalysis"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 	
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis" parent="lu.result.dependencyAnalysis-parent"/>
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Results</search:name>
+		<search:desc>Full view of clus/clusets that are dependencies of the target Clu</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluType" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRootId"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeNames"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType" parent="lu.resultColumn.luOptionalDependencyType-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType-parent" abstract="true">
+		<search:name>Dependency Type</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName" parent="lu.resultColumn.luOptionalDependencyTypeName-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName-parent" abstract="true">
+		<search:name>Dependency Type Name</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId" parent="lu.resultColumn.luOptionalDependencyRootId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId-parent" abstract="true">
+		<search:name>Dependency Root Id</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds" parent="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent" abstract="true">
+		<search:name>Dependency Requirement Component Ids</search:name>
+		<search:desc>Comma delimited list of requirement component ids</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds" parent="lu.resultColumn.luOptionalOversightCommitteeIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Ids</search:name>
+		<search:desc>Comma delimited list of oversight committee ids</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+		<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames" parent="lu.resultColumn.luOptionalOversightCommitteeNames-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Names</search:name>
+		<search:desc>Comma delimited list of oversight committee Names</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Criteria</search:name>
+		<search:desc>Dependency Analysis Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalCluId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 	
 	<!-- definition for generic search component -->
 	<search:searchType id="lu.search.current" parent="lu.search.generic-parent"/>
@@ -143,6 +223,10 @@
 
 	<search:queryParam id="lu.queryParam.luOptionalId" parent="lu.queryParam.luOptionalId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalCluId" parent="lu.queryParam.luOptionalCluId-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCluId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalShortName" parent="lu.queryParam.luOptionalShortName-parent"/>

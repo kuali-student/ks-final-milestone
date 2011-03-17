@@ -582,3 +582,20 @@ a.KS-Program-Rule-ObjectView-Button{
 .cluSetTitle{
     font-weight:bold;
 }
+
+.KS-Indent{
+	padding-left: 15px;
+}
+
+.KS-Dependency-Details{
+	padding-left: 30px;
+	padding-bottom: 15px;
+}
+
+.KS-Dependency-Simple-Rule{
+	padding-bottom: 5px;
+}
+
+.KS-Dependency-Complex-Rule{
+	padding-bottom: 5px;
+}

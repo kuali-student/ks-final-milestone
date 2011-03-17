@@ -16,7 +16,10 @@
 package org.kuali.student.lum.lo.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebService;
 
@@ -1010,7 +1013,57 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
-        return searchManager.search(searchRequest, loDao);
+        SearchResult result =  searchManager.search(searchRequest, loDao);
+        if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
+//        	for(SearchParam param:searchRequest.getParams()){
+//        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
+        	groupCategories(result);
+//        		}
+//        	}
+        }
+        
+        return result;
 	}
 
+	//Updates search results grouping category names as a comma delimited list
+	private void groupCategories(SearchResult result) {
+		Map<String,SearchResultCell> idToCellMap = new HashMap<String,SearchResultCell>();
+		for(Iterator<SearchResultRow> iter = result.getRows().iterator();iter.hasNext();){
+			SearchResultRow row = iter.next();
+			SearchResultCell categoryCell = null;
+			String loId = null;
+			//Get search result cell values
+			for(SearchResultCell cell:row.getCells()){
+				if("lo.resultColumn.categoryName".equals(cell.getKey())){
+					categoryCell = cell;
+					break;
+				}else if("lo.resultColumn.loId".equals(cell.getKey())){
+					loId = cell.getValue();
+				}
+			}
+			//If a row exists with the same loId, append the category to the existing row and remove the current row.
+			if(loId!=null){
+				if(idToCellMap.containsKey(loId)){
+					SearchResultCell cell = idToCellMap.get(loId);
+					if(cell == null){
+						cell = new SearchResultCell("lo.resultColumn.categoryName","");
+						idToCellMap.put(loId, cell);
+					}
+					if(categoryCell!=null){
+						if(cell.getValue()==null||cell.getValue().isEmpty()){
+							cell.setValue(categoryCell.getValue());
+						}else if(categoryCell.getValue()!=null && !categoryCell.getValue().isEmpty()){
+							cell.setValue(cell.getValue()+", "+categoryCell.getValue());
+						}
+					}
+					//Remove this row since we alreay have a mapping to a row with this lo Id
+					iter.remove();
+				} else {
+					//Otherwise add a mapping and continue
+					idToCellMap.put(loId, categoryCell);
+				}
+			}
+		}
+	}
+	
 }

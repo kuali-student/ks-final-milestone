@@ -33,6 +33,23 @@ public class SearchRequest implements Serializable {
 	private Integer maxResults;
 	private Boolean neededTotalResults;
 	
+	public SearchRequest() {
+		super();
+	}
+
+	public SearchRequest(String searchKey){
+		this();
+		this.searchKey = searchKey;
+	}
+
+	public void addParam(String key, String value){
+		getParams().add(new SearchParam(key, value));
+	}
+	
+	public void addParam(String key, List<String> value){
+		getParams().add(new SearchParam(key, value));
+	}
+
 	public String getSearchKey() {
 		return searchKey;
 	}

@@ -43,6 +43,7 @@
 		<property name="localServiceName" value="KSLumUIContext"/>	
 	</bean>
 	
+	<!-- TODO: Cleanup use of mock message service 
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
@@ -52,6 +53,12 @@
 			</list>
 		</property>
 	</bean>
+	-->
+		
+	<bean id="ks.messageServiceMock" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
+    </bean>	
 
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />

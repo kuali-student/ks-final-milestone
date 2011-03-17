@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,18 +52,19 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -143,17 +145,17 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
-
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
+
+	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
 
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
 	private LuDao luDao;
 	private SearchManager searchManager;
+	private SearchDispatcher searchDispatcher;
 	private DictionaryService dictionaryServiceDelegate;
 	private ValidatorFactory validatorFactory;
 
@@ -2963,7 +2965,270 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
+        
+        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
+        	String cluId = null;
+    		for(SearchParam param:searchRequest.getParams()){
+    			if("lu.queryParam.luOptionalCluId".equals(param.getKey())){
+    				cluId = (String)param.getValue();
+    				break;
+    			}
+    		}
+        	try {
+				return doDependencyAnalysisSearch(cluId);
+			} catch (DoesNotExistException e) {
+				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
+			}
+        }
         return searchManager.search(searchRequest, luDao);
+	}
+
+	private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException, DoesNotExistException {
+
+		checkForMissingParameter(cluId, "cluId");
+
+		Clu triggerClu = luDao.fetch(Clu.class, cluId);
+		
+		List<String> cluVersionIndIds = new ArrayList<String>();
+		cluVersionIndIds.add(triggerClu.getVersion().getVersionIndId());
+		
+		//Find all clusets that contain this course
+		List<CluSet> cluSets = luDao.getCluSetsByCluVersionIndId(cluVersionIndIds);
+		
+		//Get a mapping of clusetId to cluset for easy referencing
+		Map<String, CluSet> cluSetMap = new HashMap<String, CluSet>();
+		if(cluSets!=null){
+			for(CluSet cluSet:cluSets){
+				cluSetMap.put(cluSet.getId(), cluSet);
+			}
+		}
+		
+		//Execute all dynamic queries to see if the target clu is in the cluset and add those clusets
+		List<CluSet> dynamicCluSets = luDao.getAllDynamicCluSets();
+		if(dynamicCluSets!=null){
+			for(CluSet cluSet:dynamicCluSets){
+				MembershipQueryInfo queryInfo = LuServiceAssembler.toMembershipQueryInfo(cluSet.getMembershipQuery());
+				List<String> memberCluVersionIndIds = getMembershipQuerySearchResult(queryInfo);
+				if(memberCluVersionIndIds!=null){
+					for(String cluVersionIndId:cluVersionIndIds){
+						if(memberCluVersionIndIds.contains(cluVersionIndId)){
+							cluSetMap.put(cluSet.getId(),cluSet);
+							break;
+						}
+					}
+				}
+			}
+		}		
+		//TODO Is it possible we need to search up the cluset hierarchies?
+		//	If Cluset A contains clu 1 and cluset B contains cluset A, do we also return cluset B as a dependency?
+		
+		//Now we have the clu id and the list of clusets that the id appears in,
+		//We need to do a statement service search to see what statements use these as 
+		//dependencies
+		SearchRequest statementSearchRequest = new SearchRequest("stmt.search.dependencyAnalysis");
+		
+		statementSearchRequest.addParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet()));
+		statementSearchRequest.addParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds);
+		
+		SearchResult statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
+		
+		//Create a search result for the return value
+		SearchResult searchResult = new SearchResult();
+		
+		Map<String,List<SearchResultCell>> orgIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
+		
+		//Now we need to take the statement ids and find the clus that relate to them
+		//We will also transform the search result from the statement search result to 
+		//the dependency analysis search result
+		Set<String> processed = new HashSet<String>();
+		for(SearchResultRow stmtRow:statementSearchResult.getRows()){
+
+			//Determine result column values
+			String refObjId = null;
+			String statementType = null;
+			String statementTypeName = null;
+			String rootId = null;
+			String requirementComponentIds = null;
+			
+			for(SearchResultCell stmtCell:stmtRow.getCells()){
+				if("stmt.resultColumn.refObjId".equals(stmtCell.getKey())){
+					refObjId = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.statementTypeId".equals(stmtCell.getKey())){
+					statementType = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.statementTypeName".equals(stmtCell.getKey())){
+					statementTypeName = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.rootId".equals(stmtCell.getKey())){
+					rootId = stmtCell.getValue();
+					continue;
+				}else if("stmt.resultColumn.requirementComponentIds".equals(stmtCell.getKey())){
+					requirementComponentIds = stmtCell.getValue();
+				}
+			}
+			
+			//Find the clu
+			Clu clu = luDao.fetch(Clu.class, refObjId);
+
+			//Program statements are attached to dummy clus, so look up the parent program
+			if("kuali.lu.type.Requirement".equals(clu.getLuType().getId())){
+				
+				List<Clu> clus = luDao.getClusByRelatedCluId(clu.getId(), "kuali.lu.lu.relation.type.hasProgramRequirement");
+				
+				rootId = clu.getId();
+
+				if(clus==null||clus.size()==0){
+					throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
+				}else if(clus.size()>1){
+					throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
+				}
+				clu = clus.get(0);
+			}
+
+			//Only process clus that are not active and that we have not already processed
+			String rowId = clu.getId()+"|"+statementType+"|"+rootId;
+			
+			if("Active".equals(clu.getState()) && !processed.contains(rowId)){
+				
+				processed.add(rowId);
+				
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				//Map the result cells
+				resultRow.addCell("lu.resultColumn.cluId",clu.getId());
+				resultRow.addCell("lu.resultColumn.cluType",clu.getLuType().getId());
+				resultRow.addCell("lu.resultColumn.luOptionalCode",clu.getOfficialIdentifier().getCode());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName",clu.getOfficialIdentifier().getShortName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName",clu.getOfficialIdentifier().getLongName());
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType",statementType);
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName",statementTypeName);	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId",rootId);
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementComponentIds",requirementComponentIds);
+				
+				//Make a holder cell for the org names, to be populated later
+				SearchResultCell orgIdsCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeIds",null);
+				resultRow.getCells().add(orgIdsCell);
+
+				//Make a holder cell for the org ids, to be populated later
+				SearchResultCell orgNamesCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeNames",null);
+				resultRow.getCells().add(orgNamesCell);
+				
+				//For each curriculum oversight committee we want to look up the Org Name
+				//We're going to save a mapping of the org id to a holder cell so we can make just one org 
+				//service call with all the org ids, and update the holder cells later.
+				for(CluAdminOrg adminOrg:clu.getAdminOrgs()){
+					if("kuali.adminOrg.type.CurriculumOversight".equals(adminOrg.getType()) || 
+					   "kuali.adminOrg.type.CurriculumOversightUnit".equals(adminOrg.getType())){
+						
+						//Add the cell to the mapping for that perticular org id
+						List<SearchResultCell> cells = orgIdToCellMapping.get(adminOrg.getOrgId());
+						if(cells == null){
+							cells = new ArrayList<SearchResultCell>();
+							orgIdToCellMapping.put(adminOrg.getOrgId(), cells);
+						}
+						cells.add(orgNamesCell);
+						
+						//Add the orgid to the orgIds cell so there is a comma delimited list of org ids
+						if(orgIdsCell.getValue()==null){
+							orgIdsCell.setValue(adminOrg.getId());
+						}else{
+							orgIdsCell.setValue(orgIdsCell.getValue()+","+adminOrg.getId());
+						}
+					}
+				}
+				
+				//Add the result row
+				searchResult.getRows().add(resultRow);
+			}
+		}
+		
+		//Use the org search to Translate the orgIds into Org names and update the holder cells
+		if(!orgIdToCellMapping.isEmpty()){
+			//Perform the Org search
+			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
+			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+			
+			//For each translation, update the result cell with the translated org name
+			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
+				
+				//Get Params
+				String orgId="";
+				String orgName="";
+				for(SearchResultCell cell:row.getCells()){
+					if("org.resultColumn.orgId".equals(cell.getKey())){
+						orgId = cell.getValue();
+						continue;
+					}else if("org.resultColumn.orgShortName".equals(cell.getKey())){
+						orgName = cell.getValue();
+					}
+				}
+				
+				//Concatenate org names in the holder cells
+				List<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+				if(cells!=null){
+					for(SearchResultCell cell:cells){
+						if(cell.getValue()==null){
+							cell.setValue(orgName);
+						}else{
+							cell.setValue(cell.getValue()+", "+orgName);
+						}
+					}
+				}
+			}
+		}
+		
+		//Add in CluSets and ignore ones named AdHoc
+		for(CluSet cluSet:cluSetMap.values()){
+			if(!"AdHock".equals(cluSet.getName())){
+
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				resultRow.addCell("lu.resultColumn.cluId",cluSet.getId());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName",cluSet.getName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName",cluSet.getName());
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType","cluSet");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "Course Set");			
+
+				searchResult.getRows().add(resultRow);
+			}
+		}
+		
+		//Get any joints here and add them into the results
+		List<Clu> joints = luDao.getClusByRelation(cluId,"kuali.lu.relation.type.co-located");
+		if(joints!=null){
+			for(Clu clu:joints){
+				
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				resultRow.addCell("lu.resultColumn.cluId", clu.getId());
+				resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongName());	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "joint");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "jointly offered");
+				
+				searchResult.getRows().add(resultRow);
+			}
+		}
+		
+		//Lookup cross-listings and add to the results
+		for(CluIdentifier altId:triggerClu.getAlternateIdentifiers()){
+			if("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())){
+				SearchResultRow resultRow = new SearchResultRow();
+				
+				resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
+				resultRow.addCell("lu.resultColumn.luOptionalShortName", altId.getShortName());
+				resultRow.addCell("lu.resultColumn.luOptionalLongName", altId.getLongName());	
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "crossListed");
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "cross-listed");		
+				
+				searchResult.getRows().add(resultRow);
+			}
+		}
+
+		return searchResult;
 	}
 
 	/**
@@ -3287,7 +3552,7 @@ public class LuServiceImpl implements LuService {
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
        		versionInfos = luDao.getVersions(refObjectId, refObjectTypeURI);
        		if(versionInfos==null){
-       			versionInfos = Collections.emptyList();
+       			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
         	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
@@ -3301,11 +3566,15 @@ public class LuServiceImpl implements LuService {
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
     		versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to);
        		if(versionInfos==null){
-       			versionInfos = Collections.emptyList();
+       			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
         	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
         }
 		return versionInfos;
     }
+
+	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+		this.searchDispatcher = searchDispatcher;
+	}
 }

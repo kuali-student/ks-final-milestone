@@ -224,6 +224,16 @@
             ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
  </bean>
 
+ <bean id="search.courseId" parent="uilookupconfig-parent">
+  <property name="path" value="search.courseId" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.findCourse.advanced" />   
+   </list>
+  </property>
+ </bean>
+
  <bean id="search.findCourse" parent="uilookupconfig-parent">
   <property name="path" value="search.findCourse" />
   <property name="initialLookup" >
