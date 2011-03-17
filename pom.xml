@@ -38,6 +38,8 @@
   </repositories>
   <modules>
     <module>ks-services</module>
+    <!-- Temporary exclusion of rules module
     <module>ks-rules</module>
+     -->
   </modules>
 </project>
