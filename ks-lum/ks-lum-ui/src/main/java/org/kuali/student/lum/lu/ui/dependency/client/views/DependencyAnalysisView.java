@@ -24,21 +24,26 @@ import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
@@ -53,7 +58,11 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DependencyAnalysisView extends ViewComposite{
@@ -72,6 +81,7 @@ public class DependencyAnalysisView extends ViewComposite{
 	
 	protected String selectedCourseId;
 	protected String selectedCourseCd;
+	protected String selectedCourseName;
 	
 	protected DependencyResultPanel depResultPanel;
 	
@@ -81,6 +91,7 @@ public class DependencyAnalysisView extends ViewComposite{
 		super(controller, "Dependency Analysis", DependencyViews.MAIN);
         this.initWidget(container);
         this.addStyleName("blockLayout");
+        this.addStyleName("ks-menu-layout-rightColumn");
 	}
 	
 	@Override
@@ -113,36 +124,53 @@ public class DependencyAnalysisView extends ViewComposite{
 		KSDocumentHeader header = new KSDocumentHeader();
         header.setTitle("Dependency Analysis");
 
+        HorizontalPanel pickerPanel = new HorizontalPanel();
 		Metadata metaData = searchDefinition.getMetadata("courseId");
-		KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
+		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
 
-        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");
-		triggerPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
-            @Override
-            public void exec(SelectedResults result) {
-                if (result != null && result.getReturnKey() != null && result.getReturnKey().trim().length() > 0) {
-                    selectedCourseId = result.getReturnKey();
-                    selectedCourseCd = result.getDisplayKey();
-                    if (depResultPanel != null){
-                    	container.remove(depResultPanel);
-                    }
-                    depResultPanel = new DependencyResultPanel();
-                    depResultPanel.setHeaderTitle(selectedCourseCd);		
-                    container.add(depResultPanel);
-                    updateDependencyResults();
+        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
+		KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
+		goButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {				
+                selectedCourseId = triggerPicker.getValue().toString();
+                KSSuggestBox suggestBox = (KSSuggestBox)triggerPicker.getInputWidget();
+                IdableSuggestion selectedSuggestion = suggestBox.getCurrentSuggestion();
+                
+                selectedCourseName = selectedSuggestion.getAttrMap().get("lu.resultColumn.luOptionalLongName");
+                if (!selectedCourseId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
+    				KSBlockingProgressIndicator.addTask(loadDataTask);
+                	selectedCourseCd = triggerPicker.getDisplayValue();                
+	                if (depResultPanel != null){
+	                	container.remove(depResultPanel);
+	                }
+	                depResultPanel = new DependencyResultPanel();
+	                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
+	                container.add(depResultPanel);
+	                updateDependencyResults();
                 }
-            }
-        });
+			}
+			
+		});
 
+		
+		pickerPanel.add(triggerPicker);
+		pickerPanel.add(goButton);
+        
+		FlowPanel searchPanel = new FlowPanel();
+		searchPanel.addStyleName("ks-dependency-search");
+		searchPanel.add(new KSLabel("Search for item to view its dependencies"));
+		searchPanel.add(pickerPanel);
+		
+		
 		container.setTitleWidget(header);
 		container.addStyleName("blockLayout");
-		container.setInstructions("Search for an item to view its dependenciess");
-        container.addWidget(triggerPicker);
+        container.addWidget(searchPanel);
 				
 	}
 
 	protected void updateDependencyResults(){
-		KSBlockingProgressIndicator.addTask(loadDataTask);
 		
 		depResultPanel.addSection("courses","Course Dependencies");		
 		depResultPanel.addSection("programs","Program Dependencies");
@@ -167,13 +195,16 @@ public class DependencyAnalysisView extends ViewComposite{
 					String cluType = "";
 					String dependencyType = "";
 					String dependencyTypeName = "";
-					String cluDetailsStr = "";
 					String reqComponentIds = "";
 					String reqRootId = "";
+					String cluId = "";
+					String curriculumOversightNames = "";
 					
 					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
-							cluCode = searchResultCell.getValue();							
+							cluCode = searchResultCell.getValue();	
+						} if (searchResultCell.getKey().equals ("lu.resultColumn.cluId")) {
+							cluId = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalLongName")){
 							cluName = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.cluType")){
@@ -182,29 +213,33 @@ public class DependencyAnalysisView extends ViewComposite{
 								cluType = "courses";
 							} else if (cluType != null){
 								cluType = "programs";
-							} else {
-								cluType = "course sets";
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyType")){
 							dependencyType = searchResultCell.getValue();
+							if (dependencyType.equals("cluSet")){
+								cluType = "course sets";
+							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyTypeName")){
 							dependencyTypeName = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRequirementComponentIds")){
 							reqComponentIds = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRootId")){
 							reqRootId = searchResultCell.getValue();
-						} else {
-							cluDetailsStr += searchResultCell.getKey() + "=" + searchResultCell.getValue() + " ";
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalOversightCommitteeNames")){
+							curriculumOversightNames = searchResultCell.getValue();
 						}
 					}
 					
 					DependencyTypeSection typeSection = depResultPanel.getDependencyTypeSection(cluType, dependencyType);
 					if (typeSection == null){						
-						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getTypeLabel(cluType, dependencyTypeName));
+						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getDependencyTypeLabel(cluType, dependencyTypeName));
 					}
 					
-					Widget depDetails = getDependencyDetails(cluType, dependencyType, reqRootId, reqComponentIds);
-					typeSection.addDependencyItem(cluCode + " - " + cluName, depDetails);
+					VerticalFieldLayout depDetails = getDependencyDetails(cluType, dependencyType, cluCode, reqRootId, reqComponentIds);
+					KSLabel curricOversightLabel = new KSLabel("Curriculum Oversight: " + curriculumOversightNames);
+					curricOversightLabel.addStyleName("ks-dependency-oversight");
+					depDetails.addWidget(curricOversightLabel);
+					typeSection.addDependencyItem(getDependencyLabel(cluType, cluId, cluCode, cluName), depDetails);
 				}
 				depResultPanel.finishLoad();
 				KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -214,12 +249,12 @@ public class DependencyAnalysisView extends ViewComposite{
 	}
 	
 
-	private Widget getDependencyDetails(String cluType, String dependencyType, final String rootId, String reqComponentIds){
+	private VerticalFieldLayout getDependencyDetails(String cluType, String dependencyType, final String cluCode, final String rootId, String reqComponentIds){
 		VerticalFieldLayout depDetails = new VerticalFieldLayout();
 		depDetails.addStyleName("KS-Dependency-Details");
 		if (reqComponentIds != null && !reqComponentIds.isEmpty()){
 			List<String> reqComponentIdList = Arrays.asList(reqComponentIds.split(","));
-			final KSLabel simpleRequirement = new KSLabel();
+			final SpanPanel simpleRequirement = new SpanPanel();
 			
 			simpleRequirement.addStyleName("KS-Dependency-Simple-Rule");
 			
@@ -228,25 +263,24 @@ public class DependencyAnalysisView extends ViewComposite{
 				final KSButton complexReqLabel = new KSButton("Display complex requirement", ButtonStyle.DEFAULT_ANCHOR);
 				final KSButton simpleReqLabel = new KSButton("Display simple requirement", ButtonStyle.DEFAULT_ANCHOR);
 				
-				final FlowPanel complexReq = new FlowPanel();
+				final FlowPanel complexContent = new FlowPanel();
+				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
 				
-				complexReq.addStyleName("KS-Dependency-Complex-Rule");
-				depDetails.add(simpleRequirement);
-				depDetails.add(complexReq);
-				depDetails.add(complexReqLabel);
-				depDetails.add(simpleReqLabel);
+				complexContent.addStyleName("KS-Dependency-Complex-Rule");
+				depDetails.addWidget(simpleRequirement);
+				depDetails.addWidget(complexRequirement);
+				depDetails.addWidget(complexReqLabel);
+				depDetails.addWidget(simpleReqLabel);
 				
 				simpleReqLabel.setVisible(false);
-				complexReq.setVisible(true);
 				
 				complexReqLabel.addClickHandler(new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						simpleReqLabel.setVisible(true);
 						simpleRequirement.setVisible(false);
 						complexReqLabel.setVisible(false);
-						complexReq.setVisible(true);
 
-						if (complexReq.getWidgetCount() <= 0){
+						if (complexContent.getWidgetCount() <= 0){
 							KSBlockingProgressIndicator.addTask(loadDataTask);
 							depRpcServiceAsync.getProgramRequirement(rootId, new KSAsyncCallback<ProgramRequirementInfo>(){
 								public void onSuccess(ProgramRequirementInfo progReqInfo) {															
@@ -257,8 +291,9 @@ public class DependencyAnalysisView extends ViewComposite{
 							                getTotalCreditsString(minCredits, maxCredits),
 							                plainDesc, progReqInfo.getStatement(),
 							                true, getCluSetWidgetList(progReqInfo.getStatement()));
-							        complexReq.add(rulePreviewWidget);
+							        complexContent.add(rulePreviewWidget);
 							        KSBlockingProgressIndicator.removeTask(loadDataTask);
+									complexRequirement.open();
 								}							
 							});
 						}
@@ -268,32 +303,69 @@ public class DependencyAnalysisView extends ViewComposite{
 				simpleReqLabel.addClickHandler(new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						complexReqLabel.setVisible(true);						
-						complexReq.setVisible(false);
+						complexRequirement.close();
 						simpleRequirement.setVisible(true);
 						simpleReqLabel.setVisible(false);						
 					}
 				});
 			} else {
-				depDetails.add(simpleRequirement);
+				depDetails.addWidget(simpleRequirement);
 			}
 			
 			depRpcServiceAsync.getRequirementComponentNL(reqComponentIdList, new KSAsyncCallback<List<String>>(){
 				public void onSuccess(List<String> results) {
 					for (String reqCompNL:results){
-						simpleRequirement.setText(reqCompNL);
+						int codeIdx = reqCompNL.indexOf(selectedCourseCd);						
+						simpleRequirement.setHTML(reqCompNL.substring(0,codeIdx) + 
+								" <b>" + selectedCourseCd + "</b>" + reqCompNL.substring(codeIdx + selectedCourseCd.length()));
 					}								
 				}							
 			});
-		} else {
-			depDetails.addWidget(new KSLabel("Details coming soon"));
 		}
 
 		return depDetails;
 	}
 	
-	private String getTypeLabel(String cluType, String dependencyType) {			
-		return selectedCourseCd + " is an " + dependencyType + " for the following " + cluType;
-	}			
+	private SpanPanel getDependencyTypeLabel(String cluType, String dependencyType) {
+		SpanPanel header = new SpanPanel();
+		if (cluType.equals("course sets")){
+			header.setHTML("<b>" + selectedCourseCd + "</b> belongs to the following course sets");
+		} else {
+			header.setHTML("<b>" + selectedCourseCd + "</b> is a/an <b>" + dependencyType + "</b> for the following " + cluType);			
+		}
+    	header.setStyleName("KS-DependencyType-Label");
+		return header;
+	}
+	
+	private SpanPanel getDependencyLabel(final String cluType, final String cluId,  String cluCode, String cluName){
+		SpanPanel header = new SpanPanel();
+		final String viewLink;
+		Anchor viewCourse;
+		if (cluType.equals("courses")){
+			viewCourse = new Anchor("View Course");
+			viewLink = AppLocations.Locations.VIEW_COURSE.toString(); 
+		} else {
+			viewCourse = new Anchor("View Program");
+			viewLink = AppLocations.Locations.VIEW_PROGRAM.toString(); 
+		}
+
+		header.setHTML(cluCode + " - " + cluName);
+    	header.setStyleName("KS-DependencyType-Label");
+    	viewCourse.addStyleName("KS-Dependency-View-Link");
+        viewCourse.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
+					"?view=" + viewLink + "&docId=" + cluId;
+				String features = "height=600,width=960,dependent=0,directories=1," +
+						"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+				Window.open(url, HTMLPanel.createUniqueId(), features);				
+			}
+		});
+    	header.add(viewCourse);
+		return header;		
+	}
 
     private String getTotalCreditsString(int min, int max) {
         return "Expected Total Credits:" + min + "-" + max;

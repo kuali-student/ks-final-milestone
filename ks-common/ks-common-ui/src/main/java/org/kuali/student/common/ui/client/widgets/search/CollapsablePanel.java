@@ -49,6 +49,18 @@ public class CollapsablePanel extends Composite {
 	protected Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
 	protected Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 
+	private ClickHandler openCloseClickHandler = new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			if (CollapsablePanel.this.isOpen) {
+				CollapsablePanel.this.close();
+			} else {
+				CollapsablePanel.this.open();
+			}
+		}
+	};
+
 	private static class ContentAnimation extends Animation {
 		/**
 		 * Whether the item is being opened or closed.
@@ -125,26 +137,27 @@ public class CollapsablePanel extends Composite {
 	protected CollapsablePanel(){		
 	}
 	
-	public CollapsablePanel(String name, Widget content, boolean isOpen) {
-		init(name, content, isOpen, true, ImagePosition.ALIGN_RIGHT);
+	public CollapsablePanel(String label, Widget content, boolean isOpen) {
+		init(getButtonLabel(label), content, isOpen, true, ImagePosition.ALIGN_RIGHT);
 	}
 
-	public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages) {
-		init(name, content, isOpen, withImages, ImagePosition.ALIGN_RIGHT);
+	public CollapsablePanel(String label, Widget content, boolean isOpen, boolean withImages) {
+		init(getButtonLabel(label), content, isOpen, withImages, ImagePosition.ALIGN_RIGHT);
 	}
 
-	public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
-		init(name, content, isOpen, withImages, imagePosition);
+	public CollapsablePanel(String label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		init(getButtonLabel(label), content, isOpen, withImages, imagePosition);
 	}
 
-	protected void init(String name, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+	public CollapsablePanel(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		init(label, content, isOpen, withImages, imagePosition);
+	}
+
+	protected void init(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
 		this.isOpen = isOpen;
 		this.withImages = withImages;
-		this.imagePosition = imagePosition;
-		
-		label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
+		this.imagePosition = imagePosition;		
 		this.content.setWidget(content);
-		label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
 
 		if (this.imagePosition == ImagePosition.ALIGN_RIGHT){
 			linkPanel.add(label);
@@ -164,17 +177,8 @@ public class CollapsablePanel extends Composite {
 			this.content.setVisible(false);
 		}
 
-		label.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (CollapsablePanel.this.isOpen) {
-					CollapsablePanel.this.close();
-				} else {
-					CollapsablePanel.this.open();
-				}
-			}
-		});
+		closedImage.addClickHandler(openCloseClickHandler);
+		openedImage.addClickHandler(openCloseClickHandler);
 
 		layout.add(linkPanel);
 		layout.add(this.content);
@@ -184,7 +188,22 @@ public class CollapsablePanel extends Composite {
 		this.initWidget(layout);
 	}
 
+	protected KSButton getButtonLabel(String labelString){
+		label = new KSButton(labelString, ButtonStyle.DEFAULT_ANCHOR);				
+		label.addClickHandler(openCloseClickHandler);		
+		return label;
+	}
+	
+	/**
+	 * If the widget was initialized with a string label, it will return a KSButton.
+	 * If the widget was initialized with a label widget, it will return the label widget.
+	 * @return
+	 */
 	public KSButton getLabel() {
+		return label;
+	}
+
+	public Widget getLabelWidget() {
 		return label;
 	}
 

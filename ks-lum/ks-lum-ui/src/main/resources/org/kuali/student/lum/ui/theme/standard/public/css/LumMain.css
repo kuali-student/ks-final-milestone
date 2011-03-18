@@ -587,15 +587,63 @@ a.KS-Program-Rule-ObjectView-Button{
 	padding-left: 15px;
 }
 
-.KS-Dependency-Details{
+.ks-dependency-search{	
+	background: #f1f1f2;
+	padding: 15px;
+}
+
+.ks-dependency-search .gwt-SuggestBox {
+    margin-right: 10px;
+}
+
+.ks-dependency-results{
+	
+}
+
+.ks-dependency-oversight{
+	padding-top: 10px;
+	font-style: italic;		
+}
+
+.ks-dependency-type-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;
+}
+
+.ks-dependency-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;	
+}
+
+.ks-dependency-section-title{
+	font-weight: bold;
+}
+
+.ks-dependency-section-header{
+	padding-bottom: 2px;
+}
+
+.ks-dependency-details{
 	padding-left: 30px;
 	padding-bottom: 15px;
 }
 
-.KS-Dependency-Simple-Rule{
+.ks-dependency-simple-rule{
 	padding-bottom: 5px;
 }
 
-.KS-Dependency-Complex-Rule{
+.ks-dependency-complex-rule{
 	padding-bottom: 5px;
+}
+
+.ks-dependency-type-label{
+	font-weight: normal;
+}
+
+.ks-dependency-view-link{
+	padding-left: 10px;
 }
