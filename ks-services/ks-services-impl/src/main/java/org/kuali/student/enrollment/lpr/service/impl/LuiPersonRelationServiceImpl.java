@@ -28,13 +28,19 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.student.common.dto.CriteriaInfo;
 
 
 /**
  * @Author sambit
  */
-@Service
+@WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService",  targetNamespace = "http://student.kuali.org/wsdl/lpr")
+// TODO Are these the values we want?
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
