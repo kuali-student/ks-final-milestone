@@ -296,6 +296,8 @@ public class DependencyAnalysisView extends ViewComposite{
 									complexRequirement.open();
 								}							
 							});
+						} else {
+							complexRequirement.open();
 						}
 					}					
 				});
