@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -3228,7 +3229,42 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 
+		//Sort results by Code
+		Collections.sort(searchResult.getRows(), new SearchResultRowComparator("lu.resultColumn.luOptionalCode"));
+		
 		return searchResult;
+	}
+	
+	public class SearchResultRowComparator implements Comparator<SearchResultRow>{
+		private String sortColumn;
+		
+		SearchResultRowComparator(String sortColumn){
+			super();
+			this.sortColumn = sortColumn;
+		}
+		
+		@Override
+		public int compare(SearchResultRow o1, SearchResultRow o2) {
+			String o1SortValue = null;
+			String o2SortValue = null;
+			for(SearchResultCell cell:o1.getCells()){
+				if(sortColumn.equals(cell.getKey())){
+					o1SortValue = cell.getValue();
+					break;
+				}
+			}
+			for(SearchResultCell cell:o2.getCells()){
+				if(sortColumn.equals(cell.getKey())){
+					o2SortValue = cell.getValue();
+					break;
+				}
+			}
+			if(o1SortValue!=null){
+				return o1SortValue.compareTo(o2SortValue);
+			}
+			return -1;
+		}
+		
 	}
 
 	/**
