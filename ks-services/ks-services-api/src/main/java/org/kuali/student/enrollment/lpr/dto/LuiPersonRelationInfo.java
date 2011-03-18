@@ -52,7 +52,6 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
     @XmlElement
     private Date expirationDate;
 
-
     @XmlAttribute
     private String type;
 
