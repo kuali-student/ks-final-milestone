@@ -19,14 +19,21 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.util.LPRUtility;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Order(value=2)
 public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelationService {
+	
+	LPRUtility lprUtility;
+	
+    public void setLprUtility(LPRUtility lprUtility) {
+		this.lprUtility = lprUtility;
+	}
 
-    @Override
+	@Override
     public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(ContextInfo context) throws OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -131,6 +138,9 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+    	
+    	System.out.println("Inside validation impl for createBulkRelationshipsForPerson");
+    	lprUtility.validateDate(luiPersonRelationInfo.getEffectiveDate(), personId );
         return null;
     }
 

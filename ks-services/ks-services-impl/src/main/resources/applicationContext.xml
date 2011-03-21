@@ -9,33 +9,52 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- Infrastructure code which handles invocation for all service impls -->
   <bean id = "layeringAspects" class="org.kuali.student.enrollment.lpr.service.aspect.ServiceAspectLayering">
     
-    <!-- Declare various impls here -->
+    <!-- Declare various impls here, put them in the order that you want them invoked -->
     <property name="serviceImpls" >
-         <list>
-            <ref bean="lprServiceAuthorizer" />
-            <ref bean="lprServiceValidator" />
-         </list>
-         </property>
-  </bean>
+      <list>
+        <ref bean="lprServiceAuthorizer" />
+        <ref bean="lprServiceValidator" />
+      </list>
+    </property>
+    <property name="includeThrowableClassList">
+      <list>
+       <ref bean="kualiInvalidParamException"/>
+       <ref bean="kualiReadOnlyException"/>
+       <ref bean="kualiOperationFailedException"/>
+      </list>
+   </property>
+   </bean>
   
-   <bean id="lprServiceAuthorizer" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl" />
-   <bean id="lprServiceValidator" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl" />
+    <!-- declare beans here -->
+    <bean id ="lprService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl" />
+    <bean id="lprUtility" class="org.kuali.student.enrollment.lpr.service.util.ConcreteLPRUtility" />
+    
+    <!-- declare impls here -->
+    <bean id="lprServiceValidator" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceValidationImpl">
+     <property name="lprUtility" ref="lprUtility"/>
+    </bean>
+    <bean id="lprServiceAuthorizer" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl" />
+     
+    <!--  declare all service exceptions here or in KS core -->
+    <bean id="kualiInvalidParamException" class="org.kuali.student.core.exceptions.InvalidParameterException" />
+    <bean id="kualiOperationFailedException" class="org.kuali.student.core.exceptions.OperationFailedException" />
+    <bean id="kualiReadOnlyException" class="org.kuali.student.core.exceptions.ReadOnlyException" />
+        
+    <aop:config>
+     <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
+       <aop:pointcut id="lprLayeringPointcut" expression="bean(lprService)"/>
+       <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
+
+       <aop:pointcut id="lprExceptionPointCut" expression="execution(* org.kuali.student.enrollment.lpr.service.impl..*.*(..))"/>
+       <aop:after-throwing pointcut-ref="lprExceptionPointCut" throwing="ex" method="handleExceptions"/>
+     </aop:aspect>
+    </aop:config>
    
-   <aop:config>
-      <aop:aspect id="layeringAspectId" ref="layeringAspects">
-        <aop:pointcut id="lprLayeringPointcut" expression="bean(*lprService)"/>
-        <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
-      </aop:aspect>
-   </aop:config>
-
-<!--TODO create a luiStacker and configure it too-->
-<bean id = "luiMockImpl" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
-<bean id = "mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
-<bean id = "mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
-
-<bean id = "lprService" class = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl" />
-
-<bean id = "lprAdapterStackerService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
+    <!--TODO create a luiStacker and configure it too-->
+    <bean id = "luiMockImpl" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
+    <bean id = "mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
+    <bean id = "mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
+    <bean id = "lprAdapterStackerService" class="org.kuali.student.enrollment.lpr.service.adapter.config.LuiPersonRelationAdapterStacker"
       init-method="init">
     <!--
 	// Default support services to use if not otherwise configured

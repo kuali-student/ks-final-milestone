@@ -17,21 +17,18 @@ package org.kuali.student.enrollment.lpr.service.impl;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -86,12 +83,25 @@ public class LuiPersonRelationServiceImplTest {
 			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
 			assertNotNull(createResults);
 			assertEquals(1, createResults.size());
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			fail("exception from service call :" + ex.getMessage());
 		}
 
 
 	}
 
+	@Test
+	public void testCreateBulkRelationshipsForPersonExceptions() {
+		try {
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(null, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
 
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			assertTrue (ex instanceof OperationFailedException) ;
+		}
+		
+		
+
+
+	}
 }
