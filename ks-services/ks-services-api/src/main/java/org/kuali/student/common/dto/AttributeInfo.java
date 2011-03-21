@@ -17,10 +17,30 @@ import org.kuali.student.common.infc.AttributeInfc;
 public class AttributeInfo implements AttributeInfc {
 
     @XmlElement
+    private String id;
+
+    @XmlElement
     private String key;
 
     @XmlElement
     private String value;
+
+     /**
+     * @return the internally assigned id to this key/value pair
+     */
+    @Override
+    public String getId() {
+        return key;
+    }
+
+    /**
+     * @param id to set
+     *
+     */
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * @return the key
