@@ -18,6 +18,24 @@ package org.kuali.student.common.infc;
 public interface AttributeInfc {
 
     /**
+     * Set the Id
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public void setId(String id);
+
+    /**
+     * Get the id
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getId();
+
+    /**
      * Set ????
      * <p/>
      * Type: String
