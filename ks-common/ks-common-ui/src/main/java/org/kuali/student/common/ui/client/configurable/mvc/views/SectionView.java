@@ -261,4 +261,8 @@ public abstract class SectionView extends BaseSection implements View {
     public String toString() {
         return viewName;
     }
+    
+    public boolean isExportButtonActive() {
+        return false;
+    }
 }

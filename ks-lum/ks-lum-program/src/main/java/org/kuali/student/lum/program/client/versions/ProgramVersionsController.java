@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.versions;
 
-import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -58,6 +57,7 @@ public class ProgramVersionsController extends BasicLayoutWithContentHeader{
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	this.getHeader().showPrint(false);
+    	this.getHeader().showJasper(false);
     	onReadyCallback.exec(true);
     }
     

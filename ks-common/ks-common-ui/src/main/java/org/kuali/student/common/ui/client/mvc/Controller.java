@@ -15,24 +15,36 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
+import org.kuali.student.common.ui.client.reporting.ReportExport;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.common.ui.client.service.GwtExportRpcService;
+import org.kuali.student.common.ui.client.service.GwtExportRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,7 +55,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite implements HistorySupport, BreadcrumbSupport{
+public abstract class Controller extends Composite implements HistorySupport, BreadcrumbSupport, ReportExport{
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -51,6 +63,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		}
 	};
 	
+	// TODO Nina how do you do loggin in GWT?  
+//	final static Logger logger = Logger.getLogger(Controller.class);
     protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
@@ -59,6 +73,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
     private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
+    private GwtExportRpcServiceAsync reportExportRpcService = GWT.create(GwtExportRpcService.class);
     
     protected Controller() {
     }
@@ -537,5 +552,85 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public void resetCurrentView(){
     	currentView = null;
     }
+  
+    /**
+     * 
+     * This method implement the "Generic Export" of a windows content to Jasper based on the format the user selected.
+     * This method can be overwritten on a subclass to do specific export to the specific view
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
+     */
+    @Override
+    public void doReportExport(ArrayList<ExportElement> exportElements) {
+     // TODO NINA Event is not working, as i can't seem to fire it on the specific controller...
+        System.out.println("Generic report generator : report name = " + this.exportTemplateName);
+        //
+        
+        View currView = this.getCurrentView();
+        
+     // Service call...
+        
+        DataModel dataModel = getExportDataModel();
+        
+        if (dataModel != null) {
+            Data modelDataObject = dataModel.getRoot();
+            
+            reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), ExportUtils.PDF, new KSAsyncCallback<String>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    // TODO Nina Confirm this is best way to handle onFailure...
+                        System.out.println("reportExportRpcService was unsuccessfull");
+                        caught.printStackTrace();
+//
+                        Window.alert(caught.getMessage());
+                        GWT.log("Failed to retrieve clu", caught);
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        // On success get documentID back from GWT Servlet
+                        System.out.println("On success....export ID = " + result);
+                        Window.open("/exportDownloadHTTPServlet?exportId="+result, "", "");                          
+                    }
+                });
+
+            
+        }
+    }
+       
+    // TODO Nina ??? Do we want to keep this seen in the light of the exportElements parameter
+    @Override
+    public DataModel getExportDataModel() {
+        return null;
+    }
+
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
+    @Override
+    public String getExportTemplateName() {
+        return exportTemplateName;
+    }
     
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        String viewName = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = null;
+
+            if (currentView != null && currentView instanceof SectionView) {
+                viewName =  currentView.getName();
+                exportElements = ExportUtils.getExportElementsFromView((SectionView)currentView, exportElements, viewName, "Sectionname");
+                return exportElements;
+            } else {
+//                logger.warn("ExportUtils.getExportElementsFromView not implemented for :" + this.getCurrentView());
+            }
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;
+    }
 }

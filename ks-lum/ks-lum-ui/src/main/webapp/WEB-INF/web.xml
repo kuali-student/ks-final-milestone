@@ -37,6 +37,18 @@
 		</init-param>
 	</servlet>
 
+<!-- HTTP Servlet -->
+    <servlet>  
+   	 	<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   	 	<servlet-class>org.kuali.student.common.ui.server.gwt.ExportDocumentDownload</servlet-class>  
+   	 </servlet>  
+   	 
+   	 <servlet-mapping>  
+   	 		<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
+   	 </servlet-mapping>  
+<!-- HTTP Servlet end -->
+   
 	<servlet-mapping>
 		<servlet-name>GWT</servlet-name>
 		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/*</url-pattern>

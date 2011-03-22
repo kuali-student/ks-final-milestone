@@ -272,6 +272,7 @@ public abstract class ProgramController extends MenuSectionController {
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
+        showExport(isExportButtonActive());
         if (programModel.getRoot() == null) {
             loadModel(new ModelRequestCallback<DataModel>() {
                 @Override
@@ -418,5 +419,10 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected Data getDataProperty(String key) {
         return programModel.get(key);
+    }
+    
+    public boolean isExportButtonActive() {
+        System.out.println("ProgramController.isExportButtonActive true");
+        return true;
     }
 }

@@ -1,8 +1,9 @@
 package org.kuali.student.common.ui.client.util;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ExportElement {
+public class ExportElement implements Serializable {
 
     private String fieldLabel;
     private String fieldValue;

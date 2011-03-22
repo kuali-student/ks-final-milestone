@@ -1,10 +1,13 @@
 package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
+import java.util.ArrayList;
+
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
@@ -66,8 +69,12 @@ public class TabMenuController extends LayoutController{
     
     public void showPrint(boolean show){
     	header.showPrint(show);
+    	header.showJasper(show);
     }
 
+    public void showExport(boolean show) {
+        header.showJasper(show);
+    }
 	/** 
 	 * This version of updateModel only updates from the currentView (since only one view is shown/accessed at a time).  
 	 * Call updateModelFromView to update from a specific view under this controller's scope.
@@ -107,4 +114,9 @@ public class TabMenuController extends LayoutController{
 		});
 	}
 
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        return super.getExportElementsFromView();
+        
+    }
 }

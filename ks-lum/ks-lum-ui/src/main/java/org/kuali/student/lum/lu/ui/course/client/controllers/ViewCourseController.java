@@ -379,6 +379,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
+        showExport(isExportButtonActive());
     	showDefaultView(onReadyCallback);
     }
     
@@ -471,5 +472,15 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     @Override
     public CourseRequirementsDataModel getReqDataModel() {
         return reqDataModel;
+    }
+    
+    @Override
+    public DataModel getExportDataModel() {
+        return cluModel;
+    }
+    
+    @Override
+    public boolean isExportButtonActive() {
+        return true;
     }
 }

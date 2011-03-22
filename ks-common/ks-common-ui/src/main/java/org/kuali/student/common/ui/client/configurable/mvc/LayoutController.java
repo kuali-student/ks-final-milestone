@@ -548,5 +548,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public void clear() {
 		
 	}
-	
+
+	public boolean isExportButtonActive() {
+	    System.out.println("LayoutController.isExportButtonActive false");
+	    return false;
+	}
 }

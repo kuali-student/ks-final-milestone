@@ -88,6 +88,8 @@
                        value-ref="coreProgramRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DependencyAnalysisRpcService"
                        value-ref="dependencyAnalysisRpcServletController"/>
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/GwtExportRpcService"
+					   value-ref="GwtExportServletController" />
             </map>
         </property>
     </bean>
@@ -747,4 +749,14 @@
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimRoleUpdateServiceSOAP"/>
     </bean>
 
+	<!-- Export services and service to present exported file to user in browser -->
+	<bean id="GwtExportServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="GwtExportRpcService" />
+		<property name="servletInstance" ref="GwtExportRpcService" />
+	</bean>
+
+	<bean id="GwtExportRpcService"
+		class="org.kuali.student.common.ui.server.gwt.ExportGwtRpcServlet">
+	</bean>
 </beans>

@@ -1,5 +1,8 @@
 package org.kuali.student.common.ui.client.widgets.headers;
 
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.PrintUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
@@ -34,16 +37,21 @@ public class KSDocumentHeader extends Composite {
 	@UiField
 	Image printImage;
 	
+	@UiField
+    Image jasperImage;
+	
 	private boolean hasSeparator = true;
 	public KSDocumentHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 		setupPrint();
+		setupJasperPrint();
 	}
 	
 	public KSDocumentHeader(boolean hasContentWidgetSeparator) {
 		this.hasSeparator = hasContentWidgetSeparator;
 		initWidget(uiBinder.createAndBindUi(this));
 		setupPrint();
+		setupJasperPrint();
 	}
 	
 	private void setupPrint(){
@@ -56,6 +64,18 @@ public class KSDocumentHeader extends Composite {
 			}
 		});
 	}
+	
+	private void setupJasperPrint(){
+        jasperImage.setVisible(false);
+        jasperImage.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+                Controller currController = ExportUtils.getController(KSDocumentHeader.this);
+                ExportUtils.handleExportClickEvent(currController);
+            }
+        });
+    }
 	
 	public void setTitle(String header){
 		headerHTML.setHTML("<h2>"+header+"</h2>");
@@ -78,5 +98,19 @@ public class KSDocumentHeader extends Composite {
     
     public void showPrint(boolean show){
     	printImage.setVisible(true);
+    }
+    
+    /**
+     * 
+     * This method set the visibility of the export button to the value of the parameter
+     * 
+     * @param show
+     */
+    public void showJasper(boolean show){
+        jasperImage.setVisible(show);
+    }
+
+    public Image getJasperImage() {
+        return jasperImage;
     }
 }

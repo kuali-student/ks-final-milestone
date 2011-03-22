@@ -36,6 +36,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.event.ContentDirtyEventHandler;
+import org.kuali.student.common.ui.client.event.ExportEvent;
+import org.kuali.student.common.ui.client.event.ExportEventHandler;
+import org.kuali.student.common.ui.client.event.ModifyActionEvent;
+import org.kuali.student.common.ui.client.event.ModifyActionHandler;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -54,6 +58,8 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -210,7 +216,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 doSaveAction(saveAction);
             }
         });
-
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
@@ -672,6 +677,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
+        showExport(isExportButtonActive());
     	Application.getApplicationContext().clearCrossConstraintMap(null);
     	Application.getApplicationContext().clearPathToFieldMapping(null);
     	Application.getApplicationContext().setParentPath("");
@@ -898,4 +904,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseRequirementsDataModel getReqDataModel() {
         return reqDataModel;
     }
+      
+    @Override
+    public DataModel getExportDataModel() {
+        return cluProposalModel;
+    }
+    
 }
