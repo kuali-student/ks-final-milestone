@@ -21,16 +21,6 @@ import java.util.Date;
  * @author nwright
  */
 public interface HasEffectiveDatesInfc {
-   /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name:Effective
-     * Date/time this relationship became effective. Must be less than or equal to the
-     * expirationDate specified.
-     */
-    public void setEffectiveDate(Date effectiveDate);
 
     /**
      * Get ????
@@ -42,17 +32,6 @@ public interface HasEffectiveDatesInfc {
      * expirationDate specified.
      */
     public Date getEffectiveDate();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name: Expiration
-     * Date/time this relationship is no longer effective. Must be greater than or
-     * equal to the effectiveDate specified.
-     */
-    public void setExpirationDate(Date expirationDate);
 
     /**
      * Get ????

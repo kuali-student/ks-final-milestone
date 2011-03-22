@@ -23,8 +23,8 @@ public class AttributeEntity implements AttributeInfc, Serializable {
 
     private String value;
 
-    public Long getId() {
-        return id;
+    public String getId() {
+        return Long.toString(id.longValue());
     }
 
     public void setId(Long id) {
@@ -45,17 +45,7 @@ public class AttributeEntity implements AttributeInfc, Serializable {
     }
 
     @Override
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    @Override
     public String getValue() {
         return value;
-    }
-
-    @Override
-    public void setValue(String value) {
-        this.value = value;
     }
 }

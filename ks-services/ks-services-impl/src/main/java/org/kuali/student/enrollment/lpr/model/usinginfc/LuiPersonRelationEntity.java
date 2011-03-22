@@ -29,7 +29,7 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     private Date expirationDate;
     @OneToMany
     @JoinColumn(name = "lui_person_relation_id")
-    private List<AttributeEntity> dynamicAttributes;
+    private List<AttributeInfc> dynamicAttributes;
     private String type;
     private String state;
 
@@ -47,18 +47,8 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     }
 
     @Override
-    public void setId(String id) {
-        this.id = Long.parseLong(id);
-    }
-
-    @Override
     public String getPersonId() {
         return personId;
-    }
-
-    @Override
-    public void setPersonId(String personId) {
-        this.personId = personId;
     }
 
     @Override
@@ -67,18 +57,8 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     }
 
     @Override
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
-
-    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
-    }
-
-    @Override
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
     }
 
     @Override
@@ -87,18 +67,8 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     }
 
     @Override
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    @Override
     public String getType() {
         return type;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override
@@ -107,39 +77,20 @@ public class LuiPersonRelationEntity implements LuiPersonRelationInfc, Serializa
     }
 
     @Override
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    @Override
     public List<AttributeInfc> getAttributes() {
         if (this.dynamicAttributes == null) {
             return null;
         }
-        List<AttributeInfc> list = new ArrayList(dynamicAttributes.size());
-        for (AttributeEntity dae : this.dynamicAttributes) {
-            AttributeInfc da = new AttributeInfo();
-            da.setKey(dae.getKey());
-            da.setValue(dae.getValue());
+        List<AttributeInfc> list = new ArrayList<AttributeInfc>(dynamicAttributes.size());
+        for (AttributeInfc dae : this.dynamicAttributes) {
+            list.add(new AttributeInfo.Builder().setId(dae.getId()).setKey(dae.getKey()).setValue(dae.getValue()).build());
         }
         return list;
-    }
-
-    @Override
-    public void setAttributes(List<? extends AttributeInfc> attributes) {
-        // TODO: write match to existing AttributeEntity updating as needed, removeing as needed and adding as needed
-        // TODO: add an ID to the AttributeInfc interface to make the matching easier
     }
 
     @Override
     public MetaInfc getMetaInfo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public void setMetaInfo(MetaInfc metaInfo) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 
 }

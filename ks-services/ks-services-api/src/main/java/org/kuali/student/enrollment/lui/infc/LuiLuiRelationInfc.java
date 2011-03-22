@@ -15,28 +15,18 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-import org.kuali.student.common.infc.HasAttributesInfc;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.HasEffectiveDatesInfc;
 import org.kuali.student.common.infc.HasIdInfc;
-import org.kuali.student.common.infc.HasMetaInfc;
 import org.kuali.student.common.infc.HasStateInfc;
 import org.kuali.student.common.infc.HasTypeInfc;
 
-public interface LuiLuiRelationInfc extends HasAttributesInfc,
-        HasMetaInfc,
+public interface LuiLuiRelationInfc
+		extends HasAttributesAndMetaInfc,
         HasIdInfc,
         HasTypeInfc,
         HasStateInfc,
         HasEffectiveDatesInfc {
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for a Learning Unit Instance (LUI).
-     */
-    public void setLuiId(String luiId);
 
     /**
      * Get ????
@@ -46,15 +36,6 @@ public interface LuiLuiRelationInfc extends HasAttributesInfc,
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getLuiId();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for a Learning Unit Instance (LUI).
-     */
-    public void setRelatedLuiId(String relatedLuiId);
 
     /**
      * Get ????

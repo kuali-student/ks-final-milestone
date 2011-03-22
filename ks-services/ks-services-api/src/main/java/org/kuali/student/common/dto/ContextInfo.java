@@ -45,25 +45,44 @@ import org.kuali.student.common.infc.ContextInfc;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ContextInfo extends HasAttributesInfo implements ContextInfc, Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String principalId;
+    private final String principalId;
 
     @XmlElement
-    private String localeLanguage;
+    private final String localeLanguage;
     
     @XmlElement
-    private String localeVariant;
+    private final String localeVariant;
 
     @XmlElement
-    private String localeRegion;
+    private final String localeRegion;
 
     @XmlElement
-    private String localeScript;
+    private final String localeScript;
     
     @XmlElement
-    private String timeZone;
+    private final String timeZone;
+
+    private ContextInfo() {
+    	principalId = null;
+    	localeLanguage = null;
+    	localeVariant = null;
+    	localeRegion = null;
+    	localeScript = null;
+    	timeZone = null;
+    }
+    
+    private ContextInfo(ContextInfc builder) {
+		super(builder);
+		this.principalId = builder.getPrincipalId();
+		this.localeLanguage = builder.getLocaleLanguage();
+		this.localeVariant = builder.getLocaleVariant();
+		this.localeRegion = builder.getLocaleRegion();
+		this.localeScript = builder.getLocaleScript();
+		this.timeZone = builder.getTimeZone();
+	}
 
 
     /**
@@ -74,16 +93,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         return principalId;
     }
 
-
-    /**
-     * @param principalId the principalId to set
-     */
-
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
-    }
-
-
     /**
      * @return the localeLanguage
      */
@@ -91,16 +100,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
     public String getLocaleLanguage() {
         return localeLanguage;
     }
-
-
-    /**
-     * @param localeLanguage the localeLanguage to set
-     */
-
-    public void setLocaleLanguage(String localeLanguage) {
-        this.localeLanguage = localeLanguage;
-    }
-
 
     /**
      * @return the localeVariant
@@ -110,16 +109,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         return localeVariant;
     }
 
-
-    /**
-     * @param localeVariant the localeVariant to set
-     */
-
-    public void setLocaleVariant(String localeVariant) {
-        this.localeVariant = localeVariant;
-    }
-
-
     /**
      * @return the localeRegion
      */
@@ -127,16 +116,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
     public String getLocaleRegion() {
         return localeRegion;
     }
-
-
-    /**
-     * @param localeRegion the localeRegion to set
-     */
-
-    public void setLocaleRegion(String localeRegion) {
-        this.localeRegion = localeRegion;
-    }
-
 
     /**
      * @return the localeScript
@@ -146,16 +125,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         return localeScript;
     }
 
-
-    /**
-     * @param localeScript the localeScript to set
-     */
-
-    public void setLocaleScript(String localeScript) {
-        this.localeScript = localeScript;
-    }
-
-
     /**
      * @return the timeZone
      */
@@ -163,13 +132,68 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
     public String getTimeZone() {
         return timeZone;
     }
+    
+    public static class Builder extends HasAttributesInfo.Builder implements ContextInfc {
+    	private String principalId;
+		private String localeLanguage;
+		private String localeVariant;
+		private String localeRegion;
+		private String localeScript;
+		private String timeZone;
 
+		public Builder() {}
+    	
+    	public Builder(ContextInfc ctxInfo) {
+    		super(ctxInfo);
+    	}
 
-    /**
-     * @param timeZone the timeZone to set
-     */
+    	public ContextInfo build() {
+    		return new ContextInfo(this);
+    	}
+    	
+		public Builder setPrincipalId(String principalId) {
+			this.principalId = principalId;
+			return this;
+		}
 
-    public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
-    }    
+		public Builder setLocaleLanguage(String localeLanguage) {
+			this.localeLanguage = localeLanguage;
+			return this;
+		}
+
+		public Builder setLocaleRegion(String localeRegion) {
+			this.localeRegion = localeRegion;
+			return this;
+		}
+
+		@Override
+		public String getPrincipalId() {
+			return principalId;
+		}
+
+		@Override
+		public String getLocaleLanguage() {
+			return localeLanguage;
+		}
+
+		@Override
+		public String getLocaleVariant() {
+			return localeVariant;
+		}
+
+		@Override
+		public String getLocaleRegion() {
+			return localeRegion;
+		}
+
+		@Override
+		public String getLocaleScript() {
+			return localeScript;
+		}
+
+		@Override
+		public String getTimeZone() {
+			return timeZone;
+		}
+    }
 }

@@ -28,8 +28,6 @@ public interface CriteriaInfc  {
      */
     public String getFieldKey();
 
-    public void setFieldKey(String fieldKey);
-
     /**
      * Name: Operator
      * <p/>
@@ -41,9 +39,6 @@ public interface CriteriaInfc  {
      *
      */
     public String getOperator();
-    public void setOperator(String operator);
-
-
 
     /**
      * Name: Criteria Value
@@ -51,8 +46,4 @@ public interface CriteriaInfc  {
      * Value to be compared
      */
     public String getValue();
-
-    public void setValue(String value);
-
-
 }

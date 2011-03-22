@@ -19,5 +19,4 @@ import java.util.List;
 
 public interface HasAttributesInfc {
 	public List<? extends AttributeInfc> getAttributes();
-	public void setAttributes(List<? extends AttributeInfc> attributes);
 }

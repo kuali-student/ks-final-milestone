@@ -18,15 +18,6 @@ package org.kuali.student.common.infc;
 public interface ValidationResultInfc {
 
     /**
-     * Set ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * ???
-     */
-    public void setLevel(Integer level);
-
-    /**
      * Get ????
      * <p/>
      * Type: Integer
@@ -34,15 +25,6 @@ public interface ValidationResultInfc {
      * ???
      */
     public Integer getLevel();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setMessage(String message);
 
     /**
      * Get ????
@@ -54,15 +36,6 @@ public interface ValidationResultInfc {
     public String getMessage();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setElement(String element);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -70,15 +43,6 @@ public interface ValidationResultInfc {
      * ???
      */
     public String getElement();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * Returns the ValidationResult's error level
-     */
-    public void setErrorLevel(Integer errorLevel);
 
     /**
      * Get ????
@@ -90,15 +54,6 @@ public interface ValidationResultInfc {
     public Integer getErrorLevel();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: boolean
-     * <p/>
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-     */
-    public void setOk(Boolean ok);
-
-    /**
      * Get ????
      * <p/>
      * Type: boolean
@@ -108,15 +63,6 @@ public interface ValidationResultInfc {
     public Boolean isOk();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: boolean
-     * <p/>
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-     */
-    public void setWarn(Boolean warn);
-
-    /**
      * Get ????
      * <p/>
      * Type: boolean
@@ -124,15 +70,6 @@ public interface ValidationResultInfc {
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
      */
     public Boolean isWarn();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: boolean
-     * <p/>
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-     */
-    public void setError(Boolean error);
 
     /**
      * Get ????

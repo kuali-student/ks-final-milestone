@@ -15,18 +15,32 @@
  */
 package org.kuali.student.enrollment.lui.mock;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.common.infc.HoldsLuServiceInfc;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;
-import org.kuali.student.core.exceptions.*;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.enrollment.lpr.mock.CopierHelper;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiInfc;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
 import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
-
-import java.util.*;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.infc.HoldsLuServiceInfc;
-import org.kuali.student.enrollment.lpr.mock.CopierHelper;
 import org.kuali.student.lum.lu.service.LuService;
 
 /**
@@ -58,27 +72,23 @@ public class LuiServiceMockPersistenceImpl implements
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
+    	LuiInfo.Builder builder = new LuiInfo.Builder(luiInfo);
         CopierHelper helper = new CopierHelper();
-        LuiInfc copy = helper.makeCopy(luiInfo);
-        copy.setId(UUID.randomUUID().toString());
-        copy.setCluId(cluId);
-        copy.setAtpKey(atpKey);
-        copy.setMetaInfo(helper.createMeta(context));
+    	builder.setId(UUID.randomUUID().toString()).setCluId(cluId);
+        builder.setAtpKey(atpKey).setMetaInfo(helper.createMeta(context));
+        LuiInfc copy = builder.build();
         this.luiCache.put(copy.getId(), copy);
-        return helper.makeCopy(copy);
+        return copy;
     }
 
     @Override
     public LuiLuiRelationInfc createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationType, LuiLuiRelationInfc luiLuiRelationInfo, ContextInfc context) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         CopierHelper helper = new CopierHelper();
-        LuiLuiRelationInfc copy = helper.makeCopy(luiLuiRelationInfo);
-        copy.setId(UUID.randomUUID().toString());
-        copy.setLuiId(luiId);
-        copy.setRelatedLuiId(relatedLuiId);
-        copy.setType(luLuRelationType);
-        copy.setMetaInfo(helper.createMeta(context));
+        LuiLuiRelationInfo.Builder builder = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).setId(UUID.randomUUID().toString()).setLuiId(luiId);
+        LuiLuiRelationInfc copy = builder.setRelatedLuiId(relatedLuiId).setType(luLuRelationType).setMetaInfo(helper.createMeta(context)).build();
         this.llrCache.put(copy.getId(), copy);
-        return helper.makeCopy(copy);
+        // mirroring what was done before immutable DTO's; why returning copy of copy?
+        return new LuiLuiRelationInfo.Builder(copy).build(); 
     }
 
     @Override
@@ -86,9 +96,7 @@ public class LuiServiceMockPersistenceImpl implements
         if (this.luiCache.remove(luiId) == null) {
             throw new DoesNotExistException(luiId);
         }
-        StatusInfc status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
+        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
     }
 
     @Override
@@ -96,9 +104,7 @@ public class LuiServiceMockPersistenceImpl implements
         if (this.luiCache.remove(luiLuiRelationId) == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        StatusInfc status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
+        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
     }
 
     @Override
@@ -175,8 +181,6 @@ public class LuiServiceMockPersistenceImpl implements
         if (existing == null) {
             throw new DoesNotExistException(luiId);
         }
-        CopierHelper helper = new CopierHelper();
-        LuiInfc copy = helper.makeCopy(luiInfo);
         if (!luiInfo.getMetaInfo().getVersionInd().equals(
                 existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException(
@@ -184,9 +188,11 @@ public class LuiServiceMockPersistenceImpl implements
                     + existing.getMetaInfo().getUpdateId() + " with version of "
                     + existing.getMetaInfo().getVersionInd());
         }
-        copy.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        CopierHelper helper = new CopierHelper();
+        LuiInfc copy = new LuiInfo.Builder(luiInfo).setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
         this.luiCache.put(luiId, copy);
-        return helper.makeCopy(copy);
+        // mirroring what was done before immutable DTO's; why returning copy of copy?
+        return new LuiInfo.Builder(copy).build(); 
     }
 
     @Override
@@ -195,8 +201,6 @@ public class LuiServiceMockPersistenceImpl implements
         if (existing == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        CopierHelper helper = new CopierHelper();
-        LuiLuiRelationInfc copy = helper.makeCopy(luiLuiRelationInfo);
         if (!luiLuiRelationInfo.getMetaInfo().getVersionInd().equals(
                 existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException(
@@ -204,9 +208,11 @@ public class LuiServiceMockPersistenceImpl implements
                     + existing.getMetaInfo().getUpdateId() + " with version of "
                     + existing.getMetaInfo().getVersionInd());
         }
-        copy.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        CopierHelper helper = new CopierHelper();
+        LuiLuiRelationInfc copy = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
         this.llrCache.put(luiLuiRelationId, copy);
-        return helper.makeCopy(copy);
+        // mirroring what was done before immutable DTO's; why returning copy of copy?
+        return new LuiLuiRelationInfo.Builder(copy).build(); 
 
     }
 

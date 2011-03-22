@@ -20,5 +20,4 @@ package org.kuali.student.common.infc;
  */
 public interface HasIdInfc extends HasPrimaryKeyInfc {
 	public String getId();
-	public void setId(String id);
 }

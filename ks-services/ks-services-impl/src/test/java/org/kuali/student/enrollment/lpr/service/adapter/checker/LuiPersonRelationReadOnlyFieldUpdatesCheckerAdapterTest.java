@@ -77,19 +77,11 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 	}
 
 	private ContextInfc getContext1() {
-		ContextInfc context = new ContextInfo();
-		context.setPrincipalId("principalId.1");
-		context.setLocaleLanguage("en");
-		context.setLocaleRegion("us");
-		return context;
+		return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
 	}
 
 	private ContextInfc getContext2() {
-		ContextInfc context = new ContextInfo();
-		context.setPrincipalId("principalId.2");
-		context.setLocaleLanguage("fr");
-		context.setLocaleRegion("ca");
-		return context;
+		return new ContextInfo.Builder().setPrincipalId("principalId.2").setLocaleLanguage("fr").setLocaleRegion("ca").build();
 	}
 
 	private Date parseDate(String str) {
@@ -114,28 +106,29 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc orig = new LuiPersonRelationInfo();
-		orig.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
-		orig.setEffectiveDate(parseDate("2010-01-01"));
+		LuiPersonRelationInfc orig =
+			new LuiPersonRelationInfo.Builder()
+				.setState(LuiPersonRelationStateEnum.APPLIED.getKey())
+				.setEffectiveDate(parseDate("2010-01-01"))
+				.setId("Id not allowed")
+				.build();
 		ContextInfc context = getContext1();
 
 		try {
-			orig.setId("Id not allowed");
 			getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
 			fail("should have thrown a readOnly Exception because the id is not allowed to be supplied on the create");
 		} catch (ReadOnlyException ex) {
 			// expected
 		}
-		orig.setId(null);
+		// TODO: decide if an empty MetaInfo is bad or just one that is filled in with some values
+		orig = new LuiPersonRelationInfo.Builder().setId(null).setMetaInfo(new MetaInfo.Builder().build()).build();
 		try {
-			// TODO: decide if an empty MetaInfo is bad or just one that is filled in with some values
-			orig.setMetaInfo(new MetaInfo ());
 			getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
 			fail("should have thrown a readOnly Exception because the metaInfo is not allowed to be supplied on the create");
 		} catch (ReadOnlyException ex) {
 			// expected
 		}		
-		orig.setMetaInfo (null);
+		orig = new LuiPersonRelationInfo.Builder().setId(null).setMetaInfo(null).build();
 
 
 		// do the create call
@@ -149,9 +142,9 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		LuiPersonRelationInfc bad = null;
 		String badField = null;
 
-		bad = new CopierHelper().makeCopy(fetched);
+		// bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched).setId("Readonly Id").build();
 		badField = "id";
-		bad.setId("ReadonlyId");
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
@@ -159,9 +152,8 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched).setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey()).build();
 		badField = "type";
-		bad.setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey());
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
@@ -169,9 +161,11 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched)
+						.setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey())
+						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setCreateId("ReadonlyCreateId").build())
+						.build();
 		badField = "createId";
-		bad.getMetaInfo().setCreateId("ReadonlyCreateId");
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
@@ -179,9 +173,10 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched)
+						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setCreateTime(parseDate("2010-01-01")).build())
+						.build();
 		badField = "createTime";
-		bad.getMetaInfo().setCreateTime(parseDate("2010-01-01"));
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
@@ -189,9 +184,10 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched)
+						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setUpdateId("ReadonlyUpdated").build())
+						.build();
 		badField = "updateId";
-		bad.getMetaInfo().setUpdateId("ReadonlyUpdateId");
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
@@ -199,9 +195,10 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new CopierHelper().makeCopy(fetched);
+		bad = new LuiPersonRelationInfo.Builder(fetched)
+						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setUpdateTime(parseDate("2010-01-01")).build())
+						.build();
 		badField = "updateTime";
-		bad.getMetaInfo().setUpdateTime(parseDate("2010-01-01"));
 		try {
 			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");

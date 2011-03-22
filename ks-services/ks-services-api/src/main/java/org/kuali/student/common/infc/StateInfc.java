@@ -24,19 +24,9 @@ public interface StateInfc extends HasKeyInfc, HasAttributesInfc, HasEffectiveDa
     public String getName();
 
     /**
-     * @param name the name to set
-     */
-    public void setName(String name);
-
-    /**
      * @return the descr
      */
     public String getDescr();
 
-    /**
-     * @param descr the descr to set
-     */
-    public void setDescr(String descr);
-   
 
 }

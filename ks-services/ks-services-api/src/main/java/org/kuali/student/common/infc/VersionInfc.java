@@ -20,15 +20,6 @@ import java.util.Date;
 public interface VersionInfc {
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Version independent Id that remains the same across all versions
-     */
-    public void setVersionIndId(String versionIndId);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -36,16 +27,6 @@ public interface VersionInfc {
      * Version independent Id that remains the same across all versions
      */
     public String getVersionIndId();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Long
-     * <p/>
-     * The sequence number of the version
-     */
-    public void setSequenceNumber(Long sequenceNumber);
-
     /**
      * Get ????
      * <p/>
@@ -54,15 +35,6 @@ public interface VersionInfc {
      * The sequence number of the version
      */
     public Long getSequenceNumber();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * The date and time this version became current.
-     */
-    public void setCurrentVersionStart(Date currentVersionStart);
 
     /**
      * Get ????
@@ -74,15 +46,6 @@ public interface VersionInfc {
     public Date getCurrentVersionStart();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * The date and time when this version stopped being current.
-     */
-    public void setCurrentVersionEnd(Date currentVersionEnd);
-
-    /**
      * Get ????
      * <p/>
      * Type: Date
@@ -92,15 +55,6 @@ public interface VersionInfc {
     public Date getCurrentVersionEnd();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Comments associated with the verison
-     */
-    public void setVersionComment(String versionComment);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -108,15 +62,6 @@ public interface VersionInfc {
      * Comments associated with the verison
      */
     public String getVersionComment();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setVersionedFromId(String versionedFromId);
 
     /**
      * Get ????

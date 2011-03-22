@@ -29,29 +29,59 @@ public class RichTextInfo implements RichTextInfc, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String plain;
+    private final String plain;
 
     @XmlElement
-    private String formatted;
+    private final String formatted;
 
+    private RichTextInfo() {
+    	plain = null;
+    	formatted = null;
+    }
+    
+    private RichTextInfo(RichTextInfc builder) {
+    	plain = builder.getPlain();
+    	formatted = builder.getFormatted();
+    }
+    
+    @Override
     public String getPlain() {
         return plain;
     }
 
-    public void setPlain(String plain) {
-        this.plain = plain;
-    }
-
+    @Override
     public String getFormatted() {
         return formatted;
-    }
-
-    public void setFormatted(String formatted) {
-        this.formatted = formatted;
     }
 
     @Override
     public String toString() {
     	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
+    }
+    
+    public static class Builder implements RichTextInfc {
+    	private String plain;
+		private String formatted;
+
+		public Builder() {}
+    	
+    	public Builder(RichTextInfc rtInfo) {
+    		this.plain = rtInfo.getPlain();
+    		this.formatted = rtInfo.getFormatted();
+    	}
+    	
+    	public RichTextInfo build() {
+    		return new RichTextInfo(this);
+    	}
+
+		@Override
+		public String getPlain() {
+			return plain;
+		}
+
+		@Override
+		public String getFormatted() {
+			return formatted;
+		}
     }
 }

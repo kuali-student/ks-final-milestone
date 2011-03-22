@@ -14,23 +14,31 @@
  */
 package org.kuali.student.common.dto;
 
-import org.kuali.student.common.infc.HasAttributesInfc;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.infc.HasMetaInfc;
 import org.kuali.student.common.infc.MetaInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
-        implements HasAttributesInfc, HasMetaInfc, Serializable {
+        implements HasAttributesAndMetaInfc, Serializable {
 
     @XmlElement
-    private MetaInfo metaInfo;
+    private final MetaInfo metaInfo;
+    
+    protected HasAttributesAndMetaInfo() {
+    	metaInfo = null;
+    }
+    
+	protected HasAttributesAndMetaInfo(HasAttributesAndMetaInfc builder) {
+		super(builder);
+		this.metaInfo = null != builder.getMetaInfo() ? new MetaInfo.Builder(builder.getMetaInfo()).build() : null;
+	}
+
 
     /**
      * Name: Create/Update meta info
@@ -38,12 +46,28 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
      * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
      */
     @Override
-    public MetaInfo getMetaInfo() {
+    public MetaInfc getMetaInfo() {
         return metaInfo;
     }
-
-    @Override
-    public void setMetaInfo(MetaInfc metaInfo) {
-        this.metaInfo = (MetaInfo) metaInfo;
+    
+    public static class Builder extends HasAttributesInfo.Builder implements HasAttributesAndMetaInfc {
+    	
+    	private MetaInfc metaInfo;
+    	
+		public Builder() {}
+    	
+    	public Builder(HasAttributesAndMetaInfc hasAMInfo) {
+    		super(hasAMInfo);
+    		this.metaInfo = hasAMInfo.getMetaInfo();
+    	}
+    	
+		public Builder setMetaInfo(MetaInfc metaInfo) {
+			this.metaInfo = metaInfo;
+			return this;
+		}
+		
+		public MetaInfc getMetaInfo() {
+			return metaInfo;
+		}
     }
 }

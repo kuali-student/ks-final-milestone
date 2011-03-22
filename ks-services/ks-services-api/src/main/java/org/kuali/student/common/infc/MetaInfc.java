@@ -20,17 +20,6 @@ import java.util.Date;
 public interface MetaInfc {
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * An indicator of the version of the thing being described with this meta
-     * information. This is set by the service implementation and will be used to
-     * determine conflicts in updates.
-     */
-    public void setVersionInd(String versionInd);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -40,16 +29,6 @@ public interface MetaInfc {
      * determine conflicts in updates.
      */
     public String getVersionInd();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * The date and time the thing being described with this meta information was last
-     * updated
-     */
-    public void setCreateTime(Date createTime);
 
     /**
      * Get ????
@@ -62,15 +41,6 @@ public interface MetaInfc {
     public Date getCreateTime();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * The principal who created the thing being described with this meta information
-     */
-    public void setCreateId(String createId);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -78,16 +48,6 @@ public interface MetaInfc {
      * The principal who created the thing being described with this meta information
      */
     public String getCreateId();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * The date and time the thing being described with this meta information was last
-     * updated
-     */
-    public void setUpdateTime(Date updateTime);
 
     /**
      * Get ????
@@ -98,16 +58,6 @@ public interface MetaInfc {
      * updated
      */
     public Date getUpdateTime();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * The principal who last updated the thing being described with this meta
-     * information
-     */
-    public void setUpdateId(String updateId);
 
     /**
      * Get ????

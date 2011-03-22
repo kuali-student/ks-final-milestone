@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.lpr.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 
@@ -31,5 +32,21 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationTypeInfo extends TypeInfo implements LuiPersonRelationTypeInfc {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+    
+	private LuiPersonRelationTypeInfo() {}
+	
+    private LuiPersonRelationTypeInfo(LuiPersonRelationTypeInfc builder) {
+    	super(builder);
+	}
+
+    public static class Builder extends TypeInfo.Builder implements LuiPersonRelationTypeInfc {
+    	
+    public Builder() {}
+    	public Builder(LuiPersonRelationTypeInfc lprTypeInfc) {
+    	}
+    	public LuiPersonRelationTypeInfc build() {
+    		return new LuiPersonRelationTypeInfo(this);
+    	}
+    }
 }

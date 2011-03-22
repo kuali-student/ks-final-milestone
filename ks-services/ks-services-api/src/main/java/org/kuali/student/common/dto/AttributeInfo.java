@@ -14,32 +14,35 @@ import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.common.infc.AttributeInfc;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeInfo implements AttributeInfc {
+public final class AttributeInfo implements AttributeInfc {
 
     @XmlElement
-    private String id;
+    private final String id;
 
     @XmlElement
-    private String key;
+    private final String key;
 
     @XmlElement
-    private String value;
+    private final String value;
 
-     /**
+    private AttributeInfo() {
+    	id = null;
+    	key = null;
+    	value = null;
+    }
+    
+    private AttributeInfo(AttributeInfc builder) {
+    	this.id = builder.getId();
+    	this.key = builder.getKey();
+    	this.value = builder.getValue();
+    }
+    
+    /**
      * @return the internally assigned id to this key/value pair
      */
     @Override
     public String getId() {
-        return key;
-    }
-
-    /**
-     * @param id to set
-     *
-     */
-    @Override
-    public void setId(String id) {
-        this.id = id;
+        return id;
     }
 
     /**
@@ -51,30 +54,59 @@ public class AttributeInfo implements AttributeInfc {
     }
 
     /**
-     * @param key
-     *            the key to set
-     */
-    @Override
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    /**
      * @return the value
      */
     @Override
     public String getValue() {
         return value;
     }
+    
+    public static class Builder implements AttributeInfc {
+    	
+		private String id;
+    	private String value;
+		private String key;
 
-    /**
-     * @param value
-     *            the value to set
-     */
-    @Override
-    public void setValue(String value) {
-        this.value = value;
+		public Builder() {}
+    	
+    	public Builder(AttributeInfc attInfo) {
+    		this.id = attInfo.getId();
+    		this.key = attInfo.getKey();
+    		this.value = attInfo.getValue();
+    	}
+    	
+    	public AttributeInfo build() {
+    		return new AttributeInfo(this);
+    	}
+    	
+    	public Builder setId(String id) {
+    		this.id = id;
+    		return this;
+    	}
+    	
+    	public Builder setKey(String key) {
+    		this.key = key;
+    		return this;
+    	}
+    	
+    	public Builder setValue(String val) {
+    		this.value = val;
+    		return this;
+    	}
+    	
+		@Override
+		public String getId() {
+			return id;
+		}
+
+		@Override
+		public String getKey() {
+			return key;
+		}
+
+		@Override
+		public String getValue() {
+			return value;
+		}
     }
-
-
 }

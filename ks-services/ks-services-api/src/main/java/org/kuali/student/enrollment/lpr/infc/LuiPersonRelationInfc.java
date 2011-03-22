@@ -19,10 +19,10 @@ package org.kuali.student.enrollment.lpr.infc;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.kuali.student.common.infc.HasAttributesInfc;
+
+import org.kuali.student.common.dto.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.HasEffectiveDatesInfc;
 import org.kuali.student.common.infc.HasIdInfc;
-import org.kuali.student.common.infc.HasMetaInfc;
 import org.kuali.student.common.infc.HasStateInfc;
 import org.kuali.student.common.infc.HasTypeInfc;
 
@@ -30,22 +30,11 @@ import org.kuali.student.common.infc.HasTypeInfc;
 //@XmlJavaTypeAdapter(AnyTypeAdapter.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public interface LuiPersonRelationInfc
-        extends HasAttributesInfc,
-        HasMetaInfc,
+        extends HasAttributesAndMetaInfc,
         HasIdInfc,
         HasTypeInfc,
         HasStateInfc,
         HasEffectiveDatesInfc {
-
- /**
-  * Set ????
-  * <p/>
-  * Type: String
-  * <p/>
-  * Name: LUI
-  * Unique identifier for a Learning Unit Instance (LUI).
-  */
- public void setLuiId(String luiId);
 
  /**
   * Get ????
@@ -56,16 +45,6 @@ public interface LuiPersonRelationInfc
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  public String getLuiId();
-
- /**
-  * Set ????
-  * <p/>
-  * Type: String
-  * <p/>
-  * Name: Person
-  * Unique identifier for a person record.
-  */
- public void setPersonId(String personId);
 
  /**
   * Get ????

@@ -16,28 +16,16 @@
 package org.kuali.student.enrollment.lui.infc;
 
 
-import org.kuali.student.common.infc.HasAttributesInfc;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.HasEffectiveDatesInfc;
 import org.kuali.student.common.infc.HasIdInfc;
-import org.kuali.student.common.infc.HasMetaInfc;
 import org.kuali.student.common.infc.HasStateInfc;
 
 public interface LuiInfc
-        extends HasAttributesInfc,
-        HasMetaInfc,
+        extends HasAttributesAndMetaInfc,
         HasIdInfc,
         HasStateInfc,
         HasEffectiveDatesInfc {
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Code identifier/name for the LUI. This is typically used
-     * human readable form (e.g. ENGL 100 section 123).
-     */
-    public void setLuiCode(String luiCode);
 
     /**
      * Get ????
@@ -50,15 +38,6 @@ public interface LuiInfc
     public String getLuiCode();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for a Canonical Learning Unit (CLU).
-     */
-    public void setCluId(String cluId);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -68,15 +47,6 @@ public interface LuiInfc
     public String getCluId();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for an Academic Time Period (ATP).
-     */
-    public void setAtpKey(String atpKey);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -84,15 +54,6 @@ public interface LuiInfc
      * Unique identifier for an Academic Time Period (ATP).
      */
     public String getAtpKey();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * Maximum number of "seats" that the LUI will hold for registration.
-     */
-    public void setMaxSeats(Integer maxSeats);
 
     /**
      * Get ????

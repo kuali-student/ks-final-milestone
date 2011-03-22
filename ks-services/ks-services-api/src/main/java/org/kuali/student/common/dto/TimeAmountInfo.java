@@ -26,20 +26,54 @@ import org.kuali.student.common.infc.TimeAmountInfc;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@XmlElement
-	private String atpDurationTypeKey; 
+	private final String atpDurationTypeKey; 
+	
 	@XmlElement
-	private Integer timeQuantity; 
+	private final Integer timeQuantity; 
+	
+	private TimeAmountInfo() {
+		atpDurationTypeKey = null; 
+		timeQuantity = null;
+	}
+	
+	private TimeAmountInfo(TimeAmountInfc builder) {
+		this.atpDurationTypeKey = builder.getAtpDurationTypeKey();
+		this.timeQuantity = builder.getTimeQuantity();
+	}
+	
 	public String getAtpDurationTypeKey(){
 		return atpDurationTypeKey;
 	}
-	public void setAtpDurationTypeKey(String atpDurationTypeKey){
-		this.atpDurationTypeKey = atpDurationTypeKey;
-	}
+	
 	public Integer getTimeQuantity(){
 		return timeQuantity;
 	}
-	public void setTimeQuantity(Integer timeQuantity){
-		this.timeQuantity = timeQuantity;
+	
+	public static class Builder implements TimeAmountInfc {
+		private String atpDurationTypeKey;
+		private Integer timeQuantity;
+
+		public Builder() {}
+		
+		public Builder(TimeAmountInfc taInfo) {
+			this.atpDurationTypeKey = taInfo.getAtpDurationTypeKey();
+			this.timeQuantity = taInfo.getTimeQuantity();
+		}
+		
+		public TimeAmountInfo build() {
+			return new TimeAmountInfo(this);
+		}
+
+		@Override
+		public String getAtpDurationTypeKey() {
+			return atpDurationTypeKey;
+		}
+
+		@Override
+		public Integer getTimeQuantity() {
+			return timeQuantity;
+		}
 	}
 }

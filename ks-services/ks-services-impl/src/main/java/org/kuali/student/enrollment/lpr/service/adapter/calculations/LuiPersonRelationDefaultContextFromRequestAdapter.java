@@ -67,21 +67,21 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
 
     private ContextInfc defaultContext(ContextInfc context) {
         if (context == null) {
-            context = new ContextInfo();
+            context = new ContextInfo.Builder().build();
         }
         if (context.getPrincipalId() == null) {
             KimPrincipalInfo principalInfo = identityService.getPrincipalByPrincipalName(request.getRemoteUser());
-            context.setPrincipalId(principalInfo.getPrincipalId());
+            context = new ContextInfo.Builder(context).setPrincipalId(principalInfo.getPrincipalId()).build();
         }
         if (context.getLocaleLanguage() == null) {
-            context.setLocaleLanguage(request.getLocale().getLanguage());
+            context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getLanguage()).build();
         }
         // TODO: check if Region and country are supposed to the same thing
         if (context.getLocaleRegion() == null) {
-            context.setLocaleLanguage(request.getLocale().getCountry());
+            context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getCountry()).build();
         }
         if (context.getLocaleVariant() == null) {
-            context.setLocaleLanguage(request.getLocale().getVariant());
+            context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getVariant()).build();
         }
         // TODO: default script from the character set
         return context;

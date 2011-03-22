@@ -16,18 +16,16 @@
 
 package org.kuali.student.enrollment.lui.dto;
 
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
+
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.common.infc.MetaInfc;
 import org.kuali.student.enrollment.lui.infc.LuiInfc;
 
 
@@ -39,31 +37,54 @@ import org.kuali.student.enrollment.lui.infc.LuiInfc;
 public class LuiInfo extends HasAttributesAndMetaInfo
   implements Serializable, LuiInfc {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String luiCode;
+    private final String luiCode;
 
     @XmlElement
-    private String cluId;
+    private final String cluId;
 
     @XmlElement(name = "atpKey")
-    private String atpKey;
+    private final String atpKey;
 
     @XmlElement
-    private Integer maxSeats;
+    private final Integer maxSeats;
 
     @XmlElement
-    private Date effectiveDate;
+    private final Date effectiveDate;
 
     @XmlElement
-    private Date expirationDate;
+    private final Date expirationDate;
 
     @XmlAttribute
-    private String state;
+    private final String state;
 
     @XmlAttribute
-    private String id;
+    private final String id;
+
+    private LuiInfo() {
+    	luiCode = null;
+    	cluId = null;
+    	atpKey = null;
+    	maxSeats = null;
+    	effectiveDate = null;
+    	expirationDate = null;
+    	state = null;
+    	id = null;
+    }
+    
+    private LuiInfo(LuiInfc builder) {
+		super(builder);
+		this.luiCode = new String(builder.getLuiCode());
+		this.cluId = new String(builder.getCluId());
+		this.atpKey = new String(builder.getAtpKey());
+		this.maxSeats = new Integer(builder.getMaxSeats());
+    	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
+		this.id = new String(builder.getId());
+		this.state = new String(builder.getState());
+	}
 
     /**
      * Code identifier/name for the LUI. This is typically used in
@@ -74,12 +95,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return luiCode;
     }
 
-    @Override
-    public void setLuiCode(String luiCode) {
-        this.luiCode = luiCode;
-    }
-
-
     /**
      * Unique identifier for a Canonical Learning Unit (CLU).
      */
@@ -87,12 +102,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     public String getCluId() {
         return cluId;
     }
-
-    @Override
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
-
 
     /**
      * Unique identifier for an Academic Time Period (ATP).
@@ -102,12 +111,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return atpKey;
     }
 
-    @Override
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
-
-
     /**
      * Maximum number of "seats" that the LUI will hold for registration.
      */
@@ -115,12 +118,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     public Integer getMaxSeats() {
         return maxSeats;
     }
-
-    @Override
-    public void setMaxSeats(Integer maxSeats) {
-        this.maxSeats = maxSeats;
-    }
-
 
     /**
      * Date and time that this LUI became effective. This is a similar
@@ -132,11 +129,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     public Date getEffectiveDate() {
         return effectiveDate;
     }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
 
     /**
      * Date and time that this LUI expires. This is a similar concept
@@ -151,10 +143,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
     /**
      * The current status of the LUI. The values for this field are
      * constrained to those in the luState enumeration. A separate
@@ -166,11 +154,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-
     /**
      * Unique identifier for a Learning Unit Instance (LUI). This is
      * optional, due to the identifier being set at the time of
@@ -181,8 +164,95 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     public String getId() {
         return id;
     }
+    
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements LuiInfc {
 
-    public void setId(String id) {
-        this.id = id;
+		private String luiCode;
+		private String cluId;
+		private String atpKey;
+		private Integer maxSeats;
+		private Date effectiveDate;
+		private Date expirationDate;
+		private String id;
+		private String state;
+		
+		public Builder() {}
+		
+		public Builder(LuiInfc luiInfo) {
+			super(luiInfo);
+			this.luiCode = luiInfo.getLuiCode();
+			this.cluId = luiInfo.getCluId();
+			this.atpKey = luiInfo.getAtpKey();
+			this.maxSeats = luiInfo.getMaxSeats();
+			this.effectiveDate = luiInfo.getEffectiveDate();
+			this.expirationDate = luiInfo.getExpirationDate();
+			this.id = luiInfo.getId();
+			this.state= luiInfo.getState();
+		}
+		
+		public LuiInfc build() {
+			return new LuiInfo(this);
+		}
+		
+		public Builder setCluId(String cluId) {
+			this.cluId = cluId;
+			return this;
+		}
+
+		public Builder setAtpKey(String atpKey) {
+			this.atpKey = atpKey;
+			return this;
+		}
+
+		public Builder setId(String id) {
+			this.id = id;
+			return this;
+		}
+		
+		// passthru so right Builder is returned
+		public Builder setMetaInfo(MetaInfc metaInfo) {
+			super.setMetaInfo(metaInfo);
+			return this;
+		}
+
+		@Override
+		public String getId() {
+			return id;
+		}
+
+		@Override
+		public String getState() {
+			return state;
+		}
+
+		@Override
+		public Date getEffectiveDate() {
+			return effectiveDate;
+		}
+
+		@Override
+		public Date getExpirationDate() {
+			return expirationDate;
+		}
+
+		@Override
+		public String getLuiCode() {
+			return luiCode;
+		}
+
+		@Override
+		public String getCluId() {
+			return cluId;
+		}
+
+		@Override
+		public String getAtpKey() {
+			return atpKey;
+		}
+
+		@Override
+		public Integer getMaxSeats() {
+			return maxSeats;
+		}
     }
 }

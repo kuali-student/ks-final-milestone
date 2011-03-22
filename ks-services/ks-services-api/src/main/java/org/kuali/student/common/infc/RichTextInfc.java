@@ -18,15 +18,6 @@ package org.kuali.student.common.infc;
 public interface RichTextInfc {
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setPlain(String plain);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -34,15 +25,6 @@ public interface RichTextInfc {
      * ???
      */
     public String getPlain();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setFormatted(String formatted);
 
     /**
      * Get ????

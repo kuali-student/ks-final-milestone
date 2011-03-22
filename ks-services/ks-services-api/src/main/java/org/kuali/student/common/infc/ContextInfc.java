@@ -18,15 +18,6 @@ package org.kuali.student.common.infc;
 public interface ContextInfc extends HasAttributesInfc {
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setPrincipalId(String principalId);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -34,15 +25,6 @@ public interface ContextInfc extends HasAttributesInfc {
      * ???
      */
     public String getPrincipalId();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setLocaleLanguage(String localeLanguage);
 
     /**
      * Get ????
@@ -54,15 +36,6 @@ public interface ContextInfc extends HasAttributesInfc {
     public String getLocaleLanguage();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setLocaleVariant(String localeVariant);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -70,15 +43,6 @@ public interface ContextInfc extends HasAttributesInfc {
      * ???
      */
     public String getLocaleVariant();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setLocaleRegion(String localeRegion);
 
     /**
      * Get ????
@@ -90,15 +54,6 @@ public interface ContextInfc extends HasAttributesInfc {
     public String getLocaleRegion();
 
     /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setLocaleScript(String localeScript);
-
-    /**
      * Get ????
      * <p/>
      * Type: String
@@ -106,15 +61,6 @@ public interface ContextInfc extends HasAttributesInfc {
      * ???
      */
     public String getLocaleScript();
-
-    /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public void setTimeZone(String timeZone);
 
     /**
      * Get ????

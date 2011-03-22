@@ -75,19 +75,11 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 	}
 
 	private ContextInfc getContext1() {
-		ContextInfc context = new ContextInfo();
-		context.setPrincipalId("principalId.1");
-		context.setLocaleLanguage("en");
-		context.setLocaleRegion("us");
-		return context;
+		return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
 	}
 
 	private ContextInfc getContext2() {
-		ContextInfc context = new ContextInfo();
-		context.setPrincipalId("principalId.2");
-		context.setLocaleLanguage("fr");
-		context.setLocaleRegion("ca");
-		return context;
+		return new ContextInfo.Builder().setPrincipalId("principalId.2").setLocaleLanguage("fr").setLocaleRegion("ca").build();
 	}
 
 	private Date parseDate(String str) {
@@ -114,8 +106,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		luiIdList.add("luiId3");
 		String relationState = LuiPersonRelationStateEnum.APPLIED.getKey();
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc luiPersonRelationInfo = new LuiPersonRelationInfo();
-		luiPersonRelationInfo.setEffectiveDate(parseDate("2010-01-01"));
+		LuiPersonRelationInfc luiPersonRelationInfo = new LuiPersonRelationInfo.Builder().setEffectiveDate(parseDate("2010-01-01")).build();
 		ContextInfc context = getContext1();
 
 		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
@@ -137,24 +128,17 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc orig = new LuiPersonRelationInfo();
-		orig.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
-		orig.setEffectiveDate(parseDate("2010-01-01"));
+		LuiPersonRelationInfc orig = new LuiPersonRelationInfo.Builder().setState(LuiPersonRelationStateEnum.APPLIED.getKey()).setEffectiveDate(parseDate("2010-01-01")).build();
 		AttributeInfc da = null;
-		List<AttributeInfc> das = new ArrayList();
-		da = new AttributeInfo();
-		da.setKey("dynamic.attribute.key.1");
-		da.setValue("dynamic attribute value 1");
+		List<AttributeInfc> das = new ArrayList<AttributeInfc>();
+		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.1").setValue("dynamic attribute value 1").build();
 		das.add(da);
-		da = new AttributeInfo();
-		da.setKey("dynamic.attribute.key.2");
-		da.setValue("dynamic attribute value 2a");
+		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.2").setValue("dynamic attribute value 2a").build();
 		das.add(da);
-		da = new AttributeInfo();
-		da.setKey("dynamic.attribute.key.2");
-		da.setValue("dynamic attribute value 2b");
+		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.2").setValue("dynamic attribute value 2b").build();
 		das.add(da);
-		orig.setAttributes(das);
+		orig = new LuiPersonRelationInfo.Builder(orig).setAttributes(das).build();
+		// orig.setAttributes(das);
 		ContextInfc context = getContext1();
 		Date beforeCreate = new Date();
 		String lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
@@ -201,19 +185,17 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		}
 
 		// update method
-		fetched.setPersonId("personId.2");
-		fetched.setLuiId("luiId.2");
-		fetched.setState(LuiPersonRelationStateEnum.ADMITTED.getKey());
-		fetched.setEffectiveDate(parseDate("2010-01-01"));
-		fetched.setExpirationDate(parseDate("2010-02-01"));
-	    AttributeInfc newDa = new AttributeInfo();
-		newDa.setKey("dynamic.attribute.key.3");
-		newDa.setValue("dynamic.attribute.value.3");
+		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched).setPersonId("personId.2").setLuiId("luiId.2");
+		builder = builder.setState(LuiPersonRelationStateEnum.ADMITTED.getKey()).setEffectiveDate(parseDate("2010-01-01"));
+		builder = builder.setExpirationDate(parseDate("2010-02-01"));
+		fetched = builder.build();
+		
+	    AttributeInfc newDa = new AttributeInfo.Builder().setKey("dynamic.attribute.key.3").setValue("dynamic.attribute.value.3").build();
 		das = new ArrayList<AttributeInfc> (fetched.getAttributes());
 		das.add(newDa);
-		das.get(1).setValue("dynamic.attribute.value.2C");
+		das.set(1, new AttributeInfo.Builder(das.get(1)).setValue("dynamic.attribute.value.2C").build());
 		das.remove(0);
-		fetched.setAttributes(das);
+		fetched = new LuiPersonRelationInfo.Builder(fetched).setAttributes(das).build();
 		context = getContext2();
 
 		Date beforeUpdate = new Date();

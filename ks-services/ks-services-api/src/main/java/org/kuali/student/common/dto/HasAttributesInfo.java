@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.dto;
 
-import org.kuali.student.common.infc.HasAttributesInfc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,31 +24,53 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.HasAttributesInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class HasAttributesInfo implements HasAttributesInfc, Serializable {
 	
-    @XmlElement
-    private List<AttributeInfo> attributes;
+	@XmlElement
+    private final List<AttributeInfo> attributes;
+	
+	protected HasAttributesInfo() {
+		attributes = null;
+	}
+	
+	protected HasAttributesInfo(HasAttributesInfc builder) {
+		attributes = new ArrayList<AttributeInfo>();
+		
+		AttributeInfo.Builder attBuilder = new AttributeInfo.Builder();
+		for (AttributeInfc att : builder.getAttributes()) {
+			attributes.add(attBuilder.setKey(att.getKey()).setValue(att.getValue()).setId(att.getId()).build());
+		}
+	}
 
     /**
      * @return the attributes
      */
     @Override
     public List<AttributeInfo> getAttributes() {
-       if (attributes == null) {
-            attributes = new ArrayList <AttributeInfo> ();
-        }
         return attributes;
     }
+    
+    public static class Builder implements HasAttributesInfc {
+    	private List<? extends AttributeInfc> attributes = new ArrayList<AttributeInfo>();
+    	
+    	public Builder() {}
+    	
+    	public Builder(HasAttributesInfc hasAtts) {
+    		this.attributes = hasAtts.getAttributes();
+		}
+    	
+        public Builder setAttributes(List<? extends AttributeInfc> attributes) {
+            this.attributes = attributes;
+            return this;
+        }
 
-    /**
-     * @param attributes the attributes to set
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setAttributes(List<? extends AttributeInfc> attributes) {
-        this.attributes = (List<AttributeInfo>) attributes;
-    }
+		@Override
+		public List<? extends AttributeInfc> getAttributes() {
+			return attributes;
+		}
+	}
 }

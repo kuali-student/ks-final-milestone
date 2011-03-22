@@ -35,15 +35,27 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String fieldKey;
+    private final String fieldKey;
 
     @XmlElement
-    private String operator;
+    private final String operator;
 
     @XmlElement
-    private String value;
+    private final String value;
 
-    /**
+    private CriteriaInfo() {
+    	fieldKey = null;
+    	operator = null;
+    	value = null;
+    }
+    	
+    private CriteriaInfo(CriteriaInfc builder) {
+		this.fieldKey = builder.getFieldKey();
+		this.operator = builder.getOperator();
+		this.value = builder.getValue();
+	}
+
+	/**
      * Name: Field Key
      * <p/>
      * Dot path notation to identity the name of field to be compared
@@ -54,21 +66,9 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
     }
 
     @Override
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
-
-    @Override
     public String getOperator() {
         return operator;
     }
-
-    @Override
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-
 
     /**
      * Name: Criteria Value
@@ -79,11 +79,37 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
     public String getValue() {
         return value;
     }
+    
+    public static class Builder implements CriteriaInfc {
+    	private String fieldKey;
+		private String operator;
+		private String value;
+		
+		public Builder() {}
+		
+    	public Builder(CriteriaInfc critInfo) {
+    		this.fieldKey = critInfo.getFieldKey();
+    		this.operator = critInfo.getOperator();
+    		this.value = critInfo.getValue();
+    	}
+    	
+    	public CriteriaInfo build() {
+    		return new CriteriaInfo(this);
+    	}
 
-    @Override
-    public void setValue(String value) {
-        this.value = value;
+		@Override
+		public String getFieldKey() {
+			return fieldKey;
+		}
+
+		@Override
+		public String getOperator() {
+			return operator;
+		}
+
+		@Override
+		public String getValue() {
+			return value;
+		}
     }
-
-
 }

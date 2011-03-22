@@ -69,18 +69,8 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
     public String getName() {
         return this.name;
-    }
-
-    @Override
-    public void setDescr(String descr) {
-        this.descr = descr;
     }
 
     @Override
@@ -89,18 +79,8 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     }
 
     @Override
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    @Override
     public Date getEffectiveDate() {
         return this.effectiveDate;
-    }
-
-    @Override
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
     }
 
     @Override
@@ -108,19 +88,13 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
         return this.expirationDate;
     }
 
-    @Override
-    public void setAttributes(List<? extends AttributeInfc> attributes) {
+    private void setAttributes(List<? extends AttributeInfc> attributes) {
         this.attributes = attributes;
     }
 
     @Override
     public List<? extends AttributeInfc> getAttributes() {
         return this.attributes;
-    }
-
-    @Override
-    public void setKey(String key) {
-        this.key = key;
     }
 
     @Override

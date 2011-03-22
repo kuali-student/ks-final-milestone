@@ -19,15 +19,6 @@ package org.kuali.student.common.infc;
  * @author nwright
  */
 public interface HasStateInfc  {
-  /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Relation
-     * Unique identifier for the state of the relationship between a LUI and person.
-     */
-    public void setState(String state);
 
     /**
      * Get ????

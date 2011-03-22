@@ -17,7 +17,6 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -31,23 +30,37 @@ import org.kuali.student.common.infc.TypeInfc;
 public abstract class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializable {
 	
     @XmlAttribute
-	private String key;
+	private final String key;
 	
 	@XmlElement
-	private String name;
+	private final String name;
 	
 	@XmlElement(name ="desc")
-	private String descr;
+	private final String descr;
 
 	@XmlElement
-	private Date effectiveDate;
+	private final Date effectiveDate;
 	
 	@XmlElement
-	private Date expirationDate;
+	private final Date expirationDate;
 	
-	@XmlElement
-	private List<AttributeInfo> attributes;
-
+	protected TypeInfo() {
+		key = null;
+		name = null;
+		descr = null;
+		effectiveDate = null;
+		expirationDate = null;
+	}
+		
+	protected TypeInfo(TypeInfc builder) {
+		super(builder);
+		this.key = builder.getKey();
+		this.name = builder.getName();
+		this.descr = builder.getDescr();
+    	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
+	}
+	
     /**
      * @return the key
      */
@@ -56,25 +69,10 @@ public abstract class TypeInfo extends HasAttributesInfo implements TypeInfc, Se
     }
 
     /**
-     * @param key the key to set
-     */
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-
-    /**
      * @return the name
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -85,24 +83,10 @@ public abstract class TypeInfo extends HasAttributesInfo implements TypeInfc, Se
     }
 
     /**
-     * @param descr the descr to set
-     */
-    public void setDescr(String descr) {
-        this.descr = descr;
-    }
-
-    /**
      * @return the effectiveDate
      */
     public Date getEffectiveDate() {
         return effectiveDate;
-    }
-
-    /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
     }
 
     /**
@@ -111,11 +95,48 @@ public abstract class TypeInfo extends HasAttributesInfo implements TypeInfc, Se
     public Date getExpirationDate() {
         return expirationDate;
     }
+    
+    public static class Builder extends HasAttributesInfo.Builder implements TypeInfc {
+    	private String key;
+		private String name;
+		private String descr;
+		private Date effectiveDate;
+		private Date expirationDate;
 
-    /**
-     * @param expirationDate the expirationDate to set
-     */
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }	
+		public Builder() {}
+    	
+    	public Builder(TypeInfc typeInfo) {
+    		super(typeInfo);
+    		this.key = typeInfo.getKey();
+    		this.name = typeInfo.getName();
+    		this.descr = typeInfo.getDescr();
+    		this.effectiveDate = typeInfo.getEffectiveDate();
+    		this.expirationDate = typeInfo.getExpirationDate();
+    	}
+
+		@Override
+		public String getKey() {
+			return key;
+		}
+
+		@Override
+		public Date getEffectiveDate() {
+			return effectiveDate;
+		}
+
+		@Override
+		public Date getExpirationDate() {
+			return expirationDate;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public String getDescr() {
+			return descr;
+		}
+    }
 }

@@ -30,34 +30,43 @@ import org.kuali.student.common.infc.StateInfc;
 public abstract class StateInfo extends HasAttributesInfo implements StateInfc, Serializable {
 	
 	@XmlAttribute
-	private String key;
+	private final String key;
 	
 	@XmlElement
-	private String name;
+	private final String name;
 	
 	@XmlElement(name ="desc")
-	private String descr;
+	private final String descr;
 
 	@XmlElement
-	private Date effectiveDate;
+	private final Date effectiveDate;
 	
 	@XmlElement
-	private Date expirationDate;
+	private final Date expirationDate;
 
+	protected StateInfo() {
+		key = null;
+		name = null;
+		descr = null;
+		effectiveDate = null;
+		expirationDate = null;
+	}
+	
+	protected StateInfo(StateInfc builder) {
+		super(builder);
+		this.key = builder.getKey();
+		this.name = builder.getName();
+		this.descr = builder.getDescr();
+    	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
+	}
+	
     /**
      * @return the key
      */
     @Override
     public String getKey() {
         return key;
-    }
-
-    /**
-     * @param key the key to set
-    */
-    @Override
-    public void setKey(String key) {
-        this.key = key;
     }
 
     /**
@@ -69,27 +78,11 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
     }
 
     /**
-     * @param name the name to set
-     */
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * @return the descr
      */
     @Override
     public String getDescr() {
         return descr;
-    }
-
-    /**
-     * @param descr the descr to set
-     */
-    @Override
-    public void setDescr(String descr) {
-        this.descr = descr;
     }
 
     /**
@@ -101,14 +94,6 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
     }
 
     /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    @Override
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
      * @return the expirationDate
      */
     @Override
@@ -116,12 +101,46 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
         return expirationDate;
     }
 
-    /**
-     * @param expirationDate the expirationDate to set
-     */
-    @Override
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+    public static class Builder extends HasAttributesInfo.Builder implements StateInfc {
+		public String key;
+		public String name;
+		public String descr;
+		public Date effectiveDate;
+    	public Date expirationDate;
+		
+		public Builder() {}
+		
+    	public Builder(StateInfc stateInfo) {
+    		this.key = stateInfo.getKey();
+    		this.name = stateInfo.getName();
+    		this.descr = stateInfo.getDescr();
+    		this.effectiveDate = stateInfo.getEffectiveDate();
+    		this.expirationDate = stateInfo.getExpirationDate();
+    	}
 
+		@Override
+		public String getKey() {
+			return key;
+		}
+
+		@Override
+		public Date getEffectiveDate() {
+			return effectiveDate;
+		}
+
+		@Override
+		public Date getExpirationDate() {
+			return expirationDate;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public String getDescr() {
+			return descr;
+		}
+    }
 }

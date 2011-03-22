@@ -19,15 +19,6 @@ package org.kuali.student.common.infc;
  * @author nwright
  */
 public interface HasTypeInfc  {
- /**
-     * Set ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the type of LUI to Person relation.
-     */
-    public void setType(String type);
 
     /**
      * Get ????

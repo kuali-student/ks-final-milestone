@@ -162,19 +162,19 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 			return Boolean.TRUE;
 		}
 		if (type.equals(LuiPersonRelationInfc.class)) {
-			return new LuiPersonRelationInfo();
+			return new LuiPersonRelationInfo.Builder().build();
 		}
 		if (type.equals(ContextInfc.class)) {
-			return new ContextInfo();
+			return new ContextInfo.Builder().build();
 		}
 		if (type.equals(CriteriaInfc.class)) {
-			return new CriteriaInfo();
+			return new CriteriaInfo.Builder().build();
 		}
 		if (type.equals(LuiPersonRelationStateInfc.class)) {
-			return new LuiPersonRelationStateInfo();
+			return new LuiPersonRelationStateInfo.Builder().build();
 		}
 		if (type.equals(LuiPersonRelationTypeInfc.class)) {
-			return new LuiPersonRelationTypeInfo();
+			return new LuiPersonRelationTypeInfo.Builder().build();
 		}
 		throw new IllegalArgumentException("unhandled type " + type.getName());
 	}

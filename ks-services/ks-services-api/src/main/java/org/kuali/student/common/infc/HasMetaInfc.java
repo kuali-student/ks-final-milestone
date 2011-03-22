@@ -20,5 +20,4 @@ package org.kuali.student.common.infc;
  */
 public interface HasMetaInfc {
 	public MetaInfc getMetaInfo();
-	public void setMetaInfo (MetaInfc attributes);
 }

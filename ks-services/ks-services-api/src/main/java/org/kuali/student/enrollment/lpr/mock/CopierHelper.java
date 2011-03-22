@@ -42,45 +42,37 @@ public class CopierHelper {
   if (orig == null) {
    return null;
   }
-  MetaInfc copy = new MetaInfo();
-  BeanUtils.copyProperties(orig, copy);
-  return copy;
+  return new MetaInfo.Builder(orig).build();
  }
 
  public LuiPersonRelationTypeInfc makeCopy(LuiPersonRelationTypeInfc orig) {
   if (orig == null) {
    return null;
   }
-  LuiPersonRelationTypeInfc copy = new LuiPersonRelationTypeInfo();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(makeCopy(orig.getAttributes()));
-  return copy;
+  LuiPersonRelationTypeInfo.Builder builder = new LuiPersonRelationTypeInfo.Builder(orig);
+  
+  return builder.build();
  }
 
  public LuiPersonRelationStateInfc makeCopy(LuiPersonRelationStateInfc orig) {
   if (orig == null) {
    return null;
   }
-  LuiPersonRelationStateInfc copy = new LuiPersonRelationStateInfo();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(makeCopy(orig.getAttributes()));
-  return copy;
+  return new LuiPersonRelationStateInfo.Builder(orig).build();
  }
 
  public AttributeInfc makeCopy(AttributeInfc orig) {
   if (orig == null) {
    return null;
   }
-  AttributeInfc copy = new AttributeInfo();
-  BeanUtils.copyProperties(orig, copy);
-  return copy;
+  return new AttributeInfo.Builder(orig).build();
  }
 
  public List<AttributeInfc> makeCopy(List<? extends AttributeInfc> orig) {
   if (orig == null) {
    return null;
   }
-  List<AttributeInfc> copy = new ArrayList();
+  List<AttributeInfc> copy = new ArrayList<AttributeInfc>();
   for (AttributeInfc attr : orig) {
    copy.add(this.makeCopy(attr));
   }
@@ -91,22 +83,14 @@ public class CopierHelper {
   if (orig == null) {
    return null;
   }
-  LuiPersonRelationInfc copy = new LuiPersonRelationInfo();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(this.makeCopy(orig.getAttributes()));
-  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
-  return copy;
+  return new LuiPersonRelationInfo.Builder(orig).setAttributes(this.makeCopy(orig.getAttributes())).setMetaInfo(this.makeCopy(orig.getMetaInfo())).build();
  }
 
   public LuiInfc makeCopy(LuiInfc orig) {
   if (orig == null) {
    return null;
   }
-  LuiInfc copy = new LuiInfo();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(this.makeCopy(orig.getAttributes()));
-  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
-  return copy;
+  return(new LuiInfo.Builder(orig).build());
  }
 
 
@@ -114,32 +98,21 @@ public class CopierHelper {
   if (orig == null) {
    return null;
   }
-  LuiLuiRelationInfc copy = new LuiLuiRelationInfo();
-  BeanUtils.copyProperties(orig, copy);
-  copy.setAttributes(this.makeCopy(orig.getAttributes()));
-  copy.setMetaInfo(this.makeCopy(orig.getMetaInfo()));
-  return copy;
+  return new LuiLuiRelationInfo.Builder(orig).build();
  }
 
  public MetaInfc createMeta(ContextInfc context) {
-  MetaInfc meta = new MetaInfo();
-  Date now = new Date();
-  meta.setCreateId(context.getPrincipalId());
-  meta.setCreateTime(now);
-  meta.setUpdateId(context.getPrincipalId());
-  meta.setUpdateTime(now);
-  meta.setVersionInd("1");
-  return meta;
+	MetaInfo.Builder builder = new MetaInfo.Builder();
+	Date now = new Date();
+	
+	builder.setCreateId(context.getPrincipalId()).setCreateTime(now).setUpdateId(context.getPrincipalId());
+	return builder.setUpdateTime(now).setVersionInd("1").build();
  }
 
  public MetaInfc updateMeta(MetaInfc orig, ContextInfc context) {
-  MetaInfc meta = makeCopy(orig);
-  Date now = new Date();
-  meta.setUpdateId(context.getPrincipalId());
-  meta.setUpdateTime(now);
-  int oldVersionInd = Integer.parseInt(meta.getVersionInd());
-  meta.setVersionInd("" + (oldVersionInd + 1));
-  return meta;
+	Date now = new Date();
+	int oldVersionInd = Integer.parseInt(orig.getVersionInd());
+	return new MetaInfo.Builder(orig).setUpdateId(context.getPrincipalId()).setUpdateTime(now).setVersionInd("" + (oldVersionInd + 1)).build();
  }
 }
 

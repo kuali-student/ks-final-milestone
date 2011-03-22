@@ -15,19 +15,9 @@
  */
 package org.kuali.student.common.infc;
 
-import java.util.Date;
 
 
 public interface TypeInfc extends HasKeyInfc, HasAttributesInfc, HasEffectiveDatesInfc {
-
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setName(String name);
 
  /**
   * Get ????
@@ -37,15 +27,6 @@ public interface TypeInfc extends HasKeyInfc, HasAttributesInfc, HasEffectiveDat
   * ???
   */
  public String getName();
-
- /**
-  * Set ????
-  *
-  * Type: String
-  *
-  * ???
-  */
- public void setDescr(String descr);
 
  /**
   * Get ????

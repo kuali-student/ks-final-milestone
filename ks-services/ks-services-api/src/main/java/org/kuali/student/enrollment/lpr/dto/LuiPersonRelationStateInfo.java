@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.lpr.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 import org.kuali.student.common.dto.StateInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 
@@ -28,6 +29,25 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/relationState+Structure">RelationState</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationStateInfo extends StateInfo implements LuiPersonRelationStateInfc {
-    private static final long serialVersionUID = 1L;
+public final class LuiPersonRelationStateInfo extends StateInfo implements LuiPersonRelationStateInfc {
+	
+	private static final long serialVersionUID = 8428568906806883779L;
+	
+	private LuiPersonRelationStateInfo() {}
+	
+	private LuiPersonRelationStateInfo(LuiPersonRelationStateInfc builder) {
+		super(builder);
+	}
+
+	public static class Builder extends StateInfo.Builder implements LuiPersonRelationStateInfc {
+		public Builder() {}
+		
+		public Builder(LuiPersonRelationStateInfc lprStateInfo) {
+			super(lprStateInfo);
+		}
+		public LuiPersonRelationStateInfc build() {
+			return new LuiPersonRelationStateInfo(this);
+		}
+	}
+
 }

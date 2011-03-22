@@ -16,15 +16,20 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
+import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.StatusInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.core.exceptions.*;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.*;
 import org.kuali.student.enrollment.lui.infc.LuiInfc;
 import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
 
 import java.util.*;
+
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.common.infc.HoldsLuiServiceInfc;
@@ -61,13 +66,14 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> lprIds = new ArrayList(luiIdList.size());
+        List<String> lprIds = new ArrayList<String>(luiIdList.size());
         for (String luiId : luiIdList) {
-            luiPersonRelationInfo.setLuiId(luiId);
+        	LuiPersonRelationInfc lprInfo = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).setLuiId(luiId).build();
+        			
             String lprId = this.createLuiPersonRelation(personId,
                     luiId,
                     luiPersonRelationType,
-                    luiPersonRelationInfo,
+                    lprInfo,
                     context);
             lprIds.add(lprId);
         }
@@ -86,13 +92,10 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        CopierHelper helper = new CopierHelper();
-        LuiPersonRelationInfc copy = helper.makeCopy(luiPersonRelationInfo);
-        copy.setId(UUID.randomUUID().toString());
-        copy.setPersonId(personId);
-        copy.setLuiId(luiId);
-        copy.setType(luiPersonRelationType);
-        copy.setMetaInfo(helper.createMeta(context));
+    	CopierHelper helper = new CopierHelper();
+        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
+        builder.setId(UUID.randomUUID().toString()).setPersonId(personId).setLuiId(luiId).setType(luiPersonRelationType).setMetaInfo(helper.createMeta(context));
+        LuiPersonRelationInfc copy = builder.build();
         this.lprCache.put(copy.getId(), copy);
         return copy.getId();
     }
@@ -107,9 +110,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
         if (this.lprCache.remove(luiPersonRelationId) == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        StatusInfc status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
+        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
     }
 
     @Override
@@ -551,7 +552,6 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             throw new DoesNotExistException(luiPersonRelationId);
         }
         CopierHelper helper = new CopierHelper();
-        LuiPersonRelationInfc copy = helper.makeCopy(luiPersonRelationInfo);
         if (!luiPersonRelationInfo.getMetaInfo().getVersionInd().equals(
                 existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException(
@@ -559,9 +559,17 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
                             + existing.getMetaInfo().getUpdateId() + " with version of "
                             + existing.getMetaInfo().getVersionInd());
         }
-        copy.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        // update attributes in order to be different than that in luiPersonRelationInfo
+        List<AttributeInfc> atts = new ArrayList<AttributeInfc>();
+        for (AttributeInfc att : luiPersonRelationInfo.getAttributes()) {
+        	atts.add(new AttributeInfo.Builder(att).build());
+        }
+        builder.setAttributes(atts);
+        LuiPersonRelationInfc copy = builder.build();
         this.lprCache.put(luiPersonRelationId, copy);
-        return helper.makeCopy(copy);
+        // mirroring what was done before immutable DTO's; why returning copy of copy?
+        return new LuiPersonRelationInfo.Builder(copy).build(); 
     }
 
     @Override
@@ -575,14 +583,12 @@ public class LuiPersonRelationServiceMockPersistenceImpl implements
             if (existing == null) {
                 throw new DoesNotExistException(luiPersonRelationId);
             }
-            existing.setState(relationState.getKey());
-            this.updateLuiPersonRelation(luiPersonRelationId, existing, context);
+            LuiPersonRelationInfc revised = new LuiPersonRelationInfo.Builder(existing).setState(relationState.getKey()).build();
+            this.updateLuiPersonRelation(luiPersonRelationId, revised, context);
         } catch (VersionMismatchException ex) {
             throw new OperationFailedException("id changed between fetch and update", ex);
         }
-        StatusInfc status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
+        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
     }
 
     @Override

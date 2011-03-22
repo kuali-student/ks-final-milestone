@@ -26,21 +26,59 @@ import org.kuali.student.common.infc.StatusInfc;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StatusInfo implements StatusInfc, Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@XmlElement
-	private Boolean success = true;
+	private final Boolean success;
+	
 	@XmlElement
-	private String message = "";
+	private final String message;
+	
+	private StatusInfo() {
+		success = true;
+		message = "";
+	}
+	
+	private StatusInfo(StatusInfc builder) {
+		this.success = new Boolean(builder.isSuccess().booleanValue());
+		this.message = builder.getMessage();
+	}
 	
 	public Boolean isSuccess(){
 		return success;
 	}
-	public void setSuccess(Boolean success){
-		this.success = success;
-	}
+	
 	public String getMessage() {
 		return message;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	
+	public static class Builder implements StatusInfc {
+		private Boolean success;
+		private String message;
+
+		public Builder() {}
+		
+		public Builder(StatusInfc status) {
+			this.success = status.isSuccess();
+			this.message = status.getMessage();
+		}
+
+		public Builder setSuccess(Boolean bool) {
+			this.success = bool;
+			return this;
+		}
+		
+		public StatusInfo build() {
+			return new StatusInfo(this);
+		}
+
+		@Override
+		public Boolean isSuccess() {
+			return success;
+		}
+
+		@Override
+		public String getMessage() {
+			return message;
+		}
 	}
 }

@@ -45,7 +45,7 @@ public class LuiPersonRelationServiceImplTest {
 	public LuiPersonRelationService lprService;
 	public ApplicationContext appContext;
 	public static String principalId = "123";
-	public ContextInfo callContext = new ContextInfo();
+	public ContextInfo callContext = new ContextInfo.Builder().build();
 
 
 	public void setLprService(LuiPersonRelationService lprService) {
@@ -57,7 +57,7 @@ public class LuiPersonRelationServiceImplTest {
 		principalId = "123";
 		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
 		lprService = (LuiPersonRelationService) appContext.getBean("lprService");
-		callContext.setPrincipalId(principalId);
+		callContext = new ContextInfo.Builder(callContext).setPrincipalId(principalId).build();
 	}
 
 	
@@ -80,7 +80,11 @@ public class LuiPersonRelationServiceImplTest {
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
 		try {
-			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId,
+																					 new ArrayList<String>(),
+																					 "", "",
+																					 new LuiPersonRelationInfo.Builder().build(),
+																					 callContext);
 			assertNotNull(createResults);
 			assertEquals(1, createResults.size());
 		} catch (Throwable ex) {
@@ -93,10 +97,10 @@ public class LuiPersonRelationServiceImplTest {
 	@Test
 	public void testCreateBulkRelationshipsForPersonExceptions() {
 		try {
-			List<String> createResults = lprService.createBulkRelationshipsForPerson(null, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(null, new ArrayList<String>(), "", "", new LuiPersonRelationInfo.Builder().build(), callContext);
 
 		} catch (Throwable ex) {
-			ex.printStackTrace();
+			// ex.printStackTrace();
 			assertTrue (ex instanceof OperationFailedException) ;
 		}
 		
