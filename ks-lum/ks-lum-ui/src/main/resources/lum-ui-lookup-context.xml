@@ -136,6 +136,17 @@
   </property>
  </bean>
 
+ <bean id="limitedDepartment-lookup-binding-parent" parent="uilookupconfig-parent"
+       abstract="true">
+  <property name="name" value="department.lookup" />
+  <property name="initialLookup" ref="kuali.lu.lookup.admin.limitedDepartments.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.admin.limitedDepartments.advanced" />
+   </list>
+  </property>
+ </bean>
+
  <bean id="course.campusLocations" parent="uilookupconfig-parent">
   <property name="path" value="courseInfo.campusLocations" />
   <property name="initialLookup" ref="kuali.lu.lookup.campusLocations" />
@@ -557,6 +568,60 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.admin.limitedDepartments.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
+       parent="kuali.common.lookup.admin.departments.suggest">
+  <property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
+  <property name="name" value="Organization search" />
+  <property name="desc"
+            value="Search for administrative department organization" />
+  <property name="widget" value="SUGGEST_BOX" />
+  <property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+  <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgId" />
+     <property name="name" value="Organization Identifier" />
+     <property name="desc" value="Identifier for the organization" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="true" />
+    </bean>
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgOptionalLongName" />
+     <property name="name" value="Name" />
+     <property name="desc"
+               value="Long name for the organization, recorded as the default listing." />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+   </list>
+  </property>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.orgOptionalLongName" />
+				<property name="name" value="Organization Name" />
+				<property name="desc" value="Long organization name." />
+				<property name="writeAccess" value="ALWAYS" />
+				<property name="usage" value="DEFAULT" />
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.orgOptionalType" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.Department</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
+ 
 	<bean id="kuali.lu.lookup.lo.categoryName.suggest" class="org.kuali.student.common.assembly.data.UILookupData">
 		<property name="id" value="kuali.lu.lookup.lo.categoryName.suggest" />
 		<property name="name" value="LO Category Name Search" />
@@ -1989,7 +2054,63 @@
  </bean>
 
  <!-- Advanced Searches -->
-
+  <bean id="kuali.lu.lookup.admin.limitedDepartments.advanced"
+       parent="kuali.lu.lookup.admin.departments.advanced"
+       autowire-candidate="default" dependency-check="default" autowire="default"
+       lazy-init="default">
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalLongName" />
+					<property name="name" value="Name" />
+					<property name="desc" value="Long organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalShortName" />
+					<property name="name" value="Abbreviation" />
+					<property name="desc" value="Short organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalId" />
+					<property name="name" value="Id" />
+					<property name="desc" value="Unique identifier for an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="CUSTOM" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type of an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.org.Department</value>
+						</list>
+					</property>
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
   <bean id="kuali.lu.lookup.admin.departments.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
        parent="kuali.common.lookup.admin.departments.advanced"
        autowire-candidate="default" dependency-check="default" autowire="default"
@@ -4014,8 +4135,51 @@
   <property name="initialLookup" ref="kuali.lu.lookup.publication.types" />
  </bean>
 
- <bean id="majorDisciplineInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo-divisionsContentOwner-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsContentOwner" />
+ </bean>
+ <bean id="majorDisciplineInfo-divisionsContentOwner-lookup-binding-parent" parent="department-lookup-binding-parent" abstract="true">
+  <property name="initialLookup" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner.suggest" />
+  <property name="additionalLookups">
+  	<list></list>
+  </property>
+ </bean>
+  <bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner.suggest" parent="kuali.lu.lookup.admin.departments.suggest" >
+	<property name="widget" value="DROP_DOWN" />
+	<property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+	<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId"/>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.relatedOrgIds" />
+				<property name="name" value="Organization Ids" />
+				<property name="desc" value="List of Organization Id constraints" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="usage" value="DEFAULT" />
+				<property name="fieldPath" value="unitsContentOwner"/>
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.optionalOrgTypeList" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+			<bean parent="param">   <!--   limit search to certain relationships-->
+				<property name="key" value="org.queryParam.optionalRelationType" />
+				<property name="name" value="Org Relation Type" />
+				<property name="desc" value="Type of an organization relation" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueString" value="kuali.org.Contain"/>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
  </bean>
  <bean id="credentialProgramInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
   <property name="path" value="credentialProgramInfo.divisionsContentOwner" />
@@ -4060,7 +4224,7 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.unitsContentOwner" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsContentOwner" />
  </bean>
  
@@ -4099,7 +4263,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
-						<value>kuali.org.College</value>
+						<!-- <value>kuali.org.College</value>-->
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
@@ -4107,7 +4271,7 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.unitsStudentOversight" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsStudentOversight" />
  </bean>
  <bean id="credentialProgramInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
@@ -4153,9 +4317,53 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.divisionsDeployment" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo-divisionsDeployment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsDeployment" />
  </bean>
+ <bean id="majorDisciplineInfo-divisionsDeployment-lookup-binding-parent" parent="department-lookup-binding-parent" abstract="true">
+  <property name="initialLookup" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment.suggest" />
+  <property name="additionalLookups">
+  	<list></list>
+  </property>
+ </bean>
+  <bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment.suggest" parent="kuali.lu.lookup.admin.departments.suggest" >
+	<property name="widget" value="DROP_DOWN" />
+	<property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+	<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId"/>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.relatedOrgIds" />
+				<property name="name" value="Organization Ids" />
+				<property name="desc" value="List of Organization Id constraints" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="usage" value="DEFAULT" />
+				<property name="fieldPath" value="unitsDeployment"/>
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.optionalOrgTypeList" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+			<bean parent="param">   <!--   limit search to certain relationships-->
+				<property name="key" value="org.queryParam.optionalRelationType" />
+				<property name="name" value="Org Relation Type" />
+				<property name="desc" value="Type of an organization relation" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueString" value="kuali.org.Contain"/>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
+ 
  <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo-divisionsDeployment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.variations.divisionsDeployment" />
  </bean>
@@ -4193,7 +4401,7 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.unitsDeployment" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.unitsDeployment" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsDeployment" />
  </bean>
  <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo-unitsDeployment-lookup-binding-parent">
@@ -4233,9 +4441,53 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.divisionsFinancialResources" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.divisionsFinancialResources" parent="majorDisciplineInfo-divisionsFinancialResources-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsFinancialResources" />
  </bean>
+  <bean id="majorDisciplineInfo-divisionsFinancialResources-lookup-binding-parent" parent="department-lookup-binding-parent" abstract="true">
+  <property name="initialLookup" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources.suggest" />
+  <property name="additionalLookups">
+  	<list></list>
+  </property>
+ </bean>
+  <bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources.suggest" parent="kuali.lu.lookup.admin.departments.suggest" >
+	<property name="widget" value="DROP_DOWN" />
+	<property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+	<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId"/>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.relatedOrgIds" />
+				<property name="name" value="Organization Ids" />
+				<property name="desc" value="List of Organization Id constraints" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="usage" value="DEFAULT" />
+				<property name="fieldPath" value="unitsFinancialResources"/>
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.optionalOrgTypeList" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+			<bean parent="param">   <!--   limit search to certain relationships-->
+				<property name="key" value="org.queryParam.optionalRelationType" />
+				<property name="name" value="Org Relation Type" />
+				<property name="desc" value="Type of an organization relation" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueString" value="kuali.org.Contain"/>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
+ 
  <bean id="programVariationInfo.divisionsFinancialResources" parent="programVariationInfo-divisionsFinancialResources-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.variations.divisionsFinancialResources" />
  </bean>
@@ -4273,7 +4525,7 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.unitsFinancialResources" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.unitsFinancialResources" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsFinancialResources" />
  </bean>
  <bean id="programVariationInfo.unitsFinancialResources" parent="programVariationInfo-unitsFinancialResources-lookup-binding-parent">
@@ -4313,8 +4565,51 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo-divisionsFinancialControl-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.divisionsFinancialControl" />
+ </bean>
+   <bean id="majorDisciplineInfo-divisionsFinancialControl-lookup-binding-parent" parent="department-lookup-binding-parent" abstract="true">
+  <property name="initialLookup" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl.suggest" />
+  <property name="additionalLookups">
+  	<list></list>
+  </property>
+ </bean>
+  <bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl.suggest" parent="kuali.lu.lookup.admin.departments.suggest" >
+	<property name="widget" value="DROP_DOWN" />
+	<property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+	<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId"/>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.relatedOrgIds" />
+				<property name="name" value="Organization Ids" />
+				<property name="desc" value="List of Organization Id constraints" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="usage" value="DEFAULT" />
+				<property name="fieldPath" value="unitsFinancialControl"/>
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.optionalOrgTypeList" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+			<bean parent="param">   <!--   limit search to certain relationships-->
+				<property name="key" value="org.queryParam.optionalRelationType" />
+				<property name="name" value="Org Relation Type" />
+				<property name="desc" value="Type of an organization relation" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueString" value="kuali.org.Contain"/>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialControl" parent="programVariationInfo-divisionsFinancialControl-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.variations.divisionsFinancialControl" />
@@ -4353,7 +4648,7 @@
 		</list>
 	</property>
  </bean>
- <bean id="majorDisciplineInfo.unitsFinancialControl" parent="department-lookup-binding-parent">
+ <bean id="majorDisciplineInfo.unitsFinancialControl" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsFinancialControl" />
  </bean>
  <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo-unitsFinancialControl-lookup-binding-parent">
@@ -4467,9 +4762,53 @@
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
   </bean>
 
-	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo-divisionsStudentOversight-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
 	</bean>
+	   <bean id="majorDisciplineInfo-divisionsStudentOversight-lookup-binding-parent" parent="department-lookup-binding-parent" abstract="true">
+  <property name="initialLookup" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight.suggest" />
+  <property name="additionalLookups">
+  	<list></list>
+  </property>
+ </bean>
+  <bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight.suggest" parent="kuali.lu.lookup.admin.departments.suggest" >
+	<property name="widget" value="DROP_DOWN" />
+	<property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds"/>
+	<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId"/>
+	<property name="params">
+		<list>
+			<bean parent="param">    <!-- suggest box entry definition -->
+				<property name="key" value="org.queryParam.relatedOrgIds" />
+				<property name="name" value="Organization Ids" />
+				<property name="desc" value="List of Organization Id constraints" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="usage" value="DEFAULT" />
+				<property name="fieldPath" value="unitsStudentOversight"/>
+			</bean>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.optionalOrgTypeList" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+			<bean parent="param">   <!--   limit search to certain relationships-->
+				<property name="key" value="org.queryParam.optionalRelationType" />
+				<property name="name" value="Org Relation Type" />
+				<property name="desc" value="Type of an organization relation" />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueString" value="kuali.org.Contain"/>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
+	
      <bean id="credentialProgramInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="credentialProgramInfo.divisionsStudentOversight" />
 	</bean>

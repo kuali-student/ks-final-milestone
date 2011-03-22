@@ -213,6 +213,10 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         }
     }
 
+    public void addItem(String value, String display) {
+        addItem(createItem(value, display, hasDetails));
+    }
+    
     public void addItem(final KSItemLabel item) {
         addItem(item, true);
     }
@@ -454,4 +458,17 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 			picker.reprocessWithUpdatedConstraints();
 		}
 	}
+
+	public KSButton getAddItemButton() {
+		return addItemButton;
+	}
+
+	public VerticalFlowPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	public KSPicker getPicker() {
+		return picker;
+	}
+
 }

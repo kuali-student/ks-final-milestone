@@ -663,6 +663,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 					for(Iterator<Property> iter =((Data)value.get()).realPropertyIterator();iter.hasNext();){
                 						listValue.add(iter.next().getValue().toString());
                 					}
+                					if(listValue.isEmpty()){
+                						listValue.add("");
+                					}
                 					param.setValue(listValue);
                 				}else{
                 					param.setValue(value.get().toString());	
