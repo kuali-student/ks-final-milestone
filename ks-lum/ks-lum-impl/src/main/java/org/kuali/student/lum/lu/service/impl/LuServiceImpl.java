@@ -3118,6 +3118,7 @@ public class LuServiceImpl implements LuService {
 				//For each curriculum oversight committee we want to look up the Org Name
 				//We're going to save a mapping of the org id to a holder cell so we can make just one org 
 				//service call with all the org ids, and update the holder cells later.
+				boolean differentAdminOrg = true;
 				for(CluAdminOrg adminOrg:clu.getAdminOrgs()){
 					if("kuali.adminOrg.type.CurriculumOversight".equals(adminOrg.getType()) || 
 					   "kuali.adminOrg.type.CurriculumOversightUnit".equals(adminOrg.getType())){
@@ -3136,8 +3137,15 @@ public class LuServiceImpl implements LuService {
 						}else{
 							orgIdsCell.setValue(orgIdsCell.getValue()+","+adminOrg.getId());
 						}
+						
+						for(CluAdminOrg triggerAdminOrg:triggerClu.getAdminOrgs()){
+							if(triggerAdminOrg.getOrgId().equals(adminOrg.getOrgId())){
+								differentAdminOrg = false;
+							}
+						}
 					}
 				}
+				resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg", String.valueOf(differentAdminOrg));
 				
 				//Add the result row
 				searchResult.getRows().add(resultRow);
@@ -3260,7 +3268,12 @@ public class LuServiceImpl implements LuService {
 				}
 			}
 			if(o1SortValue!=null){
+				if(o2SortValue==null){
+					return 1;
+				}
 				return o1SortValue.compareTo(o2SortValue);
+			}if(o2SortValue==null){
+				return 0;
 			}
 			return -1;
 		}

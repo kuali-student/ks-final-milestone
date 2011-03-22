@@ -130,6 +130,7 @@
 			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
 			<ref bean="lu.resultColumn.luOptionalOversightCommitteeIds"/>
 			<ref bean="lu.resultColumn.luOptionalOversightCommitteeNames"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -168,13 +169,20 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>	
 	
-		<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames" parent="lu.resultColumn.luOptionalOversightCommitteeNames-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames" parent="lu.resultColumn.luOptionalOversightCommitteeNames-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames-parent" abstract="true">
 		<search:name>Dependency Requirement Oversight Committee Names</search:name>
 		<search:desc>Comma delimited list of oversight committee Names</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>	
-	
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg" parent="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg-parent" abstract="true">
+		<search:name>Different Admin Orgs</search:name>
+		<search:desc>Flag if no oversight orgs in target clu are found in dependent clus</search:desc>
+		<search:dataType>boolean</search:dataType>
+	</search:resultColumn>	
+
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">
 		<search:name>Dependency Analysis Criteria</search:name>
