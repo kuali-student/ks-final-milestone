@@ -1,0 +1,112 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <bean id="validCharactersConstraint" abstract="true"
+          class="org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint" />
+
+    <bean id="alphanumericHyphenPeriod" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[A-Za-z0-9.\-]*" />
+        <property name="jsValue" value="regex:[A-Za-z0-9.\-]*" />
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.alphanumericHyphenPeriod"/>
+    </bean>
+    <bean id="digits" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[0-9]*"/>
+        <property name="jsValue" value="regex:[0-9]*"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.digits"/>
+    </bean>
+    <bean id="numeric" parent="validCharactersConstraint">
+        <!--
+   this allows numbers with up to 2 decimal places
+   i.e. it accepts 3.14 but not 3.145
+   it allows for a leading minus sign, -2, but NOT a leading plus sign +2
+   it allows for .1 and 0.1 but not 00.1 (too many leading zeros)
+   It does not allow for embedded commas so 200,000 is not valid but 200000 is
+  -->
+        <property name="value"   value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
+        <property name="jsValue" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.numeric"/>
+    </bean>
+    <bean id="numeric.range" parent="validCharactersConstraint">
+        <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+        <property name="value"   value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="jsValue" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.numeric.range"/>
+    </bean>
+    <bean id="positive.numeric.range" parent="validCharactersConstraint">
+        <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+        <property name="value"   value="regex:^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="jsValue" value="regex:^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
+    </bean>
+    <bean id="gpa4.0" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[0-4]\.[0-9]"/>
+        <property name="jsValue" value="regex:[0-4]\.[0-9]"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.gpa9.9"/>
+    </bean>
+    <bean id="positive.integer" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[1-9][0-9]*"/>
+        <property name="jsValue" value="regex:[1-9][0-9]*"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.positive.integer"/>
+    </bean>
+    <bean id="relationalOperator" parent="validCharactersConstraint">
+        <property name="value"   value="regex:\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
+        <property name="jsValue" value="regex:\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
+        <property name="applyClientSide" value="true" />
+        <property name="labelKey" value="validation.validChars.relationalOperator"/>
+    </bean>
+    <bean id="alpha" parent="validCharactersConstraint">
+        <property   name="value" value="regex:[A-Za-z]*"/>
+        <property name="jsValue" value="regex:[A-Za-z]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+    <bean id="upperCase" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[A-Z0-9.\-]*"/>
+        <property name="jsValue" value="regex:[A-Z0-9.\-]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+    <bean id="upperAlpha" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[A-Z]*"/>
+        <property name="jsValue" value="regex:[A-Z]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+    <bean id="lineText" parent="validCharactersConstraint">
+        <property name="value"  value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
+        <property name="jsValue" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+    <bean id="multiLineText" parent="validCharactersConstraint">
+        <property name="value"   value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
+        <property name="jsValue" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+
+</beans>

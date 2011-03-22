@@ -15,6 +15,13 @@
  */
 package org.kuali.student.enrollment.lpr.mock;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 
@@ -24,24 +31,59 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
  */
 public class CriteriaMatcher {
 
-    private CriteriaInfc criteria;
-    private Class infcClass;
+    private List<CriteriaInfc> criterias;
+    private Class<?> infcClass;
 
-    public CriteriaMatcher(CriteriaInfc criteria, Class infcClass)
+    public CriteriaMatcher(List<CriteriaInfc> criterias, Class<?> infcClass)
             throws InvalidParameterException {
-        this.criteria = criteria;
+        this.criterias = criterias;
         this.infcClass = infcClass;
-        this.validate();
+        int i = 0;
+        for (CriteriaInfc criteria : criterias) {
+            this.validateFieldKey(i, infcClass, criteria.getFieldKey());
+            this.validateOperator(i, criteria.getOperator());
+            i++;
+        }
     }
 
-    private void validate()
+    private void validateOperator(int i, String op)
             throws InvalidParameterException {
-        if (criteria.getOperator().equals("=")) {
+        if (op == null) {
+            throw new InvalidParameterException("The " + i + "th criteria's operator is null");
+        }
+        if (op.equals("=")) {
+            return;
+        } else if (op.equals("<")) {
+            return;
+        } else if (op.equals(">")) {
+            return;
+        } else if (op.equals("<=")) {
+            return;
+        } else if (op.equals(">=")) {
             return;
         } else {
-            throw new InvalidParameterException("Unsupported operator " + criteria.getOperator());
+            throw new InvalidParameterException("The " + i + "th criteria's operator [" + op + "] is unknown/unsupported");
         }
+    }
 
+    private void validateFieldKey(int i, Class<?> beanClass, String fk)
+            throws InvalidParameterException {
+        throw new InvalidParameterException("The " + i + "th criteria's field key " + fk + " is invalid");
+    }
+
+    private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
+        Map<String, PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
+        BeanInfo beanInfo = null;
+        try {
+            beanInfo = Introspector.getBeanInfo(clazz);
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            properties.put(propertyDescriptor.getName(), propertyDescriptor);
+        }
+        return properties;
     }
 
     public boolean matches(Object infoObject)
