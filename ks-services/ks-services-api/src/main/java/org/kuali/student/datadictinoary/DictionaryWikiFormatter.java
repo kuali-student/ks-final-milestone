@@ -15,16 +15,14 @@
  */
 package org.kuali.student.datadictinoary;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
@@ -33,140 +31,172 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
 
-public class DictionaryFormatter {
+@Deprecated
+public class DictionaryWikiFormatter {
 
+    private StringBuilder builder = new StringBuilder(5000);
     private DataDictionaryObjectStructure os;
-    private String projectUrl;
-    private String dictFileName;
-    private String outputFileName;
+    private String rowSeperator = "\n";
+    private String colSeperator = "|";
+    private String name;
+    private String className;
+    private boolean processSubstructures = false;
+    private int level;
+    private Map<String, DataDictionaryObjectStructure> subStructuresToProcess =
+            new LinkedHashMap();
+    private Set<DataDictionaryObjectStructure> subStructuresAlreadyProcessed;
 
-    public DictionaryFormatter(DataDictionaryObjectStructure os, String projectUrl, String dictFileName, String outputFileName) {
+    public DictionaryWikiFormatter(String name,
+            String className,
+            DataDictionaryObjectStructure os,
+            Set<DataDictionaryObjectStructure> subStructuresAlreadyProcessed,
+            int level,
+            boolean processSubstructures) {
+        this.name = name;
+        this.className = className;
         this.os = os;
-        this.projectUrl = projectUrl;
-        this.dictFileName = dictFileName;
-        this.outputFileName = outputFileName;
+        this.subStructuresAlreadyProcessed = subStructuresAlreadyProcessed;
+        this.level = level;
+        this.processSubstructures = processSubstructures;
+    }
+    public static final String UNBOUNDED = "unbounded";
+
+    public String getRowSeperator() {
+        return rowSeperator;
     }
 
-    public void formatForHtml() {
-        File file = new File(this.outputFileName);
-        OutputStream outputStream;
-        try {
-            outputStream = new FileOutputStream(file, false);
-        } catch (FileNotFoundException ex) {
-            throw new IllegalArgumentException(ex);
+    public void setRowSeperator(String rowSeperator) {
+        this.rowSeperator = rowSeperator;
+    }
+
+    public String getColSeparator() {
+        return colSeperator;
+    }
+
+    public void setColSeparator(String separator) {
+        this.colSeperator = separator;
+    }
+
+    private String pad(String str, int size) {
+        StringBuilder padStr = new StringBuilder(size);
+        padStr.append(str);
+        while (padStr.length() < size) {
+            padStr.append(' ');
         }
-        PrintStream out = new PrintStream(outputStream);
-        writeHeader(out);
-        writeBody(out);
-        writeFooter(out);
-        out.close();
+        return padStr.toString();
     }
 
-    private void writeHeader(PrintStream out) {
-        out.println("<html>");
-        out.println("<head>");
-        writeTag(out, "title", dictFileName);
-        out.println("</head>");
-        out.println("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
-    }
-
-    private void writeFooter(PrintStream out) {
-        out.println("</body>");
-        out.println("</html>");
-    }
-
-    private void writeBody(PrintStream out) {
-        out.println("(!) This page was automatically generated on " + new Date());
-        out.println("<br>");
-        out.println("<b>DO NOT UPDATE MANUALLY!</b>");
-        out.println("<br>");
-        out.print("This page represents a formatted view of "
-                + "<a href=\"" + projectUrl + "/" + this.dictFileName + "\">" + this.dictFileName + "</a>");
+    public String formatForWiki() {
+        builder.append(rowSeperator);
 //  builder.append ("======= start dump of object structure definition ========");
-        out.println("<h1>" + dictFileName + "</h1>");
-
-        out.println("The corresponding java class for this dictionary object is "
-                + os.getFullClassName());
-        List<String> discrepancies = new Dictionary2BeanComparer(os.getFullClassName(), os).compare();
-        if (discrepancies.size() > 0) {
-            out.println("<br>");
-            out.println("<b>" + discrepancies.size() + " discrepancie(s) found" + "</b>");
-            out.println("<ol>");
-            for (String discrepancy : discrepancies) {
-                out.println("<li>" + discrepancy);
-            }
-            out.println("</ol>");
+        builder.append(rowSeperator);
+        builder.append("h" + level + ". " + calcNotSoSimpleName(name));
+        builder.append("{anchor:" + name + "}");
+        builder.append(rowSeperator);
+        if (className != null) {
+            builder.append("The corresponding java class for this dictionary object is "
+                    + os.getFullClassName());
         }
-        out.println("<table border=1>");
-        out.println("<tr>");
-        out.println("<th>");
-        out.println("Field");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Required?");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("DataType");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Length");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Dynamic or Hidden");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Default");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Repeats?");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Valid Characters");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Lookup");
-        out.println("</th>");
-        out.println("<th>");
-        out.println("Cross Field");
-        out.println("</th>");
-        out.println("</tr>");
+        builder.append(rowSeperator);
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Field");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Required?");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("DataType");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Length");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Dynamic or Hidden");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Default");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Repeats?");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Valid Characters");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Lookup");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append("Cross Field");
+        builder.append(colSeperator);
+        builder.append(colSeperator);
+        builder.append(rowSeperator);
         for (AttributeDefinition ad : getSortedFields()) {
-            out.println("<tr>");
-            out.println("<td>");
-            out.println(nbsp(ad.getName()));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcRequired(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDataType(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcLength(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDynamic(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDefaultValue(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcRepeating(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcValidCharsMinMax(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcLookup(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcCrossField(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println("</tr>");
+            builder.append(colSeperator);
+            builder.append(pad(ad.getName(), 30));
+            builder.append(colSeperator);
+            builder.append(pad(calcRequired(ad), 10));
+            builder.append(colSeperator);
+            builder.append(pad(calcDataType(ad), 25));
+            builder.append(colSeperator);
+            builder.append(pad(calcLength(ad), 15));
+            builder.append(colSeperator);
+            builder.append(pad(calcDynamic(ad), 7));
+            builder.append(colSeperator);
+            builder.append(pad(calcDefaultValue(ad), 15));
+            builder.append(colSeperator);
+            builder.append(calcRepeating(ad));
+            builder.append(colSeperator);
+            builder.append(calcValidCharsMinMax(ad));
+            builder.append(colSeperator);
+            builder.append(calcLookup(ad));
+            builder.append(colSeperator);
+            builder.append(calcCrossField(ad));
+            builder.append(colSeperator);
+            builder.append(rowSeperator);
         }
-        out.println("</table>");
-        return;
+        List<String> discrepancies = null;
+        if (className == null) {
+            discrepancies = new ArrayList(1);
+            discrepancies.add(
+                    "There is no corresponding java class for this dictionary object structure");
+        } else {
+            discrepancies = new Dictionary2BeanComparer(className, os).compare();
+        }
+        if (discrepancies.size() > 0) {
+            builder.append("h" + (level + 1) + ". " + discrepancies.size()
+                    + " discrepancie(s) found in "
+                    + calcSimpleName(name));
+            builder.append(rowSeperator);
+            builder.append(formatAsString(discrepancies));
+            builder.append(rowSeperator);
+        }
+
+//  builder.append ("======= end dump of object structure definition ========");
+        builder.append(rowSeperator);
+        Set<DataDictionaryObjectStructure> subStructuresAlreadyProcessedBeforeProcessingSubStructures =
+                new HashSet();
+        subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll(
+                subStructuresAlreadyProcessed);
+        for (String subName : this.subStructuresToProcess.keySet()) {
+            DataDictionaryObjectStructure subOs = this.subStructuresToProcess.get(subName);
+            if (!subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains(
+                    subOs)) {
+                this.subStructuresAlreadyProcessed.add(subOs);
+//    System.out.println ("formatting substructure " + subName);
+                Class<?> subClazz = getClass(subOs.getFullClassName());
+                DictionaryWikiFormatter formatter =
+                        new DictionaryWikiFormatter(subName, subOs.getFullClassName(),
+                        subOs,
+                        subStructuresAlreadyProcessed,
+                        level + 1,
+                        this.processSubstructures);
+                builder.append(formatter.formatForWiki());
+                builder.append(rowSeperator);
+            }
+        }
+
+        return builder.toString();
     }
 
     private List<AttributeDefinition> getSortedFields() {
@@ -266,22 +296,25 @@ public class DictionaryFormatter {
     }
 
     private String calcRequired(AttributeDefinition ad) {
+        if (ad.getMaximumNumberOfElements() != null) {
+            if (!ad.getMaximumNumberOfElements().equals(UNBOUNDED)) {
+                if (ad.getMaximumNumberOfElements() == 0) {
+                    return "Not allowed";
+                }
+            }
+        }
+
+        if (ad.getMinimumNumberOfElements() != null) {
+            if (ad.getMinimumNumberOfElements() >= 1) {
+                return "required";
+            }
+        }
         if (ad.isRequired() != null) {
             if (ad.isRequired()) {
                 return "required";
             }
         }
-        if (ad.getMaximumNumberOfElements() != null) {
-            if (ad.getMaximumNumberOfElements().intValue() == 0) {
-                return "Not allowed";
-            }
-        }
 
-        if (ad.getMinimumNumberOfElements() != null) {
-            if (ad.getMinimumNumberOfElements().intValue() >= 1) {
-                return "required";
-            }
-        }
         return " ";
 //  return "optional";
     }
@@ -461,22 +494,22 @@ public class DictionaryFormatter {
         if (ad.getMaximumNumberOfElements() == null) {
             return "???";
         }
-        if (ad.getMaximumNumberOfElements().intValue() == DictionaryConstants.UNBOUNDED) {
+        if (ad.getMaximumNumberOfElements().equals(UNBOUNDED)) {
             if (ad.getMinimumNumberOfElements() != null && ad.getMinimumNumberOfElements() > 1) {
                 return "repeating: minimum " + ad.getMinimumNumberOfElements() + " times";
             }
             return "repeating: unlimited";
         }
-        if (ad.getMaximumNumberOfElements().intValue() == 0) {
+        if (ad.getMaximumNumberOfElements() == 0) {
             return "NOT USED";
         }
-        if (ad.getMaximumNumberOfElements().intValue() == 1) {
+        if (ad.getMaximumNumberOfElements() == 1) {
             return " ";
 //   return "single";
         }
 
         if (ad.getMinimumNumberOfElements() != null) {
-            if (ad.getMinimumNumberOfElements().intValue() > 1) {
+            if (ad.getMinimumNumberOfElements() > 1) {
                 return "repeating: " + ad.getMinimumNumberOfElements() + " to " + ad.getMaximumNumberOfElements()
                         + " times";
             }
@@ -678,68 +711,6 @@ public class DictionaryFormatter {
             return (String) value;
         }
         return value.toString();
-    }
-
-    private String nbsp(String str) {
-        if (str == null) {
-            return "&nbsp;";
-        }
-        if (str.trim().isEmpty()) {
-            return "&nbsp;";
-        }
-        return str;
-    }
-
-    public void writeTag(PrintStream out, String tag, String value) {
-        writeTag(out, tag, null, value);
-    }
-
-    public void writeTag(PrintStream out, String tag, String modifiers, String value) {
-        if (value == null) {
-            return;
-        }
-        if (value.equals("")) {
-            return;
-        }
-        out.print("<" + tag);
-        if (modifiers != null && !modifiers.isEmpty()) {
-            out.print(" " + modifiers);
-        }
-        out.print(">");
-        out.print(escapeXML(value));
-        out.print("</" + tag + ">");
-        out.println("");
-    }
-
-    public String escapeXML(String s) {
-        StringBuffer sb = new StringBuffer();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            // http://www.hdfgroup.org/HDF5/XML/xml_escape_chars.htm
-            char c = s.charAt(i);
-            switch (c) {
-                case '"':
-                    sb.append("&quot;");
-                    break;
-                case '\'':
-                    sb.append("&apos;");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                //case ' ': sb.append("&nbsp;");break;\
-                default:
-                    sb.append(c);
-                    break;
-            }
-        }
-        return sb.toString();
     }
 }
 

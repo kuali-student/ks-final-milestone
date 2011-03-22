@@ -37,15 +37,12 @@ public class DictionaryValidator {
 
     private DateTimeService dateTimeService;
     private DataDictionaryObjectStructure os;
-    private boolean processSubStructures = false;
     private Set<DataDictionaryObjectStructure> alreadyValidated;
 
     public DictionaryValidator(DataDictionaryObjectStructure os,
-            Set<DataDictionaryObjectStructure> alreadyValidated,
-            boolean processSubstructures) {
+            Set<DataDictionaryObjectStructure> alreadyValidated) {
         this.os = os;
         this.alreadyValidated = alreadyValidated;
-        this.processSubStructures = processSubstructures;
     }
 
     public DateTimeService getDateTimeService() {
@@ -88,7 +85,7 @@ public class DictionaryValidator {
                     errors.add(ad.getName() + " is defined more than once");
                 }
             }
-            errors.addAll(validateField(ad));
+            errors.addAll(validateAttributeDefinition(ad));
         }
         return errors;
     }
@@ -104,7 +101,7 @@ public class DictionaryValidator {
 //   return null;
 //  }
 // }
-    private List<String> validateField(AttributeDefinition ad) {
+    private List<String> validateAttributeDefinition(AttributeDefinition ad) {
         List<String> errors = new ArrayList();
         if (ad.getName() == null) {
             errors.add("name cannot be null");

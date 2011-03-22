@@ -213,7 +213,7 @@
         <property name="description" value="The date/time stamp of when this was last updated"/>
     </bean>
 
-    <bean id="baseKualiMetaCreateId" parent="baseDateTime" abstract="true">
+    <bean id="baseKualiMetaCreateId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.createId"/>
         <property name="shortLabel" value="Creator ID"/>
         <property name="summary" value="Principal ID of person who created this"/>
@@ -221,7 +221,7 @@
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
     </bean>
 
-    <bean id="baseKualiMetaUpdateId" parent="baseDateTime" abstract="true">
+    <bean id="baseKualiMetaUpdateId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.updateId"/>
         <property name="shortLabel" value="Updater ID"/>
         <property name="summary" value="Principal ID of person who last updated this"/>

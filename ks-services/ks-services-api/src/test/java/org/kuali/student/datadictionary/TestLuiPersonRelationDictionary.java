@@ -15,9 +15,7 @@
  */
 package org.kuali.student.datadictionary;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.datadictinoary.DictionaryTesterHelper;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -28,16 +26,16 @@ public class TestLuiPersonRelationDictionary {
     @Test
     public void testLuiPersonRelationDictionary() {
         System.out.println("testing ks-lui-person-relation-dictionary dictionary");
-//        Set<String> startingClasses = new LinkedHashSet();
-//        startingClasses.add(LuiPersonRelationInfo.class.getName());
-//        String contextFile = "ks-lui-person-relation-dictionary";
-//        String outFile = "target/" + contextFile + ".txt";
-//        DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
-//                startingClasses, contextFile + ".xml", false);
-//        List<String> errors = helper.doTest();
-//        if (errors.size() > 0) {
-//            fail("failed dictionary validation:\n" + formatAsString(errors));
-//        }
+        String projectUrl = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources";
+        String className = LuiPersonRelationInfo.class.getName();
+        String contextFile = "ks-lui-person-relation-dictionary";
+        String outFile = "target/" + contextFile + ".html";
+        DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
+                className, projectUrl, contextFile + ".xml");
+        List<String> errors = helper.doTest();
+        if (errors.size() > 0) {
+            fail("failed dictionary validation:\n" + formatAsString(errors));
+        }
     }
 
     private String formatAsString(List<String> errors) {

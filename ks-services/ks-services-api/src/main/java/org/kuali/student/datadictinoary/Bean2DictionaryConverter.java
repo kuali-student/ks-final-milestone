@@ -19,60 +19,86 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
-
-
 
 public class Bean2DictionaryConverter {
 
     private Class<?> clazz;
+    private Stack<AttributeDefinition> parents;
 
-    public Bean2DictionaryConverter(Class<?> clazz) {
+    public Bean2DictionaryConverter(Class<?> clazz, Stack<AttributeDefinition> parents) {
         this.clazz = clazz;
+        this.parents = parents;
     }
 
     public DataDictionaryObjectStructure convert() {
         DataDictionaryObjectStructure os = new DataDictionaryObjectStructure();
         os.setFullClassName(clazz.getName());
+        addAttributeDefinitions(os);
+        return os;
+    }
+
+    public void addAttributeDefinitions(DataDictionaryObjectStructure os) {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
         } catch (IntrospectionException ex) {
             throw new RuntimeException(ex);
         }
-         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
-            if (!Class.class.equals(pd.getPropertyType())) {
-                os.getAttributes().add(calcField(clazz, pd));
+        for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
+            if (Class.class.equals(pd.getPropertyType())) {
+                continue;
+            }
+            Class<?> actualClass = calcActualClass(clazz, pd);
+            AttributeDefinition ad = calcAttributeDefinition(clazz, pd, actualClass);
+            os.getAttributes().add(ad);
+            if (ad.getDataType().equals(DataType.COMPLEX)) {
+                parents.push(ad);
+                Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parents);
+                subConverter.addAttributeDefinitions(os);
+                parents.pop();
             }
         }
-        return os;
     }
 
-
-
-    private AttributeDefinition calcField(Class<?> clazz, PropertyDescriptor pd) {
+    private AttributeDefinition calcAttributeDefinition(Class<?> clazz, PropertyDescriptor pd, Class<?> actualClass) {
         AttributeDefinition ad = new AttributeDefinition();
-        ad.setName(pd.getName());
+        ad.setName(calcName(pd.getName()));
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
             ad.setMaxOccurs(DictionaryConstants.UNBOUNDED);
-            try {
-                pt =
-                        (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-            } catch (NoSuchFieldException ex) {
-                throw new RuntimeException(ex);
-            } catch (SecurityException ex) {
-                throw new RuntimeException(ex);
-            }
+            ad.setDataType(calcDataType(actualClass));
         } else {
             ad.setMaxOccurs(DictionaryConstants.SINGLE);
+            ad.setDataType(calcDataType(actualClass));
         }
-        ad.setDataType(calcDataType(pt));
         return ad;
+    }
+
+    private String calcName(String leafName) {
+        StringBuilder bldr = new StringBuilder();
+        for (AttributeDefinition parent : parents) {
+            bldr.append(parent.getName());
+            bldr.append(".");
+        }
+        bldr.append(initLower(leafName));
+        return bldr.toString();
+    }
+
+    private String initLower(String name) {
+        return name.substring(0, 1).toLowerCase() + name.substring(1);
+    }
+
+    private Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
+        Class<?> pt = pd.getPropertyType();
+        if (List.class.equals(pt)) {
+            pt = ComplexSubstructuresHelper.getActualClassFromList(clazz, pd.getName());
+        }
+        return pt;
     }
 
     private DataType calcDataType(Class<?> pt) {

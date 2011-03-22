@@ -19,12 +19,13 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.core.dto.MetaInfo;
 
 public class ComplexSubstructuresHelper {
 
@@ -55,18 +56,10 @@ public class ComplexSubstructuresHelper {
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             Class<?> subClass = pd.getPropertyType();
             if (List.class.equals(subClass)) {
-                try {
-                    subClass =
-                            (Class<?>) ((ParameterizedType) clazz.getDeclaredField(
-                            pd.getName()).getGenericType()).getActualTypeArguments()[0];
-                } catch (NoSuchFieldException ex) {
-                    throw new RuntimeException(ex);
-                } catch (SecurityException ex) {
-                    throw new RuntimeException(ex);
-                }
+                // recursively check super classes for field if not declared on this class
+                subClass = getActualClassFromList(clazz, pd.getName());
             }
-            if (!MetaInfo.class.equals(subClass)
-                    && !Class.class.equals(subClass)
+            if (!Class.class.equals(subClass)
                     && !String.class.equals(subClass)
                     && !Integer.class.equals(subClass)
                     && !Long.class.equals(subClass)
@@ -77,10 +70,32 @@ public class ComplexSubstructuresHelper {
                     && !Double.class.equals(subClass)
                     && !Float.class.equals(subClass)
                     && !Date.class.equals(subClass)
-                    && !DictionaryConstants.ATTRIBUTES.equals(pd.getName())
                     && !Enum.class.isAssignableFrom(subClass)
                     && !Object.class.equals(subClass)) {
                 loadComplexStructures(subClass.getName(), complexStructures);
+            }
+        }
+    }
+
+    public static Class<?> getActualClassFromList(Class<?> classToCheck, String fieldName) {
+        // recursively check super classes for field if not declared on this class
+        while (true) {
+            try {
+                Field field = classToCheck.getDeclaredField(fieldName);
+                Type type = field.getGenericType();
+                ParameterizedType pt = (ParameterizedType) type;
+                Type actualType = pt.getActualTypeArguments()[0];
+                return (Class<?>) actualType;
+            } catch (NoSuchFieldException ex) {
+                classToCheck = classToCheck.getSuperclass();
+                if (classToCheck == null) {
+                    throw new RuntimeException(ex);
+                }
+                if (classToCheck.equals(Object.class)) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (SecurityException ex) {
+                throw new RuntimeException(ex);
             }
         }
     }

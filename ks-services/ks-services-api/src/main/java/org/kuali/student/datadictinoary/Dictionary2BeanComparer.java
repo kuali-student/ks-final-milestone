@@ -18,6 +18,7 @@ package org.kuali.student.datadictinoary;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class Dictionary2BeanComparer {
@@ -40,7 +41,8 @@ public class Dictionary2BeanComparer {
         } catch (ClassNotFoundException ex) {
             return Arrays.asList(className + " does not have a corresponding java class");
         }
-        DataDictionaryObjectStructure osBean = new Bean2DictionaryConverter(clazz).convert();
+        Stack<AttributeDefinition> parents = new Stack<AttributeDefinition>();
+        DataDictionaryObjectStructure osBean = new Bean2DictionaryConverter(clazz, parents).convert();
         return compare(osDict, osBean);
 
     }
@@ -54,7 +56,7 @@ public class Dictionary2BeanComparer {
             AttributeDefinition adBean = findField(adDict.getName(), osBean);
             if (adBean == null) {
 //                if (!adDict.isDynamic()) {
-                    discrepancies.add("Field " + adDict.getName() + " does not exist in the corresponding java class");
+                discrepancies.add("Field " + adDict.getName() + " does not exist in the corresponding java class");
 //                }
                 continue;
             }
