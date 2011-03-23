@@ -24,25 +24,26 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.rice.core.api.DateTimeService;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.rice.kns.datadictionary.validation.ValidationUtils;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
+
 
 
 
 public class DictionaryValidator {
 
     private DateTimeService dateTimeService;
-    private DataDictionaryObjectStructure os;
-    private Set<DataDictionaryObjectStructure> alreadyValidated;
+    private ObjectDictionaryEntry ode;
+    private Set<ObjectDictionaryEntry> alreadyValidated;
 
-    public DictionaryValidator(DataDictionaryObjectStructure os,
-            Set<DataDictionaryObjectStructure> alreadyValidated) {
-        this.os = os;
+    public DictionaryValidator(ObjectDictionaryEntry ode,
+            Set<ObjectDictionaryEntry> alreadyValidated) {
+        this.ode = ode;
         this.alreadyValidated = alreadyValidated;
     }
 
@@ -56,31 +57,31 @@ public class DictionaryValidator {
     
     public List<String> validate() {
         List<String> errors = new ArrayList();
-        if (os.getFullClassName() == null) {
+        if (ode.getFullClassName() == null) {
             errors.add("The class name cannot be be left null");
         }
-        if (os.getEntryClass() == null) {
+        if (ode.getEntryClass() == null) {
             errors.add("The entry class should not be left null");
         }
-        if ( ! os.getEntryClass().getName ().equals(os.getFullClassName())) {
+        if ( ! ode.getEntryClass().getName ().equals(ode.getFullClassName())) {
             errors.add("The entry class should match the full class name");
         }
 
-//  else if (this.getClass (os.getName ()) == null)
+//  else if (this.getClass (ode.getName ()) == null)
 //  {
 //   errors.add ("The name does not exist on the class path");
 //  }
 
-        if (os.getAttributes() == null) {
+        if (ode.getAttributes() == null) {
             errors.add("getAttribues () is null -- null for field defintion");
             return errors;
         }
-        if (os.getAttributes().size() == 0) {
+        if (ode.getAttributes().size() == 0) {
             errors.add("No fields defined for complex object structure");
             return errors;
         }
         Set<String> fieldNames = new HashSet();
-        for (AttributeDefinition ad : os.getAttributes()) {
+        for (AttributeDefinition ad : ode.getAttributes()) {
             if (ad.getName() != null) {
                 if (!fieldNames.add(ad.getName())) {
                     errors.add(ad.getName() + " is defined more than once");

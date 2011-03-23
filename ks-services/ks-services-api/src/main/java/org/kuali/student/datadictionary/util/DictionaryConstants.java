@@ -16,12 +16,13 @@
 package org.kuali.student.datadictionary.util;
 
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+
 
 public class DictionaryConstants {
 
     public static final String OBJECT_STRUCTURE_CLASS =
-            DataDictionaryObjectStructure.class.getSimpleName();
+            ObjectDictionaryEntry.class.getSimpleName();
     public static final String ATTRIBUTE_DEFINITION_CLASS =
             AttributeDefinition.class.getSimpleName();
     public static final int UNBOUNDED = 999999999;

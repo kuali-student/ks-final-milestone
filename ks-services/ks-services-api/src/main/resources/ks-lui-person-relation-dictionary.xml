@@ -21,10 +21,18 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
     <bean id="luiPersonRelationInfo" parent="luiPersonRelationInfo-parent"/>
 
-    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="dataDictionaryObjectStructure">
+    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="objectDictionaryEntry">
 
-        <property name="fullClassName" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
-
+        <property name="objectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
+        <property name="name" value="luiPersonRelationInfo"/>
+        <property name="objectLabel" value="LPR"/>
+        <property name="objectDescription" value="Learning Unit Instance Person Relationship"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
         <property name="attributes">
             <list>
                 <ref bean="luiPersonRelationInfo.id"/>
@@ -47,6 +55,36 @@
                 <!--TODO: Dynamic Attributes-->
             </list>
         </property>
+            <!--
+        <property name="inquiryDefinition">
+            <bean parent="inqurityDefinition">
+            </bean>
+        </property>
+        <property name="lookupDefinition">
+            <bean parent="lookupDefinition">
+            </bean>
+        </property>
+        <property name="helpDefinition">
+            <bean parent="helpDefinition">
+            </bean>
+        </property>
+        <property name="mustOccurConstraints">
+           <list>
+            <bean parent="mustOccurConstraint">
+                <property name="min" value="1"/>
+                <property name="max" value="1"/>
+                <property name="prerequisiteConstraints">
+                    <list>
+                        <bean parent="prerequisiteConstraint">
+                          <property name="attributePath" value="type">
+                          <property name="attributePath" value="state">
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+         </list>
+        </property>
+        -->
     </bean>
 
     <!-- Attribute Definitions -->

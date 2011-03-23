@@ -20,14 +20,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+
 
 public class Dictionary2BeanComparer {
 
     private String className;
-    private DataDictionaryObjectStructure osDict;
+    private ObjectDictionaryEntry osDict;
 
-    public Dictionary2BeanComparer(String className, DataDictionaryObjectStructure osDict) {
+    public Dictionary2BeanComparer(String className, ObjectDictionaryEntry osDict) {
         this.className = className;
         this.osDict = osDict;
     }
@@ -43,13 +44,13 @@ public class Dictionary2BeanComparer {
             return Arrays.asList(className + " does not have a corresponding java class");
         }
         Stack<AttributeDefinition> parents = new Stack<AttributeDefinition>();
-        DataDictionaryObjectStructure osBean = new Bean2DictionaryConverter(clazz, parents).convert();
+        ObjectDictionaryEntry osBean = new Bean2DictionaryConverter(clazz, parents).convert();
         return compare(osDict, osBean);
 
     }
 
-    private List<String> compare(DataDictionaryObjectStructure osDict,
-            DataDictionaryObjectStructure osBean) {
+    private List<String> compare(ObjectDictionaryEntry osDict,
+            ObjectDictionaryEntry osBean) {
         List<String> discrepancies = new ArrayList();
         compareAddDiscrepancy(discrepancies, "Java class name", osDict.getFullClassName(), osBean.getFullClassName());
         compareAddDiscrepancy(discrepancies, "Entry class", osDict.getEntryClass(), osBean.getEntryClass());
@@ -74,8 +75,8 @@ public class Dictionary2BeanComparer {
         return discrepancies;
     }
 
-    private AttributeDefinition findField(String name, DataDictionaryObjectStructure os) {
-        for (AttributeDefinition fd : os.getAttributes()) {
+    private AttributeDefinition findField(String name, ObjectDictionaryEntry ode) {
+        for (AttributeDefinition fd : ode.getAttributes()) {
             if (name.equals(fd.getName())) {
                 return fd;
             }

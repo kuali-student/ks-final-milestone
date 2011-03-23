@@ -15,19 +15,12 @@
  */
 package org.kuali.student.datadictionary.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -47,29 +40,29 @@ public class DictionaryTesterHelper {
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
     }
-    private transient Map<String, DataDictionaryObjectStructure> objectStructures;
+    private transient Map<String, ObjectDictionaryEntry> objectStructures;
 
     public List<String> doTest() {
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 "classpath:" + dictFileName);
         objectStructures = new HashMap();
-        Map<String, DataDictionaryObjectStructure> beansOfType =
-                (Map<String, DataDictionaryObjectStructure>) ac.getBeansOfType(DataDictionaryObjectStructure.class);
-        for (DataDictionaryObjectStructure objStr : beansOfType.values()) {
+        Map<String, ObjectDictionaryEntry> beansOfType =
+                (Map<String, ObjectDictionaryEntry>) ac.getBeansOfType(ObjectDictionaryEntry.class);
+        for (ObjectDictionaryEntry objStr : beansOfType.values()) {
             objectStructures.put(objStr.getFullClassName(), objStr);
             System.out.println("Loading object structure: " + objStr.getFullClassName());
         }
-        DataDictionaryObjectStructure os = null;
-        os = objectStructures.get(className);
-        if (os == null) {
+        ObjectDictionaryEntry ode = null;
+        ode = objectStructures.get(className);
+        if (ode == null) {
             throw new RuntimeException("className is not defined in dictionary: " + className);
         }
-        DictionaryValidator validator = new DictionaryValidator(os, new HashSet());
+        DictionaryValidator validator = new DictionaryValidator(ode, new HashSet());
         List<String> errors = validator.validate();
         if (errors.size() > 0) {
             return errors;
         }
-        DictionaryFormatter formatter = new DictionaryFormatter(os, projectUrl, dictFileName, outputFileName);
+        DictionaryFormatter formatter = new DictionaryFormatter(ode, projectUrl, dictFileName, outputFileName);
         formatter.formatForHtml();
         return new ArrayList<String>();
     }

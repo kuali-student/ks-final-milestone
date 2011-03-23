@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
@@ -33,17 +34,16 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 
 public class DictionaryFormatter {
 
-    private DataDictionaryObjectStructure os;
+    private ObjectDictionaryEntry ode;
     private String projectUrl;
     private String dictFileName;
     private String outputFileName;
 
-    public DictionaryFormatter(DataDictionaryObjectStructure os, String projectUrl, String dictFileName, String outputFileName) {
-        this.os = os;
+    public DictionaryFormatter(ObjectDictionaryEntry ode, String projectUrl, String dictFileName, String outputFileName) {
+        this.ode = ode;
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
         this.outputFileName = outputFileName;
@@ -79,20 +79,127 @@ public class DictionaryFormatter {
 
     private void writeBody(PrintStream out) {
         out.println("(!) This page was automatically generated on " + new Date());
+        out.print(" and is a formatted view of ");
+        writeLink(out, projectUrl + "/" + this.dictFileName, "this file");
+        out.print (" out on subversion.");
 //  builder.append ("======= start dump of object structure definition ========");
-        out.println("<h1>" + os.getEntryClass().getSimpleName() + "</h1>");
-        out.print("This is a formatted view of ");
-        writeLink(out, projectUrl + "/" + this.dictFileName, this.dictFileName);
-        List<String> discrepancies = new Dictionary2BeanComparer(os.getFullClassName(), os).compare();
+        out.println("<h1>" + this.dictFileName + "</h1>");
+
+        out.println("<br>");
+        out.println("<table border=1>");
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Name");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getName());
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Label");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getObjectLabel());
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("JSTL Key");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getJstlKey());
+        out.println("</td>");
+        out.println("</tr>");
+        
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Java Class");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getFullClassName());
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+
+        if (!ode.getObjectClass().getName().equals(ode.getFullClassName())) {
+            out.println("<tr>");
+            out.println("<th bgcolor=lightblue>");
+            out.println("Object Class");
+            out.println("</th>");
+            out.println("<td>");
+            out.println(ode.getObjectClass().getName());
+            out.println("</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+        }
+        
+        if (!ode.getEntryClass().getName().equals(ode.getFullClassName())) {
+            out.println("<tr>");
+            out.println("<th bgcolor=lightblue>");
+            out.println("Entry Class");
+            out.println("</th>");
+            out.println("<td>");
+            out.println(ode.getEntryClass().getName());
+            out.println("</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+        }
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Description");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getObjectDescription());
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Primary Key(s)");
+        out.println("</th>");
+        out.println("<td>");
+        StringBuilder bldr = new StringBuilder ();
+        String comma = "";
+        for (String pk: ode.getPrimaryKeys()) {
+            bldr.append(comma);
+            comma = ", ";
+            bldr.append(pk);
+        }
+        out.println(bldr.toString());
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("<tr>");
+        out.println("<th bgcolor=lightblue>");
+        out.println("Field to use as the title (or name)");
+        out.println("</th>");
+        out.println("<td>");
+        out.println(ode.getTitleAttribute());
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("</table>");
+//        out.println("<br>");
+
+        // fields
+        out.println("<h1>Field Definitions</h1>");
+        // check for discrepancies first
+        List<String> discrepancies = new Dictionary2BeanComparer(ode.getFullClassName(), ode).compare();
+        out.println("No discrepancies were found between the dictionary definition and the java object");
         if (discrepancies.size() > 0) {
-            out.println("<br>");
-            out.println("<b>" + discrepancies.size() + " discrepancie(s) found" + "</b>");
+            out.println("<b>" + discrepancies.size() + " discrepancie(s) were found between the dictionary definition and the java object" + "</b>");
             out.println("<ol>");
             for (String discrepancy : discrepancies) {
                 out.println("<li>" + discrepancy);
             }
             out.println("</ol>");
         }
+        // field table
         out.println("<table border=1>");
         out.println("<tr bgcolor=lightblue>");
         out.println("<th>");
@@ -130,7 +237,7 @@ public class DictionaryFormatter {
         out.println("</th>");
         out.println("</tr>");
 //        for (AttributeDefinition ad : getSortedFields()) {
-        for (AttributeDefinition ad : os.getAttributes()) {
+        for (AttributeDefinition ad : ode.getAttributes()) {
             out.println("<tr>");
             out.println("<td>");
             out.println(nbsp(ad.getName()));
@@ -172,7 +279,7 @@ public class DictionaryFormatter {
     }
 
     private List<AttributeDefinition> getSortedFields() {
-        List<AttributeDefinition> fields = os.getAttributes();
+        List<AttributeDefinition> fields = ode.getAttributes();
         Collections.sort(fields, new AttributeDefinitionNameComparator());
         return fields;
     }
@@ -483,14 +590,12 @@ public class DictionaryFormatter {
     }
 
     private String calcWidget(AttributeDefinition ad) {
-        ControlDefinition control = ad.getControl ();
+        ControlDefinition control = ad.getControl();
         if (control == null) {
             return " ";
         }
-        return control.getClass ().getSimpleName();
+        return control.getClass().getSimpleName();
     }
-
-
 
     private String calcCrossField(AttributeDefinition ad) {
         StringBuilder b = new StringBuilder();

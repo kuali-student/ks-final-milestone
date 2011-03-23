@@ -26,8 +26,8 @@
           class="org.kuali.rice.kns.datadictionary.AttributeDefinition"
           abstract="true" />
 
-    <bean id="dataDictionaryObjectStructure"
-          class="org.kuali.student.datadictionary.DataDictionaryObjectStructure"
+    <bean id="objectDictionaryEntry"
+          class="org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry"
           abstract="true" />
 
     <bean id="baseKualiString" abstract="true" parent="AttributeDefinition">

@@ -23,8 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
-import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
+
 
 public class Bean2DictionaryConverter {
 
@@ -36,14 +37,14 @@ public class Bean2DictionaryConverter {
         this.parents = parents;
     }
 
-    public DataDictionaryObjectStructure convert() {
-        DataDictionaryObjectStructure os = new DataDictionaryObjectStructure();
-        os.setFullClassName(clazz.getName());
-        addAttributeDefinitions(os);
-        return os;
+    public ObjectDictionaryEntry convert() {
+        ObjectDictionaryEntry ode = new ObjectDictionaryEntry();
+        ode.setObjectClass(clazz);
+        addAttributeDefinitions(ode);
+        return ode;
     }
 
-    public void addAttributeDefinitions(DataDictionaryObjectStructure os) {
+    public void addAttributeDefinitions(ObjectDictionaryEntry ode) {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
@@ -56,11 +57,11 @@ public class Bean2DictionaryConverter {
             }
             Class<?> actualClass = calcActualClass(clazz, pd);
             AttributeDefinition ad = calcAttributeDefinition(clazz, pd, actualClass);
-            os.getAttributes().add(ad);
+            ode.getAttributes().add(ad);
             if (ad.getDataType().equals(DataType.COMPLEX)) {
                 parents.push(ad);
                 Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parents);
-                subConverter.addAttributeDefinitions(os);
+                subConverter.addAttributeDefinitions(ode);
                 parents.pop();
             }
         }
