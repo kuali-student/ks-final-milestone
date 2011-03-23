@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.datadictinoary;
+package org.kuali.student.datadictionary.util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +30,7 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 
 
 

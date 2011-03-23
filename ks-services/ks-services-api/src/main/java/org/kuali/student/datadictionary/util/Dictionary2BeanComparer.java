@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.datadictinoary;
+package org.kuali.student.datadictionary.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 
 public class Dictionary2BeanComparer {
 

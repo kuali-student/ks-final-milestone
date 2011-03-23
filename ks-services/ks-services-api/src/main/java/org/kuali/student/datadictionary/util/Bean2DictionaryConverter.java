@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.datadictinoary;
+package org.kuali.student.datadictionary.util;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 
 public class Bean2DictionaryConverter {
 

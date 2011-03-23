@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.datadictinoary;
+package org.kuali.student.datadictionary.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

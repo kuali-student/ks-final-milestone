@@ -15,9 +15,9 @@
  */
 package org.kuali.student.datadictionary;
 
+import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 import java.util.List;
 import org.junit.Test;
-import org.kuali.student.datadictinoary.DictionaryTesterHelper;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import static org.junit.Assert.*;
 

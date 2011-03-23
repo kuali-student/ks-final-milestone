@@ -27,10 +27,10 @@
           abstract="true" />
 
     <bean id="dataDictionaryObjectStructure"
-          class="org.kuali.student.datadictinoary.DataDictionaryObjectStructure"
+          class="org.kuali.student.datadictionary.DataDictionaryObjectStructure"
           abstract="true" />
 
-    <bean id="baseString" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiString" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="STRING" />
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
@@ -44,14 +44,14 @@
         <property name="validCharactersConstraint" ref="lineText" />
     </bean>
 
-    <bean id="baseComplex" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiComplex" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="COMPLEX" />
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1" />
     </bean>
 
-    <bean id="baseStringLong" abstract="true" parent="baseString">
+    <bean id="baseKualiStringLong" abstract="true" parent="baseKualiString">
         <property name="minLength" value="1" />
         <property name="maxLength" value="1999" />
         <property name="control">
@@ -60,11 +60,11 @@
         <property name="validCharactersConstraint" ref="multiLineText" />
     </bean>
 
-    <bean id="baseStringReallyLong" abstract="true" parent="baseStringLong">
+    <bean id="baseKualiStringReallyLong" abstract="true" parent="baseKualiStringLong">
         <property name="maxLength" value="14000" />
     </bean>
 
-    <bean id="baseInteger" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiInteger" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="INTEGER" />
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
@@ -78,7 +78,7 @@
         <property name="validCharactersConstraint" ref="positive.integer" />
     </bean>
 
-    <bean id="baseDate" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiDate" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="TRUNCATED_DATE" />
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
@@ -90,7 +90,7 @@
         </property>
     </bean>
 
-    <bean id="baseDateTime" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiDateTime" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="DATE" />
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
@@ -104,20 +104,20 @@
         </property>
     </bean>
 
-    <bean id="baseKualiCodeLoose" parent="baseString" abstract="true">
+    <bean id="baseKualiCodeLoose" parent="baseKualiString" abstract="true">
         <property name="minLength" value="1" />
         <property name="maxLength" value="80" />
         <property name="validCharactersConstraint" ref="lineText"/>
     </bean>
 
-    <bean id="baseKualiCode" parent="baseString" abstract="true">
+    <bean id="baseKualiCode" parent="baseKualiString" abstract="true">
         <property name="minLength" value="1" />
         <property name="maxLength" value="80" />
         <property name="validCharactersConstraint" ref="alphanumericHyphenPeriod"/>
     </bean>
 
 
-    <bean id="baseKualiId" abstract="true" parent="baseString">
+    <bean id="baseKualiId" abstract="true" parent="baseKualiString">
         <property name="name" value="id"/>
         <property name="forceUppercase" value="false"/>
         <property name="minLength" value="1"/>
@@ -144,7 +144,7 @@
         <property name="description" value="The state of the object"/>
     </bean>
 
-    <bean id="baseKualiEffectiveDate" parent="baseDate" abstract="true">
+    <bean id="baseKualiEffectiveDate" parent="baseKualiDateTime" abstract="true">
         <property name="required" value="true"/>
         <property name="name" value="effectiveDate"/>
         <property name="shortLabel" value="Effective"/>
@@ -153,7 +153,7 @@
         <property name="description" value="The date the object became (will become) effective"/>
     </bean>
 
-    <bean id="baseKualiExpirationDate" parent="baseDate" abstract="true">
+    <bean id="baseKualiExpirationDate" parent="baseKualiDateTime" abstract="true">
         <!-- TODO: add a cross field constraint to ensure expiration is always >= effective-->
         <property name="name" value="expirationDate"/>
         <property name="shortLabel" value="Expires"/>
@@ -189,7 +189,7 @@
         <!--TODO: Add some sort of referential integrity constriant to make sure the id is a valid person id-->
     </bean>
 
-    <bean id="baseKualiMeta" parent="baseComplex" abstract="true">
+    <bean id="baseKualiMeta" parent="baseKualiComplex" abstract="true">
         <property name="name" value="metaInfo"/>
         <property name="shortLabel" value="Audit"/>
         <property name="summary" value="Audit trail info on changes"/>
@@ -197,7 +197,7 @@
         <property name="description" value="Time stamp of when and who created and last updated and version indicator"/>
     </bean>
 
-    <bean id="baseKualiMetaCreateTime" parent="baseDateTime" abstract="true">
+    <bean id="baseKualiMeta.createTime" parent="baseKualiDateTime" abstract="true">
         <property name="name" value="metaInfo.createTime"/>
         <property name="shortLabel" value="Created on"/>
         <property name="summary" value="The date/time stamp of when this was created"/>
@@ -205,7 +205,7 @@
         <property name="description" value="The date/time stamp of when this was created"/>
     </bean>
 
-    <bean id="baseKualiMetaUpdateTime" parent="baseDateTime" abstract="true">
+    <bean id="baseKualiMeta.updateTime" parent="baseKualiDateTime" abstract="true">
         <property name="name" value="metaInfo.updateTime"/>
         <property name="shortLabel" value="Updated on"/>
         <property name="summary" value="The date/time stamp of when this was last updated"/>
@@ -213,7 +213,7 @@
         <property name="description" value="The date/time stamp of when this was last updated"/>
     </bean>
 
-    <bean id="baseKualiMetaCreateId" parent="baseKualiPrincipalId" abstract="true">
+    <bean id="baseKualiMeta.createId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.createId"/>
         <property name="shortLabel" value="Creator ID"/>
         <property name="summary" value="Principal ID of person who created this"/>
@@ -221,7 +221,7 @@
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
     </bean>
 
-    <bean id="baseKualiMetaUpdateId" parent="baseKualiPrincipalId" abstract="true">
+    <bean id="baseKualiMeta.updateId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.updateId"/>
         <property name="shortLabel" value="Updater ID"/>
         <property name="summary" value="Principal ID of person who last updated this"/>
@@ -229,7 +229,7 @@
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
     </bean>
 
-    <bean id="baseKualiMetaVersionInd" parent="baseKualiCodeLoose" abstract="true">
+    <bean id="baseKualiMeta.versionInd" parent="baseKualiCodeLoose" abstract="true">
         <property name="name" value="metaInfo.versionInd"/>
         <property name="shortLabel" value="Version Ind"/>
         <property name="summary" value="Optimistic Locking Flag"/>
@@ -237,7 +237,7 @@
         <property name="description" value="Field used to check optimistic locking, updated on each update"/>
     </bean>
 
-    <bean id="baseKualiAttributes" parent="baseComplex" abstract="true">
+    <bean id="baseKualiAttributes" parent="baseKualiComplex" abstract="true">
         <property name="name" value="attributes"/>
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
@@ -246,5 +246,32 @@
         <property name="summary" value="Dynamic Attributes"/>
         <property name="label" value="Dynamic Attrbutes"/>
         <property name="description" value="Dynamic Attributes"/>
+    </bean>
+
+    <bean id="baseKualiAttributes.id" parent="baseKualiId" abstract="true">
+        <property name="name" value="attributes.id"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Unique ID"/>
+        <property name="summary" value="Unique ID for this dynamic attribute value"/>
+        <property name="label" value="Dynamic Attrbute ID"/>
+        <property name="description" value="ID assigned to this key value pair"/>
+    </bean>
+
+    <bean id="baseKualiAttributes.key" parent="baseKualiType" abstract="true">
+        <property name="name" value="attributes.key"/>
+        <property name="required" value="true"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="summary" value="Name or key used to reference this dynamic attribute"/>
+        <property name="label" value="Dynamic Attrbute Name"/>
+        <property name="description" value="The name by which this dyanamic attribute is referenced"/>
+    </bean>
+
+    <bean id="baseKualiAttributes.value" parent="baseKualiStringLong" abstract="true">
+        <property name="name" value="attributes.value"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Value"/>
+        <property name="summary" value="Value of the dynamic attribute"/>
+        <property name="label" value="A value of the dynamic attribute"/>
+        <property name="description" value="One of the values associated with the key (there may more than one in the case of lists)"/>
     </bean>
 </beans>

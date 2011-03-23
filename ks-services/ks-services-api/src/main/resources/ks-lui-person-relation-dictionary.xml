@@ -41,6 +41,9 @@
                 <ref bean="luiPersonRelationInfo.metaInfo.updateId"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.versionInd"/>
                 <ref bean="luiPersonRelationInfo.attributes"/>
+                <ref bean="luiPersonRelationInfo.attributes.id"/>
+                <ref bean="luiPersonRelationInfo.attributes.key"/>
+                <ref bean="luiPersonRelationInfo.attributes.value"/>
                 <!--TODO: Dynamic Attributes-->
             </list>
         </property>
@@ -85,29 +88,41 @@
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo" parent="luiPersonRelationInfo.metaInfo-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.createTime-parent" abstract="true" parent="baseKualiMetaCreateTime">
+    <bean id="luiPersonRelationInfo.metaInfo.createTime-parent" abstract="true" parent="baseKualiMeta.createTime">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.createTime" parent="luiPersonRelationInfo.metaInfo.createTime-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.createId-parent" abstract="true" parent="baseKualiMetaCreateId">
+    <bean id="luiPersonRelationInfo.metaInfo.createId-parent" abstract="true" parent="baseKualiMeta.createId">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.createId" parent="luiPersonRelationInfo.metaInfo.createId-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.updateTime-parent" abstract="true" parent="baseKualiMetaUpdateTime">
+    <bean id="luiPersonRelationInfo.metaInfo.updateTime-parent" abstract="true" parent="baseKualiMeta.updateTime">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.updateTime" parent="luiPersonRelationInfo.metaInfo.updateTime-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.updateId-parent" abstract="true" parent="baseKualiMetaUpdateId">
+    <bean id="luiPersonRelationInfo.metaInfo.updateId-parent" abstract="true" parent="baseKualiMeta.updateId">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.updateId" parent="luiPersonRelationInfo.metaInfo.updateId-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.versionInd-parent" abstract="true" parent="baseKualiMetaVersionInd">
+    <bean id="luiPersonRelationInfo.metaInfo.versionInd-parent" abstract="true" parent="baseKualiMeta.versionInd">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.versionInd" parent="luiPersonRelationInfo.metaInfo.versionInd-parent"/>
 
     <bean id="luiPersonRelationInfo.attributes-parent" abstract="true" parent="baseKualiAttributes">
     </bean>
     <bean id="luiPersonRelationInfo.attributes" parent="luiPersonRelationInfo.attributes-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.id-parent" abstract="true" parent="baseKualiAttributes.id">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.id" parent="luiPersonRelationInfo.attributes.id-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.key-parent" abstract="true" parent="baseKualiAttributes.key">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.key" parent="luiPersonRelationInfo.attributes.key-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.value-parent" abstract="true" parent="baseKualiAttributes.value">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.value" parent="luiPersonRelationInfo.attributes.value-parent"/>
     <!--
         <property name="control">
             <bean parent="SelectControlDefinition" p:businessObjectClass="edu.sampleu.travel.bo.TravelAccountType"

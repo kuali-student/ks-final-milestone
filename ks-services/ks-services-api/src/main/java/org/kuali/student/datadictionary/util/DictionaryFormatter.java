@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.datadictinoary;
+package org.kuali.student.datadictionary.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,12 +26,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam;
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.student.datadictionary.DataDictionaryObjectStructure;
 
 public class DictionaryFormatter {
 
@@ -77,16 +79,10 @@ public class DictionaryFormatter {
 
     private void writeBody(PrintStream out) {
         out.println("(!) This page was automatically generated on " + new Date());
-        out.println("<br>");
-        out.println("<b>DO NOT UPDATE MANUALLY!</b>");
-        out.println("<br>");
-        out.print("This page represents a formatted view of "
-                + "<a href=\"" + projectUrl + "/" + this.dictFileName + "\">" + this.dictFileName + "</a>");
 //  builder.append ("======= start dump of object structure definition ========");
-        out.println("<h1>" + dictFileName + "</h1>");
-
-        out.println("The corresponding java class for this dictionary object is "
-                + os.getFullClassName());
+        out.println("<h1>" + os.getEntryClass().getSimpleName() + "</h1>");
+        out.print("This is a formatted view of ");
+        writeLink(out, projectUrl + "/" + this.dictFileName, this.dictFileName);
         List<String> discrepancies = new Dictionary2BeanComparer(os.getFullClassName(), os).compare();
         if (discrepancies.size() > 0) {
             out.println("<br>");
@@ -98,7 +94,7 @@ public class DictionaryFormatter {
             out.println("</ol>");
         }
         out.println("<table border=1>");
-        out.println("<tr>");
+        out.println("<tr bgcolor=lightblue>");
         out.println("<th>");
         out.println("Field");
         out.println("</th>");
@@ -129,8 +125,12 @@ public class DictionaryFormatter {
         out.println("<th>");
         out.println("Cross Field");
         out.println("</th>");
+        out.println("<th>");
+        out.println("Default Widget");
+        out.println("</th>");
         out.println("</tr>");
-        for (AttributeDefinition ad : getSortedFields()) {
+//        for (AttributeDefinition ad : getSortedFields()) {
+        for (AttributeDefinition ad : os.getAttributes()) {
             out.println("<tr>");
             out.println("<td>");
             out.println(nbsp(ad.getName()));
@@ -163,6 +163,8 @@ public class DictionaryFormatter {
             out.println(nbsp(calcCrossField(ad)));
             out.println("</td>");
             out.println("<td>");
+            out.println(nbsp(calcWidget(ad)));
+            out.println("</td>");
             out.println("</tr>");
         }
         out.println("</table>");
@@ -285,8 +287,6 @@ public class DictionaryFormatter {
         return " ";
 //  return "optional";
     }
-    private static final String LINK_TO_DEFINITIONS =
-            "KULSTG:Formatted View of Base Dictionary#Valid Character Definitions";
 
     private String calcValidChars(AttributeDefinition ad) {
         if (ad.getValidCharactersConstraint() == null) {
@@ -300,27 +300,9 @@ public class DictionaryFormatter {
         if (labelKey == null) {
             labelKey = "validation.validChars";
         }
-        String validChars = escapeWiki(cons.getValue());
-        String descr = "[" + labelKey + "|" + LINK_TO_DEFINITIONS + "]" + "\\\\\n"
-                + validChars;
+        String validChars = escapeXML(cons.getValue());
+        String descr = labelKey + "<br>" + validChars;
         return descr;
-    }
-
-    private String escapeWiki(String str) {
-        StringBuilder bldr = new StringBuilder(str.length());
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            switch (c) {
-                case '{':
-                case '}':
-                case '[':
-                case ']':
-                case '|':
-                    bldr.append('\\');
-            }
-            bldr.append(c);
-        }
-        return bldr.toString();
     }
 
     private String calcLookup(AttributeDefinition ad) {
@@ -337,7 +319,7 @@ public class DictionaryFormatter {
 //  builder.append (" - ");
 //  builder.append (lc.getDesc ());
         String and = "";
-        bldr.append("\\\\");
+        bldr.append("<br>");
         bldr.append("\n");
         bldr.append("Implemented using search: ");
         String searchPage = calcWikiSearchPage(lc.getSearchTypeId());
@@ -346,7 +328,7 @@ public class DictionaryFormatter {
         List<CommonLookupParam> configuredParameters = filterConfiguredParams(
                 lc.getParams());
         if (configuredParameters.size() > 0) {
-            bldr.append("\\\\");
+            bldr.append("<br>");
             bldr.append("\n");
             bldr.append(" where ");
             and = "";
@@ -382,7 +364,7 @@ public class DictionaryFormatter {
         if (minMax.trim().equals("")) {
             return validChars;
         }
-        return validChars + "\\\\\n" + minMax;
+        return validChars + "<br>\n" + minMax;
     }
 
     private String calcMinMax(AttributeDefinition ad) {
@@ -488,17 +470,27 @@ public class DictionaryFormatter {
         if (ad.getMaxLength() != null) {
             if (ad.getMinLength() != null && ad.getMinLength() != 0) {
                 if (ad.getMaxLength() == ad.getMinLength()) {
-                    return ("(must be " + ad.getMaxLength() + ")");
+                    return ("must be " + ad.getMaxLength());
                 }
-                return "(" + ad.getMinLength() + " to " + ad.getMaxLength() + ")";
+                return ad.getMinLength() + " to " + ad.getMaxLength();
             }
-            return "(up to " + ad.getMaxLength() + ")";
+            return "up to " + ad.getMaxLength();
         }
         if (ad.getMinLength() != null) {
-            return "(over " + ad.getMinLength() + ")";
+            return "at least " + ad.getMinLength();
         }
         return " ";
     }
+
+    private String calcWidget(AttributeDefinition ad) {
+        ControlDefinition control = ad.getControl ();
+        if (control == null) {
+            return " ";
+        }
+        return control.getClass ().getSimpleName();
+    }
+
+
 
     private String calcCrossField(AttributeDefinition ad) {
         StringBuilder b = new StringBuilder();
@@ -740,6 +732,10 @@ public class DictionaryFormatter {
             }
         }
         return sb.toString();
+    }
+
+    private void writeLink(PrintStream out, String url, String value) {
+        out.print("<a href=\"" + url + "\">" + value + "</a>");
     }
 }
 

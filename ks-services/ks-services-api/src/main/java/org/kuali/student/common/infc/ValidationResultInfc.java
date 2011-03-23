@@ -17,6 +17,28 @@ package org.kuali.student.common.infc;
 
 public interface ValidationResultInfc {
 
+    public enum ErrorLevel {
+
+        OK(0), WARN(1), ERROR(2);
+        int level;
+
+        private ErrorLevel(int level) {
+            this.level = level;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public static ErrorLevel min(ErrorLevel e1, ErrorLevel e2) {
+            return e1.ordinal() < e2.ordinal() ? e1 : e2;
+        }
+
+        public static ErrorLevel max(ErrorLevel e1, ErrorLevel e2) {
+            return e1.ordinal() > e2.ordinal() ? e1 : e2;
+        }
+    }
+
     /**
      * Get ????
      * <p/>
@@ -24,7 +46,7 @@ public interface ValidationResultInfc {
      * <p/>
      * ???
      */
-    public Integer getLevel();
+    public ErrorLevel getLevel();
 
     /**
      * Get ????
@@ -51,7 +73,7 @@ public interface ValidationResultInfc {
      * <p/>
      * Returns the ValidationResult's error level
      */
-    public Integer getErrorLevel();
+    public ErrorLevel getErrorLevel();
 
     /**
      * Get ????
@@ -60,7 +82,7 @@ public interface ValidationResultInfc {
      * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
      */
-    public Boolean isOk();
+    public boolean isOk();
 
     /**
      * Get ????
@@ -69,7 +91,7 @@ public interface ValidationResultInfc {
      * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
      */
-    public Boolean isWarn();
+    public boolean isWarn();
 
     /**
      * Get ????
@@ -78,6 +100,6 @@ public interface ValidationResultInfc {
      * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
      */
-    public Boolean isError();
+    public boolean isError();
 }
 
