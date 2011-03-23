@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Igor
  */
-public class PersonRelationConverter implements Converter<LuiPersonRelation, LuiPersonRelationInfo> {
+public class LprConverter implements Converter<LuiPersonRelation, LuiPersonRelationInfo> {
 
     private Converter<DynamicAttribute, DynamicAttributeInfo> dynamicAttributeConverter;
 

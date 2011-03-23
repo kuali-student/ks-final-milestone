@@ -7,7 +7,7 @@ public interface SimpleConverter<Entity, Dto> {
 
     Entity fromDto(Dto dto);
 
-    Dto fromEntity(Entity dto);
+    Dto fromEntity(Entity entity);
 
     void entityToDto(Entity entity, Dto dto);
 

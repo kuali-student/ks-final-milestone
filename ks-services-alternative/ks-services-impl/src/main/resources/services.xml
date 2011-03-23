@@ -8,8 +8,15 @@
 
     <bean id="luiPersonRelationService"
           class="org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceImpl">
-        <property name="personRelationDao" ref="luiPersonRelationDao"/>
-        <property name="personRelationConverter" ref="personRelationConverter"/>
+        <!--daos-->
+        <property name="lprDao" ref="lprDao"/>
+        <property name="lprTypeDao" ref="lprTypeDao"/>
+        <property name="lprStateDao" ref="lprStateDao"/>
+
+        <!--converters-->
+        <property name="lprConverter" ref="personRelationConverter"/>
+        <property name="lprStateConverter" ref="lprStateConverter"/>
+        <property name="lprTypeConverter" ref="lprTypeConverter"/>
     </bean>
 
 </beans>

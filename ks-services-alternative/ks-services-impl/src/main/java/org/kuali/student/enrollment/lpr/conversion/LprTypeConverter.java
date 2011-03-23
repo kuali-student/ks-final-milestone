@@ -5,10 +5,13 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.model.DynamicAttribute;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Igor
  */
-public class PersonRelationTypeConverter implements SimpleConverter<LuiPersonRelationType, LuiPersonRelationTypeInfo> {
+public class LprTypeConverter implements Converter<LuiPersonRelationType, LuiPersonRelationTypeInfo> {
 
     private Converter<DynamicAttribute, DynamicAttributeInfo> dynamicAttributeConverter;
 
@@ -48,5 +51,23 @@ public class PersonRelationTypeConverter implements SimpleConverter<LuiPersonRel
 
     public void setDynamicAttributeConverter(Converter<DynamicAttribute, DynamicAttributeInfo> dynamicAttributeConverter) {
         this.dynamicAttributeConverter = dynamicAttributeConverter;
+    }
+
+    @Override
+    public List<LuiPersonRelationType> fromDtos(List<LuiPersonRelationTypeInfo> dtos) {
+        List<LuiPersonRelationType> entities = new ArrayList<LuiPersonRelationType>();
+        for (LuiPersonRelationTypeInfo dto : dtos) {
+            entities.add(fromDto(dto));
+        }
+        return entities;
+    }
+
+    @Override
+    public List<LuiPersonRelationTypeInfo> fromEntities(List<LuiPersonRelationType> entities) {
+        List<LuiPersonRelationTypeInfo> dtos = new ArrayList<LuiPersonRelationTypeInfo>();
+        for (LuiPersonRelationType entity : entities) {
+            dtos.add(fromEntity(entity));
+        }
+        return dtos;
     }
 }

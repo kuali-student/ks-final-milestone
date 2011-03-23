@@ -47,7 +47,7 @@ public class LuiPersonRelationServiceTest {
         assertEquals(personRelationInfos.size(), 1);
 
         LuiPersonRelationInfo personRelationInfo = personRelationInfos.get(0);
-        assertNotNull(personRelationInfo.getAttributes());
-        assertEquals(personRelationInfo.getAttributes().size(), 2);
+        assertNotNull(personRelationInfo.getDynamicAttributes());
+        assertEquals(personRelationInfo.getDynamicAttributes().size(), 2);
     }
 }

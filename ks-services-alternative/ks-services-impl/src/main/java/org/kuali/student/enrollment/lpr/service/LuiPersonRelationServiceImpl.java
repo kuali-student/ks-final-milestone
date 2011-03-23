@@ -18,313 +18,179 @@ package org.kuali.student.enrollment.lpr.service;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.lpr.conversion.PersonRelationConverter;
-import org.kuali.student.enrollment.lpr.dao.LuiPersonRelationDao;
+import org.kuali.student.enrollment.lpr.conversion.LprConverter;
+import org.kuali.student.enrollment.lpr.conversion.LprStateConverter;
+import org.kuali.student.enrollment.lpr.conversion.LprTypeConverter;
+import org.kuali.student.enrollment.lpr.dao.LprDao;
+import org.kuali.student.enrollment.lpr.dao.LprStateDao;
+import org.kuali.student.enrollment.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
 
+import javax.jws.WebParam;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * @Author sambit
+ * @author igor
  */
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
-    private LuiPersonRelationDao personRelationDao;
+    private LprDao lprDao;
 
-    private PersonRelationConverter personRelationConverter;
+    private LprTypeDao lprTypeDao;
+
+    private LprStateDao lprStateDao;
+
+    private LprConverter lprConverter;
+
+    private LprTypeConverter lprTypeConverter;
+
+    private LprStateConverter lprStateConverter;
 
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
             String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelation> luiPersonRelations = personRelationDao.getByLuiId(luiId);
-        return personRelationConverter.fromEntities(luiPersonRelations);
+        List<LuiPersonRelation> luiPersonRelations = lprDao.getByLuiId(luiId);
+        return lprConverter.fromEntities(luiPersonRelations);
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId,
-                                                         List<String> luiIdList, String relationState,
-                                                         String luiPersonRelationType,
-                                                         LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO stub mock impl
-        List<String> bulkRelationshipValues = new ArrayList<String>();
-
-        bulkRelationshipValues.add(personId);
-
-        System.out.print("created bulk records");
-
-        return bulkRelationshipValues;
-
+    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
+        return lprTypeConverter.fromEntities(lprTypeDao.findAll());
     }
 
     @Override
-    public String createLuiPersonRelation(String personId, String luiId,
-                                          String luiPersonRelationType,
-                                          LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
+        return lprStateConverter.fromEntities(lprStateDao.findAll());
+    }
+
+    @Override
+    public LuiPersonRelationInfo fetchLUIPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprConverter.fromEntity(lprDao.find(luiPersonRelationId));
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(@WebParam(name = "luiPersonRelationIdList") List<String> luiPersonRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprConverter.fromEntities(lprDao.findByIds(luiPersonRelationIdList));
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelations(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> findLuiPersonRelationIds(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public LuiPersonRelationInfo fetchLUIPersonRelation(
-            String luiPersonRelationId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findAllValidLuisForPerson(String personId,
-                                                  String luiPersonRelationType, String relationState, String atpId,
-                                                  ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> findLuiPersonRelationIdsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+
+    @Override
+    public List<String> findLuiPersonRelationIdsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findAllValidPeopleForLui(String luiId,
-                                                 String luiPersonRelationType, String relationState,
-                                                 ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public ValidationResultInfo validateLuiPersonRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(
-            String luiPersonRelationType, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
+    public List<String> findAllValidLuisForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findLuiIdsRelatedToPerson(String personId,
-                                                  String luiPersonRelationType, String relationState,
-                                                  ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> searchForLuiPersonRelationIds(@WebParam(name = "criteria") List<CriteriaInfo> criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findLuiPersonRelationIds(String personId, String luiId,
-                                                 ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public String createLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findLuiPersonRelationIdsForLui(String luiId,
-                                                       ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> createBulkRelationshipsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "luiIdList") List<String> luiIdList, @WebParam(name = "relationState") String relationState, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<String> findLuiPersonRelationIdsForPerson(String personId,
-                                                          ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> createBulkRelationshipsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "personIdList") List<String> personIdList, @WebParam(name = "relationState") String relationState, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(
-            ContextInfo context) throws OperationFailedException {
-        // TODO Auto-generated method stub
+    public LuiPersonRelationInfo updateLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(
-            ContextInfo context) throws OperationFailedException {
-        // TODO Auto-generated method stub
+    public StatusInfo deleteLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(
-            String personId, String luiId, String relationState,
-            ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public StatusInfo updateRelationState(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "relationState") LuiPersonRelationStateInfo relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
+    //TODO: not sure how to implement
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId,
-                                                              String luiId, ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(@WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }
 
+    //TODO: Why would I do that?
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(
-            List<String> luiPersonRelationIdList, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> findLuiIdsRelatedToPerson(@WebParam(name = "personId") String personId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
+    //TODO: why would I do that?
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(
-            String personId, ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
+    public List<String> findPersonIdsRelatedToLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationType") String luiPersonRelationType, @WebParam(name = "relationState") String relationState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
-    @Override
-    public List<LuiPersonRelationInfo> findOrderedRelationStatesForLuiPersonRelation(
-            String luiPersonRelationId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+
+    //======Dao Setters===============
+    public void setLprDao(LprDao lprDao) {
+        this.lprDao = lprDao;
     }
 
-    @Override
-    public List<String> findPersonIdsRelatedToLui(String luiId,
-                                                  String luiPersonRelationType, String relationState,
-                                                  ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    public void setLprTypeDao(LprTypeDao lprTypeDao) {
+        this.lprTypeDao = lprTypeDao;
     }
 
-    @Override
-    public List<LuiPersonRelationStateInfo> findValidRelationStatesForLuiPersonRelation(
-            String personId, String luiId, String luiPersonRelationType,
-            ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    public void setLprStateDao(LprStateDao lprStateDao) {
+        this.lprStateDao = lprStateDao;
     }
 
-    @Override
-    public Boolean isRelated(String personId, String luiId,
-                             String luiPersonRelationType, String relationState,
-                             ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    //============Converters Setters================
+    public void setLprConverter(LprConverter lprConverter) {
+        this.lprConverter = lprConverter;
     }
 
-    @Override
-    public Boolean isValidLuiPersonRelation(String personId, String luiId,
-                                            String luiPersonRelationType, String relationState,
-                                            ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    public void setLprTypeConverter(LprTypeConverter lprTypeConverter) {
+        this.lprTypeConverter = lprTypeConverter;
     }
 
-    @Override
-    public List<String> searchForLuiPersonRelationIds(
-            LuiPersonRelationCriteria luiPersonRelationCriteria,
-            ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public LuiPersonRelationInfo updateLuiPersonRelation(
-            String luiPersonRelationId,
-            LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, ReadOnlyException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StatusInfo updateRelationState(String luiPersonRelationId,
-                                          LuiPersonRelationStateInfo relationState,
-                                          ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ValidationResultInfo validateLuiPersonRelation(String personId,
-                                                          String luiId, String luiPersonRelationType, String relationState,
-                                                          ContextInfo context) throws DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void setPersonRelationDao(LuiPersonRelationDao personRelationDao) {
-        this.personRelationDao = personRelationDao;
-    }
-
-    public void setPersonRelationConverter(PersonRelationConverter personRelationConverter) {
-        this.personRelationConverter = personRelationConverter;
+    public void setLprStateConverter(LprStateConverter lprStateConverter) {
+        this.lprStateConverter = lprStateConverter;
     }
 }
