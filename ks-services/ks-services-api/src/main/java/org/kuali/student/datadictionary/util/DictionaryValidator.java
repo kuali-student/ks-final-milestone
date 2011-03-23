@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.rice.core.api.DateTimeService;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.rice.kns.datadictionary.validation.ValidationUtils;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
@@ -38,11 +38,11 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
 public class DictionaryValidator {
 
     private DateTimeService dateTimeService;
-    private ObjectDictionaryEntry ode;
-    private Set<ObjectDictionaryEntry> alreadyValidated;
+    private DataObjectEntry ode;
+    private Set<DataObjectEntry> alreadyValidated;
 
-    public DictionaryValidator(ObjectDictionaryEntry ode,
-            Set<ObjectDictionaryEntry> alreadyValidated) {
+    public DictionaryValidator(DataObjectEntry ode,
+            Set<DataObjectEntry> alreadyValidated) {
         this.ode = ode;
         this.alreadyValidated = alreadyValidated;
     }

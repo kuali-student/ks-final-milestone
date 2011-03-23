@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
 
 
@@ -37,14 +37,14 @@ public class Bean2DictionaryConverter {
         this.parents = parents;
     }
 
-    public ObjectDictionaryEntry convert() {
-        ObjectDictionaryEntry ode = new ObjectDictionaryEntry();
+    public DataObjectEntry convert() {
+        DataObjectEntry ode = new DataObjectEntry();
         ode.setObjectClass(clazz);
         addAttributeDefinitions(ode);
         return ode;
     }
 
-    public void addAttributeDefinitions(ObjectDictionaryEntry ode) {
+    public void addAttributeDefinitions(DataObjectEntry ode) {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);

@@ -21,7 +21,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
     <bean id="luiPersonRelationInfo" parent="luiPersonRelationInfo-parent"/>
 
-    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="objectDictionaryEntry">
+    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="dataObjectEntry">
 
         <property name="objectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
         <property name="name" value="luiPersonRelationInfo"/>

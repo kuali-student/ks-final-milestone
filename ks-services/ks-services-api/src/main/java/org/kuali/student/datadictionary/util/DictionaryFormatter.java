@@ -26,7 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
@@ -37,12 +37,12 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
 
 public class DictionaryFormatter {
 
-    private ObjectDictionaryEntry ode;
+    private DataObjectEntry ode;
     private String projectUrl;
     private String dictFileName;
     private String outputFileName;
 
-    public DictionaryFormatter(ObjectDictionaryEntry ode, String projectUrl, String dictFileName, String outputFileName) {
+    public DictionaryFormatter(DataObjectEntry ode, String projectUrl, String dictFileName, String outputFileName) {
         this.ode = ode;
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
@@ -81,7 +81,7 @@ public class DictionaryFormatter {
         out.println("(!) This page was automatically generated on " + new Date());
         out.print(" and is a formatted view of ");
         writeLink(out, projectUrl + "/" + this.dictFileName, "this file");
-        out.print (" out on subversion.");
+        out.print(" out on subversion.");
 //  builder.append ("======= start dump of object structure definition ========");
         out.println("<h1>" + this.dictFileName + "</h1>");
 
@@ -114,7 +114,7 @@ public class DictionaryFormatter {
         out.println(ode.getJstlKey());
         out.println("</td>");
         out.println("</tr>");
-        
+
         out.println("<tr>");
         out.println("<th bgcolor=lightblue>");
         out.println("Java Class");
@@ -136,7 +136,7 @@ public class DictionaryFormatter {
             out.println("</tr>");
             out.println("<tr>");
         }
-        
+
         if (!ode.getEntryClass().getName().equals(ode.getFullClassName())) {
             out.println("<tr>");
             out.println("<th bgcolor=lightblue>");
@@ -163,9 +163,9 @@ public class DictionaryFormatter {
         out.println("Primary Key(s)");
         out.println("</th>");
         out.println("<td>");
-        StringBuilder bldr = new StringBuilder ();
+        StringBuilder bldr = new StringBuilder();
         String comma = "";
-        for (String pk: ode.getPrimaryKeys()) {
+        for (String pk : ode.getPrimaryKeys()) {
             bldr.append(comma);
             comma = ", ";
             bldr.append(pk);
@@ -215,6 +215,12 @@ public class DictionaryFormatter {
         out.println("Length");
         out.println("</th>");
         out.println("<th>");
+        out.println("Labels");
+        out.println("</th>");
+        out.println("<th>");
+        out.println("Descriptions");
+        out.println("</th>");
+        out.println("<th>");
         out.println("Dynamic or Hidden");
         out.println("</th>");
         out.println("<th>");
@@ -252,6 +258,12 @@ public class DictionaryFormatter {
             out.println(nbsp(calcLength(ad)));
             out.println("</td>");
             out.println("<td>");
+            out.println(nbsp(calcLabels(ad)));
+            out.println("</td>");
+            out.println("<td>");
+            out.println(nbsp(calcDescriptions(ad)));
+            out.println("</td>");
+            out.println("<td>");
             out.println(nbsp(calcDynamic(ad)));
             out.println("</td>");
             out.println("<td>");
@@ -261,7 +273,7 @@ public class DictionaryFormatter {
             out.println(nbsp(calcRepeating(ad)));
             out.println("</td>");
             out.println("<td>");
-            out.println(nbsp(calcValidCharsMinMax(ad)));
+            out.println(nbsp(calcForceUpperValidCharsMinMax(ad)));
             out.println("</td>");
             out.println("<td>");
             out.println(nbsp(calcLookup(ad)));
@@ -276,6 +288,32 @@ public class DictionaryFormatter {
         }
         out.println("</table>");
         return;
+    }
+
+    private String calcLabels(AttributeDefinition ad) {
+        if (ad.getShortLabel() == null) {
+            return ad.getLabel();
+        }
+        if (ad.getLabel() == null) {
+            return ad.getShortLabel();
+        }
+        if (ad.getShortLabel().equals(ad.getLabel())) {
+            return ad.getShortLabel();
+        }
+        return ad.getSummary() + "<br>" + ad.getDescription();
+    }
+
+    private String calcDescriptions(AttributeDefinition ad) {
+        if (ad.getSummary() == null) {
+            return ad.getDescription();
+        }
+        if (ad.getDescription() == null) {
+            return ad.getSummary();
+        }
+        if (ad.getSummary().equals(ad.getDescription())) {
+            return ad.getSummary();
+        }
+        return ad.getSummary() + "<br>" + ad.getDescription();
     }
 
     private List<AttributeDefinition> getSortedFields() {
@@ -395,6 +433,13 @@ public class DictionaryFormatter {
 //  return "optional";
     }
 
+    private String calcForceUpperCase(AttributeDefinition ad) {
+        if (ad.getForceUppercase() != null && ad.getForceUppercase()) {
+            return "FORCE UPPER CASE";
+        }
+        return " ";
+    }
+
     private String calcValidChars(AttributeDefinition ad) {
         if (ad.getValidCharactersConstraint() == null) {
             return " ";
@@ -461,17 +506,30 @@ public class DictionaryFormatter {
         return bldr.toString();
     }
 
-    private String calcValidCharsMinMax(AttributeDefinition ad) {
+    private String calcForceUpperValidCharsMinMax(AttributeDefinition ad) {
+        StringBuilder bldr = new StringBuilder();
+        String brk = "";
+        String forceUpper = calcForceUpperCase(ad);
+        if (!forceUpper.trim().isEmpty()) {
+            bldr.append(forceUpper);
+            brk = "<BR>";
+        }
+
         String validChars = calcValidChars(ad);
+        if (!validChars.trim().isEmpty()) {
+            bldr.append(brk);
+            brk = "<BR>";
+            bldr.append(validChars);
+        }
+
         String minMax = calcMinMax(ad);
-        String and = " and ";
-        if (validChars.trim().equals("")) {
-            return minMax;
+        if (!minMax.trim().isEmpty()) {
+            bldr.append(brk);
+            brk = "<BR>";
+            bldr.append(minMax);
         }
-        if (minMax.trim().equals("")) {
-            return validChars;
-        }
-        return validChars + "<br>\n" + minMax;
+
+        return bldr.toString();
     }
 
     private String calcMinMax(AttributeDefinition ad) {

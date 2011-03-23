@@ -20,15 +20,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 
 
 public class Dictionary2BeanComparer {
 
     private String className;
-    private ObjectDictionaryEntry osDict;
+    private DataObjectEntry osDict;
 
-    public Dictionary2BeanComparer(String className, ObjectDictionaryEntry osDict) {
+    public Dictionary2BeanComparer(String className, DataObjectEntry osDict) {
         this.className = className;
         this.osDict = osDict;
     }
@@ -44,13 +44,13 @@ public class Dictionary2BeanComparer {
             return Arrays.asList(className + " does not have a corresponding java class");
         }
         Stack<AttributeDefinition> parents = new Stack<AttributeDefinition>();
-        ObjectDictionaryEntry osBean = new Bean2DictionaryConverter(clazz, parents).convert();
+        DataObjectEntry osBean = new Bean2DictionaryConverter(clazz, parents).convert();
         return compare(osDict, osBean);
 
     }
 
-    private List<String> compare(ObjectDictionaryEntry osDict,
-            ObjectDictionaryEntry osBean) {
+    private List<String> compare(DataObjectEntry osDict,
+            DataObjectEntry osBean) {
         List<String> discrepancies = new ArrayList();
         compareAddDiscrepancy(discrepancies, "Java class name", osDict.getFullClassName(), osBean.getFullClassName());
         compareAddDiscrepancy(discrepancies, "Entry class", osDict.getEntryClass(), osBean.getEntryClass());
@@ -75,7 +75,7 @@ public class Dictionary2BeanComparer {
         return discrepancies;
     }
 
-    private AttributeDefinition findField(String name, ObjectDictionaryEntry ode) {
+    private AttributeDefinition findField(String name, DataObjectEntry ode) {
         for (AttributeDefinition fd : ode.getAttributes()) {
             if (name.equals(fd.getName())) {
                 return fd;

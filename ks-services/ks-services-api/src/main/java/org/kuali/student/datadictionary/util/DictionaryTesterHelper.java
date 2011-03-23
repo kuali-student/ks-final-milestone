@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.kns.datadictionary.ObjectDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -40,19 +40,19 @@ public class DictionaryTesterHelper {
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
     }
-    private transient Map<String, ObjectDictionaryEntry> objectStructures;
+    private transient Map<String, DataObjectEntry> objectStructures;
 
     public List<String> doTest() {
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 "classpath:" + dictFileName);
         objectStructures = new HashMap();
-        Map<String, ObjectDictionaryEntry> beansOfType =
-                (Map<String, ObjectDictionaryEntry>) ac.getBeansOfType(ObjectDictionaryEntry.class);
-        for (ObjectDictionaryEntry objStr : beansOfType.values()) {
+        Map<String, DataObjectEntry> beansOfType =
+                (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
+        for (DataObjectEntry objStr : beansOfType.values()) {
             objectStructures.put(objStr.getFullClassName(), objStr);
             System.out.println("Loading object structure: " + objStr.getFullClassName());
         }
-        ObjectDictionaryEntry ode = null;
+        DataObjectEntry ode = null;
         ode = objectStructures.get(className);
         if (ode == null) {
             throw new RuntimeException("className is not defined in dictionary: " + className);
