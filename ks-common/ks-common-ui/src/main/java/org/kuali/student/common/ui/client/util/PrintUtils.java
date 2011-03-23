@@ -30,7 +30,7 @@ public class PrintUtils {
     }
     
     private static native void openPrintWindow(String html, String headTag, int num)/*-{
-    	var win = $wnd.open("", num, "width=900,height=600");
+    	var win = $wnd.open("", num, "width=900,height=600,scrollbars=1");
     	var doc = win.document;
     	doc.open("text/html", "replace");
     	doc.write("<HTML style='overflow: visible;'>");
@@ -38,10 +38,10 @@ public class PrintUtils {
     	doc.write("<BODY style='overflow: visible;'>");
     	doc.write("<a class='ks-button-primary' style='cursor: pointer;' onClick='print();'>Print</a>");
     	doc.write("<DIV class='printPage'>");
-    	doc.write(html);
-    	doc.write("</DIV></BODY></HTML>");
+    	doc.writeln(html);
+    	doc.writeln("</DIV></BODY></HTML>");
     	doc.close();
-    	win.print();
+    	
     }-*/;
 
 //    public static void printJasper(UIObject uiObject) {
