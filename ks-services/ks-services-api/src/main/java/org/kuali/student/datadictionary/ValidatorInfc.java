@@ -6,7 +6,6 @@
 package org.kuali.student.datadictionary;
 
 import java.util.List;
-import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;
 
 /**
@@ -15,5 +14,9 @@ import org.kuali.student.common.infc.ValidationResultInfc;
  */
 public interface ValidatorInfc {
 
-    public List<ValidationResultInfc> validate (String validationType, Object info);
+    public static enum ValidationType {
+        FULL_VALIDATION, SKIP_REQUREDNESS_VALIDATIONS;
+    }
+
+    public List<ValidationResultInfc> validate (ValidationType validationType, Object info);
 }

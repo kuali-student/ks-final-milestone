@@ -39,14 +39,6 @@ public interface ValidationResultInfc {
         }
     }
 
-    /**
-     * Get ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * ???
-     */
-    public ErrorLevel getLevel();
 
     /**
      * Get ????

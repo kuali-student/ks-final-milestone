@@ -27,14 +27,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author nwright
  */
-public class DictionaryServiceImpl implements DictionaryServiceInfc {
+public class KsDictionaryServiceImpl implements KsDictionaryServiceInfc {
 
     private Map<String, DataDictionaryEntry> map;
 
-    public DictionaryServiceImpl() {
+    public KsDictionaryServiceImpl() {
     }
 
-    @Override
     public void setDictionaryLocations(List<String> locations) throws IOException {
         for (String location : locations) {
             ApplicationContext ac = new ClassPathXmlApplicationContext(location);

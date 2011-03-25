@@ -41,9 +41,9 @@
     <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
     <bean id="dataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
         <constructor-arg>
-            <bean class="org.kuali.rice.kns.datadictionary.DataDictionary">
+            <bean class="org.kuali.student.datadictionary.SpringConfigurableDataDictionary" init-method="init">
                 <property name="dataDictionaryMapper">
-                    <bean class="org.kuali.rice.kns.datadictionary.RIADataDictionaryMapper"/>
+                    <bean class="org.kuali.rice.kns.datadictionary.DataDictionaryIndexMapper"/>
                 </property>
             </bean>
         </constructor-arg>
@@ -95,7 +95,7 @@
     </bean>
 
 
-    <bean id="dictionaryValidationService" class="org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl">
+    <bean id="riceDictionaryValidationService" class="org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl">
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -197,6 +197,6 @@
     </bean>
 
     <bean id="validator" class="org.kuali.student.datadictionary.RiceValidatorImpl">
-        <property name="riceService" ref="dictionaryValidationService" />
+        <property name="riceService" ref="riceDictionaryValidationService" />
     </bean>
 </beans>

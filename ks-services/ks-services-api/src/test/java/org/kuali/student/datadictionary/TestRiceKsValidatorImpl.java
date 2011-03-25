@@ -44,9 +44,9 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class TestRiceValidatorImpl {
+public class TestRiceKsValidatorImpl {
 
-    public TestRiceValidatorImpl() {
+    public TestRiceKsValidatorImpl() {
     }
 
     @BeforeClass
@@ -110,7 +110,7 @@ public class TestRiceValidatorImpl {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:ks-rice-dictionary-configuration.xml",
                         "classpath:testContext.xml"});
-            validator = (ValidatorInfc) appContext.getBean("riceValidator");
+            this.validator = (ValidatorInfc) appContext.getBean("riceKsValidator");
         }
         return validator;
     }
@@ -133,7 +133,7 @@ public class TestRiceValidatorImpl {
 
         ValidatorInfc intstance = this.getValidator();
 
-       List<ValidationResultInfc> result = null;
+        List<ValidationResultInfc> result = null;
 
         result = intstance.validate(validationType, info);
         assertEquals(0, result.size());
@@ -144,7 +144,17 @@ public class TestRiceValidatorImpl {
         for (ValidationResultInfc vri : result) {
             System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
         }
-        // TODO: figure out why this gets zero errors when it should get 1
+        assertEquals(1, result.size());
+
+
+
+        bldr.setType(null);
+        info = bldr.build();
+        validationType = ValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
+        result = intstance.validate(validationType, info);
+        for (ValidationResultInfc vri : result) {
+            System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
+        }
         assertEquals(0, result.size());
 
         bldr.setType(" this has \n an embedded return");
@@ -153,7 +163,7 @@ public class TestRiceValidatorImpl {
         for (ValidationResultInfc vri : result) {
             System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
         }
-        // TODO: figure out why this gets zero errors when it should get 1
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
+//        assertEquals (0, 0);
     }
 }

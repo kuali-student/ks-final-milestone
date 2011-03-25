@@ -42,17 +42,21 @@
                 <ref bean="luiPersonRelationInfo.expirationDate"/>
                 <ref bean="luiPersonRelationInfo.type"/>
                 <ref bean="luiPersonRelationInfo.state"/>
+<!--
                 <ref bean="luiPersonRelationInfo.metaInfo"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.createTime"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.createId"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.updateTime"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.updateId"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.versionInd"/>
+  -->
+ <!--
                 <ref bean="luiPersonRelationInfo.attributes"/>
                 <ref bean="luiPersonRelationInfo.attributes.id"/>
                 <ref bean="luiPersonRelationInfo.attributes.key"/>
                 <ref bean="luiPersonRelationInfo.attributes.value"/>
-                <!--TODO: Dynamic Attributes-->
+
+-->
             </list>
         </property>
             <!--

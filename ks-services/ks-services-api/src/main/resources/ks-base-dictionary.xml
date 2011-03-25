@@ -118,7 +118,9 @@
 
 
     <bean id="baseKualiId" abstract="true" parent="baseKualiString">
+        <property name="unique" value="true"/>  
         <property name="name" value="id"/>
+        <property name="childEntryName" value="id"/>
         <property name="forceUppercase" value="false"/>
         <property name="minLength" value="1"/>
         <property name="maxLength" value="36"/>
@@ -129,15 +131,29 @@
     </bean>
 
     <bean id="baseKualiType" parent="baseKualiCode" abstract="true">
+        <property name="required" value="true"/>
         <property name="name" value="type"/>
+        <property name="childEntryName" value="type"/>
         <property name="shortLabel" value="Type"/>
         <property name="summary" value="Type of the object"/>
         <property name="label" value="Type"/>
         <property name="description" value="The type of the object"/>
     </bean>
 
+    <bean id="baseKualiKey" parent="baseKualiType" abstract="true">
+        <property name="required" value="true"/>
+        <property name="unique" value="true"/>
+        <property name="name" value="key"/>
+        <property name="childEntryName" value="key"/>
+        <property name="shortLabel" value="Key"/>
+        <property name="summary" value="Key to the object"/>
+        <property name="label" value="Key"/>
+        <property name="description" value="The key to an object"/>
+    </bean>
+
     <bean id="baseKualiState" parent="baseKualiCode" abstract="true">
         <property name="name" value="state"/>
+        <property name="childEntryName" value="state"/>
         <property name="shortLabel" value="State"/>
         <property name="summary" value="State of the object"/>
         <property name="label" value="State"/>
@@ -147,6 +163,7 @@
     <bean id="baseKualiEffectiveDate" parent="baseKualiDateTime" abstract="true">
         <property name="required" value="true"/>
         <property name="name" value="effectiveDate"/>
+        <property name="childEntryName" value="effectiveDate"/>
         <property name="shortLabel" value="Effective"/>
         <property name="summary" value="Effective Date"/>
         <property name="label" value="Effective Date"/>
@@ -156,6 +173,7 @@
     <bean id="baseKualiExpirationDate" parent="baseKualiDateTime" abstract="true">
         <!-- TODO: add a cross field constraint to ensure expiration is always >= effective-->
         <property name="name" value="expirationDate"/>
+        <property name="childEntryName" value="expirationDate"/>
         <property name="shortLabel" value="Expires"/>
         <property name="summary" value="Expiration Date"/>
         <property name="label" value="Expiration Date"/>
@@ -164,6 +182,7 @@
 
     <bean id="baseKualiPrincipalId" abstract="true" parent="baseKualiId">
         <property name="name" value="principalId"/>
+        <property name="childEntryName" value="principalId"/>
         <property name="shortLabel" value="Principal ID"/>
         <property name="summary" value="Unique ID for a person's authentication principal"/>
         <property name="label" value="ID"/>
@@ -173,6 +192,7 @@
 
     <bean id="baseKualiLuiId" abstract="true" parent="baseKualiId">
         <property name="name" value="luiId"/>
+        <property name="childEntryName" value="luiId"/>
         <property name="shortLabel" value="LUI ID"/>
         <property name="summary" value="Unique ID for a LUI"/>
         <property name="label" value="Learning Unit Instance ID"/>
@@ -182,6 +202,7 @@
 
     <bean id="baseKualiPersonId" abstract="true" parent="baseKualiId">
         <property name="name" value="personId"/>
+        <property name="childEntryName" value="personId"/>
         <property name="shortLabel" value="Person ID"/>
         <property name="summary" value="Unique ID for a Person"/>
         <property name="label" value="Person ID"/>
@@ -191,6 +212,7 @@
 
     <bean id="baseKualiMeta" parent="baseKualiComplex" abstract="true">
         <property name="name" value="metaInfo"/>
+        <property name="childEntryName" value="metaInfo"/>
         <property name="shortLabel" value="Audit"/>
         <property name="summary" value="Audit trail info on changes"/>
         <property name="label" value="Audit Trail"/>
@@ -199,6 +221,7 @@
 
     <bean id="baseKualiMeta.createTime" parent="baseKualiDateTime" abstract="true">
         <property name="name" value="metaInfo.createTime"/>
+        <property name="childEntryName" value="createTime"/>
         <property name="shortLabel" value="Created on"/>
         <property name="summary" value="The date/time stamp of when this was created"/>
         <property name="label" value="Date/Time created"/>
@@ -207,6 +230,7 @@
 
     <bean id="baseKualiMeta.updateTime" parent="baseKualiDateTime" abstract="true">
         <property name="name" value="metaInfo.updateTime"/>
+        <property name="childEntryName" value="updateTime"/>
         <property name="shortLabel" value="Updated on"/>
         <property name="summary" value="The date/time stamp of when this was last updated"/>
         <property name="label" value="Date/Time last updated"/>
@@ -215,6 +239,7 @@
 
     <bean id="baseKualiMeta.createId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.createId"/>
+        <property name="childEntryName" value="createId"/>
         <property name="shortLabel" value="Creator ID"/>
         <property name="summary" value="Principal ID of person who created this"/>
         <property name="label" value="Creator ID"/>
@@ -223,6 +248,7 @@
 
     <bean id="baseKualiMeta.updateId" parent="baseKualiPrincipalId" abstract="true">
         <property name="name" value="metaInfo.updateId"/>
+        <property name="childEntryName" value="updateId"/>
         <property name="shortLabel" value="Updater ID"/>
         <property name="summary" value="Principal ID of person who last updated this"/>
         <property name="label" value="Updater ID"/>
@@ -231,6 +257,7 @@
 
     <bean id="baseKualiMeta.versionInd" parent="baseKualiCodeLoose" abstract="true">
         <property name="name" value="metaInfo.versionInd"/>
+        <property name="childEntryName" value="versionInd"/>
         <property name="shortLabel" value="Version Ind"/>
         <property name="summary" value="Optimistic Locking Flag"/>
         <property name="label" value="Version Ind"/>
@@ -239,6 +266,7 @@
 
     <bean id="baseKualiAttributes" parent="baseKualiComplex" abstract="true">
         <property name="name" value="attributes"/>
+        <property name="childEntryName" value="attributes"/>
         <property name="required" value="false"/>
         <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="999999999" />
@@ -250,6 +278,7 @@
 
     <bean id="baseKualiAttributes.id" parent="baseKualiId" abstract="true">
         <property name="name" value="attributes.id"/>
+        <property name="childEntryName" value="id"/>
         <property name="required" value="false"/>
         <property name="shortLabel" value="Unique ID"/>
         <property name="summary" value="Unique ID for this dynamic attribute value"/>
@@ -257,8 +286,10 @@
         <property name="description" value="ID assigned to this key value pair"/>
     </bean>
 
-    <bean id="baseKualiAttributes.key" parent="baseKualiType" abstract="true">
+    <bean id="baseKualiAttributes.key" parent="baseKualiKey" abstract="true">
+        <property name="unique" value="false" /> <!--DA keys can repeat to code lists of values -->
         <property name="name" value="attributes.key"/>
+        <property name="childEntryName" value="key"/>
         <property name="required" value="true"/>
         <property name="shortLabel" value="Name"/>
         <property name="summary" value="Name or key used to reference this dynamic attribute"/>
@@ -268,6 +299,7 @@
 
     <bean id="baseKualiAttributes.value" parent="baseKualiStringLong" abstract="true">
         <property name="name" value="attributes.value"/>
+        <property name="childEntryName" value="value"/>
         <property name="required" value="false"/>
         <property name="shortLabel" value="Value"/>
         <property name="summary" value="Value of the dynamic attribute"/>

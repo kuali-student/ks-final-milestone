@@ -15,17 +15,18 @@
  */
 package org.kuali.student.datadictionary;
 
-import java.io.IOException;
-import java.util.List;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 
 /**
- *
+ * Class that can be init'd directly by spring instead of by the KNS configurer
+ * 
  * @author nwright
  */
-public interface DictionaryServiceInfc {
+public class SpringConfigurableDataDictionary extends DataDictionary {
+
+  public void init () {
+      this.parseDataDictionaryConfigurationFiles(false);
+  }
 
 
-    public void setDictionaryLocations(List<String> locations) throws IOException;
-    public DataDictionaryEntry getDataDictionaryEntry (String entryKey);
 }

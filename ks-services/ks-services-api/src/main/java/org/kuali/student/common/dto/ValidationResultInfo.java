@@ -49,13 +49,6 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
     @XmlElement
     private String message;
 
-    /**
-     * @return the level
-     */
-    @Override
-    public ValidationResultInfc.ErrorLevel getLevel() {
-        return level;
-    }
 
     /**
      * @param level the level to set

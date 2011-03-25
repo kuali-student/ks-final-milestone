@@ -16,28 +16,37 @@
 package org.kuali.student.datadictionary;
 
 import java.util.List;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.student.common.infc.ValidationResultInfc;
 
 
 /**
- * This is an adapter that calls rice to do the valication
+ * This is an implementation that gets the dictionary directly using KS methods but then calls
+ * the rice validation method that takes in the dictionary entry to be used.
  *
- * TODO: figure why this does not validate anything
+ * *** THIS IS THE ONLY WAY I COULD GET THE INTEGRATION TO WORK ***
+ * ==> I could not figure out why the RiceValidatorImpl doesn't validate anything
  *
  * @author nwright
  */
-public class RiceValidatorImpl implements ValidatorInfc {
+public class RiceKsValidatorImpl implements ValidatorInfc {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RiceKsValidatorImpl.class);
+    
+    private KsDictionaryServiceInfc ksDictionaryService;
 
     private DictionaryValidationService riceService;
 
-    public RiceValidatorImpl() {
+    public RiceKsValidatorImpl() {
     }
 
+    public KsDictionaryServiceInfc getKsDictionaryService() {
+        return ksDictionaryService;
+    }
 
-    public RiceValidatorImpl(DictionaryValidationService riceService) {
-        this.riceService = riceService;
+    public void setKsDictionaryService(KsDictionaryServiceInfc ksDictionaryService) {
+        this.ksDictionaryService = ksDictionaryService;
     }
 
     public DictionaryValidationService getRiceService() {
@@ -56,7 +65,9 @@ public class RiceValidatorImpl implements ValidatorInfc {
        if (validationType.equals(ValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS)) {
            doOptionalProcessing = false;
        }
-        DictionaryValidationResult dvr = riceService.validate(info, doOptionalProcessing);
+       String entryName = info.getClass().getName();
+        DataDictionaryEntry dictEntry = this.ksDictionaryService.getDataDictionaryEntry(entryName);
+        DictionaryValidationResult dvr = riceService.validate(info, entryName, dictEntry, doOptionalProcessing);
         Rice2KsValidationResultConverter converter = new Rice2KsValidationResultConverter ();
         List<ValidationResultInfc> vrs = converter.convert(dvr);
         return vrs;
