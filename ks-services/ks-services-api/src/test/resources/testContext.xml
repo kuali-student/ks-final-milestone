@@ -2,7 +2,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<import resource="classpath:applicationContext.xml"/>
-   <bean id="lprServiceToTest" parent="mockLprService" />
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+           
+    <import resource="classpath:applicationContext.xml"/>
+    <import resource="classpath:ks-rice-dictionary-configuration.xml"/>
+
+
+    <bean id="lprServiceToTest" parent="mockLprService" />
+    <bean id="riceValidator" parent="validator" />
+
+    <bean id="dictionaryService" class="org.kuali.student.datadictionary.DictionaryServiceImpl">
+        <property name="dictionaryLocations">
+            <list>
+                <value>classpath:ks-lui-person-relation-dictionary.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ksValidator" class="org.kuali.student.datadictionary.KSValidatorImpl">
+        <property name="dictionaryService" ref="dictionaryService" />
+    </bean>
 </beans>

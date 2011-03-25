@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.datadictionary;
 
@@ -11,8 +22,8 @@ import org.kuali.rice.kns.datadictionary.validation.result.ConstraintValidationR
 import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.infc.ContextInfc;
 import org.kuali.student.common.infc.ValidationResultInfc;
+
 
 /**
  *
@@ -20,20 +31,28 @@ import org.kuali.student.common.infc.ValidationResultInfc;
  */
 public class RiceValidatorImpl implements ValidatorInfc {
 
-    private DictionaryValidationService riceDictionaryValidationService;
+    private DictionaryValidationService riceService;
 
-    public DictionaryValidationService getRiceDictionaryValidationService() {
-        return riceDictionaryValidationService;
+    public RiceValidatorImpl() {
     }
 
-    public void setRiceDictionaryValidationService(DictionaryValidationService riceDictionaryValidationService) {
-        this.riceDictionaryValidationService = riceDictionaryValidationService;
+
+    public RiceValidatorImpl(DictionaryValidationService riceService) {
+        this.riceService = riceService;
+    }
+
+    public DictionaryValidationService getRiceService() {
+        return riceService;
+    }
+
+    public void setRiceService(DictionaryValidationService riceService) {
+        this.riceService = riceService;
     }
 
     @Override
-    public List<ValidationResultInfc> validate(String validationType, Object info, ContextInfc context) {
+    public List<ValidationResultInfc> validate(String validationType, Object info) {
         // TODO: figure out what to do with validationType
-        DictionaryValidationResult dvr = riceDictionaryValidationService.validate(info);
+        DictionaryValidationResult dvr = riceService.validate(info);
         List<ValidationResultInfc> vrs = new ArrayList<ValidationResultInfc>();
         Iterator<ConstraintValidationResult> it = dvr.iterator();
         while (it.hasNext()) {

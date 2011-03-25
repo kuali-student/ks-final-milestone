@@ -15,5 +15,5 @@ import org.kuali.student.common.infc.ValidationResultInfc;
  */
 public interface ValidatorInfc {
 
-    public List<ValidationResultInfc> validate (String validationType, Object info, ContextInfc context);
+    public List<ValidationResultInfc> validate (String validationType, Object info);
 }

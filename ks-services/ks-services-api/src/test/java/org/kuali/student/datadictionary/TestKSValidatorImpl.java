@@ -44,9 +44,9 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class TestRiceValidatorImpl {
+public class TestKSValidatorImpl {
 
-    public TestRiceValidatorImpl() {
+    public TestKSValidatorImpl() {
     }
 
     @BeforeClass
@@ -110,7 +110,7 @@ public class TestRiceValidatorImpl {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:ks-rice-dictionary-configuration.xml",
                         "classpath:testContext.xml"});
-            validator = (ValidatorInfc) appContext.getBean("riceValidator");
+            validator = (ValidatorInfc) appContext.getBean("ksValidator");
         }
         return validator;
     }
