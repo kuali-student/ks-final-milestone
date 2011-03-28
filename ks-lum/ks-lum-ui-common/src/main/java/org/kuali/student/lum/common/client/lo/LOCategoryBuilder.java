@@ -135,7 +135,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement(true, true);
+               // Filter out any categories already in the picker
+                List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+                final CategoryManagement categoryManagement = new CategoryManagement(true, true, categoriesInPicker);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
@@ -354,13 +356,38 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         }
     }
 
+    /**
+     * This method will check if an LO category is already in the picker box
+     * and prevent it from being added to the picker.
+     * <p>
+     * 
+     * @param categoryToCheck category to check if it is already in the picker box
+     * @return true if the category is already in the picker box
+     */
+    private boolean isCategoryAlreadyAddedToPicker(LoCategoryInfo categoryToCheck){
+        // TODO: do we need null checks?
+        List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+        if (categoriesInPicker != null && categoryToCheck != null){
+            for (LoCategoryInfo pickerCategory : categoriesInPicker) {
+                boolean namesMatch = pickerCategory.getName().equalsIgnoreCase(categoryToCheck.getName());
+                boolean typesMatch = pickerCategory.getType().equalsIgnoreCase(categoryToCheck.getType());
+                if (namesMatch && typesMatch){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     private void addCategory(final LoCategoryInfo category) {
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
 
         if (categoryTypeMap.containsKey(category.getType())) {
-            categoryList.addItem(category);
+            // check if category is already added to picker.  only add it once.
+            if (!isCategoryAlreadyAddedToPicker(category)){
+                categoryList.addItem(category);
+            }
             picker.reset();
         } else {
             loCatRpcServiceAsync.getLoCategoryType(category.getType(), new KSAsyncCallback<LoCategoryTypeInfo>() {
@@ -373,7 +400,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 @Override
                 public void onSuccess(LoCategoryTypeInfo result) {
                     categoryTypeMap.put(result.getId(), result);
-                    categoryList.addItem(category);
+                    // check if category is already added to picker.  only add it once.
+                    if (!isCategoryAlreadyAddedToPicker(category)){
+                         categoryList.addItem(category);
+                    } 
                     picker.reset();
 
                 }

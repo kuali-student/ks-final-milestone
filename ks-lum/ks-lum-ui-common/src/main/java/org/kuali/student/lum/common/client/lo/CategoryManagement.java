@@ -292,6 +292,22 @@ public class CategoryManagement extends Composite {
         this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect);
         initCategoryManagement();
     }
+    /**
+     * This constructor is used to filter out items already in the picker
+     * <p>
+     * We need to pass the list in the constructor because the table is populated
+     * using an async call  
+     * <p>
+     * See KSLAB-1871
+     * 
+     * @param hideInactiveCategories  ?
+     * @param isMultiSelect
+     * @param loCategoriesToFilter a list of categories that should be filtered from the popup on open
+     */
+    public CategoryManagement(boolean hideInactiveCategories, boolean isMultiSelect, List<LoCategoryInfo> loCategoriesToFilter) {
+        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect, loCategoriesToFilter);
+        initCategoryManagement();
+    }
     public List<LoCategoryInfo> getSelectedCategoryList(){
         return categoryManagementTable.getSelectedLoCategoryInfos();
     }
