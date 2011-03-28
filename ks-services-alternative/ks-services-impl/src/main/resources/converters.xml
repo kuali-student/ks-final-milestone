@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean name="personRelationConverter" class="org.kuali.student.enrollment.lpr.conversion.LprConverter">
+        <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+        <property name="personRelationStateConverter" ref="lprStateConverter"/>
+        <property name="personRelationTypeConverter" ref="lprTypeConverter"/>
+    </bean>
+
+    <bean name="dynamicAttributesConverter"
+          class="org.kuali.student.enrollment.lpr.conversion.DynamicAttributeConverter"/>
+
+    <bean name="lprTypeConverter"
+          class="org.kuali.student.enrollment.lpr.conversion.LprTypeConverter">
+        <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+    </bean>
+
+    <bean name="lprStateConverter"
+          class="org.kuali.student.enrollment.lpr.conversion.LprStateConverter">
+        <property name="dynamicAttributeConverter" ref="dynamicAttributesConverter"/>
+    </bean>
+</beans>

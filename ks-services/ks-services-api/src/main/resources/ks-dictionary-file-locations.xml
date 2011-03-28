@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!--THIS IS USED BY KS DATA DICTIONARY SERVICES CONFIGURATION-->
+    <bean id="lprDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-lui-person-relation-dictionary.xml" />
+    </bean>
+
+    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
+     and the Global Student Dictionary Service, allDataDictionaryService,
+     that is used in the rice dictionary validation service impl -->
+    <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="lprDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+</beans>
