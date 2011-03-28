@@ -15,15 +15,24 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.cleanup;
 
-import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.core.exceptions.*;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.*;
 
 import java.util.List;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 /**
  * A example of an adapter that might sit at the top of the stack and converts any
@@ -34,17 +43,21 @@ import java.util.List;
  * @Author Norm
  */
 public class LuiPersonRelationRuntimeExceptionCatcherAdapter
-        extends LuiPersonRelationAdapter
-        implements LuiPersonRelationServiceInfc {
+        extends LuiPersonRelationServiceAdapter {
 
     @Override
     public String createLuiPersonRelation(String personId, String luiId,
                                           String luiPersonRelationType,
-                                          LuiPersonRelationInfc luiPersonRelationInfo,
-                                          ContextInfc context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
+                                          LuiPersonRelationInfo luiPersonRelationInfo,
+                                          ContextInfo context)
+            throws DataValidationErrorException, 
+			AlreadyExistsException,
+			DoesNotExistException,
+            DisabledIdentifierException, 
+			ReadOnlyException,
+			InvalidParameterException,
+            MissingParameterException,
+			OperationFailedException,
             PermissionDeniedException {
         try {
             return (getLprService().createLuiPersonRelation(personId, luiId,
@@ -61,11 +74,16 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
                                                          List<String> luiIdList,
                                                          String relationState,
                                                          String luiPersonRelationType,
-                                                         LuiPersonRelationInfc luiPersonRelationInfo,
-                                                         ContextInfc context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
+                                                         LuiPersonRelationInfo luiPersonRelationInfo,
+                                                         ContextInfo context)
+            throws DataValidationErrorException, 
+			AlreadyExistsException,
+			DoesNotExistException,
+            DisabledIdentifierException, 
+			ReadOnlyException,
+			InvalidParameterException,
+            MissingParameterException,
+			OperationFailedException,
             PermissionDeniedException {
 
         try {
@@ -80,12 +98,17 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
     }
 
     @Override
-    public LuiPersonRelationInfc updateLuiPersonRelation(
-            String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo,
-            ContextInfc context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, ReadOnlyException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException {
+    public LuiPersonRelationInfo updateLuiPersonRelation(
+            String luiPersonRelationId, LuiPersonRelationInfo luiPersonRelationInfo,
+            ContextInfo context)
+            throws DataValidationErrorException, 
+			DoesNotExistException,
+			InvalidParameterException,
+            MissingParameterException, 
+			ReadOnlyException,
+			OperationFailedException,
+            PermissionDeniedException,
+			VersionMismatchException {
         try {
             return (getLprService().updateLuiPersonRelation(luiPersonRelationId,
                     luiPersonRelationInfo,
@@ -96,8 +119,8 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
     }
 
     @Override
-    public StatusInfc deleteLuiPersonRelation(String luiPersonRelationId,
-                                              ContextInfc context) throws
+    public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId,
+                                              ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
@@ -109,12 +132,14 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
     }
 
     @Override
-    public StatusInfc updateRelationState(String luiPersonRelationId,
-                                          LuiPersonRelationStateInfc relationState,
-                                          ContextInfc context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException, ReadOnlyException {
+    public StatusInfo updateRelationState(String luiPersonRelationId,
+                                          LuiPersonRelationStateInfo relationState,
+                                          ContextInfo context)
+      throws DoesNotExistException,
+      InvalidParameterException,
+      MissingParameterException,
+      OperationFailedException,
+      PermissionDeniedException {
         try {
             return (getLprService().updateRelationState(luiPersonRelationId,
                     relationState, context));

@@ -30,20 +30,15 @@ import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
 
-import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.CriteriaInfc;
-import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 import static org.junit.Assert.fail;
 
 /**
@@ -54,13 +49,13 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 
 	public LuiPersonRelationMissingParameterCheckerAdapterTest() {
 	}
-	private LuiPersonRelationServiceInfc service = new LuiPersonRelationMissingParameterCheckerAdapter();
+	private LuiPersonRelationService service = new LuiPersonRelationMissingParameterCheckerAdapter();
 
-	public LuiPersonRelationServiceInfc getService() {
+	public LuiPersonRelationService getService() {
 		return service;
 	}
 
-	public void setService(LuiPersonRelationServiceInfc service) {
+	public void setService(LuiPersonRelationService service) {
 		this.service = service;
 	}
 
@@ -116,7 +111,7 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 
 	private List<Method> getMethodsToTest ()
 	{
-//      Method[] methods = LuiPersonRelationServiceInfc.class.getDeclaredMethods();
+//      Method[] methods = LuiPersonRelationService.class.getDeclaredMethods();
 //		TODO: Switch this when using for real, right now just want to test implemented ones
 	  Method[] methods = service.getClass ().getDeclaredMethods();
 	  List<Method> selectedMethods = new ArrayList<Method> (methods.length);
@@ -161,19 +156,19 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 		if (type.equals(Boolean.class)) {
 			return Boolean.TRUE;
 		}
-		if (type.equals(LuiPersonRelationInfc.class)) {
+		if (type.equals(LuiPersonRelationInfo.class)) {
 			return new LuiPersonRelationInfo.Builder().build();
 		}
-		if (type.equals(ContextInfc.class)) {
+		if (type.equals(ContextInfo.class)) {
 			return new ContextInfo.Builder().build();
 		}
-		if (type.equals(CriteriaInfc.class)) {
+		if (type.equals(CriteriaInfo.class)) {
 			return new CriteriaInfo.Builder().build();
 		}
-		if (type.equals(LuiPersonRelationStateInfc.class)) {
+		if (type.equals(LuiPersonRelationStateInfo.class)) {
 			return new LuiPersonRelationStateInfo.Builder().build();
 		}
-		if (type.equals(LuiPersonRelationTypeInfc.class)) {
+		if (type.equals(LuiPersonRelationTypeInfo.class)) {
 			return new LuiPersonRelationTypeInfo.Builder().build();
 		}
 		throw new IllegalArgumentException("unhandled type " + type.getName());

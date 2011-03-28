@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 
 
 

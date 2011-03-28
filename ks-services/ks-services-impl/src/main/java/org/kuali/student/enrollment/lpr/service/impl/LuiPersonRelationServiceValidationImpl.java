@@ -1,20 +1,21 @@
 package org.kuali.student.enrollment.lpr.service.impl;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DisabledIdentifierException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
@@ -112,7 +113,7 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
     }
 
     @Override
-    public ValidationResultInfo validateLuiPersonRelation(String validationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateLuiPersonRelation(String validationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -167,6 +168,19 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
+	@Override
+	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+	}
+
+	@Override
+	public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+	}
+
 
 
 }

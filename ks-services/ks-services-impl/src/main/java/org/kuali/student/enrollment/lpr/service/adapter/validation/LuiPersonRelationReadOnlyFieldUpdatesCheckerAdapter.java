@@ -15,15 +15,22 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.validation;
 
-import org.kuali.student.common.infc.ContextInfc;
-import org.kuali.student.common.infc.StatusInfc;
-import org.kuali.student.core.exceptions.*;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.*;
 
 import java.util.List;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 /**
  * Checks if updating read only fields.
@@ -31,13 +38,13 @@ import java.util.List;
  * @Author Norm
  */
 public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
-		extends LuiPersonRelationAdapter
-		implements LuiPersonRelationServiceInfc {
+		extends LuiPersonRelationServiceAdapter {
 
 	 
 	@Override
-	public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context)
-			throws AlreadyExistsException,
+	public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+			throws DataValidationErrorException,
+			AlreadyExistsException,
 			DoesNotExistException,
 			DisabledIdentifierException,
 			ReadOnlyException,
@@ -55,7 +62,19 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 	}
 
 	@Override
-	public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public String createLuiPersonRelation(String personId, String luiId,
+	  String luiPersonRelationType,
+	  LuiPersonRelationInfo luiPersonRelationInfo,
+	  ContextInfo context)
+	  throws DataValidationErrorException,
+	  AlreadyExistsException,
+	  DoesNotExistException,
+	  DisabledIdentifierException,
+	  ReadOnlyException,
+	  InvalidParameterException,
+	  MissingParameterException,
+	  OperationFailedException,
+	  PermissionDeniedException {
 		if (luiPersonRelationInfo.getId() != null) {
 			throw new ReadOnlyException("Id is not allowed to be supplied on a create");
 		}
@@ -66,8 +85,18 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 	}
 
 	@Override
-	public LuiPersonRelationInfc updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfc luiPersonRelationInfo, ContextInfc context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-		LuiPersonRelationInfc orig = this.fetchLUIPersonRelation(luiPersonRelationId, context);
+	public LuiPersonRelationInfo updateLuiPersonRelation(String luiPersonRelationId, 
+	  LuiPersonRelationInfo luiPersonRelationInfo,
+	  ContextInfo context)
+	  throws DataValidationErrorException,
+	  DoesNotExistException,
+	  InvalidParameterException,
+	  MissingParameterException,
+	  ReadOnlyException,
+	  OperationFailedException,
+	  PermissionDeniedException,
+	  VersionMismatchException {
+		LuiPersonRelationInfo orig = this.fetchLUIPersonRelation(luiPersonRelationId, context);
 		// once created these fields are never updatable directly by the application
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getType(), luiPersonRelationInfo.getType());

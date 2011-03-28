@@ -15,18 +15,18 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.config;
 
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.common.infc.HoldsIdentityServiceInfc;
-import org.kuali.student.common.infc.HoldsLprServiceInfc;
-import org.kuali.student.common.infc.HoldsLuiServiceInfc;
-import org.kuali.student.common.infc.HoldsPermissionServiceInfc;
-import org.kuali.student.enrollment.lpr.service.adapter.LuiPersonRelationAdapter;
-import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
+import org.kuali.student.common.infc.HoldsIdentityService;
+import org.kuali.student.common.infc.HoldsLprService;
+import org.kuali.student.common.infc.HoldsLuiService;
+import org.kuali.student.common.infc.HoldsPermissionService;
+import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 
 /**
  * A example of an adapter that might sit at the top of the stack and converts any
@@ -36,25 +36,24 @@ import org.kuali.student.enrollment.lui.infc.LuiServiceInfc;
  *
  * @Author Norm
  */
-public class LuiPersonRelationAdapterStacker extends LuiPersonRelationAdapter
-		implements LuiPersonRelationServiceInfc,
-		HoldsLprServiceInfc,
-		HoldsIdentityServiceInfc,
-		HoldsPermissionServiceInfc {
+public class LuiPersonRelationAdapterStacker extends LuiPersonRelationServiceAdapter
+		implements HoldsLprService,
+		HoldsIdentityService,
+		HoldsPermissionService {
 
-	private LuiServiceInfc luiService;
+	private LuiService luiService;
 	private IdentityService identityService;
 	private PermissionService permissionService;
-	private List<LuiPersonRelationServiceInfc> cleanupImpls;
-	private List<LuiPersonRelationServiceInfc> calculationImpls;
-	private List<LuiPersonRelationServiceInfc> authorizationImpls;
-	private List<LuiPersonRelationServiceInfc> validaitonImpls;
-	private List<LuiPersonRelationServiceInfc> sideEffectImpls;
-	private List<LuiPersonRelationServiceInfc> persistenceImpls;
+	private List<LuiPersonRelationService> cleanupImpls;
+	private List<LuiPersonRelationService> calculationImpls;
+	private List<LuiPersonRelationService> authorizationImpls;
+	private List<LuiPersonRelationService> validaitonImpls;
+	private List<LuiPersonRelationService> sideEffectImpls;
+	private List<LuiPersonRelationService> persistenceImpls;
 
 	public void init() {
 
-		List<LuiPersonRelationServiceInfc> allImpls = new ArrayList<LuiPersonRelationServiceInfc>();
+		List<LuiPersonRelationService> allImpls = new ArrayList<LuiPersonRelationService>();
 		if (cleanupImpls != null) {
 			allImpls.addAll(cleanupImpls);
 		}
@@ -76,11 +75,11 @@ public class LuiPersonRelationAdapterStacker extends LuiPersonRelationAdapter
 		validateConfiguration(allImpls);
 
 		int i = 0;
-		LuiPersonRelationServiceInfc top = allImpls.get(i);
+		LuiPersonRelationService top = allImpls.get(i);
 		setLprService(top);
-		LuiPersonRelationServiceInfc current = top;
+		LuiPersonRelationService current = top;
 		for (i = 1; i < allImpls.size(); i++) {
-			LuiPersonRelationServiceInfc next = allImpls.get(i);
+			LuiPersonRelationService next = allImpls.get(i);
 			configure(current, next);
 			current = allImpls.get(i);
 		}
@@ -88,39 +87,39 @@ public class LuiPersonRelationAdapterStacker extends LuiPersonRelationAdapter
 		configure(current, null);
 	}
 
-	private void configure(LuiPersonRelationServiceInfc current, LuiPersonRelationServiceInfc next) {
-		if (current instanceof HoldsLprServiceInfc) {
-			HoldsLprServiceInfc holder = (HoldsLprServiceInfc) current;
+	private void configure(LuiPersonRelationService current, LuiPersonRelationService next) {
+		if (current instanceof HoldsLprService) {
+			HoldsLprService holder = (HoldsLprService) current;
 			if (holder.getLprService() == null) {
 				holder.setLprService(next);
 			}
 		}
-		if (current instanceof HoldsLuiServiceInfc) {
-			HoldsLuiServiceInfc holder = (HoldsLuiServiceInfc) current;
+		if (current instanceof HoldsLuiService) {
+			HoldsLuiService holder = (HoldsLuiService) current;
 			if (holder.getLuiService() == null) {
 				holder.setLuiService(this.getLuiService());
 			}
 		}
-		if (current instanceof HoldsIdentityServiceInfc) {
-			HoldsIdentityServiceInfc holder = (HoldsIdentityServiceInfc) current;
+		if (current instanceof HoldsIdentityService) {
+			HoldsIdentityService holder = (HoldsIdentityService) current;
 			if (holder.getIdentityService() == null) {
 				holder.setIdentityService(this.getIdentityService());
 			}
 		}
-		if (current instanceof HoldsPermissionServiceInfc) {
-			HoldsPermissionServiceInfc holder = (HoldsPermissionServiceInfc) current;
+		if (current instanceof HoldsPermissionService) {
+			HoldsPermissionService holder = (HoldsPermissionService) current;
 			if (holder.getPermissionService() == null) {
 				holder.setPermissionService(this.getPermissionService());
 			}
 		}
 	}
 
-	private void validateConfiguration(List<LuiPersonRelationServiceInfc> allImpls) {
+	private void validateConfiguration(List<LuiPersonRelationService> allImpls) {
 		if (this.persistenceImpls == null || this.persistenceImpls.isEmpty()) {
 			throw new IllegalArgumentException("No persistence layers defined");
 		}
 		for (int i = 0; i < allImpls.size() - 1; i++) {
-			if (!(allImpls.get(i) instanceof HoldsLprServiceInfc)) {
+			if (!(allImpls.get(i) instanceof HoldsLprService)) {
 				throw new IllegalArgumentException(allImpls.get(i).getClass().getName()
 				  + " does not impelment HoldsLprService so it cannot call the next impl in the stack");
 			}
@@ -128,51 +127,51 @@ public class LuiPersonRelationAdapterStacker extends LuiPersonRelationAdapter
 		// TODO: other validation
 	}
 
-	public List<LuiPersonRelationServiceInfc> getAuthorizationImpls() {
+	public List<LuiPersonRelationService> getAuthorizationImpls() {
 		return authorizationImpls;
 	}
 
-	public void setAuthorizationImpls(List<LuiPersonRelationServiceInfc> authorizationImpls) {
+	public void setAuthorizationImpls(List<LuiPersonRelationService> authorizationImpls) {
 		this.authorizationImpls = authorizationImpls;
 	}
 
-	public List<LuiPersonRelationServiceInfc> getCalculationImpls() {
+	public List<LuiPersonRelationService> getCalculationImpls() {
 		return calculationImpls;
 	}
 
-	public void setCalculationImpls(List<LuiPersonRelationServiceInfc> calculationImpls) {
+	public void setCalculationImpls(List<LuiPersonRelationService> calculationImpls) {
 		this.calculationImpls = calculationImpls;
 	}
 
-	public List<LuiPersonRelationServiceInfc> getCleanupImpls() {
+	public List<LuiPersonRelationService> getCleanupImpls() {
 		return cleanupImpls;
 	}
 
-	public void setCleanupImpls(List<LuiPersonRelationServiceInfc> cleanupImpls) {
+	public void setCleanupImpls(List<LuiPersonRelationService> cleanupImpls) {
 		this.cleanupImpls = cleanupImpls;
 	}
 
-	public List<LuiPersonRelationServiceInfc> getPersistenceImpls() {
+	public List<LuiPersonRelationService> getPersistenceImpls() {
 		return persistenceImpls;
 	}
 
-	public void setPersistenceImpls(List<LuiPersonRelationServiceInfc> persistenceImpls) {
+	public void setPersistenceImpls(List<LuiPersonRelationService> persistenceImpls) {
 		this.persistenceImpls = persistenceImpls;
 	}
 
-	public List<LuiPersonRelationServiceInfc> getSideEffectImpls() {
+	public List<LuiPersonRelationService> getSideEffectImpls() {
 		return sideEffectImpls;
 	}
 
-	public void setSideEffectImpls(List<LuiPersonRelationServiceInfc> sideEffectImpls) {
+	public void setSideEffectImpls(List<LuiPersonRelationService> sideEffectImpls) {
 		this.sideEffectImpls = sideEffectImpls;
 	}
 
-	public List<LuiPersonRelationServiceInfc> getValidaitonImpls() {
+	public List<LuiPersonRelationService> getValidaitonImpls() {
 		return validaitonImpls;
 	}
 
-	public void setValidaitonImpls(List<LuiPersonRelationServiceInfc> validaitonImpls) {
+	public void setValidaitonImpls(List<LuiPersonRelationService> validaitonImpls) {
 		this.validaitonImpls = validaitonImpls;
 	}
 
@@ -184,11 +183,11 @@ public class LuiPersonRelationAdapterStacker extends LuiPersonRelationAdapter
 		this.identityService = identityService;
 	}
 
-	public LuiServiceInfc getLuiService() {
+	public LuiService getLuiService() {
 		return luiService;
 	}
 
-	public void setLuiService(LuiServiceInfc luiService) {
+	public void setLuiService(LuiService luiService) {
 		this.luiService = luiService;
 	}
 

@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;

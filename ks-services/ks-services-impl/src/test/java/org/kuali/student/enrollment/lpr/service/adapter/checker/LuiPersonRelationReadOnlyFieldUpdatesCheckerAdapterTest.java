@@ -17,19 +17,17 @@ package org.kuali.student.enrollment.lpr.service.adapter.checker;
 
 import org.kuali.student.enrollment.lpr.service.adapter.validation.LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter;
 import org.junit.*;
-import org.kuali.student.common.infc.*;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.core.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.mock.CopierHelper;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
@@ -60,9 +58,9 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 	@After
 	public void tearDown() {
 	}
-	private LuiPersonRelationServiceInfc service = null;
+	private LuiPersonRelationService service = null;
 
-	public LuiPersonRelationServiceInfc getService() {
+	public LuiPersonRelationService getService() {
 		if (service == null) {
 			// TODO: configure this via spring testing framework instead so we can test other persistence impls instead of just the mock
 			LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter adapter = new LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter();
@@ -72,15 +70,15 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		return service;
 	}
 
-	public void setService(LuiPersonRelationServiceInfc service) {
+	public void setService(LuiPersonRelationService service) {
 		this.service = service;
 	}
 
-	private ContextInfc getContext1() {
+	private ContextInfo getContext1() {
 		return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
 	}
 
-	private ContextInfc getContext2() {
+	private ContextInfo getContext2() {
 		return new ContextInfo.Builder().setPrincipalId("principalId.2").setLocaleLanguage("fr").setLocaleRegion("ca").build();
 	}
 
@@ -106,13 +104,13 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfc orig =
+		LuiPersonRelationInfo orig =
 			new LuiPersonRelationInfo.Builder()
 				.setState(LuiPersonRelationStateEnum.APPLIED.getKey())
 				.setEffectiveDate(parseDate("2010-01-01"))
 				.setId("Id not allowed")
 				.build();
-		ContextInfc context = getContext1();
+		ContextInfo context = getContext1();
 
 		try {
 			getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
@@ -136,17 +134,17 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		assertNotNull(lprId);
 
 		// fetch
-		LuiPersonRelationInfc fetched = getService().fetchLUIPersonRelation(lprId, context);
+		LuiPersonRelationInfo fetched = getService().fetchLUIPersonRelation(lprId, context);
 
 		// check readonly fields on update
-		LuiPersonRelationInfc bad = null;
+		LuiPersonRelationInfo bad = null;
 		String badField = null;
 
 		// bad = new CopierHelper().makeCopy(fetched);
 		bad = new LuiPersonRelationInfo.Builder(fetched).setId("Readonly Id").build();
 		badField = "id";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -155,7 +153,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		bad = new LuiPersonRelationInfo.Builder(fetched).setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey()).build();
 		badField = "type";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -167,7 +165,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 						.build();
 		badField = "createId";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -178,7 +176,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 						.build();
 		badField = "createTime";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -189,7 +187,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 						.build();
 		badField = "updateId";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -200,7 +198,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 						.build();
 		badField = "updateTime";
 		try {
-			LuiPersonRelationInfc badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
+			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
 			fail("should have thrown a readOnly Exception because the " + badField + " was changed");
 		} catch (ReadOnlyException ex) {
 			// expected
@@ -208,9 +206,9 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 
 	}
 
-	private AttributeInfc findMatching(AttributeInfc search, List<AttributeInfc> list) {
+	private AttributeInfo findMatching(AttributeInfo search, List<AttributeInfo> list) {
 		// TODO: when AttributeInfo gets it's own ID do the find by ID instead of values
-		for (AttributeInfc da : list) {
+		for (AttributeInfo da : list) {
 			if (search.getKey().equals(da.getKey())) {
 				if (search.getValue().equals(da.getValue())) {
 					return da;
