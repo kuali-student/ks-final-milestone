@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.lpr.dao.LprStateDao;
 import org.kuali.student.enrollment.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import java.security.InvalidParameterException;
@@ -50,6 +51,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprStateConverter lprStateConverter;
 
     @Override
+    @Transactional
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
             String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,

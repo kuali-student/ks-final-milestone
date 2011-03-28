@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hotspot_log version='160 1' process='3992' time_ms='1299790594766'>
+<hotspot_log version='160 1' process='6560' time_ms='1301354617439'>
 <vm_version>
 <name>
 Java HotSpot(TM) Client VM
@@ -13,7 +13,7 @@ Java HotSpot(TM) Client VM (19.0-b09-fastdebug) for windows-x86 JRE (1.6.0_23-ea
 </vm_version>
 <vm_arguments>
 <args>
--Didea.launcher.port=7533 -Didea.launcher.bin.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA 10.0\bin -Dfile.encoding=windows-1252 
+-Didea.launcher.port=7532 -Didea.launcher.bin.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA 10.0\bin -Dfile.encoding=windows-1252 
 </args>
 <command>
 com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 -junit4 org.kuali.student.enrollment.lpr.test.LuiPersonRelationServiceTest
@@ -37,37 +37,38 @@ java.home=C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre
 Java HotSpot(TM) Client VM warning: increase O_BUFLEN in ostream.hpp -- output truncated
 java.class.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA 10.0\lib\idea_rt.jar;C:\Program Files (x86)\JetBrains\IntelliJ IDEA 10.0\plugins\junit\lib\junit-rt.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\alt-rt.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\alt-string.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\charsets.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\deploy.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\javaws.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\jce.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\jsse.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\management-agent.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\plugin.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\resources.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\rt.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\ext\dnsns.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\ext\localedata.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\ext\sunjce_provider.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\ext\sunmscapi.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\ext\sunpkcs11.jar;D:\programming\projects\exadel_projects\berkeley\kuali\ks-r2-poc\ks-services-alternative\ks-services-impl\target\test-classes;D:\programming\projects\exadel_projects\berkeley\kuali\ks-r2-poc\ks-services-alternative\ks-services-impl\target\classes;D:\programming\maven\maven_rep\org\kuali\student\core\ks-core-api\1.1.1-SNAPSHOT\ks-core-api-1.1.1-SNAPSHOT.jar;D:\programming\maven\maven_rep\org\kuali\student\common\ks-common-api\1.1.1-SNAPSHOT\ks-common-api-1.1.1-SNAPSHOT.jar;D:\programming\maven\maven_rep\org\kuali\student\common\ks-common-util\1.1.1-SNAPSHOT\ks-common-util-1.1.1-SNAPSHOT.jar;D:\programming\maven\maven_rep\javax\persistence\persistence-api\1.0\persistence-api-1.0.jar;D:\pr
 sun.boot.class.path=C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\resources.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\rt.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\sunrsasign.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\jsse.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\jce.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\charsets.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\lib\modules\jdk.boot.jar;C:\ProgramFiles\java_debug\jdk1.6.0_23\fastdebug\jre\classes
-idea.launcher.port=7533
+idea.launcher.port=7532
 idea.launcher.bin.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA 10.0\bin
 file.encoding=windows-1252
 sun.java.launcher=SUN_STANDARD
 </properties>
 </vm_arguments>
 <tty>
-<writer thread='3492'/>
-<dependency_failed type='unique_concrete_method' x='java/util/jar/JarFile getEntry (Ljava/lang/String;)Ljava/util/zip/ZipEntry;' witness='sun/net/www/protocol/jar/URLJarFile' stamp='0.315'/>
-<dependency_failed type='leaf_type' ctxk='java/util/jar/JarFile' witness='sun/net/www/protocol/jar/URLJarFile' stamp='0.315'/>
-<dependency_failed type='unique_concrete_method' ctxk='java/lang/Exception' x='java/lang/Throwable getMessage ()Ljava/lang/String;' witness='org/junit/internal/AssumptionViolatedException' stamp='0.358'/>
-<dependency_failed type='leaf_type' ctxk='java/util/ArrayList' witness='org/springframework/beans/factory/support/ManagedList' stamp='1.101'/>
-<dependency_failed type='unique_concrete_method' ctxk='java/io/DataOutput' x='java/io/DataOutputStream write ([BII)V' witness='java/io/DataOutput' stamp='2.181'/>
+<writer thread='6488'/>
+<dependency_failed type='unique_concrete_method' x='java/util/jar/JarFile getEntry (Ljava/lang/String;)Ljava/util/zip/ZipEntry;' witness='sun/net/www/protocol/jar/URLJarFile' stamp='0.349'/>
+<dependency_failed type='leaf_type' ctxk='java/util/jar/JarFile' witness='sun/net/www/protocol/jar/URLJarFile' stamp='0.349'/>
+<dependency_failed type='unique_concrete_method' ctxk='java/lang/Exception' x='java/lang/Throwable getMessage ()Ljava/lang/String;' witness='org/junit/internal/AssumptionViolatedException' stamp='0.396'/>
+<dependency_failed type='leaf_type' ctxk='java/util/ArrayList' witness='org/springframework/beans/factory/support/ManagedList' stamp='1.583'/>
+<dependency_failed type='leaf_type' ctxk='java/util/ArrayList' witness='org/springframework/beans/factory/support/ManagedList' stamp='1.583'/>
+<dependency_failed type='unique_concrete_method' ctxk='java/io/DataOutput' x='java/io/DataOutputStream write ([BII)V' witness='java/io/DataOutput' stamp='2.851'/>
 C1 Runtime statistics:
- _resolve_invoke_virtual_cnt:     158
- _resolve_invoke_opt_virtual_cnt: 469
- _resolve_invoke_static_cnt:      66
+ _resolve_invoke_virtual_cnt:     176
+ _resolve_invoke_opt_virtual_cnt: 498
+ _resolve_invoke_static_cnt:      73
  _handle_wrong_method_cnt:        1
- _ic_miss_cnt:                    65
+ _ic_miss_cnt:                    73
  _generic_arraycopy_cnt:          0
- _primitive_arraycopy_cnt:        164009
- _oop_arraycopy_cnt:              63
+ _primitive_arraycopy_cnt:        188553
+ _oop_arraycopy_cnt:              64
  _arraycopy_slowcase_cnt:         0
- _new_type_array_slowcase_cnt:    17
+ _new_type_array_slowcase_cnt:    19
  _new_object_array_slowcase_cnt:  0
- _new_instance_slowcase_cnt:      3
+ _new_instance_slowcase_cnt:      2
  _new_multi_array_slowcase_cnt:   0
- _monitorenter_slowcase_cnt:      2794
- _monitorexit_slowcase_cnt:       2764
+ _monitorenter_slowcase_cnt:      3754
+ _monitorexit_slowcase_cnt:       3754
  _patch_code_slowcase_cnt:        1
- _throw_range_check_exception_count:            10:
+ _throw_range_check_exception_count:            28:
  _throw_index_exception_count:                  0:
  _throw_div0_exception_count:                   0:
  _throw_null_pointer_exception_count:           0:
@@ -77,27 +78,27 @@ C1 Runtime statistics:
  _throw_count:                                  0:
 
 <statistics type='nmethod'>
-Statistics for 23 native nmethods:
- N. total size  = 15032
- N. relocation  = 1352
- N. main code   = 8768
-Statistics for 469 bytecoded nmethods:
- total in heap  = 1163168
- relocation     = 84488
- main code      = 374848
- stub code      = 46220
- constants      = 32
- oops           = 6372
- scopes data    = 192932
- scopes pcs     = 312752
- dependencies   = 2312
- handler table  = 23364
- nul chk table  = 19288
-Debug Data Chunks: 36766, shared 4612+8740, non-SP&apos;s elided 594
-PcDesc Statistics:  9927 queries, 7.40 comparisons per query
-  caches=469 queries=9927/0, hits=0+6747, tests=39357+34121, adds=3180
+Statistics for 27 native nmethods:
+ N. total size  = 17516
+ N. relocation  = 1580
+ N. main code   = 10180
+Statistics for 525 bytecoded nmethods:
+ total in heap  = 1273552
+ relocation     = 93080
+ main code      = 411472
+ stub code      = 51124
+ constants      = 36
+ oops           = 7088
+ scopes data    = 209416
+ scopes pcs     = 341296
+ dependencies   = 2616
+ handler table  = 23628
+ nul chk table  = 21204
+Debug Data Chunks: 39857, shared 5037+9293, non-SP&apos;s elided 685
+PcDesc Statistics:  11394 queries, 7.20 comparisons per query
+  caches=525 queries=11394/0, hits=0+7895, tests=44565+37486, adds=3499
 </statistics>
-<tty_done stamp='4.278'/>
+<tty_done stamp='5.252'/>
 </tty>
-<hotspot_log_done stamp='4.278'/>
+<hotspot_log_done stamp='5.252'/>
 </hotspot_log>

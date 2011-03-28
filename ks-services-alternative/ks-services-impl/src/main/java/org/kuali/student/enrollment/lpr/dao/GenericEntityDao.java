@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.lpr.dao;
 
+import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 
 import javax.persistence.EntityManager;
@@ -14,21 +15,18 @@ import java.util.List;
  */
 public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
 
-    protected EntityManager em;
-
     /**
      * Entity class.
      */
     private Class<T> entityClass;
 
     public GenericEntityDao() {
-        em = getJpaTemplate().getEntityManagerFactory().createEntityManager();
         entityClass = getEntityClass();
     }
 
     @Override
     public T find(Serializable primaryKey) {
-        return em.find(entityClass, primaryKey);
+        return getJpaTemplate().find(entityClass, primaryKey);
     }
 
     @Override
@@ -42,27 +40,27 @@ public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
 
     @Override
     public List<T> findAll() {
-        return (List<T>) em.createQuery("from " + entityClass.getSimpleName());
+        return (List<T>) getJpaTemplate().find("from " + entityClass.getSimpleName());
     }
 
     @Override
     public void persist(T entity) {
-        em.persist(entity);
+        getJpaTemplate().persist(entity);
     }
 
     @Override
     public void update(T entity) {
-        em.refresh(entity);
+        getJpaTemplate().refresh(entity);
     }
 
     @Override
     public void remove(T entity) {
-        em.remove(entity);
+        getJpaTemplate().remove(entity);
     }
 
     @Override
     public <T> T merge(T entity) {
-        return em.merge(entity);
+        return getJpaTemplate().merge(entity);
     }
 
     @SuppressWarnings("unchecked")
