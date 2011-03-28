@@ -32,7 +32,7 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceMockValidationImpl extends LuiPersonRelationServiceAdapter
+public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationServiceAdapter
         implements LuiPersonRelationService, HoldsValidator, HoldsDataDictionaryService {
 
     private DataDictionaryValidatorInfc validator;
