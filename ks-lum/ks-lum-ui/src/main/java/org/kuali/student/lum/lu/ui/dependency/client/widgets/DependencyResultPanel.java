@@ -188,7 +188,12 @@ public class DependencyResultPanel extends FlowPanel{
 		}
 		
 		public void addDependencyItem(Widget label, Widget details){
-			CollapsablePanel depItem = new CollapsablePanel(label, details, false, true, ImagePosition.ALIGN_LEFT);
+			CollapsablePanel depItem = null;
+			if (details != null){
+				depItem = new CollapsablePanel(label, details, false, true, ImagePosition.ALIGN_LEFT);
+			} else {
+				depItem = new CollapsablePanel(label, new SpanPanel(), false, false, ImagePosition.ALIGN_LEFT);
+			}
 			content.add(depItem);
 			dependencyItems.add(depItem);
 		}

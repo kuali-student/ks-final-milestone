@@ -299,7 +299,10 @@ public class LUUIConstants {
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
 
-
+    //Dependency Constants
+    public static final String DEP_TYPE_CROSS_LISTED = "crossListed";
+    public static final String DEP_TYPE_JOINT = "joint";
+    public static final String DEP_TYPE_COURSE_SET = "cluSet";        
 
 }
 

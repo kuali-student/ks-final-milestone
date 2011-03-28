@@ -32,6 +32,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
@@ -43,6 +44,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
@@ -98,6 +100,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (!initialized) {
     		KSBlockingProgressIndicator.addTask(initializingTask);
+
+    		//This loads search definitions for the dependency analysis search 
             metadataServiceAsync.getMetadata("search", null, null, new KSAsyncCallback<Metadata>(){
 
                 @Override
@@ -120,16 +124,17 @@ public class DependencyAnalysisView extends ViewComposite{
         }
 	}
 
-	protected void init(){
+	protected void init(){		
 		KSDocumentHeader header = new KSDocumentHeader();
         header.setTitle("Dependency Analysis");
 
-        HorizontalPanel pickerPanel = new HorizontalPanel();
+        //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
 		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
-
         ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
-		KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
+
+        //Setup the "go" button for trigger picker
+        KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
 		goButton.addClickHandler(new ClickHandler(){
 
 			@Override
@@ -155,28 +160,34 @@ public class DependencyAnalysisView extends ViewComposite{
 		});
 
 		
+        //Create search section with the trigger picker and go button
+		HorizontalPanel pickerPanel = new HorizontalPanel();
 		pickerPanel.add(triggerPicker);
 		pickerPanel.add(goButton);
         
 		FlowPanel searchPanel = new FlowPanel();
 		searchPanel.addStyleName("ks-dependency-search");
 		searchPanel.add(new KSLabel("Search for item to view its dependencies"));
-		searchPanel.add(pickerPanel);
+		searchPanel.add(pickerPanel);		
 		
-		
+		//Add widgets to view
 		container.setTitleWidget(header);
 		container.addStyleName("blockLayout");
-        container.addWidget(searchPanel);
-				
+        container.addWidget(searchPanel);				
 	}
 
+	/*
+	 * This method calls the dependency analysis search with the selected trigger from the picker,
+	 * and updates the DependencyResultPanel with the results from the search. 
+	 */
 	protected void updateDependencyResults(){
-		
+		//Setup up sections for DependencyResultPanel		
 		depResultPanel.addSection("courses","Course Dependencies");		
 		depResultPanel.addSection("programs","Program Dependencies");
 		depResultPanel.addSection("course sets", "Course Set Inclusions");		
-
 			
+
+		//Setup and invoke the dependency analysis search and process the results
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("lu.search.dependencyAnalysis");
 		
@@ -190,6 +201,8 @@ public class DependencyAnalysisView extends ViewComposite{
 			@Override
 			public void onSuccess(SearchResult searchResults) {				
 				for (SearchResultRow searchResultRow : searchResults.getRows ()) {
+					
+					//TODO: This should not use hard-coded result columns 
 					String cluCode = "";
 					String cluName = "";
 					String cluType = "";
@@ -199,6 +212,8 @@ public class DependencyAnalysisView extends ViewComposite{
 					String reqRootId = "";
 					String cluId = "";
 					String curriculumOversightNames = "";
+					String dependencySectionKey = "";
+					Boolean diffAdminOrg = false;
 					
 					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
@@ -209,15 +224,18 @@ public class DependencyAnalysisView extends ViewComposite{
 							cluName = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.cluType")){
 							cluType = searchResultCell.getValue();
-							if (cluType.equals("kuali.lu.type.CreditCourse")){
-								cluType = "courses";
+							if (cluType.equals(LUUIConstants.CLU_TYPE_CREDIT_COURSE)){
+								dependencySectionKey = "courses";
 							} else if (cluType != null){
-								cluType = "programs";
+								dependencySectionKey = "programs";
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyType")){
 							dependencyType = searchResultCell.getValue();
 							if (dependencyType.equals("cluSet")){
-								cluType = "course sets";
+								dependencySectionKey = "course sets";
+							} else if (LUUIConstants.DEP_TYPE_JOINT.equals(dependencyType) || 
+										LUUIConstants.DEP_TYPE_CROSS_LISTED.equals(dependencyType)){
+								dependencySectionKey = "courses";
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyTypeName")){
 							dependencyTypeName = searchResultCell.getValue();
@@ -227,20 +245,31 @@ public class DependencyAnalysisView extends ViewComposite{
 							reqRootId = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalOversightCommitteeNames")){
 							curriculumOversightNames = searchResultCell.getValue();
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg")){
+							diffAdminOrg = ("true").equals(searchResultCell.getValue());
 						}
+							
 					}
 					
-					DependencyTypeSection typeSection = depResultPanel.getDependencyTypeSection(cluType, dependencyType);
+					//Get the dependency type section to add the dependency to, create new one if this is the first dependency for the t
+					DependencyTypeSection typeSection = depResultPanel.getDependencyTypeSection(dependencySectionKey, dependencyType);
 					if (typeSection == null){						
-						typeSection = depResultPanel.addDependencyTypeSection(cluType, dependencyType, getDependencyTypeLabel(cluType, dependencyTypeName));
+						typeSection = depResultPanel.addDependencyTypeSection(dependencySectionKey, dependencyType, getDependencyTypeLabel(dependencySectionKey, dependencyType, dependencyTypeName));
 					}
 					
-					VerticalFieldLayout depDetails = getDependencyDetails(cluType, dependencyType, cluCode, reqRootId, reqComponentIds);
-					KSLabel curricOversightLabel = new KSLabel("Curriculum Oversight: " + curriculumOversightNames);
-					curricOversightLabel.addStyleName("ks-dependency-oversight");
-					depDetails.addWidget(curricOversightLabel);
-					typeSection.addDependencyItem(getDependencyLabel(cluType, cluId, cluCode, cluName), depDetails);
+					//If dependency has details, create the details widget
+					VerticalFieldLayout depDetails = null;
+					if (hasDependencyDetails(dependencyType)){
+						depDetails = getDependencyDetails(dependencySectionKey, dependencyType, cluCode, reqRootId, reqComponentIds);
+						KSLabel curricOversightLabel = new KSLabel("Curriculum Oversight: " + curriculumOversightNames);
+						curricOversightLabel.addStyleName("ks-dependency-oversight");
+						depDetails.addWidget(curricOversightLabel);
+					}
+
+					//Add the dependency to the dependency section
+					typeSection.addDependencyItem(getDependencyLabel(dependencySectionKey, dependencyType, cluId, cluCode, cluName, cluType, diffAdminOrg), depDetails);
 				}
+				
 				depResultPanel.finishLoad();
 				KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
@@ -249,20 +278,21 @@ public class DependencyAnalysisView extends ViewComposite{
 	}
 	
 
-	private VerticalFieldLayout getDependencyDetails(String cluType, String dependencyType, final String cluCode, final String rootId, String reqComponentIds){
+	private VerticalFieldLayout getDependencyDetails(String dependencySectionKey, String dependencyType, final String cluCode, final String rootId, String reqComponentIds){
 		VerticalFieldLayout depDetails = new VerticalFieldLayout();
 		depDetails.addStyleName("KS-Dependency-Details");
 		if (reqComponentIds != null && !reqComponentIds.isEmpty()){
 			List<String> reqComponentIdList = Arrays.asList(reqComponentIds.split(","));
-			final SpanPanel simpleRequirement = new SpanPanel();
-			
+
+			final VerticalFlowPanel simpleRequirement = new VerticalFlowPanel();			
 			simpleRequirement.addStyleName("KS-Dependency-Simple-Rule");
 			
-			//Add expand to display complex program rules
-			if (cluType.equals("programs")){
+			//For programs, add ability to display both the simple requirement and complex requirement for the details
+			if (dependencySectionKey.equals("programs")){
 				final KSButton complexReqLabel = new KSButton("Display complex requirement", ButtonStyle.DEFAULT_ANCHOR);
 				final KSButton simpleReqLabel = new KSButton("Display simple requirement", ButtonStyle.DEFAULT_ANCHOR);
 				
+				//Initialize the complex requirement panel, set it so it is not initially open (ie. not visible)
 				final FlowPanel complexContent = new FlowPanel();
 				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
 				
@@ -274,6 +304,8 @@ public class DependencyAnalysisView extends ViewComposite{
 				
 				simpleReqLabel.setVisible(false);
 				
+				//Click handler to display the complex requirement, which will go and fetch the requirement components
+				//if displaying for first time.
 				complexReqLabel.addClickHandler(new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						simpleReqLabel.setVisible(true);
@@ -282,6 +314,7 @@ public class DependencyAnalysisView extends ViewComposite{
 
 						if (complexContent.getWidgetCount() <= 0){
 							KSBlockingProgressIndicator.addTask(loadDataTask);
+							//TODO: This code copied from program screens, need common reusable code
 							depRpcServiceAsync.getProgramRequirement(rootId, new KSAsyncCallback<ProgramRequirementInfo>(){
 								public void onSuccess(ProgramRequirementInfo progReqInfo) {															
 							        int minCredits = (progReqInfo.getMinCredits() == null ? 0 : progReqInfo.getMinCredits());
@@ -302,6 +335,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					}					
 				});
 				
+				//Click handler to display the simple requirement only
 				simpleReqLabel.addClickHandler(new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						complexReqLabel.setVisible(true);						
@@ -317,9 +351,11 @@ public class DependencyAnalysisView extends ViewComposite{
 			depRpcServiceAsync.getRequirementComponentNL(reqComponentIdList, new KSAsyncCallback<List<String>>(){
 				public void onSuccess(List<String> results) {
 					for (String reqCompNL:results){
-						int codeIdx = reqCompNL.indexOf(selectedCourseCd);						
-						simpleRequirement.setHTML(reqCompNL.substring(0,codeIdx) + 
+						int codeIdx = reqCompNL.indexOf(selectedCourseCd);
+						SpanPanel requirement = new SpanPanel();
+						requirement.setHTML(reqCompNL.substring(0,codeIdx) + 
 								" <b>" + selectedCourseCd + "</b>" + reqCompNL.substring(codeIdx + selectedCourseCd.length()));
+						simpleRequirement.add(requirement);
 					}								
 				}							
 			});
@@ -328,51 +364,102 @@ public class DependencyAnalysisView extends ViewComposite{
 		return depDetails;
 	}
 	
-	private SpanPanel getDependencyTypeLabel(String cluType, String dependencyType) {
+	//This generates the label for the dependency type section (eg. Pre-req requirement, course set inclusion, etc).
+	private SpanPanel getDependencyTypeLabel(String dependencySectionKey, String dependencyType, String dependencyTypeName) {
 		SpanPanel header = new SpanPanel();
-		if (cluType.equals("course sets")){
+		if (dependencyType.equals("joint") || dependencyType.equals("crossListed")){
+			header.setHTML("<b>" + selectedCourseCd + "</b> is <b>" + dependencyTypeName + "</b> with the following ");
+		} else if (dependencySectionKey.equals("course sets")){
 			header.setHTML("<b>" + selectedCourseCd + "</b> belongs to the following course sets");
 		} else {
-			header.setHTML("<b>" + selectedCourseCd + "</b> is a/an <b>" + dependencyType + "</b> for the following " + cluType);			
+			header.setHTML("<b>" + selectedCourseCd + "</b> is a/an <b>" + dependencyTypeName + "</b> for the following " + dependencySectionKey);			
 		}
     	header.setStyleName("KS-DependencyType-Label");
 		return header;
 	}
 	
-	private SpanPanel getDependencyLabel(final String cluType, final String cluId,  String cluCode, String cluName){
-		SpanPanel header = new SpanPanel();
-		final String viewLink;
-		Anchor viewCourse;
-		if (cluType.equals("courses")){
-			viewCourse = new Anchor("View Course");
-			viewLink = AppLocations.Locations.VIEW_COURSE.toString(); 
+	/*
+	 * This generates the title for the actual dependency (eg. course, course set, program), which may include links to 
+	 * view the actual course, course set or program
+	 */
+	private SpanPanel getDependencyLabel(final String dependencySectionKey, String dependencyType, final String cluId,  String cluCode, String cluName, String cluType, boolean diffAdminOrg){
+		
+		//Figure out the view hyperlink for course/program/course set screen based on dependencyType
+		Anchor viewLinkAnchor = null;
+		final String viewLinkUrl;
+		if (LUUIConstants.CLU_TYPE_CREDIT_COURSE.equals(cluType) && 
+				!LUUIConstants.DEP_TYPE_CROSS_LISTED.equals(dependencyType)){
+			viewLinkAnchor = new Anchor("View Course");
+			viewLinkUrl = AppLocations.Locations.VIEW_COURSE.toString(); 
+		} else if ("kuali.lu.type.MajorDiscipline".equals(cluType) || "kuali.lu.type.Variation".equals(cluType)){
+			viewLinkAnchor = new Anchor("View Program ");
+			viewLinkUrl = AppLocations.Locations.VIEW_PROGRAM.toString(); 
+		} else if ("kuali.lu.type.CoreProgram".equals(cluType)){
+			viewLinkAnchor = new Anchor("View Program ");
+			viewLinkUrl = AppLocations.Locations.VIEW_CORE_PROGRAM.toString(); 
+		} else if (cluType.startsWith("kuali.lu.type.credential")){
+			viewLinkAnchor = new Anchor("View Program ");
+			viewLinkUrl = AppLocations.Locations.VIEW_BACC_PROGRAM.toString(); 
+		} else if (LUUIConstants.DEP_TYPE_COURSE_SET.equals(dependencyType)){
+			viewLinkAnchor = new Anchor("View Course Set");
+			viewLinkUrl = AppLocations.Locations.VIEW_CLU_SET.toString();
 		} else {
-			viewCourse = new Anchor("View Program");
-			viewLink = AppLocations.Locations.VIEW_PROGRAM.toString(); 
+			viewLinkUrl = null;
 		}
-
-		header.setHTML(cluCode + " - " + cluName);
-    	header.setStyleName("KS-DependencyType-Label");
-    	viewCourse.addStyleName("KS-Dependency-View-Link");
-        viewCourse.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
-					"?view=" + viewLink + "&docId=" + cluId;
-				String features = "height=600,width=960,dependent=0,directories=1," +
-						"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
-				Window.open(url, HTMLPanel.createUniqueId(), features);				
-			}
-		});
-    	header.add(viewCourse);
+		
+		//Add click handler to open new window for user to view the course/program/cluset in more detail
+		if (viewLinkAnchor != null){
+	    	viewLinkAnchor.addStyleName("KS-Dependency-View-Link");
+	        viewLinkAnchor.addClickHandler(new ClickHandler(){
+	
+				@Override
+				public void onClick(ClickEvent event) {
+					String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
+						"?view=" + viewLinkUrl + "&docId=" + cluId;
+					String features = "height=600,width=960,dependent=0,directories=1," +
+							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+					Window.open(url, HTMLPanel.createUniqueId(), features);				
+				}
+			});
+		}		
+			
+		//Determine if we need to display differing org highlight
+		String orgHighlight = (diffAdminOrg ? " <span class=\"ks-dependency-highlight\">Different Org</span> ":"");
+		
+		//Create dependency item header label
+		String headerLabel = "";
+		if (LUUIConstants.DEP_TYPE_CROSS_LISTED.equals(dependencyType)){
+			headerLabel = cluCode + " - " + selectedCourseName + orgHighlight;
+		} else if (LUUIConstants.DEP_TYPE_COURSE_SET.equals(dependencyType)){
+			headerLabel = cluName;
+		} else {
+			headerLabel = cluCode + " - " + cluName + orgHighlight;
+		}
+    	
+		//Build header widget to return
+		SpanPanel header = new SpanPanel();		
+		header.setStyleName("KS-DependencyType-Label");	
+		header.setHTML(headerLabel);
+		if (viewLinkAnchor != null){
+			header.add(viewLinkAnchor);
+		}
+		
 		return header;		
 	}
 
+	protected boolean hasDependencyDetails(String dependencyType){
+		//Only course and programs have dependency details, since there could be multiple program types, easier to
+		//check those that don't have details to show.
+		return !(LUUIConstants.DEP_TYPE_JOINT.equals(dependencyType) || 
+					LUUIConstants.DEP_TYPE_CROSS_LISTED.equals(dependencyType) || 
+					LUUIConstants.DEP_TYPE_COURSE_SET.equals(dependencyType));
+	}
+	
     private String getTotalCreditsString(int min, int max) {
         return "Expected Total Credits:" + min + "-" + max;
     }
 
+    //TODO: This code copied from Program summary, need to create reusable version for this and program summary
     protected Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
@@ -384,6 +471,7 @@ public class DependencyAnalysisView extends ViewComposite{
         return widgetList;
     }
 
+    //TODO: This code copied from Program summary, need to create reusable version for this and program summary
     private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
 
         List<StatementTreeViewInfo> statements = rule.getStatements();

@@ -647,3 +647,11 @@ a.KS-Program-Rule-ObjectView-Button{
 .ks-dependency-view-link{
 	padding-left: 10px;
 }
+
+.ks-dependency-highlight{
+	margin-left: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
+	background: #f1f1f2;
+}
+
