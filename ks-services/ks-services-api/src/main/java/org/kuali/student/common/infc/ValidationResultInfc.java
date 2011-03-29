@@ -65,7 +65,7 @@ public interface ValidationResultInfc {
      * <p/>
      * Returns the ValidationResult's error level
      */
-    public ErrorLevel getErrorLevel();
+    public int getLevel();
 
     /**
      * Get ????

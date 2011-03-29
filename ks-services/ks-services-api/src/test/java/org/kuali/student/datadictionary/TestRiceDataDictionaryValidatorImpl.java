@@ -141,7 +141,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResultInfc vri : result) {
-            System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
+            System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(1, result.size());
 
@@ -152,7 +152,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         validationType = DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = intstance.validate(validationType, info, context);
         for (ValidationResultInfc vri : result) {
-            System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
+            System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(0, result.size());
 
@@ -160,7 +160,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResultInfc vri : result) {
-            System.out.println (vri.getElement() + " " + vri.getErrorLevel() + " " + vri.getMessage());
+            System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(1, result.size());
 //        assertEquals (0, 0);

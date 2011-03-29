@@ -31,8 +31,11 @@ public interface CriteriaInfc  {
     /**
      * Name: Operator
      * <p/>
-     * Operator to use to compare the field to the value, =, >, <, >=, <=
+     * Operator to use to compare the field to the value, =, >, <, !=, >=, <=
      *
+     * Compex can only be checked to see if they are null or not null.
+     * 
+     * TODO: Decide for complex Lists can they be checked to see how many occurences they have?
      * TODO: Decide on other operators such as "like" or in range xxx-xxxx
      * TODO: Deicde on operators to search collections inside such as any
      * TODO: Decide how to search on dynamic attributes

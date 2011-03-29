@@ -305,7 +305,7 @@ public interface LuiPersonRelationService extends DataDictionaryService {
     /**
      * Retrieves detail of LUI Person Relation Ids
      *
-     * @param luiPersonRelationCriteria Criteria to be used for retrieval of multiple LUI Person Relation identifiers
+     * @param criteria Criteria to be used for retrieval of multiple LUI Person Relation identifiers
      * @param context                   Context information containing the principalId and locale information about the caller of service operation
      * @return Simple list of LUI Person Relation identifiers
      * @throws InvalidParameterException invalid relation criteria

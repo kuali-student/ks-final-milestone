@@ -28,13 +28,13 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
 
     public ValidationResultInfo() {
         super();
-        this.level = ErrorLevel.OK;
+        this.level = ErrorLevel.OK.getLevel();
     }
     private transient Object invalidData = null;
 
     public ValidationResultInfo(String element) {
         super();
-        this.level = ErrorLevel.OK;
+        this.level = ErrorLevel.OK.getLevel();
         this.element = element;
     }
 
@@ -45,7 +45,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
     @XmlElement
     private String element;
     @XmlElement
-    private ValidationResultInfc.ErrorLevel level = ErrorLevel.OK;
+    private int level = ErrorLevel.OK.getLevel();
     @XmlElement
     private String message;
 
@@ -53,7 +53,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
     /**
      * @param level the level to set
      */
-    public void setLevel(ErrorLevel level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -86,7 +86,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      * @return
      */
     @Override
-    public ErrorLevel getErrorLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -97,7 +97,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      *            the message to add
      */
     public void setWarning(String message) {
-        this.level = ErrorLevel.WARN;
+        this.level = ErrorLevel.WARN.getLevel();
         this.message = message;
     }
 
@@ -108,7 +108,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      *            the message to add
      */
     public void setError(String message) {
-        this.level = ErrorLevel.ERROR;
+        this.level = ErrorLevel.ERROR.getLevel();
         this.message = message;
     }
 
@@ -119,7 +119,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      */
     @Override
     public boolean isOk() {
-        return getErrorLevel() == ErrorLevel.OK;
+        return getLevel() == ErrorLevel.OK.getLevel();
     }
 
     /**
@@ -129,7 +129,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      */
     @Override
     public boolean isWarn() {
-        return getErrorLevel() == ErrorLevel.WARN;
+        return getLevel() == ErrorLevel.WARN.getLevel();
     }
 
     /**
@@ -139,7 +139,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
      */
     @Override
     public boolean isError() {
-        return getErrorLevel() == ErrorLevel.ERROR;
+        return getLevel() == ErrorLevel.ERROR.getLevel();
     }
 
     @Override
