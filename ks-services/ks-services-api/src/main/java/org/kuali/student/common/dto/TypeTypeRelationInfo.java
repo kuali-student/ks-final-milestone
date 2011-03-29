@@ -23,16 +23,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.infc.TypeInfc;
+import org.kuali.student.common.infc.TypeTypeRelationInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializable {
+public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelationInfc, Serializable {
 	
     @XmlAttribute
 	private final String key;
 	
-	@XmlElement
+    @XmlAttribute
+    private final String type;
+
+    @XmlElement
 	private final String name;
 	
 	@XmlElement(name ="desc")
@@ -43,27 +46,39 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 	
 	@XmlElement
 	private final Date expirationDate;
+		
+	@XmlElement
+	private final String ownerType;
 	
 	@XmlElement
-	private final String refObjectURI;
+	private final String relatedType;
+
+	@XmlElement
+	private final Integer rank;
 	
-	protected TypeInfo() {
+	protected TypeTypeRelationInfo() {
 		key = null;
 		name = null;
 		descr = null;
 		effectiveDate = null;
 		expirationDate = null;
-		refObjectURI = null;
+		type = null;
+		ownerType = null;
+		relatedType = null;
+		rank = null;
 	}
 		
-	protected TypeInfo(TypeInfc builder) {
+	protected TypeTypeRelationInfo(TypeTypeRelationInfc builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
 		this.descr = builder.getDescr();
     	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-    	this.refObjectURI = builder.getRefObjectURI();
+    	this.type = builder.getType();
+    	this.ownerType = builder.getOwnerType();
+    	this.relatedType = builder.getRelatedType();
+    	this.rank = builder.getRank();
 	}
 	
     /**
@@ -101,29 +116,51 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
         return expirationDate;
     }
     
+
     @Override
-    public String getRefObjectURI() {
-        return refObjectURI;
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public String getOwnerType() {
+        return ownerType;
+    }
+
+    @Override
+    public String getRelatedType() {
+        return relatedType;
+    }
+
+    @Override
+    public Integer getRank() {
+        return rank;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements TypeInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements TypeTypeRelationInfc {
     	private String key;
 		private String name;
 		private String descr;
 		private Date effectiveDate;
 		private Date expirationDate;
-		private String refObjectURI;
+		private String type;
+	    private String ownerType;	    
+	    private String relatedType;
+	    private Integer rank;
 
 		public Builder() {}
     	
-    	public Builder(TypeInfc typeInfo) {
-    		super(typeInfo);
-    		this.key = typeInfo.getKey();
-    		this.name = typeInfo.getName();
-    		this.descr = typeInfo.getDescr();
-    		this.effectiveDate = typeInfo.getEffectiveDate();
-    		this.expirationDate = typeInfo.getExpirationDate();
-    		this.refObjectURI = typeInfo.getRefObjectURI();
+    	public Builder(TypeTypeRelationInfo typeTypeRelationInfo) {
+    		super(typeTypeRelationInfo);
+    		this.key = typeTypeRelationInfo.getKey();
+    		this.name = typeTypeRelationInfo.getName();
+    		this.descr = typeTypeRelationInfo.getDescr();
+    		this.effectiveDate = typeTypeRelationInfo.getEffectiveDate();
+    		this.expirationDate = typeTypeRelationInfo.getExpirationDate();
+    		this.type = typeTypeRelationInfo.getType();
+    		this.ownerType = typeTypeRelationInfo.getOwnerType();
+    		this.relatedType = typeTypeRelationInfo.getRelatedType();
+    		this.rank = typeTypeRelationInfo.getRank();
     	}
 
 		@Override
@@ -152,8 +189,23 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 		}
 
         @Override
-        public String getRefObjectURI() {
-            return refObjectURI;
+        public String getType() {
+            return type;
+        }
+
+        @Override
+        public String getOwnerType() {
+            return ownerType;
+        }
+
+        @Override
+        public String getRelatedType() {
+            return relatedType;
+        }
+
+        @Override
+        public Integer getRank() {
+            return rank;
         }
     }
 }

@@ -1,17 +1,9 @@
 /*
- * Copyright 2011 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may	obtain a copy of the License at
- *
- * 	http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package org.kuali.student.enrollment.lpr.mock;
 
@@ -28,25 +20,26 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
  * Types for Learning Person Relations
  * <p/>
  * See https://wiki.kuali.org/display/STUDENT/LuiPeronRelation+Types+and+States#LuiPeronRelationTypesandStates-References
- *
+ * 
  * @author nwright
  */
 public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Serializable {
 
-    INSTRUCTOR_MAIN("kuali.lpr.type.instructor.main", "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
-    INSTRUCTOR_ASSISTANT("kuali.lpr.type.instructor.assistant", "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
-    INSTRUCTOR_SUPPORT("kuali.lpr.type.instructor.support", "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null),
-    STUDENT("kuali.lpr.type.student.credit", "Student", "Student taking course or section for credit", asDate("20010101"), null, null),
-    AUDITOR("kuali.lpr.type.student.audit", "Auditor", "Student who is not taking the course for credit", asDate("20010101"), null, null),
+    INSTRUCTOR_MAIN("kuali.lpr.type.instructor.main", "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null), INSTRUCTOR_ASSISTANT("kuali.lpr.type.instructor.assistant", "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null), INSTRUCTOR_SUPPORT("kuali.lpr.type.instructor.support", "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null), STUDENT("kuali.lpr.type.student.credit", "Student", "Student taking course or section for credit", asDate("20010101"), null, null), AUDITOR("kuali.lpr.type.student.audit", "Auditor", "Student who is not taking the course for credit", asDate("20010101"), null, null),
     /**
      * Programs
      */
-    ENROLLEE("kuali.lpr.type.enrollee", "Enrollee", "Enrollee in the program", asDate("20010101"), null, null),
-    ADVISOR("kuali.lpr.type.advisor", "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
+    ENROLLEE("kuali.lpr.type.enrollee", "Enrollee", "Enrollee in the program", asDate("20010101"), null, null), ADVISOR("kuali.lpr.type.advisor", "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
     /**
      * Types used for isntructors of courses
      */
     public static final LuiPersonRelationTypeEnum[] COURSE_INSTRUCTOR_TYPES = {INSTRUCTOR_MAIN, INSTRUCTOR_ASSISTANT, INSTRUCTOR_SUPPORT};
+
+    /**
+     * REF OBJECT URI FOR LPR
+     */
+    public static final String REF_OBJECT_URI = "http://student.kuali.org/LuiPersonRelationService/LuiPersionRelationInfo";
+
     /**
      * Types used for students in courses
      */
@@ -88,8 +81,9 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
         return this.expirationDate;
     }
 
-    private void setAttributes(List<? extends AttributeInfc> attributes) {
-        this.attributes = attributes;
+    @Override
+    public String getRefObjectURI() {
+        return REF_OBJECT_URI;        
     }
 
     @Override
