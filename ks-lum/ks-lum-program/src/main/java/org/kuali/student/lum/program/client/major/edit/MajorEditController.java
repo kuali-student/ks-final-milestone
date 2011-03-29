@@ -11,10 +11,12 @@ import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -24,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -425,18 +428,58 @@ public class MajorEditController extends MajorController {
                 showView(ProgramSections.SUMMARY);
             }
         }
-        //Update any cross fields
-        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
-        	crossConstraint.reprocessWithUpdatedConstraints();
-        }
+
     }
 
 	@Override
-	public void beforeShow(Callback<Boolean> onReadyCallback) {
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
 		if(!initialized){
 			Application.getApplicationContext().clearCrossConstraintMap(null);
 			Application.getApplicationContext().clearPathToFieldMapping(null);
 		}
+
 		super.beforeShow(onReadyCallback);
+	}
+
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
+	}
+
+	//Ensure that the managing bodies section view is updated before the user edits specializations
+	@Override
+	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChangeCallback){
+		if(LUMViews.VARIATION_EDIT.equals(viewChangingTo)){
+			getView(ProgramSections.MANAGE_BODIES_EDIT, new Callback<View>(){
+				@Override
+				public void exec(final View view) {
+					if(view!=null && view instanceof SectionView){
+						requestModel(new ModelRequestCallback<DataModel>(){
+							public void onModelReady(DataModel model) {
+								((SectionView)view).updateWidgetData(model);
+								okToChangeCallback.exec(true);
+							}
+							public void onRequestFail(Throwable cause) {
+								okToChangeCallback.exec(false);
+							}
+						});
+					}else{
+						okToChangeCallback.exec(true);
+					}
+				}});
+		}else{
+			okToChangeCallback.exec(true);
+		}
 	}
 }
