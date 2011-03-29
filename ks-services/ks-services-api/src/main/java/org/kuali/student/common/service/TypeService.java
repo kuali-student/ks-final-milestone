@@ -15,16 +15,15 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 
 /**
- * Provides a read-only view of types and type type relations. This service
- * needs to be implemented by any KS service that is going to handle types
+ * Provides a read-only view of types and type type relations. This service needs to be implemented by any KS service that is
+ * going to handle types
  * 
  * @author kamal
  */
@@ -32,11 +31,84 @@ import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface TypeService {
 
- 
-    public TypeInfo getType(@WebParam(name="typeKey")String typeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    /**
+     * This method returns the TypeInfo associated for a given type key
+     * 
+     * @param typeKey
+     *            Key of the type
+     * @param context
+     *            Context information containing the principalId and locale information about the caller of service operation
+     * @return Information about the Type
+     * @throws DoesNotExistException
+     *             typeKey not found
+     * @throws InvalidParameterException
+     *             invalid typeKey
+     * @throws MissingParameterException
+     *             missing typeKey
+     * @throws OperationFailedException
+     *             unable to complete request
+     */
+    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns a list of TypeInfo that belong to a RefObjectURI. For e.g all types for CluInfo
+     * 
+     * @param refObjectURI
+     *            URI identifying the object e.g http://student.kuali.org/LuService/CluInfo
+     * @param context
+     *            Context information containing the principalId and locale information about the caller of service operation
+     * @return List of TypeInfo objects associated with the object
+     * @throws DoesNotExistException
+     *             refObjectURI not found
+     * @throws InvalidParameterException
+     *             invalid refObjectURI
+     * @throws MissingParameterException
+     *             missing refObjectURI
+     * @throws OperationFailedException
+     *             unable to complete request
+     */
+    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns a list of TypeInfo objects that are allowed for another typeKey. This is a convenience method to
+     * retrieve TypeTypeRelation with allowed relation type. This will retrieve all the type keys associated with the
+     * ObjectURI of the related type. The relationship is captured unidirectionally from ownerType to relatedType.
+     * 
+     * @param ownerTypeKey
+     *            Type key of the owner in the relation
+     * @param relatedRefObjectURI
+     *            RefObjectURI of the related type.
+     * @param context
+     *            Context information containing the principalId and locale information about the caller of service operation
+     * @return
+     * @throws DoesNotExistException
+     *             ownerTypeKey or relatedRefObjectURI not found
+     * @throws InvalidParameterException
+     *             invalid ownerTypeKey or relatedRefObjectURI
+     * @throws MissingParameterException
+     *             missing ownerTypeKey or relatedRefObjectURI
+     * @throws OperationFailedException
+     *             unable to complete request
+     */
+    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
     
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name="refObjectURI") String refObjectURI) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name="ownerTypeKey") String ownerTypeKey, @WebParam(name="relatedRefObjectURI") String relatedRefObjectURI) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
+    /**
+     * 
+     * This method retrieves all the TypeTypeRelation objects for a given ownerType and the relationType
+     * 
+     * @param ownerTypeKey Type key of the owner in the relation
+     * @param relationTypeKey Type key of the relation 
+     * @param context  Context information containing the principalId and locale information about the caller of service operation
+     * @return List of TypeTypeRelations for a given ownerType
+     * @throws DoesNotExistException
+     *             ownerTypeKey or relationTypeKey not found
+     * @throws InvalidParameterException
+     *             invalid ownerTypeKey or relationTypeKey
+     * @throws MissingParameterException
+     *             missing ownerTypeKey or relationTypeKey
+     * @throws OperationFailedException
+     *             unable to complete request
+     */
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
