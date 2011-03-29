@@ -63,6 +63,8 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
         final KSSelectedList[] divisionSelects = new KSSelectedList[]{(KSSelectedList) sod.getFieldWidget(),
         		(KSSelectedList) dd.getFieldWidget(),(KSSelectedList) frd.getFieldWidget(),(KSSelectedList) fcd.getFieldWidget()};
 
+        rootSection.addStyleName("KS-Dropdown-Short");
+        
         //get a handle to the add to list button, chain in adding to all fds 
         if(cou.getFieldWidget() instanceof KSSelectedList){
         	final KSSelectedList couWidget = (KSSelectedList)cou.getFieldWidget();

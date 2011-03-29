@@ -12,21 +12,27 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+.KS-Dropdown {
+	border: 1px solid #AAAAAA;
+	padding: 3px;
+}
 
-.KS-Dropdown{
-    border: 1px solid #AAAAAA;
-    padding: 3px;
+.KS-Dropdown-Focus {
+	background-color: #ECF2FA;
+	border: 1px solid #AAAAAA;
+	padding: 3px;
 }
-.KS-Dropdown-Focus{
-    background-color: #ECF2FA;
-    border: 1px solid #AAAAAA;
-    padding: 3px;
-}
-.KS-Dropdown-Hover{
-    background-color: #ECF2FA;
-    border: 1px solid #AAAAAA;
-    padding: 3px;
-}
-.KS-Dropdown-Selected{
 
+.KS-Dropdown-Hover {
+	background-color: #ECF2FA;
+	border: 1px solid #AAAAAA;
+	padding: 3px;
+}
+
+.KS-Dropdown-Selected {
+	
+}
+
+.KS-Dropdown-Short .KS-Dropdown{
+	max-width: 310px;
 }
