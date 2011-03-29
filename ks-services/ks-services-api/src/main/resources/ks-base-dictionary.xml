@@ -78,6 +78,31 @@
         <property name="validCharactersConstraint" ref="positive.integer" />
     </bean>
 
+
+    <bean id="baseKualiCurrency" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="FLOAT" />
+        <property name="required" value="false"/>
+        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />
+        <property name="minLength" value="1" />
+        <property name="maxLength" value="10" />
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        </property>
+        <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
+        <property name="validCharactersConstraint" ref="positive.integer" />
+    </bean>
+
+    <bean id="baseKualiBoolean" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="BOOLEAN" />
+        <property name="required" value="false"/>
+        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />
+<!--        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>-->
+    </bean>
+
     <bean id="baseKualiDate" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="TRUNCATED_DATE" />
         <property name="required" value="false"/>

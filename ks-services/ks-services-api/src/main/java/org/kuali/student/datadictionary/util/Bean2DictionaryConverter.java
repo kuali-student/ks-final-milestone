@@ -95,7 +95,7 @@ public class Bean2DictionaryConverter {
         return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
 
-    private Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
+    public static Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
             pt = ComplexSubstructuresHelper.getActualClassFromList(clazz, pd.getName());
@@ -103,7 +103,7 @@ public class Bean2DictionaryConverter {
         return pt;
     }
 
-    private DataType calcDataType(Class<?> pt) {
+    public static DataType calcDataType(Class<?> pt) {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;
         } else if (long.class.equals(pt) || Long.class.equals(pt)) {
