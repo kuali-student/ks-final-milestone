@@ -101,6 +101,76 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
 	</search:crossSearchType>
 	
+	<!-- Browse Program Search -->
+	<search:searchType id="lu.search.browseProgram">
+		<search:name>Browse Program</search:name>
+		<search:desc>Search for all Program Clus</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.browseProgram"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.browseProgram"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.browseProgram" parent="lu.result.browseProgram-parent"/>
+	<search:searchResultTypeInfo id="lu.result.browseProgram-parent" abstract="true">
+		<search:name>Browse Program Results</search:name>
+		<search:desc>View of Program Clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.resultComponentId"/>
+			<ref bean="lu.resultColumn.luOptionalAdminOrg"/>
+			<ref bean="lu.resultColumn.variationId"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.resultComponentId" parent="lu.resultColumn.resultComponentId-parent"/>
+	<search:resultColumn id="lu.resultColumn.resultComponentId-parent"  abstract="true">
+        <search:name>Result Component Key</search:name>
+        <search:desc>Result Component Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseProgram" parent="lu.criteria.browseProgram-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseProgram-parent" abstract="true">
+		<search:name>Browse Program Criteria</search:name>
+		<search:desc>Browse Program Criteria</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<!-- Browse Variations Search -->
+	<search:searchType id="lu.search.browseVariations">
+		<search:name>Browse Variations</search:name>
+		<search:desc>Search for all Variation Clus</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.browseVariations"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.browseVariations"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="lu.result.browseVariations" parent="lu.result.browseVariations-parent"/>
+	<search:searchResultTypeInfo id="lu.result.browseVariations-parent" abstract="true">
+		<search:name>Browse Program Results</search:name>
+		<search:desc>View of Program Clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseVariations" parent="lu.criteria.browseVariations-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseVariations-parent" abstract="true">
+		<search:name>Browse Variations Criteria</search:name>
+		<search:desc>Browse Variations Criteria</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 	
 	<!-- Dependency Analysis Search -->
 	<search:searchType id="lu.search.dependencyAnalysis">
@@ -1702,7 +1772,24 @@
                 <entry key="lu.queryParam.luOptionalRelationType">
                     <value>rel.luLuRelationType.id = :lu_queryParam_luOptionalRelationType</value>
                 </entry>
-
+                <entry key="lu.search.browseProgram">
+                    <value>SELECT clu.id, ident.longName, clu.state, options.resultComponentId, org.orgId, '' 
+                    FROM CluIdentifier ident, CluResult result, IN(result.resultOptions) options, Clu clu, IN(clu.adminOrgs) org  
+                    WHERE clu.officialIdentifier.id = ident.id 
+                    AND clu.luType.id = 'kuali.lu.type.MajorDiscipline' 
+                    AND result.clu.id = clu.id 
+                    AND result.cluResultType.id = 'kuali.resultType.degree'
+                    AND org.type = 'kuali.adminOrg.type.CurriculumOversightDivision'
+                    AND clu.state IN ('Active','Suspended','Retired')
+                    </value>
+                </entry>
+                <entry key="lu.search.browseVariations">
+                	<value>SELECT rel.clu.id, rel.relatedClu.officialIdentifier.longName
+                    FROM CluCluRelation rel
+                    WHERE rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
+                    AND rel.relatedClu.luType.id = 'kuali.lu.type.Variation' ORDER BY rel.relatedClu.officialIdentifier.longName ASC
+                    </value>
+                </entry>
             </map>
 		</property>
 	</bean>

@@ -151,7 +151,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class LuServiceImpl implements LuService {
 
 	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
-
+	private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
+	private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
+	private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
+	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
 	private LuDao luDao;
@@ -2980,8 +2983,201 @@ public class LuServiceImpl implements LuService {
 			} catch (DoesNotExistException e) {
 				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
 			}
+        }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())){
+        	return doBrowseProgramSearch();
         }
         return searchManager.search(searchRequest, luDao);
+	}
+
+	private SearchResult doBrowseProgramSearch() throws MissingParameterException {
+		//This is our main result
+		SearchResult programSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM), luDao);
+		
+		//These variations need to be mapped back to the program search results
+		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao);
+		
+		//Get a mapping of program id to variation long name mapping:
+		Map<String,List<String>> variationMapping = new HashMap<String,List<String>>();
+		for(SearchResultRow row:variationSearchResults.getRows()){
+			String programId = null;
+			String variationLongName = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("lu.resultColumn.cluId".equals(cell.getKey())){
+					programId = cell.getValue();
+				}else if("lu.resultColumn.luOptionalLongName".equals(cell.getKey())){
+					variationLongName = cell.getValue();
+				}
+			}
+			List<String> variationLongNames = variationMapping.get(programId);
+			if(variationLongNames == null){
+				variationLongNames = new ArrayList<String>();
+				variationMapping.put(programId, variationLongNames);
+			}
+			variationLongNames.add(variationLongName);
+		}
+		
+		
+		//The result component types need to be mapped back as well
+		SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+		resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type", "kuali.resultComponentType.degree");
+		SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
+		
+		//Get a mapping of result type id to result type name:
+		Map<String,String> resultComponentMapping = new HashMap<String,String>();
+		for(SearchResultRow row:resultComponentSearchResults.getRows()){
+			String resultComponentTypeId = null;
+			String resultComponentTypeName = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("lrc.resultColumn.resultComponent.id".equals(cell.getKey())){
+					resultComponentTypeId = cell.getValue();
+				}else if("lrc.resultColumn.resultComponent.name".equals(cell.getKey())){
+					resultComponentTypeName = cell.getValue();
+				}
+			}
+			resultComponentMapping.put(resultComponentTypeId, resultComponentTypeName);
+		}
+		
+		Map<String, Set<SearchResultCell>> orgIdToCellMapping = new HashMap<String, Set<SearchResultCell>>();
+		Map<String, Set<SearchResultCell>> resultComponentToCellMapping = new HashMap<String, Set<SearchResultCell>>(); 
+		Map<String, SearchResultCell> progIdToOrgCellMapping = new HashMap<String, SearchResultCell>(); 
+		Map<String, SearchResultCell> progIdToResultComponentCellMapping = new HashMap<String, SearchResultCell>(); 
+		
+		//We need to reduce the programSearchResults, translating variations, result options, etc and creating a mapping for org id translation
+		for(Iterator<SearchResultRow> rowIter = programSearchResults.getRows().iterator();rowIter.hasNext();){
+			SearchResultRow row = rowIter.next();
+			String programId = null;
+			String orgId = null;
+			String resultComponentName = null;
+			SearchResultCell orgCell = null;
+			SearchResultCell resultComponentCell = null;
+			SearchResultCell variationCell = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("lu.resultColumn.cluId".equals(cell.getKey())){
+					programId = cell.getValue();
+				}else if("lu.resultColumn.luOptionalAdminOrg".equals(cell.getKey())){
+					orgId = cell.getValue();
+					orgCell = cell;
+				}else if("lu.resultColumn.resultComponentId".equals(cell.getKey())){
+					resultComponentName = resultComponentMapping.get(cell.getValue());
+					resultComponentCell = cell;
+				}else if("lu.resultColumn.variationId".equals(cell.getKey())){
+					variationCell = cell;
+				}
+			}
+			if(!progIdToOrgCellMapping.containsKey(programId)){
+				//Add in the Variations
+				List<String> variations = variationMapping.get(programId);
+				variationCell.setValue("");
+				if(variations!=null){
+					for(Iterator<String> variationIter = variations.iterator();variationIter.hasNext();){
+						String variation = variationIter.next();
+						if(variationIter.hasNext()){
+							variation += ", ";
+						}
+						variationCell.setValue(variationCell.getValue()+variation);
+					}
+				}
+
+				//Add the cell to the org id mapping
+				Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+				if(orgCells == null){
+					orgCells = new HashSet<SearchResultCell>();
+					orgIdToCellMapping.put(orgId, orgCells);
+				}
+				orgCells.add(orgCell);
+				orgCell.setValue(null);
+				
+								
+				//Add this to the map
+				Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+				if(resultCells == null){
+					resultCells = new HashSet<SearchResultCell>();
+					resultComponentToCellMapping.put(resultComponentName, resultCells);
+				}
+				resultCells.add(resultComponentCell);
+				resultComponentCell.setValue(null);
+				
+				progIdToOrgCellMapping.put(programId, orgCell);
+				progIdToResultComponentCellMapping.put(programId, resultComponentCell);
+			}else{
+				//this row already exists so we need to concatenate the result component and add the org id
+				//Get the result component row
+				Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+				if(resultCells == null){
+					resultCells = new HashSet<SearchResultCell>();
+					resultComponentToCellMapping.put(resultComponentName, resultCells);
+				}
+				resultCells.add(progIdToResultComponentCellMapping.get(programId));
+				
+				//Add a new mapping to the org cell for this org id
+				Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+				if(orgCells == null){
+					orgCells = new HashSet<SearchResultCell>();
+					orgIdToCellMapping.put(orgId, orgCells);
+				}
+				orgCells.add(progIdToOrgCellMapping.get(programId));
+				
+				//Remove this row from results
+				rowIter.remove();
+			}
+		}
+		
+		if(!resultComponentToCellMapping.isEmpty()){
+			List<String> resultComponentNames = new ArrayList<String>(resultComponentToCellMapping.keySet());
+			Collections.sort(resultComponentNames);
+			for(String resultComponentName:resultComponentNames){
+				//Concatenate resultComponent names in the holder cells
+				Set<SearchResultCell> cells = resultComponentToCellMapping.get(resultComponentName);
+				if(cells!=null){
+					for(SearchResultCell cell:cells){
+						if(cell.getValue()==null){
+							cell.setValue(resultComponentName);
+						}else{
+							cell.setValue(cell.getValue()+", "+resultComponentName);
+						}
+					}
+				}
+			}
+		}
+		
+		//Use the org search to Translate the orgIds into Org names and update the holder cells
+		if(!orgIdToCellMapping.isEmpty()){
+			//Perform the Org search
+			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
+			orgIdTranslationSearchRequest.setSortColumn("org.resultColumn.orgShortName");
+			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+			
+			//For each translation, update the result cell with the translated org name
+			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
+				
+				//Get Params
+				String orgId="";
+				String orgName="";
+				for(SearchResultCell cell:row.getCells()){
+					if("org.resultColumn.orgId".equals(cell.getKey())){
+						orgId = cell.getValue();
+						continue;
+					}else if("org.resultColumn.orgShortName".equals(cell.getKey())){
+						orgName = cell.getValue();
+					}
+				}
+				
+				//Concatenate org names in the holder cells
+				Set<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+				if(cells!=null){
+					for(SearchResultCell cell:cells){
+						if(cell.getValue()==null){
+							cell.setValue(orgName);
+						}else{
+							cell.setValue(cell.getValue()+", "+orgName);
+						}
+					}
+				}
+			}
+		}
+
+		return programSearchResults;
 	}
 
 	private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException, DoesNotExistException {
