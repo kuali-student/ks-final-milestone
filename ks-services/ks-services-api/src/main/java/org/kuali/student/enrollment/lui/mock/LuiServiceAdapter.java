@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.lui.mock;
 import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
@@ -150,11 +152,6 @@ public class LuiServiceAdapter implements LuiService, HoldsLuiService {
     }
 
     @Override
-    public List<String> getAllowedLuiLuiRelationTypesByLuiId(String luiId, String relatedLuiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return luiService.getAllowedLuiLuiRelationTypesByLuiId(luiId, relatedLuiId, context);
-    }
-
-    @Override
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return luiService.deleteLuiLuiRelation(luiLuiRelationId, context);
     }
@@ -183,4 +180,25 @@ public class LuiServiceAdapter implements LuiService, HoldsLuiService {
       PermissionDeniedException {
         return luiService.createLui(cluId, atpKey, luiInfo, context);
     }
+
+    @Override
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return luiService.getType(typeKey, context);
+    }
+
+    @Override
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return luiService.getTypesByRefObjectURI(refObjectURI, context);
+    }
+
+    @Override
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return luiService.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return luiService.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+    }
+
 }
