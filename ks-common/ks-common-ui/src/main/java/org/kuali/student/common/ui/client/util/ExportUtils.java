@@ -11,7 +11,6 @@ package org.kuali.student.common.ui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -28,40 +27,44 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ExportUtils {
-    // TODO Nina - Can't run logger in GWT as it looks for the source code of log4j???
-//    final static Logger logger = Logger.getLogger(ExportUtils.class);
     public static final String PDF = "PDF";
     public static final String DOC = "DOC";
     public static final String XLS = "XLS";
 
-    private static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget) {
-        if (fieldWidget instanceof KSLabel) {
-            // ignore labels... as we're not interested
-        } else if (fieldWidget instanceof HasText) {
+    public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue) {
+        String fieldValue = null;
+        if (fieldWidget instanceof HasText) {
             HasText itemHasTextValue = (HasText) fieldWidget;
-            exportItem.setFieldValue(itemHasTextValue.getText());
-            //                        
+            fieldValue = itemHasTextValue.getText();
+            
+        } else if (fieldWidget instanceof KSLabel) {
+            // ignore labels... as we're not interested
         } else if (fieldWidget instanceof KSSelectedList) {
             KSSelectedList selectedList = (KSSelectedList) fieldWidget;
             List<KSItemLabel> selectedItems = selectedList.getSelectedItems();
             String values = new String();
             for (int j = 0; j < selectedItems.size(); j++) {
-                // values = values + selectedItems.get(i).getValue();
                 values = selectedItems.get(j).getDisplayText();
             }
-            exportItem.setFieldValue(values);
-            //
+            fieldValue = values;
         } else if (fieldWidget instanceof KSPicker) { // Similart to KSSSelectedList
             KSPicker picker = (KSPicker) fieldWidget;
-            exportItem.setFieldValue(picker.getDisplayValue());
-            //                        
+            picker.getValue();
+            picker.getElement();
+            fieldValue = picker.getDisplayValue();      
         } else if (fieldWidget instanceof ListBox) {
             ListBox listBox = (ListBox) fieldWidget;
-            exportItem.setFieldValue(listBox.getItemText(listBox.getSelectedIndex()));
+            fieldValue = listBox.getItemText(listBox.getSelectedIndex());
         } else {
-//            logger.warn(exportItem.getFieldLabel() + " Fieldwidget not catered for : class type = " + fieldWidget.getClass().getName());
+            // logger.warn(exportItem.getFieldLabel() + " Fieldwidget not catered for : class type = " +
+            // fieldWidget.getClass().getName());
         }
-//        logger.warn(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue());
+        if (setFirstFieldValue) {
+            exportItem.setFieldValue(fieldValue);
+        } else {
+            exportItem.setFieldValue2(fieldValue);
+        }
+//        System.out.println(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue() + " fieldValue2 : " + exportItem.getFieldValue2());
         return exportItem;
     }
 
@@ -87,19 +90,12 @@ public class ExportUtils {
     }
 
     public static void handleExportClickEvent(Controller currentController, String format) {
-//        logger.info("ExportUtils.handleExportClickEvent onClick on Jasper Print Button...");
-        View currentView = currentController.getCurrentView();
-
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-//        logger.debug("currentController is /:" + currentController.getClass().getName());
+//        System.out.println("currentController is /:" + currentController.getClass().getName());
         exportElements = currentController.getExportElementsFromView();
-        if (exportElements != null) {
-//            logger.debug("ExportElement array.xize = " + exportElements.size());
-
-        } else {
-//            logger.debug("ExportElement array.xize = null");
+        if (exportElements != null && exportElements.size() > 0) {
+            currentController.doReportExport(exportElements, format);
         }
-        currentController.doReportExport(exportElements, format);
     }
 
     private static ArrayList<ExportElement> getDetailsForWidget(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {
@@ -113,41 +109,10 @@ public class ExportUtils {
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
 
-                exportElements.add(getExportItemDetails(exportItem, fieldWidget));
+                exportElements.add(getExportItemDetails(exportItem, fieldWidget, true));
             }
-            // cause a problem on the serverside for jasper not sure why
-            // List<Section> subSections = widgetHasFields.getSections();
-            // for (Section section : subSections) {
-            // ExportElement exportItem = new ExportElement();
-            // if (section instanceof Widget) {
-            // Widget sectionWidget = (Widget) section;
-            // exportItem.setViewName(getViewName(sectionWidget));
-            // }
-            // System.out.println("Section : " + section.getClass().getName());
-            // List<ExportElement> subList = getDetailsForWidget((Widget) section, exportElements, exportItem.getViewName(),
-            // sectionName);
-            // exportItem.setSubset(subList);
-            // exportElements.add(exportItem);
-            // }
-            //
-            // NINA not working at all on client side something is null
-            // FieldLayout sectionLayout = widgetHasFields.getLayout();
-            // LayoutController layoutController = widgetHasFields.getLayoutController();
-            // Widget currentLayoutControllerView = (Widget) layoutController.getCurrentView();
-            // ExportElement exportItem = new ExportElement();
-            // if (currentLayoutControllerView instanceof Widget) {
-            // Widget sectionWidget = (Widget) currentLayoutControllerView;
-            // exportItem.setViewName(getViewName(sectionWidget));
-            // }
-            // System.out.println("Section : " + currentLayoutControllerView.getClass().getName());
-            //
-            // List<ExportElement> subList = getDetailsForWidget((Widget) currentLayoutControllerView, exportElements,
-            // exportItem.getViewName(), sectionName);
-            // exportItem.setSubset(subList);
-            // exportElements.add(exportItem);
-
-        } else {
-            System.out.println("what to do if it's not a section...");
+//        } else {  // Debuggin
+//            System.out.println("Component is not implemented yet for class of type : " + currentViewWidget.getClass().getName());
         }
         return exportElements;
     }
@@ -174,40 +139,10 @@ public class ExportUtils {
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
 
-                exportElements.add(getExportItemDetails(exportItem, fieldWidget));
+                exportElements.add(getExportItemDetails(exportItem, fieldWidget,true));
             }
-            // not working yet...
-            // List<Section> subSections = widgetHasFields.getSections();
-            // for (Section section : subSections) {
-            // ExportElement exportItem = new ExportElement();
-            // if (section instanceof Widget) {
-            // Widget sectionWidget = (Widget) section;
-            // exportItem.setViewName(getViewName(sectionWidget));
-            // }
-            // System.out.println("Section : " + section.getClass().getName());
-            // List<ExportElement> subList = getDetailsForWidget((Widget) section, exportElements, exportItem.getViewName(),
-            // sectionName);
-            // exportItem.setSubset(subList);
-            // exportElements.add(exportItem);
-            // }
-            //
-            // FieldLayout sectionLayout = widgetHasFields.getLayout();
-            // LayoutController layoutController = widgetHasFields.getLayoutController();
-            // Widget currentLayoutControllerView = (Widget) layoutController.getCurrentView();
-            // ExportElement exportItem = new ExportElement();
-            // if (currentLayoutControllerView instanceof Widget) {
-            // Widget sectionWidget = (Widget) currentLayoutControllerView;
-            // exportItem.setViewName(getViewName(sectionWidget));
-            // }
-            // System.out.println("Section : " + currentLayoutControllerView.getClass().getName());
-            //
-            // List<ExportElement> subList = getDetailsForWidget((Widget) currentLayoutControllerView, exportElements,
-            // exportItem.getViewName(), sectionName);
-            // exportItem.setSubset(subList);
-            // exportElements.add(exportItem);
-
-        } else {
-//            logger.warn("ExportUtils.getExportElementsFromView is not implemented for your View, either implement it here or do " + "not call the ExportUtils.getExportElementsFromView but implement it directly on your view");
+//        } else { // Debugging
+//            System.out.println("ExportUtils.getExportElementsFromView is not implemented for your View, either implement it here or do " + "not call the ExportUtils.getExportElementsFromView but implement it directly on your view");
         }
         return exportElements;
     }

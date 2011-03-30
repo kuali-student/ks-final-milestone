@@ -5,8 +5,12 @@ import java.util.List;
 
 public class ExportElement implements Serializable {
 
-    private String fieldLabel;
+    private static final long serialVersionUID = 1L;
+    private String fieldLabel = new String("label");
+    private boolean isMandatory;
+    
     private String fieldValue;
+    private String fieldValue2;
     private String viewName;
     private String sectionName;
     private List<ExportElement> subset;
@@ -61,6 +65,22 @@ public class ExportElement implements Serializable {
 
     public void setSubset(List<ExportElement> subset) {
         this.subset = subset;
+    }
+
+    public boolean isMandatory() {
+        return isMandatory;
+    }
+
+    public void setMandatory(boolean isMandatory) {
+        this.isMandatory = isMandatory;
+    }
+
+    public String getFieldValue2() {
+        return fieldValue2;
+    }
+
+    public void setFieldValue2(String fieldValue2) {
+        this.fieldValue2 = fieldValue2;
     }
 
 }

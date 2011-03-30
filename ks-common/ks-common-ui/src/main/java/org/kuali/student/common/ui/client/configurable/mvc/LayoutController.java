@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -471,12 +473,19 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	 */
 	@Override
 	public void beforeViewChange(Enum<?> viewChangingTo, Callback<Boolean> okToChange) {
-		if(this.getCurrentView() instanceof Controller){
+	    
+	    if(this.getCurrentView() instanceof Controller){
 			((Controller)this.getCurrentView()).beforeViewChange(viewChangingTo, okToChange);
-		}
+	    }
 		else{
 			okToChange.exec(true);
 		}
+        if(this instanceof MenuSectionController){
+            ((MenuSectionController)this).showExport(isExportButtonActive());
+        } else if(this instanceof TabMenuController){
+            ((TabMenuController)this).showExport(isExportButtonActive());
+        }
+
 	}
 
 	@Override

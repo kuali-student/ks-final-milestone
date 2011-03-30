@@ -272,7 +272,6 @@ public abstract class ProgramController extends MenuSectionController {
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-        showExport(isExportButtonActive());
         if (programModel.getRoot() == null) {
             loadModel(new ModelRequestCallback<DataModel>() {
                 @Override
@@ -422,7 +421,16 @@ public abstract class ProgramController extends MenuSectionController {
     }
     
     public boolean isExportButtonActive() {
-        System.out.println("ProgramController.isExportButtonActive true");
-        return true;
+        if (this.getCurrentViewEnum() != null) {
+            if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY) 
+                    || this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)) {
+                return true;            
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
     }
 }

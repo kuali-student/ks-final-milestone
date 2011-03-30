@@ -69,7 +69,6 @@ public class TabMenuController extends LayoutController{
     
     public void showPrint(boolean show){
     	header.showPrint(show);
-    	header.showJasper(show);
     }
 
     public void showExport(boolean show) {

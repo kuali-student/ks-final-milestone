@@ -561,41 +561,26 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(ArrayList<ExportElement> exportElements, String format) {
-     // TODO NINA Event is not working, as i can't seem to fire it on the specific controller...
-        System.out.println("Generic report generator : report name = " + this.exportTemplateName);
-        //
-        
-        View currView = this.getCurrentView();
-        
+    public void doReportExport(ArrayList<ExportElement> exportElements, String format) {        
      // Service call...
         
         DataModel dataModel = getExportDataModel();
-        
+        Data modelDataObject = null;
         if (dataModel != null) {
-            Data modelDataObject = dataModel.getRoot();
-            
+            modelDataObject = dataModel.getRoot();
+        }   
+        
             reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                    // TODO Nina Confirm this is best way to handle onFailure...
-                        System.out.println("reportExportRpcService was unsuccessfull");
-                        caught.printStackTrace();
-//
-                        Window.alert(caught.getMessage());
-                        GWT.log("Failed to retrieve clu", caught);
-                    }
-
                     @Override
                     public void onSuccess(String result) {
                         // On success get documentID back from GWT Servlet
-                        System.out.println("On success....export ID = " + result);
+//                        System.out.println("On success....export ID = " + result);
                         Window.open("/exportDownloadHTTPServlet?exportId="+result, "", "");                          
                     }
                 });
 
             
-        }
+        
     }
        
     // TODO Nina ??? Do we want to keep this seen in the light of the exportElements parameter

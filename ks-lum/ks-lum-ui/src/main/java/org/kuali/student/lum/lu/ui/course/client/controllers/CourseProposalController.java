@@ -36,10 +36,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.event.ContentDirtyEventHandler;
-import org.kuali.student.common.ui.client.event.ExportEvent;
-import org.kuali.student.common.ui.client.event.ExportEventHandler;
-import org.kuali.student.common.ui.client.event.ModifyActionEvent;
-import org.kuali.student.common.ui.client.event.ModifyActionHandler;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -71,6 +67,11 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTable;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -80,6 +81,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -92,6 +94,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for course proposal screens.  This controller controls all functions of the course proposal process
@@ -677,7 +680,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-        showExport(isExportButtonActive());
     	Application.getApplicationContext().clearCrossConstraintMap(null);
     	Application.getApplicationContext().clearPathToFieldMapping(null);
     	Application.getApplicationContext().setParentPath("");
@@ -910,4 +912,62 @@ public class CourseProposalController extends MenuEditableSectionController impl
         return cluProposalModel;
     }
     
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            SummaryTable sumTable = tableSection.getSummaryTable();
+            SummaryTableModel model = sumTable.getModel();
+            List<SummaryTableBlock> tableSectionList = model.getSectionList();
+            //
+            for (int i = 0; i < tableSectionList.size(); i++) {
+                SummaryTableBlock item = tableSectionList.get(i);
+                String blockName = item.getTitle();
+                List<SummaryTableRow> rowItems = item.getSectionRowList();
+                for (int j = 0; j < rowItems.size(); j++) {
+                    ExportElement element = new ExportElement();
+                    SummaryTableRow row = rowItems.get(j);
+                    element.setSectionName(blockName);
+                    element.setViewName(blockName);
+                    element.setFieldLabel(row.getTitle());
+                    element.setMandatory(row.isRequired());
+                    Widget fdWidget = row.getCell1();
+                    if (row.isShown()) {
+                        if (fdWidget != null) {
+                            element = ExportUtils.getExportItemDetails(element,fdWidget,true);
+                        } else {
+                            if (row.getTitle() != null) {
+                                element.setFieldLabel(row.getTitle());
+                            }
+                        }
+                    //
+                        Widget fdWidget2 = row.getCell2();
+                        if (fdWidget2 != null) {
+                            element = ExportUtils.getExportItemDetails(element,fdWidget2,false);
+                                           
+                        } else {
+                            if (row.getTitle() != null) {
+                                element.setFieldLabel(row.getTitle());
+                            }
+                        }
+                        if (element != null && element.getViewName() != null) {
+                            exportElements.add(element);
+                        }
+                    }
+                }
+            }
+        }
+        return exportElements;
+    }
+    
+    @Override
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {   
+            return true;
+        } else {
+            return false;
+        }
+            
+    }  
 }

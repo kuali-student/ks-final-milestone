@@ -119,6 +119,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String COURSE_TITLE_PATH = "/courseTitle";
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
     protected DocumentTool documentTool;
+    //
+    CourseSummaryConfigurer summaryConfigurer;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -182,7 +184,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -1125,6 +1127,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         }
 
         return sb.toString();
+    }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
     }
 }
 

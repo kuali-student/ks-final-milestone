@@ -57,7 +57,6 @@ public class ProgramVersionsController extends BasicLayoutWithContentHeader{
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	this.getHeader().showPrint(false);
-    	this.getHeader().showJasper(false);
     	onReadyCallback.exec(true);
     }
     
