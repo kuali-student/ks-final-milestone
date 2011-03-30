@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.krms.api.Agenda;
-import org.kuali.rice.krms.api.Asset;
 import org.kuali.rice.krms.api.Proposition;
 import org.kuali.rice.krms.api.Rule;
 import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.framework.engine.BasicRule;
-import org.kuali.rice.krms.framework.engine.ComparableTermBasedProposition;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.CompoundProposition;
 import org.kuali.rice.krms.framework.engine.LogicalOperator;
@@ -27,9 +25,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class StatementServiceTranslationTest {
@@ -40,11 +35,6 @@ public class StatementServiceTranslationTest {
     StatementService statementService;
     
     private static final List<String> validRequirementComponentTypes;
-    
-    private static final Asset testScoreAsset = new Asset("testScore", "Float");
-    private static final Asset permissionAsset = new Asset("permission", "Boolean");
-    
-    private static final Asset gpaAsset = new Asset("gpa", "Float");
     
     static {
         String[] REQ_COM_TYPE_SEED_DATA = {
@@ -191,12 +181,11 @@ public class StatementServiceTranslationTest {
             
             // get the expected test score and the tests
             Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
-            List<ReqCompFieldInfo> reqCompFields = requirementComponent.getReqCompFields();
             String testScore = fieldMap.get("kuali.reqComponent.field.type.test.score").getValue();
             String testSetId = fieldMap.get("kuali.reqComponent.field.type.test.cluSet.id").getValue();
             
             // TODO 
-            Proposition result = new ComparableTermBasedProposition<Float>(ComparisonOperator.GREATER_THAN_EQUAL, testScoreAsset, null);
+            Proposition result = new TestScoreCompareProposition(ComparisonOperator.GREATER_THAN_EQUAL, testSetId, testScore);
             
             return result;
         }
