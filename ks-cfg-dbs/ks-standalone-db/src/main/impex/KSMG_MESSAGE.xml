@@ -256,6 +256,9 @@
         ID="1ad14c28-8555-44d9-a807-c99e850dedef" LOCALE="en"
         MSG_ID="cluVersionCodes" MSG_VALUE="Version Codes"
         OBJ_ID="5113b0f3-7548-470b-9abc-32186ee72764" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
+        ID="1ae92d4f-feb0-466f-96d3-a3c0003ebbe0" LOCALE="en"
+        MSG_ID="pdfFormat" MSG_VALUE=".pdf (Adobe Acrobat)" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="1b1edc9b-5e0e-4aa3-a10b-14253f24203d" LOCALE="en"
         MSG_ID="cluLearningObjectives" MSG_VALUE="Learning Objectives"
@@ -464,6 +467,9 @@
         MSG_ID="orgPositionTablePositionDesc"
         MSG_VALUE="Position Description"
         OBJ_ID="368455db-0df7-4b4e-af42-dbda9298506e" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
+        ID="3b0a7bfa-05d0-476c-8a0e-ec6d95b40dbc" LOCALE="en"
+        MSG_ID="docFormat" MSG_VALUE=".doc (Microsoft Word)" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="3b10a1b4-2c20-4c8e-97b7-46d94ea948de" LOCALE="en"
         MSG_ID="cluVersionCode" MSG_VALUE="Version Code"
@@ -1307,15 +1313,15 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9E287AEBEB37913CE040C60AF05B3A6A" LOCALE="en"
+        ID="9FB491C6D0B84BB4E040C60AF05B1F6B" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9E287AEBEB38913CE040C60AF05B3A6A" VER_NBR="1"/>
+        OBJ_ID="9FB491C6D0B94BB4E040C60AF05B1F6B" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9E287AEBEB39913CE040C60AF05B3A6A" LOCALE="en"
+        ID="9FB491C6D0BA4BB4E040C60AF05B1F6B" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9E287AEBEB3A913CE040C60AF05B3A6A" VER_NBR="1"/>
+        OBJ_ID="9FB491C6D0BB4BB4E040C60AF05B1F6B" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration Count"
@@ -1470,6 +1476,9 @@
         MSG_ID="cluTermsOffered-instruct"
         MSG_VALUE="Selecting a single term will restrict this course to only that term. 'Any' will allow the course to be offered &lt;br>in any term that matches the duration selected below."
         OBJ_ID="7a0c497d-de4c-41f9-aa81-072cd0b282b3" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
+        ID="ae763fac-0714-4ecf-8252-cc3369dfb168" LOCALE="en"
+        MSG_ID="export" MSG_VALUE="Export" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="aefac3d4-b98e-41fd-b25a-2913d59a2c29" LOCALE="en"
         MSG_ID="validation.validChars.gpa9.9"
@@ -1687,6 +1696,10 @@
         MSG_ID="cluSetName" MSG_VALUE="Name"
         OBJ_ID="596c7542-cfff-4241-8fb3-0eab73a538f5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
+        ID="cb0acf7c-e3a2-45a4-9b67-011b3dbeb4d3" LOCALE="en"
+        MSG_ID="exportDialog"
+        MSG_VALUE="Select the document type to export as:" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
         ID="cb324832-d941-489e-95f8-13ebfb3aa2e4" LOCALE="en"
         MSG_ID="wrapperPanelHelp" MSG_VALUE="Help"
         OBJ_ID="0cc453f3-5943-49fe-a8ee-68d89f961341" VER_NBR="1"/>
@@ -1727,6 +1740,9 @@
         ID="cefebb9c-96a6-46fc-9352-cf3ed6b81b95" LOCALE="en"
         MSG_ID="wrapperPanelTitleRice" MSG_VALUE="Rice"
         OBJ_ID="b15560ed-38fe-4a45-b2d9-357d7d6c12f5" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="common"
+        ID="cf0100e1-38a0-489d-a9dd-7616b01d16fc" LOCALE="en"
+        MSG_ID="exportTitle" MSG_VALUE="Export Document" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="cf0f5312-18fb-4212-b302-a9f4d6762505" LOCALE="en"
         MSG_ID="fieldDeletionTitle" MSG_VALUE="Remove Fields"
