@@ -66,18 +66,6 @@ public class LuiPersonRelationServiceImplTest {
 	}
 	
 	@Test
-	public void testFindLuiPersonRelationTypes() {
-		try {
-			List<LuiPersonRelationTypeInfo> relationTypes = lprService.findLuiPersonRelationTypes(callContext);
-			assertNull(relationTypes);
-			// assertNotNull(relationTypes);
-		} catch (Exception ex) {
-			fail("exception from service call :" + ex.getMessage());
-		}
-		
-	}
-
-	@Test
 	public void testCreateBulkRelationshipsForPerson() {
 		try {
 			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId,

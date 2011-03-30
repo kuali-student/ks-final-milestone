@@ -6,6 +6,8 @@ import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
@@ -33,12 +35,6 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
     public void setLprUtility(LPRUtility lprUtility) {
 		this.lprUtility = lprUtility;
 	}
-
-	@Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(ContextInfo context) throws OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
 
     @Override
     public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
@@ -180,6 +176,30 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
 	}
+
+    @Override
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 
 
 

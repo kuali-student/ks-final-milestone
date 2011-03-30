@@ -77,30 +77,6 @@ public class LuiPersonRelationFederatingAdapter
 
 
     /**
-     * Retrieves the list of LUIPersonRelation types.
-     *
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of luiPersonRelationTypes
-     * @throws OperationFailedException unable to complete request
-     */
-
-    @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(ContextInfo context)
-            throws OperationFailedException {
-
-        Set<LuiPersonRelationTypeInfo> lprTypes = new HashSet<LuiPersonRelationTypeInfo>();
-        lprTypes.addAll(getLprService().findLuiPersonRelationTypes(context));
-        for (LuiPersonRelationService provider : getExternalProviders()) {
-            lprTypes.addAll(provider.findLuiPersonRelationTypes(context));
-        }
-
-        return (new ArrayList<LuiPersonRelationTypeInfo>(lprTypes));
-    }
-
-
-    /**
      * Retrieves the list of LUI Person Relation States
      *
      * @param context Context information containing the principalId

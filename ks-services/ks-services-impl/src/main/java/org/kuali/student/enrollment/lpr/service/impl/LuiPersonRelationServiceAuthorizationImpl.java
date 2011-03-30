@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -47,12 +49,6 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 			throw new NullPointerException("person id is null");
 		}
 		return bulkRelationshipValues;
-	}
-
-	@Override
-	public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(ContextInfo context) throws OperationFailedException {
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
 	}
 
 	@Override
@@ -194,5 +190,27 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 		return null;
 	}
 
+    @Override
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 
+    @Override
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }

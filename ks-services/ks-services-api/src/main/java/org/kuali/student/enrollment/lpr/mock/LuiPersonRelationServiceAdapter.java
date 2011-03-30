@@ -16,18 +16,15 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import java.util.List;
+
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -36,6 +33,11 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.infc.HoldsLprService;
+import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 /**
  * Wrapper for an lpr services so implementations only have to implement the
@@ -79,8 +81,8 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public List<String> findPersonIdsRelatedToLui(String luiId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.findPersonIdsRelatedToLui(luiId, luiPersonRelationType, relationState, context);
+    public List<String> findPersonIdsRelatedToLui(String luiId, String luiPersonRelationTypeKey, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprService.findPersonIdsRelatedToLui(luiId, luiPersonRelationTypeKey, relationState, context);
     }
 
     @Override
@@ -104,11 +106,6 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(ContextInfo context) throws OperationFailedException {
-        return lprService.findLuiPersonRelationTypes(context);
-    }
-
-    @Override
     public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
         return lprService.findLuiPersonRelationStates(context);
     }
@@ -129,18 +126,18 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.findLuiIdsRelatedToPerson(personId, luiPersonRelationType, relationState, context);
+    public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationTypeKey, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprService.findLuiIdsRelatedToPerson(personId, luiPersonRelationTypeKey, relationState, context);
     }
 
     @Override
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return lprService.findAllowedRelationStates(luiPersonRelationType, context);
+    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.findAllowedRelationStates(luiPersonRelationTypeKey, context);
     }
 
     @Override
-    public List<String> findAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState, String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.findAllValidLuisForPerson(personId, luiPersonRelationType, relationState, atpId, context);
+    public List<String> findAllValidLuisForPerson(String personId, String luiPersonRelationTypeKey, String relationState, String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprService.findAllValidLuisForPerson(personId, luiPersonRelationTypeKey, relationState, atpId, context);
     }
 
     @Override
@@ -154,20 +151,20 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+    public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
       throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+        return lprService.createLuiPersonRelation(personId, luiId, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprService.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
     @Override
     public List<String> createBulkRelationshipsForLui(String luiId,
       List<String> personIdList,
-      String relationState, String luiPersonRelationType,
+      String relationState, String luiPersonRelationTypeKey,
       LuiPersonRelationInfo luiPersonRelationInfo,
       ContextInfo context)
       throws DataValidationErrorException,
@@ -179,7 +176,7 @@ public class LuiPersonRelationServiceAdapter implements
       MissingParameterException,
       OperationFailedException,
       PermissionDeniedException {
-        return lprService.createBulkRelationshipsForLui(luiId, personIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
+        return lprService.createBulkRelationshipsForLui(luiId, personIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
     @Override
@@ -191,6 +188,26 @@ public class LuiPersonRelationServiceAdapter implements
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
         return lprService.getDataDictionaryEntry(entryKey, context);
+    }
+
+    @Override
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getType(typeKey, context);
+    }
+
+    @Override
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getTypesByRefObjectURI(refObjectURI, context);
+    }
+
+    @Override
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
     }
 }
 

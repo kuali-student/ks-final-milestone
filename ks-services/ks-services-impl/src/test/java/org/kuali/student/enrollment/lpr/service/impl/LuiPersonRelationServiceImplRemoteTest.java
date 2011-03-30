@@ -61,16 +61,6 @@ public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest 
 	public void tearDown() {
 	}
 	
-	@Test
-	public void testFindLuiPersonRelationTypes() {
-		try {
-			List<LuiPersonRelationTypeInfo> relationTypes = lprService.findLuiPersonRelationTypes(callContext);
-			assertNull(relationTypes); // service currently returns null for empty List
-		} catch (Exception ex) {
-			fail("exception from service call :" + ex.getMessage());
-		}
-		
-	}
 
 	@Test
 	public void testFindLuiPersonRelationStates() {

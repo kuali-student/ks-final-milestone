@@ -15,29 +15,30 @@
  */
 package org.kuali.student.enrollment.lpr.mock;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -46,7 +47,7 @@ import org.kuali.student.enrollment.lui.service.LuiService;
  * @author nwright
  */
 public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelationServiceAdapter
-        implements LuiPersonRelationService, HoldsLuiService {
+        implements LuiPersonRelationService, HoldsLprService, HoldsLuiService {
 
     private LuiService luiService;
 
@@ -59,6 +60,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
     }
+    
     private Map<String, LuiPersonRelationInfo> lprCache = new HashMap<String, LuiPersonRelationInfo>();
 
     @Override
@@ -349,17 +351,6 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             states.add(new LuiPersonRelationStateInfo.Builder(state).build());
         }
         return states;
-    }
-
-    @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes(
-            ContextInfo context)
-            throws OperationFailedException {
-        List<LuiPersonRelationTypeInfo> types = new ArrayList();
-        for (LuiPersonRelationTypeInfc type : LuiPersonRelationTypeEnum.values()) {
-            types.add(new LuiPersonRelationTypeInfo.Builder(type).build());
-        }
-        return types;
     }
 
     // TODO: Add this method to the service interface
