@@ -35,11 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class StatementServiceTranslationTest {
     
     private static final String COREQUISITE_STATMENT_TYPE = "fill in with valid data for coreq";
-    @Autowired
-    StatementService statementService;
     
     @Autowired
-    LrcService lrcService;
+    StatementService statementService;
     
     private static final List<String> validRequirementComponentTypes;
     
@@ -56,7 +54,6 @@ public class StatementServiceTranslationTest {
             "kuali.reqComponent.type.course.test.score.min",
             "kuali.reqComponent.type.course.courseset.completed.all",
             "kuali.reqComponent.type.course.courseset.nof.grade.min",
-            "kuali.reqComponent.type.course.org.credits.completed.min",
             "kuali.reqComponent.type.course.completed",
             "kuali.reqComponent.type.course.courseset.completed.nof",
             "kuali.reqComponent.type.course.courseset.credits.completed.nof",
@@ -166,7 +163,6 @@ public class StatementServiceTranslationTest {
         }
 
         // requirement component types that should match this condition:
-        //  -- kuali.reqComponent.type.course.org.credits.completed.min
         //  -- kuali.reqComponent.type.course.courseset.credits.completed.nof
         
         if(componentType.contains("credits")) {
@@ -211,15 +207,24 @@ public class StatementServiceTranslationTest {
     private Proposition buildCompletedCountProposition(ReqComponentInfo requirementComponent) {
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
         
-        String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
-        
         Proposition result = null;
+        
+        if(requirementComponent.getType().equals("kuali.reqComponent.type.course.completed")) {
+            // only checking one course
+            String courseId = fieldMap.get("kuali.reqComponent.field.type.course.clu.id").getValue();
+            
+            result = new SingleCourseCompletionProposition(courseId);
+        }
+        
+        String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
         
         if(fieldMap.containsKey("kuali.reqComponent.field.type.value.positive.integer")) {
             Integer minToComplete = Integer.parseInt(fieldMap.get("kuali.reqComponent.field.type.value.positive.integer").getValue());
+            result = new CourseSetCompletionProposition(courseSetId, minToComplete);
         }
-        
-        // TODO  where do we put course set id, org id, etc
+        else {
+            result = new CourseSetCompletionProposition(courseSetId);
+        }
         
         return result;
     }
@@ -235,14 +240,17 @@ public class StatementServiceTranslationTest {
     }
 
     private Proposition buildPermissionProposition(ReqComponentInfo requirementComponent) {
-        // if the type is permission from an org, get the org id
-        String orgId = null;
-        if(requirementComponent.getType().equals("kuali.reqComponent.type.course.permission.org.required")) {
-            Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
-            orgId = fieldMap.get("kuali.reqComponent.field.type.org.id").getValue();
-        }
+        Proposition result = null;
         
-        Proposition result = new ComparableTermBasedProposition<Boolean>(ComparisonOperator.EQUALS, permissionAsset, Boolean.TRUE);
+        if(requirementComponent.getType().equals("kuali.reqComponent.type.course.permission.org.required")) {
+            // if the type is permission from an org, get the org id
+            Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
+            String orgId = fieldMap.get("kuali.reqComponent.field.type.org.id").getValue();
+            result = new OrgPermissionProposition(orgId);
+        }
+        else {
+            result = new InstructorPermissionProposition();
+        }
         
         return result;
     }
@@ -253,24 +261,18 @@ public class StatementServiceTranslationTest {
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
         
         Integer minimumCredits = Integer.parseInt(fieldMap.get("kuali.reqComponent.field.type.value.positive.integer").getValue());
-        Asset creditsAsset = null;
         
-        String orgId = null;
-        if(fieldMap.containsKey("kuali.reqComponent.field.type.org.id")) {
-            orgId = fieldMap.get("kuali.reqComponent.field.type.org.id").getValue();
-            // TODO assign creditsAsset somewhere
-        }
+        String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
         
-        String courseSetId = null;
-        if(fieldMap.containsKey("kuali.reqComponent.field.type.course.cluSet.id")) {
-            courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
-            // TODO assign creditsAsset somewhere
-        }
-        
-        result = new ComparableTermBasedProposition<Integer>(ComparisonOperator.GREATER_THAN_EQUAL, creditsAsset, minimumCredits);
+        result = new CourseSetCreditsProposition(courseSetId, ComparisonOperator.GREATER_THAN_EQUAL, minimumCredits);
         
         return result;
     }
+
+    //  -- kuali.reqComponent.type.course.courseset.gpa.min
+    //  -- kuali.reqComponent.type.course.courseset.grade.min
+    //  -- kuali.reqComponent.type.course.courseset.grade.max
+    //  -- kuali.reqComponent.type.course.courseset.nof.grade.min
     
     private Proposition buildGradeComparisonProposition(ReqComponentInfo requirementComponent) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         Proposition result = null;
@@ -280,24 +282,38 @@ public class StatementServiceTranslationTest {
         // TODO WHERE DOES THIS GO??
         String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
         
+        ComparisonOperator operator = null;
+        if(requirementComponent.getType().endsWith("min")) {
+            operator = ComparisonOperator.GREATER_THAN_EQUAL;
+        }
+        else {
+            operator = ComparisonOperator.LESS_THAN;
+        }
+        
+        boolean hasNumCourses = false;
         Integer numCourses = -1;
         if(fieldMap.containsKey("kuali.reqComponent.field.type.value.positive.integer")) {
             numCourses = Integer.parseInt(fieldMap.get("kuali.reqComponent.field.type.value.positive.integer").getValue());
+            hasNumCourses = true;
         }
         
         if(fieldMap.containsKey("kuali.reqComponent.field.type.gpa")) {
             Float gpa = Float.parseFloat(fieldMap.get("kuali.reqComponent.field.type.gpa").getValue());
             
-            if(numCourses == -1) {
-                result = new ComparableTermBasedProposition<Float>(ComparisonOperator.GREATER_THAN_EQUAL, gpaAsset, gpa);
-            }
+            result = new CourseSetGPAProposition(courseSetId, gpa, operator);
         }
         else if(fieldMap.containsKey("kuali.reqComponent.field.type.gradeType.id")) {
             String gradeType = fieldMap.get("kuali.reqComponent.field.type.gradeType.id").getValue();
             String gradeValue = fieldMap.get("kuali.reqComponent.field.type.grade.id").getValue();
             
-            GradeInfo grade = lrcService.getGrade(gradeValue);
             
+            
+            if(hasNumCourses) {
+                result = new CourseSetGradeProposition(courseSetId, gradeType, gradeValue, numCourses, operator);
+            }
+            else {
+                result = new CourseSetGradeProposition(courseSetId, gradeType, gradeValue, operator);
+            }
         }
         
         return result;
