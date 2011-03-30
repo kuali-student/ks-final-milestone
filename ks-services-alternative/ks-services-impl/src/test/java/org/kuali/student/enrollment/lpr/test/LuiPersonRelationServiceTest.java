@@ -50,4 +50,9 @@ public class LuiPersonRelationServiceTest {
         assertNotNull(personRelationInfo.getDynamicAttributes());
         assertEquals(personRelationInfo.getDynamicAttributes().size(), 2);
     }
+
+    @Test
+    public void testValidateLuiPersonRelation() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        personRelationService.validateLuiPersonRelation("", new LuiPersonRelationInfo(), new ContextInfo());
+    }
 }

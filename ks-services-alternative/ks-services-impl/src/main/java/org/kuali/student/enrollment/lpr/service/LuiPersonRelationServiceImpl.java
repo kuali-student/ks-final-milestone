@@ -26,10 +26,15 @@ import org.kuali.student.enrollment.lpr.dao.LprStateDao;
 import org.kuali.student.enrollment.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
+import org.springframework.validation.Validator;
 
 import javax.jws.WebParam;
 import java.security.InvalidParameterException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -49,6 +54,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprTypeConverter lprTypeConverter;
 
     private LprStateConverter lprStateConverter;
+
+    private Validator validator;
+
+    @Override
+    public ValidationResultInfo validateLuiPersonRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Errors errors = new MapBindingResult(new HashMap(), "lprRelation");
+        validator.validate(luiPersonRelationInfo, errors);
+        return null;
+    }
 
     @Override
     @Transactional
@@ -103,11 +117,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> findLuiPersonRelationIdsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public ValidationResultInfo validateLuiPersonRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
@@ -194,5 +203,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     public void setLprStateConverter(LprStateConverter lprStateConverter) {
         this.lprStateConverter = lprStateConverter;
+    }
+
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 }

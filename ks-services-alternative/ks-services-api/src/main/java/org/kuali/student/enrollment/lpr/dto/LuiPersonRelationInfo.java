@@ -15,21 +15,18 @@
  */
 package org.kuali.student.enrollment.lpr.dto;
 
-import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Detailed information about a single LUI to Person Relation.
@@ -45,9 +42,11 @@ public class LuiPersonRelationInfo implements Serializable, Idable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    @NotNull
     private String luiId;
 
     @XmlElement
+    @NotNull
     private String personId;
 
     @XmlElement
