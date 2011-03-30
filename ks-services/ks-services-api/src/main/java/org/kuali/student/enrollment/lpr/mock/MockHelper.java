@@ -39,8 +39,8 @@ public class MockHelper {
     public MetaInfo createMeta(ContextInfc context) {
         MetaInfo.Builder builder = new MetaInfo.Builder();
         Date now = new Date();
-        builder.setCreateId(context.getPrincipalId()).setCreateTime(now).setUpdateId(context.getPrincipalId());
-        return builder.setUpdateTime(now).setVersionInd("1").build();
+        builder.createId(context.getPrincipalId()).createTime(now).updateId(context.getPrincipalId());
+        return builder.updateTime(now).versionInd("1").build();
     }
 
     /**
@@ -53,7 +53,7 @@ public class MockHelper {
     public MetaInfo updateMeta(MetaInfc orig, ContextInfc context) {
         Date now = new Date();
         int oldVersionInd = Integer.parseInt(orig.getVersionInd());
-        return new MetaInfo.Builder(orig).setUpdateId(context.getPrincipalId()).setUpdateTime(now).setVersionInd("" + (oldVersionInd + 1)).build();
+        return new MetaInfo.Builder(orig).updateId(context.getPrincipalId()).updateTime(now).versionInd("" + (oldVersionInd + 1)).build();
     }
 
 

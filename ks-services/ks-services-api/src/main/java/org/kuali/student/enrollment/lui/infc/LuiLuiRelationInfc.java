@@ -15,7 +15,7 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-import org.kuali.student.common.dto.HasAttributesAndMetaInfc;
+import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;

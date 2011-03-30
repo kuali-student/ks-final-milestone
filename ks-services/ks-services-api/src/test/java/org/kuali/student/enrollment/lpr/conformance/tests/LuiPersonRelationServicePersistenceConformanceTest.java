@@ -73,11 +73,11 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 	}
 
 	private ContextInfo getContext1() {
-		return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
+		return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
 	}
 
 	private ContextInfo getContext2() {
-		return new ContextInfo.Builder().setPrincipalId("principalId.2").setLocaleLanguage("fr").setLocaleRegion("ca").build();
+		return new ContextInfo.Builder().principalId("principalId.2").localeLanguage("fr").localeRegion("ca").build();
 	}
 
 	private Date parseDate(String str) {
@@ -104,7 +104,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		luiIdList.add("luiId3");
 		String relationState = LuiPersonRelationStateEnum.APPLIED.getKey();
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfo luiPersonRelationInfo = new LuiPersonRelationInfo.Builder().setEffectiveDate(parseDate("2010-01-01")).build();
+		LuiPersonRelationInfo luiPersonRelationInfo = new LuiPersonRelationInfo.Builder().effectiveDate(parseDate("2010-01-01")).build();
 		ContextInfo context = getContext1();
 
 		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
@@ -126,16 +126,16 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfo orig = new LuiPersonRelationInfo.Builder().setState(LuiPersonRelationStateEnum.APPLIED.getKey()).setEffectiveDate(parseDate("2010-01-01")).build();
+		LuiPersonRelationInfo orig = new LuiPersonRelationInfo.Builder().state(LuiPersonRelationStateEnum.APPLIED.getKey()).effectiveDate(parseDate("2010-01-01")).build();
 		AttributeInfo da = null;
 		List<AttributeInfo> das = new ArrayList<AttributeInfo>();
-		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.1").setValue("dynamic attribute value 1").build();
+		da = new AttributeInfo.Builder().key("dynamic.attribute.key.1").value("dynamic attribute value 1").build();
 		das.add(da);
-		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.2").setValue("dynamic attribute value 2a").build();
+		da = new AttributeInfo.Builder().key("dynamic.attribute.key.2").value("dynamic attribute value 2a").build();
 		das.add(da);
-		da = new AttributeInfo.Builder().setKey("dynamic.attribute.key.2").setValue("dynamic attribute value 2b").build();
+		da = new AttributeInfo.Builder().key("dynamic.attribute.key.2").value("dynamic attribute value 2b").build();
 		das.add(da);
-		orig = new LuiPersonRelationInfo.Builder(orig).setAttributes(das).build();
+		orig = new LuiPersonRelationInfo.Builder(orig).attributes(das).build();
 		// orig.setAttributes(das);
 		ContextInfo context = getContext1();
 		Date beforeCreate = new Date();
@@ -183,17 +183,17 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		}
 
 		// update method
-		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched).setPersonId("personId.2").setLuiId("luiId.2");
-		builder = builder.setState(LuiPersonRelationStateEnum.ADMITTED.getKey()).setEffectiveDate(parseDate("2010-01-01"));
-		builder = builder.setExpirationDate(parseDate("2010-02-01"));
+		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched).personId("personId.2").luiId("luiId.2");
+		builder = builder.state(LuiPersonRelationStateEnum.ADMITTED.getKey()).effectiveDate(parseDate("2010-01-01"));
+		builder = builder.expirationDate(parseDate("2010-02-01"));
 		fetched = builder.build();
 		
-	    AttributeInfo newDa = new AttributeInfo.Builder().setKey("dynamic.attribute.key.3").setValue("dynamic.attribute.value.3").build();
+	    AttributeInfo newDa = new AttributeInfo.Builder().key("dynamic.attribute.key.3").value("dynamic.attribute.value.3").build();
 		das = new ArrayList<AttributeInfo> (fetched.getAttributes());
 		das.add(newDa);
-		das.set(1, new AttributeInfo.Builder(das.get(1)).setValue("dynamic.attribute.value.2C").build());
+		das.set(1, new AttributeInfo.Builder(das.get(1)).value("dynamic.attribute.value.2C").build());
 		das.remove(0);
-		fetched = new LuiPersonRelationInfo.Builder(fetched).setAttributes(das).build();
+		fetched = new LuiPersonRelationInfo.Builder(fetched).attributes(das).build();
 		context = getContext2();
 
 		Date beforeUpdate = new Date();

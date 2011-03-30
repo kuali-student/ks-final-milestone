@@ -76,7 +76,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         LuiInfo.Builder builder = new LuiInfo.Builder(luiInfo);
         MockHelper helper = new MockHelper();
         builder.setId(UUID.randomUUID().toString()).setCluId(cluId);
-        builder.setAtpKey(atpKey).setMetaInfo(helper.createMeta(context));
+        builder.setAtpKey(atpKey).metaInfo(helper.createMeta(context));
         LuiInfo copy = builder.build();
         this.luiCache.put(copy.getId(), copy);
         return copy;
@@ -97,8 +97,8 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
             OperationFailedException,
             PermissionDeniedException {
         MockHelper helper = new MockHelper();
-        LuiLuiRelationInfo.Builder builder = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).setId(UUID.randomUUID().toString()).setLuiId(luiId);
-        LuiLuiRelationInfo copy = builder.setRelatedLuiId(relatedLuiId).setType(luLuRelationType).setMetaInfo(helper.createMeta(context)).build();
+        LuiLuiRelationInfo.Builder builder = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).id(UUID.randomUUID().toString()).luiId(luiId);
+        LuiLuiRelationInfo copy = builder.relatedLuiId(relatedLuiId).type(luLuRelationType).metaInfo(helper.createMeta(context)).build();
         this.llrCache.put(copy.getId(), copy);
         return copy;
     }
@@ -108,7 +108,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         if (this.luiCache.remove(luiId) == null) {
             throw new DoesNotExistException(luiId);
         }
-        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
+        return new StatusInfo.Builder().success(Boolean.TRUE).build();
     }
 
     @Override
@@ -116,7 +116,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         if (this.luiCache.remove(luiLuiRelationId) == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
+        return new StatusInfo.Builder().success(Boolean.TRUE).build();
     }
 
     @Override
@@ -283,7 +283,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
                     + existing.getMetaInfo().getVersionInd());
         }
         MockHelper helper = new MockHelper();
-        LuiInfo copy = new LuiInfo.Builder(luiInfo).setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
+        LuiInfo copy = new LuiInfo.Builder(luiInfo).metaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
         this.luiCache.put(luiId, copy);
         // mirroring what was done before immutable DTO's; why returning copy of copy?
         return new LuiInfo.Builder(copy).build();
@@ -303,7 +303,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
                     + existing.getMetaInfo().getVersionInd());
         }
         MockHelper helper = new MockHelper();
-        LuiLuiRelationInfo copy = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
+        LuiLuiRelationInfo copy = new LuiLuiRelationInfo.Builder(luiLuiRelationInfo).metaInfo(helper.updateMeta(existing.getMetaInfo(), context)).build();
         this.llrCache.put(luiLuiRelationId, copy);
         return copy;
 

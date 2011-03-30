@@ -1,6 +1,12 @@
 package org.kuali.student.enrollment.lpr.model;
 
 import javax.persistence.*;
+
+import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +40,7 @@ public class LuiPersonRelation implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "lui_person_relation_id")
-    private List<DynamicAttribute> dynamicAttributes;
+    private List<DynamicAttribute> attributes;
 
     public Long getId() {
         return id;
@@ -93,10 +99,15 @@ public class LuiPersonRelation implements Serializable {
     }
 
     public List<DynamicAttribute> getDynamicAttributes() {
-        return dynamicAttributes;
+        return attributes;
     }
 
     public void setDynamicAttributes(List<DynamicAttribute> dynamicAttributes) {
-        this.dynamicAttributes = dynamicAttributes;
+        this.attributes = dynamicAttributes;
+    }
+    
+    public LuiPersonRelationInfc toDto() {
+    	LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder();
+    	return new LuiPersonRelationInfo.Builder().build();
     }
 }

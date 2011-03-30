@@ -101,7 +101,7 @@ public class TestRiceDataDictionaryValidatorImpl {
     }
 
     private ContextInfo getContext1() {
-        return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
+        return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
     }
     private DataDictionaryValidatorInfc validator;
 
@@ -122,11 +122,11 @@ public class TestRiceDataDictionaryValidatorImpl {
         System.out.println("validate");
         DataDictionaryValidatorInfc.ValidationType validationType = DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION;
         LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder();
-        bldr.setPersonId("personId.1");
-        bldr.setLuiId("luiId.1");
-        bldr.setType(LuiPersonRelationTypeEnum.STUDENT.getKey());
-        bldr.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
-        bldr.setEffectiveDate(parseDate("2010-01-01"));
+        bldr.personId("personId.1");
+        bldr.luiId("luiId.1");
+        bldr.type(LuiPersonRelationTypeEnum.STUDENT.getKey());
+        bldr.state(LuiPersonRelationStateEnum.APPLIED.getKey());
+        bldr.effectiveDate(parseDate("2010-01-01"));
         Object info = bldr.build();
         ContextInfo context = getContext1();
 
@@ -137,7 +137,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         result = intstance.validate(validationType, info, context);
         assertEquals(0, result.size());
 
-        bldr.setType(null);
+        bldr.type(null);
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResultInfc vri : result) {
@@ -147,7 +147,7 @@ public class TestRiceDataDictionaryValidatorImpl {
 
 
 
-        bldr.setType(null);
+        bldr.type(null);
         info = bldr.build();
         validationType = DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = intstance.validate(validationType, info, context);
@@ -156,7 +156,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         }
         assertEquals(0, result.size());
 
-        bldr.setType(" this has \n an embedded return");
+        bldr.type(" this has \n an embedded return");
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResultInfc vri : result) {

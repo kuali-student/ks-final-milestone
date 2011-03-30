@@ -57,7 +57,7 @@ public class LuiPersonRelationServiceImplTest {
 		principalId = "123";
 		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
 		lprService = (LuiPersonRelationService) appContext.getBean("lprService");
-		callContext = new ContextInfo.Builder(callContext).setPrincipalId(principalId).build();
+		callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
 	}
 
 	

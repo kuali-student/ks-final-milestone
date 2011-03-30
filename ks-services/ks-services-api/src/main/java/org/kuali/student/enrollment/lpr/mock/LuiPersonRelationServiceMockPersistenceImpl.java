@@ -74,7 +74,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             PermissionDeniedException {
         List<String> lprIds = new ArrayList<String>(luiIdList.size());
         for (String luiId : luiIdList) {
-            LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).setLuiId(luiId).build();
+            LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).luiId(luiId).build();
 
             String lprId = this.createLuiPersonRelation(personId,
                     luiId,
@@ -100,7 +100,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             PermissionDeniedException {
         MockHelper helper = new MockHelper();
         LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
-        builder.setId(UUID.randomUUID().toString()).setPersonId(personId).setLuiId(luiId).setType(luiPersonRelationType).setMetaInfo(helper.createMeta(context));
+        builder.id(UUID.randomUUID().toString()).personId(personId).luiId(luiId).type(luiPersonRelationType).metaInfo(helper.createMeta(context));
         LuiPersonRelationInfo copy = builder.build();
         this.lprCache.put(copy.getId(), copy);
         return copy.getId();
@@ -116,7 +116,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
         if (this.lprCache.remove(luiPersonRelationId) == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
+        return new StatusInfo.Builder().success(Boolean.TRUE).build();
     }
 
     @Override
@@ -486,13 +486,13 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
                     + existing.getMetaInfo().getUpdateId() + " with version of "
                     + existing.getMetaInfo().getVersionInd());
         }
-        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).setMetaInfo(new MockHelper ().updateMeta(existing.getMetaInfo(), context));
+        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).metaInfo(new MockHelper ().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : luiPersonRelationInfo.getAttributes()) {
             atts.add(new AttributeInfo.Builder(att).build());
         }
-        builder.setAttributes(atts);
+        builder.attributes(atts);
         LuiPersonRelationInfo copy = builder.build();
         this.lprCache.put(luiPersonRelationId, copy);
         // mirroring what was done before immutable DTO's; why returning copy of copy?
@@ -510,7 +510,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             if (existing == null) {
                 throw new DoesNotExistException(luiPersonRelationId);
             }
-            LuiPersonRelationInfo revised = new LuiPersonRelationInfo.Builder(existing).setState(relationState.getKey()).build();
+            LuiPersonRelationInfo revised = new LuiPersonRelationInfo.Builder(existing).state(relationState.getKey()).build();
             try {
                 this.updateLuiPersonRelation(luiPersonRelationId, revised, context);
             } catch (ReadOnlyException ex) {
@@ -519,7 +519,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
         } catch (VersionMismatchException ex) {
             throw new OperationFailedException("id changed between fetch and update", ex);
         }
-        return new StatusInfo.Builder().setSuccess(Boolean.TRUE).build();
+        return new StatusInfo.Builder().success(Boolean.TRUE).build();
     }
 }
 

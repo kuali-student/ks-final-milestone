@@ -75,11 +75,11 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 	}
 
 	private ContextInfo getContext1() {
-		return new ContextInfo.Builder().setPrincipalId("principalId.1").setLocaleLanguage("en").setLocaleRegion("us").build();
+		return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
 	}
 
 	private ContextInfo getContext2() {
-		return new ContextInfo.Builder().setPrincipalId("principalId.2").setLocaleLanguage("fr").setLocaleRegion("ca").build();
+		return new ContextInfo.Builder().principalId("principalId.2").localeLanguage("fr").localeRegion("ca").build();
 	}
 
 	private Date parseDate(String str) {
@@ -106,9 +106,9 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
 		LuiPersonRelationInfo orig =
 			new LuiPersonRelationInfo.Builder()
-				.setState(LuiPersonRelationStateEnum.APPLIED.getKey())
-				.setEffectiveDate(parseDate("2010-01-01"))
-				.setId("Id not allowed")
+				.state(LuiPersonRelationStateEnum.APPLIED.getKey())
+				.effectiveDate(parseDate("2010-01-01"))
+				.id("Id not allowed")
 				.build();
 		ContextInfo context = getContext1();
 
@@ -119,14 +119,14 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 		// TODO: decide if an empty MetaInfo is bad or just one that is filled in with some values
-		orig = new LuiPersonRelationInfo.Builder().setId(null).setMetaInfo(new MetaInfo.Builder().build()).build();
+		orig = new LuiPersonRelationInfo.Builder().id(null).metaInfo(new MetaInfo.Builder().build()).build();
 		try {
 			getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
 			fail("should have thrown a readOnly Exception because the metaInfo is not allowed to be supplied on the create");
 		} catch (ReadOnlyException ex) {
 			// expected
 		}		
-		orig = new LuiPersonRelationInfo.Builder().setId(null).setMetaInfo(null).build();
+		orig = new LuiPersonRelationInfo.Builder().id(null).metaInfo(null).build();
 
 
 		// do the create call
@@ -141,7 +141,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		String badField = null;
 
 		// bad = new CopierHelper().makeCopy(fetched);
-		bad = new LuiPersonRelationInfo.Builder(fetched).setId("Readonly Id").build();
+		bad = new LuiPersonRelationInfo.Builder(fetched).id("Readonly Id").build();
 		badField = "id";
 		try {
 			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
@@ -150,7 +150,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 			// expected
 		}
 
-		bad = new LuiPersonRelationInfo.Builder(fetched).setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey()).build();
+		bad = new LuiPersonRelationInfo.Builder(fetched).type(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey()).build();
 		badField = "type";
 		try {
 			LuiPersonRelationInfo badReturn = getService().updateLuiPersonRelation(fetched.getId(), bad, context);
@@ -160,8 +160,8 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		}
 
 		bad = new LuiPersonRelationInfo.Builder(fetched)
-						.setType(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey())
-						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setCreateId("ReadonlyCreateId").build())
+						.type(LuiPersonRelationTypeEnum.INSTRUCTOR_MAIN.getKey())
+						.metaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).createId("ReadonlyCreateId").build())
 						.build();
 		badField = "createId";
 		try {
@@ -172,7 +172,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		}
 
 		bad = new LuiPersonRelationInfo.Builder(fetched)
-						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setCreateTime(parseDate("2010-01-01")).build())
+						.metaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).createTime(parseDate("2010-01-01")).build())
 						.build();
 		badField = "createTime";
 		try {
@@ -183,7 +183,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		}
 
 		bad = new LuiPersonRelationInfo.Builder(fetched)
-						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setUpdateId("ReadonlyUpdated").build())
+						.metaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).updateId("ReadonlyUpdated").build())
 						.build();
 		badField = "updateId";
 		try {
@@ -194,7 +194,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		}
 
 		bad = new LuiPersonRelationInfo.Builder(fetched)
-						.setMetaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).setUpdateTime(parseDate("2010-01-01")).build())
+						.metaInfo(new MetaInfo.Builder(fetched.getMetaInfo()).updateTime(parseDate("2010-01-01")).build())
 						.build();
 		badField = "updateTime";
 		try {

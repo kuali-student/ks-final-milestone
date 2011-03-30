@@ -118,31 +118,6 @@ public class MetaInfo implements MetaInfc, Serializable {
 	    		this.updateId = metaInfo.getUpdateId();
     		}
 		}
-    	
-		public Builder setVersionInd(String versionInd) {
-			this.versionInd = versionInd;
-			return this;
-		}
-
-		public Builder setCreateTime(Date createTime) {
-			this.createTime = createTime;
-			return this;
-		}
-
-		public Builder setCreateId(String createId) {
-			this.createId = createId;
-			return this;
-		}
-		
-		public Builder setUpdateTime(Date updateTime) {
-			this.updateTime = updateTime;
-			return this;
-		}
-
-		public Builder setUpdateId(String updateId) {
-			this.updateId = updateId;
-			return this;
-		}
 
     	public MetaInfo build() {
     		return new MetaInfo(this);
@@ -172,6 +147,30 @@ public class MetaInfo implements MetaInfc, Serializable {
 		public String getUpdateId() {
 			return updateId;
 		}
-	}
+    	
+		public Builder versionInd(String versionInd) {
+			this.versionInd = versionInd;
+			return this;
+		}
 
+		public Builder createTime(Date createTime) {
+			this.createTime = createTime;
+			return this;
+		}
+
+		public Builder createId(String createId) {
+			this.createId = createId;
+			return this;
+		}
+		
+		public Builder updateTime(Date updateTime) {
+			this.updateTime = updateTime;
+			return this;
+		}
+
+		public Builder updateId(String updateId) {
+			this.updateId = updateId;
+			return this;
+		}
+	}
 }

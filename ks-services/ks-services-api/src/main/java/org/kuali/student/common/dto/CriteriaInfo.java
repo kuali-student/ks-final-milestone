@@ -111,5 +111,7 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
 		public String getValue() {
 			return value;
 		}
+		
+		// Add setters as needed
     }
 }

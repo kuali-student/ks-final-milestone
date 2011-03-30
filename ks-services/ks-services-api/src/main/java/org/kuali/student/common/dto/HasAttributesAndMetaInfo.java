@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.MetaInfc;
 
 @SuppressWarnings("serial")
@@ -60,14 +61,15 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
     		super(hasAMInfo);
     		this.metaInfo = hasAMInfo.getMetaInfo();
     	}
-    	
-		public Builder setMetaInfo(MetaInfc metaInfo) {
-			this.metaInfo = metaInfo;
-			return this;
-		}
 		
+		@Override
 		public MetaInfc getMetaInfo() {
 			return metaInfo;
+		}
+    	
+		public Builder metaInfo(MetaInfc metaInfo) {
+			this.metaInfo = metaInfo;
+			return this;
 		}
     }
 }

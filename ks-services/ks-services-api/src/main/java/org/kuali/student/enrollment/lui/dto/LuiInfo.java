@@ -215,8 +215,8 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         }
 		// passthru so right Builder is returned
         @Override
-		public Builder setMetaInfo(MetaInfc metaInfo) {
-			super.setMetaInfo(metaInfo);
+		public Builder metaInfo(MetaInfc metaInfo) {
+			super.metaInfo(metaInfo);
 			return this;
 		}
 

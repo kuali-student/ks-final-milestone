@@ -186,35 +186,9 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     		this.state = llrInfo.getState();
     		this.id = llrInfo.getId();
     	}
-
-		public Builder setId(String id) {
-			this.id = id;
-			return this;
-		}
-
-		public Builder setLuiId(String luiId) {
-			this.luiId = luiId;
-			return this;
-		}
-
-		public Builder setRelatedLuiId(String relatedLuiId) {
-			this.relatedLuiId = relatedLuiId;
-			return this;
-		}
-
-		public Builder setType(String luLuRelationType) {
-			this.type = luLuRelationType;
-			return this;
-		}
 		
 		public LuiLuiRelationInfo build() {
 			return new LuiLuiRelationInfo(this);
-		}
-		
-		// pass-thru so right Builder is returned
-		public Builder setMetaInfo(MetaInfc metaInfo) {
-			super.setMetaInfo(metaInfo);
-			return this;
 		}
 
 		@Override
@@ -250,6 +224,32 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
 		@Override
 		public String getRelatedLuiId() {
 			return relatedLuiId;
+		}
+
+		public Builder id(String id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder luiId(String luiId) {
+			this.luiId = luiId;
+			return this;
+		}
+
+		public Builder relatedLuiId(String relatedLuiId) {
+			this.relatedLuiId = relatedLuiId;
+			return this;
+		}
+
+		public Builder type(String luLuRelationType) {
+			this.type = luLuRelationType;
+			return this;
+		}
+		
+		// pass-thru so right Builder is returned
+		public Builder metaInfo(MetaInfc metaInfo) {
+			super.metaInfo(metaInfo);
+			return this;
 		}
     }
 }

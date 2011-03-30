@@ -80,21 +80,6 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
             return new AttributeInfo(this);
         }
 
-        public Builder setId(String id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setKey(String key) {
-            this.key = key;
-            return this;
-        }
-
-        public Builder setValue(String val) {
-            this.value = val;
-            return this;
-        }
-
         @Override
         public String getId() {
             return id;
@@ -108,6 +93,21 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
         @Override
         public String getValue() {
             return value;
+        }
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder key(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder value(String val) {
+            this.value = val;
+            return this;
         }
     }
 }

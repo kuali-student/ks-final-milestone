@@ -53,7 +53,7 @@ public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest 
 	public void setUp() {
 		principalId = "123";
 		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
-		callContext = new ContextInfo.Builder(callContext).setPrincipalId(principalId).build();
+		callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
 	}
 
 	

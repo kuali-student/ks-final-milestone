@@ -42,7 +42,7 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 		
 		AttributeInfo.Builder attBuilder = new AttributeInfo.Builder();
 		for (AttributeInfc att : builder.getAttributes()) {
-			attributes.add(attBuilder.setKey(att.getKey()).setValue(att.getValue()).setId(att.getId()).build());
+			attributes.add(attBuilder.key(att.getKey()).value(att.getValue()).id(att.getId()).build());
 		}
 	}
 
@@ -63,14 +63,14 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
     		this.attributes = hasAtts.getAttributes();
 		}
     	
-        public Builder setAttributes(List<? extends AttributeInfc> attributes) {
-            this.attributes = attributes;
-            return this;
-        }
-
 		@Override
 		public List<? extends AttributeInfc> getAttributes() {
 			return attributes;
 		}
+		
+        public Builder attributes(List<? extends AttributeInfc> attributes) {
+            this.attributes = attributes;
+            return this;
+        }
 	}
 }

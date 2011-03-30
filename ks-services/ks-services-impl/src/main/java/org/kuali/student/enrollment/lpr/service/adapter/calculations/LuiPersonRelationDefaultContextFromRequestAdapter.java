@@ -77,17 +77,17 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
 		}
 		if (context.getPrincipalId() == null) {
 			KimPrincipalInfo principalInfo = identityService.getPrincipalByPrincipalName(request.getRemoteUser());
-			context = new ContextInfo.Builder(context).setPrincipalId(principalInfo.getPrincipalId()).build();
+			context = new ContextInfo.Builder(context).principalId(principalInfo.getPrincipalId()).build();
 		}
 		if (context.getLocaleLanguage() == null) {
-			context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getLanguage()).build();
+			context = new ContextInfo.Builder(context).localeLanguage(request.getLocale().getLanguage()).build();
 		}
 		// TODO: check if Region and country are supposed to the same thing
 		if (context.getLocaleRegion() == null) {
-			context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getCountry()).build();
+			context = new ContextInfo.Builder(context).localeLanguage(request.getLocale().getCountry()).build();
 		}
 		if (context.getLocaleVariant() == null) {
-			context = new ContextInfo.Builder(context).setLocaleLanguage(request.getLocale().getVariant()).build();
+			context = new ContextInfo.Builder(context).localeLanguage(request.getLocale().getVariant()).build();
 		}
 		// TODO: default script from the character set
 		return context;

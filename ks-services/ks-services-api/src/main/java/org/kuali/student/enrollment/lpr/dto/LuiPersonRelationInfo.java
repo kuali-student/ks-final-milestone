@@ -177,49 +177,49 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
     		return new LuiPersonRelationInfo(this);
     	}
     	
-		public Builder setLuiId(String luiId) {
+		public Builder luiId(String luiId) {
 			this.luiId = luiId;
 			return this;
 		}
 
-		public Builder setPersonId(String personId) {
+		public Builder personId(String personId) {
 			this.personId = personId;
 			return this;
 		}
 
-		public Builder setEffectiveDate(Date effDate) {
+		public Builder effectiveDate(Date effDate) {
 			this.effectiveDate = new Date(effDate.getTime());
 			return this;
 		}
 
-		public Builder setExpirationDate(Date expDate) {
+		public Builder expirationDate(Date expDate) {
 			this.expirationDate = new Date(expDate.getTime());
 			return this;
 		}
 
-		public Builder setType(String luiPersonRelationType) {
+		public Builder type(String luiPersonRelationType) {
 			this.type = luiPersonRelationType;
 			return this;
 		}
 
-		public Builder setState(String state) {
+		public Builder state(String state) {
 			this.state = state;
 			return this;
 		}
 
-		public Builder setId(String id) {
+		public Builder id(String id) {
 			this.id = id;
 			return this;
 		}
 		
-		public Builder setMetaInfo(MetaInfc metaInfo) {
-			super.setMetaInfo(metaInfo);
+		public Builder metaInfo(MetaInfc metaInfo) {
+			super.metaInfo(metaInfo);
 			return this;
 		}
 		
 		// passthru to return correct Builder
-        public Builder setAttributes(List<? extends AttributeInfc> attributes) {
-        	super.setAttributes(attributes);
+        public Builder attributes(List<? extends AttributeInfc> attributes) {
+        	super.attributes(attributes);
             return this;
         }
 

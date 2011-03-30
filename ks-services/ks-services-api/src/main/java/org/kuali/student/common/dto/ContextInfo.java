@@ -150,21 +150,6 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
     	public ContextInfo build() {
     		return new ContextInfo(this);
     	}
-    	
-		public Builder setPrincipalId(String principalId) {
-			this.principalId = principalId;
-			return this;
-		}
-
-		public Builder setLocaleLanguage(String localeLanguage) {
-			this.localeLanguage = localeLanguage;
-			return this;
-		}
-
-		public Builder setLocaleRegion(String localeRegion) {
-			this.localeRegion = localeRegion;
-			return this;
-		}
 
 		@Override
 		public String getPrincipalId() {
@@ -194,6 +179,21 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
 		@Override
 		public String getTimeZone() {
 			return timeZone;
+		}
+    	
+		public Builder principalId(String principalId) {
+			this.principalId = principalId;
+			return this;
+		}
+
+		public Builder localeLanguage(String localeLanguage) {
+			this.localeLanguage = localeLanguage;
+			return this;
+		}
+
+		public Builder localeRegion(String localeRegion) {
+			this.localeRegion = localeRegion;
+			return this;
 		}
     }
 }

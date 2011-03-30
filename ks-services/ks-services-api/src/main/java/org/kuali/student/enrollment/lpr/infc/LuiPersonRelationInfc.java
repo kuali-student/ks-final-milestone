@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.kuali.student.common.dto.HasAttributesAndMetaInfc;
+import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;

@@ -62,11 +62,6 @@ public class StatusInfo implements StatusInfc, Serializable {
 			this.message = status.getMessage();
 		}
 
-		public Builder setSuccess(Boolean bool) {
-			this.success = bool;
-			return this;
-		}
-		
 		public StatusInfo build() {
 			return new StatusInfo(this);
 		}
@@ -79,6 +74,16 @@ public class StatusInfo implements StatusInfc, Serializable {
 		@Override
 		public String getMessage() {
 			return message;
+		}
+		
+		public Builder success(Boolean bool) {
+			this.success = bool;
+			return this;
+		}
+		
+		public Builder message(String msg) {
+			this.message = msg;
+			return this;
 		}
 	}
 }
