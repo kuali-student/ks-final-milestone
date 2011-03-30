@@ -184,7 +184,6 @@ public class StatementServiceTranslationTest {
             String testScore = fieldMap.get("kuali.reqComponent.field.type.test.score").getValue();
             String testSetId = fieldMap.get("kuali.reqComponent.field.type.test.cluSet.id").getValue();
             
-            // TODO 
             Proposition result = new TestScoreCompareProposition(ComparisonOperator.GREATER_THAN_EQUAL, testSetId, testScore);
             
             return result;
@@ -268,7 +267,6 @@ public class StatementServiceTranslationTest {
         
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
         
-        // TODO WHERE DOES THIS GO??
         String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
         
         ComparisonOperator operator = null;
