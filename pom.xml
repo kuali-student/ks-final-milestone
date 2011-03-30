@@ -144,6 +144,10 @@
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
+    <jasperreports.version>4.0.1</jasperreports.version>
+    <itext.version>2.1.7</itext.version>
+	<poi.version>3.6</poi.version>
+	<jxl.version>2.6.10</jxl.version>
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
@@ -955,6 +959,7 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
       </dependency>
+      
       <!-- Caching dependencies -->
       <dependency>
         <groupId>backport-util-concurrent</groupId>
@@ -966,6 +971,29 @@
         <artifactId>jsr107cache</artifactId>
         <version>${jsr107cache.version}</version>
       </dependency>
+      
+      <!-- Jasper Reporting dependencies -->
+      <dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+        <version>${jasperreports.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.lowagie</groupId>
+        <artifactId>itext</artifactId>
+        <version>${itext.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>${poi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.jexcelapi</groupId>
+        <artifactId>jxl</artifactId>
+        <version>${jxl.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
   <dependencies>
