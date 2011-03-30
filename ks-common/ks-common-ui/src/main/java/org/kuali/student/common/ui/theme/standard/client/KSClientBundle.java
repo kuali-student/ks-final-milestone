@@ -99,6 +99,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/CommentTool.css")
     @CssResource.NotStrict
 	public CssResource commentToolCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/DocumentTool.css")
+    @CssResource.NotStrict
+    public CssResource documentToolCss();   
     @Source("org/kuali/student/common/ui/theme/standard/public/css/KSSectionTitle.css")
     @CssResource.NotStrict
 	public CssResource sectionTitleCss();
