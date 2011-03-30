@@ -561,7 +561,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(ArrayList<ExportElement> exportElements) {
+    public void doReportExport(ArrayList<ExportElement> exportElements, String format) {
      // TODO NINA Event is not working, as i can't seem to fire it on the specific controller...
         System.out.println("Generic report generator : report name = " + this.exportTemplateName);
         //
@@ -575,7 +575,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         if (dataModel != null) {
             Data modelDataObject = dataModel.getRoot();
             
-            reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), ExportUtils.PDF, new KSAsyncCallback<String>() {
+            reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
                     // TODO Nina Confirm this is best way to handle onFailure...

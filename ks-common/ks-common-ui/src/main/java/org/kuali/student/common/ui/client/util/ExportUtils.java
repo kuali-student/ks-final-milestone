@@ -86,7 +86,7 @@ public class ExportUtils {
         }
     }
 
-    public static void handleExportClickEvent(Controller currentController) {
+    public static void handleExportClickEvent(Controller currentController, String format) {
 //        logger.info("ExportUtils.handleExportClickEvent onClick on Jasper Print Button...");
         View currentView = currentController.getCurrentView();
 
@@ -99,7 +99,7 @@ public class ExportUtils {
         } else {
 //            logger.debug("ExportElement array.xize = null");
         }
-        currentController.doReportExport(exportElements);
+        currentController.doReportExport(exportElements, format);
     }
 
     private static ArrayList<ExportElement> getDetailsForWidget(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {

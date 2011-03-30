@@ -114,6 +114,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-api</artifactId>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>itext</groupId>
+          <artifactId>itext</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>

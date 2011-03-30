@@ -215,6 +215,12 @@
           <groupId>jotm</groupId>                   
           <artifactId>jotm</artifactId>             
         </exclusion> 
+        
+        <!--  itext -->
+		<exclusion>
+          <groupId>itext</groupId>
+          <artifactId>itext</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
   </dependencies>
