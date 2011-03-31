@@ -748,7 +748,7 @@
 				</entry>
 				
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds">
-					<value>SELECT rel.org.id, rel.org.shortName, rel.org.longName, rel.org.type.id FROM OrgOrgRelation rel </value>
+					<value>SELECT DISTINCT rel.org.id, rel.org.shortName, rel.org.longName, rel.org.type.id FROM OrgOrgRelation rel </value>
 				</entry>
 				<entry key="org.queryParam.optionalOrgTypeList">
 					<value>rel.org.type.id IN (:org_queryParam_optionalOrgTypeList)</value>
