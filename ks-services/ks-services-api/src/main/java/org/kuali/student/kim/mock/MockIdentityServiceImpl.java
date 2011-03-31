@@ -102,7 +102,7 @@ public class MockIdentityServiceImpl implements IdentityService {
         info.setLastNameUnmasked(pers.getLastName());
         info.setMiddleName(pers.getMiddleName());
         info.setMiddleNameUnmasked(null);
-        info.setNameTypeCode("MAIN"); //TODO: find out real values
+        info.setNameTypeCode(EntityNameTypeEnum.PRIMARY.getCode()); 
         info.setSuffix(pers.getSuffix());
         info.setSuffixUnmasked(pers.getSuffix());
         info.setSuppressName(false);
@@ -129,9 +129,9 @@ public class MockIdentityServiceImpl implements IdentityService {
         info.setDefault(true);
         info.setEmailAddress(pers.getPrincipalName());
         info.setEmailAddressUnmasked(pers.getPrincipalName());
-        info.setEmailTypeCode("MAIN");
+        info.setEmailTypeCode(EmailTypeEnum.WORK.getCode());
         info.setEntityEmailId(pers.getEntityId());
-        info.setEntityTypeCode("PERSON");
+        info.setEntityTypeCode(EntityTypeEnum.PERSON.getCode());
         info.setSuppressEmail(false);
         return info;
     }
@@ -139,14 +139,14 @@ public class MockIdentityServiceImpl implements IdentityService {
     private KimEntityAddressInfo toKimEntityAddressInfo(PersonEnum pers) {
         KimEntityAddressInfo info = new KimEntityAddressInfo();
         info.setActive(true);
-        info.setAddressTypeCode("HOME");
+        info.setAddressTypeCode(AddressTypeEnum.HOME.getCode());
         info.setCityName(pers.getCity());
         info.setCityNameUnmasked(pers.getCity());
         info.setCountryCode("US");
         info.setCountryCodeUnmasked("US");
         info.setDefault(true);
         info.setEntityAddressId(pers.getEntityId());
-        info.setEntityTypeCode("PERSON");
+        info.setEntityTypeCode(EntityTypeEnum.PERSON.getCode());
         info.setLine1(pers.getStreet());
         info.setLine1Unmasked(pers.getStreet());
         info.setLine2(null);
