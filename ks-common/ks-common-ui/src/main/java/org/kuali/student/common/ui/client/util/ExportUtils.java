@@ -22,6 +22,11 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTable;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 
 import com.google.gwt.user.client.ui.HasText;
 
@@ -100,6 +105,61 @@ public class ExportUtils {
         if (exportElements != null && exportElements.size() > 0) {
             currentController.doReportExport(exportElements, format);
         }
+    }
+
+    public static ArrayList<ExportElement> getDetailsForWidget(SummaryTableSection tableSection, ArrayList<ExportElement> exportElements) {
+        SummaryTable sumTable = tableSection.getSummaryTable();
+        SummaryTableModel model = sumTable.getModel();
+        List<SummaryTableBlock> tableSectionList = model.getSectionList();
+        for (int i = 0; i < tableSectionList.size(); i++) {
+            SummaryTableBlock item = tableSectionList.get(i);
+            String blockName = item.getTitle();
+            List<SummaryTableRow> rowItems = item.getSectionRowList();
+            for (int j = 0; j < rowItems.size(); j++) {
+                ExportElement element = new ExportElement();
+                SummaryTableRow row = rowItems.get(j);
+                element.setSectionName(blockName);
+                element.setViewName(blockName);
+                element.setFieldLabel(row.getTitle());
+                element.setMandatory(row.isRequired());
+                Widget fdWidget = row.getCell1();
+                if (row.isShown()) {
+                    if (fdWidget != null) {
+                        //
+                        if (fdWidget instanceof KSListPanel) {
+                            ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
+                            subExportElements = ExportUtils.getDetailsForWidget(fdWidget, subExportElements, blockName, blockName);
+                            for (int k = 0; k < subExportElements.size(); k++) {
+                                System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
+                            }
+                            element.setSubset(subExportElements);
+                        } else {
+                        //
+                        element = ExportUtils.getExportItemDetails(element,fdWidget,true);
+                        }
+                    } else {
+                        if (row.getTitle() != null) {
+                            element.setFieldLabel(row.getTitle());
+                        }
+                    }
+                //
+                    Widget fdWidget2 = row.getCell2();
+                    if (fdWidget2 != null) {
+                        element = ExportUtils.getExportItemDetails(element,fdWidget2,false);
+                                       
+                    } else {
+                        if (row.getTitle() != null) {
+                            element.setFieldLabel(row.getTitle());
+                        }
+                    }
+                    if (element != null && element.getViewName() != null) {
+                        System.out.println(element.getViewName() + " " + element.getFieldLabel());
+                        exportElements.add(element);
+                    }
+                }
+            }
+        }
+        return exportElements;
     }
 
     public static ArrayList<ExportElement> getDetailsForWidget(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {
