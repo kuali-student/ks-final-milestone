@@ -1313,15 +1313,15 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9FB491C6D0B84BB4E040C60AF05B1F6B" LOCALE="en"
+        ID="9FCD7A70CD90CF15E040C60AF05B62C0" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9FB491C6D0B94BB4E040C60AF05B1F6B" VER_NBR="1"/>
+        OBJ_ID="9FCD7A70CD91CF15E040C60AF05B62C0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9FB491C6D0BA4BB4E040C60AF05B1F6B" LOCALE="en"
+        ID="9FCD7A70CD92CF15E040C60AF05B62C0" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9FB491C6D0BB4BB4E040C60AF05B1F6B" VER_NBR="1"/>
+        OBJ_ID="9FCD7A70CD93CF15E040C60AF05B62C0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration Count"
