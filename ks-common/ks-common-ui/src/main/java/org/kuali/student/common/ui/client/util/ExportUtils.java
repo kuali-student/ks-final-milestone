@@ -18,13 +18,13 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 
 import com.google.gwt.user.client.ui.HasText;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.WidgetCollection;
@@ -50,11 +50,12 @@ public class ExportUtils {
                 values = selectedItems.get(j).getDisplayText();
             }
             fieldValue = values;
-        } else if (fieldWidget instanceof KSPicker) { // Similart to KSSSelectedList
+        } else if (fieldWidget instanceof KSPicker) {
             KSPicker picker = (KSPicker) fieldWidget;
-            picker.getValue();
-            picker.getElement();
-            fieldValue = picker.getDisplayValue();      
+            if (picker.getInputWidget() instanceof HasText) {
+                HasText item = (HasText) picker.getInputWidget();
+                fieldValue = item.getText();
+            }
         } else if (fieldWidget instanceof ListBox) {
             ListBox listBox = (ListBox) fieldWidget;
             fieldValue = listBox.getItemText(listBox.getSelectedIndex());
@@ -121,9 +122,9 @@ public class ExportUtils {
                 Widget child = children.get(i);
 
                 ExportElement exportItem = new ExportElement();
-                exportItem.setSectionName("Subsection");
-                exportItem.setViewName("Subsection");
-                exportItem.setFieldLabel("Label");
+                exportItem.setSectionName("");
+                exportItem.setViewName("");
+                exportItem.setFieldLabel("");
                 exportElements.add(getExportItemDetails(exportItem, child, true));
             }
             
@@ -160,5 +161,4 @@ public class ExportUtils {
         }
         return exportElements;
     }
-
 }
