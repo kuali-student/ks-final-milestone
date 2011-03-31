@@ -102,11 +102,11 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
     }
 
     public static class Builder extends HasAttributesInfo.Builder implements StateInfc {
-		public String key;
-		public String name;
-		public String descr;
-		public Date effectiveDate;
-    	public Date expirationDate;
+		private String key;
+		private String name;
+		private String descr;
+		private Date effectiveDate;
+    	private Date expirationDate;
 		
 		public Builder() {}
 		
@@ -141,6 +141,41 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
 		@Override
 		public String getDescr() {
 			return descr;
+		}
+
+		/**
+		 * @param key the key to set
+		 */
+		public final void key(String key) {
+			this.key = key;
+		}
+
+		/**
+		 * @param name the name to set
+		 */
+		public final void name(String name) {
+			this.name = name;
+		}
+
+		/**
+		 * @param descr the descr to set
+		 */
+		public final void descr(String descr) {
+			this.descr = descr;
+		}
+
+		/**
+		 * @param effectiveDate the effectiveDate to set
+		 */
+		public final void effectiveDate(Date effectiveDate) {
+			this.effectiveDate = effectiveDate;
+		}
+
+		/**
+		 * @param expirationDate the expirationDate to set
+		 */
+		public final void expirationDate(Date expirationDate) {
+			this.expirationDate = expirationDate;
 		}
     }
 }
