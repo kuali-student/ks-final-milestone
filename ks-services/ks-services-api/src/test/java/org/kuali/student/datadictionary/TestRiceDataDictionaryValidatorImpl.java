@@ -124,7 +124,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder();
         bldr.personId("personId.1");
         bldr.luiId("luiId.1");
-        bldr.type(LuiPersonRelationTypeEnum.STUDENT.getKey());
+        bldr.type(LuiPersonRelationTypeEnum.REGISTRANT.getKey());
         bldr.state(LuiPersonRelationStateEnum.APPLIED.getKey());
         bldr.effectiveDate(parseDate("2010-01-01"));
         Object info = bldr.build();

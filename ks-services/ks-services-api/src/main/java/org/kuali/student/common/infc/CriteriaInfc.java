@@ -15,38 +15,26 @@
  */
 package org.kuali.student.common.infc;
 
+import java.util.List;
+
 /**
  * Criteria for a generic query
  */
-public interface CriteriaInfc  {
-
-  
-    /**
-     * Name: Field Key
-     * <p/>
-     * Dot path notation to identity the name of field to be compared
-     */
-    public String getFieldKey();
+public interface CriteriaInfc {
 
     /**
-     * Name: Operator
-     * <p/>
-     * Operator to use to compare the field to the value, =, >, <, !=, >=, <=
+     * Name: Comparisons
      *
-     * Compex can only be checked to see if they are null or not null.
-     * 
-     * TODO: Decide for complex Lists can they be checked to see how many occurences they have?
-     * TODO: Decide on other operators such as "like" or in range xxx-xxxx
-     * TODO: Deicde on operators to search collections inside such as any
-     * TODO: Decide how to search on dynamic attributes
-     *
+     * TODO: Decide if null or empty list is ok?  I.e. can you get ALL?
+     * <p/>
+     * @return the list of comparisons to be applied
      */
-    public String getOperator();
+    public List<? extends ComparisonInfc> getComparisons();
 
     /**
-     * Name: Criteria Value
-     * <p/>
-     * Value to be compared
+     * Get the maximum number of results to be returned
+     *
+     * @return null if not limited
      */
-    public String getValue();
+    public Integer getMaxResults();
 }

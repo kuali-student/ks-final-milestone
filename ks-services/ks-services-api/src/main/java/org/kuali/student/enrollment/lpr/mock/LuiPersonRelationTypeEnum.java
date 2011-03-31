@@ -15,21 +15,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 
 /**
  * Types for Learning Person Relations
  * <p/>
- * See https://wiki.kuali.org/display/STUDENT/LuiPeronRelation+Types+and+States#LuiPeronRelationTypesandStates-References
+ * See https://wiki.kuali.org/display/STUDENT/LuiPersonRelation+Types+and+States
  * 
  * @author nwright
  */
 public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Serializable {
 
-    INSTRUCTOR_MAIN("kuali.lpr.type.instructor.main", "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null), INSTRUCTOR_ASSISTANT("kuali.lpr.type.instructor.assistant", "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null), INSTRUCTOR_SUPPORT("kuali.lpr.type.instructor.support", "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null), STUDENT("kuali.lpr.type.student.credit", "Student", "Student taking course or section for credit", asDate("20010101"), null, null), AUDITOR("kuali.lpr.type.student.audit", "Auditor", "Student who is not taking the course for credit", asDate("20010101"), null, null),
+    INSTRUCTOR_MAIN(LuiPersonRelationConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
+    INSTRUCTOR_ASSISTANT(LuiPersonRelationConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
+    INSTRUCTOR_SUPPORT(LuiPersonRelationConstants.INSTRUCTOR_SUPPORT_TYPE_KEY, "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null),
+    REGISTRANT(LuiPersonRelationConstants.REGISTRANT_TYPE_KEY, "Registrant", "Registrant who is taking course or section", asDate("20010101"), null, null),
     /**
      * Programs
      */
-    ENROLLEE("kuali.lpr.type.enrollee", "Enrollee", "Enrollee in the program", asDate("20010101"), null, null), ADVISOR("kuali.lpr.type.advisor", "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
+    ENROLLEE(LuiPersonRelationConstants.ENROLLEE_TYPE_KEY, "Enrollee", "Enrollee in the program", asDate("20010101"), null, null),
+    ADVISOR(LuiPersonRelationConstants.ADVISOR_TYPE_KEY, "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
     /**
      * Types used for isntructors of courses
      */
@@ -43,7 +48,7 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     /**
      * Types used for students in courses
      */
-    public static final LuiPersonRelationTypeEnum[] COURSE_STUDENT_TYPES = {STUDENT, AUDITOR};
+    public static final LuiPersonRelationTypeEnum[] COURSE_STUDENT_TYPES = {REGISTRANT};
     private static final long serialVersionUID = 1L;
     private String name;
     private String descr;

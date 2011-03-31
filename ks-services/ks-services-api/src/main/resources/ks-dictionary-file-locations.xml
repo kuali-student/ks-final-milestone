@@ -10,7 +10,7 @@
     </bean>
 
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
-     and the Global Student Dictionary Service, allDataDictionaryService,
+     and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
     <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>

@@ -6,7 +6,8 @@
 
     <import resource="classpath:ks-dictionary-file-locations.xml"/>
 
-    <bean id="lprDataDictionaryService" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
+    <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
         <property name="dictionaryLocations">
             <list>
                 <bean parent="lprDictionaryLocation" />
@@ -14,7 +15,8 @@
         </property>
     </bean>
 
-    <bean id="allDataDictionaryService" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
+    <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
         <property name="dictionaryLocations" ref="allDictionaryFileLocations" />
     </bean>
 </beans>

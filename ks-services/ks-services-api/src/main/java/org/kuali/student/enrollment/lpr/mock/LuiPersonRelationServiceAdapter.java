@@ -76,7 +76,7 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfo> criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return lprService.searchForLuiPersonRelationIds(criteria, context);
     }
 

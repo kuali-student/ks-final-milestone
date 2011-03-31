@@ -51,7 +51,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationService extends DataDictionaryService, TypeService {
-
+    
 
     /**
      * Retrieves the list of LUI Person Relation States
@@ -304,7 +304,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException authorization failure
      */
 
-    public List<String> searchForLuiPersonRelationIds(@WebParam(name = "criteria") List<CriteriaInfo> criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForLuiPersonRelationIds(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**

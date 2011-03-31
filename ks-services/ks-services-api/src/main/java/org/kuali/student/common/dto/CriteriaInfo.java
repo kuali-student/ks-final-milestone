@@ -15,11 +15,15 @@
  */
 package org.kuali.student.common.dto;
 
-import org.kuali.student.common.infc.CriteriaInfc;
+import org.kuali.student.common.infc.ComparisonInfc;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.kuali.student.common.infc.CriteriaInfc;
 
 /**
  * Query to return some information regarding LUI to person relationships.
@@ -33,84 +37,77 @@ import java.io.Serializable;
 public class CriteriaInfo implements CriteriaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
-    private final String fieldKey;
-
+    private final List<ComparisonInfo> comparisons;
     @XmlElement
-    private final String operator;
-
-    @XmlElement
-    private final String value;
+    private final Integer maxResults;
 
     private CriteriaInfo() {
-    	fieldKey = null;
-    	operator = null;
-    	value = null;
+        comparisons = null;
+        maxResults = null;
     }
-    	
+
+    @Override
+    public List<ComparisonInfo> getComparisons() {
+        return this.comparisons;
+    }
+
+    @Override
+    public Integer getMaxResults() {
+        return this.maxResults;
+    }
+
     private CriteriaInfo(CriteriaInfc builder) {
-		this.fieldKey = builder.getFieldKey();
-		this.operator = builder.getOperator();
-		this.value = builder.getValue();
-	}
-
-	/**
-     * Name: Field Key
-     * <p/>
-     * Dot path notation to identity the name of field to be compared
-     */
-    @Override
-    public String getFieldKey() {
-        return fieldKey;
+        if (builder.getComparisons() == null) {
+            this.comparisons = null;
+        } else {
+            List<ComparisonInfo> list = new ArrayList(builder.getComparisons().size());
+            for (ComparisonInfc infc : builder.getComparisons()) {
+                list.add(new ComparisonInfo.Builder(infc).build());
+            }
+            this.comparisons = Collections.unmodifiableList(list);
+        }
+        this.maxResults = builder.getMaxResults();
     }
 
-    @Override
-    public String getOperator() {
-        return operator;
-    }
-
-    /**
-     * Name: Criteria Value
-     * <p/>
-     * Value to be compared
-     */
-    @Override
-    public String getValue() {
-        return value;
-    }
-    
     public static class Builder implements CriteriaInfc {
-    	private String fieldKey;
-		private String operator;
-		private String value;
-		
-		public Builder() {}
-		
-    	public Builder(CriteriaInfc critInfo) {
-    		this.fieldKey = critInfo.getFieldKey();
-    		this.operator = critInfo.getOperator();
-    		this.value = critInfo.getValue();
-    	}
-    	
-    	public CriteriaInfo build() {
-    		return new CriteriaInfo(this);
-    	}
 
-		@Override
-		public String getFieldKey() {
-			return fieldKey;
-		}
+        private List<? extends ComparisonInfc> comparisons;
+        private Integer maxResults;
 
-		@Override
-		public String getOperator() {
-			return operator;
-		}
+        public Builder() {
+        }
 
-		@Override
-		public String getValue() {
-			return value;
-		}
+        public Builder(CriteriaInfc info) {
+            this.comparisons = info.getComparisons();
+            this.maxResults = info.getMaxResults();
+        }
+
+        public CriteriaInfo build() {
+            return new CriteriaInfo(this);
+        }
+
+        @Override
+        public List<? extends ComparisonInfc> getComparisons() {
+            return this.comparisons;
+        }
+
+        @Override
+        public Integer getMaxResults() {
+            return this.maxResults;
+        }
+
+        public Builder setComparisons(List<? extends ComparisonInfc> comparisons) {
+            this.comparisons = comparisons;
+            return this;
+        }
+
+        public Builder setMaxResults(Integer maxResults) {
+            this.maxResults = maxResults;
+            return this;
+        }
+
+
 		
 		// Add setters as needed
     }

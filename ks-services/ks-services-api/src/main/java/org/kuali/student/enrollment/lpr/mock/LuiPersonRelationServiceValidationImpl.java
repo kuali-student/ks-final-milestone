@@ -23,25 +23,16 @@ import java.util.*;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.common.infc.HoldsValidator;
 import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 /**
  * @author nwright
  */
 public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationServiceAdapter
-        implements LuiPersonRelationService, HoldsValidator, HoldsDataDictionaryService {
+        implements LuiPersonRelationService, HoldsValidator {
 
     private DataDictionaryValidatorInfc validator;
-    private DataDictionaryService dataDictionaryService;
-
-    @Override
-    public void setValidator(DataDictionaryValidatorInfc validator) {
-        this.validator = validator;
-    }
 
     @Override
     public DataDictionaryValidatorInfc getValidator() {
@@ -49,25 +40,8 @@ public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationSer
     }
 
     @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
+    public void setValidator(DataDictionaryValidatorInfc validator) {
+        this.validator = validator;
     }
 
     @Override

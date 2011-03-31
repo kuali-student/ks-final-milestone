@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
@@ -35,10 +37,12 @@ import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
+import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -209,7 +213,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             }
             return states;
         }
-        if (luiPersonRelationType.equals(LuiPersonRelationTypeEnum.ADVISOR.getKey())) {
+        if (luiPersonRelationType.equals(LuiPersonRelationConstants.ADVISOR_TYPE_KEY)) {
             List<LuiPersonRelationStateInfo> states = new ArrayList(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
             for (LuiPersonRelationStateInfc state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
                 states.add(new LuiPersonRelationStateInfo.Builder(state).build());
@@ -252,7 +256,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
     }
 
     private boolean isStudentProgramType(String typeKey) {
-        if (LuiPersonRelationTypeEnum.STUDENT.getKey().equals(typeKey)) {
+        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
             return true;
         }
         return false;
@@ -505,12 +509,49 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             try {
                 this.updateLuiPersonRelation(luiPersonRelationId, revised, context);
             } catch (ReadOnlyException ex) {
-                throw new OperationFailedException ("got an unexpected exception", ex);
+                throw new OperationFailedException("got an unexpected exception", ex);
             }
         } catch (VersionMismatchException ex) {
             throw new OperationFailedException("id changed between fetch and update", ex);
         }
         return new StatusInfo.Builder().success(Boolean.TRUE).build();
+    }
+
+    @Override
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        // get the dictionary entry for the LPR object
+        String dictionaryEntryKey = LuiPersonRelationConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
+        DictionaryEntryInfc dictionaryEntry;
+        try {
+            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
+        } catch (DoesNotExistException ex) {
+           throw new OperationFailedException (dictionaryEntryKey + " is not in the dictionary", ex);
+        }
+
+        // validate the criteria
+        CriteriaValidatorParser validator = new CriteriaValidatorParser();
+        validator.setCriteria(criteria);
+        validator.setDictionaryEntry(dictionaryEntry);
+        validator.validate();
+
+        // now do the in memory matching
+        CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
+        matcher.setDictionaryEntry(dictionaryEntry);
+        matcher.setCriteria(criteria);
+        matcher.setParsedOperators(validator.getParsedOperators());
+        matcher.setParsedValues(validator.getParsedValues());
+        Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
+        List<LuiPersonRelationInfo> selected = matcher.findMatching(allValues);
+        List<String> selectedIds = new ArrayList<String>();
+        for (LuiPersonRelationInfo info : selected) {
+            selectedIds.add(info.getId());
+        }
+        return selectedIds;
     }
 }
 

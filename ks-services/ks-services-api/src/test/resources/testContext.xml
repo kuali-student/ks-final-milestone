@@ -6,6 +6,7 @@
 
     <import resource="classpath:applicationContext.xml"/>
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
 
     <bean id="lprServiceToTest" parent="mockLprService" />
     <bean id="validatorToTest" parent="validator" />

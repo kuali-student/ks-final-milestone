@@ -26,6 +26,7 @@ import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.service.CommonConstants;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.springframework.context.ApplicationContext;
@@ -40,11 +41,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDataDictionaryServiceInfc {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryServiceImpl.class);
+    private String serviceNamespaceSuffix;
     private Map<String, DictionaryEntryInfo> studMap;
     private Map<String, DataObjectEntry> riceMap;
 
     public DataDictionaryServiceImpl() {
     }
+
+    public String getServiceNamespaceSuffix() {
+        return serviceNamespaceSuffix;
+    }
+
+    public void setServiceNamespaceSuffix(String serviceNamespaceSuffix) {
+        this.serviceNamespaceSuffix = serviceNamespaceSuffix;
+    }
+
 
     public void setDictionaryLocations(List<String> locations) throws IOException {
         for (String location : locations) {
@@ -56,9 +67,13 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
             for (DataObjectEntry entry : beansOfType.values()) {
                 LOG.debug(entry.getObjectClass());
                 riceMap.put(entry.getFullClassName(), entry);
-                studMap.put(entry.getName(), new Rice2DictionaryEntryConverter().convert(entry));
+                studMap.put(calcRefObjectURI (entry.getObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
             }
         }
+    }
+
+    private String calcRefObjectURI (Class<?> objectClass) {
+     return CommonConstants.REF_OBJECT_URI_GLOBAL_PREFIX + this.serviceNamespaceSuffix + "/" + objectClass.getSimpleName();
     }
 
     @Override

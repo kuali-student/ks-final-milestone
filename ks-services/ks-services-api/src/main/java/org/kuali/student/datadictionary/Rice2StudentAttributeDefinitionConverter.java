@@ -23,9 +23,9 @@ import org.kuali.student.datadictionary.dto.ValidCharactersConstraintInfo;
  *
  * @author nwright
  */
-public class Rice2AttributeDefinitionConverter {
+public class Rice2StudentAttributeDefinitionConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2AttributeDefinitionConverter.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2StudentAttributeDefinitionConverter.class);
 
     public AttributeDefinitionInfo convert(AttributeDefinition rice) {
         AttributeDefinitionInfo.Builder bldr = new AttributeDefinitionInfo.Builder();
@@ -49,7 +49,7 @@ public class Rice2AttributeDefinitionConverter {
         bldr.setCustomValidatorClass (rice.getCustomValidatorClass());
         bldr.setFormatterClass (rice.getFormatterClass());
         if (rice.getValidCharactersConstraint() != null) {
-            bldr.setValidCharactersConstraint (new Rice2ValidCharactersConstraintConverter ().convert(rice.getValidCharactersConstraint()));
+            bldr.setValidCharactersConstraint (new Rice2StudentValidCharactersConstraintConverter ().convert(rice.getValidCharactersConstraint()));
         }
         return bldr.build();
     }

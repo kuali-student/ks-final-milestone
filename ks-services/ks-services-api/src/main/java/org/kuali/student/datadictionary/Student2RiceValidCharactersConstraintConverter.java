@@ -16,22 +16,22 @@
 package org.kuali.student.datadictionary;
 
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.student.datadictionary.dto.ValidCharactersConstraintInfo;
+import org.kuali.student.datadictionary.infc.ValidCharactersConstraintInfc;
 
 /**
  *
  * @author nwright
  */
-public class Rice2ValidCharactersConstraintConverter {
+public class Student2RiceValidCharactersConstraintConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2ValidCharactersConstraintConverter.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Student2RiceValidCharactersConstraintConverter.class);
 
-    public ValidCharactersConstraintInfo convert(ValidCharactersConstraint rice) {
-       ValidCharactersConstraintInfo.Builder bldr = new ValidCharactersConstraintInfo.Builder();
-       bldr.setApplyClientSide(rice.getApplyClientSide());
-       bldr.setJsValue(rice.getJsValue());
-       bldr.setLabelKey(rice.getLabelKey());
-       bldr.setValue (rice.getValue());
-       return bldr.build();
+    public ValidCharactersConstraint convert(ValidCharactersConstraintInfc student) {
+       ValidCharactersConstraint rice = new ValidCharactersConstraint ();
+       rice.setApplyClientSide(student.isApplyClientSide());
+       rice.setJsValue(student.getJsValue());
+       rice.setLabelKey(student.getLabelKey());
+       rice.setValue (student.getValue());
+       return rice;
     }
 }

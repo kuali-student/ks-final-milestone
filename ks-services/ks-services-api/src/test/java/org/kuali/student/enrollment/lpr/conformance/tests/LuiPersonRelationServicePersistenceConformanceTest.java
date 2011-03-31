@@ -23,10 +23,12 @@ import java.util.*;
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.ValidationResultInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -102,8 +104,8 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		luiIdList.add("luiId1");
 		luiIdList.add("luiId2");
 		luiIdList.add("luiId3");
-		String relationState = LuiPersonRelationStateEnum.APPLIED.getKey();
-		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
+		String relationState = LuiPersonRelationConstants.APPLIED_STATE_KEY;
+		String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
 		LuiPersonRelationInfo luiPersonRelationInfo = new LuiPersonRelationInfo.Builder().effectiveDate(parseDate("2010-01-01")).build();
 		ContextInfo context = getContext1();
 
@@ -125,21 +127,41 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		System.out.println("testLuiPersonRelationLifeCycle");
 		String personId = "personId.1";
 		String luiId = "luiId.1";
-		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
-		LuiPersonRelationInfo orig = new LuiPersonRelationInfo.Builder().state(LuiPersonRelationStateEnum.APPLIED.getKey()).effectiveDate(parseDate("2010-01-01")).build();
-		AttributeInfo da = null;
+		String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
+
+		LuiPersonRelationInfo.Builder orig = new LuiPersonRelationInfo.Builder();
+        orig.personId(personId);
+        orig.type(luiPersonRelationType);
+        orig.luiId(luiId);
+        orig.state(LuiPersonRelationConstants.APPLIED_STATE_KEY);
+        orig.effectiveDate(parseDate("2010-01-01"));
+		AttributeInfo.Builder da = new AttributeInfo.Builder();
 		List<AttributeInfo> das = new ArrayList<AttributeInfo>();
-		da = new AttributeInfo.Builder().key("dynamic.attribute.key.1").value("dynamic attribute value 1").build();
-		das.add(da);
-		da = new AttributeInfo.Builder().key("dynamic.attribute.key.2").value("dynamic attribute value 2a").build();
-		das.add(da);
-		da = new AttributeInfo.Builder().key("dynamic.attribute.key.2").value("dynamic attribute value 2b").build();
-		das.add(da);
-		orig = new LuiPersonRelationInfo.Builder(orig).attributes(das).build();
+		da.key("dynamic.attribute.key.1");
+        da.value("dynamic attribute value 1");
+		das.add(da.build());
+		da = new AttributeInfo.Builder();
+        da.key("dynamic.attribute.key.2");
+        da.value("dynamic attribute value 2a");
+		das.add(da.build());
+		da = new AttributeInfo.Builder();
+        da.key("dynamic.attribute.key.2");
+        da.value("dynamic attribute value 2b");
+		das.add(da.build());
+		orig.attributes(das);
 		// orig.setAttributes(das);
 		ContextInfo context = getContext1();
 		Date beforeCreate = new Date();
-		String lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
+        String lprId = null;
+        try {
+		 lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig.build (), context);
+        } catch (DataValidationErrorException ex) {
+            System.out.println (ex.getValidationResults().size() + " validation errors found");
+          for (ValidationResultInfc vri : ex.getValidationResults()) {
+              System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
+          }
+          throw ex;
+        }
 		Date afterCreate = new Date();
 		assertNotNull(lprId);
 
@@ -156,7 +178,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		assertEquals(orig.getAttributes().size(), fetched.getAttributes().size());
 		assertNotSame(orig.getAttributes(), fetched.getAttributes());
 
-		for (AttributeInfo origDa : orig.getAttributes()) {
+		for (AttributeInfc origDa : orig.getAttributes()) {
 			AttributeInfo fetchedDa = findMatching(origDa, fetched.getAttributes());
 			assertNotNull(fetchedDa);
 			assertNotSame(origDa, fetchedDa);
@@ -184,7 +206,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 
 		// update method
 		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched).personId("personId.2").luiId("luiId.2");
-		builder = builder.state(LuiPersonRelationStateEnum.ADMITTED.getKey()).effectiveDate(parseDate("2010-01-01"));
+		builder = builder.state(LuiPersonRelationConstants.ADMITTED_STATE_KEY).effectiveDate(parseDate("2010-01-01"));
 		builder = builder.expirationDate(parseDate("2010-02-01"));
 		fetched = builder.build();
 		
@@ -251,7 +273,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 
 	}
 
-	private AttributeInfo findMatching(AttributeInfo search, List<? extends AttributeInfo> list) {
+	private AttributeInfo findMatching(AttributeInfc search, List<? extends AttributeInfo> list) {
 		// TODO: when AttributeInfo gets it's own ID do the find by ID instead of values
 		for (AttributeInfo da : list) {
 			if (search.getKey().equals(da.getKey())) {

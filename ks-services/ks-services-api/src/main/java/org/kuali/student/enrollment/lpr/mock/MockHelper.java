@@ -55,18 +55,5 @@ public class MockHelper {
         int oldVersionInd = Integer.parseInt(orig.getVersionInd());
         return new MetaInfo.Builder(orig).updateId(context.getPrincipalId()).updateTime(now).versionInd("" + (oldVersionInd + 1)).build();
     }
-
-
-    /**
-     * Get a DataValidationErrorException base on the list of validation results
-     *
-     * TODO: get rid of this translation once we have everything (including exceptions in R2)
-     * 
-     * @param vris
-     * @return
-     */
-    public DataValidationErrorException newDataValidationErrorException(List<ValidationResultInfo> vris) {
-        return new DataValidationErrorException("failed validation", vris);
-    }
 }
 

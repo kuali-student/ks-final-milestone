@@ -26,9 +26,9 @@ import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
  *
  * @author nwright
  */
-public class Rice2DictionaryEntryConverter {
+public class Rice2StudentDictionaryEntryConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2DictionaryEntryConverter.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2StudentDictionaryEntryConverter.class);
 
     public DictionaryEntryInfo convert(DataObjectEntry rice) {
         DictionaryEntryInfo.Builder bldr = new DictionaryEntryInfo.Builder();
@@ -41,7 +41,7 @@ public class Rice2DictionaryEntryConverter {
         if (rice.getAttributes() != null) {
             List<AttributeDefinitionInfo> list = new ArrayList(rice.getAttributes().size());
             for (AttributeDefinition ad : rice.getAttributes()) {
-                list.add(new Rice2AttributeDefinitionConverter ().convert(ad));
+                list.add(new Rice2StudentAttributeDefinitionConverter ().convert(ad));
             }
             bldr.setAttributes (list);
         }

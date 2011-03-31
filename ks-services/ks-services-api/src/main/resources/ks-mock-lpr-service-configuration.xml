@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+
+    <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
+    <bean id="mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
+    <bean id="mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
+
+    <bean id="mockLprService" parent="mockLprValidationService" />
+    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceValidationImpl" >
+        <property name="lprService" ref="mockLprPersistenceService"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl">
+        <property name="lprService" ref="lprDataDictionaryService"/>
+    </bean>
+    <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr"/>
+        <property name="lprService" ref="lprUnimplementedService"/>
+    </bean>
+    <bean id="lprUnimplementedService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceUnimplemented"/>
+
+</beans>

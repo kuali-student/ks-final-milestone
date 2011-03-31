@@ -8,7 +8,7 @@
     <import resource="classpath:ks-rice-dictionary-validation-service-configuration.xml"/>
     
     <bean id="validator" class="org.kuali.student.datadictionary.RiceDataDictionaryValidatorImpl">
-        <property name="riceDataDictionaryService" ref="allDataDictionaryService" />
+        <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAllUsedByRice" />
         <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
     </bean>
 </beans>
