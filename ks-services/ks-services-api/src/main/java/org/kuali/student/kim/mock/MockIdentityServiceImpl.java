@@ -165,7 +165,7 @@ public class MockIdentityServiceImpl implements IdentityService {
         KimEntityEntityTypeDefaultInfo info = new KimEntityEntityTypeDefaultInfo();
         info.setDefaultEmailAddress(this.toKimEntityEmailInfo(pers));
         info.setDefaultAddress(this.toKimEntityAddressInfo(pers));
-        info.setEntityTypeCode("PERSON");
+        info.setEntityTypeCode(EntityTypeEnum.PERSON.getCode());
         return info;
     }
 
@@ -176,7 +176,7 @@ public class MockIdentityServiceImpl implements IdentityService {
         KimEntityExternalIdentifierInfo info = new KimEntityExternalIdentifierInfo();
         info.setEntityExternalIdentifierId(pers.getEntityId());
         info.setExternalId(pers.getSsn());
-        info.setExternalIdentifierTypeCode("SSN");
+        info.setExternalIdentifierTypeCode(ExternalIdentifierTypeEnum.TAX.getCode());
         return info;
     }
 
@@ -222,6 +222,7 @@ public class MockIdentityServiceImpl implements IdentityService {
     private KimEntityDefaultInfo toKimEntityDefaultInfo(PersonEnum pers) {
         KimEntityDefaultInfo info = new KimEntityDefaultInfo();
         info.setActive(pers.isActive());
+        info.setEntityTypes(Arrays.asList(this.toKimEntityEntityTypeDefaultInfo(pers)));
         info.setDefaultAffiliation(this.toKimEntityAffiliationInfo(pers));
         info.setAffiliations(Arrays.asList(info.getAffiliations().get(0)));
         info.setDefaultName(toKimEntityNameInfo(pers));
