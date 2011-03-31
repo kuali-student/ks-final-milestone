@@ -63,6 +63,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -935,7 +936,19 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     Widget fdWidget = row.getCell1();
                     if (row.isShown()) {
                         if (fdWidget != null) {
+                            //
+                            if (fdWidget instanceof KSListPanel) {
+                                ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
+                                ExportElement subElement = new ExportElement();
+                                subExportElements = ExportUtils.getDetailsForWidget(fdWidget, subExportElements, blockName, blockName);
+                                for (int k = 0; k < subExportElements.size(); k++) {
+                                    System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
+                                }
+                                element.setSubset(subExportElements);
+                            } else {
+                            //
                             element = ExportUtils.getExportItemDetails(element,fdWidget,true);
+                            }
                         } else {
                             if (row.getTitle() != null) {
                                 element.setFieldLabel(row.getTitle());
@@ -952,6 +965,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                             }
                         }
                         if (element != null && element.getViewName() != null) {
+                            System.out.println(element.getViewName() + " " + element.getFieldLabel());
                             exportElements.add(element);
                         }
                     }

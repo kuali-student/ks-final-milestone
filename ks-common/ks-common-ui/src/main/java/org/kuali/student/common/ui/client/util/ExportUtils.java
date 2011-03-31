@@ -19,12 +19,15 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 
 import com.google.gwt.user.client.ui.HasText;
 
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.WidgetCollection;
 
 public class ExportUtils {
     public static final String PDF = "PDF";
@@ -98,7 +101,7 @@ public class ExportUtils {
         }
     }
 
-    private static ArrayList<ExportElement> getDetailsForWidget(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {
+    public static ArrayList<ExportElement> getDetailsForWidget(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {
         if (currentViewWidget instanceof Section) {
             Section widgetHasFields = (Section) currentViewWidget;
             List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
@@ -111,8 +114,19 @@ public class ExportUtils {
 
                 exportElements.add(getExportItemDetails(exportItem, fieldWidget, true));
             }
-//        } else {  // Debuggin
-//            System.out.println("Component is not implemented yet for class of type : " + currentViewWidget.getClass().getName());
+        } else if (currentViewWidget instanceof KSListPanel) {
+            KSListPanel ksListPanelWidget = (KSListPanel) currentViewWidget;
+            WidgetCollection children = ksListPanelWidget.getChildren();
+            for (int i = 0; i < children.size(); i++) {
+                Widget child = children.get(i);
+
+                ExportElement exportItem = new ExportElement();
+                exportItem.setSectionName("Subsection");
+                exportItem.setViewName("Subsection");
+                exportItem.setFieldLabel("Label");
+                exportElements.add(getExportItemDetails(exportItem, child, true));
+            }
+            
         }
         return exportElements;
     }
