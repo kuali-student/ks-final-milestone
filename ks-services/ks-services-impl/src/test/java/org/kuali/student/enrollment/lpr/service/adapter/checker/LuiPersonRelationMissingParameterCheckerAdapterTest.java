@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.dto.ComparisonInfo;
 
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -162,8 +162,8 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 		if (type.equals(ContextInfo.class)) {
 			return new ContextInfo.Builder().build();
 		}
-		if (type.equals(CriteriaInfo.class)) {
-			return new CriteriaInfo.Builder().build();
+		if (type.equals(ComparisonInfo.class)) {
+			return new ComparisonInfo.Builder().build();
 		}
 		if (type.equals(LuiPersonRelationStateInfo.class)) {
 			return new LuiPersonRelationStateInfo.Builder().build();

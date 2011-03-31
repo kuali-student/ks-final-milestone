@@ -121,7 +121,7 @@ public class LuiPersonRelationServiceValidationImpl implements LuiPersonRelation
     }
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfo> criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

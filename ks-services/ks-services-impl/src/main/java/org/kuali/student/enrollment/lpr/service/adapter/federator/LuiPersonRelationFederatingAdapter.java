@@ -16,12 +16,6 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter.federator;
 
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.common.exceptions.*;
 
@@ -473,7 +467,7 @@ public class LuiPersonRelationFederatingAdapter
      */
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(List<CriteriaInfo> criteria, ContextInfo context)
+    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Set<String> ids = new HashSet<String>();

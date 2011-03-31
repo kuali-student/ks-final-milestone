@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.TypeTypeRelationInfo;
@@ -15,7 +16,6 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
@@ -143,7 +143,7 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 	}
 
 	@Override
-	public List<String> searchForLuiPersonRelationIds(List<CriteriaInfo> criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}

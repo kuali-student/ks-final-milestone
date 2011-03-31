@@ -103,7 +103,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 
 		String personId = "personId.1";
 		String luiId = "luiId.1";
-		String luiPersonRelationType = LuiPersonRelationTypeEnum.STUDENT.getKey();
+		String luiPersonRelationType = LuiPersonRelationTypeEnum.REGISTRANT.getKey();
 		LuiPersonRelationInfo orig =
 			new LuiPersonRelationInfo.Builder()
 				.state(LuiPersonRelationStateEnum.APPLIED.getKey())
