@@ -141,6 +141,10 @@
         MSG_ID="maxCredits-watermark" MSG_VALUE="e.g.: 60"
         OBJ_ID="edb7eedd-cd93-4cc5-b30d-7bb947a5e076" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="0f5badac-1fd9-4105-8f77-b258cce23408" LOCALE="en"
+        MSG_ID="cluCourseFormatsDurationType" MSG_VALUE="Duration Type"
+        OBJ_ID="47F8296F-4AF6-44CD-AE4E-93ED817FAFFA" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="0f7e36b2-a0c0-4b2f-b373-6d914428fcf9" LOCALE="es"
         MSG_ID="cluPreRequisites" MSG_VALUE="Requisitos previos"
         OBJ_ID="10f61989-7c07-47bc-80b3-4ffa6412fd79" VER_NBR="1"/>
@@ -1313,15 +1317,15 @@
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9FCD7A70CD90CF15E040C60AF05B62C0" LOCALE="en"
+        ID="9FDCB54AEA01EC09E040C60AF05B0DCA" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="9FCD7A70CD91CF15E040C60AF05B62C0" VER_NBR="1"/>
+        OBJ_ID="9FDCB54AEA02EC09E040C60AF05B0DCA" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="9FCD7A70CD92CF15E040C60AF05B62C0" LOCALE="en"
+        ID="9FDCB54AEA03EC09E040C60AF05B0DCA" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="9FCD7A70CD93CF15E040C60AF05B62C0" VER_NBR="1"/>
+        OBJ_ID="9FDCB54AEA04EC09E040C60AF05B0DCA" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration Count"
@@ -1403,7 +1407,7 @@
         OBJ_ID="9d74b0c0-5767-4a0d-a4f1-a3c4a2f6b19e" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="a646000d-12c9-440d-8c02-0fe599249172" LOCALE="en"
-        MSG_ID="cluDurationQuantity" MSG_VALUE="Duration Count"
+        MSG_ID="cluDurationQuantity" MSG_VALUE="Duration"
         OBJ_ID="8dc3c946-5c41-4562-97f4-7a4458add3f3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="a6574d51-ad24-4049-998f-ff33e5f7eada" LOCALE="en"
@@ -2151,4 +2155,9 @@
         ID="ff6f2a56-cf74-4b1a-8b24-0ca8e9e30c0e" LOCALE="en"
         MSG_ID="cluInstructors" MSG_VALUE="Instructor(s)"
         OBJ_ID="924ca1e4-5b62-4e7e-b2f3-ef1ff14e4623" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="ffd033f7-c27c-4458-a478-d02ce3b5e636" LOCALE="en"
+        MSG_ID="cluCourseFormatsDurationType-help"
+        MSG_VALUE="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course. Most courses will have 1 or 2 terms, for example."
+        OBJ_ID="0F2734CD-CD5D-F883-58EF-3F53C57DEE51" VER_NBR="1"/>
 </dataset>
