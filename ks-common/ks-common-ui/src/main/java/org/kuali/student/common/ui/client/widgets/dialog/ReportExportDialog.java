@@ -46,11 +46,12 @@ public class ReportExportDialog {
 
         // Add radiobutton to layout panel.
         HorizontalBlockFlowPanel radioPanel = new HorizontalBlockFlowPanel();
-        radioPanel.setHeight("60px");
+        radioPanel.setHeight("70px");
         SimpleListItems formatList = new SimpleListItems();
         formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
         formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
         selectItemWidget.setListItems(formatList);
+        selectItemWidget.selectItem(ExportUtils.PDF);
         radioPanel.add(selectItemWidget);
         layout.add(radioPanel);
 
@@ -58,7 +59,7 @@ public class ReportExportDialog {
         this.addCancelCompleteCallback();
         layout.add(actionButtons);
 
-        dialog.setMaxHeight(300);
+        dialog.setMaxHeight(250);
         dialog.setMaxWidth(300);
     }
 
@@ -76,10 +77,12 @@ public class ReportExportDialog {
             @Override
             public void exec(ButtonEnum result) {
                 if (result == ButtonEnumerations.ExportCancelEnum.EXPORT) {
-                    if (callback != null) {
-                        callback.exec(selectItemWidget.getSelectedItem());
+                    if (selectItemWidget.getSelectedItem() != null) {
+                        if (callback != null) {
+                            callback.exec(selectItemWidget.getSelectedItem());
+                        }
+                        dialog.hide();
                     }
-                    dialog.hide();
                 }
             }
         });
