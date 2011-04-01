@@ -9,7 +9,7 @@
 		<band height="30">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="30" backcolor="#F6F6F6"/>
-				<box leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box leftPadding="2" bottomPadding="0" rightPadding="0">
 					<topPen lineWidth="1.0" lineColor="#CBCBCB"/>
 					<leftPen lineWidth="1.0" lineColor="#CBCBCB"/>
 					<bottomPen lineWidth="1.0" lineColor="#CBCBCB"/>
@@ -37,4 +37,13 @@
 			</subreport>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement x="373" y="30" width="142" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 </jasperReport>

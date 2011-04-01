@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DataSourceReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="766"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="key" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
 	<field name="sub" class="java.lang.Boolean"/>
 	<field name="subset" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="mandatory" class="java.lang.Boolean"/>
+	<field name="sectionName" class="java.lang.String"/>
+	<group name="Section">
+		<groupExpression><![CDATA[$F{sectionName}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<printWhenExpression><![CDATA[$F{sectionName} != null]]></printWhenExpression>
+				<textField>
+					<reportElement x="0" y="0" width="100" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{sectionName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
 	<pageHeader>
 		<band height="26">
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="5" width="250" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="0" y="5" width="198" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box>
 					<rightPen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Field]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="250" y="5" width="265" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="198" y="5" width="317" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box>
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement>
-					<font fontName="Arial"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Value]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="25">
+		<band height="15">
 			<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="0" y="6" width="250" height="15">
+				<reportElement positionType="Float" x="0" y="0" width="198" height="15">
 					<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="5" rightPadding="0">
@@ -46,18 +66,18 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement>
-					<font fontName="Arial" isBold="true"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{key}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mandatory}==true ? $F{key} + "<font color=\"red\"> *</font>" : $F{key}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="250" y="6" width="265" height="15"/>
+				<reportElement positionType="Float" x="198" y="0" width="317" height="15"/>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement>
-					<font fontName="Arial" pdfFontName="Helvetica"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
