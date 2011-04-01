@@ -669,13 +669,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 true),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey",
-                                LUUIConstants.DURATION_TYPE_LABEL_KEY,
+                                LUUIConstants.COURSE_FORMATS_DURATION_TYPE_LABEL_KEY,
                                 null,
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "timeQuantity",
-                                LUUIConstants.DURATION_LITERAL_LABEL_KEY,
+                                LUUIConstants.DURATION_QUANTITY_LABEL_KEY,
                                 null,
                                 null,
                                 true),
