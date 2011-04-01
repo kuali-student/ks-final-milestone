@@ -62,6 +62,19 @@
 			<param-value>classpath:lum-gwt-context.xml</param-value>
 		</init-param>		
 	</servlet>
+	
+	<!-- Export Download HTTP Servlet -->
+    <servlet>  
+   	 	<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   	 	<servlet-class>org.kuali.student.common.ui.server.gwt.ExportDocumentDownload</servlet-class>  
+   	 </servlet>  
+   	 
+   	 <servlet-mapping>  
+   	 		<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
+   	 </servlet-mapping>  
+	<!-- HTTP Servlet end -->
+	
 
 	<servlet-mapping>
 		<servlet-name>GWT-ORG</servlet-name>

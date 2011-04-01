@@ -46,8 +46,8 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
                 exportOutput = exportBasedOnDataModel(root, templateName, exportFormat, exportOutput);
             }
             exportId = this.getExportId();
-            logger.info("Export succesful - Export ID = " + exportId);
-            getThreadLocalRequest().getSession().setAttribute(exportId, exportOutput);
+            logger.info("Export succesful - Export ID = " + exportId);            
+            getThreadLocalRequest().getSession(true).setAttribute(exportId, exportOutput);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;

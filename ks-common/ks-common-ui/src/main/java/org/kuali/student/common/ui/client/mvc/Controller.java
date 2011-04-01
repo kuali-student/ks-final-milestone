@@ -39,9 +39,9 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -570,9 +570,13 @@ public abstract class Controller extends Composite implements HistorySupport, Br
             reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        // On success get documentID back from GWT Servlet
-//                        System.out.println("On success....export ID = " + result);
-                        Window.open("/exportDownloadHTTPServlet?exportId="+result + "&format=" + format, "", "");                          
+                        // On success get documentID back from GWT Servlet//
+                    	
+                    	// We need to get the base url and strip the gwt module name . 
+                    	String baseUrl = GWT.getHostPageBaseURL();
+                    	baseUrl = baseUrl.replaceFirst(GWT.getModuleName() + "/", "");                    	                    
+                    	
+                        Window.open(baseUrl + "exportDownloadHTTPServlet?exportId="+result + "&format=" + format, "", "");                          
                     }
                 });
 
