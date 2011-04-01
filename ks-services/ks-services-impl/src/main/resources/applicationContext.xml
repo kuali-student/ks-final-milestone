@@ -6,11 +6,12 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
   
+ 
+  
   <!-- Infrastructure code which handles invocation for all service impls -->
   <bean id = "layeringAspects" class="org.kuali.student.enrollment.lpr.service.aspect.ServiceAspectLayering">
-    
     <!-- Declare various impls here, put them in the order that you want them invoked -->
-    <property name="serviceImpls" >
+    <property name="serviceImpls">
       <list>
         <ref bean="lprServiceAuthorizer" />
         <ref bean="lprServiceValidator" />
@@ -21,6 +22,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
        <ref bean="kualiInvalidParamException"/>
        <ref bean="kualiReadOnlyException"/>
        <ref bean="kualiOperationFailedException"/>
+      </list>
+   </property>
+   <property name ="servicePostProcessClasses">
+      <list>
+        <ref bean="lprServicePostProcessingBean"/>    
       </list>
    </property>
    </bean>
@@ -35,18 +41,26 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </bean>
     <bean id="lprServiceAuthorizer" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceAuthorizationImpl" />
      
+    <!-- declaring post processing impls here -->
+    <bean id="lprServicePostProcessingBean" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImplPostProcessing" /> 
+     
     <!--  declare all service exceptions here or in KS core -->
     <bean id="kualiInvalidParamException" class="org.kuali.student.core.exceptions.InvalidParameterException" />
     <bean id="kualiOperationFailedException" class="org.kuali.student.core.exceptions.OperationFailedException" />
     <bean id="kualiReadOnlyException" class="org.kuali.student.core.exceptions.ReadOnlyException" />
         
     <aop:config>
+
+     
      <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
        <aop:pointcut id="lprLayeringPointcut" expression="bean(lprService)"/>
        <aop:around pointcut-ref="lprLayeringPointcut" method="performLayeringCalls"/>
-
+       
        <aop:pointcut id="lprExceptionPointCut" expression="execution(* org.kuali.student.enrollment.lpr.service.impl..*.*(..))"/>
        <aop:after-throwing pointcut-ref="lprExceptionPointCut" throwing="ex" method="handleExceptions"/>
+   
+       <aop:pointcut id="lprMaskingPointcut" expression="execution(* org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl.*(..))"  />
+       <aop:after-returning pointcut-ref="lprMaskingPointcut" returning="returnValue" arg-names="returnValue" method="afterReturning"/>
      </aop:aspect>
     </aop:config>
    

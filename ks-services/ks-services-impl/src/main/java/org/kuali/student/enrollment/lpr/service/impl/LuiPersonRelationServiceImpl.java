@@ -24,6 +24,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.dto.StateInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.TypeTypeRelationInfo;
@@ -36,6 +37,7 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.infc.StateInfc;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
@@ -72,8 +74,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<LuiPersonRelationStateInfo>  lprInfoList = new ArrayList<LuiPersonRelationStateInfo>();
+        LuiPersonRelationStateInfo lprInfo =new LuiPersonRelationStateInfo.Builder().build();
+     
+        lprInfoList.add(lprInfo);
+        return  lprInfoList;
     }
 
     @Override

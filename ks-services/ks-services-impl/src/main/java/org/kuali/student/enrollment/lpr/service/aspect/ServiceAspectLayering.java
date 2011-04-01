@@ -2,10 +2,14 @@ package org.kuali.student.enrollment.lpr.service.aspect;
 
 import java.lang.reflect.Method;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.student.common.exceptions.OperationFailedException;
+
+
 
 
 
@@ -16,13 +20,17 @@ import org.kuali.student.common.exceptions.OperationFailedException;
  * 
  * @param <T> the service this aspect is operating on
  */
-public class ServiceAspectLayering<T> {
+public class ServiceAspectLayering<T,P>   {
 
 	List <T>  serviceImplObjs; 
 
 	List<Throwable> includeThrowableClassList ;
 
+	List <P> servicePostProcessClasses;
 
+	public void setServicePostProcessClasses(List<P> servicePostProcessClasses) {
+		this.servicePostProcessClasses = servicePostProcessClasses;
+	}
 	public void setServiceImpls(List<T> serviceImplObjs) {
 		this.serviceImplObjs = serviceImplObjs;
 	}
@@ -36,7 +44,6 @@ public class ServiceAspectLayering<T> {
 	 * @throws Throwable
 	 */
 	public Object performLayeringCalls(ProceedingJoinPoint call) throws Throwable{
-
 
 		for (Object service : serviceImplObjs){
 
@@ -63,4 +70,30 @@ public class ServiceAspectLayering<T> {
 		}
 	}
 
+
+
+	/**
+	 * The advice used after return 
+	 */
+
+	public void afterReturning( JoinPoint call, Object returnValue) throws Throwable {
+
+		for (Object servicePostProcessClass : servicePostProcessClasses){
+
+			if ( servicePostProcessClass.getClass().getName().contains(call.getTarget().getClass().getName())){	
+
+				for (Method m : servicePostProcessClass.getClass().getMethods()){
+					if (m.getName().equals(call.getSignature().getName())) {
+						List  <Object> argsList = new ArrayList<Object>();
+						argsList.add(0,returnValue);
+						argsList.add (1,call.getArgs());	
+						m.invoke( servicePostProcessClass, argsList.toArray());
+						break;
+					}
+				}
+			}
+		}
+	}
+
 }
+

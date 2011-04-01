@@ -21,7 +21,8 @@ import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
+
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -91,9 +92,16 @@ public class LuiPersonRelationServiceImplTest {
 			// ex.printStackTrace();
 			assertTrue (ex instanceof OperationFailedException) ;
 		}
-		
-		
-
-
 	}
+	/*
+	@Test
+	public void testfindLuiPersonRelationStates() throws Throwable {
+
+			List<LuiPersonRelationStateInfo> stateInfo = lprService.findLuiPersonRelationStates(callContext);
+			assertTrue(stateInfo.size()==1);
+			assertTrue(  ((LuiPersonRelationStateInfo)stateInfo.get(0)).getDescr().equals("ABC") );
+			
+	
+	}
+	*/
 }
