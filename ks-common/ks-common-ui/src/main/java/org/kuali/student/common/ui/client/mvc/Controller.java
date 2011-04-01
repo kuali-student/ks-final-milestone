@@ -20,15 +20,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
@@ -561,7 +558,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(ArrayList<ExportElement> exportElements, String format) {        
+    public void doReportExport(ArrayList<ExportElement> exportElements, final String format) {        
      // Service call...
         
         DataModel dataModel = getExportDataModel();
@@ -575,7 +572,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                     public void onSuccess(String result) {
                         // On success get documentID back from GWT Servlet
 //                        System.out.println("On success....export ID = " + result);
-                        Window.open("/exportDownloadHTTPServlet?exportId="+result, "", "");                          
+                        Window.open("/exportDownloadHTTPServlet?exportId="+result + "&format=" + format, "", "");                          
                     }
                 });
 
