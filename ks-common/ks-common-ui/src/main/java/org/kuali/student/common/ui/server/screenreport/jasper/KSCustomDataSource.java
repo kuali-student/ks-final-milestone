@@ -42,7 +42,7 @@ public class KSCustomDataSource implements JRDataSource {
             property = (Property) iterator.next();
             if (("metaInfo".equals(property.getKey().toString())) || ("id".equals(property.getKey().toString())) || ("_runtimeData".equals(property.getKey().toString()))) {
                 return this.next();
-            } 
+            }
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -74,7 +74,9 @@ public class KSCustomDataSource implements JRDataSource {
                     if (property.getValue() instanceof Date) {
                         value = format.format((Date) property.getValue());
                     } else {
-                        value = property.getValue().toString();
+                        if (property.getValue() != null) {
+                            value = property.getValue().toString();
+                        }
                     }
                 } else if ("subset".equals(fieldName)) {
                     value = null;
