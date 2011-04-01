@@ -15,6 +15,7 @@
  */
 package org.kuali.student.kim.mock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -44,11 +45,22 @@ import org.kuali.rice.kim.bo.reference.dto.EntityTypeInfo;
 import org.kuali.rice.kim.bo.reference.dto.ExternalIdentifierTypeInfo;
 import org.kuali.rice.kim.bo.reference.dto.PhoneTypeInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.enrollment.lpr.mock.CriteriaMatcherInMemory;
 
 /**
  * @author nwright
  */
-public class MockIdentityServiceImpl implements IdentityService {
+public class IdentityServiceMockImpl implements IdentityService {
+
+    private int boundedSearchMaxResults = IdentityServiceConstants.BOUNDED_SEARCH_MAX_RESULTS;
+
+    public int getBoundedSearchMaxResults() {
+        return boundedSearchMaxResults;
+    }
+
+    public void setBoundedSearchMaxResults(int boundedSearchMaxResults) {
+        this.boundedSearchMaxResults = boundedSearchMaxResults;
+    }
 
     @Override
     public AddressTypeInfo getAddressType(String code) {
@@ -102,7 +114,7 @@ public class MockIdentityServiceImpl implements IdentityService {
         info.setLastNameUnmasked(pers.getLastName());
         info.setMiddleName(pers.getMiddleName());
         info.setMiddleNameUnmasked(null);
-        info.setNameTypeCode(EntityNameTypeEnum.PRIMARY.getCode()); 
+        info.setNameTypeCode(EntityNameTypeEnum.PRIMARY.getCode());
         info.setSuffix(pers.getSuffix());
         info.setSuffixUnmasked(pers.getSuffix());
         info.setSuppressName(false);
@@ -219,12 +231,13 @@ public class MockIdentityServiceImpl implements IdentityService {
         return info;
     }
 
+
     private KimEntityDefaultInfo toKimEntityDefaultInfo(PersonEnum pers) {
         KimEntityDefaultInfo info = new KimEntityDefaultInfo();
         info.setActive(pers.isActive());
         info.setEntityTypes(Arrays.asList(this.toKimEntityEntityTypeDefaultInfo(pers)));
         info.setDefaultAffiliation(this.toKimEntityAffiliationInfo(pers));
-        info.setAffiliations(Arrays.asList(info.getAffiliations().get(0)));
+        info.setAffiliations(Arrays.asList(info.getDefaultAffiliation()));
         info.setDefaultName(toKimEntityNameInfo(pers));
         info.setEntityId(pers.getEntityId());
         info.setExternalIdentifiers(Arrays.asList(this.toKimEntityExternalIdentifierInfo(pers)));
@@ -398,6 +411,13 @@ public class MockIdentityServiceImpl implements IdentityService {
         info.setEmploymentInformation(Arrays.asList(toKimEntityEmploymentInformationInfo(pers)));
         info.setEntityId(pers.getEntityId());
         info.setEntityTypes(Arrays.asList(this.toKimEntityEntityTypeInfo(pers)));
+        info.setEthnicities(null);
+        info.setExternalIdentifiers(Arrays.asList(this.toKimEntityExternalIdentifierInfo(pers)));
+        info.setNames(Arrays.asList(this.toKimEntityNameInfo(pers)));
+        info.setPrincipals(Arrays.asList(this.toKimPrincipalInfo(pers)));
+        info.setPrivacyPreferences(this.toKimEntityPrivacyPreferencesInfo(pers));
+        info.setResidencies(null);
+        info.setVisas(null);
         return info;
     }
 
@@ -492,7 +512,6 @@ public class MockIdentityServiceImpl implements IdentityService {
         return null;
     }
 
-
     @Override
     public PhoneTypeInfo getPhoneType(String code) {
         for (PhoneTypeEnum typ : PhoneTypeEnum.values()) {
@@ -543,22 +562,121 @@ public class MockIdentityServiceImpl implements IdentityService {
         return null;
     }
 
+    private void validate(Map<String, String> searchCriteria)
+            throws IllegalArgumentException {
+        DataProviderForKimEntityInfoImpl provider = new DataProviderForKimEntityInfoImpl();
+        for (String key : searchCriteria.keySet()) {
+            if (!provider.supportsField(key)) {
+                throw new IllegalArgumentException("Search criteria " + key + " is not supported");
+            }
+        }
+
+    }
+
     @Override
     public List<KimEntityDefaultInfo> lookupEntityDefaultInfo(Map<String, String> searchCriteria,
             boolean unbounded) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.validate(searchCriteria);
+        List<KimEntityDefaultInfo> selected = new ArrayList<KimEntityDefaultInfo>();
+        for (PersonEnum pers : PersonEnum.values()) {
+            KimEntityInfo info = this.toKimEntityInfo(pers);
+            if (matchesAll(searchCriteria, info)) {
+                selected.add(this.toKimEntityDefaultInfo(pers));
+                if (!unbounded) {
+                    if (selected.size() >= this.boundedSearchMaxResults) {
+                        return selected;
+                    }
+                }
+            }
+        }
+        return selected;
+    }
+
+    private boolean matchesAll(Map<String, String> searchCriteria, KimEntityInfo info) {
+        // implied AND between criteria
+        for (String key : searchCriteria.keySet()) {
+            if (!matches(key, searchCriteria.get(key), info)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean matches(String key, String value, KimEntityInfo info) {
+        DataProviderForKimEntityInfoImpl provider = new DataProviderForKimEntityInfoImpl();
+        List<Object> dataValues = provider.getValues(info, key);
+        return matches(key, value, dataValues);
+    }
+    
+    private boolean matches(String key, String value, List<Object> dataValues) {
+        // if multiple data values then implied or
+        for (Object dataValue : dataValues) {
+            if (matches(key, value, dataValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean matches(String key, String value, Object dataValue) {
+        if (value == dataValue) {
+            return true;
+        }
+        if (value == null && dataValue == null) {
+            return true;
+        }
+        if (value == null) {
+            return false;
+        }
+        if (dataValue == null) {
+            return false;
+        }
+        if (value.equals(dataValue)) {
+            return true;
+        }
+        if (value.equalsIgnoreCase((String) dataValue)) {
+            return true;
+        }
+        // rice uses *
+        if (value.contains("*")) {
+            value = value.replace('*', '%');
+        }
+        if (value.contains("%") || value.contains("_")) {
+            return CriteriaMatcherInMemory.matchesLike(((String) dataValue).toLowerCase(), value.toLowerCase());
+        }
+        return false;
     }
 
     @Override
     public List<KimEntityInfo> lookupEntityInfo(Map<String, String> searchCriteria,
             boolean unbounded) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.validate(searchCriteria);
+        List<KimEntityInfo> selected = new ArrayList<KimEntityInfo>();
+        for (PersonEnum pers : PersonEnum.values()) {
+            KimEntityInfo info = this.toKimEntityInfo(pers);
+            if (matchesAll(searchCriteria, info)) {
+                selected.add(this.toKimEntityInfo(pers));
+                if (!unbounded) {
+                    if (selected.size() >= this.boundedSearchMaxResults) {
+                        return selected;
+                    }
+                }
+            }
+        }
+        return selected;
     }
-
 
     @Override
     public int getMatchingEntityCount(Map<String, String> searchCriteria) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.validate(searchCriteria);
+        List<KimEntityInfo> selected = new ArrayList<KimEntityInfo>();
+        for (PersonEnum pers : PersonEnum.values()) {
+            KimEntityInfo info = this.toKimEntityInfo(pers);
+            if (matchesAll(searchCriteria, info)) {
+                selected.add(this.toKimEntityInfo(pers));
+            }
+        }
+        return selected.size();
     }
 }
 

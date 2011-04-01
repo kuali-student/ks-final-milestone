@@ -295,12 +295,11 @@ public class CriteriaMatcherInMemory<T> {
     }
 
     /**
-     * this was taken from
+     * This was taken from
+     * 
      * http://stackoverflow.com/questions/898405/how-to-implement-a-sql-like-like-operator-in-java
      */
     public static boolean matchesLike(final String str, final String expr) {
-        String regex = quotemeta(expr);
-        regex = regex.replace("_", ".").replace("%", ".*?");
         Pattern p = compilePattern(expr);
         return matchesLike(str, p);
     }

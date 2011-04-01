@@ -12,20 +12,15 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.mock;
+package org.kuali.student.kim.mock;
+
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 
 /**
  * Provides values to compare
  * @author nwright
  */
-public interface DataProviderInfc {
-	public String getObjectId();
+public interface DataProviderForKimEntityInfoInfc extends DataProviderInfc<KimEntityInfo, String> {
 
-	public Object getValue(String fieldKey);
-
-	public Boolean hasField(String fieldKey);
-
-	public void initialize(Object o);
-
-	public String getPath();
+    ;
 }

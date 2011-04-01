@@ -21,14 +21,15 @@ package org.kuali.student.kim.mock;
 public enum PhoneTypeEnum {
 
     HOME("HM", "Home", true, "b"),
+    MOBILE("MBL", "Mobile", true, "c"),
     WORK("WRK", "Work", true, "a"),
-    OTHER("OTH", "Other", true, "c");
+    OTHER("OTH", "Other", true, "d");
     private String code;
     private String name;
     private boolean active;
     private String sort;
 
-    private PhoneTypeEnum(String code, String name,boolean active, String sort) {
+    private PhoneTypeEnum(String code, String name, boolean active, String sort) {
         this.code = code;
         this.name = name;
         this.active = active;

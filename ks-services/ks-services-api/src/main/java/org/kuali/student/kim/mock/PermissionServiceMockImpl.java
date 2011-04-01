@@ -26,7 +26,7 @@ import org.kuali.rice.kim.service.PermissionService;
 /**
  * @author nwright
  */
-public class MockPermissionServiceImpl implements PermissionService {
+public class PermissionServiceMockImpl implements PermissionService {
 
     @Override
     public List<KimPermissionTemplateInfo> getAllTemplates() {
