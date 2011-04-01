@@ -8,7 +8,7 @@ public class ExportElement implements Serializable {
     private static final long serialVersionUID = 1L;
     private String fieldLabel = new String("label");
     private boolean isMandatory;
-    
+
     private String fieldValue;
     private String fieldValue2;
     private String viewName;
@@ -52,7 +52,10 @@ public class ExportElement implements Serializable {
     }
 
     public String getValue() {
-        return fieldValue;
+        if (fieldValue != null) {
+            return fieldValue;
+        }
+        return "";
     }
 
     public boolean isSub() {
@@ -76,7 +79,10 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue2() {
-        return fieldValue2;
+        if (fieldValue2 != null) {
+            return fieldValue2;
+        }
+        return "";
     }
 
     public void setFieldValue2(String fieldValue2) {
