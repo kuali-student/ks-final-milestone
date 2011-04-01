@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.service.GwtExportRpcService;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
@@ -32,7 +31,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
     @Override
     public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat) {
         String exportId = null;
-        boolean exportBasedOnView = true;       // TODO Nina do we want this as a system Property??
+        boolean exportBasedOnView = true; // TODO Nina do we want this as a system Property??
         try {
             // If templateName is null, then default to default Template ie base.template
             if (templateName == null) {
@@ -42,7 +41,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
             byte[] exportOutput = null;
             if (exportBasedOnView) {
                 exportOutput = exportBasedOnView(exportElements, templateName, exportFormat, exportOutput);
-                
+
             } else {
                 exportOutput = exportBasedOnDataModel(root, templateName, exportFormat, exportOutput);
             }
@@ -58,27 +57,32 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
 
     private byte[] exportBasedOnDataModel(Data root, String templateName, String exportFormat, byte[] exportOutput) {
         if (exportFormat.equals(ExportUtils.PDF)) {
-            exportOutput = reportProcessor.createPdf(root, templateName);
+            exportOutput = reportProcessor.createPdf(root, templateName, "Screen Report");
         } else if (exportFormat.equals(ExportUtils.DOC)) {
-            exportOutput = reportProcessor.createDoc(root, templateName);
+            exportOutput = reportProcessor.createDoc(root, templateName, "Screen Report");
 
         } else if (exportFormat.equals(ExportUtils.XLS)) {
-            exportOutput = reportProcessor.createXls(root, templateName);
+            exportOutput = reportProcessor.createXls(root, templateName, "Screen Report");
         }
         return exportOutput;
     }
-    
+
     private byte[] exportBasedOnView(ArrayList<ExportElement> exportElements, String templateName, String exportFormat, byte[] exportOutput) {
+        String reportTitle = "";
+        if (exportElements != null && exportElements.size() > 0) {
+            reportTitle = exportElements.get(0).getViewName();
+        }
         if (exportFormat.equals(ExportUtils.PDF)) {
-            exportOutput = reportProcessor.createPdf(exportElements, templateName);
+            exportOutput = reportProcessor.createPdf(exportElements, templateName, reportTitle);
         } else if (exportFormat.equals(ExportUtils.DOC)) {
-            exportOutput = reportProcessor.createDoc(exportElements, templateName);
+            exportOutput = reportProcessor.createDoc(exportElements, templateName, reportTitle);
 
         } else if (exportFormat.equals(ExportUtils.XLS)) {
-            exportOutput = reportProcessor.createXls(exportElements, templateName);
+            exportOutput = reportProcessor.createXls(exportElements, templateName, reportTitle);
         }
         return exportOutput;
     }
+
     private String getExportId() {
         return UUID.randomUUID().toString();
     }
