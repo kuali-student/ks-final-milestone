@@ -25,21 +25,33 @@ public interface ComparisonInfc  {
   
     /**
      * Name: Field Key
-     * <p/>
+     *
      * Dot path notation to identity the name of field to be compared
      */
     public String getFieldKey();
 
     /**
      * Name: Operator
-     * <p/>
-     * Operator to use to compare the field to the value, =, in, >, <, !=, >=, <=, like, between
+     * 
+     * Operator to use to compare the field to the value. The valid values are:<ol>
+     * <li>=
+     * <li>in
+     * <li><
+     * <li>!=
+     * <li>>=
+     * <li><=
+     * <li>like
+     * <li>between
+     * </ol>
+     * The operators should work similar to their corresponding SQL operators.
      *
      * Complex objects can only be checked to see if they are null or not null.
-     * Only in operators can take a list of values all others must take a single value
+     * "in" operator takes a list of values
+     * "between" operator takes two values for from and thru inclusive
+     * all others take a single value
      *
      * TODO: Decide for complex Lists can they be checked to see how many occurences they have?
-     * TODO: Decide on other operators such as "like" or in range xxx-xxxx
+     * TODO: Decide on other operators
      * TODO: Deicde on operators to search collections inside such as any
      * TODO: Decide how to search on dynamic attributes
      *
@@ -48,17 +60,17 @@ public interface ComparisonInfc  {
 
     /**
      * Name: Criteria Value(s)
-     * <p/>
+     * 
      * Value to be compared
      */
     public List<String> getValues();
 
     /**
+     * Name: Ignore Case?
+     *
      * Check if should ignore case when doing the comparison
-     *
      * Default is false
-     *
-     * @return true if should ignore case of both the specified values and the value in the field
+     * If true then the case of both the specified comparison value(s) and the data value from the field should be ignored
      */
     public boolean isIgnoreCase ();
 }

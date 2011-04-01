@@ -15,32 +15,34 @@
  */
 package org.kuali.student.common.infc;
 
+/**
+ * Dynamic Attributes info structure.
+ *
+ * A structure that holds a key value pair as a way of extending the data structure
+ * for implementing institutions
+ *
+ * @author nwright
+ */
 public interface AttributeInfc {
 
     /**
-     * Get the id
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Id
+     * 
+     * The internally assigned id to this key/value pair
      */
     public String getId();
 
     /**
-     * Get the key
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Attribute Type Key
+     *
+     * The key that identifies the name of the dynamic attribute
      */
     public String getKey();
 
     /**
-     * Get the value
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Attribute Value
+     * 
+     * The value of the dynamic attribute
      */
     public String getValue();
 }

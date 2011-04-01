@@ -15,23 +15,33 @@
  */
 package org.kuali.student.common.infc;
 
+/**
+ * Status object returned by operations to indicate that the operation succeeded
+ *
+ * Note: The success is always TRUE otherwise the method should have thrown an exception.
+ *
+ * Used for delete operations because they have nothing to return otherwise and the
+ * standard is that all methods return something.
+ *
+ * TODO: switch this to hold a count or something, a boolean that always is true is confusing.
+ * TODO: Figure out where the message came from because it is not in the R1 wiki
+ * https://wiki.kuali.org/display/KULSTU/statusInfo+Structure
+ *
+ * @author nwright
+ */
 public interface StatusInfc {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Boolean
-     * <p/>
-     * ???
+     * Name: Success Indicator
+     *
+     * Indicates the success or failure of the operation
      */
     public Boolean isSuccess();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Message
+     *
+     * Optional message indicating a reason
      */
     public String getMessage();
 }

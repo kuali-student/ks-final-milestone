@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -23,6 +23,11 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.common.infc.StatusInfc;
 
+/**
+ * Information about the state of an object
+ * 
+ * @author nwright
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StatusInfo implements StatusInfc, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,11 +47,13 @@ public class StatusInfo implements StatusInfc, Serializable {
 		this.success = new Boolean(builder.isSuccess().booleanValue());
 		this.message = builder.getMessage();
 	}
-	
+
+    @Override
 	public Boolean isSuccess(){
 		return success;
 	}
-	
+
+    @Override
 	public String getMessage() {
 		return message;
 	}

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -41,13 +41,8 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
 	}
 
 
-    /**
-     * Name: Create/Update meta info
-     * <p/>
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
     @Override
-    public MetaInfc getMetaInfo() {
+    public MetaInfo getMetaInfo() {
         return metaInfo;
     }
     

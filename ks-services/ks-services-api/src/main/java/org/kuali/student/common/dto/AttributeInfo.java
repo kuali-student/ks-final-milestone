@@ -37,25 +37,18 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
         this.value = builder.getValue();
     }
 
-    /**
-     * @return the internally assigned id to this key/value pair
-     */
     @Override
     public String getId() {
         return id;
     }
 
-    /**
-     * @return the key
-     */
+
     @Override
     public String getKey() {
         return key;
     }
 
-    /**
-     * @return the value
-     */
+
     @Override
     public String getValue() {
         return value;

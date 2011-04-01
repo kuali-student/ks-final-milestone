@@ -25,16 +25,17 @@ public interface CriteriaInfc {
     /**
      * Name: Comparisons
      *
+     * The list of comparisons to be applied
      * TODO: Decide if null or empty list is ok?  I.e. can you get ALL?
-     * <p/>
-     * @return the list of comparisons to be applied
      */
     public List<? extends ComparisonInfc> getComparisons();
 
     /**
+     * Name: Maximum Results
+     *
      * Get the maximum number of results to be returned
      *
-     * @return null if not limited
+     * Specify Null if do not want to limit the results
      */
     public Integer getMaxResults();
 }

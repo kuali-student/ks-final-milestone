@@ -23,22 +23,16 @@ import java.util.Date;
 public interface HasEffectiveDates {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name:Effective
-     * Date/time this relationship became effective. Must be less than or equal to the
+     * Name:Effective Date
+     *
+     * Date/time this object became effective. Must be less than or equal to the
      * expirationDate specified.
      */
     public Date getEffectiveDate();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
-     * Name: Expiration
+     * Name: Expiration Date
+     * 
      * Date/time this relationship is no longer effective. Must be greater than or
      * equal to the effectiveDate specified.
      */

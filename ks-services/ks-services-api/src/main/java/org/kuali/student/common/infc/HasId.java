@@ -19,5 +19,13 @@ package org.kuali.student.common.infc;
  * @author nwright
  */
 public interface HasId extends HasPrimaryKey {
+    /**
+     * Name: Unique Id
+     *
+     * The system assigned unique id to identify this Object.
+     * Could be implemented as as sequence number or as a UUID.
+     *
+     * Attempts to set this value on creates should result in a ReadOnlyException being thrown
+     */
 	public String getId();
 }

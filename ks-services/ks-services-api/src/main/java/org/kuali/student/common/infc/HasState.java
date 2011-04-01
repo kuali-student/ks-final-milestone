@@ -21,12 +21,9 @@ package org.kuali.student.common.infc;
 public interface HasState  {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: Relation
-     * Unique identifier for the state of the relationship between a LUI and person.
+     * Name: State
+     *
+     * Unique identifier for the state of this object.
      */
     public String getState();
 }

@@ -18,5 +18,13 @@ import java.util.List;
 
 
 public interface HasAttributes {
+    /**
+     * Name: Dynamic Atrributes
+     *
+     * List of dynamic attribiutes, each holding a key-value pair that can be
+     * configured to hold additional information for an implementing institution.
+     *
+     * Note: the key may be repeated more than once to simulate a list of values
+     */
 	public List<? extends AttributeInfc> getAttributes();
 }

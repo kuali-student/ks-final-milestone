@@ -21,12 +21,9 @@ package org.kuali.student.common.infc;
 public interface HasType  {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Name: LUI Person Relation
-     * Unique identifier for the type of LUI to Person relation.
+     * Name: Type
+     *
+     * Unique identifier for the type of this object
      */
     public String getType();
 }

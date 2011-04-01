@@ -25,14 +25,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Query to return some information regarding LUI to person relationships.
- *
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Tue Mar 01 15:54:06 PST 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ComparisonInfo implements ComparisonInfc, Serializable {
 

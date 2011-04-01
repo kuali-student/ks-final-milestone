@@ -17,53 +17,54 @@ package org.kuali.student.common.infc;
 
 import java.util.Date;
 
+/**
+ * Create and last update info for the structure.
+ * This is optional and treated as read only since the data is set by the
+ * internals of the service during maintenance operations.
+ * 
+ * @author nwright
+ */
 public interface MetaInfc {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Version Indicator
+     *
+     * This is the field used for optimistic locking.
+     *
      * An indicator of the version of the thing being described with this meta
      * information. This is set by the service implementation and will be used to
      * determine conflicts in updates.
+     *
+     *
      */
     public String getVersionInd();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
+     * Name: Create Time
+     *
      * The date and time the thing being described with this meta information was last
      * updated
      */
     public Date getCreateTime();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Create Id
+     *
      * The principal who created the thing being described with this meta information
      */
     public String getCreateId();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Date
-     * <p/>
+     * Name: Update Time
+     *
      * The date and time the thing being described with this meta information was last
      * updated
      */
     public Date getUpdateTime();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Update Id
+     * 
      * The principal who last updated the thing being described with this meta
      * information
      */

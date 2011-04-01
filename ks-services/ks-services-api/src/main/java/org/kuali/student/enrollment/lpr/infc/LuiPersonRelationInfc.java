@@ -26,9 +26,14 @@ import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
 import org.kuali.student.common.infc.HasType;
 
-@XmlRootElement
-//@XmlJavaTypeAdapter(AnyTypeAdapter.class)
-@XmlAccessorType(XmlAccessType.PROPERTY)
+/**
+ * Detailed information about a single LUI to Person Relation.
+ *
+ * @Author KSContractMojo
+ * @Author Kamal
+ * @Since Tue Mar 01 15:53:57 PST 2011
+ * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
+ */
 public interface LuiPersonRelationInfc
         extends HasAttributesAndMetaInfc,
         HasId,
@@ -37,21 +42,13 @@ public interface LuiPersonRelationInfc
         HasEffectiveDates {
 
  /**
-  * Get ????
-  * <p/>
-  * Type: String
-  * <p/>
-  * Name: LUI
+  * Name: LUI Id
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  public String getLuiId();
 
  /**
-  * Get ????
-  * <p/>
-  * Type: String
-  * <p/>
-  * Name: Person
+  * Name: Person Id
   * Unique identifier for a person record.
   */
  public String getPersonId();
