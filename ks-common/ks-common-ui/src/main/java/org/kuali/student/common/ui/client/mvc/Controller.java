@@ -37,6 +37,8 @@ import org.kuali.student.common.ui.client.service.GwtExportRpcService;
 import org.kuali.student.common.ui.client.service.GwtExportRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
@@ -560,6 +562,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     @Override
     public void doReportExport(ArrayList<ExportElement> exportElements, final String format) {        
      // Service call...
+    	final BlockingTask loadDataTask = new BlockingTask("Generating Export File");
         
         DataModel dataModel = getExportDataModel();
         Data modelDataObject = null;
@@ -567,7 +570,11 @@ public abstract class Controller extends Composite implements HistorySupport, Br
             modelDataObject = dataModel.getRoot();
         }   
         
-            reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
+        
+        // we want to show that something is happening while the files are generated.
+        KSBlockingProgressIndicator.addTask(loadDataTask);
+        
+        reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         // On success get documentID back from GWT Servlet//
@@ -576,8 +583,17 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                     	String baseUrl = GWT.getHostPageBaseURL();
                     	baseUrl = baseUrl.replaceFirst(GWT.getModuleName() + "/", "");                    	                    
                     	
+                    	KSBlockingProgressIndicator.removeTask(loadDataTask);
+                    	
                         Window.open(baseUrl + "exportDownloadHTTPServlet?exportId="+result + "&format=" + format, "", "");                          
                     }
+
+					@Override
+					public void handleFailure(Throwable caught) {
+						KSBlockingProgressIndicator.removeTask(loadDataTask);
+						super.handleFailure(caught);
+					}				                    
+                    
                 });
 
             
