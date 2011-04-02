@@ -19,12 +19,16 @@ public interface StateInfc extends HasKey, HasAttributes, HasEffectiveDates {
     
    
     /**
-     * @return the name
+     * Friendly name of the State
+     * 
+     * Type: string 
      */
     public String getName();
 
     /**
-     * @return the descr
+     * Narrative description of the State
+     * 
+     * Type: RichTextInfo 
      */
     public String getDescr();
 
