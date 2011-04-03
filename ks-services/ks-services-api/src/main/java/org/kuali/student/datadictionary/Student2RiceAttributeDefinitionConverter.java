@@ -33,8 +33,8 @@ public class Student2RiceAttributeDefinitionConverter {
         rice.setChildEntryName(student.getChildEntryName());
         rice.setDataType(student.getDataType());
         rice.setRequired(student.isRequired());
-        rice.setMinOccurs(student.getMinOccurs());
-        rice.setMaxOccurs(student.getMaxOccurs());
+//        rice.setMinOccurs(student.getMinOccurs());
+//        rice.setMaxOccurs(student.getMaxOccurs());
         rice.setMinLength(student.getMinLength());
         rice.setMaxLength(student.getMaxLength());
         rice.setForceUppercase(student.getForceUppercase());

@@ -63,7 +63,8 @@ public class Dictionary2BeanComparer {
                 continue;
             }
             compareAddDiscrepancy(discrepancies, adDict.getName() + " dataType", adDict.getDataType(), adBean.getDataType());
-            compareAddDiscrepancy(discrepancies, adDict.getName() + " maxOccurs", adDict.getMaximumNumberOfElements(), adBean.getMaximumNumberOfElements());
+            // TODO: deal with collections
+//            compareAddDiscrepancy(discrepancies, adDict.getName() + " maxOccurs", adDict.getMaximumNumberOfElements(), adBean.getMaximumNumberOfElements());
         }
         for (AttributeDefinition fdBean : osBean.getAttributes()) {
             AttributeDefinition fdDict = findField(fdBean.getName(), osDict);

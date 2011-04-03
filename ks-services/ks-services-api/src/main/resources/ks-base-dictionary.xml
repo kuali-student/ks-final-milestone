@@ -33,8 +33,8 @@
     <bean id="baseKualiString" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="STRING" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="255" />
         <property name="forceUppercase" value="false"/>
@@ -47,8 +47,8 @@
     <bean id="baseKualiComplex" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="COMPLEX" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
     </bean>
 
     <bean id="baseKualiStringLong" abstract="true" parent="baseKualiString">
@@ -67,8 +67,8 @@
     <bean id="baseKualiInteger" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="INTEGER" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
         <property name="control">
@@ -82,8 +82,8 @@
     <bean id="baseKualiCurrency" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="FLOAT" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
         <property name="control">
@@ -96,8 +96,8 @@
     <bean id="baseKualiBoolean" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="BOOLEAN" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1"> /-->
 <!--        <property name="control">
             <bean parent="CheckboxControlDefinition"/>
         </property>-->
@@ -106,8 +106,8 @@
     <bean id="baseKualiDate" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="TRUNCATED_DATE" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="10" />
         <property name="maxLength" value="10" />
         <property name="control">
@@ -118,8 +118,8 @@
     <bean id="baseKualiDateTime" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="DATE" />
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="19" />
         <property name="maxLength" value="19" />
         <property name="control">
@@ -293,8 +293,8 @@
         <property name="name" value="attributes"/>
         <property name="childEntryName" value="attributes"/>
         <property name="required" value="false"/>
-        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="999999999" />
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="999999999" />-->
         <property name="shortLabel" value="Dyn Attr"/>
         <property name="summary" value="Dynamic Attributes"/>
         <property name="label" value="Dynamic Attrbutes"/>

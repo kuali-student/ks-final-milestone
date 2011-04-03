@@ -33,8 +33,8 @@ public class Rice2StudentAttributeDefinitionConverter {
         bldr.setChildEntryName (rice.getChildEntryName());
         bldr.setDataType (rice.getDataType());
         bldr.setRequired (rice.isRequired());
-        bldr.setMinOccurs (rice.getMinimumNumberOfElements());
-        bldr.setMaxOccurs (rice.getMaximumNumberOfElements());
+//        bldr.setMinOccurs (rice.getMustOccurConstraints().get(0).getMin());
+//        bldr.setMaxOccurs (rice.getMustOccurConstraints().get (0).getMax());
         bldr.setMinLength (rice.getMinLength());
         bldr.setMaxLength (rice.getMaxLength());
         bldr.setForceUppercase (rice.getForceUppercase());

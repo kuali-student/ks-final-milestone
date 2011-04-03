@@ -87,12 +87,13 @@ public class CriteriaMatcherInMemory<T> {
     
 
     private boolean calcIsList(AttributeDefinition ad) {
-        if (ad.getMaximumNumberOfElements() == null) {
-            return false;
-        }
-        if (ad.getMaximumNumberOfElements() <= 1) {
-            return false;
-        }
+        // TODO: Deal with lists
+//        if (ad.getMaximumNumberOfElements() == null) {
+//            return false;
+//        }
+//        if (ad.getMaximumNumberOfElements() <= 1) {
+//            return false;
+//        }
         return true;
 
     }

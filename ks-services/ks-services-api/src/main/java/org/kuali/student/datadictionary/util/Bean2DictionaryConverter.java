@@ -72,10 +72,11 @@ public class Bean2DictionaryConverter {
         ad.setName(calcName(pd.getName()));
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
-            ad.setMaxOccurs(DictionaryConstants.UNBOUNDED);
+//            TODO: fix this to use a CollectionDefinition
+//            ad.setMaxOccurs(DictionaryConstants.UNBOUNDED);
             ad.setDataType(calcDataType(actualClass));
         } else {
-            ad.setMaxOccurs(DictionaryConstants.SINGLE);
+//            ad.setMaxOccurs(DictionaryConstants.SINGLE);
             ad.setDataType(calcDataType(actualClass));
         }
         return ad;

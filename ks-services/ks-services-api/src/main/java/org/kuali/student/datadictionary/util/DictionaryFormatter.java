@@ -418,17 +418,18 @@ public class DictionaryFormatter {
                 return "required";
             }
         }
-        if (ad.getMaximumNumberOfElements() != null) {
-            if (ad.getMaximumNumberOfElements().intValue() == 0) {
-                return "Not allowed";
-            }
-        }
-
-        if (ad.getMinimumNumberOfElements() != null) {
-            if (ad.getMinimumNumberOfElements().intValue() >= 1) {
-                return "required";
-            }
-        }
+        // TODO: Deal with collections
+//        if (ad.getMaximumNumberOfElements() != null) {
+//            if (ad.getMaximumNumberOfElements().intValue() == 0) {
+//                return "Not allowed";
+//            }
+//        }
+//
+//        if (ad.getMinimumNumberOfElements() != null) {
+//            if (ad.getMinimumNumberOfElements().intValue() >= 1) {
+//                return "required";
+//            }
+//        }
         return " ";
 //  return "optional";
     }
@@ -605,30 +606,32 @@ public class DictionaryFormatter {
     }
 
     private String calcRepeating(AttributeDefinition ad) {
-        if (ad.getMaximumNumberOfElements() == null) {
-            return "???";
-        }
-        if (ad.getMaximumNumberOfElements().intValue() == DictionaryConstants.UNBOUNDED) {
-            if (ad.getMinimumNumberOfElements() != null && ad.getMinimumNumberOfElements() > 1) {
-                return "repeating: minimum " + ad.getMinimumNumberOfElements() + " times";
-            }
-            return "repeating: unlimited";
-        }
-        if (ad.getMaximumNumberOfElements().intValue() == 0) {
-            return "NOT USED";
-        }
-        if (ad.getMaximumNumberOfElements().intValue() == 1) {
-            return " ";
-//   return "single";
-        }
-
-        if (ad.getMinimumNumberOfElements() != null) {
-            if (ad.getMinimumNumberOfElements().intValue() > 1) {
-                return "repeating: " + ad.getMinimumNumberOfElements() + " to " + ad.getMaximumNumberOfElements()
-                        + " times";
-            }
-        }
-        return "repeating: maximum " + ad.getMaximumNumberOfElements() + " times";
+        // TODO: deal with collections
+        return "????";
+//        if (ad.getMaximumNumberOfElements() == null) {
+//            return "???";
+//        }
+//        if (ad.getMaximumNumberOfElements().intValue() == DictionaryConstants.UNBOUNDED) {
+//            if (ad.getMinimumNumberOfElements() != null && ad.getMinimumNumberOfElements() > 1) {
+//                return "repeating: minimum " + ad.getMinimumNumberOfElements() + " times";
+//            }
+//            return "repeating: unlimited";
+//        }
+//        if (ad.getMaximumNumberOfElements().intValue() == 0) {
+//            return "NOT USED";
+//        }
+//        if (ad.getMaximumNumberOfElements().intValue() == 1) {
+//            return " ";
+////   return "single";
+//        }
+//
+//        if (ad.getMinimumNumberOfElements() != null) {
+//            if (ad.getMinimumNumberOfElements().intValue() > 1) {
+//                return "repeating: " + ad.getMinimumNumberOfElements() + " to " + ad.getMaximumNumberOfElements()
+//                        + " times";
+//            }
+//        }
+//        return "repeating: maximum " + ad.getMaximumNumberOfElements() + " times";
     }
 
     private String calcLength(AttributeDefinition ad) {
