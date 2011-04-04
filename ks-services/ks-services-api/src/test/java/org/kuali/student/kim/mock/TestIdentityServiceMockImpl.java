@@ -4,6 +4,18 @@
  */
 package org.kuali.student.kim.mock;
 
+import org.kuali.student.kim.identity.mock.PersonEnum;
+import org.kuali.student.kim.identity.mock.EntityTypeEnum;
+import org.kuali.student.kim.identity.mock.IdentityServiceMockImpl;
+import org.kuali.student.kim.identity.mock.AddressTypeEnum;
+import org.kuali.student.kim.identity.mock.EmployeeStatusEnum;
+import org.kuali.student.kim.identity.mock.IdentityServiceConstants;
+import org.kuali.student.kim.identity.mock.AffiliationTypeEnum;
+import org.kuali.student.kim.identity.mock.EmailTypeEnum;
+import org.kuali.student.kim.identity.mock.PhoneTypeEnum;
+import org.kuali.student.kim.identity.mock.EmployeeTypeEnum;
+import org.kuali.student.kim.identity.mock.EntityNameTypeEnum;
+import org.kuali.student.kim.identity.mock.ExternalIdentifierTypeEnum;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

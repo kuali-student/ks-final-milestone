@@ -13,24 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum EmployeeTypeEnum {
+public enum AffiliationTypeEnum {
 
-    PROFESSIONAL("P", "Professional", true, "1"),
-    NON_PROFESSINAL("N", "Non-Professinoal", true, "2"),
-    OTHER("O", "Other", true, "99");
+    FACULTY("FCLTY", "Faculty", true, true, "b"),
+    STAFF("STAFF", "Staff", true, true, "c"),
+    STUDENT("STDNT", "Student", true, true, "a"),
+    AFFILIATE("AFLT", "Affiliate", true, true, "c");
     private String code;
     private String name;
+    private boolean employee;
     private boolean active;
     private String sort;
 
-    private EmployeeTypeEnum(String code, String name, boolean active, String sort) {
+    private AffiliationTypeEnum(String code, String name, boolean employee, boolean active, String sort) {
         this.code = code;
         this.name = name;
+        this.employee = employee;
         this.active = active;
         this.sort = sort;
     }
@@ -49,6 +52,14 @@ public enum EmployeeTypeEnum {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public boolean isEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(boolean employee) {
+        this.employee = employee;
     }
 
     public String getName() {

@@ -13,26 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum EmployeeStatusEnum {
+public enum ExternalIdentifierTypeEnum {
 
-    ACTIVE("A", "Active", true, "1"),
-    DECEASED("D", "Deceased", true, "99"),
-    LEAVE("L", "On Non-Pay Leave", true, "4"),
-    NOT_PROCESSED("N", "Status Not Yet Processed", true, "3"),
-    PROCESSING("P", "Processing", true, "2"),
-    RETIRED("R", "Retired", true, "10"),
-    TERMINATED("T", "Terminated", true, "97");
+    TAX("TAX", "Tax Id", true, "01");
     private String code;
     private String name;
     private boolean active;
     private String sort;
 
-    private EmployeeStatusEnum(String code, String name, boolean active, String sort) {
+    private ExternalIdentifierTypeEnum(String code, String name, boolean active, String sort) {
         this.code = code;
         this.name = name;
         this.active = active;

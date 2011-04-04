@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum AffiliationTypeEnum {
+public enum EmailTypeEnum {
 
-    FACULTY("FCLTY", "Faculty", true, true, "b"),
-    STAFF("STAFF", "Staff", true, true, "c"),
-    STUDENT("STDNT", "Student", true, true, "a"),
-    AFFILIATE("AFLT", "Affiliate", true, true, "c");
+    HOME("HM", "Home", true, "b"),
+    WORK("WRK", "Work", true, "a"),
+    OTHER("OTH", "Other", true, "c");
     private String code;
     private String name;
-    private boolean employee;
     private boolean active;
     private String sort;
 
-    private AffiliationTypeEnum(String code, String name, boolean employee, boolean active, String sort) {
+    private EmailTypeEnum(String code, String name,boolean active, String sort) {
         this.code = code;
         this.name = name;
-        this.employee = employee;
         this.active = active;
         this.sort = sort;
     }
@@ -52,14 +49,6 @@ public enum AffiliationTypeEnum {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public boolean isEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(boolean employee) {
-        this.employee = employee;
     }
 
     public String getName() {

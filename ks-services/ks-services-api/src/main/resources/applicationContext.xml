@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
-    <bean id="mockPermissionService" class="org.kuali.student.kim.mock.MockPermissionServiceImpl" />
-    <bean id="mockIdentityService" class="org.kuali.student.kim.mock.MockIdentityServiceImpl" />
+    <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.MockPermissionServiceImpl" />
+    <bean id="mockIdentityService" class="org.kuali.student.kim.identity.mock.MockIdentityServiceImpl" />
 
 </beans>

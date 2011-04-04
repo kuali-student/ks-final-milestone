@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum EntityNameTypeEnum {
+public enum PhoneTypeEnum {
 
-    OTHER("OTH", "Other", true, "c"),
-    PREFERRED ("PRFR", "Preferred", true, "b"),
-    PRIMARY("PRM", "Primary", true, "a");
+    HOME("HM", "Home", true, "b"),
+    MOBILE("MBL", "Mobile", true, "c"),
+    WORK("WRK", "Work", true, "a"),
+    OTHER("OTH", "Other", true, "d");
     private String code;
     private String name;
     private boolean active;
     private String sort;
 
-    private EntityNameTypeEnum(String code, String name,boolean active, String sort) {
+    private PhoneTypeEnum(String code, String name, boolean active, String sort) {
         this.code = code;
         this.name = name;
         this.active = active;

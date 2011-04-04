@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum EmailTypeEnum {
+public enum EntityTypeEnum {
 
-    HOME("HM", "Home", true, "b"),
-    WORK("WRK", "Work", true, "a"),
-    OTHER("OTH", "Other", true, "c");
+    PERSON("PERSON", "Person", true, "01"),
+    SYSTEM("SYSTEM", "System", true, "02");
     private String code;
     private String name;
     private boolean active;
     private String sort;
 
-    private EmailTypeEnum(String code, String name,boolean active, String sort) {
+    private EntityTypeEnum(String code, String name, boolean active, String sort) {
         this.code = code;
         this.name = name;
         this.active = active;

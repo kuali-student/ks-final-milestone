@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.kim.mock;
+package org.kuali.student.kim.identity.mock;
 
 /**
  * @author nwright
  */
-public enum ExternalIdentifierTypeEnum {
+public enum EntityNameTypeEnum {
 
-    TAX("TAX", "Tax Id", true, "01");
+    OTHER("OTH", "Other", true, "c"),
+    PREFERRED ("PRFR", "Preferred", true, "b"),
+    PRIMARY("PRM", "Primary", true, "a");
     private String code;
     private String name;
     private boolean active;
     private String sort;
 
-    private ExternalIdentifierTypeEnum(String code, String name, boolean active, String sort) {
+    private EntityNameTypeEnum(String code, String name,boolean active, String sort) {
         this.code = code;
         this.name = name;
         this.active = active;
