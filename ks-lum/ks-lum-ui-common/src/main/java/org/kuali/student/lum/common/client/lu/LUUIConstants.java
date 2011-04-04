@@ -303,7 +303,11 @@ public class LUUIConstants {
     //Dependency Constants
     public static final String DEP_TYPE_CROSS_LISTED = "crossListed";
     public static final String DEP_TYPE_JOINT = "joint";
-    public static final String DEP_TYPE_COURSE_SET = "cluSet";        
+    public static final String DEP_TYPE_COURSE_SET = "cluSet";
+    public static final String DEP_SECTION_COURSE = "course";
+    public static final String DEP_SECTION_PROGRAM = "program";
+    public static final String DEP_SECTION_COURSE_SET = "courseSet";
+    
 
 }
 

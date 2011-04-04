@@ -167,4 +167,22 @@
  </bean>
  <bean id="freestanding.browse.courseCatalog.bySubjectAreaObject" parent="freestanding.browse.courseCatalog.bySubjectAreaObject-parent"/>
 
+	<!-- Depepdency Analaysis -->
+	<bean id="freestanding.dependency-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="dependency" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.dependency.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.dependency.courseId" parent="baseString">
+					<property name="name" value="courseId" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.dependency" parent="freestanding.dependency-parent" />
+
+
 </beans>

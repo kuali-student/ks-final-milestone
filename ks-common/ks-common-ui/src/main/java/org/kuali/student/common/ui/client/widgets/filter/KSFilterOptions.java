@@ -138,4 +138,10 @@ public class KSFilterOptions extends Composite{
     	}
     }
 
+    public void reset(){
+		for (KSCheckBox checkbox:filterItems){
+			checkbox.setValue(false);
+			isInitialSelect = true;
+		}
+    }
 }

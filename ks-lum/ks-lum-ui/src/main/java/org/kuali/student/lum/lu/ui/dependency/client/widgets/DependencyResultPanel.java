@@ -14,21 +14,24 @@ import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DependencyResultPanel extends FlowPanel{
+public class DependencyResultPanel extends Composite{
 
 	protected KSLabel headerLabel = new KSLabel();
 	
 	protected VerticalFieldLayout dependencySectionContainer = new VerticalFieldLayout();
 	
 	protected HashMap<String, DependencySection> dependencySections = new HashMap<String, DependencySection>();
+	
+	//Map of all dependency types in all sections, keyed by "Dependency Section Name"."Dependency Type Name"
 	protected HashMap<String, DependencyTypeSection> dependencyTypeSections = new HashMap<String, DependencyTypeSection>();
 
 	
 	public DependencyResultPanel(){
-		this.add(dependencySectionContainer);
+		this.initWidget(dependencySectionContainer);
 		dependencySectionContainer.addWidget(headerLabel);
 		dependencySectionContainer.addStyleName("ks-dependency-results");
 	}
@@ -101,15 +104,14 @@ public class DependencyResultPanel extends FlowPanel{
     	
     	//Don't show any sections that don't have dependencies
     	for (DependencySection section:dependencySections.values()){
-    		if (section.dependencyTypeSections.size() <= 0){
-    			section.setVisible(false);
-    		}
+   			section.setVisible(section.dependencyTypeSections.size() > 0);
     	}
     }
 
 	public static class DependencySection extends VerticalFieldLayout{
 		protected FlowPanel header = new FlowPanel(); 
 
+		//List of dependency types within this section
 		List<DependencyTypeSection> dependencyTypeSections = new ArrayList<DependencyTypeSection>();
 		
 		public DependencySection(String title){
@@ -139,6 +141,7 @@ public class DependencyResultPanel extends FlowPanel{
 			header.add(expandLabel);
 			header.add(new SpanPanel(" | "));
 			header.add(collapseLabel);
+						
 		}
 				
 		
@@ -161,6 +164,18 @@ public class DependencyResultPanel extends FlowPanel{
 			for (DependencyTypeSection typeSection:dependencyTypeSections){
 				typeSection.close();
 			}			
+		}
+		
+		protected void setVisibility(){
+			//If all children elements (dependency types) in this section is not visible, the entire
+			//section should not be showing.
+			int visibleCount = 0;
+			for (DependencyTypeSection typeSection:dependencyTypeSections){
+				if (typeSection.isVisible()){
+					visibleCount++;
+				}
+			}
+			this.setVisible(visibleCount > 0);
 		}
 	}
 
@@ -211,6 +226,42 @@ public class DependencyResultPanel extends FlowPanel{
 				depItem.close();
 			}			
 		}
+	}
+
+	public void hide(String dependencySection, String dependencyType){		
+		DependencyTypeSection typeSection = dependencyTypeSections.get(dependencySection + "." + dependencyType);
+		if (typeSection != null){
+			typeSection.setVisible(false);
+			DependencySection section = dependencySections.get(dependencySection);
+			section.setVisibility();
+		}
+	}
+	
+	public void show(String dependencySection, String dependencyType){
+		DependencyTypeSection typeSection = dependencyTypeSections.get(dependencySection + "." + dependencyType);
+		if (typeSection != null){
+			typeSection.setVisible(true);
+			DependencySection section = dependencySections.get(dependencySection);
+			section.setVisibility();			
+		}
+	}
+	
+	public void hideAll(){
+		for (DependencyTypeSection typeSection:dependencyTypeSections.values()){
+			typeSection.setVisible(false);
+		}
+		for (DependencySection section:dependencySections.values()){
+			section.setVisible(false);
+		}
+	}
+
+	public void showAll(){
+		for (DependencyTypeSection typeSection:dependencyTypeSections.values()){
+			typeSection.setVisible(true);
+		}
+		for (DependencySection section:dependencySections.values()){
+			section.setVisible(section.dependencyTypeSections.size() > 0);
+		}		
 	}
 
 }

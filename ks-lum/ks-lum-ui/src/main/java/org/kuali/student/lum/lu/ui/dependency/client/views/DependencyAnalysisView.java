@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.ui.dependency.client.views;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.search.dto.SearchParam;
@@ -31,7 +33,12 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.common.ui.client.widgets.filter.FilterEvent;
+import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
+import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
+import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -86,6 +93,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	protected String selectedCourseName;
 	
 	protected DependencyResultPanel depResultPanel;
+	protected KSFilterOptions dependencyFilter;
+	protected HorizontalBlockFlowPanel resultContainer = new HorizontalBlockFlowPanel();
 	
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 		
@@ -93,7 +102,7 @@ public class DependencyAnalysisView extends ViewComposite{
 		super(controller, "Dependency Analysis", DependencyViews.MAIN);
         this.initWidget(container);
         this.addStyleName("blockLayout");
-        this.addStyleName("ks-menu-layout-rightColumn");
+        this.addStyleName("ks-dependency-container");
 	}
 	
 	@Override
@@ -102,7 +111,7 @@ public class DependencyAnalysisView extends ViewComposite{
     		KSBlockingProgressIndicator.addTask(initializingTask);
 
     		//This loads search definitions for the dependency analysis search 
-            metadataServiceAsync.getMetadata("search", null, null, new KSAsyncCallback<Metadata>(){
+            metadataServiceAsync.getMetadata("dependency", null, null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -148,11 +157,12 @@ public class DependencyAnalysisView extends ViewComposite{
     				KSBlockingProgressIndicator.addTask(loadDataTask);
                 	selectedCourseCd = triggerPicker.getDisplayValue();                
 	                if (depResultPanel != null){
-	                	container.remove(depResultPanel);
+	                	resultContainer.remove(depResultPanel);
 	                }
 	                depResultPanel = new DependencyResultPanel();
 	                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
-	                container.add(depResultPanel);
+	                resultContainer.add(depResultPanel);
+	                resultContainer.setVisible(true);
 	                updateDependencyResults();
                 }
 			}
@@ -173,7 +183,42 @@ public class DependencyAnalysisView extends ViewComposite{
 		//Add widgets to view
 		container.setTitleWidget(header);
 		container.addStyleName("blockLayout");
-        container.addWidget(searchPanel);				
+        container.addWidget(searchPanel);
+        
+        List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
+        metaData = searchDefinition.getMetadata("filter");
+        lookups.add(metaData.getInitialLookup());
+        
+        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups());
+        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
+
+			@Override
+			public void onDeselect(FilterEvent e) {
+				depResultPanel.hide(e.getFilterKey(), e.getFilterValue());
+			}
+
+			@Override
+			public void onSelect(FilterEvent e) {
+				if (e.isInitialSelect()){
+					depResultPanel.hideAll();
+				}
+				depResultPanel.show(e.getFilterKey(), e.getFilterValue());			
+			}
+        	
+        });
+        
+        dependencyFilter.addFilterResetEventHandler(new FilterResetEventHandler(){
+
+			@Override
+			public void onReset() {
+				depResultPanel.showAll();				
+			}        	
+        });
+        
+        resultContainer.add(dependencyFilter);
+        resultContainer.setVisible(false);
+        
+        container.addWidget(resultContainer);
 	}
 
 	/*
@@ -182,11 +227,12 @@ public class DependencyAnalysisView extends ViewComposite{
 	 */
 	protected void updateDependencyResults(){
 		//Setup up sections for DependencyResultPanel		
-		depResultPanel.addSection("courses","Course Dependencies");		
-		depResultPanel.addSection("programs","Program Dependencies");
-		depResultPanel.addSection("course sets", "Course Set Inclusions");		
+		depResultPanel.addSection(LUUIConstants.DEP_SECTION_COURSE,"Course Dependencies");		
+		depResultPanel.addSection(LUUIConstants.DEP_SECTION_PROGRAM,"Program Dependencies");
+		depResultPanel.addSection(LUUIConstants.DEP_SECTION_COURSE_SET, "Course Set Inclusions");		
 			
-
+		dependencyFilter.reset();
+		
 		//Setup and invoke the dependency analysis search and process the results
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("lu.search.dependencyAnalysis");
@@ -225,17 +271,17 @@ public class DependencyAnalysisView extends ViewComposite{
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.cluType")){
 							cluType = searchResultCell.getValue();
 							if (cluType.equals(LUUIConstants.CLU_TYPE_CREDIT_COURSE)){
-								dependencySectionKey = "courses";
+								dependencySectionKey = LUUIConstants.DEP_SECTION_COURSE;
 							} else if (cluType != null){
-								dependencySectionKey = "programs";
+								dependencySectionKey = LUUIConstants.DEP_SECTION_PROGRAM;
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyType")){
 							dependencyType = searchResultCell.getValue();
 							if (dependencyType.equals("cluSet")){
-								dependencySectionKey = "course sets";
+								dependencySectionKey = LUUIConstants.DEP_SECTION_COURSE_SET;
 							} else if (LUUIConstants.DEP_TYPE_JOINT.equals(dependencyType) || 
 										LUUIConstants.DEP_TYPE_CROSS_LISTED.equals(dependencyType)){
-								dependencySectionKey = "courses";
+								dependencySectionKey = LUUIConstants.DEP_SECTION_COURSE;;
 							}
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyTypeName")){
 							dependencyTypeName = searchResultCell.getValue();
@@ -288,7 +334,7 @@ public class DependencyAnalysisView extends ViewComposite{
 			simpleRequirement.addStyleName("KS-Dependency-Simple-Rule");
 			
 			//For programs, add ability to display both the simple requirement and complex requirement for the details
-			if (dependencySectionKey.equals("programs")){
+			if (LUUIConstants.DEP_SECTION_PROGRAM.equals(dependencySectionKey)){
 				final KSButton complexReqLabel = new KSButton("Display complex requirement", ButtonStyle.DEFAULT_ANCHOR);
 				final KSButton simpleReqLabel = new KSButton("Display simple requirement", ButtonStyle.DEFAULT_ANCHOR);
 				

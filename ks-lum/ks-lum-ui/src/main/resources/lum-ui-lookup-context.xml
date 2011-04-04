@@ -235,6 +235,87 @@
             ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
  </bean>
 
+
+ <bean id="dependency.filter" parent="uilookupconfig-parent">
+  <property name="path" value="dependency.filter" />
+  <property name="initialLookup" ref="kuali.lu.dependency.filter.courseDependencies" />
+  <property name="additionalLookups">
+  	<list>
+  		<ref bean="kuali.lu.dependency.filter.courseDependencies"/>
+  		<ref bean="kuali.lu.dependency.filter.programDependencies"/>
+  		<ref bean="kuali.lu.dependency.filter.courseSetDependencies"/>
+  	</list> 
+   </property>
+ </bean>
+ 
+ <bean id="kuali.lu.dependency.filter.courseDependencies" parent="kuali.lu.dependency.filter-parent">
+    <property name="id" value="course" />
+	<property name="title" value="Courses"/>
+	<property name="params">
+		<list>
+			<bean parent="filterParam-parent">
+				<property name="defaultValueString" value="kuali.dependency.course.types" />
+			</bean>
+		</list>
+	</property>		
+ </bean>
+
+  <bean id="kuali.lu.dependency.filter.programDependencies" parent="kuali.lu.dependency.filter-parent">
+    <property name="id" value="program" />
+	<property name="title" value="Programs"/>
+	<property name="params">
+		<list>
+			<bean parent="filterParam-parent">
+				<property name="defaultValueString" value="kuali.dependency.program.types" />
+			</bean>
+		</list>
+	</property>		
+ </bean>
+ 
+  <bean id="kuali.lu.dependency.filter.courseSetDependencies" parent="kuali.lu.dependency.filter-parent">
+    <property name="id" value="courseSet" />
+	<property name="title" value="Course Sets"/>
+	<property name="params">
+		<list>
+			<bean parent="filterParam-parent">
+				<property name="defaultValueString" value="kuali.dependency.courseSet.types" />
+			</bean>
+		</list>
+	</property>		
+ </bean>
+ 
+ <bean id="kuali.lu.dependency.filter-parent" class="org.kuali.student.common.assembly.data.UILookupData" abstract="true">
+    <property name="id" value="course" />
+	<property name="title" value="Courses"/>
+  	<property name="widget" value="CHECKBOX_LIST" />	
+	<property name="resultDisplayKey" value="enumeration.resultColumn.value" />
+	<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+	<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	<property name="usage" value="DEFAULT" />
+	<property name="searchTypeId" value="enumeration.management.search" />		
+ </bean>
+ 
+<bean id="filterParam-parent" parent="param" abstract="true">
+	<property name="key" value="enumeration.queryParam.enumerationType" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="name" value="Enumeration Type" />
+	<property name="desc" value="The type of the enumeration to search" />
+	<property name="caseSensitive" value="true" />
+</bean>
+ 
+ 
+ <bean id="dependency.courseId" parent="uilookupconfig-parent">
+  <property name="path" value="dependency.courseId" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.findCourse.advanced" />   
+   </list>
+  </property>
+ </bean>
+
  <bean id="search.courseId" parent="uilookupconfig-parent">
   <property name="path" value="search.courseId" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
