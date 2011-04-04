@@ -587,6 +587,13 @@ a.KS-Program-Rule-ObjectView-Button{
 	padding-left: 15px;
 }
 
+.ks-dependency-container{
+	display:inline-block;
+	padding-left:20px;
+	white-space:normal;
+	width:950px;
+}
+
 .ks-dependency-search{	
 	background: #f1f1f2;
 	padding: 15px;
@@ -596,8 +603,10 @@ a.KS-Program-Rule-ObjectView-Button{
     margin-right: 10px;
 }
 
-.ks-dependency-results{
-	
+.ks-dependency-results{	
+	width: 730px;
+	margin-left: 15px;
+	margin-top: 15px;	
 }
 
 .ks-dependency-oversight{
@@ -655,3 +664,18 @@ a.KS-Program-Rule-ObjectView-Button{
 	background: #f1f1f2;
 }
 
+.KS-Filter-Options-Parent-Container{
+	border: 1px solid #E8E8E8;
+	background: #F8F8F8;
+	margin-top: 15px;
+	width: 200px;	
+}
+
+.KS-Filter-Options-Title-Panel{
+	padding: 5px;
+}
+
+.KS-Filter-Item-Label{
+	background: #D0D0D0;
+	padding: 5px;
+}
