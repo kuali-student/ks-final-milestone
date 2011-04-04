@@ -19,5 +19,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/GwtExportRpcService")
 public interface GwtExportRpcService extends RemoteService {
 
-    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat);
+    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle);
 }

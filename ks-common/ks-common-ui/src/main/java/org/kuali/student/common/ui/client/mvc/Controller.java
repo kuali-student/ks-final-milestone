@@ -560,7 +560,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(ArrayList<ExportElement> exportElements, final String format) {        
+    public void doReportExport(ArrayList<ExportElement> exportElements, final String format, final String reportTitle) {        
      // Service call...
     	final BlockingTask loadDataTask = new BlockingTask("Generating Export File");
         
@@ -574,7 +574,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         // we want to show that something is happening while the files are generated.
         KSBlockingProgressIndicator.addTask(loadDataTask);
         
-        reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, new KSAsyncCallback<String>() {
+        reportExportRpcService.reportExport(exportElements, modelDataObject, getExportTemplateName(), format, reportTitle, new KSAsyncCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         // On success get documentID back from GWT Servlet//

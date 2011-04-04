@@ -32,7 +32,6 @@ public class ExportDocumentDownload extends HttpServlet {
 
     void sendPDF(HttpServletResponse response, byte[] bytes, String format) throws IOException {
         ServletOutputStream stream = response.getOutputStream();
-        System.out.println(bytes);
         if (format.equals(ExportUtils.PDF)) {
             response.setContentType("application/pdf");
             response.addHeader("Content-Type", "application/pdf");
@@ -44,13 +43,7 @@ public class ExportDocumentDownload extends HttpServlet {
             response.addHeader("Content-Disposition", "inline; filename=export.doc");
             response.setContentLength((int) bytes.length);
         }
-        System.out.println(bytes.length);
         stream.write(bytes);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         stream.close();
     }
 }

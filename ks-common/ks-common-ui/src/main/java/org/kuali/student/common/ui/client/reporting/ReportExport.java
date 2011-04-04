@@ -23,7 +23,7 @@ public interface ReportExport {
      * This method can be overwritten on a subclass to do specific export to the specific view
      * 
      */    
-    public void doReportExport(ArrayList<ExportElement> exportElements, String format);
+    public void doReportExport(ArrayList<ExportElement> exportElements, String format, String reportTitle);
 
     /**
      * 

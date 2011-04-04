@@ -102,8 +102,9 @@ public class ExportUtils {
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
 //        System.out.println("currentController is /:" + currentController.getClass().getName());
         exportElements = currentController.getExportElementsFromView();
+        String reportTitle = "Report Title";
         if (exportElements != null && exportElements.size() > 0) {
-            currentController.doReportExport(exportElements, format);
+            currentController.doReportExport(exportElements, format, reportTitle);
         }
     }
 

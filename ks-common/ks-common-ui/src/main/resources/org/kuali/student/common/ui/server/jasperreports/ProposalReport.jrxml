@@ -5,7 +5,8 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
-	<field name="value" class="java.lang.String"/>
+	<field name="originalValue" class="java.lang.String"/>
+	<field name="proposalValue" class="java.lang.String"/>
 	<title>
 		<band height="30">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
@@ -27,14 +28,14 @@
 	<detail>
 		<band height="62">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="198" y="11" width="317" height="15"/>
+				<reportElement positionType="Float" x="319" y="11" width="196" height="15"/>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
 			</textField>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="37" width="515" height="24"/>
@@ -46,8 +47,18 @@
 				<dataSourceExpression><![CDATA[$P{REPORT_DATA_SOURCE}]]></dataSourceExpression>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
 			</subreport>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="123" y="11" width="196" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement x="198" y="26" width="317" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
+				<reportElement x="123" y="25" width="392" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid"/>
 				</graphicElement>

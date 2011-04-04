@@ -24,6 +24,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface GwtExportRpcServiceAsync {
     
-    public void reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, AsyncCallback<String> callback);
+    public void reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle, AsyncCallback<String> callback);
     
 }

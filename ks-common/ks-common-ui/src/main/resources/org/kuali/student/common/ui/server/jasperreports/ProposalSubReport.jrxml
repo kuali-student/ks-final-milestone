@@ -5,11 +5,12 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="key" class="java.lang.String"/>
-	<field name="value" class="java.lang.String"/>
+	<field name="proposalValue" class="java.lang.String"/>
 	<field name="sub" class="java.lang.Boolean"/>
 	<field name="subset" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="mandatory" class="java.lang.Boolean"/>
 	<field name="sectionName" class="java.lang.String"/>
+	<field name="originalValue" class="java.lang.String"/>
 	<group name="Section">
 		<groupExpression><![CDATA[$F{sectionName}]]></groupExpression>
 		<groupHeader>
@@ -25,7 +26,7 @@
 				<line>
 					<reportElement x="0" y="19" width="515" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
 					<graphicElement>
-						<pen lineWidth="0.5" lineStyle="Dotted"/>
+						<pen lineWidth="0.5" lineStyle="Solid"/>
 					</graphicElement>
 				</line>
 			</band>
@@ -41,7 +42,7 @@
 		<band height="15">
 			<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="0" y="0" width="198" height="15">
+				<reportElement positionType="Float" x="0" y="0" width="123" height="15">
 					<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="5" rightPadding="0">
@@ -57,14 +58,24 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{mandatory}==true ? $F{key} + "<font color=\"red\"> *</font>" : $F{key}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="198" y="0" width="317" height="15"/>
+				<reportElement positionType="Float" x="319" y="0" width="196" height="15"/>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="123" y="0" width="196" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="19">

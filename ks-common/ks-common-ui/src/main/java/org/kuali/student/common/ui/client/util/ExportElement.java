@@ -40,7 +40,10 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue() {
-        return fieldValue;
+        if (fieldValue != null) {
+            return fieldValue;
+        }
+        return "";
     }
 
     public void setFieldValue(String fieldValue) {
@@ -49,13 +52,6 @@ public class ExportElement implements Serializable {
 
     public String getKey() {
         return fieldLabel;
-    }
-
-    public String getValue() {
-        if (fieldValue != null) {
-            return fieldValue;
-        }
-        return "";
     }
 
     public boolean isSub() {
@@ -87,6 +83,18 @@ public class ExportElement implements Serializable {
 
     public void setFieldValue2(String fieldValue2) {
         this.fieldValue2 = fieldValue2;
+    }
+
+    public String getValue() {
+        return this.getFieldValue();
+    }
+
+    public String getProposalValue() {
+        return this.getFieldValue();
+    }
+
+    public String getOriginalValue() {
+        return this.getFieldValue2();
     }
 
 }

@@ -29,7 +29,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
     private ScreenReportProcessor reportProcessor = new JasperScreenReportProcessorImpl();
 
     @Override
-    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat) {
+    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
         String exportId = null;
         boolean exportBasedOnView = true; // TODO Nina do we want this as a system Property??
         try {
@@ -40,13 +40,13 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
             logger.info("Template Name = " + templateName + " For format = " + exportFormat);
             byte[] exportOutput = null;
             if (exportBasedOnView) {
-                exportOutput = exportBasedOnView(exportElements, templateName, exportFormat, exportOutput);
+                exportOutput = exportBasedOnView(exportElements, templateName, exportFormat, reportTitle);
 
             } else {
-                exportOutput = exportBasedOnDataModel(root, templateName, exportFormat, exportOutput);
+                exportOutput = exportBasedOnDataModel(root, templateName, exportFormat, reportTitle);
             }
             exportId = this.getExportId();
-            logger.info("Export succesful - Export ID = " + exportId);            
+            logger.info("Export succesful - Export ID = " + exportId);
             getThreadLocalRequest().getSession(true).setAttribute(exportId, exportOutput);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -55,23 +55,21 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
         return exportId;
     }
 
-    private byte[] exportBasedOnDataModel(Data root, String templateName, String exportFormat, byte[] exportOutput) {
+    private byte[] exportBasedOnDataModel(Data root, String templateName, String exportFormat, String reportTitle) {
+        byte[] exportOutput = null;
         if (exportFormat.equals(ExportUtils.PDF)) {
-            exportOutput = reportProcessor.createPdf(root, templateName, "Screen Report");
+            exportOutput = reportProcessor.createPdf(root, templateName, reportTitle);
         } else if (exportFormat.equals(ExportUtils.DOC)) {
-            exportOutput = reportProcessor.createDoc(root, templateName, "Screen Report");
+            exportOutput = reportProcessor.createDoc(root, templateName, reportTitle);
 
         } else if (exportFormat.equals(ExportUtils.XLS)) {
-            exportOutput = reportProcessor.createXls(root, templateName, "Screen Report");
+            exportOutput = reportProcessor.createXls(root, templateName, reportTitle);
         }
         return exportOutput;
     }
 
-    private byte[] exportBasedOnView(ArrayList<ExportElement> exportElements, String templateName, String exportFormat, byte[] exportOutput) {
-        String reportTitle = "";
-        if (exportElements != null && exportElements.size() > 0) {
-            reportTitle = exportElements.get(0).getViewName();
-        }
+    private byte[] exportBasedOnView(ArrayList<ExportElement> exportElements, String templateName, String exportFormat, String reportTitle) {
+        byte[] exportOutput = null;
         if (exportFormat.equals(ExportUtils.PDF)) {
             exportOutput = reportProcessor.createPdf(exportElements, templateName, reportTitle);
         } else if (exportFormat.equals(ExportUtils.DOC)) {

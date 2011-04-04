@@ -79,7 +79,8 @@ public class TestScreenReport {
         
         ExportElement element0 = new ExportElement();
         element0.setFieldLabel("My label");
-        element0.setFieldValue("My value");
+        element0.setFieldValue("Proposal");
+        element0.setFieldValue2("Original Course");
         dataList.add(element0);
 
         ExportElement element1 = new ExportElement();
@@ -98,6 +99,7 @@ public class TestScreenReport {
         element3.setSectionName("Section 1");
         element3.setFieldLabel("Third label");
         element3.setFieldValue("Third value");
+        element3.setFieldValue2("Third value O");
         dataList.add(element3);
 
         List<ExportElement> subElements = new ArrayList<ExportElement>();
@@ -105,12 +107,14 @@ public class TestScreenReport {
         subElement1.setSectionName("Subsection");
         subElement1.setFieldLabel("First sublabel");
         subElement1.setFieldValue("First subvalue");
+        subElement1.setFieldValue2("First subvalue O");
         subElements.add(subElement1);
 
         ExportElement subElement2 = new ExportElement();
         subElement1.setSectionName("Subsection");
         subElement2.setFieldLabel("Second sublabel");
         subElement2.setFieldValue("Second subvalue");
+        subElement2.setFieldValue2("Second subvalue");
         subElements.add(subElement2);
 
         ExportElement element4 = new ExportElement();
@@ -123,12 +127,14 @@ public class TestScreenReport {
         element5.setSectionName("Section 2");
         element5.setFieldLabel("5th label");
         element5.setFieldValue("5th value");
+        element5.setFieldValue2("5th value");
         dataList.add(element5);
         
         ExportElement element6 = new ExportElement();
         element6.setSectionName("Section 2");
         element6.setFieldLabel("6th label");
         element6.setFieldValue("6th value");
+        element6.setFieldValue2("6th value");
         element6.setMandatory(true);
         dataList.add(element6);
 
@@ -157,6 +163,11 @@ public class TestScreenReport {
         bytes = processor.createPdf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
         printToFile(bytes, "c:\\dataList.pdf");
+        Assert.assertTrue(bytes.length > 0);
+        
+        bytes = processor.createPdf(dataList, "proposal.template", "Course Information");
+        Assert.assertNotNull(bytes);
+        printToFile(bytes, "c:\\dataList2.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataList, "base.template", "Course Information");

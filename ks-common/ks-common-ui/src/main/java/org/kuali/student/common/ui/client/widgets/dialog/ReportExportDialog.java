@@ -46,7 +46,7 @@ public class ReportExportDialog {
 
         // Add radiobutton to layout panel.
         HorizontalBlockFlowPanel radioPanel = new HorizontalBlockFlowPanel();
-        radioPanel.setHeight("70px");
+        radioPanel.setHeight("90px");
         SimpleListItems formatList = new SimpleListItems();
         formatList.addItem(ExportUtils.PDF, this.getMessage("pdfFormat"));
         formatList.addItem(ExportUtils.DOC, this.getMessage("docFormat"));
@@ -59,8 +59,8 @@ public class ReportExportDialog {
         this.addCancelCompleteCallback();
         layout.add(actionButtons);
 
-        dialog.setMaxHeight(250);
-        dialog.setMaxWidth(300);
+        dialog.setMaxHeight(200);
+        dialog.setMaxWidth(250);
     }
 
     public void show() {
