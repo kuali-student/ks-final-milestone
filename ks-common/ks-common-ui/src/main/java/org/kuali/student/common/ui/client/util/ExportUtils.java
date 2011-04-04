@@ -18,7 +18,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -28,8 +27,8 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableMode
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
-
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.WidgetCollection;
@@ -40,6 +39,7 @@ public class ExportUtils {
     public static final String XLS = "XLS";
 
     public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue) {
+        ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
         String fieldValue = null;
         if (fieldWidget instanceof HasText) {
             HasText itemHasTextValue = (HasText) fieldWidget;
@@ -64,16 +64,26 @@ public class ExportUtils {
         } else if (fieldWidget instanceof ListBox) {
             ListBox listBox = (ListBox) fieldWidget;
             fieldValue = listBox.getItemText(listBox.getSelectedIndex());
-        } else {
+        } else if (fieldWidget instanceof FlowPanel) {
+                subExportElements = ExportUtils.getDetailsForWidget(fieldWidget, subExportElements, "", "");
+                for (int k = 0; k < subExportElements.size(); k++) {
+                    System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
+                }
+        } else
+        {
             // logger.warn(exportItem.getFieldLabel() + " Fieldwidget not catered for : class type = " +
             // fieldWidget.getClass().getName());
-        }
+        } 
         if (setFirstFieldValue) {
             exportItem.setFieldValue(fieldValue);
         } else {
             exportItem.setFieldValue2(fieldValue);
         }
-//        System.out.println(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue() + " fieldValue2 : " + exportItem.getFieldValue2());
+        if (subExportElements != null && subExportElements.size() > 0) {
+            exportItem.setSubset(subExportElements);
+        }
+
+        //        System.out.println(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue() + " fieldValue2 : " + exportItem.getFieldValue2());
         return exportItem;
     }
 
