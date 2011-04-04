@@ -8,6 +8,10 @@
         <property name="persistenceUnitName" value="persistentUnit"/>
     </bean>
 
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
     <tx:annotation-driven/>
 
     <bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

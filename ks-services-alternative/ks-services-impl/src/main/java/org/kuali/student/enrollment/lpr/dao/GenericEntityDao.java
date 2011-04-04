@@ -4,6 +4,8 @@ import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -13,12 +15,15 @@ import java.util.List;
 /**
  * @author Igor
  */
-public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
+public class GenericEntityDao<T> implements EntityDao<T> {
 
     /**
      * Entity class.
      */
-    private Class<T> entityClass;
+    protected Class<T> entityClass;
+
+    @PersistenceContext
+    protected EntityManager em;
 
     public GenericEntityDao() {
         entityClass = getEntityClass();
@@ -26,7 +31,7 @@ public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
 
     @Override
     public T find(Serializable primaryKey) {
-        return getJpaTemplate().find(entityClass, primaryKey);
+        return em.find(entityClass, primaryKey);
     }
 
     @Override
@@ -40,27 +45,27 @@ public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
 
     @Override
     public List<T> findAll() {
-        return (List<T>) getJpaTemplate().find("from " + entityClass.getSimpleName());
+        return (List<T>) em.createQuery("from " + entityClass.getSimpleName()).getResultList();
     }
 
     @Override
     public void persist(T entity) {
-        getJpaTemplate().persist(entity);
+        em.persist(entity);
     }
 
     @Override
     public void update(T entity) {
-        getJpaTemplate().refresh(entity);
+        em.refresh(entity);
     }
 
     @Override
     public void remove(T entity) {
-        getJpaTemplate().remove(entity);
+       em.remove(entity);
     }
 
     @Override
     public <T> T merge(T entity) {
-        return getJpaTemplate().merge(entity);
+        return em.merge(entity);
     }
 
     @SuppressWarnings("unchecked")
@@ -80,5 +85,9 @@ public class GenericEntityDao<T> extends JpaDaoSupport implements EntityDao<T> {
         } else {
             throw new IllegalArgumentException("Could not guess entity type by reflection.");
         }
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 }

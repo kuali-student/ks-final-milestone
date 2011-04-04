@@ -2,18 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-     <import resource="classpath:services-commons.xml"/>
+    <import resource="classpath:services-commons.xml"/>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.lpr.dao.LprDao">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.lpr.dao.LprTypeDao">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="lprTypeDao" class="org.kuali.student.enrollment.lpr.dao.LprTypeDao"/>
 
-    <bean id="lprStateDao" class="org.kuali.student.enrollment.lpr.dao.LprStateDao">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="lprStateDao" class="org.kuali.student.enrollment.lpr.dao.LprStateDao"/>
 
 </beans>
