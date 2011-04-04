@@ -9,7 +9,6 @@ package org.kuali.student.common.infc;
 
 
 /**
- * 
  * Detailed Information about a Type 
  * 
  * @author Kuali Student Team (Kamal)
@@ -18,25 +17,29 @@ package org.kuali.student.common.infc;
 public interface TypeInfc extends HasKey, HasAttributes, HasEffectiveDates {
 
     /**
+     * Name: name
+     *
      * Friendly name of the Type
-     * 
-     * Type: string 
      */
     public String getName();
 
     /**
+     * Name: description
+     *
      * Narrative description of the type
-     * 
-     * Type: RichTextInfo 
      */
     public String getDescr();        
         
     /**
-     * The Object URI to which the Type belongs. E.g http://stduent.kuali.org/LuService/CluInfo will be the objectTypeURI for type 'kuali.lu.type.CreditCourse'
-     * 
-     * Type: string
-     * 
-     * @return
+     * Name: Reference Object URI
+     *
+     * The Object URI to which the Type belongs.
+     * E.g http://stduent.kuali.org/LuService/CluInfo will be the objectTypeURI for type 'kuali.lu.type.CreditCourse'
+     * The refObjectURI has three parts:<ol>
+     * <li>http://stduent.kuali.org/ -- which is fixed
+     * <li>LuService -- which should match the namespace of the service in which the object is defined
+     * <li>CluInfo -- which should match the java class's simple name
+     * </ol>
      */
     public String getRefObjectURI();
     

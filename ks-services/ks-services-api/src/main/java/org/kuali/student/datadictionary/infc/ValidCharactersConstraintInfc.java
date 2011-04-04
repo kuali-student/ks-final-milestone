@@ -16,37 +16,37 @@
 package org.kuali.student.datadictionary.infc;
 
 /**
- * Valid characters constraint
+ * Constraint that applied a regular expression to check if the characters are valid
  *
  * @author nwright
  */
 public interface ValidCharactersConstraintInfc extends BaseConstraintInfc {
 
 	 /**
+      * Name: Value
+      *
      * The Java based regex for valid characters
       * There are two forms:
       * regex:xxxxx
-      * and
+      * and just
       * xxxx
       *
       * If the 2nd form then it is interpreted as a simple list of valid characters.
       *
       * Note: it is actualy converted to a regular expression by wrapping it in [].
-      * 
-     * @return the value
      */
     public String getValue();
 
 
 
 	/**
+     * Name: Java Script Value
+     *
 	 * Javascript version of the regex defined in value.  This does not have to be set if this constraint's
 	 * key maps to one of the default valid character methods contained in jQuery - (insert that list here).
 	 * This must be set if there is NO default method that matches the label key and applyClientSide is true.
 	 *
 	 * This is completely ignored if applyClientSide is set to false.
-	 *
-	 * @return the jsValue
 	 */
 	public String getJsValue();
 

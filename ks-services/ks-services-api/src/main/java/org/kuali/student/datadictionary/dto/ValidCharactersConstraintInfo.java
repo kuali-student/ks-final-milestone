@@ -21,11 +21,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.datadictionary.infc.ValidCharactersConstraintInfc;
 
-/**
- * This is an info ojbect that holds a valid characters definition
- *
- * @author nwright
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidCharactersConstraintInfo implements ValidCharactersConstraintInfc, Serializable {
 

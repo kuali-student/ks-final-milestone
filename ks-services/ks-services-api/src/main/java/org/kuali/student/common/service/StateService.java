@@ -21,8 +21,9 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 
 /**
- * Provides a read-only view of states and state flow information. This service needs to be implemented by any KS service that is
- * going to handle states
+ * Provides a read-only view of states and state flow information. 
+ * 
+ * This service needs to be implemented by any KS service that is going to handle states
  * 
  * @author kamal
  */
@@ -49,7 +50,7 @@ public interface StateService {
      *  
      * This method returns information about a state for a given process. State keys can be reused and state key along with process key uniquely identifies the state instance within a process. 
      * 
-     * @param processKey Key of the state
+     * @param processKey Key identifying the process
      * @param stateKey Key of the state
      * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return Information about the state
@@ -63,7 +64,7 @@ public interface StateService {
     /**
      * This method returns a list of States that belong to a process. For e.g Clu states for clu proposal process
      * 
-     * @param processKey 
+     * @param processKey Key identifying the process
      * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of StateInfo objects associated with the process
      * @throws DoesNotExistException processKey not found
@@ -74,11 +75,15 @@ public interface StateService {
     public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns a list of StateInfo objects that are valid initial states for a given process. 
+     * This method returns a list of StateInfo objects that are valid initial states for a given process.
+     *
+     * Often there will be just a single initial valid state.
+     *
+     * ? if more than one does the order matter? i.e. the 1st one returned should be the default but others still allowed?
      * 
      * @param processKey Process key 
      * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return
+     * @return list of states are valid for the given process
      * @throws DoesNotExistException processKey not found
      * @throws InvalidParameterException invalid processKey
      * @throws MissingParameterException missing processKey

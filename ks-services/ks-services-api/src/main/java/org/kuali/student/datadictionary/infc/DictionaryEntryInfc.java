@@ -18,39 +18,49 @@ package org.kuali.student.datadictionary.infc;
 import java.util.List;
 
 /**
- * Adds the fields that are on the 
+ * This is an info ojbect that contains the dictionary information about an
+ * object known to the system
+ *
  * @author nwright
  */
 public interface DictionaryEntryInfc  {
 
     /**
+     * Name: Object Class
+     *
      * The class of the object to which this dictionary entry refers
      * @return the objectClass
      */
     public String getObjectClass();
 
     /**
+     * Name: Name
+     *
      * get Name
      */
     public String getName();
 
     /**
-     *   The objectLabel provides a short name of the business
-     *   object for use on help screens.
+     * Name: Object Label
+     *
+     * The object label provides a short name of the business
+     * object for use on help screens.
      *
      * @param objectLabel The objectLabel to set.
      */
     public String getObjectLabel();
 
     /**
-     *  The objectDescription provides a brief description
-     *  of the business object for use on help screens.
+     * Name: Object Description
      *
-     * @param description The description to set.
+     * The object description provides a brief description
+     * of the business object for use on help screens.
      */
     public String getObjectDescription();
 
     /**
+     * Name: Title Attribute
+     *
      * The titleAttribute element is the name of the attribute that
      * will be used as an inquiry field when the lookup search results
      * fields are displayed.
@@ -62,6 +72,8 @@ public interface DictionaryEntryInfc  {
     public String getTitleAttribute();
 
     /**
+     * Name: Prmary Keys
+     *
      * The primary key(s) associatd with the object.
      *
      * TODO: determine how/if this works with the than the "unique" flag on attribute definition
@@ -72,8 +84,9 @@ public interface DictionaryEntryInfc  {
     public List<String> getPrimaryKeys();
 
     /**
-     * get Attribute Definitions
+     * Name: Attribute Defiitions
      *
+     * Get the definitions of the attributes (fields) on the object
      */
     public List<? extends AttributeDefinitionInfc> getAttributes();
 }

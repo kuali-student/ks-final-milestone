@@ -61,41 +61,31 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
     	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
 	}
 	
-    /**
-     * @return the key
-     */
+
     @Override
     public String getKey() {
         return key;
     }
 
-    /**
-     * @return the name
-     */
+
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @return the descr
-     */
+
     @Override
     public String getDescr() {
         return descr;
     }
 
-    /**
-     * @return the effectiveDate
-     */
+
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    /**
-     * @return the expirationDate
-     */
+
     @Override
     public Date getExpirationDate() {
         return expirationDate;

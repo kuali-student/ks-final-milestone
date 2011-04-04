@@ -43,8 +43,16 @@ public interface DataDictionaryService {
     /**
      * Get the list of entry keys in this dictionary
      *
+     * The list of keys is stored in the ref object URI strcture
+     * E.g http://stduent.kuali.org/LuService/CluInfo will be the objectTypeURI for the CluInfo structure
+     * The refObjectURI has three parts:<ol>
+     * <li>http://stduent.kuali.org/ -- which is fixed
+     * <li>LuService -- which should match the namespace of the service in which the object is defined
+     * <li>CluInfo -- which should match the java class's simple name
+     * </ol>
+     *
      * @param context information about the user and locale
-     * @return a list of all the known data dictionary entry keys
+     * @return a list of all the known data dictionary entry keys in the ref object URI structure.
      * @throws OperationFailedException if could not complete the operation
      * @throws MissingParameterException if entryKey is null
      * @throws PermissionDeniedException if user does not have permission to call this method
@@ -57,7 +65,8 @@ public interface DataDictionaryService {
     /**
      * Get the data dictionary entry for the specified entry key
      * 
-     * @param entryKey
+     * @param entryKey that identifies the dictionary entry, this is done by specifying
+     *        a refObjectURI
      * @param context information about the user and locale
      * @return the data dictionary entry key
      * @throws OperationFailedException if could not complete the operation

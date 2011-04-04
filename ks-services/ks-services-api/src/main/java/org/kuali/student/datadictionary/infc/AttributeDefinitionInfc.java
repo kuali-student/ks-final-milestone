@@ -25,6 +25,8 @@ import org.kuali.rice.kns.datadictionary.validation.DataType;
 public interface AttributeDefinitionInfc {
 
     /**
+     * Name: Name
+     *
      * The name of the attribute (or field).
      *
      * Should match the field name on the corresponding business object.
@@ -36,16 +38,23 @@ public interface AttributeDefinitionInfc {
     public String getName();
 
     /**
-     * @return the childEntryName
+     * Name: child entry name
+     *
+     * deprecated
      */
     public String getChildEntryName();
 
     /**
-     * @return the dataType
+     * Name: Data Type
+     *
+     * The type of data this attribite (field) holds.
+     * I.e. STRING, INTEGER, DATE, LONG, DATETIME, COMPLEX, etc.
      */
     public DataType getDataType();
 
     /**
+     * Name: Required
+     *
      * The required element allows values of "true" or "false". A value of
      * "true" indicates that a value must be entered for this business object
      * when creating or editing a new business object.
@@ -53,42 +62,50 @@ public interface AttributeDefinitionInfc {
     public Boolean isRequired();
 
     /**
-     * MinOccurs
+     * Name: Minimum Occurences
+     *
+     * The minimum number of allowed occurences
      *
      * TODO: get Rice to rename this to getMinOccurs to it matches the setter.
-     *
-     * @return the minOccurs
      */
     public Integer getMinOccurs();
 
     /**
-     * MaxOccurs
+     * Name: Maximum Occurrences
+     *
+     * The maximum number of allowed occurences of this field
      *
      * TODO: Get RICE to rename this getMaxOccurs so it matches the setter
      * TODO: Get RICE to set a value that means UNBOUNDED, perhaps 999999999
-     *
-     * @return the maxOccurs
      */
     public Integer getMaxOccurs();
 
     /**
-     * @return the minLength
+     * Name: Minimum Length
+     *
+     * The miniumum length allowed for the field
      */
     public Integer getMinLength();
 
     /**
+     * Name: Maximum Length
+     *
      * The maxLength element determines the maximum size of the field for data
      * entry edit purposes and for display purposes.
      */
     public Integer getMaxLength();
 
     /**
+     * Name: Force Uppercase
+     *
      * forceUppercase = convert user entry to uppercase and always display
      * database value as uppercase.
      */
     public Boolean getForceUppercase();
 
     /**
+     * Name: Short Label
+     *
      * The shortLabel element is the field or collection name that will be used
      * in applications when a shorter name (than the label element) is required.
      * This will be overridden by presence of displayLabelAttribute element.
@@ -96,12 +113,16 @@ public interface AttributeDefinitionInfc {
     public String getShortLabel();
 
     /**
+     * Name: Summary
+     *
      * The summary element is used to provide a short description of the
      * attribute or collection. This is designed to be used for help purposes.
      */
     public String getSummary();
 
     /**
+     * Name: Label
+     *
      * The label element is the field or collection name that will be shown on
      * inquiry and maintenance screens. This will be overridden by presence of
      * displayLabelAttribute element.
@@ -109,12 +130,16 @@ public interface AttributeDefinitionInfc {
     public String getLabel();
 
     /**
+     * Name: Description
+     *
      * The description element is used to provide a long description of the
      * attribute or collection. This is designed to be used for help purposes.
      */
     public String getDescription();
 
     /**
+     * Name: Exclusive Minimum
+     *
      * The exclusiveMin element determines the minimum allowable value for data
      * entry editing purposes. Value can be an integer or decimal value such as
      * -.001 or 99.
@@ -122,6 +147,8 @@ public interface AttributeDefinitionInfc {
     public String getExclusiveMin();
 
     /**
+     * Name: Exclusive Maximum
+     *
      * The inclusiveMax element determines the maximum allowable value for data
      * entry editing purposes. Value can be an integer or decimal value such as
      * -.001 or 99.
@@ -130,8 +157,9 @@ public interface AttributeDefinitionInfc {
      */
     public String getInclusiveMax();
 
-
     /**
+     * Name: Display Label Attribute
+     *
      * The displayLabelAttribute element is used to indicate that the label and
      * short label should be obtained from another attribute.
      *
@@ -143,24 +171,25 @@ public interface AttributeDefinitionInfc {
     public String getDisplayLabelAttribute();
 
     /**
+     * Name: Unique
+     *
      * Similar to a db column that is flagged as unique, the value is unique
      * across all data objects of that type
      *
      * TODO: ask if this should be isUnique instead of getUnique?
-     *
-     * @return the unique
      */
     public Boolean isUnique();
 
-
     /**
-     * Class to do custom validation
+     * Name: Custom Validator Class
      *
-     * @return the customValidatorClass
+     * Class to do custom validation
      */
     public String getCustomValidatorClass();
 
-        /**
+    /**
+     * Name: Formatter Class
+     *
      * The formatterClass element is used when custom formatting is required for
      * display of the field value. This field specifies the name of the java
      * class to be used for the formatting. About 15 different classes are
@@ -169,12 +198,12 @@ public interface AttributeDefinitionInfc {
      */
     public String getFormatterClass();
 
-        /**
+    /**
+     * Name: Valid Characters Constraint
+     * 
      * The constraint that applies regular expressions to to the value
      *
      * TODO: Ask RICE to create an interface for ValidCharactersConstraint so we can return that instead of the generic constraint
-     *
-     * @return the validChars
      */
     public ValidCharactersConstraintInfc getValidCharactersConstraint();
 }

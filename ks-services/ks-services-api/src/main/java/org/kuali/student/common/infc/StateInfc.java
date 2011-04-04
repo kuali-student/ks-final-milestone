@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -15,20 +15,25 @@
 
 package org.kuali.student.common.infc;
 
+/**
+ * Describes the state of an object
+ *
+ * @author nwright
+ */
 public interface StateInfc extends HasKey, HasAttributes, HasEffectiveDates {
     
    
     /**
+     * Name: Name
+     *
      * Friendly name of the State
-     * 
-     * Type: string 
      */
     public String getName();
 
     /**
-     * Narrative description of the State
+     * Name: Description
      * 
-     * Type: RichTextInfo 
+     * Narrative description of the State
      */
     public String getDescr();
 

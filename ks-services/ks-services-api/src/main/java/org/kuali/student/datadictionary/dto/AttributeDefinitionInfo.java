@@ -23,11 +23,6 @@ import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.datadictionary.infc.ValidCharactersConstraintInfc;
 
-/**
- * This is an info ojbect that holds an attribute definition
- *
- * @author nwright
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Serializable {
 
@@ -98,13 +93,13 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public String getChildEntryName() {
-        return this.childEntryName;
+    public String getName() {
+        return this.name;
     }
 
     @Override
-    public String getCustomValidatorClass() {
-        return this.customValidatorClass;
+    public String getChildEntryName() {
+        return this.childEntryName;
     }
 
     @Override
@@ -113,43 +108,13 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public Boolean isRequired() {
+        return this.required;
     }
 
     @Override
-    public String getDisplayLabelAttribute() {
-        return this.displayLabelAttribute;
-    }
-
-    @Override
-    public String getExclusiveMin() {
-        return this.exclusiveMin;
-    }
-
-    @Override
-    public Boolean getForceUppercase() {
-        return this.forceUppercase;
-    }
-
-    @Override
-    public String getFormatterClass() {
-        return this.formatterClass;
-    }
-
-    @Override
-    public String getInclusiveMax() {
-        return this.inclusiveMax;
-    }
-
-    @Override
-    public String getLabel() {
-        return this.label;
-    }
-
-    @Override
-    public Integer getMaxLength() {
-        return this.maxLength;
+    public Integer getMinOccurs() {
+        return this.minOccurs;
     }
 
     @Override
@@ -163,13 +128,13 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public Integer getMinOccurs() {
-        return this.minOccurs;
+    public Integer getMaxLength() {
+        return this.maxLength;
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public Boolean getForceUppercase() {
+        return this.forceUppercase;
     }
 
     @Override
@@ -183,18 +148,48 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
+    public String getLabel() {
+        return this.label;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public String getExclusiveMin() {
+        return this.exclusiveMin;
+    }
+
+    @Override
+    public String getInclusiveMax() {
+        return this.inclusiveMax;
+    }
+
+    @Override
+    public String getDisplayLabelAttribute() {
+        return this.displayLabelAttribute;
+    }
+
+    @Override
     public Boolean isUnique() {
         return this.unique;
     }
 
     @Override
-    public ValidCharactersConstraintInfc getValidCharactersConstraint() {
-        return this.validCharactersConstraint;
+    public String getCustomValidatorClass() {
+        return this.customValidatorClass;
     }
 
     @Override
-    public Boolean isRequired() {
-        return this.required;
+    public String getFormatterClass() {
+        return this.formatterClass;
+    }
+
+    @Override
+    public ValidCharactersConstraintInfo getValidCharactersConstraint() {
+        return this.validCharactersConstraint;
     }
 
     private AttributeDefinitionInfo(AttributeDefinitionInfc infc) {

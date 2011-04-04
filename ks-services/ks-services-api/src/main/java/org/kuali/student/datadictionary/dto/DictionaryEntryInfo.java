@@ -25,13 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 
-/**
- * This is an info ojbect that
- *
- * TODO: Convert to immutable with builder pattern
- *
- * @author nwright
- */
+
 @XmlAccessorType(XmlAccessType.NONE)
 public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
 
@@ -80,8 +74,8 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
     }
 
     @Override
-    public List<AttributeDefinitionInfo> getAttributes() {
-        return attributes;
+    public String getObjectClass() {
+        return objectClass;
     }
 
     @Override
@@ -90,8 +84,8 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
     }
 
     @Override
-    public String getObjectClass() {
-        return objectClass;
+    public String getObjectLabel() {
+        return objectLabel;
     }
 
     @Override
@@ -100,8 +94,8 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
     }
 
     @Override
-    public String getObjectLabel() {
-        return objectLabel;
+    public String getTitleAttribute() {
+        return titleAttribute;
     }
 
     @Override
@@ -110,8 +104,8 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
     }
 
     @Override
-    public String getTitleAttribute() {
-        return titleAttribute;
+    public List<AttributeDefinitionInfo> getAttributes() {
+        return attributes;
     }
 
     public static class Builder implements DictionaryEntryInfc {

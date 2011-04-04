@@ -22,7 +22,9 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 
 /**
- * Provides a read-only view of types and type type relations. This service needs to be implemented by any KS service that is
+ * Provides a read-only view of types and type type relations.
+ *
+ * This service needs to be implemented by any KS service that is
  * going to handle types
  * 
  * @author kamal
@@ -65,7 +67,7 @@ public interface TypeService {
      * @param ownerTypeKey Type key of the owner in the relation
      * @param relatedRefObjectURI RefObjectURI of the related type.
      * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return
+     * @return list of types
      * @throws DoesNotExistException ownerTypeKey or relatedRefObjectURI not found
      * @throws InvalidParameterException invalid ownerTypeKey or relatedRefObjectURI
      * @throws MissingParameterException missing ownerTypeKey or relatedRefObjectURI
