@@ -913,6 +913,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
         return cluProposalModel;
     }
     
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
+    @Override
+    public String getExportTemplateName() {
+        return "proposal.template";
+    }
+    
     @Override
     public ArrayList<ExportElement> getExportElementsFromView() {
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
