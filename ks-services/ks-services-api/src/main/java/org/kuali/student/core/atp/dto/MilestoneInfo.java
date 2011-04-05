@@ -114,7 +114,7 @@ public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAtt
      * value follows the start date.
      */
 
-    public Date getIsDateRange() {
+    public boolean getIsDateRange() {
         return isDateRange;
     }
 
