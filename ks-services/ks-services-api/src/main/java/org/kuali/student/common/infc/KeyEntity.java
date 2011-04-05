@@ -15,38 +15,15 @@
 
 package org.kuali.student.common.infc;
 
-import org.kuali.student.common.dto.RichTextInfo;
-
 
 /**
- * A common interface pattern for service entities.
+ * A common interface pattern for service entities identified by Key.
  *
  * @author tom
- * 
  */
 
-public interface Entity
-    extends HasPrimaryKey,
-	    HasType,
-	    HasState,
-	    HasAttributesAndMetaInfc {
+public interface KeyEntity
+    extends HasKey,
+	    Entity {
 
-    /**
-     * Name: Name
-     * A display name for this entity.
-     *  
-     * @return the entity name
-     */
-
-    public String getName();
-
-
-    /**
-     * Name: Description
-     * A description of the entity.
-     *
-     * @return the entity description
-     */
-
-    public RichTextInfo getDescr();
 }

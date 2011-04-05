@@ -12,18 +12,23 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 /**
+ * An interface for entities with State.
  *
  * @author nwright
  */
+
 public interface HasState  {
 
     /**
      * Name: State
-     *
      * Unique identifier for the state of this object.
+     * 
+     * @return the state
      */
+
     public String getState();
 }

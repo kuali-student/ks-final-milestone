@@ -12,13 +12,16 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 /**
- * Marker interface indicating the object has either an Id or a Key to uniquely
- * identify it
+ * Marker interface indicating the object has either an Id or a Key to
+ * uniquely identify it.
+ *
  * @author nwright
  */
+
 public interface HasPrimaryKey {
 
 }

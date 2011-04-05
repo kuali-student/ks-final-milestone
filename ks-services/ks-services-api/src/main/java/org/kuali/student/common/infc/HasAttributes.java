@@ -12,19 +12,26 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 import java.util.List;
 
 
 public interface HasAttributes {
+
     /**
      * Name: Dynamic Atrributes
      *
-     * List of dynamic attribiutes, each holding a key-value pair that can be
-     * configured to hold additional information for an implementing institution.
+     * List of dynamic attribiutes, each holding a key-value pair that
+     * can be configured to hold additional information for an
+     * implementing institution.
      *
-     * Note: the key may be repeated more than once to simulate a list of values
+     * Note: the key may be repeated more than once to simulate a list
+     * of values.
+     *
+     * @return a list of attributes
      */
-	public List<? extends AttributeInfc> getAttributes();
+
+    public List<? extends AttributeInfc> getAttributes();
 }

@@ -23,11 +23,7 @@ package org.kuali.student.common.infc;
  */
 
 public interface Relationship
-    extends HasId,
-	    HasType,
-	    HasState,
-	    HasAttributes,
-	    HasMeta,
+    extends IdEntity,
 	    HasEffectiveDates {
 
 }

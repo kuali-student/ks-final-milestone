@@ -12,13 +12,15 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 /**
- * Indicates this object holds metadata
+ * Indicates this object holds metadata.
  *
  * @author nwright
  */
+
 public interface HasMeta {
 
     /**
@@ -34,6 +36,10 @@ public interface HasMeta {
      *
      * Attempts to set or update should result in a ReadOnlyException
      * being thrown.
+     *
+     * @return the meta information
+     *
      */
+
     public MetaInfc getMetaInfo();
 }

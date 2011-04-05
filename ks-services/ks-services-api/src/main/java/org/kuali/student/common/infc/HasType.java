@@ -12,18 +12,23 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 /**
+ * An interface for entities with a Type.
  *
  * @author nwright
  */
+
 public interface HasType  {
 
     /**
      * Name: Type
+     * Unique identifier for the type of this object.
      *
-     * Unique identifier for the type of this object
+     * @return the type
      */
+
     public String getType();
 }

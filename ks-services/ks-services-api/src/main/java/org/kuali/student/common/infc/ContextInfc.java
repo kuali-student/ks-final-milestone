@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.common.infc;
 
 /**
@@ -31,12 +32,14 @@ package org.kuali.student.common.infc;
  *
  * @author Kamal
  */
+
 public interface ContextInfc extends HasAttributes {
 
     /**
-* Name: Principal Id
+     * Name: Principal Id
      *
-     * Principal Id of the currently authenticated user or the user on whom's behalf this method is being invoked.
+     * Principal Id of the currently authenticated user or the user on
+     * whom's behalf this method is being invoked.
      *
      * Used for authorization checking.
      */

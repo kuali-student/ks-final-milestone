@@ -7,7 +7,7 @@ package org.kuali.student.common.infc;
  * @author jimt
  */
 
-public interface HasAttributesAndMetaInfc
+public interface HasAttributesAndMeta 
     extends HasAttributes, 
 	    HasMeta {
 
