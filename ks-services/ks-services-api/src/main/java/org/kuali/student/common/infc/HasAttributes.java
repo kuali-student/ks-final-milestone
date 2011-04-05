@@ -21,9 +21,9 @@ import java.util.List;
 public interface HasAttributes {
 
     /**
-     * Name: Dynamic Atrributes
+     * Name: Dynamic Attributes
      *
-     * List of dynamic attribiutes, each holding a key-value pair that
+     * List of dynamic attributes, each holding a key-value pair that
      * can be configured to hold additional information for an
      * implementing institution.
      *

@@ -29,6 +29,8 @@ import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
@@ -39,6 +41,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Author sambit
  */
 
+@Daos( { @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprDao") })
 public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl")
@@ -50,7 +53,7 @@ public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest 
 	@Before
 	public void setUp() {
 		principalId = "123";
-		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
+		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
 		callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
 	}
 

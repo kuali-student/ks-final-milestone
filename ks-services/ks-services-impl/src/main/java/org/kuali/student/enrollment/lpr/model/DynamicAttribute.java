@@ -17,6 +17,7 @@ public class DynamicAttribute implements Serializable {
     @Enumerated(EnumType.STRING)
     private DynamicType dynamicType;
 
+    @Column(name = "\"key\"")
     private String key;
 
     private String value;

@@ -107,5 +107,10 @@
             <artifactId>hsqldb</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-hibernate3</artifactId>
+            <version>3.4.1</version>
+        </dependency>
     </dependencies>
 </project>
