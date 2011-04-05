@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -27,7 +28,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableMode
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -64,7 +65,10 @@ public class ExportUtils {
         } else if (fieldWidget instanceof ListBox) {
             ListBox listBox = (ListBox) fieldWidget;
             fieldValue = listBox.getItemText(listBox.getSelectedIndex());
-        } else if (fieldWidget instanceof FlowPanel) {
+        } else if (fieldWidget instanceof SectionTitle) {
+            SectionTitle sectionTitle = (SectionTitle) fieldWidget;            
+            fieldValue = sectionTitle.getElement().getInnerText();
+        } else if (fieldWidget instanceof ComplexPanel) {
                 subExportElements = ExportUtils.getDetailsForWidget(fieldWidget, subExportElements, "", "");
                 for (int k = 0; k < subExportElements.size(); k++) {
                     System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
@@ -114,6 +118,17 @@ public class ExportUtils {
         exportElements = currentController.getExportElementsFromView();
         String reportTitle = "Report Title";
         if (exportElements != null && exportElements.size() > 0) {
+            for (int i = 0; i < exportElements.size(); i++) {
+                System.out.println(exportElements.get(i).getSectionName() + ": " + exportElements.get(i).getFieldLabel() + " " + exportElements.get(i).getFieldValue());
+                if (exportElements.get(i).getSubset() != null) {
+                    System.out.println("Sub list : ");
+                    for (int j = 0; j < exportElements.get(i).getSubset().size(); j++) {
+                        ExportElement element = exportElements.get(i).getSubset().get(j);
+                        System.out.println(element.getSectionName() + ": " + element.getFieldLabel() + " " + element.getFieldValue());
+                        
+                    }
+                }
+            }
             currentController.doReportExport(exportElements, format, reportTitle);
         }
     }
@@ -179,7 +194,7 @@ public class ExportUtils {
             List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
             for (FieldDescriptor field : widgetFields) {
                 ExportElement exportItem = new ExportElement();
-                exportItem.setSectionName(sectionName);
+                exportItem.setSectionName(sectionName + viewName);
                 exportItem.setViewName(viewName);
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
@@ -193,12 +208,33 @@ public class ExportUtils {
                 Widget child = children.get(i);
 
                 ExportElement exportItem = new ExportElement();
-                exportItem.setSectionName("");
-                exportItem.setViewName("");
+                exportItem.setSectionName(sectionName + viewName);
+                exportItem.setViewName(viewName);
                 exportItem.setFieldLabel("");
                 exportElements.add(getExportItemDetails(exportItem, child, true));
             }
             
+        } else if (currentViewWidget instanceof ComplexPanel){
+            ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
+            for (int i = 0; i < complexPanel .getWidgetCount(); i++) {
+                //
+                Widget child = complexPanel .getWidget(i);
+                ExportElement exportItem = new ExportElement();
+                exportItem.setSectionName(sectionName + viewName);
+                exportItem.setViewName(viewName + "Complex panel sublist");
+                ExportElement exportItemDetails = getExportItemDetails(exportItem, child, true);
+                if (exportItemDetails.getFieldValue() != null || (exportItemDetails.getSubset() != null && exportItemDetails.getSubset().size() > 0)) {
+                    exportElements.add(exportItemDetails);                    
+                }
+            }
+
+            
+
+        }  
+        else {
+        
+            System.out.println("ExportUtils does not cater for this type..." + currentViewWidget.getClass().getName());
+                        
         }
         return exportElements;
     }
@@ -220,7 +256,7 @@ public class ExportUtils {
             List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
             for (FieldDescriptor field : widgetFields) {
                 ExportElement exportItem = new ExportElement();
-                exportItem.setSectionName(sectionName);
+                exportItem.setSectionName(sectionName + viewName);
                 exportItem.setViewName(viewName);
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
@@ -232,4 +268,5 @@ public class ExportUtils {
         }
         return exportElements;
     }
+    
 }

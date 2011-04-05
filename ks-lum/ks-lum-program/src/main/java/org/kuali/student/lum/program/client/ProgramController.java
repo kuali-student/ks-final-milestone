@@ -1,6 +1,8 @@
 package org.kuali.student.lum.program.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -19,17 +21,21 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -42,6 +48,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -432,5 +439,43 @@ public abstract class ProgramController extends MenuSectionController {
         } else {
             return false;
         }
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+
+        String viewName = null;
+        String sectionTitle = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+            if (currentView != null && currentView instanceof Section) {
+                Section currentSection = (Section) currentView;
+                List<Section> nestedSections = currentSection.getSections();
+                for (int i = 0; i < nestedSections.size(); i++) {
+                    ExportElement sectionExportItem = new ExportElement();
+                    ArrayList<ExportElement> subList = null;
+                    Section nestedSection = nestedSections.get(i);
+                    if (nestedSection != null && nestedSection instanceof SectionView) {
+                        SectionView nestedSectionView = (SectionView) nestedSection;
+                        viewName =  nestedSectionView.getName();
+                        sectionTitle = nestedSectionView.getTitle();
+                        sectionExportItem.setViewName(i + " - " + viewName);
+                        subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
+                        if (subList != null && subList.size()> 0) {
+                            sectionExportItem.setSubset(subList);
+                            exportElements.add(sectionExportItem);
+                        }
+                    }                    
+                }
+            }
+            return exportElements;
+            
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;
+    
     }
 }
