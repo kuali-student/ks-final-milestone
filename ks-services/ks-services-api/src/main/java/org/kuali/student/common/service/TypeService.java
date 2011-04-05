@@ -27,6 +27,8 @@ import org.kuali.student.common.exceptions.OperationFailedException;
  * This service needs to be implemented by any KS service that is
  * going to handle types
  * 
+ * Version: 1.0 (Dev)
+ * 
  * @author kamal
  */
 @WebService(name = "TypeService", targetNamespace = "http://student.kuali.org/wsdl/type")
