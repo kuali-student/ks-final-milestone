@@ -26,27 +26,22 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.core.atp.infc.AtpInfc;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 /**
  * Information about an academic time period.
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class AtpInfo 
+    extends KeyEntityInfo
+    implements AtpInfc,
+	       Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String name;
-
-    @XmlElement
-    private RichTextInfo desc;
 
     @XmlElement
     private Date startDate;
@@ -54,121 +49,79 @@ public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttribute
     @XmlElement
     private Date endDate;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute(name="key")
-    private String id;
 
     /**
-     * Friendly name for the academic time period
+     * Date and time the academic time period became effective. This
+     * does not provide a bound on date ranges or milestones
+     * associated with this time period, but instead indicates the
+     * time period proper. This is a similar concept to the effective
+     * date on enumerated values. When an expiration date has been
+     * specified, this field must be less than or equal to the
+     * expiration date.
      */
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Narrative description of an academic time period
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
-
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Date and time the academic time period became effective. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
+    @Override
     public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
 
     /**
-     * Date and time the academic time period expires. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time the academic time period expires. This does not
+     * provide a bound on date ranges or milestones associated with
+     * this time period, but instead indicates the time period
+     * proper. If specified, this must be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
     /**
-     * List of key/value pairs, typically used for dynamic attributes.
+     * The builder class for this abstract EntityInfo.
      */
-    public Map<String,String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String,String>();
-        }
-        return attributes;
-    }
 
-    public void setAttributes(Map<String,String> attributes) {
-        this.attributes = attributes;
-    }
+    public static class Builder 
+	extends KeyEntityInfo.Builder 
+	implements AtpInfc {
+    	
+    	private Date startDate;
+	private Date endDate;
 
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
+	public Builder() {}
+    	
+    	public Builder(AtpInfc atp) {
+	    super(atp);
+	    this.startDate = atp.getStartDate();
+	    this.startDate = atp.getEndDate();
+    	}
+		
 
-    /**
-     * Unique identifier for an academic time period type.
-     */
-    public String getType() {
-        return type;
-    }
+	@Override
+	public Date getStartDate() {
+	    return startDate;
+	}
+    	
+	public Builder startDate(Date startDate) {
+	    this.startDate = startDate;
+	    return this;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
-    /**
-     * The current status of the academic time period. The values for this field are constrained to those in the atpState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an Academic Time Period (ATP).
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+	@Override
+	public Date getEndDate() {
+	    return endDate;
+	}
+    	
+	public Builder endDate(Date endDate) {
+	    this.endDate = endDate;
+	    return this;
+	}
     }
 }

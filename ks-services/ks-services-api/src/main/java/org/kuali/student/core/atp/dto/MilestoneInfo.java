@@ -17,8 +17,6 @@ package org.kuali.student.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,30 +24,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.core.atp.infc.MilestoneInfc;
+
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 /**
  * Information about a milestone.
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+
+public class MilestoneInfo 
+    extends KeyEntityInfo
+    implements MilestoneInfc, 
+	       Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String name;
-
-    @XmlElement
-    private RichTextInfo desc;
-
-    @XmlElement(name="atpKey")
-    private String atpId;
 
     @XmlElement
     private boolean isDateRange;
@@ -60,145 +52,111 @@ public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAtt
     @XmlElement
     private Date endDate;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute(name="key")
-    private String id;
-
-    /**
-     * Name of the milestone.
-     */
-    public String getName() {
-        return name;
+    private MilestoneInfo() {
+	isDateRange = false;
+	startDate = null;
+	endDate = null;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+    private MilestoneInfo(MilestoneInfc builder) {
+        super(builder);
+	this.isDateRange = false;
+        this.startDate = null != builder.getStartDate() ? new Date(builder.getStartDate().getTime()) : null;
+        this.endDate = null != builder.getEndDate() ? new Date(builder.getEndDate().getTime()) : null;
     }
 
-    /**
-     * Description of the milestone.
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
-
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Unique identifier for an Academic Time Period (ATP).
-     */
-    public String getAtpId() {
-        return atpId;
-    }
-
-    public void setAtpId(String atpId) {
-        this.atpId = atpId;
-    }
 
     /**
      * Tests if this milestone has a date range. If true, the end date
      * value follows the start date.
      */
 
+    @Override
     public boolean getIsDateRange() {
         return isDateRange;
     }
 
-    public void setStartDate(boolean isDateRange) {
-        this.isDateRange = isDateRange;
-    }
 
     /**
      * Start Date and time of the milestone.
      */
+
+    @Override
     public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
 
     /**
      * End Date and time of the milestone.
      */
+
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String,String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String,String>();
+    public static class Builder 
+	extends KeyEntityInfo.Builder 
+	implements MilestoneInfc {
+
+	private boolean isDateRange;
+        private Date startDate;
+        private Date endDate;
+
+
+        public Builder() {
         }
-        return attributes;
-    }
 
-    public void setAttributes(Map<String,String> attributes) {
-        this.attributes = attributes;
-    }
 
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
+        public Builder(MilestoneInfc milestoneInfo) {
+            super(milestoneInfo);
+            this.startDate = milestoneInfo.getStartDate();
+            this.endDate = milestoneInfo.getEndDate();
+        }
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
 
-    /**
-     * Unique identifier for a milestone type.
-     */
-    public String getType() {
-        return type;
-    }
+        public MilestoneInfo build() {
+            return new MilestoneInfo(this);
+        }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
-    /**
-     * The current status of the milestone. The values for this field are constrained to those in the milestoneState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
+	public Builder dateRange(boolean isDateRange) {
+	    this.isDateRange = isDateRange;
+	    return this;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
 
-    /**
-     * Unique identifier for a milestone.
-     */
-    public String getId() {
-        return id;
-    }
+        public Builder startDate(Date startDate) {
+            this.startDate = new Date(startDate.getTime());
+            return this;
+        }
 
-    public void setId(String id) {
-        this.id = id;
+
+        public Builder endDate(Date endDate) {
+            this.endDate = new Date(endDate.getTime());
+            return this;
+        }
+
+
+	@Override
+	public boolean getIsDateRange() {
+	    return isDateRange;
+	}
+
+
+        @Override
+        public Date getStartDate() {
+            return startDate;
+        }
+
+
+        @Override
+        public Date getEndDate() {
+            return endDate;
+        }
     }
 }
