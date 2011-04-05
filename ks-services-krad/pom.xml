@@ -22,7 +22,7 @@
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
-    <!--  artifact version -->
+    <!--  artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
     <cxf.version>2.2.9</cxf.version>
@@ -50,6 +50,8 @@
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
+
+    <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
   </properties>
   <modules>
     <module>ks-lum</module>
@@ -865,4 +867,10 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
 </project>
