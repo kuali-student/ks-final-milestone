@@ -1,0 +1,178 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+    <bean id="luiPersonRelationInfo" parent="luiPersonRelationInfo-parent"/>
+
+    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+
+        <property name="objectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
+        <property name="name" value="luiPersonRelationInfo"/>
+        <property name="objectLabel" value="LPR"/>
+        <property name="objectDescription" value="Learning Unit Instance Person Relationship"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="luiPersonRelationInfo.id"/>
+                <ref bean="luiPersonRelationInfo.luiId"/>
+                <ref bean="luiPersonRelationInfo.personId"/>
+                <ref bean="luiPersonRelationInfo.effectiveDate"/>
+                <ref bean="luiPersonRelationInfo.expirationDate"/>
+                <ref bean="luiPersonRelationInfo.type"/>
+                <ref bean="luiPersonRelationInfo.state"/>
+<!--
+                <ref bean="luiPersonRelationInfo.metaInfo"/>
+                <ref bean="luiPersonRelationInfo.metaInfo.createTime"/>
+                <ref bean="luiPersonRelationInfo.metaInfo.createId"/>
+                <ref bean="luiPersonRelationInfo.metaInfo.updateTime"/>
+                <ref bean="luiPersonRelationInfo.metaInfo.updateId"/>
+                <ref bean="luiPersonRelationInfo.metaInfo.versionInd"/>
+  -->
+ <!--
+                <ref bean="luiPersonRelationInfo.attributes"/>
+                <ref bean="luiPersonRelationInfo.attributes.id"/>
+                <ref bean="luiPersonRelationInfo.attributes.key"/>
+                <ref bean="luiPersonRelationInfo.attributes.value"/>
+
+-->
+            </list>
+        </property>
+            <!--
+        <property name="inquiryDefinition">
+            <bean parent="inqurityDefinition">
+            </bean>
+        </property>
+        <property name="lookupDefinition">
+            <bean parent="lookupDefinition">
+            </bean>
+        </property>
+        <property name="helpDefinition">
+            <bean parent="helpDefinition">
+            </bean>
+        </property>
+        <property name="mustOccurConstraints">
+           <list>
+            <bean parent="mustOccurConstraint">
+                <property name="min" value="1"/>
+                <property name="max" value="1"/>
+                <property name="prerequisiteConstraints">
+                    <list>
+                        <bean parent="prerequisiteConstraint">
+                          <property name="attributePath" value="type">
+                          <property name="attributePath" value="state">
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+         </list>
+        </property>
+        -->
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="luiPersonRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="shortLabel" value="ID"/>
+        <property name="summary" value="Unique ID to the LPR"/>
+        <property name="label" value="LPR ID"/>
+        <property name="description" value="Unique ID to the Learning Unit Instance Person Relationship record"/>
+    </bean>
+    <bean id="luiPersonRelationInfo.id" parent="luiPersonRelationInfo.id-parent"/>
+
+    <bean id="luiPersonRelationInfo.luiId-parent" abstract="true" parent="baseKualiLuiId">
+        <property name="required" value="true"/>
+    </bean>
+    <bean id="luiPersonRelationInfo.luiId" parent="luiPersonRelationInfo.luiId-parent"/>
+
+    <bean id="luiPersonRelationInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
+        <property name="required" value="true"/>
+    </bean>
+    <bean id="luiPersonRelationInfo.personId" parent="luiPersonRelationInfo.personId-parent"/>
+
+    <bean id="luiPersonRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+    </bean>
+    <bean id="luiPersonRelationInfo.effectiveDate" parent="luiPersonRelationInfo.effectiveDate-parent"/>
+
+    <bean id="luiPersonRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+    </bean>
+    <bean id="luiPersonRelationInfo.expirationDate" parent="luiPersonRelationInfo.expirationDate-parent"/>
+
+    <bean id="luiPersonRelationInfo.type-parent" abstract="true" parent="baseKualiType">
+    </bean>
+    <bean id="luiPersonRelationInfo.type" parent="luiPersonRelationInfo.type-parent"/>
+
+    <bean id="luiPersonRelationInfo.state-parent" abstract="true" parent="baseKualiState">
+    </bean>
+    <bean id="luiPersonRelationInfo.state" parent="luiPersonRelationInfo.state-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiMeta">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo" parent="luiPersonRelationInfo.metaInfo-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo.createTime-parent" abstract="true" parent="baseKualiMeta.createTime">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo.createTime" parent="luiPersonRelationInfo.metaInfo.createTime-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo.createId-parent" abstract="true" parent="baseKualiMeta.createId">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo.createId" parent="luiPersonRelationInfo.metaInfo.createId-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo.updateTime-parent" abstract="true" parent="baseKualiMeta.updateTime">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo.updateTime" parent="luiPersonRelationInfo.metaInfo.updateTime-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo.updateId-parent" abstract="true" parent="baseKualiMeta.updateId">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo.updateId" parent="luiPersonRelationInfo.metaInfo.updateId-parent"/>
+
+    <bean id="luiPersonRelationInfo.metaInfo.versionInd-parent" abstract="true" parent="baseKualiMeta.versionInd">
+    </bean>
+    <bean id="luiPersonRelationInfo.metaInfo.versionInd" parent="luiPersonRelationInfo.metaInfo.versionInd-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes-parent" abstract="true" parent="baseKualiAttributes">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes" parent="luiPersonRelationInfo.attributes-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.id-parent" abstract="true" parent="baseKualiAttributes.id">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.id" parent="luiPersonRelationInfo.attributes.id-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.key-parent" abstract="true" parent="baseKualiAttributes.key">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.key" parent="luiPersonRelationInfo.attributes.key-parent"/>
+
+    <bean id="luiPersonRelationInfo.attributes.value-parent" abstract="true" parent="baseKualiAttributes.value">
+    </bean>
+    <bean id="luiPersonRelationInfo.attributes.value" parent="luiPersonRelationInfo.attributes.value-parent"/>
+    <!--
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="edu.sampleu.travel.bo.TravelAccountType"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="accountTypeCode"
+            p:labelAttribute="name"/>
+        </property>
+        -->
+
+</beans>
