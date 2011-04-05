@@ -24,13 +24,16 @@ public interface HasMeta {
     /**
      * Name: Create/Update meta info
      *
-     * Create and last update info for the structure. This is optional and treated
-     * as read only since the data is set by the internals of the service during maintenance operations.
+     * Create and last update info for the structure. This is optional
+     * and treated as read only since the data is set by the internals
+     * of the service during maintenance operations.
      *
-     * Contains audit trail information about the creation and last update of this object
-     * Also contains the version ind used for optimistic locking.
+     * Contains audit trail information about the creation and last
+     * update of this object Also contains the version ind used for
+     * optimistic locking.
      *
-     * Attempts to set or update should result in a ReadOnlyException being thrown
+     * Attempts to set or update should result in a ReadOnlyException
+     * being thrown.
      */
     public MetaInfc getMetaInfo();
 }
