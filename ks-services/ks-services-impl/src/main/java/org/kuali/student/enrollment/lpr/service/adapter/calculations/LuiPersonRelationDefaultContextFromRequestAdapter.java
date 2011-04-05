@@ -34,7 +34,6 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.infc.HoldsIdentityService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 /**
@@ -168,17 +167,4 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
 		return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
 	}
 
-	@Override
-	public StatusInfo updateRelationState(String luiPersonRelationId,
-			LuiPersonRelationStateInfo relationState,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		context = defaultContext(context);
-		return (getLprService().updateRelationState(luiPersonRelationId,
-				relationState, context));
-	}
 }

@@ -15,14 +15,14 @@
  */
 package org.kuali.student.enrollment.lpr.mock;
 
-import org.kuali.student.common.infc.AttributeInfc;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationStateInfc;
+
+import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.StateInfc;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 
 /**
@@ -32,7 +32,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
  *
  * @author nwright
  */
-public enum LuiPersonRelationStateEnum implements LuiPersonRelationStateInfc, Serializable {
+public enum LuiPersonRelationStateEnum implements StateInfc, Serializable {
 
     /**
      * Student states to courses

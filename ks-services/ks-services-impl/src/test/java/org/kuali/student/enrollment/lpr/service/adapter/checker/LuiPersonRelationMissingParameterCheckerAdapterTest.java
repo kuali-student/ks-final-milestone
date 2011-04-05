@@ -29,11 +29,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ComparisonInfo;
+import org.kuali.student.common.dto.StateInfo;
+import org.kuali.student.common.dto.TypeInfo;
 
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 
 
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -165,11 +165,11 @@ public class LuiPersonRelationMissingParameterCheckerAdapterTest {
 		if (type.equals(ComparisonInfo.class)) {
 			return new ComparisonInfo.Builder().build();
 		}
-		if (type.equals(LuiPersonRelationStateInfo.class)) {
-			return new LuiPersonRelationStateInfo.Builder().build();
+		if (type.equals(StateInfo.class)) {
+			return new StateInfo.Builder().build();
 		}
-		if (type.equals(LuiPersonRelationTypeInfo.class)) {
-			return new LuiPersonRelationTypeInfo.Builder().build();
+		if (type.equals(TypeInfo.class)) {
+			return new TypeInfo.Builder().build();
 		}
 		throw new IllegalArgumentException("unhandled type " + type.getName());
 	}

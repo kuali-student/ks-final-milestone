@@ -36,7 +36,6 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.infc.HoldsPermissionService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 
@@ -206,41 +205,6 @@ public class LuiPersonRelationAuthorizationAdapter
         }
     }
 
-
-    /**
-     * Update relation state.
-     *
-     * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param relationState       Relation state
-     * @param context             Context information containing the principalId
-     *                            and locale information about the caller of service
-     *                            operation
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException     luiPersonRelationId,
-     *                                   relationState does not exist
-     * @throws InvalidParameterException invalid luiPersonRelationId,
-     *                                   relationState
-     * @throws MissingParameterException missing luiPersonRelationId,
-     *                                   relationState
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-
-    @Override
-    public StatusInfo updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfo relationState, ContextInfo context)
-            throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException
-		 {
-
-        if (isAuthorized(context.getPrincipalId(), "update lpr", luiPersonRelationId)) {
-            return (getLprService().updateRelationState(luiPersonRelationId, relationState, context));
-        } else {
-            throw new PermissionDeniedException("unauthorized to update LPR state for " + luiPersonRelationId);
-        }
-    }
 
    public static final String ENRLLMENT_NAMESPACE = "KS-Enrollment";
     /**

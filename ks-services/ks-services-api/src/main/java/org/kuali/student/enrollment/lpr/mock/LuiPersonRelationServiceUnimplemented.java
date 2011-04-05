@@ -16,20 +16,16 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import java.util.List;
+
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.dto.StateInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -38,6 +34,9 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 /**
  * Used for the bottom layer of a stack to catch and throw an error instead of
@@ -79,11 +78,6 @@ public class LuiPersonRelationServiceUnimplemented implements
     }
 
     @Override
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Not implemented -- probable configuration error.");
-    }
-
-    @Override
     public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");
     }
@@ -102,12 +96,6 @@ public class LuiPersonRelationServiceUnimplemented implements
     public List<String> findLuiPersonRelationIdsForPerson(String personId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");
     }
-
-    @Override
-    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
-        throw new OperationFailedException("Not implemented -- probable configuration error.");
-    }
-
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");
@@ -140,11 +128,6 @@ public class LuiPersonRelationServiceUnimplemented implements
 
     @Override
     public LuiPersonRelationInfo updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new OperationFailedException("Not implemented -- probable configuration error.");
-    }
-
-    @Override
-    public StatusInfo updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfo relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");
     }
 
@@ -182,5 +165,24 @@ public class LuiPersonRelationServiceUnimplemented implements
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");
     }
-}
 
+    @Override
+    public List<String> getProcessKeys(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+
+    @Override
+    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+
+    @Override
+    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+
+    @Override
+    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+
+    @Override
+    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+}

@@ -35,10 +35,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.service.StateService;
 import org.kuali.student.common.service.TypeService;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 
 /**
  * The Lui Person Relationship (LPR) Service
@@ -60,29 +60,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelation")
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService extends DataDictionaryService, TypeService {
-
-    /**
-     * Retrieves the list of LUI Person Relation States
-     *
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return list of relation states
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
-
-    /**
-     * Retrieves the list of Allowed Relation States
-     *
-     * @param luiPersonRelationTypeKey Type of LUI Person Relation
-     * @param context               Context information containing the principalId and locale information about the caller of service operation
-     * @return list of relationState
-     * @throws DoesNotExistException     luiPersonRelationTypeKey not found
-     * @throws InvalidParameterException invalid luiPersonRelationTypeKey
-     * @throws MissingParameterException missing luiPersonRelationTypeKey
-     * @throws OperationFailedException  unable to complete request
-     */
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(@WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+public interface LuiPersonRelationService extends DataDictionaryService, TypeService, StateService {
 
     /**
      * Retrieves the Relation for the specified LUI Person Relation
@@ -432,32 +410,4 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Update relation state
-     *
-     * TODO: Service Team Rewview to see if this is actually needed/desired since the state can be updated via the
-     * updateLuiPersonRelation method already
-     *
-     * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param relationState       Relation state
-     * @param context             Context information containing the principalId
-     *                            and locale information about the caller of service
-     *                            operation
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException     luiPersonRelationId, relationState does not exist
-     * @throws InvalidParameterException invalid luiPersonRelationId, relationState
-     * @throws MissingParameterException missing luiPersonRelationId, relationState
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    @Deprecated
-    public StatusInfo updateRelationState(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId,
-            @WebParam(name = "relationState") LuiPersonRelationStateInfo relationState,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
 }

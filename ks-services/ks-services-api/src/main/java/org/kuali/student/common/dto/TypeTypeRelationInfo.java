@@ -56,7 +56,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 	@XmlElement
 	private final Integer rank;
 	
-	protected TypeTypeRelationInfo() {
+	private TypeTypeRelationInfo() {
 		key = null;
 		name = null;
 		descr = null;
@@ -68,7 +68,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 		rank = null;
 	}
 		
-	protected TypeTypeRelationInfo(TypeTypeRelationInfc builder) {
+	private TypeTypeRelationInfo(TypeTypeRelationInfc builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
@@ -163,6 +163,10 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
     		this.rank = typeTypeRelationInfo.getRank();
     	}
 
+        public TypeTypeRelationInfo build() {
+            return new TypeTypeRelationInfo(this);
+        } 
+        
 		@Override
 		public String getKey() {
 			return key;

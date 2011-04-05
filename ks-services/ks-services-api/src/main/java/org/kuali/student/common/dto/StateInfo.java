@@ -27,7 +27,7 @@ import org.kuali.student.common.infc.StateInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class StateInfo extends HasAttributesInfo implements StateInfc, Serializable {
+public class StateInfo extends HasAttributesInfo implements StateInfc, Serializable {
 	
 	@XmlAttribute
 	private final String key;
@@ -44,7 +44,7 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
 	@XmlElement
 	private final Date expirationDate;
 
-	protected StateInfo() {
+	private StateInfo() {
 		key = null;
 		name = null;
 		descr = null;
@@ -52,7 +52,7 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
 		expirationDate = null;
 	}
 	
-	protected StateInfo(StateInfc builder) {
+	private StateInfo(StateInfc builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
@@ -108,6 +108,10 @@ public abstract class StateInfo extends HasAttributesInfo implements StateInfc, 
     		this.expirationDate = stateInfo.getExpirationDate();
     	}
 
+        public StateInfo build() {
+            return new StateInfo(this);
+        }    	
+    	
 		@Override
 		public String getKey() {
 			return key;

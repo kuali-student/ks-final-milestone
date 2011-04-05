@@ -3,25 +3,23 @@ package org.kuali.student.enrollment.lpr.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.dto.StateInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 
@@ -50,19 +48,7 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 		}
 		return bulkRelationshipValues;
 	}
-
-	@Override
-	public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
+	
 	@Override
 	public LuiPersonRelationInfo fetchLUIPersonRelation(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -173,12 +159,6 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 	}
 
 	@Override
-	public StatusInfo updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfo relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
 	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
 		return null;
@@ -210,6 +190,36 @@ public class LuiPersonRelationServiceAuthorizationImpl implements LuiPersonRelat
 
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getProcessKeys(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

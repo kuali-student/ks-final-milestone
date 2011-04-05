@@ -30,8 +30,6 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -61,29 +59,6 @@ public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest 
 	public void tearDown() {
 	}
 	
-
-	@Test
-	public void testFindLuiPersonRelationStates() {
-		try {
-			List<LuiPersonRelationStateInfo> relationStates = lprService.findLuiPersonRelationStates(callContext);
-			assertNull(relationStates); // service currently returns null for empty List
-		} catch (Exception ex) {
-			fail("exception from service call :" + ex.getMessage());
-		}
-		
-	}
-
-	@Test
-	public void testFindAllowedRelationStates() {
-		try {
-			List<LuiPersonRelationStateInfo> relationStates = lprService.findAllowedRelationStates("kuali.lpr.type.registrant", callContext);
-			assertNull(relationStates); // service currently returns null for empty List
-		} catch (Exception ex) {
-			fail("exception from service call :" + ex.getMessage());
-		}
-		
-	}
-
 	@Test
 	public void testFetchLUIPersonRelation() {
 		try {

@@ -16,19 +16,22 @@
 
 package org.kuali.student.enrollment.lpr.service.adapter.federator;
 
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.common.exceptions.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 
 /**
@@ -67,58 +70,6 @@ public class LuiPersonRelationFederatingAdapter
     protected void setExternalProviders(List<LuiPersonRelationService> externalProviders) {
         this.externalServices = externalProviders;
         return;
-    }
-
-
-    /**
-     * Retrieves the list of LUI Person Relation States
-     *
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of relation states
-     * @throws OperationFailedException unable to complete request
-     */
-
-    @Override
-    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context)
-            throws OperationFailedException {
-
-        Set<LuiPersonRelationStateInfo> lprStates = new HashSet<LuiPersonRelationStateInfo>();
-        lprStates.addAll(getLprService().findLuiPersonRelationStates(context));
-        for (LuiPersonRelationService provider : getExternalProviders()) {
-            lprStates.addAll(provider.findLuiPersonRelationStates(context));
-        }
-
-        return (new ArrayList<LuiPersonRelationStateInfo>(lprStates));
-    }
-
-
-    /**
-     * Retrieves the list of Allowed Relation States
-     *
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param context               Context information containing the principalId
-     *                              and locale information about the caller of service
-     *                              operation
-     * @return list of relationState
-     * @throws DoesNotExistException     luiPersonRelationType not found
-     * @throws InvalidParameterException invalid luiPersonRelationType
-     * @throws MissingParameterException missing luiPersonRelationType
-     * @throws OperationFailedException  unable to complete request
-     */
-
-    @Override
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationType, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-        Set<LuiPersonRelationStateInfo> lprStates = new HashSet<LuiPersonRelationStateInfo>();
-        lprStates.addAll(getLprService().findAllowedRelationStates(luiPersonRelationType, context));
-        for (LuiPersonRelationService provider : getExternalProviders()) {
-            lprStates.addAll(provider.findAllowedRelationStates(luiPersonRelationType, context));
-        }
-
-        return (new ArrayList<LuiPersonRelationStateInfo>(lprStates));
     }
 
 

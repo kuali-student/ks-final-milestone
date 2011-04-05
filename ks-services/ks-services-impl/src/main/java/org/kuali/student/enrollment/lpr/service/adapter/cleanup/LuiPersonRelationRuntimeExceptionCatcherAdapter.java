@@ -31,7 +31,6 @@ import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 /**
@@ -126,23 +125,6 @@ public class LuiPersonRelationRuntimeExceptionCatcherAdapter
             PermissionDeniedException {
         try {
             return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
-        } catch (RuntimeException ex) {
-            throw new OperationFailedException("Got RuntimeException", ex);
-        }
-    }
-
-    @Override
-    public StatusInfo updateRelationState(String luiPersonRelationId,
-                                          LuiPersonRelationStateInfo relationState,
-                                          ContextInfo context)
-      throws DoesNotExistException,
-      InvalidParameterException,
-      MissingParameterException,
-      OperationFailedException,
-      PermissionDeniedException {
-        try {
-            return (getLprService().updateRelationState(luiPersonRelationId,
-                    relationState, context));
         } catch (RuntimeException ex) {
             throw new OperationFailedException("Got RuntimeException", ex);
         }

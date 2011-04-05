@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
+import org.kuali.student.common.dto.StateInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.TypeTypeRelationInfo;
@@ -36,7 +37,6 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 /**
@@ -63,11 +63,6 @@ public class LuiPersonRelationServiceAdapter implements
     @Override
     public List<ValidationResultInfo> validateLuiPersonRelation(String validationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return lprService.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
-    }
-
-    @Override
-    public StatusInfo updateRelationState(String luiPersonRelationId, LuiPersonRelationStateInfo relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.updateRelationState(luiPersonRelationId, relationState, context);
     }
 
     @Override
@@ -106,11 +101,6 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public List<LuiPersonRelationStateInfo> findLuiPersonRelationStates(ContextInfo context) throws OperationFailedException {
-        return lprService.findLuiPersonRelationStates(context);
-    }
-
-    @Override
     public List<String> findLuiPersonRelationIdsForPerson(String personId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return lprService.findLuiPersonRelationIdsForPerson(personId, context);
     }
@@ -128,11 +118,6 @@ public class LuiPersonRelationServiceAdapter implements
     @Override
     public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationTypeKey, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return lprService.findLuiIdsRelatedToPerson(personId, luiPersonRelationTypeKey, relationState, context);
-    }
-
-    @Override
-    public List<LuiPersonRelationStateInfo> findAllowedRelationStates(String luiPersonRelationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return lprService.findAllowedRelationStates(luiPersonRelationTypeKey, context);
     }
 
     @Override
@@ -208,6 +193,31 @@ public class LuiPersonRelationServiceAdapter implements
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return lprService.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+    }
+
+    @Override
+    public List<String> getProcessKeys(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getProcessKeys(typeKey, context);
+    }
+
+    @Override
+    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getState(processKey, stateKey, context);
+    }
+
+    @Override
+    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return lprService.getStatesByProcess(processKey, context);
+    }
+
+    @Override
+    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getInitialValidStates(processKey, context);
+    }
+
+    @Override
+    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextHappyState(processKey, currentStateKey, context);
     }
 }
 

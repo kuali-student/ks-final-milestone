@@ -25,13 +25,11 @@ import org.kuali.student.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.exceptions.*;
 
 import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 
 /**
@@ -118,22 +116,6 @@ public class LuiPersonRelationMissingParameterCheckerAdapter
 		checkParameter("luiPersonRelationId", luiPersonRelationId);
 		checkParameter("context", context);
 		return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
-	}
-
-	@Override
-	public StatusInfo updateRelationState(String luiPersonRelationId,
-			LuiPersonRelationStateInfo relationState,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		checkParameter("luiPersonRelationId", luiPersonRelationId);
-		checkParameter("relationState", relationState);
-		checkParameter("context", context);
-		return (getLprService().updateRelationState(luiPersonRelationId,
-				relationState, context));
 	}
 
 	protected void checkParameter(String parameterName, Object parameter)

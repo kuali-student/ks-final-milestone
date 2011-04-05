@@ -47,7 +47,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 	@XmlElement
 	private final String refObjectURI;
 	
-	protected TypeInfo() {
+	private TypeInfo() {
 		key = null;
 		name = null;
 		descr = null;
@@ -56,7 +56,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 		refObjectURI = null;
 	}
 		
-	protected TypeInfo(TypeInfc builder) {
+	private TypeInfo(TypeInfc builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
@@ -126,6 +126,10 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
     		this.refObjectURI = typeInfo.getRefObjectURI();
     	}
 
+        public TypeInfo build() {
+            return new TypeInfo(this);
+        } 
+        
 		@Override
 		public String getKey() {
 			return key;
