@@ -49,6 +49,8 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
  * throughout the definition, offering and scheduling of Learning
  * Units. This is a catalogue service with basic operations.
  *
+ * Version: 1.0 (Dev)
+ *
  */
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

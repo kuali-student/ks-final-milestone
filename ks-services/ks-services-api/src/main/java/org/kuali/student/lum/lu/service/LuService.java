@@ -45,6 +45,13 @@ import org.kuali.student.common.dto.ValidationResultInfo;
 
 
 /**
+ * Learning Unit (LU) Service
+ *
+ * Manages Cannonical Learning Units such as courses and programs that appear in catalogs.
+ *
+ * Version: 1.0 (Dev)
+ *
+ *
  * @Author KSContractMojo
  * @Author Tom
  * @Since Thu Mar 3 15:18:59 EST 2011

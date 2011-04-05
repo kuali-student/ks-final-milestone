@@ -38,6 +38,8 @@ import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
  * The Data Dictionary Service is an "included" service in that it is not expected to be a web service on it's
  * own but instead it's methods simply appear (are "included") on the service that includes it.
  *
+ * Version: 1.0 (Dev)
+ *
  * @author nwright
  */
 @WebService(name = "DataDictionaryService", targetNamespace = "http://student.kuali.org/wsdl/datadictionary")

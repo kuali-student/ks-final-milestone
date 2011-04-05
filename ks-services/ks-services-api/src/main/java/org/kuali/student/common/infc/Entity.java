@@ -48,5 +48,5 @@ public interface Entity
      * @return the entity description
      */
 
-    public RichTextInfo getDesc();
+    public RichTextInfc getDesc();
 }

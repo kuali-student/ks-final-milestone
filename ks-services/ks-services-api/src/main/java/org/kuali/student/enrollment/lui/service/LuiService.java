@@ -42,7 +42,14 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 
 
 /**
- * LUI Service
+ * Learning Unit Insntance (LUI) Service
+ *
+ * Managages the creation of Instances of the cannonical Learning unit.  An instance is
+ * associated with a particular time period during which is is offered.
+ *
+ * This includes course and section offerings as well as program offerings
+ * 
+ * Version: 1.0 (Dev)
  *
  * @Author Tom
  * @Since Wed Mar 2 15:18:59 EST 2011

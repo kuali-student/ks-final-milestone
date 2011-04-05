@@ -24,7 +24,9 @@ import org.kuali.student.common.exceptions.OperationFailedException;
  * Provides a read-only view of states and state flow information. 
  * 
  * This service needs to be implemented by any KS service that is going to handle states
- * 
+  *
+ * Version: 1.0 (Dev)
+ *
  * @author kamal
  */
 @WebService(name = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")

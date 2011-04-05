@@ -41,6 +41,18 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationStateInfo;
 
 /**
+ * The Lui Person Relationship (LPR) Service
+ *
+ * Maintains the relationship between a Learning Unit Instance and a Person.
+ * Depending on the type this service maintaings relationships such as:<ul>
+ * <li>a student's registration in a course
+ * <li>a student's enrollment in a program (major or minor)
+ * <li>an instructor's assignment to teach a course
+ * <li>a faculty member's assignment as an advisor for a prorgram
+ *  </ul>
+ * 
+ * Version: 1.0 (Dev)
+ *
  * @Author Kamal
  * @Since Tue Mar 01 15:53:51 PST 2011
  * @See <a href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service">LuiPersonRelationService</>
