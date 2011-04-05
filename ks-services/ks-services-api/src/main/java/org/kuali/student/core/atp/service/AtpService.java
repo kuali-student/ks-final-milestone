@@ -34,8 +34,6 @@ import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.AtpSeasonalTypeInfo;
 import org.kuali.student.core.atp.dto.AtpTypeInfo;
-import org.kuali.student.core.atp.dto.DateRangeInfo;
-import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.common.dto.ContextInfo;
@@ -45,12 +43,11 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
 /**
  * Academic Time Period Service Description and Assumptions
  *
- * This service supports the management of Academic Time Periods
- * and their associated Date Ranges and Milestones. The intent is to
- * provide a flexible but structured way to define the various time
- * frames that are used throughout the definition, offering and
- * scheduling of Learning Units. This is a catalogue service with
- * basic operations.
+ * This service supports the management of Academic Time Periods and
+ * their associated Milestones. The intent is to provide a flexible
+ * but structured way to define the various time frames that are used
+ * throughout the definition, offering and scheduling of Learning
+ * Units. This is a catalogue service with basic operations.
  *
  */
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -58,7 +55,8 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
 public interface AtpService extends DataDictionaryService {
 
     /** 
-     * Retrieves the list of academic time period types known by this service
+     * Retrieves the list of academic time period types known by this service.
+     *
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -68,7 +66,8 @@ public interface AtpService extends DataDictionaryService {
     public List<AtpTypeInfo> getAtpTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
 
     /** 
-     * Retrieves information about a particular academic time period type
+     * Retrieves information about a particular academic time period type.
+     *
      * @param atpTypeKey academic time period type identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -82,7 +81,9 @@ public interface AtpService extends DataDictionaryService {
     public AtpTypeInfo getAtpType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of Academic Time Period Seasonal Types known by this service
+     * Retrieves the list of Academic Time Period Seasonal Types known
+     * by this service.
+     *
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -92,7 +93,9 @@ public interface AtpService extends DataDictionaryService {
     public List<AtpSeasonalTypeInfo> getAtpSeasonalTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
 
     /** 
-     * Retrieves information about a particular academic time period seasonal type
+     * Retrieves information about a particular academic time period
+     * seasonal type.
+     *
      * @param atpSeasonalTypeKey academic time period seasonal type identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -106,14 +109,18 @@ public interface AtpService extends DataDictionaryService {
     public AtpSeasonalTypeInfo getAtpSeasonalType(@WebParam(name = "atpSeasonalTypeKey") String atpSeasonalTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of Academic Time Period Duration Types known by this service
+     * Retrieves the list of Academic Time Period Duration Types known
+     * by this service.
+     *
      * @return List of academic time period duration types
      * @throws OperationFailedException unable to complete request
      */
     public List<AtpDurationTypeInfo> getAtpDurationTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
 
     /** 
-     * Retrieves information about a particular academic time period duration type
+     * Retrieves information about a particular academic time period
+     * duration type.
+     *
      * @param atpDurationTypeKey academic time period duration type identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -127,7 +134,8 @@ public interface AtpService extends DataDictionaryService {
     public AtpDurationTypeInfo getAtpDurationType(@WebParam(name = "atpDurationTypeKey") String atpDurationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of milestone types known by this service
+     * Retrieves the list of milestone types known by this service.
+     *
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -137,7 +145,8 @@ public interface AtpService extends DataDictionaryService {
     public List<MilestoneTypeInfo> getMilestoneTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
 
     /** 
-     * Retrieves information about a particular milestone type
+     * Retrieves information about a particular milestone type.
+     *
      * @param milestoneTypeKey milestone type identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -151,7 +160,9 @@ public interface AtpService extends DataDictionaryService {
     public MilestoneTypeInfo getMilestoneType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of milestone types that are defined for a particular Atp Type
+     * Retrieves the list of milestone types that are defined for a
+     * particular Atp Type.
+     *
      * @param atpTypeKey atpTypeKey
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -163,41 +174,6 @@ public interface AtpService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      */
     public List<MilestoneTypeInfo> getMilestoneTypesForAtpType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of date range types known by this service
-     * @return List of date range types
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<DateRangeTypeInfo> getDateRangeTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException;
-
-    /** 
-     * Retrieves information about a particular date range type
-     * @param dateRangeTypeKey date range type identifier
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return date range type information
-     * @throws DoesNotExistException specified date range type not found
-     * @throws InvalidParameterException invalid dateRangeTypeKey
-     * @throws MissingParameterException dateRangeTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public DateRangeTypeInfo getDateRangeType(@WebParam(name = "dateRangeTypeKey") String dateRangeTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of dateRange types that are defined for a particular Atp Type
-     * @param atpTypeKey atpTypeKey
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return List of milestone types
-     * @throws DoesNotExistException specified atpTypeKey not found
-     * @throws InvalidParameterException invalid atpTypeKey
-     * @throws MissingParameterException atpTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<DateRangeTypeInfo> getDateRangeTypesForAtpType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates an academic time period. Depending on the value of
@@ -258,36 +234,8 @@ public interface AtpService extends DataDictionaryService {
     public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationType") String validationType, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Validates a date range. Depending on the value of
-     * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the date range and a record is found
-     * for that identifier, the validation checks if the academic time
-     * period can be shifted to the new values. If a record cannot be
-     * found for the identifier, it is assumed that the record does
-     * not exist and as such, the checks performed will be much
-     * shallower, typically mimicking those performed by setting the
-     * validationType to the current object. This is a slightly
-     * different pattern from the standard validation as the caller
-     * provides the identifier in the create statement instead of the
-     * server assigning an identifier.
+     * Retrieves the details of a single Academic Time Period by atpKey.
      *
-     * @param validationType Identifier of the extent of validation
-     * @param dateRangeInfo The date range information to be tested.
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, dateRangeInfo
-     * @throws MissingParameterException missing validationTypeKey, dateRangeInfo
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ValidationResultInfo> validateDateRange(@WebParam(name = "validationType") String validationType, @WebParam(name = "dateRangeInfo") DateRangeInfo dateRangeInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the details of a single Academic Time Period by atpKey
      * @param atpKey Unique key of the Academic Time Period to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -301,7 +249,9 @@ public interface AtpService extends DataDictionaryService {
     public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of Academic Time Periods that the supplied date falls within
+     * Retrieves the list of Academic Time Periods that the supplied
+     * date falls within.
+     *
      * @param searchDate Timestamp to be matched
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -316,7 +266,7 @@ public interface AtpService extends DataDictionaryService {
     /** 
      * Retrieves the list of Academic Time Periods that are totally
      * contained within the supplied dates. The entire Atp falls
-     * within the supplied dates
+     * within the supplied dates.
      *
      * @param startDate Earliest Timestamp
      * @param endDate Latest Timestamp
@@ -331,7 +281,8 @@ public interface AtpService extends DataDictionaryService {
     public List<AtpInfo> getAtpsByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves a list of Academic Time Periods of the specified type
+     * Retrieves a list of Academic Time Periods of the specified type.
+     *
      * @param atpTypeKey ATP type to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -344,7 +295,8 @@ public interface AtpService extends DataDictionaryService {
     public List<AtpInfo> getAtpsByAtpType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the details of the specified milestone
+     * Retrieves the details of the specified milestone.
+     *
      * @param milestoneKey Unique id of the milestone to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -358,7 +310,9 @@ public interface AtpService extends DataDictionaryService {
     public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of milestones for a specified Academic Time Period
+     * Retrieves the list of milestones for a specified Academic Time
+     * Period.
+     *
      * @param atpKey Unique key of the Academic Time Period to be retieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -371,7 +325,9 @@ public interface AtpService extends DataDictionaryService {
     public List<MilestoneInfo> getMilestonesByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of milestones that fall within a specified set of dates
+     * Retrieves the list of milestones that fall within a specified
+     * set of dates.
+     *
      * @param startDate Start Date for date span
      * @param endDate End Date for date span
      * @param context Context information containing the principalId
@@ -402,47 +358,8 @@ public interface AtpService extends DataDictionaryService {
     public List<MilestoneInfo> getMilestonesByDatesAndType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the details of the specified daterange
-     * @param dateRangeKey Unique id of the date range to be retrieved
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return Details of requested daterange
-     * @throws DoesNotExistException dateRangeKey not found
-     * @throws InvalidParameterException invalid dateRangeKey
-     * @throws MissingParameterException missing dateRangeKey
-     * @throws OperationFailedException unable to complete request
-     */
-    public DateRangeInfo getDateRange(@WebParam(name = "dateRangeKey") String dateRangeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of DateRanges for a specified Academic Time Period
-     * @param atpKey Unique key of the Academic Time Period to be retieved
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return List of dateRanges for this Academic Time Period
-     * @throws InvalidParameterException invalid atpKey
-     * @throws MissingParameterException invalid atpKey
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<DateRangeInfo> getDateRangesByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of DateRanges which encompass the specified date
-     * @param searchDate Timestamp to be matched
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return List of dateRanges that contain the supplied searchDate
-     * @throws InvalidParameterException invalid searchDate
-     * @throws MissingParameterException invalid searchDate
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<DateRangeInfo> getDateRangesByDate(@WebParam(name = "searchDate") Date searchDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Creates a new Academic Time Period
+     * Creates a new Academic Time Period.
+     *
      * @param atpTypeKey Type of ATP to be created
      * @param atpKey Key of ATP to be created
      * @param atpInfo Details of ATP to be created
@@ -460,25 +377,29 @@ public interface AtpService extends DataDictionaryService {
     public AtpInfo createAtp(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates an existing Academic Time Period
+     * Updates an existing Academic Time Period.
+     *
      * @param atpKey Key of ATP to be updated
      * @param atpInfo Details of updates to ATP being updated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return Details of ATP just updated
-     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DataValidationErrorException One or more values invalid for this 
+     *         operation
      * @throws DoesNotExistException ATP being updated does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws VersionMismatchException The action was attempted on an out of date 
+     *         version.
      */
     public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing Academic Time Period
+     * Deletes an existing Academic Time Period.
+     *
      * @param atpKey Key of ATP to be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -494,6 +415,7 @@ public interface AtpService extends DataDictionaryService {
 
     /** 
      * Create a new milestone to an existing Academic Time Period.
+     *
      * @param atpKey Key of ATP to be updated
      * @param milestoneKey Id of milestone to be added
      * @param milestoneInfo Details of milestone to be added
@@ -512,6 +434,7 @@ public interface AtpService extends DataDictionaryService {
 
     /** 
      * Add an existing milestone to an existing Academic Time Period.
+     *
      * @param atpKey Key of ATP to be updated
      * @param milestoneKey Id of milestone to be added
      * @param context Context information containing the principalId
@@ -528,6 +451,7 @@ public interface AtpService extends DataDictionaryService {
 
     /** 
      * Updates an existing milestone.
+     *
      * @param milestoneKey ID of milestone to be updated
      * @param milestoneInfo Details of milestone to be updated
      * @param context Context information containing the principalId
@@ -546,6 +470,7 @@ public interface AtpService extends DataDictionaryService {
 
     /** 
      * Removes an existing milestone from an ATP.
+     *
      * @param atpKey Id of ATP
      * @param milestoneKey Id of milestone to be removed
      * @param context Context information containing the principalId
@@ -562,6 +487,7 @@ public interface AtpService extends DataDictionaryService {
 
     /** 
      * Deletes an existing milestone from all ATPs.
+     *
      * @param milestoneKey Id of milestone to be removed
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -574,55 +500,4 @@ public interface AtpService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Adds a new dateRange to an existing Academic Time Period
-     * @param atpKey key of the ATP to be associated with the dateRange
-     * @param dateRangeKey identifier of the dateRange to be added
-     * @param dateRangeInfo details of the dateRange to be added
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return details of the newly created dateRange
-     * @throws AlreadyExistsException dateRange being added already exists
-     * @throws DataValidationErrorException one or more values invalid for this operation
-     * @throws InvalidParameterException one or more parameters invalid
-     * @throws MissingParameterException one or more parameters missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public DateRangeInfo addDateRange(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "dateRangeKey") String dateRangeKey, @WebParam(name = "dateRangeInfo") DateRangeInfo dateRangeInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Updates an existing daterange
-     * @param dateRangeKey identifier of daterange to be updated
-     * @param dateRangeInfo details of daterange to be updated
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return details of the updated dateRange
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException dateRange being updated does not exist
-     * @throws InvalidParameterException one or more parameters invalid
-     * @throws MissingParameterException one or more parameters missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException action was attempted on an out of date version.
-     */
-    public DateRangeInfo updateDateRange(@WebParam(name = "dateRangeKey") String dateRangeKey, @WebParam(name = "dateRangeInfo") DateRangeInfo dateRangeInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Removes an existing daterange.
-     * @param dateRangeKey key of daterange to be removed
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException DateRange being removed does not exist
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo removeDateRange(@WebParam(name = "dateRangeKey") String dateRangeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

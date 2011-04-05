@@ -52,7 +52,13 @@ public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAtt
     private String atpId;
 
     @XmlElement
-    private Date milestoneDate;
+    private boolean isDateRange;
+
+    @XmlElement
+    private Date startDate;
+
+    @XmlElement
+    private Date endDate;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -104,14 +110,38 @@ public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAtt
     }
 
     /**
-     * Date and time of the milestone.
+     * Tests if this milestone has a date range. If true, the end date
+     * value follows the start date.
      */
-    public Date getMilestoneDate() {
-        return milestoneDate;
+
+    public Date getIsDateRange() {
+        return isDateRange;
     }
 
-    public void setMilestoneDate(Date milestoneDate) {
-        this.milestoneDate = milestoneDate;
+    public void setStartDate(boolean isDateRange) {
+        this.isDateRange = isDateRange;
+    }
+
+    /**
+     * Start Date and time of the milestone.
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * End Date and time of the milestone.
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     /**
