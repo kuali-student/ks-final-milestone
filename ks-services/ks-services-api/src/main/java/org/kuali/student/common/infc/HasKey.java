@@ -21,7 +21,7 @@ package org.kuali.student.common.infc;
 public interface HasKey extends HasPrimaryKey {
 
     /**
-     * Name: key
+     * Name: Key
      *
      * Unique key to this object. Unlike an Id this key can be explicitly set by the
      * application and is intended to be "somewhat" readable by a human.

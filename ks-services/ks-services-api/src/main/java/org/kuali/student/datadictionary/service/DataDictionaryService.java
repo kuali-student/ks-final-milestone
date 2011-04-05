@@ -27,12 +27,16 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 
 /**
- * Dictionary Service
- *
- * TODO: Decorate with CXF annotations
+ * Data Dictionary Service
  *
  * Provides a read-only view of meta data about the objects and fields on those objects
- * that are known to this service
+ * that are known to the service for which the data dictionary is included.
+ *
+ * The dictionary service is aligned with Rice's KRAD dictionary, as such the dictionary
+ * structures should match up field for field.
+ *
+ * The Data Dictionary Service is an "included" service in that it is not expected to be a web service on it's
+ * own but instead it's methods simply appear (are "included") on the service that includes it.
  *
  * @author nwright
  */

@@ -17,14 +17,14 @@ package org.kuali.student.common.infc;
 public interface TypeInfc extends HasKey, HasAttributes, HasEffectiveDates {
 
     /**
-     * Name: name
+     * Name: Name
      *
      * Friendly name of the Type
      */
     public String getName();
 
     /**
-     * Name: description
+     * Name: Description
      *
      * Narrative description of the type
      */

@@ -16,7 +16,6 @@
 
 package org.kuali.student.lum.lu.dto;
 
-import org.kuali.student.core.search.dto.SearchParam;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.common.dto.SearchParamInfo;
 
 
 /**
@@ -46,7 +46,7 @@ public class MembershipQueryInfo implements Serializable {
     private String searchTypeKey;
 
     @XmlElement
-    private List<SearchParam> queryParamValueList;
+    private List<SearchParamInfo> queryParamValueList;
 
 
     /**
@@ -67,15 +67,15 @@ public class MembershipQueryInfo implements Serializable {
      * doesn't extend beyond the included object.
      */
 
-    public List<SearchParam> getQueryParamValueList() {
+    public List<SearchParamInfo> getQueryParamValueList() {
         if (queryParamValueList == null) {
-            queryParamValueList = new ArrayList<SearchParam>(0);
+            queryParamValueList = new ArrayList<SearchParamInfo>(0);
         }
 
         return queryParamValueList;
     }
 
-    public void setQueryParamValueList(List<SearchParam> queryParamValueList) {
+    public void setQueryParamValueList(List<SearchParamInfo> queryParamValueList) {
         this.queryParamValueList = queryParamValueList;
     }
 
