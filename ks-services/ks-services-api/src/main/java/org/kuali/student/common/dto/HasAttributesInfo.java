@@ -72,5 +72,5 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
             this.attributes = attributes;
             return this;
         }
-	}
+    }
 }
