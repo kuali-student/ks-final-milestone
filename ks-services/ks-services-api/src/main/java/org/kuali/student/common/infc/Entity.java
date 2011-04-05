@@ -16,6 +16,8 @@
 package org.kuali.student.common.infc;
 
 
+import org.kuali.student.common.dto.RichTextInfo;
+
 /**
  * A common interface pattern for service entities.
  *
