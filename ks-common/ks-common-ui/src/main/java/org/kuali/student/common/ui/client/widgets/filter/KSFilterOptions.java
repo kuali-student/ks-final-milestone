@@ -1,7 +1,9 @@
 package org.kuali.student.common.ui.client.widgets.filter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.search.dto.SearchRequest;
@@ -41,10 +43,10 @@ public class KSFilterOptions extends Composite{
 
     private VerticalFlowPanel filterContainer = new VerticalFlowPanel();
     private LoadingDiv loading = new LoadingDiv();
-    List<KSCheckBox> filterItems = new ArrayList<KSCheckBox>();
+    List<KSFilterItem> filterItems = new ArrayList<KSFilterItem>();
         
     private int itemsIntializing = 0;
-    private boolean isInitialSelect = true;
+    private int itemsSelected = 0;
 
     private SearchRpcServiceAsync searchRpcService = GWT.create(SearchRpcService.class);
     
@@ -70,11 +72,11 @@ public class KSFilterOptions extends Composite{
         resetButton.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
-				for (KSCheckBox checkbox:filterItems){
-					checkbox.setValue(false);
-					KSFilterOptions.this.fireEvent(new FilterResetEvent());
-					isInitialSelect = true;
+				for (KSFilterItem filterItem:filterItems){
+					filterItem.reset();					
 				}
+				KSFilterOptions.this.fireEvent(new FilterResetEvent());
+				itemsSelected = 0;
 			}        	
         });
         init(lookups);
@@ -89,10 +91,23 @@ public class KSFilterOptions extends Composite{
     	}    	
     }
         
+    /**
+     * Add a filter event handler. A filter event gets fired anytime the user checks or unchecks a filter option.
+     * A filter event will not get fired if an uncheck of filter item causes results in none of the checkboxes
+     * being selected, instead filter reset event will get fired.
+     * 
+     * @param handler
+     */
     public void addFilterEventHandler(FilterEventHandler handler){
     	this.addHandler(handler, FilterEvent.TYPE);
     }
 
+    /**
+     * Add a reset handler. A reset event will get fired anytime all the filter checkboxes are not selected, either
+     * via click of Reset or unchecking all checkboxes.
+     * 
+     * @param handler
+     */
     public void addFilterResetEventHandler(FilterResetEventHandler handler){
     	this.addHandler(handler, FilterResetEvent.TYPE);
     }
@@ -100,6 +115,8 @@ public class KSFilterOptions extends Composite{
     private class KSFilterItem extends CollapsablePanel{
     	SpanPanel itemContent;
     	String itemKey;
+    	
+    	List<KSCheckBox> checkboxes = new ArrayList<KSCheckBox>();
     	
     	public KSFilterItem (final LookupMetadata lookup){
     		itemContent = new SpanPanel();
@@ -118,30 +135,75 @@ public class KSFilterOptions extends Composite{
 					for (String id:items.getItemIds()){
 		                final KSCheckBox checkbox = new KSCheckBox(items.getItemText(id));
 		                checkbox.setFormValue(id);
-		                filterItems.add(checkbox);
+		                checkboxes.add(checkbox);
 		                itemContent.add(checkbox);
 		                
 		                checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 
 							@Override
 							public void onValueChange(ValueChangeEvent<Boolean> event) {
-								KSFilterOptions.this.fireEvent(new FilterEvent(checkbox.getValue(), isInitialSelect, itemKey, checkbox.getFormValue()));
-								isInitialSelect = false;
+								if (checkbox.getValue()){
+									itemsSelected++;
+								} else {
+									itemsSelected--;
+								}
+								if (itemsSelected == 0){
+									KSFilterOptions.this.fireEvent(new FilterResetEvent());
+								} else {
+									Map<String, List<String>> selectionMap = getSelectionMap();
+									KSFilterOptions.this.fireEvent(new FilterEvent(selectionMap, checkbox.getValue(), itemsSelected == 1, itemKey, checkbox.getFormValue()));									
+								}
+
 							}
 		                	
 		                });
 		            }
 					itemsIntializing--;
+	                filterItems.add(KSFilterItem.this);
 				}
-    		});
-    		    		
+    		});    		
     	}
+    	
+    	/**
+    	 * Reset all checkboxes for this filter item.
+    	 * 
+    	 */
+    	public void reset(){
+			for (KSCheckBox checkbox:checkboxes){
+				checkbox.setValue(false);
+			}
+		}
+
     }
 
+    /**
+     * Use to reset all filter checkboxes to unselected
+     */
     public void reset(){
-		for (KSCheckBox checkbox:filterItems){
-			checkbox.setValue(false);
-			isInitialSelect = true;
+		for (KSFilterItem filterItem:filterItems){
+			filterItem.reset();
 		}
+		itemsSelected = 0;
     }
+    
+    /** 
+     * @return All the currently selected filter options
+     */
+    protected Map<String, List<String>> getSelectionMap(){
+	    Map<String, List<String>> selectionMap = new HashMap<String, List<String>>();
+		for (KSFilterItem filterItem:filterItems){
+			List<String> itemValues = new ArrayList<String>();
+			for (KSCheckBox itemCheckbox:filterItem.checkboxes){
+				if (itemCheckbox.getValue()){
+					itemValues.add(itemCheckbox.getFormValue());
+				}
+			}
+			if (!itemValues.isEmpty()){
+				selectionMap.put(filterItem.itemKey, itemValues);
+			}
+		}
+		
+		return selectionMap;
+    }
+
 }

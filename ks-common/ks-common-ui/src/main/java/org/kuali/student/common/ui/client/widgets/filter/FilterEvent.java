@@ -15,6 +15,9 @@
 
 package org.kuali.student.common.ui.client.widgets.filter;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.event.shared.GwtEvent;
 
 public class FilterEvent extends GwtEvent<FilterEventHandler>{
@@ -25,24 +28,47 @@ public class FilterEvent extends GwtEvent<FilterEventHandler>{
 	private boolean selected;
 	private String filterKey;
 	private String filterValue;
+	
+	private Map<String, List<String>> selections;
 		
-	public FilterEvent(boolean selected, boolean initialSelect, String key, String value){
+	public FilterEvent(Map<String, List<String>> selections, boolean selected, boolean initialSelect, String key, String value){
 		this.selected = selected;
 		this.filterKey = key;
 		this.filterValue = value;
 		this.initialSelect = initialSelect;
+		this.selections = selections;		
 	}
 	
+	/**
+	 * @return Filter key of latest selected filter option.
+	 */
 	public String getFilterKey() {
 		return filterKey;
 	}
-	
+
+	/** 
+	 * @return Value of the latest filter option checked
+	 */
 	public String getFilterValue() {
 		return filterValue;
 	}
 
+	/**
+	 * Use this to check if this is the first filter option to be selected. When true, the selections map should
+	 * of size 1 with the associated list entry of size 1.
+	 *  
+	 * @return true if this is the first filter item to be selected 
+	 */
 	public boolean isInitialSelect() {
 		return initialSelect;
+	}
+	
+	/** 
+	 * @return List of all filter options selected with map key = filter option key amd map value a list of filter option values 
+	 * selected for that key.
+	 */
+	public Map<String, List<String>> getSelections() {
+		return selections;
 	}
 
 	@Override
