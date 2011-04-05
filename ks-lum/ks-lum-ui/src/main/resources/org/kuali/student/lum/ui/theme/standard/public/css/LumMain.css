@@ -679,3 +679,14 @@ a.KS-Program-Rule-ObjectView-Button{
 	background: #D0D0D0;
 	padding: 5px;
 }
+
+.KS-Filter-Item input[type="checkbox"] + label{
+	display: inline;
+	line-height: 2m;
+	font-weight: normal;
+}
+
+.KS-Filter-Item .gwt-CheckBox{
+	display: block;
+	margin: 10px;
+}
