@@ -18,10 +18,12 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.filter.FilterEvent;
 import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
+import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -37,7 +39,8 @@ public class BrowseProgramView extends ViewComposite {
     
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
     protected MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
-    
+	
+    private VerticalFieldLayout container = new VerticalFieldLayout();
 	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
 	protected KSFilterOptions dependencyFilter;
 	protected DataModelDefinition searchDefinition;
@@ -50,9 +53,13 @@ public class BrowseProgramView extends ViewComposite {
 	}
 
 	private void init() {
-		initWidget(layout);
+		initWidget(container);
 		Metadata metaData;
+		
+		KSDocumentHeader header = new KSDocumentHeader();
+        header.setTitle("Browse Majors and Specializations");
         
+        container.setTitleWidget(header);
         
         List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
         metaData = searchDefinition.getMetadata("filter");
@@ -86,13 +93,15 @@ public class BrowseProgramView extends ViewComposite {
 		
 		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
 		layout.add(browsePanel);
+
+		container.add(layout);
 		
 		browsePanel.executeSearch(new Callback<Boolean>(){
 			@Override
 			public void exec(Boolean result) {
-				//after search, load up the filter information
 			}
 		});
+
 	}   
 
 	private void handleSelections(Map<String, List<String>> selections) {
