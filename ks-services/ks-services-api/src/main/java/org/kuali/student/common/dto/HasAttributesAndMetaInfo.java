@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.MetaInfc;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
-        implements HasAttributesAndMetaInfc, Serializable {
+        implements HasAttributesAndMeta, Serializable {
 
     @XmlElement
     private final MetaInfo metaInfo;
@@ -35,7 +35,7 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
     	metaInfo = null;
     }
     
-	protected HasAttributesAndMetaInfo(HasAttributesAndMetaInfc builder) {
+	protected HasAttributesAndMetaInfo(HasAttributesAndMeta builder) {
 		super(builder);
 		this.metaInfo = null != builder.getMetaInfo() ? new MetaInfo.Builder(builder.getMetaInfo()).build() : null;
 	}
@@ -46,13 +46,13 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
         return metaInfo;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements HasAttributesAndMetaInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements HasAttributesAndMeta {
     	
     	private MetaInfc metaInfo;
     	
 		public Builder() {}
     	
-    	public Builder(HasAttributesAndMetaInfc hasAMInfo) {
+    	public Builder(HasAttributesAndMeta hasAMInfo) {
     		super(hasAMInfo);
     		this.metaInfo = hasAMInfo.getMetaInfo();
     	}

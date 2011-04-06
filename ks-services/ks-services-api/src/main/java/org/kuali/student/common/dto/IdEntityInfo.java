@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.common.infc.IdEntity;
-import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
 
 
 @SuppressWarnings("serial")

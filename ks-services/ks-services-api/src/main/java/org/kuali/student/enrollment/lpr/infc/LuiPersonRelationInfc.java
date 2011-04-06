@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.kuali.student.common.infc.HasAttributesAndMetaInfc;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
@@ -35,7 +35,7 @@ import org.kuali.student.common.infc.HasType;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
  */
 public interface LuiPersonRelationInfc
-        extends HasAttributesAndMetaInfc,
+        extends HasAttributesAndMeta,
         HasId,
         HasType,
         HasState,

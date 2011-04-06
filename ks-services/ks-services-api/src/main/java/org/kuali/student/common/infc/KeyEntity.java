@@ -20,10 +20,10 @@ package org.kuali.student.common.infc;
  * A common interface pattern for service entities identified by Key.
  *
  * @author tom
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
 public interface KeyEntity
     extends HasKey,
 	    Entity {
-
 }

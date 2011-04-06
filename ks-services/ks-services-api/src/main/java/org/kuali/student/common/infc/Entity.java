@@ -22,14 +22,14 @@ import org.kuali.student.common.dto.RichTextInfo;
  * A common interface pattern for service entities.
  *
  * @author tom
- * 
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
 public interface Entity
     extends HasPrimaryKey,
 	    HasType,
 	    HasState,
-	    HasAttributesAndMetaInfc {
+	    HasAttributesAndMeta {
 
     /**
      * Name: Name
