@@ -35,6 +35,7 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.service.TypeService;
+import org.kuali.student.common.service.StateService;
 
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
@@ -62,7 +63,8 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 public interface AtpService 
     extends DataDictionaryService,
-	    TypeService {
+	    TypeService,
+	    StateService {
 
     /** 
      * Retrieves the details of a single Academic Time Period by atpKey.
