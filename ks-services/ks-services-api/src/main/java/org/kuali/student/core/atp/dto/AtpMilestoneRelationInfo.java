@@ -17,8 +17,6 @@
 package org.kuali.student.core.atp.dto;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,7 +28,10 @@ import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
 
 
 /**
- *  Information about an ATP Milestone Relationship.
+ * Information about an ATP Milestone Relationship.
+ *
+ * @Author tom
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -55,12 +56,26 @@ public class AtpMilestoneRelationInfo
     }
 
 
-    private AtpMilestoneRelationInfo(AtpMilestoneRelationInfc builder) {
-        super(builder);
-        this.atpKey = builder.getAtpKey();
-        this.milestoneKey = builder.getMilestoneKey();
+    /**
+     * Constructs a new AtpMilestoneRelationInfo from another
+     * AtpMilestoneRelation.
+     *
+     * @param milestone the AtpMilestoneRelation to copy
+     */
+
+    public AtpMilestoneRelationInfo(AtpMilestoneRelationInfc amr) {
+        super(amr);
+        this.atpKey = amr.getAtpKey();
+        this.milestoneKey = amr.getMilestoneKey();
     }
 
+
+    /**
+     * Name: AtpKey
+     * Gets the ATP key in this relationship.
+     *
+     * @return the ATP key
+     */
 
     @Override
     public String getAtpKey() {
@@ -68,11 +83,22 @@ public class AtpMilestoneRelationInfo
     }
 
 
+    /**
+     * Name: MilestoneKey
+     * Gets the Milestone key in this relationship.
+     *
+     * @return the Milestone key
+     */
+
     @Override
     public String getMilestoneKey() {
         return milestoneKey;
     }
 
+
+    /**
+     * The builder class for this AtpMilestonerelationInfo.
+     */
 
     public static class Builder 
 	extends RelationshipInfo.Builder 
@@ -82,9 +108,18 @@ public class AtpMilestoneRelationInfo
         private String milestoneKey;
 
 
+	/**
+	 * Constructs a new builder.
+	 */
+
         public Builder() {
         }
 
+
+	/**
+	 *  Constructs a new builder initialized from another
+	 *  AtpMilestoneRelation.
+	 */
 
         public Builder(AtpMilestoneRelationInfc amrInfo) {
             super(amrInfo);
@@ -93,10 +128,35 @@ public class AtpMilestoneRelationInfo
         }
 
 
-        public AtpMilestoneRelationInfo build() {
+	/**
+	 * Builds the AtpMilestoneRelation.
+	 *
+	 * @return a new AtpMilestoneRelation
+	 */
+
+        public AtpMilestoneRelationInfc build() {
             return new AtpMilestoneRelationInfo(this);
         }
 
+
+	/**
+	 * Gets the ATP key in this relation.
+	 *
+	 * @return the ATP key
+	 */
+
+        @Override
+        public String getAtpKey() {
+            return atpKey;
+        }
+
+
+	/**
+	 * Sets the ATP key in this relation.
+	 *
+	 * @param atpKey the ATP key
+	 * @return the builder
+	 */
 
         public Builder atpKey(String atpKey) {
             this.atpKey = atpKey;
@@ -104,20 +164,28 @@ public class AtpMilestoneRelationInfo
         }
 
 
-        public Builder milestoneKey(String milestoneKey) {
-            this.milestoneKey = milestoneKey;
-            return this;
-        }
-
-
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
+	/**
+	 * Gets the Milestone key in this relation.
+	 *
+	 * @return the Milestone key
+	 */
 
         @Override
         public String getMilestoneKey() {
             return milestoneKey;
+        }
+
+
+	/**
+	 * Sets the Milestone key in this relation.
+	 *
+	 * @param milestone the Milestone key
+	 * @return the builder
+	 */
+
+        public Builder milestoneKey(String milestoneKey) {
+            this.milestoneKey = milestoneKey;
+            return this;
         }
     }
 }

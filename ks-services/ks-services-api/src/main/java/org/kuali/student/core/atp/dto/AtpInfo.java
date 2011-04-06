@@ -17,8 +17,6 @@ package org.kuali.student.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,13 +26,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.core.atp.infc.AtpInfc;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
 /**
  * Information about an academic time period.
  *
- * @Author Tom
+ * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
@@ -53,16 +50,16 @@ public class AtpInfo
     private Date endDate;
 
 
-    protected AtpInfo() {
+    private AtpInfo() {
     	startDate = null;
 	endDate = null;
     }
     
 
     /**
-     *  Constructs a new AtpInfo from another Atp.
+     * Constructs a new AtpInfo from another Atp.
      *
-     *  @param atp the ATP to copy
+     * @param atp the ATP to copy
      */
 
     public AtpInfo(AtpInfc atp) {
@@ -130,7 +127,7 @@ public class AtpInfo
 
 
 	/**
-	 *  Constructs a new builder initialized from another atp.
+	 * Constructs a new builder initialized from another ATP.
 	 */
 
     	public Builder(AtpInfc atp) {
@@ -141,9 +138,9 @@ public class AtpInfo
 		
 
 	/**
-	 *  Builds the ATP.
+	 * Builds the ATP.
 	 *
-	 *  @return a new ATP
+	 * @return a new ATP
 	 */
 
         public AtpInfc build() {
@@ -152,9 +149,9 @@ public class AtpInfo
 
 
 	/**
-	 *  Gets the start date.
+	 * Gets the start date.
 	 *
-	 *  @return the ATP start date
+	 * @return the ATP start date
 	 */
 
 	@Override
@@ -164,9 +161,10 @@ public class AtpInfo
 
 
 	/**
-	 *  Sets the ATP start date.
+	 * Sets the ATP start date.
 	 *
-	 *  @return the start date for the ATP
+	 * @param startDate the start date for the ATP
+	 * @return the builder
 	 */
     	
 	public Builder startDate(Date startDate) {
@@ -176,9 +174,9 @@ public class AtpInfo
 
 
 	/**
-	 *  Gets the start date.
+	 * Gets the start date.
 	 *
-	 *  @return the ATP end date
+	 * @return the ATP end date
 	 */
 
 	@Override
@@ -188,9 +186,10 @@ public class AtpInfo
     	
 
 	/**
-	 *  Sets the ATP end date.
+	 * Sets the ATP end date.
 	 *
-	 *  @param endDate the end date for the ATP
+	 * @param endDate the end date for the ATP
+	 * @return the builder
 	 */
 
 	public Builder endDate(Date endDate) {

@@ -32,6 +32,9 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Information about a milestone.
+ *
+ * @Author tom
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -60,17 +63,27 @@ public class MilestoneInfo
     }
 
 
-    private MilestoneInfo(MilestoneInfc builder) {
-        super(builder);
+    /**
+     * Constructs a new MilestoneInfo from another Milestone.
+     *
+     * @param milestone the Milestone to copy
+     */
+
+    public MilestoneInfo(MilestoneInfc milestone) {
+        super(milestone);
 	this.isDateRange = false;
-        this.startDate = null != builder.getStartDate() ? new Date(builder.getStartDate().getTime()) : null;
-        this.endDate = null != builder.getEndDate() ? new Date(builder.getEndDate().getTime()) : null;
+        this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
+        this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
     }
 
 
     /**
+     * Name: IsDateRange
      * Tests if this milestone has a date range. If true, the end date
      * value follows the start date.
+     *
+     * @return true if this Milestone has different start end end
+     *         dates, false if this Milestone represents a single date
      */
 
     @Override
@@ -80,7 +93,10 @@ public class MilestoneInfo
 
 
     /**
-     * Start Date and time of the milestone.
+     * Name: StartDate
+     * Gets the start Date and time of the milestone.
+     *
+     * @return the milestone start
      */
 
     @Override
@@ -90,7 +106,10 @@ public class MilestoneInfo
 
 
     /**
-     * End Date and time of the milestone.
+     * Name: EndDate
+     * Gets the end Date and time of the milestone.
+     *
+     * @return the milestone end
      */
 
     @Override
@@ -98,6 +117,10 @@ public class MilestoneInfo
         return endDate;
     }
 
+
+    /**
+     * The builder class for this MilestoneInfo.
+     */
 
     public static class Builder 
 	extends KeyEntityInfo.Builder 
@@ -108,9 +131,18 @@ public class MilestoneInfo
         private Date endDate;
 
 
+	/**
+	 * Constructs a new builder.
+	 */
+
         public Builder() {
         }
 
+
+	/**
+	 *  Constructs a new builder initialized from another
+	 *  Milestone.
+	 */
 
         public Builder(MilestoneInfc milestoneInfo) {
             super(milestoneInfo);
@@ -119,10 +151,40 @@ public class MilestoneInfo
         }
 
 
-        public MilestoneInfo build() {
+	/**
+	 * Builds the Milestone.
+	 *
+	 * @return a new Milestone
+	 */
+
+        public MilestoneInfc build() {
             return new MilestoneInfo(this);
         }
 
+
+	/**
+	 * Tests if this milestone has a date range. If true, the end date
+	 * value follows the start date.
+	 *
+	 * @return true if this Milestone has different start end end
+	 *         dates, false if this Milestone represents a single date
+	 */
+	
+	@Override
+	public boolean getIsDateRange() {
+	    return isDateRange;
+	}
+
+
+	/**
+	 * Sets the date range flag (should this flag be inferred from
+	 * the dates?)
+	 *
+	 * @param isDateRange true if this Milestone has different
+	 *         start end end dates, false if this Milestone
+	 *         represents a single date
+	 * @return the builder
+	 */
 
 	public Builder dateRange(boolean isDateRange) {
 	    this.isDateRange = isDateRange;
@@ -130,23 +192,11 @@ public class MilestoneInfo
 	}
 
 
-        public Builder startDate(Date startDate) {
-            this.startDate = new Date(startDate.getTime());
-            return this;
-        }
-
-
-        public Builder endDate(Date endDate) {
-            this.endDate = new Date(endDate.getTime());
-            return this;
-        }
-
-
-	@Override
-	public boolean getIsDateRange() {
-	    return isDateRange;
-	}
-
+	/**
+	 * Gets the start date.
+	 *
+	 * @return the Milestone start date
+	 */
 
         @Override
         public Date getStartDate() {
@@ -154,9 +204,41 @@ public class MilestoneInfo
         }
 
 
+	/**
+	 * Sets the Milestone start date.
+	 *
+	 * @param endDate the start date
+	 * @return the builder
+	 */
+
+        public Builder startDate(Date startDate) {
+            this.startDate = new Date(startDate.getTime());
+            return this;
+        }
+
+
+	/**
+	 * Gets the start date.
+	 *
+	 * @return the Milestone end date
+	 */
+
         @Override
         public Date getEndDate() {
             return endDate;
+        }
+
+
+	/**
+	 * Sets the Milestone end date.
+	 *
+	 * @param endDate the end date
+	 * @return the builder
+	 */
+
+        public Builder endDate(Date endDate) {
+            this.endDate = new Date(endDate.getTime());
+            return this;
         }
     }
 }
