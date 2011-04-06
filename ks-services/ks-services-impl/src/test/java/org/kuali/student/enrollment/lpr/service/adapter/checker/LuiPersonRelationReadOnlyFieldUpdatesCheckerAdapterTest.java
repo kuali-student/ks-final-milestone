@@ -134,7 +134,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapterTest {
 		assertNotNull(lprId);
 
 		// fetch
-		LuiPersonRelationInfo fetched = getService().fetchLUIPersonRelation(lprId, context);
+		LuiPersonRelationInfo fetched = getService().fetchLuiPersonRelation(lprId, context);
 
 		// check readonly fields on update
 		LuiPersonRelationInfo bad = null;

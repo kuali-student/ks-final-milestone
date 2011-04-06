@@ -96,7 +96,7 @@ public class LuiPersonRelationReadOnlyFieldUpdatesCheckerAdapter
 	  OperationFailedException,
 	  PermissionDeniedException,
 	  VersionMismatchException {
-		LuiPersonRelationInfo orig = this.fetchLUIPersonRelation(luiPersonRelationId, context);
+		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
 		// once created these fields are never updatable directly by the application
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getType(), luiPersonRelationInfo.getType());

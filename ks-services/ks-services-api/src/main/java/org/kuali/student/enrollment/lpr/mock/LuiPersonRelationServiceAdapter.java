@@ -126,8 +126,8 @@ public class LuiPersonRelationServiceAdapter implements
     }
 
     @Override
-    public LuiPersonRelationInfo fetchLUIPersonRelation(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return lprService.fetchLUIPersonRelation(luiPersonRelationId, context);
+    public LuiPersonRelationInfo fetchLuiPersonRelation(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return lprService.fetchLuiPersonRelation(luiPersonRelationId, context);
     }
 
     @Override

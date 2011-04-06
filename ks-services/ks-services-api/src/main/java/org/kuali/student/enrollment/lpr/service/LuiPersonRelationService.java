@@ -44,11 +44,11 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
  * The Lui Person Relationship (LPR) Service
  *
  * Maintains the relationship between a Learning Unit Instance and a Person.
- * Depending on the type this service maintaings relationships such as:<ul>
+ * Depending on the type this service maintains relationships such as:<ul>
  * <li>a student's registration in a course
  * <li>a student's enrollment in a program (major or minor)
  * <li>an instructor's assignment to teach a course
- * <li>a faculty member's assignment as an advisor for a prorgram
+ * <li>a faculty member's assignment as an advisor for a program
  *  </ul>
  * 
  * Version: 1.0 (Dev)
@@ -58,7 +58,6 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service">LuiPersonRelationService</>
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelation")
-// TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationService extends DataDictionaryService, TypeService, StateService {
 
@@ -74,7 +73,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public LuiPersonRelationInfo fetchLUIPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiPersonRelationInfo fetchLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the Relation for the specified list of LUI Person Relation Ids

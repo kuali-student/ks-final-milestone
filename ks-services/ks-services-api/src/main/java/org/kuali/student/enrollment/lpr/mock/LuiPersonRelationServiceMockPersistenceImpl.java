@@ -125,7 +125,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
     }
 
     @Override
-    public LuiPersonRelationInfo fetchLUIPersonRelation(String luiPersonRelationId,
+    public LuiPersonRelationInfo fetchLuiPersonRelation(String luiPersonRelationId,
             ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -415,7 +415,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             PermissionDeniedException {
         List<LuiPersonRelationInfo> lprs = new ArrayList();
         for (String id : luiPersonRelationIdList) {
-            LuiPersonRelationInfo bean = this.fetchLUIPersonRelation(id, context);
+            LuiPersonRelationInfo bean = this.fetchLuiPersonRelation(id, context);
             lprs.add(bean);
         }
         return lprs;

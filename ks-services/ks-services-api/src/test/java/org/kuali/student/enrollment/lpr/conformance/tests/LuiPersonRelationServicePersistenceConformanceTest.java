@@ -166,7 +166,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 		assertNotNull(lprId);
 
 		// fetch
-		LuiPersonRelationInfo fetched = getService().fetchLUIPersonRelation(lprId, context);
+		LuiPersonRelationInfo fetched = getService().fetchLuiPersonRelation(lprId, context);
 		assertNotSame(orig, fetched);
 		assertEquals(lprId, fetched.getId());
 		assertEquals(personId, fetched.getPersonId());
@@ -262,7 +262,7 @@ public class LuiPersonRelationServicePersistenceConformanceTest {
 
 		// fetch
 		try {
-			fetched = getService().fetchLUIPersonRelation(lprId, context);
+			fetched = getService().fetchLuiPersonRelation(lprId, context);
 			if (fetched == null) {
 				fail("returned null from fetch when it should have thrown DoesNotExistException");
 			}

@@ -65,7 +65,7 @@ public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest 
 	@Test
 	public void testFetchLUIPersonRelation() {
 		try {
-			LuiPersonRelationInfo lpr = lprService.fetchLUIPersonRelation(principalId, callContext);
+			LuiPersonRelationInfo lpr = lprService.fetchLuiPersonRelation(principalId, callContext);
 			assertNull(lpr); 
 		} catch (Exception ex) {
 			fail("exception from service call :" + ex.getMessage());

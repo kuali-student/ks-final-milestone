@@ -89,17 +89,17 @@ public class LuiPersonRelationFederatingAdapter
      */
 
     @Override
-    public LuiPersonRelationInfo fetchLUIPersonRelation(String luiPersonRelationId, ContextInfo context)
+    public LuiPersonRelationInfo fetchLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         try {
-            return (getLprService().fetchLUIPersonRelation(luiPersonRelationId, context));
+            return (getLprService().fetchLuiPersonRelation(luiPersonRelationId, context));
         } catch (DoesNotExistException dne) {
         }
 
         for (LuiPersonRelationService provider : getExternalProviders()) {
             try {
-                return (getLprService().fetchLUIPersonRelation(luiPersonRelationId, context));
+                return (getLprService().fetchLuiPersonRelation(luiPersonRelationId, context));
             } catch (DoesNotExistException dne) {
             }
         }
@@ -133,7 +133,7 @@ public class LuiPersonRelationFederatingAdapter
         List<LuiPersonRelationInfo> lprs = new ArrayList<LuiPersonRelationInfo>();
 
         for (String id : luiPersonRelationIdList) {
-            lprs.add(fetchLUIPersonRelation(id, context));
+            lprs.add(fetchLuiPersonRelation(id, context));
         }
 
         return (lprs);
