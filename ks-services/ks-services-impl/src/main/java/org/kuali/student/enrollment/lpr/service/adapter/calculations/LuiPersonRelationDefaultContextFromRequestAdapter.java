@@ -15,16 +15,6 @@
  */
 package org.kuali.student.enrollment.lpr.service.adapter.calculations;
 
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -34,7 +24,7 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.infc.HoldsIdentityService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
+import org.kuali.student.enrollment.lpr.service.decorators.LuiPersonRelationServiceDecorator;
 
 /**
  * A example of an adaptor that will default the context if not supplied based
@@ -45,7 +35,7 @@ import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
  * @Author Norm
  */
 public class LuiPersonRelationDefaultContextFromRequestAdapter
-		extends LuiPersonRelationServiceAdapter
+		extends LuiPersonRelationServiceDecorator
 		implements HoldsIdentityService {
 
 	private HttpServletRequest request;
@@ -167,4 +157,6 @@ public class LuiPersonRelationDefaultContextFromRequestAdapter
 		return (getLprService().deleteLuiPersonRelation(luiPersonRelationId, context));
 	}
 
+
+	
 }
