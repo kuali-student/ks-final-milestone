@@ -82,7 +82,7 @@ public class BrowseProgramView extends ViewComposite {
         
 		metaData = searchDefinition.getMetadata("search");
 		
-		browsePanel = new BrowsePanel(metaData.getInitialLookup());
+		browsePanel = new BrowsePanel(metaData.getInitialLookup(),400);
 		
 		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
 		layout.add(browsePanel);

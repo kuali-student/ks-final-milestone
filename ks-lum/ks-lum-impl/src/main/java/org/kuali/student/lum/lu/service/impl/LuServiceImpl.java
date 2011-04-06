@@ -3142,7 +3142,7 @@ public class LuServiceImpl implements LuService {
 					campusCells = new HashSet<SearchResultCell>();
 					campusToCellMapping.put(campusCode, campusCells);
 				}
-				campusCells.add(campusLocationCell);
+				campusCells.add(progIdToCampusCellMapping.get(programId));
 				
 				//Remove this row from results
 				rowIter.remove();

@@ -126,6 +126,7 @@
 			<ref bean="lu.resultColumn.variationId"/>
 			<ref bean="lu.resultColumn.luOptionalCampusLocation"/>
 			<ref bean="lu.resultColumn.cluOfficialIdentifier.level"/>
+			<ref bean="lu.resultColumn.credentialCluId"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -700,6 +701,8 @@
         <search:desc>Identifier of a Clu</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+
+    <search:resultColumn id="lu.resultColumn.credentialCluId" parent="lu.resultColumn.cluId-parent"/>
 
     <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName" parent="lu.resultColumn.cluOfficialIdentifier.longName-parent"/>
 	<search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName-parent"  abstract="true">
@@ -1789,14 +1792,17 @@
                     <value>rel.luLuRelationType.id = :lu_queryParam_luOptionalRelationType</value>
                 </entry>
                 <entry key="lu.search.browseProgram">
-                    <value>SELECT clu.id, ident.longName, clu.state, options.resultComponentId, org.orgId, '', campus.campusLocation, ident.level 
-                    FROM CluIdentifier ident, CluResult result, IN(result.resultOptions) options, Clu clu, IN(clu.adminOrgs) org, IN(clu.campusLocations) campus 
+                    <value>SELECT clu.id, ident.longName, clu.state, options.resultComponentId, org.orgId, '', campus.campusLocation, credentialIdent.level, rel.clu.id 
+                    FROM CluIdentifier ident, CluResult result, IN(result.resultOptions) options, Clu clu, IN(clu.adminOrgs) org, IN(clu.campusLocations) campus, CluCluRelation rel, CluIdentifier credentialIdent 
                     WHERE clu.officialIdentifier.id = ident.id 
                     AND clu.luType.id = 'kuali.lu.type.MajorDiscipline' 
                     AND result.clu.id = clu.id 
                     AND result.cluResultType.id = 'kuali.resultType.degree'
                     AND org.type = 'kuali.adminOrg.type.CurriculumOversightDivision'
                     AND clu.state IN ('Active','Inactive','Retired')
+                    AND rel.relatedClu.id = clu.id
+                    AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasMajorProgram'
+                    AND rel.clu.officialIdentifier.id = credentialIdent.id 
                     </value>
                 </entry>
                 <entry key="lu.search.browseVariations">

@@ -301,18 +301,23 @@
     <bean parent="result">
      <property name="dataType" value="STRING" />
      <property name="desc" value="Level" />
-     <!-- TODO make these hidden -->
-     <property name="hidden" value="false" />
+     <property name="hidden" value="true" />
      <property name="key" value="lu.resultColumn.cluOfficialIdentifier.level" />
      <property name="name" value="Level" />
     </bean>
     <bean parent="result">
      <property name="dataType" value="STRING" />
      <property name="desc" value="Campus" />
-     <!-- TODO make these hidden -->
-     <property name="hidden" value="false" />
+     <property name="hidden" value="true" />
      <property name="key" value="lu.resultColumn.luOptionalCampusLocation" />
      <property name="name" value="Campus" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc" value="Credential Clu Id" />
+     <property name="hidden" value="true" />
+     <property name="key" value="lu.resultColumn.credentialCluId" />
+     <property name="name" value="Credential Clu Id" />
     </bean>
    </list>
   </property>
@@ -328,6 +333,7 @@
    <property name="additionalLookups">
   	 <list>
   		<ref bean="kuali.lu.browseProgram.filter.level"/>
+  		<ref bean="kuali.lu.browseProgram.filter.degreeType"/>
   		<ref bean="kuali.lu.browseProgram.filter.credential"/>
   		<ref bean="kuali.lu.browseProgram.filter.campus"/>
   		<ref bean="kuali.lu.browseProgram.filter.status"/>
@@ -373,6 +379,7 @@
    <bean id="kuali.lu.browseProgram.filter.level" parent="kuali.lu.filter.enumeration-parent">
     <property name="id" value="lu.resultColumn.cluOfficialIdentifier.level" />
 	<property name="title" value="Level"/>
+	<property name="resultReturnKey" value="enumeration.resultColumn.abbrevValue"/>
 	<property name="params">
 		<list>
 			<bean parent="filterParam-parent">
@@ -391,9 +398,9 @@
 	</property>		
  </bean>
 
-   <bean id="kuali.lu.browseProgram.filter.credential" class="org.kuali.student.common.assembly.data.UILookupData">
+   <bean id="kuali.lu.browseProgram.filter.degreeType" class="org.kuali.student.common.assembly.data.UILookupData">
     <property name="id" value="lu.resultColumn.resultComponentId" />
-	<property name="title" value="Credential"/>
+	<property name="title" value="Degree Type"/>
   	<property name="widget" value="CHECKBOX_LIST" />	
 	<property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
 	<property name="resultSortKey" value="lrc.resultColumn.resultComponent.name" />
@@ -414,6 +421,32 @@
 	</property>		
  </bean>
  
+ <bean id="kuali.lu.browseProgram.filter.credential" class="org.kuali.student.common.assembly.data.UILookupData">
+    <property name="id" value="lu.resultColumn.credentialCluId" />
+	<property name="title" value="Credential"/>
+  	<property name="widget" value="CHECKBOX_LIST" />	
+	<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
+	<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+	<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	<property name="usage" value="DEFAULT" />
+	<property name="searchTypeId" value="lu.search.generic" />
+	<property name="params">
+	  <bean parent="param">
+	  	<property name="key" value="lu.queryParam.luOptionalType" />
+	    <property name="writeAccess" value="NEVER" />
+	    <property name="dataType" value="STRING" />
+	    <property name="optional" value="true" />
+	    <property name="name" value="Clu Type" />
+	    <property name="desc" value="Clu Type" />
+	    <property name="caseSensitive" value="true" />
+	    <property name="defaultValueList">
+		    <list>
+		    	<value>kuali.lu.type.credential.Baccalaureate</value>
+		    </list>
+	    </property>
+	  </bean>
+	</property>		
+ </bean>
  <!-- Dependency Analysis Filters -->
  <bean id="dependency.filter" parent="uilookupconfig-parent">
   <property name="path" value="dependency.filter" />
