@@ -100,7 +100,8 @@
     <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
-    <!-- Remove this property as soon as the devs are comfortable with Maven 3 -->
+    <!-- Remove this property as soon as the devs are comfortable with Maven 3
+-->
     <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
 
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
@@ -144,6 +145,10 @@
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
+    <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
+    <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
+    <org.apache.poi.version>3.6</org.apache.poi.version>
+    <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
@@ -395,7 +400,8 @@
         <version>${spring.security.version}</version>
       </dependency>
 
-      <!-- This jar is only needed if you are using CAS with Spring Security -->
+      <!-- This jar is only needed if you are using CAS with Spring Security
+-->
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-cas-client</artifactId>
@@ -478,7 +484,8 @@
       </dependency>
 
       <!-- CXF Dependencies -->
-      <!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file) -->
+      <!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file)
+-->
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-api</artifactId>
@@ -933,6 +940,12 @@
 	        <groupId>jotm</groupId>                   
 	        <artifactId>jotm</artifactId>             
 	      </exclusion>
+	      
+	      <!-- itext -->
+	      <exclusion>
+            <groupId>itext</groupId>
+            <artifactId>itext</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -966,7 +979,48 @@
         <artifactId>jsr107cache</artifactId>
         <version>${jsr107cache.version}</version>
       </dependency>
-    </dependencies>
+    
+      <!-- Jasper Report dependencies -->
+      <dependency>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports</artifactId>
+		<version>${net.sf.jasperreports.version}</version>
+	  </dependency>
+	  <!-- dependency>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-fonts</artifactId>
+		<version>4.0.1</version>
+	  </dependency-->
+      <dependency>
+		<groupId>com.lowagie</groupId>
+		<artifactId>itext</artifactId>
+		<version>${com.lowagie.itext.version}</version>
+		<exclusions>
+		  <exclusion>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcmail-jdk14</artifactId>
+		  </exclusion>
+		  <exclusion>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk14</artifactId>
+		  </exclusion>
+		  <exclusion>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bctsp-jdk14</artifactId>
+		  </exclusion>
+        </exclusions>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>${org.apache.poi.version}</version>
+	  </dependency>
+	  <dependency>
+		<groupId>net.sourceforge.jexcelapi</groupId>
+		<artifactId>jxl</artifactId>
+		<version>${net.sourceforge.jexcelapi.version}</version>
+	  </dependency>
+	</dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>

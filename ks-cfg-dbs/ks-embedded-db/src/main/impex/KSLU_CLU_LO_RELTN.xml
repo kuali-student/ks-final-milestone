@@ -51,7 +51,7 @@
         OBJ_ID="f9168dd6-6819-480f-81c7-a18c2d62947e" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101210172200" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG473"
+    <KSLU_CLU_LO_RELTN CLU_ID="d404d8fb-23be-49d1-af24-5ec822e41ef3"
         CREATETIME="20101213084611"
         ID="1c8f1c34-56b5-4ccc-94f8-301e1f5e3ce7"
         LO_ID="REF_LO_GEOG473_1"
@@ -72,7 +72,7 @@
         OBJ_ID="1c244258-6d44-422c-9965-149a2fe82d9c" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101213084611" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG123"
+    <KSLU_CLU_LO_RELTN CLU_ID="faf3fef9-a881-4b9e-8bbc-5b6f43b74ef0"
         CREATETIME="20101213084611"
         ID="2da58a9a-b16c-41bf-9064-a69a917d21d0"
         LO_ID="REF_LO_GEOG123_4"
@@ -93,7 +93,7 @@
         OBJ_ID="66d11d19-28ae-48aa-b354-432bd9e6b869" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101210172159" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG123"
+    <KSLU_CLU_LO_RELTN CLU_ID="faf3fef9-a881-4b9e-8bbc-5b6f43b74ef0"
         CREATETIME="20101213084611"
         ID="3bc6b7e8-92be-42ad-ab44-f9f664d4f030"
         LO_ID="REF_LO_GEOG123_2"
@@ -163,7 +163,7 @@
         OBJ_ID="120eb2a8-4fe1-4c36-8c9d-77c847c2e3b5" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101213084611" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG123"
+    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCEPROG-GIS"
         CREATETIME="20101213084611"
         ID="69c873ed-fd80-48be-823b-217437dee4f6"
         LO_ID="REF_LO_GEOG-GIS_1"
@@ -184,7 +184,7 @@
         OBJ_ID="1d647913-3344-4525-a271-9d1538a60926" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="admin"
         UPDATETIME="20101213084612" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG473"
+    <KSLU_CLU_LO_RELTN CLU_ID="d404d8fb-23be-49d1-af24-5ec822e41ef3"
         CREATETIME="20101213084611"
         ID="7b8949f7-8a46-436c-ae1d-ccd4521de4f6"
         LO_ID="REF_LO_GEOG473_2"
@@ -303,7 +303,7 @@
         OBJ_ID="4c4b8806-948c-4b92-9925-3df99a3cd4ea" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101210172200" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG123"
+    <KSLU_CLU_LO_RELTN CLU_ID="faf3fef9-a881-4b9e-8bbc-5b6f43b74ef0"
         CREATETIME="20101213084611"
         ID="f063d6a6-85fa-4cd2-aa1e-89a063b1d0c6"
         LO_ID="REF_LO_GEOG123_1"
@@ -338,7 +338,7 @@
         OBJ_ID="202cb683-f98a-45af-8125-39f6deb63bb8" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101210172200" VER_NBR="0"/>
-    <KSLU_CLU_LO_RELTN CLU_ID="REFERENCECOURSEGEOG123"
+    <KSLU_CLU_LO_RELTN CLU_ID="faf3fef9-a881-4b9e-8bbc-5b6f43b74ef0"
         CREATETIME="20101213084611"
         ID="ff33e5e7-b58f-4090-838b-35239155308e"
         LO_ID="REF_LO_GEOG123_3"

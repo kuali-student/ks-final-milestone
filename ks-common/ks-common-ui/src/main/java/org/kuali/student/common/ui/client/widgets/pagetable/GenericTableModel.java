@@ -139,7 +139,7 @@ public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
 
                     final int sortColumn = request.getColumnSortList().getPrimaryColumn();
                     final int sortDirection = (request.getColumnSortList().isPrimaryAscending() ? 1 : -1);
-                    if (sortColumn != lastSortedColumn || sortDirection != lastSortDirection) {
+                    if (sortColumn>=0 && (sortColumn != lastSortedColumn || sortDirection != lastSortDirection)) {
                         SearchColumnDefinition rowDef = (SearchColumnDefinition) columnDefs.get(sortColumn);
                         final String sortColumKey = rowDef.getColumnKey();
                         Collections.sort((List<ResultRow>)rowDTOs, new Comparator<ResultRow>() {

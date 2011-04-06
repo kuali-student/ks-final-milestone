@@ -31,165 +31,208 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CollapsablePanel extends Composite{
-	private KSButton label;
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
-	private HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
+public class CollapsablePanel extends Composite {
+	protected KSButton label;
+	protected VerticalFlowPanel layout = new VerticalFlowPanel();
+	protected HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
 	protected SimplePanel content = new SimplePanel();
-	private boolean isOpen = false;
-	private ContentAnimation animation = new ContentAnimation();
-	private boolean withImages;
-	private String buttonLabel;
+	protected ContentAnimation animation = new ContentAnimation();
 
-	Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
-    Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
-	 private static class ContentAnimation extends Animation {
-		    /**
-		     * Whether the item is being opened or closed.
-		     */
-		    private boolean opening;
+	protected boolean isOpen = false;
+	protected boolean withImages = true;
+	protected ImagePosition imagePosition = ImagePosition.ALIGN_LEFT;
+	
+	public enum ImagePosition {
+		ALIGN_LEFT, ALIGN_RIGHT
+	}
+	
+	protected Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
+	protected Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 
-		    /**
-		     * The {@link DisclosurePanel} being affected.
-		     */
-		    private CollapsablePanel curPanel;
+	private ClickHandler openCloseClickHandler = new ClickHandler() {
 
-		    /**
-		     * Open or close the content.
-		     *
-		     * @param panel the panel to open or close
-		     * @param animate true to animate, false to open instantly
-		     */
-		    public void setOpen(CollapsablePanel panel, boolean animate) {
-		      // Immediately complete previous open
-		      cancel();
+		@Override
+		public void onClick(ClickEvent event) {
+			if (CollapsablePanel.this.isOpen) {
+				CollapsablePanel.this.close();
+			} else {
+				CollapsablePanel.this.open();
+			}
+		}
+	};
 
-		      // Open the new item
-		      if (animate) {
-		        curPanel = panel;
-		        opening = panel.isOpen;
-		        run(1000);
-		      } else {
-		        panel.content.setVisible(panel.isOpen);
-		        if (panel.isOpen) {
-		          // Special treatment on the visible case to ensure LazyPanel works
-		          panel.content.setVisible(true);
-		        }
-		      }
-		    }
+	private static class ContentAnimation extends Animation {
+		/**
+		 * Whether the item is being opened or closed.
+		 */
+		private boolean opening;
 
-		    @Override
-		    protected void onComplete() {
-		      if (!opening) {
-		        curPanel.content.setVisible(false);
-		      }
-		      DOM.setStyleAttribute(curPanel.content.getElement(), "height",
-		          "auto");
-		      DOM.setStyleAttribute(curPanel.content.getElement(), "overflow", "visible");
-		      curPanel = null;
-		    }
+		/**
+		 * The {@link DisclosurePanel} being affected.
+		 */
+		private CollapsablePanel curPanel;
 
-		    @Override
-		    protected void onStart() {
-		      super.onStart();
-		      DOM.setStyleAttribute(curPanel.content.getElement(), "overflow", "hidden");
-		      if (opening) {
-		        curPanel.content.setVisible(true);
-		        // Special treatment on the visible case to ensure LazyPanel works
-		        curPanel.content.setVisible(true);
-		     }
-		    }
+		/**
+		 * Open or close the content.
+		 * 
+		 * @param panel
+		 *            the panel to open or close
+		 * @param animate
+		 *            true to animate, false to open instantly
+		 */
+		public void setOpen(CollapsablePanel panel, boolean animate) {
+			// Immediately complete previous open
+			cancel();
 
-		    @Override
-		    protected void onUpdate(double progress) {
-		      int scrollHeight = DOM.getElementPropertyInt(
-		          curPanel.content.getElement(), "scrollHeight");
-		      int height = (int) (progress * scrollHeight);
-		      if (!opening) {
-		        height = scrollHeight - height;
-		      }
-		      height = Math.max(height, 1);
-
-		      DOM.setStyleAttribute(curPanel.content.getElement(), "height",
-		          height + "px");
-		      DOM.setStyleAttribute(curPanel.content.getElement(), "width",
-		          "auto");
-		    }
-	 }
-
-		public CollapsablePanel(String name, Widget content, boolean isOpen){
-			init(name, content, isOpen, true);
+			// Open the new item
+			if (animate) {
+				curPanel = panel;
+				opening = panel.isOpen;
+				run(1000);
+			} else {
+				panel.content.setVisible(panel.isOpen);
+				if (panel.isOpen) {
+					// Special treatment on the visible case to ensure LazyPanel
+					// works
+					panel.content.setVisible(true);
+				}
+			}
 		}
 
-	 public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages){
-		init(name, content, isOpen, withImages);
+		@Override
+		protected void onComplete() {
+			if (!opening) {
+				curPanel.content.setVisible(false);
+			}
+			DOM.setStyleAttribute(curPanel.content.getElement(), "height", "auto");
+			DOM.setStyleAttribute(curPanel.content.getElement(), "overflow", "visible");
+			curPanel = null;
+		}
 
+		@Override
+		protected void onStart() {
+			super.onStart();
+			DOM.setStyleAttribute(curPanel.content.getElement(), "overflow", "hidden");
+			if (opening) {
+				curPanel.content.setVisible(true);
+				// Special treatment on the visible case to ensure LazyPanel works
+				curPanel.content.setVisible(true);
+			}
+		}
+
+		@Override
+		protected void onUpdate(double progress) {
+			int scrollHeight = DOM.getElementPropertyInt(curPanel.content.getElement(), "scrollHeight");
+			int height = (int) (progress * scrollHeight);
+			if (!opening) {
+				height = scrollHeight - height;
+			}
+			height = Math.max(height, 1);
+
+			DOM.setStyleAttribute(curPanel.content.getElement(), "height", height + "px");
+			DOM.setStyleAttribute(curPanel.content.getElement(), "width", "auto");
+		}
 	}
 
-	 private void init(String name, Widget content, boolean isOpen, boolean withImages){
-		 this.withImages = withImages;
-			label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
-			this.content.setWidget(content);
-			label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
+	protected CollapsablePanel(){		
+	}
+	
+	public CollapsablePanel(String label, Widget content, boolean isOpen) {
+		init(getButtonLabel(label), content, isOpen, true, ImagePosition.ALIGN_RIGHT);
+	}
+
+	public CollapsablePanel(String label, Widget content, boolean isOpen, boolean withImages) {
+		init(getButtonLabel(label), content, isOpen, withImages, ImagePosition.ALIGN_RIGHT);
+	}
+
+	public CollapsablePanel(String label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		init(getButtonLabel(label), content, isOpen, withImages, imagePosition);
+	}
+
+	public CollapsablePanel(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		init(label, content, isOpen, withImages, imagePosition);
+	}
+
+	protected void init(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+		this.isOpen = isOpen;
+		this.withImages = withImages;
+		this.imagePosition = imagePosition;		
+		this.content.setWidget(content);
+
+		if (this.imagePosition == ImagePosition.ALIGN_RIGHT){
 			linkPanel.add(label);
-			if(!isOpen){
-				this.content.setVisible(false);
-	        	if (this.withImages)
-	        		linkPanel.add(closedImage);
-			}
-			else {
-	        	if (this.withImages)
-	        		linkPanel.add(openedImage);
-			}
+		}
+		
+		if (this.withImages){
+			linkPanel.add(closedImage);
+			linkPanel.add(openedImage);
+			setImageState();
+		}
 
-			label.addClickHandler(new ClickHandler(){
+		if (this.imagePosition == ImagePosition.ALIGN_LEFT){
+			linkPanel.add(label);
+		}
 
-				@Override
-				public void onClick(ClickEvent event) {
-					if(CollapsablePanel.this.isOpen){
-						CollapsablePanel.this.close();
-					}
-					else{
-						CollapsablePanel.this.open();
-					}
-				}
-			});
+		if (!isOpen) {
+			this.content.setVisible(false);
+		}
 
-			layout.add(linkPanel);
-			layout.add(this.content);
-			closedImage.addStyleName("ks-image-middle-alignment");
-			openedImage.addStyleName("ks-image-middle-alignment");
-			content.addStyleName("top-padding");
-			this.initWidget(layout);
-	 }
+		closedImage.addClickHandler(openCloseClickHandler);
+		openedImage.addClickHandler(openCloseClickHandler);
 
+		layout.add(linkPanel);
+		layout.add(this.content);
+		closedImage.addStyleName("ks-image-middle-alignment");
+		openedImage.addStyleName("ks-image-middle-alignment");
+		content.addStyleName("top-padding");
+		this.initWidget(layout);
+	}
 
-
+	protected KSButton getButtonLabel(String labelString){
+		label = new KSButton(labelString, ButtonStyle.DEFAULT_ANCHOR);				
+		label.addClickHandler(openCloseClickHandler);		
+		return label;
+	}
+	
+	/**
+	 * If the widget was initialized with a string label, it will return a KSButton.
+	 * If the widget was initialized with a label widget, it will return the label widget.
+	 * @return
+	 */
 	public KSButton getLabel() {
-        return label;
-    }
+		return label;
+	}
 
-    public boolean isOpen(){
+	public Widget getLabelWidget() {
+		return label;
+	}
+
+	public boolean isOpen() {
 		return isOpen;
 	}
 
-	public void open(){
+	public void open() {
 		isOpen = true;
 		if (withImages) {
-			linkPanel.remove(closedImage);
-	    	linkPanel.add(openedImage);
+			setImageState();
 		}
 		animation.setOpen(this, true);
 	}
 
-	public void close(){
+	public void close() {
 		isOpen = false;
 		if (withImages) {
-    		linkPanel.remove(openedImage);
-	    	linkPanel.add(closedImage);
+			setImageState();
 		}
 		animation.setOpen(this, true);
 	}
-
+		
+	/**
+	 * Update the image state to display opened/closed image based in isOpen() status
+	 */
+	protected void setImageState(){
+		closedImage.setVisible(!isOpen);
+		openedImage.setVisible(isOpen);						
+	}
 
 }

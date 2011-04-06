@@ -50,26 +50,27 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 				this.services.add(service);
 			}
 		}
-//		init();
 	}
 	
-	public void init(){
-		serviceMap = new HashMap<String,SearchService>();
-		
-		//Look through each service, grab it's search keys and add them to the map
-		for(SearchService service:services){
-			if(null==service){
-				LOG.warn("Null service passed to SearchDelegator");
-			}else{
-				try {
-					List<SearchTypeInfo> searchTypes = service.getSearchTypes();
-					if(searchTypes!=null){
-						for(SearchTypeInfo searchType:searchTypes){
-							serviceMap.put(searchType.getKey(),service);
+	public synchronized void init(){
+		if(serviceMap==null){
+			serviceMap = new HashMap<String,SearchService>();
+			
+			//Look through each service, grab it's search keys and add them to the map
+			for(SearchService service:services){
+				if(null==service){
+					LOG.warn("Null service passed to SearchDelegator");
+				}else{
+					try {
+						List<SearchTypeInfo> searchTypes = service.getSearchTypes();
+						if(searchTypes!=null){
+							for(SearchTypeInfo searchType:searchTypes){
+								serviceMap.put(searchType.getKey(),service);
+							}
 						}
+					} catch (OperationFailedException e) {
+						LOG.warn("Error getting searchTypes",e);
 					}
-				} catch (OperationFailedException e) {
-					LOG.warn("Error getting searchTypes",e);
 				}
 			}
 		}

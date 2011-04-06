@@ -15,19 +15,11 @@
 
 package org.kuali.student.lum.common.client.lo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.DataValue;
@@ -37,14 +29,20 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.UtilConstants;
-import org.kuali.student.common.ui.client.widgets.*;
+import org.kuali.student.common.ui.client.widgets.DataHelper;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -62,7 +60,26 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 
-import java.util.*;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This class allows a user to select and remove LO categories within the context of
@@ -118,7 +135,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement(true, true);
+               // Filter out any categories already in the picker
+                List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+                final CategoryManagement categoryManagement = new CategoryManagement(true, true, categoriesInPicker);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
@@ -337,13 +356,38 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         }
     }
 
+    /**
+     * This method will check if an LO category is already in the picker box
+     * and prevent it from being added to the picker.
+     * <p>
+     * 
+     * @param categoryToCheck category to check if it is already in the picker box
+     * @return true if the category is already in the picker box
+     */
+    private boolean isCategoryAlreadyAddedToPicker(LoCategoryInfo categoryToCheck){
+        // TODO: do we need null checks?
+        List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+        if (categoriesInPicker != null && categoryToCheck != null){
+            for (LoCategoryInfo pickerCategory : categoriesInPicker) {
+                boolean namesMatch = pickerCategory.getName().equalsIgnoreCase(categoryToCheck.getName());
+                boolean typesMatch = pickerCategory.getType().equalsIgnoreCase(categoryToCheck.getType());
+                if (namesMatch && typesMatch){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     private void addCategory(final LoCategoryInfo category) {
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
 
         if (categoryTypeMap.containsKey(category.getType())) {
-            categoryList.addItem(category);
+            // check if category is already added to picker.  only add it once.
+            if (!isCategoryAlreadyAddedToPicker(category)){
+                categoryList.addItem(category);
+            }
             picker.reset();
         } else {
             loCatRpcServiceAsync.getLoCategoryType(category.getType(), new KSAsyncCallback<LoCategoryTypeInfo>() {
@@ -356,7 +400,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 @Override
                 public void onSuccess(LoCategoryTypeInfo result) {
                     categoryTypeMap.put(result.getId(), result);
-                    categoryList.addItem(category);
+                    // check if category is already added to picker.  only add it once.
+                    if (!isCategoryAlreadyAddedToPicker(category)){
+                         categoryList.addItem(category);
+                    } 
                     picker.reset();
 
                 }

@@ -34,10 +34,10 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.*;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;

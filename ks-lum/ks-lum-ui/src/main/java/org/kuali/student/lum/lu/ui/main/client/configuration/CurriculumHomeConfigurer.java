@@ -61,6 +61,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
         programs.addStyleName("bold");
         viewModify.add(programs);
+        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
@@ -94,7 +95,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-    private Widget getFindCredentialProgramWidget() {
+	private Widget getFindCredentialProgramWidget() {
         Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
         anchor.addClickHandler(new ClickHandler() {
             @Override

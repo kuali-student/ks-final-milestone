@@ -167,4 +167,40 @@
  </bean>
  <bean id="freestanding.browse.courseCatalog.bySubjectAreaObject" parent="freestanding.browse.courseCatalog.bySubjectAreaObject-parent"/>
 
+	<!-- Dependency Analysis -->
+	<bean id="freestanding.dependency-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="dependency" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.dependency.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.dependency.courseId" parent="baseString">
+					<property name="name" value="courseId" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.dependency" parent="freestanding.dependency-parent" />
+
+	<!-- Browse Program search and filters -->
+	<bean id="freestanding.browseProgram-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="browseProgram" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.browseProgram.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.browseProgram.search" parent="baseString">
+					<property name="name" value="search" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.browseProgram" parent="freestanding.browseProgram-parent" />
+
+
+
 </beans>

@@ -52,6 +52,7 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -752,11 +753,16 @@ public class SearchPanel extends Composite{
             public void exec(Boolean result) {                               
                 
                 if (resultsSelected == true) {
-                    List<SelectedResults> selectedItems = getSelectedValues();
-                    for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
-                        callback.exec(selectedItems);
-                    }  
-                    return;
+                	List<SelectedResults> selectedItems = getSelectedValues();
+                	if (selectedItems.isEmpty())
+                		Window.alert("Please, select a value");
+                	else
+                	{	
+                		for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
+                			callback.exec(selectedItems);
+                		}  
+                		return;
+                	}	
                 }
                 
                 actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("select"));

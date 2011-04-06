@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.versions;
 
-import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
 import org.kuali.student.common.ui.client.mvc.Callback;

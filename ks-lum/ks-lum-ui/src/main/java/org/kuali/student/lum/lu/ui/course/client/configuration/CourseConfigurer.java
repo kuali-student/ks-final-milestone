@@ -119,6 +119,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String COURSE_TITLE_PATH = "/courseTitle";
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
     protected DocumentTool documentTool;
+    //
+    CourseSummaryConfigurer summaryConfigurer;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -182,7 +184,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -667,13 +669,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 true),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey",
-                                LUUIConstants.DURATION_TYPE_LABEL_KEY,
+                                LUUIConstants.COURSE_FORMATS_DURATION_TYPE_LABEL_KEY,
                                 null,
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "timeQuantity",
-                                LUUIConstants.DURATION_LITERAL_LABEL_KEY,
+                                LUUIConstants.DURATION_QUANTITY_LABEL_KEY,
                                 null,
                                 null,
                                 true),
@@ -1125,6 +1127,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         }
 
         return sb.toString();
+    }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
     }
 }
 

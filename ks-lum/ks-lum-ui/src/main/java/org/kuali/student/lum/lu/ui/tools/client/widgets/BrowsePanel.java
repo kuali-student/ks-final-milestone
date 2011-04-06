@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,8 @@ import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 
@@ -130,7 +131,7 @@ public class BrowsePanel extends Composite
 
 
 	@SuppressWarnings("unchecked")
-	public void executeSearch ()
+	public void executeSearch (Callback<Boolean> callback)
 	{
 
 		tablePanel.clear ();
@@ -186,7 +187,7 @@ public class BrowsePanel extends Composite
 
 
 		searchBackedTable.performSearch (searchRequest, lookupMetadata.getResults (), lookupMetadata.
-				getResultReturnKey ());
+				getResultReturnKey (), callback);
 		tablePanel.setVisible (true);
 		layout.setVisible (true);
 	}
@@ -223,6 +224,26 @@ public class BrowsePanel extends Composite
 		return selectedValues;
 	}
 
+	public void showAllRows(){
+		searchBackedTable.getResultRows().clear();
+		searchBackedTable.getResultRows().addAll(searchBackedTable.getAllResults());
+		searchBackedTable.redraw();
+	}
+	
+	public void showOnlyRows(HashSet<String> rowKeys){
+		searchBackedTable.getResultRows().clear();
+		for(ResultRow resultRow:searchBackedTable.getAllResults()){
+			if(rowKeys.contains(resultRow.getId())){
+				searchBackedTable.getResultRows().add(resultRow);
+			}
+		}
+		searchBackedTable.redraw();
+	}
+	
+	public List<ResultRow> getAllResultRows(){
+		return searchBackedTable.getAllResults();
+	}
+	
 	public boolean isMultiSelect ()
 	{
 		return multiSelect;

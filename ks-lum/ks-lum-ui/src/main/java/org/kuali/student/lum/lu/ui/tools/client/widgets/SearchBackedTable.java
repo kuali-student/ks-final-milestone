@@ -25,16 +25,16 @@ import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
+import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -43,7 +43,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SearchBackedTable extends Composite
 {
 
-	private List<ResultRow> resultRows = new ArrayList<ResultRow> ();
+	private final List<ResultRow> resultRows = new ArrayList<ResultRow> ();
+	private final List<ResultRow> allResults = new ArrayList<ResultRow> ();
 	private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>> ();
 	private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow> (resultRows);
 	private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow> ();
@@ -78,7 +79,7 @@ public class SearchBackedTable extends Composite
 
 	public void performSearch (SearchRequest searchRequest,
 			List<LookupResultMetadata> listResultMetadata,
-			String resultIdKey)
+			String resultIdKey, final Callback<Boolean> callback)
 	{
 
 		initializeTable (listResultMetadata, resultIdKey);
@@ -116,7 +117,9 @@ public class SearchBackedTable extends Composite
 					}
 				}
 				//    Window.alert ("about to redraw...");
+				allResults.addAll(resultRows);
 				redraw ();
+				callback.exec(true);
 			}
 
 				});
@@ -210,6 +213,14 @@ public class SearchBackedTable extends Composite
 			rows.add (r);
 		}
 		return rows;
+	}
+
+	public List<ResultRow> getAllResults() {
+		return allResults;
+	}
+
+	public List<ResultRow> getResultRows() {
+		return resultRows;
 	}
 
 }
