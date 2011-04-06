@@ -33,6 +33,9 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Information about an academic time period.
+ *
+ * @Author Tom
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -50,14 +53,35 @@ public class AtpInfo
     private Date endDate;
 
 
+    protected AtpInfo() {
+    	startDate = null;
+	endDate = null;
+    }
+    
+
     /**
-     * Date and time the academic time period became effective. This
+     *  Constructs a new AtpInfo from another Atp.
+     *
+     *  @param atp the ATP to copy
+     */
+
+    public AtpInfo(AtpInfc atp) {
+	super(atp);
+	this.startDate = atp.getStartDate();
+	this.endDate = atp.getEndDate();
+    }
+
+
+    /**
+     * Name: StartDate
+     * Date and time the academic time period becomes effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
      * time period proper. This is a similar concept to the effective
-     * date on enumerated values. When an expiration date has been
-     * specified, this field must be less than or equal to the
-     * expiration date.
+     * date on enumerated values. When an end date has been specified,
+     * this field must be less than or equal to the end date.
+     *
+     * @return the ATP start date
      */
 
     @Override
@@ -67,13 +91,17 @@ public class AtpInfo
 
 
     /**
-     * Date and time the academic time period expires. This does not
-     * provide a bound on date ranges or milestones associated with
-     * this time period, but instead indicates the time period
-     * proper. If specified, this must be greater than or equal to the
-     * effective date. If this field is not specified, then no
-     * expiration date has been currently defined and should
-     * automatically be considered greater than the effective date.
+     * Name: EndDate
+     * Date and time the academic time period becomes
+     * ineffective. This does not provide a bound on date ranges or
+     * milestones associated with this time period, but instead
+     * indicates the time period proper. If specified, this must be
+     * greater than or equal to the start date. If this field is not
+     * specified, then no end date has been currently defined
+     * and should automatically be considered greater than the
+     * effective date.
+     *
+     * @return the ATP end date
      */
 
     @Override
@@ -83,7 +111,7 @@ public class AtpInfo
 
 
     /**
-     * The builder class for this abstract EntityInfo.
+     * The builder class for this AtpInfo.
      */
 
     public static class Builder 
@@ -94,8 +122,17 @@ public class AtpInfo
 	private Date endDate;
 
 
+	/**
+	 * Constructs a new builder.
+	 */
+
 	public Builder() {}
-    	
+
+
+	/**
+	 *  Constructs a new builder initialized from another atp.
+	 */
+
     	public Builder(AtpInfc atp) {
 	    super(atp);
 	    this.startDate = atp.getStartDate();
@@ -103,10 +140,34 @@ public class AtpInfo
     	}
 		
 
+	/**
+	 *  Builds the ATP.
+	 *
+	 *  @return a new ATP
+	 */
+
+        public AtpInfc build() {
+            return new AtpInfo(this);
+        }
+
+
+	/**
+	 *  Gets the start date.
+	 *
+	 *  @return the ATP start date
+	 */
+
 	@Override
 	public Date getStartDate() {
 	    return startDate;
 	}
+
+
+	/**
+	 *  Sets the ATP start date.
+	 *
+	 *  @return the start date for the ATP
+	 */
     	
 	public Builder startDate(Date startDate) {
 	    this.startDate = startDate;
@@ -114,11 +175,24 @@ public class AtpInfo
 	}
 
 
+	/**
+	 *  Gets the start date.
+	 *
+	 *  @return the ATP end date
+	 */
+
 	@Override
 	public Date getEndDate() {
 	    return endDate;
 	}
     	
+
+	/**
+	 *  Sets the ATP end date.
+	 *
+	 *  @param endDate the end date for the ATP
+	 */
+
 	public Builder endDate(Date endDate) {
 	    this.endDate = endDate;
 	    return this;
