@@ -21,13 +21,16 @@ import com.google.gwt.core.client.GWT;
 
 /**
  *  
- *  This is a libary of utility methods that can be used when working with the search rpc service. 
+ *  This is a library of utility methods that can be used when working with the search rpc service. 
  *
  */
 public class SearchUtils {
 
-	//This class wraps the search request, with additional information related to search
-	//such as constraints and if search should be deferred
+	/**
+	 * This class wraps the search request, with additional information needed to execute/process
+	 * a search, such as handling constraints or whether the search should be deferred.
+	 * 
+	 */
 	public static class SearchRequestWrapper{
 		SearchRequest searchRequest;
 		HashSet<String> crossConstraints = new HashSet<String>();
@@ -58,12 +61,33 @@ public class SearchUtils {
 		}				
 	}
 	
+	/**
+	 * Use this to build a SearchRequest given a LookupMetadata definition. The search
+	 * request can then be passed into the SearchRpcService to retreive a list of search
+	 * results.
+	 * 
+	 * @param lookup
+	 * @return
+	 */
 	public static SearchRequest initializeSearchRequest(LookupMetadata lookup) {
+		//Initialize the search using the SearchRequestWrapper, but return only the
+		//SearchRequest, since the consumer doesn't care about additional search data 
 		SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
 		initializeSearchRequest(lookup, searchRequestWrapper);
 		return searchRequestWrapper.getSearchRequest();
 	}
 
+	/**
+	 * Use this to build a SearchRequest, update search constraints and deferred search options
+	 * contained within the SearchRequestWrapper. The wrapper is mostly to accommodate handling 
+	 * of search options required for constraining values that appear in the KSPicker.
+	 * 
+	 * Generally this method should not be called directly if only the SearchRequest is required.  
+	 * @see SearchUtils#initializeSearchRequest(LookupMetadata)
+	 * 
+	 * @param lookup
+	 * @return
+	 */
 	public static void initializeSearchRequest(LookupMetadata lookup, SearchRequestWrapper searchRequestWrapper) {
 
 		HashSet<String> crossConstraints = searchRequestWrapper.getCrossConstraints();
