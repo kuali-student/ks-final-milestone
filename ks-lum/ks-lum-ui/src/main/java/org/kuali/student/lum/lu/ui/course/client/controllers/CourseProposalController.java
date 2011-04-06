@@ -927,6 +927,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
         if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
             SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(cluProposalModel.getModelName());
+            heading.setFieldValue2(comparisonModel.getModelName());
+            exportElements.add(heading);
             exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
         }
         return exportElements;
