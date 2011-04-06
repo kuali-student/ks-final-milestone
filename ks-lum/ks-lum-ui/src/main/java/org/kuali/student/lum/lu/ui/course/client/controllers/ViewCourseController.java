@@ -27,14 +27,18 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.DocumentLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -44,6 +48,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
@@ -93,6 +98,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private final List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
 
     private final CourseRequirementsDataModel reqDataModel;
+    
+    final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 	            
     public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
@@ -221,7 +228,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
 
     private void init(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
-        final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 
         CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
 
@@ -482,10 +488,23 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @Override
     public boolean isExportButtonActive() {
-        // TODO Nina, confirm which Section should be exportable, and check getCurrentViewEnum is null
         if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(tableSection.getTitle());
+            exportElements.add(heading);
+            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+        }
+        return exportElements;
     }
 }

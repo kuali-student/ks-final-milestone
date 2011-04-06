@@ -63,7 +63,9 @@ public class ExportElement implements Serializable {
     }
 
     public void setSubset(List<ExportElement> subset) {
-        this.subset = subset;
+        if (subset != null && subset.size() > 0) {
+            this.subset = subset;            
+        }
     }
 
     public boolean isMandatory() {
@@ -95,6 +97,12 @@ public class ExportElement implements Serializable {
 
     public String getOriginalValue() {
         return this.getFieldValue2();
+    }
+    
+    public String printLine() {
+        String output = new String();
+        output = this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
+        return output;
     }
 
 }

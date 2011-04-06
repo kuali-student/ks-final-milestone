@@ -85,7 +85,7 @@ public class KSDocumentHeader extends Composite {
             @Override
             public void exec(String format) {
                 Controller currController = ExportUtils.getController(KSDocumentHeader.this);
-                ExportUtils.handleExportClickEvent(currController, format);
+                ExportUtils.handleExportClickEvent(currController, format, KSDocumentHeader.this.headerHTML.getTitle());
             }
         });
     }

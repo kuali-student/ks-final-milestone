@@ -87,6 +87,7 @@ CreditCourseLearningResultsConstants
 
     private DataModelDefinition modelDefinition;
     private List<StatementTypeInfo> stmtTypes;
+    private CourseSummaryConfigurer summaryConfigurer;
 
     public static enum ViewCourseSections{BRIEF, DETAILED, CATALOG}
 
@@ -116,7 +117,7 @@ CreditCourseLearningResultsConstants
         groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
-        CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
+        summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
         		(Controller)layoutController, modelId);
         layoutController.addTab(summaryConfigurer.generateCourseBriefSection(), "At a Glance");
         layoutController.addTab(summaryConfigurer.generateCourseSummarySection(), "Detailed View");
@@ -127,5 +128,9 @@ CreditCourseLearningResultsConstants
         //dropdown.addStyleName("KS-Workflow-DropDown");
         //layoutController.addContentWidget(dropdown);
 
+    }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
     }
 }

@@ -458,7 +458,8 @@ public abstract class ProgramController extends MenuSectionController {
                         SectionView nestedSectionView = (SectionView) nestedSection;
                         viewName =  nestedSectionView.getName();
                         sectionTitle = nestedSectionView.getTitle();
-                        sectionExportItem.setViewName(i + " - " + viewName);
+                        sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
+                        sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
                         subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
                         if (subList != null && subList.size()> 0) {
                             sectionExportItem.setSubset(subList);
