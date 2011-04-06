@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.model;
+fpackage org.kuali.student.enrollment.lpr.model;
 
 import javax.persistence.*;
 
@@ -39,8 +39,8 @@ public class LuiPersonRelation implements Serializable {
     private LuiPersonRelationState personRelationState;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lui_person_relation_id")
-    private List<DynamicAttribute> attributes;
+    @JoinColumn(name = "LPR_ATTR_ID")
+    private List<LuiPersonRelationAttribute> attributes;
 
     public Long getId() {
         return id;
