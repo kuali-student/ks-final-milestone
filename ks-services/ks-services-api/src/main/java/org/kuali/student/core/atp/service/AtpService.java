@@ -238,37 +238,6 @@ public interface AtpService
 
 
     /** 
-     * Validates a milestone. Depending on the value of
-     * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the milestone and a record is found
-     * for that identifier, the validation checks if the milestone can
-     * be shifted to the new values. If a record cannot be found for
-     * the identifier, it is assumed that the record does not exist
-     * and as such, the checks performed will be much shallower,
-     * typically mimicking those performed by setting the
-     * validationType to the current object. This is a slightly
-     * different pattern from the standard validation as the caller
-     * provides the identifier in the create statement instead of the
-     * server assigning an identifier.
-     *
-     * @param validationType Identifier of the extent of validation
-     * @param milestoneInfo The milestone information to be tested.
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, milestoneInfo
-     * @throws MissingParameterException missing validationTypeKey, milestoneInfo
-     * @throws OperationFailedException unable to complete request
-     */
-
-    public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationType") String validationType, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-
-    /** 
      * Creates a new Academic Time Period.
      *
      * @param atpTypeKey Type of ATP to be created
@@ -315,7 +284,7 @@ public interface AtpService
     /** 
      * Deletes an existing Academic Time Period.
      *
-     * @param atpKey Key of ATP to be deleted
+     * @param atpKey the key of the ATP to be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -331,9 +300,40 @@ public interface AtpService
 
 
     /** 
+     * Validates a milestone. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the milestone and a record is found
+     * for that identifier, the validation checks if the milestone can
+     * be shifted to the new values. If a record cannot be found for
+     * the identifier, it is assumed that the record does not exist
+     * and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the
+     * validationType to the current object. This is a slightly
+     * different pattern from the standard validation as the caller
+     * provides the identifier in the create statement instead of the
+     * server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param milestoneInfo The milestone information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, milestoneInfo
+     * @throws MissingParameterException missing validationTypeKey, milestoneInfo
+     * @throws OperationFailedException unable to complete request
+     */
+
+    public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationType") String validationType, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+
+    /** 
      * Create a new milestone.
      *
-     * @param milestoneKey Id of milestone to be added
+     * @param milestoneKey the Id of milestone to be added
      * @param milestoneInfo Details of milestone to be added
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -354,7 +354,7 @@ public interface AtpService
     /** 
      * Updates an existing milestone.
      *
-     * @param milestoneKey ID of milestone to be updated
+     * @param milestoneKey the Id of milestone to be updated
      * @param milestoneInfo Details of milestone to be updated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -377,11 +377,11 @@ public interface AtpService
     /** 
      * Deletes an existing milestone from all ATPs.
      *
-     * @param milestoneKey Id of milestone to be removed
+     * @param milestoneKey the Id of milestone to be removed
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return Status of the operation (success, failed)
+     * @return status of the operation (success, failed)
      * @throws DoesNotExistException Milestone being removed does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
@@ -445,8 +445,9 @@ public interface AtpService
     /** 
      * Updates an ATP Mielstone Relationship.
      *
-     * @param atpKey Key of ATP to be updated
-     * @param milestoneKey Id of milestone to be added
+     * @param atpMilestoneRelationId the Id of the ATP Milestone Relation to be 
+     *        updated
+     * @param atpMilestoneRelationInfo the ATP Milstone relation to be updated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -458,17 +459,17 @@ public interface AtpService
      * @throws PermissionDeniedException authorization failure
      */
 
-    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(@WebParam(name = "atpMilestonRelationId") String atpMilestoneRelationId, @WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /** 
      * Removes an existing milestone from an ATP by deleting the relationship.
      *
-     * @param atpMilestoneRelationshipId Id of ATP Milestone Relatiosnhip
+     * @param atpMilestoneRelationshipId the Id of ATP Milestone Relatiosnhip
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return Status of the operation (success, failed)
+     * @return status of the operation (success, failed)
      * @throws DoesNotExistException Milestone being removed does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
