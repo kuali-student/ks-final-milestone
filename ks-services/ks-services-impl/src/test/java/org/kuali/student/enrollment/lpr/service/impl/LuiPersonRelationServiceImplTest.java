@@ -100,7 +100,7 @@ public class LuiPersonRelationServiceImplTest {
     @Test
     public void testCreateBulkRelationshipsForPersonExceptions() {
         try {
-            List<String> createResults = lprService.createBulkRelationshipsForPerson(null, new ArrayList<String>(), "", "", new LuiPersonRelationInfo.Builder().build(), callContext);
+            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "", new LuiPersonRelationInfo.Builder().build(), callContext);
 
         } catch (Throwable ex) {
             // ex.printStackTrace();

@@ -61,7 +61,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
      <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
       <!-- For exceptions use expression = "execution() and  !execution()" -->
        <aop:pointcut id="commonBeforeConcerns" expression="execution(* org.kuali.student.enrollment.lpr.service.impl..*.*(..))"/>
-       <aop:before pointcut-ref="commonBeforeConcerns" method="beforeService"/>
+       <aop:before pointcut-ref="commonBeforeConcerns" method="beforeInvokingService"/>
        <aop:pointcut id="servicesLayeringPointcut" expression="execution(* org.kuali.student.enrollment.lpr.service.impl..*.*(..))"/>
        <aop:around pointcut-ref="servicesLayeringPointcut" method="invokeFirstDecorator"/>
        <aop:pointcut id="lprExceptionPointCut" expression="execution(* org.kuali.student.enrollment.lpr.service..*.*(..))"/>
