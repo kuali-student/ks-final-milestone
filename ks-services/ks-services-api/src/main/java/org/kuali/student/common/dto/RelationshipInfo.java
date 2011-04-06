@@ -29,7 +29,7 @@ import org.kuali.student.common.infc.Relationship;
 
 
 /**
- *  Information about an ATP Milestone Relationship.
+ *  Information about a Relationship.
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
