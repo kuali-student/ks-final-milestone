@@ -19,7 +19,7 @@
 				<textField>
 					<reportElement x="0" y="5" width="100" height="15"/>
 					<textElement>
-						<font size="9"/>
+						<font fontName="Arial" size="9" isBold="true" pdfFontName="arialbd.ttf" isPdfEmbedded="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{sectionName}]]></textFieldExpression>
 				</textField>
@@ -53,7 +53,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="arialbd.ttf" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{mandatory}==true ? $F{key} + "<font color=\"red\"> *</font>" : $F{key}]]></textFieldExpression>
 			</textField>
