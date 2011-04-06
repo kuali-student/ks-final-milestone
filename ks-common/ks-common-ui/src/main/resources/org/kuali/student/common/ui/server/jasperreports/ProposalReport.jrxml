@@ -33,7 +33,7 @@
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
 			</textField>
@@ -53,7 +53,7 @@
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
 			</textField>

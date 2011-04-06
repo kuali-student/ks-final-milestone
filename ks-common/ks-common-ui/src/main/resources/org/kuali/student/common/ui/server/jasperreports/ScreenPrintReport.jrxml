@@ -27,12 +27,14 @@
 	<detail>
 		<band height="62">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="198" y="11" width="317" height="15"/>
+				<reportElement positionType="Float" x="198" y="11" width="317" height="15">
+					<printWhenExpression><![CDATA[$F{value} != null]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="9" pdfFontName="Helvetica"/>
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
@@ -47,7 +49,9 @@
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
 			</subreport>
 			<line>
-				<reportElement x="198" y="26" width="317" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
+				<reportElement x="198" y="26" width="317" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$F{value} != null]]></printWhenExpression>
+				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid"/>
 				</graphicElement>
