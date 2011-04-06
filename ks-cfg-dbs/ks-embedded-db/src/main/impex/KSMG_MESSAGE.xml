@@ -241,6 +241,11 @@
         MSG_ID="browseCatalog" MSG_VALUE="Browse Course Catalog"
         OBJ_ID="8e0bcc0d-01e7-41e2-b95d-c6302a20bfcb" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="190a411b-a4e5-4798-8eaa-2bb2b4bd8685" LOCALE="en"
+        MSG_ID="browseProgram"
+        MSG_VALUE="Browse Majors and Specializations"
+        OBJ_ID="8e0bcc0d-01e7-41e2-b95d-c6302a20bfcb" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="19c401f4-7bf1-4b1a-b1b6-3a831bb7ead0" LOCALE="en"
         MSG_ID="cluFinalExamStatus" MSG_VALUE="Final Exam Status"
         OBJ_ID="ef73bee3-baba-41aa-96b2-4f05d6f318aa" VER_NBR="1"/>
@@ -1360,15 +1365,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A01DFE4E5E46219AE040C60AF05B4CB9" LOCALE="en"
+        ID="A042DA5ED4F29573E040C60AF05B3CE4" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A01DFE4E5E47219AE040C60AF05B4CB9" VER_NBR="1"/>
+        OBJ_ID="A042DA5ED4F39573E040C60AF05B3CE4" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A01DFE4E5E48219AE040C60AF05B4CB9" LOCALE="en"
+        ID="A042DA5ED4F49573E040C60AF05B3CE4" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A01DFE4E5E49219AE040C60AF05B4CB9" VER_NBR="1"/>
+        OBJ_ID="A042DA5ED4F59573E040C60AF05B3CE4" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
