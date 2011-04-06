@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="Arial">
+       <normal><![CDATA[org/kuali/student/common/fonts/arial.ttf]]></normal>
+       <bold><![CDATA[org/kuali/student/common/fonts/arialbd.ttf]]></bold>
+       <italic><![CDATA[org/kuali/student/common/fonts/ariali.ttf]]></italic>
+       <boldItalic><![CDATA[org/kuali/student/common/fonts/arialbi.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="Times New Roman">
+       <normal><![CDATA[org/kuali/student/common/fonts/times.ttf]]></normal>
+       <bold><![CDATA[org/kuali/student/common/fonts/timesbd.ttf]]></bold>
+       <italic><![CDATA[org/kuali/student/common/fonts/timesi.ttf]]></italic>
+       <boldItalic><![CDATA[org/kuali/student/common/fonts/timesbi.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+   <fontFamily name="Courier New">
+       <normal><![CDATA[org/kuali/student/common/fonts/cour.ttf]]></normal>
+       <bold><![CDATA[org/kuali/student/common/fonts/courbd.ttf]]></bold>
+       <italic><![CDATA[org/kuali/student/common/fonts/couri.ttf]]></italic>
+       <boldItalic><![CDATA[org/kuali/student/common/fonts/courbi.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+</fontFamilies>
