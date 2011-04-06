@@ -50,6 +50,7 @@ import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -482,9 +483,9 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     @Override
     public boolean isExportButtonActive() {
         // TODO Nina, confirm which Section should be exportable, and check getCurrentViewEnum is null
-//        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
             return true;
-//        }
-//        return false;
+        }
+        return false;
     }
 }
