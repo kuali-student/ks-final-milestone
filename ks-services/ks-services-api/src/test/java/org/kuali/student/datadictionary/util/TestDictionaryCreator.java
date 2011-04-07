@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary;
+package org.kuali.student.datadictionary.util;
 
 import org.junit.After;
 import org.junit.AfterClass;
