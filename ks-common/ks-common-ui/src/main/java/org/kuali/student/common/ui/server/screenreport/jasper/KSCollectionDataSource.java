@@ -25,7 +25,7 @@ public class KSCollectionDataSource extends JRBeanCollectionDataSource {
         Object object = getBeanProperty(bean, getPropertyName(field));
 
         if ("subset".equals(field.getName())) {
-            return new JRBeanCollectionDataSource((Collection) object);
+            return new KSCollectionDataSource((Collection) object);
         }
         return object;
     }
