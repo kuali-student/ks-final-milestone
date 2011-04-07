@@ -16,17 +16,23 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.w3c.dom.Element;
 
 /**
  * @author Kamal
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ContextType", propOrder = {"principalId", "localeLanguage", "localeVariant", "localeRegion", "localeScript", "timeZone", "attributes", "_futureElements"})
 public class ContextInfo extends HasAttributesInfo implements ContextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +48,8 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
     private final String localeScript;
     @XmlElement
     private final String timeZone;
+    @XmlAnyElement
+    private final List<Element> _futureElements;
 
     private ContextInfo() {
         principalId = null;
@@ -50,6 +58,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         localeRegion = null;
         localeScript = null;
         timeZone = null;
+        _futureElements = null;
     }
 
     private ContextInfo(ContextInfc builder) {
@@ -60,6 +69,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         this.localeRegion = builder.getLocaleRegion();
         this.localeScript = builder.getLocaleScript();
         this.timeZone = builder.getTimeZone();
+        this._futureElements = null;
     }
 
     @Override
@@ -92,7 +102,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         return timeZone;
     }
 
-    public static class Builder extends HasAttributesInfo.Builder implements ContextInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<ContextInfo>, ContextInfc {
 
         private String principalId;
         private String localeLanguage;

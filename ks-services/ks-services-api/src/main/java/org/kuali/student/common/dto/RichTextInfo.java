@@ -16,14 +16,20 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.infc.RichTextInfc;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RichTextType", propOrder = {"plain", "formatted", "_futureElements"})
 public class RichTextInfo implements RichTextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,15 +39,20 @@ public class RichTextInfo implements RichTextInfc, Serializable {
 
     @XmlElement
     private final String formatted;
+    
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
 
     private RichTextInfo() {
     	plain = null;
     	formatted = null;
+    	_futureElements=null;
     }
     
     private RichTextInfo(RichTextInfc builder) {
-    	plain = builder.getPlain();
-    	formatted = builder.getFormatted();
+    	this.plain = builder.getPlain();
+    	this.formatted = builder.getFormatted();
+    	this._futureElements=null;
     }
     
     @Override
@@ -59,7 +70,7 @@ public class RichTextInfo implements RichTextInfc, Serializable {
     	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
     }
     
-    public static class Builder implements RichTextInfc {
+    public static class Builder implements ModelBuilder<RichTextInfo>, RichTextInfc {
     	private String plain;
 		private String formatted;
 

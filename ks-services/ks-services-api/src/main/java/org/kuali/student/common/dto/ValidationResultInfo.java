@@ -26,11 +26,21 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
+    private String element;
+
+    @XmlElement
+    private int level = ErrorLevel.OK.getLevel();
+    
+    @XmlElement
+    private String message;
+
+    private transient Object invalidData = null;
+    
     public ValidationResultInfo() {
         super();
         this.level = ErrorLevel.OK.getLevel();
     }
-    private transient Object invalidData = null;
 
     public ValidationResultInfo(String element) {
         super();
@@ -42,13 +52,6 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
         this(element);
         this.invalidData = invalidData;
     }
-    @XmlElement
-    private String element;
-    @XmlElement
-    private int level = ErrorLevel.OK.getLevel();
-    @XmlElement
-    private String message;
-
 
     /**
      * @param level the level to set

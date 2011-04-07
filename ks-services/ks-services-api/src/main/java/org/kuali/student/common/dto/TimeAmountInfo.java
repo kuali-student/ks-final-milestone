@@ -16,14 +16,19 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.TimeAmountInfc;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "TimeAmountType", propOrder = {"atpDurationTypeKey", "timeQuantity", "_futureElements"})
 public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -32,15 +37,20 @@ public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 	
 	@XmlElement
 	private final Integer timeQuantity; 
+
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
 	
 	private TimeAmountInfo() {
 		atpDurationTypeKey = null; 
 		timeQuantity = null;
+		_futureElements = null;
 	}
 	
 	private TimeAmountInfo(TimeAmountInfc builder) {
 		this.atpDurationTypeKey = builder.getAtpDurationTypeKey();
 		this.timeQuantity = builder.getTimeQuantity();
+		this._futureElements = null;
 	}
 	
 	public String getAtpDurationTypeKey(){

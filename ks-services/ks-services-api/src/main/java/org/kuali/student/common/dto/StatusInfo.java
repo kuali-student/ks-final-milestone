@@ -16,12 +16,17 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.infc.StatusInfc;
+import org.w3c.dom.Element;
 
 /**
  * Information about the state of an object
@@ -29,6 +34,7 @@ import org.kuali.student.common.infc.StatusInfc;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "StatusType", propOrder = {"success", "message", "_futureElements"})
 public class StatusInfo implements StatusInfc, Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -38,14 +44,19 @@ public class StatusInfo implements StatusInfc, Serializable {
 	@XmlElement
 	private final String message;
 	
+    @XmlAnyElement
+    private final List<Element> _futureElements;	
+	
 	private StatusInfo() {
 		success = true;
 		message = "";
+		_futureElements = null;
 	}
 	
 	private StatusInfo(StatusInfc builder) {
 		this.success = new Boolean(builder.isSuccess().booleanValue());
 		this.message = builder.getMessage();
+		this._futureElements = null;
 	}
 
     @Override
@@ -58,7 +69,7 @@ public class StatusInfo implements StatusInfc, Serializable {
 		return message;
 	}
 	
-	public static class Builder implements StatusInfc {
+	public static class Builder implements ModelBuilder<StatusInfo>, StatusInfc {
 		private Boolean success;
 		private String message;
 

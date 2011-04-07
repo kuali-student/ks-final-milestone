@@ -15,34 +15,50 @@
  */
 package org.kuali.student.common.dto;
 
-import org.kuali.student.common.infc.ComparisonInfc;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.common.infc.ComparisonInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.w3c.dom.Element;
+
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ComparisonType", propOrder = {"fieldKey", "operator", "values", "ignoreCase", "_futureElements"})    
 public class ComparisonInfo implements ComparisonInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private final String fieldKey;
+    
     @XmlElement
     private final String operator;
-    @XmlElement
+    
+    @XmlElementWrapper(name="values")
+    @XmlElement(name="value")
     private final List<String> values;
+    
     @XmlElement
     private final boolean ignoreCase;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;
+    
     private ComparisonInfo() {
-        fieldKey = null;
-        operator = null;
-        values = null;
-        ignoreCase = false;
+        this.fieldKey = null;
+        this.operator = null;
+        this.values = null;
+        this.ignoreCase = false;
+        this._futureElements = null;
     }
 
     private ComparisonInfo(ComparisonInfc bldr) {
@@ -56,6 +72,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
             this.values = Collections.unmodifiableList(bldr.getValues());
         }
         this.ignoreCase = bldr.isIgnoreCase();
+        this._futureElements = null;
     }
 
     @Override
@@ -78,7 +95,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
         return this.ignoreCase;
     }
 
-    public static class Builder implements ComparisonInfc {
+    public static class Builder implements ModelBuilder<ComparisonInfo>, ComparisonInfc {
 
         private String fieldKey;
         private String operator;
@@ -92,7 +109,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
             this.fieldKey = infc.getFieldKey();
             this.operator = infc.getOperator();
             if (infc.getValues() != null) {
-                this.values = new ArrayList(infc.getValues());
+                this.values = new ArrayList<String>(infc.getValues());
             }
         }
 

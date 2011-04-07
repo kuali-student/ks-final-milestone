@@ -19,19 +19,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.common.infc.AttributeInfc;
 import org.kuali.student.common.infc.HasAttributes;
 
 @SuppressWarnings("serial")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlTransient
 public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 	
 	@XmlElement
-    private final List<AttributeInfo> attributes;
+    protected final List<AttributeInfo> attributes;
 	
 	protected HasAttributesInfo() {
 		attributes = null;

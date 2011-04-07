@@ -17,16 +17,22 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.infc.TypeTypeRelationInfc;
+import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "KSTypeRelationType", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "ownerType", "relatedType", "rank", "attributes", "_futureElements"})
 public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelationInfc, Serializable {
 	
     @XmlAttribute
@@ -38,7 +44,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
     @XmlElement
 	private final String name;
 	
-	@XmlElement(name ="desc")
+	@XmlElement
 	private final String descr;
 
 	@XmlElement
@@ -56,6 +62,9 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 	@XmlElement
 	private final Integer rank;
 	
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
+	
 	private TypeTypeRelationInfo() {
 		key = null;
 		name = null;
@@ -66,6 +75,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 		ownerType = null;
 		relatedType = null;
 		rank = null;
+		_futureElements = null;
 	}
 		
 	private TypeTypeRelationInfo(TypeTypeRelationInfc builder) {
@@ -79,6 +89,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
     	this.ownerType = builder.getOwnerType();
     	this.relatedType = builder.getRelatedType();
     	this.rank = builder.getRank();
+    	this._futureElements = null;
 	}
 	
     /**
@@ -137,7 +148,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
         return rank;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements TypeTypeRelationInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeTypeRelationInfo>, TypeTypeRelationInfc {
     	private String key;
 		private String name;
 		private String descr;

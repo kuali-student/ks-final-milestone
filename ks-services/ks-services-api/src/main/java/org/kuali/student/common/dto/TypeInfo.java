@@ -17,16 +17,22 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.infc.TypeInfc;
+import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "KSTypeType", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "refObjectURI", "attributes", "_futureElements"})
 public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializable {
 	
     @XmlAttribute
@@ -35,7 +41,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 	@XmlElement
 	private final String name;
 	
-	@XmlElement(name ="desc")
+	@XmlElement
 	private final String descr;
 
 	@XmlElement
@@ -47,6 +53,9 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 	@XmlElement
 	private final String refObjectURI;
 	
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
+	
 	private TypeInfo() {
 		key = null;
 		name = null;
@@ -54,6 +63,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 		effectiveDate = null;
 		expirationDate = null;
 		refObjectURI = null;
+		_futureElements = null;
 	}
 		
 	private TypeInfo(TypeInfc builder) {
@@ -64,6 +74,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
     	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
     	this.refObjectURI = builder.getRefObjectURI();
+    	this._futureElements = null;
 	}
 	
     /**
@@ -106,7 +117,7 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
         return refObjectURI;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements TypeInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeInfo>, TypeInfc {
     	private String key;
 		private String name;
 		private String descr;

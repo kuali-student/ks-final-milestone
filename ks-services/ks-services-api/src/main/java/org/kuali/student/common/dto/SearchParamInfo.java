@@ -23,9 +23,15 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.infc.SearchParamInfc;
+import org.w3c.dom.Element;
 
 /**
  * Search Parameter
@@ -35,17 +41,23 @@ import org.kuali.student.common.infc.SearchParamInfc;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "SearchParamType", propOrder = {"key", "values", "_futureElements"})
 public class SearchParamInfo implements SearchParamInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlAttribute
     private final String key;
-    @XmlElement
+    @XmlElementWrapper(name="values")
+    @XmlElement(name="value")
     private final List<String> values;
+    @XmlAnyElement
+    private final List<Element> _futureElements;
 
+    
     public SearchParamInfo() {
         this.key = null;
         this.values = null;
+        this._futureElements = null;
     }
 
     public SearchParamInfo(SearchParamInfc infc) {
@@ -55,6 +67,7 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
         } else {
             this.values = new ArrayList(infc.getValues());
         }
+        this._futureElements = null;
     }
 
     @Override
@@ -67,7 +80,7 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
         return key;
     }
 
-    public static class Builder implements SearchParamInfc {
+    public static class Builder implements ModelBuilder<SearchParamInfo>, SearchParamInfc {
 
         private String key;
         private List<String> values;

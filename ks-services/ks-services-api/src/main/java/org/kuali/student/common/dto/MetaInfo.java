@@ -16,14 +16,20 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "MetaType", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
 public class MetaInfo implements MetaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,13 +43,16 @@ public class MetaInfo implements MetaInfc, Serializable {
     private final Date updateTime;
     @XmlElement
     private final String updateId;
-
+    @XmlAnyElement
+    private final List<Element> _futureElements;
+    
     private MetaInfo() {
         versionInd = null;
         createTime = null;
         createId = null;
         updateTime = null;
         updateId = null;
+        _futureElements = null;
     }
 
     private MetaInfo(MetaInfc builder) {
@@ -52,6 +61,7 @@ public class MetaInfo implements MetaInfc, Serializable {
         this.createId = builder.getCreateId();
         this.updateTime = null != builder.getUpdateTime() ? new Date(builder.getUpdateTime().getTime()) : null;
         this.updateId = builder.getUpdateId();
+        this._futureElements = null;
     }
 
     @Override
@@ -79,7 +89,7 @@ public class MetaInfo implements MetaInfc, Serializable {
         return updateId;
     }
 
-    public static class Builder implements MetaInfc {
+    public static class Builder implements ModelBuilder<MetaInfo>, MetaInfc {
 
         private String versionInd;
         private Date createTime;

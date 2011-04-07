@@ -18,12 +18,17 @@ package org.kuali.student.common.dto;
 import org.kuali.student.common.infc.ComparisonInfc;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.kuali.student.common.infc.CriteriaInfc;
+import org.w3c.dom.Element;
 
 /**
  * Query to return some information regarding LUI to person relationships.
@@ -34,17 +39,23 @@ import org.kuali.student.common.infc.CriteriaInfc;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "CriteriaType", propOrder = {"comparisons", "maxResults", "_futureElements"})
 public class CriteriaInfo implements CriteriaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlElement
+    
+    @XmlElementWrapper(name="comparisons")
+    @XmlElement(name="comparison")
     private final List<ComparisonInfo> comparisons;
     @XmlElement
     private final Integer maxResults;
-
+    @XmlAnyElement
+    private final List<Element> _futureElements;
+    
     private CriteriaInfo() {
         comparisons = null;
         maxResults = null;
+        _futureElements = null;
     }
 
     @Override
@@ -68,6 +79,7 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
             this.comparisons = Collections.unmodifiableList(list);
         }
         this.maxResults = builder.getMaxResults();
+        this._futureElements = null;
     }
 
     public static class Builder implements CriteriaInfc {
