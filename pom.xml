@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>77</version>
+    <version>79</version>
   </parent>
   <groupId>org.kuali.student.services</groupId>
   <artifactId>ks-services-api</artifactId>
@@ -20,7 +20,6 @@
   </modules>
   <properties>
     <kuali.rice.version>1.0.3.1-BX</kuali.rice.version>
-    <gwt.version>2.0.4</gwt.version>
     <cxf.version>2.2.9</cxf.version>
   </properties>
   <dependencyManagement>
@@ -29,11 +28,6 @@
         <groupId>org.kuali.rice</groupId>
         <artifactId>rice-api</artifactId>
         <version>${kuali.rice.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.code.gwtx</groupId>
-        <artifactId>gwtx</artifactId>
-        <version>${gwt.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
