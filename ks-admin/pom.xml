@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.2-M2-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.admin</groupId>
   <artifactId>ks-admin</artifactId>

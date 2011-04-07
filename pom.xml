@@ -9,16 +9,17 @@
   express or implied. See the License for the specific language governing
   permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>75</version>
+    <version>79</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.2-M2-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>http://${kuali.site.hostname}/student/${project.version}/</url>
@@ -931,18 +932,18 @@
             <artifactId>core</artifactId>
           </exclusion>
           
-		  <!-- JOTM -->        
-	      <exclusion>                                 
-	        <groupId>xapool</groupId>                 
-	        <artifactId>xapool</artifactId>           
-	      </exclusion>                                
-	      <exclusion>                                 
-	        <groupId>jotm</groupId>                   
-	        <artifactId>jotm</artifactId>             
-	      </exclusion>
+		  <!-- JOTM -->
+          <exclusion>
+            <groupId>xapool</groupId>
+            <artifactId>xapool</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>jotm</groupId>
+            <artifactId>jotm</artifactId>
+          </exclusion>
 	      
 	      <!-- itext -->
-	      <exclusion>
+          <exclusion>
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
           </exclusion>
@@ -982,45 +983,45 @@
     
       <!-- Jasper Report dependencies -->
       <dependency>
-		<groupId>net.sf.jasperreports</groupId>
-		<artifactId>jasperreports</artifactId>
-		<version>${net.sf.jasperreports.version}</version>
-	  </dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+        <version>${net.sf.jasperreports.version}</version>
+      </dependency>
 	  <!-- dependency>
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-fonts</artifactId>
 		<version>4.0.1</version>
 	  </dependency-->
       <dependency>
-		<groupId>com.lowagie</groupId>
-		<artifactId>itext</artifactId>
-		<version>${com.lowagie.itext.version}</version>
-		<exclusions>
-		  <exclusion>
-			<groupId>bouncycastle</groupId>
-			<artifactId>bcmail-jdk14</artifactId>
-		  </exclusion>
-		  <exclusion>
-			<groupId>bouncycastle</groupId>
-			<artifactId>bcprov-jdk14</artifactId>
-		  </exclusion>
-		  <exclusion>
-			<groupId>bouncycastle</groupId>
-			<artifactId>bctsp-jdk14</artifactId>
-		  </exclusion>
+        <groupId>com.lowagie</groupId>
+        <artifactId>itext</artifactId>
+        <version>${com.lowagie.itext.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bcmail-jdk14</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bcprov-jdk14</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bctsp-jdk14</artifactId>
+          </exclusion>
         </exclusions>
-	  </dependency>
-	  <dependency>
-		<groupId>org.apache.poi</groupId>
-		<artifactId>poi</artifactId>
-		<version>${org.apache.poi.version}</version>
-	  </dependency>
-	  <dependency>
-		<groupId>net.sourceforge.jexcelapi</groupId>
-		<artifactId>jxl</artifactId>
-		<version>${net.sourceforge.jexcelapi.version}</version>
-	  </dependency>
-	</dependencies>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>${org.apache.poi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.jexcelapi</groupId>
+        <artifactId>jxl</artifactId>
+        <version>${net.sourceforge.jexcelapi.version}</version>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>

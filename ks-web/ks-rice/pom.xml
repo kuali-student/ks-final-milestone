@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.2-M2-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
