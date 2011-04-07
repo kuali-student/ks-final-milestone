@@ -11,10 +11,59 @@
   <groupId>org.kuali.student.services</groupId>
   <artifactId>ks-services-api</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <modules>
     <module>ks-common-api</module>
     <module>ks-core-api</module>
     <module>ks-lum-api</module>
     <module>ks-enroll-api</module>
   </modules>
+  <properties>
+    <kuali.rice.version>1.0.3.1-BX</kuali.rice.version>
+    <gwt.version>2.0.4</gwt.version>
+    <cxf.version>2.2.9</cxf.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.kuali.rice</groupId>
+        <artifactId>rice-api</artifactId>
+        <version>${kuali.rice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.gwtx</groupId>
+        <artifactId>gwtx</artifactId>
+        <version>${gwt.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-java2ws-plugin</artifactId>
+          <version>${cxf.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-rt-frontend-jaxws</artifactId>
+              <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-rt-frontend-simple</artifactId>
+              <version>${cxf.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <genWsdl>true</genWsdl>
+            <genWrapperbean>true</genWrapperbean>
+            <verbose>true</verbose>
+            <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

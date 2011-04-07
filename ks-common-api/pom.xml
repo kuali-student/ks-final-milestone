@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.common</groupId>
   <artifactId>ks-common-api</artifactId>
   <name>KS Common Api</name>
   <description>KS Common Api</description>
@@ -9,13 +10,11 @@
     <artifactId>ks-services-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <!-- 
   <dependencies>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>1.2-M2-SNAPSHOT</version>
     </dependency>
   </dependencies>
-   -->
 </project>

@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum-api</artifactId>
   <name>KS LUM API</name>
   <description>KS Learning Unit Managment API</description>
@@ -18,6 +19,7 @@
     <dependency>
       <groupId>com.google.code.gwtx</groupId>
       <artifactId>gwtx</artifactId>
+      <version>1.5.3</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
