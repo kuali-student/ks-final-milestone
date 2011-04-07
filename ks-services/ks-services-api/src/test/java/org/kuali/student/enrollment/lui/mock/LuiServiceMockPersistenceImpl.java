@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.kuali.student.common.dto.ContextInfo;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.infc.HoldsLuService;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
@@ -36,9 +33,11 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.infc.HoldsLuService;
 import org.kuali.student.enrollment.lpr.mock.MockHelper;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.mock.LuiServiceAdapter;
 import org.kuali.student.lum.lu.service.LuService;
 
 /**

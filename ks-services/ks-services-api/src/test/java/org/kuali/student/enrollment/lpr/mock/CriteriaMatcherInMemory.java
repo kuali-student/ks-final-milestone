@@ -30,7 +30,8 @@ import org.kuali.student.common.infc.ComparisonInfc;
 import org.kuali.student.common.infc.CriteriaInfc;
 import org.kuali.student.datadictionary.Student2RiceDictionaryEntryConverter;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
-import org.kuali.student.enrollment.lpr.mock.CriteriaValidatorParser.Operator;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser.Operator;
 
 /**
  * A helper class for the Mock implementation to match criteria to values on the object

@@ -40,6 +40,7 @@ import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.StateInfc;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;

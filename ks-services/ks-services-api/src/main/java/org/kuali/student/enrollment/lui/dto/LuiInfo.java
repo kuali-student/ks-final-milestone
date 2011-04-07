@@ -76,14 +76,14 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     
     private LuiInfo(LuiInfc builder) {
 		super(builder);
-		this.luiCode = new String(builder.getLuiCode());
-		this.cluId = new String(builder.getCluId());
-		this.atpKey = new String(builder.getAtpKey());
+		this.luiCode = builder.getLuiCode();
+		this.cluId = builder.getCluId();
+		this.atpKey = builder.getAtpKey();
 		this.maxSeats = new Integer(builder.getMaxSeats());
     	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
-		this.id = new String(builder.getId());
-		this.state = new String(builder.getState());
+		this.id = builder.getId();
+		this.state = builder.getState();
 	}
 
     /**

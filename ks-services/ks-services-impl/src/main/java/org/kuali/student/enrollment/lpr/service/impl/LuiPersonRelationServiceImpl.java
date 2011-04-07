@@ -21,7 +21,7 @@ import org.kuali.student.common.exceptions.*;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dao.LprDao;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
+import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 import javax.jws.WebService;
@@ -43,9 +43,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelation> luiPersonRelations = lprDao.getByLuiId(luiId);
+        List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LuiPersonRelationInfo> dtos = new ArrayList<LuiPersonRelationInfo>();
-        for (LuiPersonRelation entity : luiPersonRelations) {
+        for (LuiPersonRelationEntity entity : luiPersonRelations) {
             dtos.add(new LuiPersonRelationInfo.Builder().id(entity.getLuiId()).build());
         }
         return dtos;

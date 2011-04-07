@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.lpr.service.impl;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -40,7 +41,7 @@ import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_I
 /**
  * @Author sambit
  */
-
+@Ignore
 public class LuiPersonRelationServiceImplTest {
 
 
