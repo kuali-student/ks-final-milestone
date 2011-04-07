@@ -21,7 +21,6 @@ public class ServiceAspects<T>  {
 
 	List<Throwable> includeThrowableClassList ;
 
-
 	public void setServiceEntryDecorators(List<T> serviceImplObjs) {
 		this.serviceEntryDecorators = serviceImplObjs;
 	}
@@ -34,21 +33,17 @@ public class ServiceAspects<T>  {
 	 * @param join
 	 */
 	public void beforeInvokingService(JoinPoint join) throws Throwable{
-		
-		
-		
+
 		Object[] argValues =  join.getArgs();
-		
-			for(Object argValue:argValues){
-				if(argValue==null){
-					
-					throw new MissingParameterException(""+argValue);
-				}
+
+		for(Object argValue:argValues){
+
+			if(argValue==null){
+			
+				throw new MissingParameterException("Input parameters cannot be null, one of the parameters had null value:"+argValue);
+				
 			}
-		
-	
- 
-		
+		}
 	}
 	/**
 	 * Aspect method, this is the controller which routes the call to the top decorator 
@@ -58,7 +53,7 @@ public class ServiceAspects<T>  {
 	 */
 	public Object invokeFirstDecorator(ProceedingJoinPoint join) throws Throwable{
 		Object retVal = null;
-		
+
 		for (Object decorator : serviceEntryDecorators){
 			if	(join.getSignature().getDeclaringType().isAssignableFrom(decorator.getClass())) {
 				for (Method m : decorator.getClass().getMethods()){

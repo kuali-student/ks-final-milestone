@@ -30,16 +30,9 @@ import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 /**
  * @author sambit
  */
-public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator{
+public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator implements HoldsValidator{
 
 	private DataDictionaryValidatorInfc validator;
-
-	
-	
-	public void setValidator(DataDictionaryValidatorInfc validator) {
-		this.validator = validator;
-	}
-
 
 	public void setNextDecorator(LuiPersonRelationService nextDecorator) {
 		this.nextDecorator = nextDecorator;
@@ -47,6 +40,16 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 	public LuiPersonRelationService getNextDecorator() {
 		return this.nextDecorator;
 	}
+
+    @Override
+    public DataDictionaryValidatorInfc getValidator() {
+        return validator;
+    }
+
+    @Override
+    public void setValidator(DataDictionaryValidatorInfc validator) {
+        this.validator = validator;
+    }
 
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
@@ -59,6 +62,8 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			PermissionDeniedException {
 		return this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
 	}
+
+
 
 	private void checkReadOnly(String field, Object orig, Object supplied)
 	throws ReadOnlyException {
@@ -133,13 +138,9 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		if (!vris.isEmpty()) {
 			throw new DataValidationErrorException("Failed validation", vris);
 		}
+		
 		return this.getNextDecorator().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
 
-	
-	public DataDictionaryValidatorInfc getValidator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 
