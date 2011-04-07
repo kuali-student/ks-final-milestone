@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="SubjectCodeJoinOrg" parent="SubjectCodeJoinOrg-parentBean" />
+    <bean id="SubjectCodeJoinOrg-parentBean" abstract="true" parent="BusinessObjectEntry">
+    	<property name="objectLabel" value="Subject Code Department" />
+        <property name="businessObjectClass" value="org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg" />
+        <property name="titleAttribute" value="id" />
+        <property name="attributes">
+            <list>
+                <ref bean="SubjectCodeJoinOrg-id" />
+                <ref bean="SubjectCodeJoinOrg-activeFromDate" />
+                <ref bean="SubjectCodeJoinOrg-activeToDate" />
+                <ref bean="SubjectCodeJoinOrg-active" />
+                <ref bean="SubjectCodeJoinOrg-orgId" />
+                <ref bean="SubjectCodeJoinOrg-subjectCodeId" />
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="SubjectCodeJoinOrg-id" name="CoreTypeReference-id" />
+    <alias alias="SubjectCodeJoinOrg-activeFromDate" name="CoreTypeReference-activeFromDate" />
+    <alias alias="SubjectCodeJoinOrg-activeToDate" name="CoreTypeReference-activeToDate" />
+    <alias alias="SubjectCodeJoinOrg-active" name="CoreTypeReference-active" />
+    
+    <bean id="SubjectCodeJoinOrg-orgId" parent="SubjectCodeJoinOrg-orgId-parentBean" />
+    <bean id="SubjectCodeJoinOrg-orgId-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+	  <property name="summary" value="Department Id"/>
+	  <property name="name" value="orgId"/>
+	  <property name="label" value="Department Id"/>
+	  <property name="description" value="Department Id"/>
+	</bean>
+
+    <bean id="SubjectCodeJoinOrg-subjectCodeId" parent="SubjectCodeJoinOrg-subjectCodeId-parentBean" />
+    <bean id="SubjectCodeJoinOrg-subjectCodeId-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+	  <property name="summary" value="Subject Code"/>
+	  <property name="name" value="subjectCodeId"/>
+	  <property name="label" value="Subject Code"/>
+	  <property name="description" value="Subject Code"/>
+	</bean>
+</beans>
