@@ -6,7 +6,7 @@ import java.util.List;
 public class ExportElement implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String fieldLabel = new String("label");
+    private String fieldLabel;
     private boolean isMandatory;
 
     private String fieldValue;

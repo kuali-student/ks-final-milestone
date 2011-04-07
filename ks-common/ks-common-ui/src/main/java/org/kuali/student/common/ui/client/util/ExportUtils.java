@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -40,7 +41,7 @@ public class ExportUtils {
     public static final String DOC = "DOC";
     public static final String XLS = "XLS";
 
-    public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue) {
+    public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue, String viewName, String sectionName) {
         ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
         String fieldValue = null;
         if (fieldWidget instanceof HasText) {
@@ -80,10 +81,7 @@ public class ExportUtils {
             SectionTitle sectionTitle = (SectionTitle) fieldWidget;            
             fieldValue = sectionTitle.getElement().getInnerText();
         } else if (fieldWidget instanceof ComplexPanel) {
-                subExportElements = ExportUtils.getDetailsForWidget(fieldWidget, subExportElements, "", "");
-//                for (int k = 0; k < subExportElements.size(); k++) {
-//                    System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
-//                }
+                subExportElements = ExportUtils.getDetailsForWidget(fieldWidget, subExportElements, viewName, sectionName);
         } else
         {
             // logger.warn(exportItem.getFieldLabel() + " Fieldwidget not catered for : class type = " +
@@ -98,7 +96,7 @@ public class ExportUtils {
             exportItem.setSubset(subExportElements);
         }
 
-                System.out.println(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue() + " fieldValue2 : " + exportItem.getFieldValue2());
+//                System.out.println(exportItem.getSectionName() + " : Label = " + exportItem.getFieldLabel() + " fieldValue : " + exportItem.getFieldValue() + " fieldValue2 : " + exportItem.getFieldValue2());
         return exportItem;
     }
 
@@ -130,21 +128,35 @@ public class ExportUtils {
 //        System.out.println(currentController.getTitle());
 //        System.out.println(currentController.getCurrentView().getName());
         if (exportElements != null && exportElements.size() > 0) {
-//            debutExportElementsArray(exportElements);
+            debutExportElementsArray(exportElements);
             currentController.doReportExport(exportElements, format, reportTitle);
         }
     }
 
     private static void debutExportElementsArray(ArrayList<ExportElement> exportElements) {
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+
         for (int i = 0; i < exportElements.size(); i++) {
             System.out.println(exportElements.get(i).printLine());
-            if (exportElements.get(i).getSubset() != null && exportElements.get(i).getSubset() != null) {
-                System.out.println("Sub list : ");
-                for (int j = 0; j < exportElements.get(i).getSubset().size(); j++) {
-                    ExportElement element = exportElements.get(i).getSubset().get(j);
-                    System.out.println(element.printLine());
-                    
-                }
+            debutExportElementsArraySubList(exportElements.get(i).getSubset());
+        }
+    }
+
+    private static void debutExportElementsArraySubList(List<ExportElement> exportElements) {
+        if (exportElements != null) {
+            System.out.println("Sub list : ");
+            for (int j = 0; j < exportElements.size(); j++) {
+                ExportElement element = exportElements.get(j);
+                System.out.println(element.printLine());
+                debutExportElementsArraySubList(element.getSubset());
+                
             }
         }
     }
@@ -171,13 +183,10 @@ public class ExportUtils {
                         if (fdWidget instanceof KSListPanel) {
                             ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
                             subExportElements = ExportUtils.getDetailsForWidget(fdWidget, subExportElements, blockName, blockName);
-//                            for (int k = 0; k < subExportElements.size(); k++) {
-//                                System.out.println("SUBList : " + subExportElements.get(k).getFieldLabel() + " " + subExportElements.get(k).getFieldValue());
-//                            }
                             element.setSubset(subExportElements);
                         } else {
                         //
-                        element = ExportUtils.getExportItemDetails(element,fdWidget,true);
+                        element = ExportUtils.getExportItemDetails(element,fdWidget,true, blockName, blockName);
                         }
                     } else {
                         if (row.getTitle() != null) {
@@ -187,7 +196,7 @@ public class ExportUtils {
                 //
                     Widget fdWidget2 = row.getCell2();
                     if (fdWidget2 != null) {
-                        element = ExportUtils.getExportItemDetails(element,fdWidget2,false);
+                        element = ExportUtils.getExportItemDetails(element,fdWidget2,false, blockName, blockName);
                                        
                     } else {
                         if (row.getTitle() != null) {
@@ -195,7 +204,6 @@ public class ExportUtils {
                         }
                     }
                     if (element != null && element.getViewName() != null) {
-                        System.out.println(element.getViewName() + " " + element.getFieldLabel());
                         exportElements.add(element);
                     }
                 }
@@ -215,7 +223,7 @@ public class ExportUtils {
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
 
-                exportElements.add(getExportItemDetails(exportItem, fieldWidget, true));
+                exportElements.add(getExportItemDetails(exportItem, fieldWidget, true, viewName, sectionName));
             }
         } else if (currentViewWidget instanceof KSListPanel) {
             KSListPanel ksListPanelWidget = (KSListPanel) currentViewWidget;
@@ -227,21 +235,20 @@ public class ExportUtils {
                 exportItem.setSectionName(sectionName + viewName);
                 exportItem.setViewName(sectionName + viewName);
                 exportItem.setFieldLabel("");
-                exportElements.add(getExportItemDetails(exportItem, child, true));
+                exportElements.add(getExportItemDetails(exportItem, child, true, viewName, sectionName));
             }
             
         } else if (currentViewWidget instanceof ComplexPanel){
             ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
             for (int i = 0; i < complexPanel .getWidgetCount(); i++) {
-                //
                 Widget child = complexPanel .getWidget(i);
                 ExportElement exportItem = new ExportElement();
                 exportItem.setSectionName(sectionName + viewName + " Complexpanel sublist");
                 exportItem.setViewName(sectionName + viewName + " Complexpanel sublist");
-                ExportElement exportItemDetails = getExportItemDetails(exportItem, child, true);
-//                if (exportItemDetails.getFieldValue() != null || (exportItemDetails.getSubset() != null && exportItemDetails.getSubset().size() > 0)) {
-//                    exportElements.add(exportItemDetails);                    
-//                }
+                ExportElement exportItemDetails = getExportItemDetails(exportItem, child, true, viewName, sectionName);
+                if (exportItemDetails.getFieldValue() != null || (exportItemDetails.getSubset() != null && exportItemDetails.getSubset().size() > 0)) {
+                    exportElements.add(exportItemDetails);                    
+                }
             }
 
             
@@ -277,7 +284,17 @@ public class ExportUtils {
                 exportItem.setFieldLabel(field.getFieldLabel());
                 Widget fieldWidget = field.getFieldElement().getFieldWidget();
 
-                exportElements.add(getExportItemDetails(exportItem, fieldWidget,true));
+                exportElements.add(getExportItemDetails(exportItem, fieldWidget,true,viewName, sectionName));
+            }
+            if ((currentViewWidget instanceof BaseSection) && (widgetHasFields.getFields().size() == 0)) {
+                BaseSection bSection = (BaseSection) currentViewWidget;
+                ExportElement exportItem = new ExportElement();
+                exportItem.setSectionName(sectionName + viewName);
+                exportItem.setViewName(sectionName + viewName);
+                exportItem.setFieldLabel("???00");
+                exportItem = getExportItemDetails(exportItem, bSection.getLayout(), true, viewName, sectionName);
+                exportElements.add(exportItem);
+                
             }
 //        } else { // Debugging
 //            System.out.println("ExportUtils.getExportElementsFromView is not implemented for your View, either implement it here or do " + "not call the ExportUtils.getExportElementsFromView but implement it directly on your view");
