@@ -52,6 +52,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
         <module>ks-web</module>
       </modules>
     </profile>
@@ -63,6 +64,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
       <properties>
         <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
@@ -76,6 +78,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
     </profile>
     <profile>
