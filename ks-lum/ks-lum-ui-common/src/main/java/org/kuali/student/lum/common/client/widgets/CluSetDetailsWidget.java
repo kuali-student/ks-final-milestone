@@ -1,6 +1,7 @@
 package org.kuali.student.lum.common.client.widgets;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import com.google.gwt.user.client.ui.*;
 
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -18,13 +21,14 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
-public class CluSetDetailsWidget extends Composite {
+public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
     
     private CluSetInformation cluSetInformation;
     private SimplePanel mainPanel;
@@ -309,5 +313,20 @@ public class CluSetDetailsWidget extends Composite {
 
     public String toString() {
         return detailsTable.toString();
+    }
+
+    @Override
+    public ArrayList<ExportElement> getExportElementsWidget(String viewName, String sectionName) {
+        List<CluInformation> items = this.cluSetInformation.getClus();
+        ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
+        for (int i = 0; i < items.size(); i++) {
+            ExportElement element = new ExportElement(viewName, sectionName);
+            element.setFieldValue(items.get(i).getCode() + " " + items.get(i).getTitle() + " " + items.get(i).getCredits() + " credits");
+            returnItems.add(element);
+        }
+        if (returnItems.size() > 0) {
+            return returnItems;
+        } 
+        return null;
     }
 }

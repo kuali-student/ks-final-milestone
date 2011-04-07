@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
@@ -82,6 +83,9 @@ public class ExportUtils {
             fieldValue = sectionTitle.getElement().getInnerText();
         } else if (fieldWidget instanceof ComplexPanel) {
                 subExportElements = ExportUtils.getDetailsForWidget(fieldWidget, subExportElements, viewName, sectionName);
+        } else if (fieldWidget instanceof ReportExportWidget) {
+            ReportExportWidget widget = (ReportExportWidget) fieldWidget;
+            subExportElements = widget.getExportElementsWidget(viewName, sectionName);
         } else
         {
             // logger.warn(exportItem.getFieldLabel() + " Fieldwidget not catered for : class type = " +
@@ -123,10 +127,7 @@ public class ExportUtils {
 
     public static void handleExportClickEvent(Controller currentController, String format, String reportTitle) {
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-//        System.out.println("currentController is /:" + currentController.getClass().getName());
         exportElements = currentController.getExportElementsFromView();
-//        System.out.println(currentController.getTitle());
-//        System.out.println(currentController.getCurrentView().getName());
         if (exportElements != null && exportElements.size() > 0) {
             debutExportElementsArray(exportElements);
             currentController.doReportExport(exportElements, format, reportTitle);
@@ -243,8 +244,8 @@ public class ExportUtils {
             for (int i = 0; i < complexPanel .getWidgetCount(); i++) {
                 Widget child = complexPanel .getWidget(i);
                 ExportElement exportItem = new ExportElement();
-                exportItem.setSectionName(sectionName + viewName + " Complexpanel sublist");
-                exportItem.setViewName(sectionName + viewName + " Complexpanel sublist");
+                exportItem.setSectionName(sectionName);
+                exportItem.setViewName(viewName);
                 ExportElement exportItemDetails = getExportItemDetails(exportItem, child, true, viewName, sectionName);
                 if (exportItemDetails.getFieldValue() != null || (exportItemDetails.getSubset() != null && exportItemDetails.getSubset().size() > 0)) {
                     exportElements.add(exportItemDetails);                    
@@ -253,21 +254,12 @@ public class ExportUtils {
 
             
 
-        }  
-        else {
+        } else {
         
             System.out.println("ExportUtils does not cater for this type..." + currentViewWidget.getClass().getName());
                         
         }
         return exportElements;
-    }
-
-    private static String getViewName(Widget currentViewWidget) {
-        if (currentViewWidget instanceof View) {
-            View currentView = (View) currentViewWidget;
-            return currentView.getName();
-        }
-        return null;
     }
 
     public static ArrayList<ExportElement> getExportElementsFromView(Widget currentViewWidget, ArrayList<ExportElement> exportElements, String viewName, String sectionName) {

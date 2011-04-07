@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.headers;
 
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.util.ExportUtils;
@@ -85,7 +86,11 @@ public class KSDocumentHeader extends Composite {
             @Override
             public void exec(String format) {
                 Controller currController = ExportUtils.getController(KSDocumentHeader.this);
-                ExportUtils.handleExportClickEvent(currController, format, KSDocumentHeader.this.headerHTML.getTitle());
+                String title = null;
+                if (currController instanceof LayoutController) {
+                    title = ((LayoutController) currController).getName();
+                }
+                ExportUtils.handleExportClickEvent(currController, format, title);
             }
         });
     }

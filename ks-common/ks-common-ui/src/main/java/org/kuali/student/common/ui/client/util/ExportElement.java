@@ -6,12 +6,23 @@ import java.util.List;
 public class ExportElement implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String fieldLabel;
+    private String fieldLabel = new String();
     private boolean isMandatory;
 
     private String fieldValue;
     private String fieldValue2;
     private String viewName;
+
+    public ExportElement() {
+        super();
+    }
+
+    public ExportElement(String viewName, String sectionName) {
+        super();
+        this.viewName = viewName;
+        this.sectionName = sectionName;
+    }
+
     private String sectionName;
     private List<ExportElement> subset;
 
