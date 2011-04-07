@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -46,7 +46,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 @Daos( { @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprDao") })
 @PersistenceFileLocation("classpath:META-INF/persistence.xml")
 @Ignore
-public class LuiPersonRelationServiceImplRemoteTest extends AbstractServiceTest {
+public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl")
 	public LuiPersonRelationService lprService;

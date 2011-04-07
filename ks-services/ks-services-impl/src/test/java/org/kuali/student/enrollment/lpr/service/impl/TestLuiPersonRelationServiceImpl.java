@@ -42,7 +42,7 @@ import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_I
  * @Author sambit
  */
 @Ignore
-public class LuiPersonRelationServiceImplTest {
+public class TestLuiPersonRelationServiceImpl {
 
 
     public LuiPersonRelationService lprService;
