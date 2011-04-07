@@ -23,20 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLP_LPR_TYPE_ATTR")
-public class LuiPersonRelationTypeAttribute extends Attribute<LuiPersonRelationType> {
-	@ManyToOne
-	@JoinColumn(name = "OWNER")
-	private LuiPersonRelationType owner;
-
-	@Override
-	public LuiPersonRelationType getOwner() {
-		return owner;
-	}
-
-	@Override
-	public void setOwner(LuiPersonRelationType owner) {
-		this.owner = owner;
-	}
+@Table(name = "KSLP_LPR_ATTR")
+public class LuiPersonRelationAttribute extends BaseAttribute {
 
 }

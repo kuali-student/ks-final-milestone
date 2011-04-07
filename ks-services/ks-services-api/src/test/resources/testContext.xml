@@ -4,9 +4,10 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <import resource="classpath:applicationContext.xml"/>
+
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
+   <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
 
     <bean id="lprServiceToTest" parent="mockLprService" />
     <bean id="validatorToTest" parent="validator" />

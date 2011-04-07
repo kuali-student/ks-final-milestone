@@ -60,7 +60,7 @@ public class LuiPersonRelationServiceSearchConformanceTest {
     public LuiPersonRelationService getService() {
         if (service == null) {
             ApplicationContext appContext =
-                    new ClassPathXmlApplicationContext(new String[]{"classpath:applicationContext.xml", "classpath:testContext.xml"});
+                    new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
             service = (LuiPersonRelationService) appContext.getBean("lprServiceToTest");
             System.out.println("Running LuiPersonRelationServicePersistence Search Conformance Test on " + service.getClass().getName());
         }
