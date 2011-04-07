@@ -116,6 +116,20 @@ public class TestScreenReport {
         subElement2.setFieldValue("Second subvalue");
         subElement2.setFieldValue2("Second subvalue");
         subElements.add(subElement2);
+        
+        List<ExportElement> subsubElements = new ArrayList<ExportElement>();
+        ExportElement subsubElement1 = new ExportElement();
+        subsubElement1.setSectionName("Subsection");
+        subsubElement1.setFieldLabel("First sublabel");
+        subsubElement1.setFieldValue("First subvalue");
+        subsubElement1.setFieldValue2("First subvalue O");
+        subsubElements.add(subsubElement1);
+        
+        ExportElement subelement3 = new ExportElement();
+        subelement3.setSectionName("Subsection");
+        subelement3.setFieldLabel("Subsubset label");
+        subelement3.setSubset(subsubElements);
+        subElements.add(subelement3);
 
         ExportElement element4 = new ExportElement();
         element4.setSectionName("Section 1");
