@@ -15,6 +15,7 @@ package org.kuali.student.common.dto;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.common.infc.Entity;
@@ -29,10 +30,10 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
     @XmlElement
     private RichTextInfo descr;
 
-    @XmlElement
+    @XmlAttribute
     private String typeKey;
 
-    @XmlElement
+    @XmlAttribute
     private String stateKey;
 
 
