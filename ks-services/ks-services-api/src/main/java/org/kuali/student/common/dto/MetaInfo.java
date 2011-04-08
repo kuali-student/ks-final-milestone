@@ -29,7 +29,7 @@ import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MetaType", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
+@XmlType(name = "MetaInfo", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
 public class MetaInfo implements MetaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -139,29 +139,24 @@ public class MetaInfo implements MetaInfc, Serializable {
             return updateId;
         }
 
-        public Builder versionInd(String versionInd) {
+        public void setVersionInd(String versionInd) {
             this.versionInd = versionInd;
-            return this;
         }
 
-        public Builder createTime(Date createTime) {
+        public void setCreateTime(Date createTime) {
             this.createTime = createTime;
-            return this;
         }
 
-        public Builder createId(String createId) {
+        public void setCreateId(String createId) {
             this.createId = createId;
-            return this;
         }
 
-        public Builder updateTime(Date updateTime) {
+        public void setUpdateTime(Date updateTime) {
             this.updateTime = updateTime;
-            return this;
         }
 
-        public Builder updateId(String updateId) {
+        public void setUpdateId(String updateId) {
             this.updateId = updateId;
-            return this;
-        }
+        }  
     }
 }

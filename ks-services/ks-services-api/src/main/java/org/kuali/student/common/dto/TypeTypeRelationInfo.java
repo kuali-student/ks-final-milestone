@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KSTypeRelationType", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "ownerType", "relatedType", "rank", "attributes", "_futureElements"})
+@XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "ownerType", "relatedType", "rank", "attributes", "_futureElements"})
 public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelationInfc, Serializable {
 	
     @XmlAttribute
@@ -161,7 +161,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 
 		public Builder() {}
     	
-    	public Builder(TypeTypeRelationInfo typeTypeRelationInfo) {
+    	public Builder(TypeTypeRelationInfc typeTypeRelationInfo) {
     		super(typeTypeRelationInfo);
     		this.key = typeTypeRelationInfo.getKey();
     		this.name = typeTypeRelationInfo.getName();
@@ -176,51 +176,78 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 
         public TypeTypeRelationInfo build() {
             return new TypeTypeRelationInfo(this);
-        } 
-        
-		@Override
-		public String getKey() {
-			return key;
-		}
+        }
 
-		@Override
-		public Date getEffectiveDate() {
-			return effectiveDate;
-		}
+        public String getKey() {
+            return key;
+        }
 
-		@Override
-		public Date getExpirationDate() {
-			return expirationDate;
-		}
+        public void setKey(String key) {
+            this.key = key;
+        }
 
-		@Override
-		public String getName() {
-			return name;
-		}
+        public String getName() {
+            return name;
+        }
 
-		@Override
-		public String getDescr() {
-			return descr;
-		}
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        @Override
+        public String getDescr() {
+            return descr;
+        }
+
+        public void setDescr(String descr) {
+            this.descr = descr;
+        }
+
+        public Date getEffectiveDate() {
+            return effectiveDate;
+        }
+
+        public void setEffectiveDate(Date effectiveDate) {
+            this.effectiveDate = effectiveDate;
+        }
+
+        public Date getExpirationDate() {
+            return expirationDate;
+        }
+
+        public void setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+        }
+
         public String getType() {
             return type;
         }
 
-        @Override
+        public void setType(String type) {
+            this.type = type;
+        }
+
         public String getOwnerType() {
             return ownerType;
         }
 
-        @Override
+        public void setOwnerType(String ownerType) {
+            this.ownerType = ownerType;
+        }
+
         public String getRelatedType() {
             return relatedType;
         }
 
-        @Override
+        public void setRelatedType(String relatedType) {
+            this.relatedType = relatedType;
+        }
+
         public Integer getRank() {
             return rank;
         }
+
+        public void setRank(Integer rank) {
+            this.rank = rank;
+        }         
     }
 }

@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusType", propOrder = {"success", "message", "_futureElements"})
+@XmlType(name = "StatusInfo", propOrder = {"success", "message", "_futureElements"})
 public class StatusInfo implements StatusInfc, Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -93,15 +93,17 @@ public class StatusInfo implements StatusInfc, Serializable {
 		public String getMessage() {
 			return message;
 		}
-		
-		public Builder success(Boolean bool) {
-			this.success = bool;
-			return this;
-		}
-		
-		public Builder message(String msg) {
-			this.message = msg;
-			return this;
-		}
+
+        public Boolean getSuccess() {
+            return success;
+        }
+
+        public void setSuccess(Boolean success) {
+            this.success = success;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }	
 	}
 }

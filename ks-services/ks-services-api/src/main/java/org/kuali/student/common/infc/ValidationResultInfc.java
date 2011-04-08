@@ -65,8 +65,18 @@ public interface ValidationResultInfc {
      * <p/>
      * Returns the ValidationResult's error level
      */
-    public int getLevel();
+    public Integer getLevel();
 
+    /**
+     * 
+     * Invalid data causing the error or warning
+     * <p/>
+     * Type: Object
+     * <p/>
+     * @return data causing the error or warning
+     */
+    public Object getInvalidData();
+    
     /**
      * Get ????
      * <p/>

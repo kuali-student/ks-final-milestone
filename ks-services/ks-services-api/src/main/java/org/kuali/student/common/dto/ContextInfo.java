@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
  * @author Kamal
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextType", propOrder = {"principalId", "localeLanguage", "localeVariant", "localeRegion", "localeScript", "timeZone", "attributes", "_futureElements"})
+@XmlType(name = "ContextInfo", propOrder = {"principalId", "localeLanguage", "localeVariant", "localeRegion", "localeScript", "timeZone", "attributes", "_futureElements"})
 public class ContextInfo extends HasAttributesInfo implements ContextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -116,6 +116,12 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
 
         public Builder(ContextInfc ctxInfo) {
             super(ctxInfo);
+            this.principalId = ctxInfo.getPrincipalId();
+            this.localeLanguage = ctxInfo.getLocaleLanguage();
+            this.localeVariant = ctxInfo.getLocaleVariant();
+            this.localeRegion = ctxInfo.getLocaleRegion();
+            this.localeScript = ctxInfo.getLocaleScript();
+            this.timeZone = ctxInfo.getTimeZone();
         }
 
         public ContextInfo build() {
@@ -164,6 +170,21 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
 
         public Builder localeRegion(String localeRegion) {
             this.localeRegion = localeRegion;
+            return this;
+        }
+
+        public Builder localeVariant(String localeVariant) {
+            this.localeVariant = localeVariant;
+            return this;
+        }
+
+        public Builder localeScript(String localeScript) {
+            this.localeScript = localeScript;
+            return this;
+        }
+        
+        public Builder timeZone(String timeZone) {
+            this.timeZone = timeZone;
             return this;
         }
     }

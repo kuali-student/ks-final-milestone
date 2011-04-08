@@ -16,10 +16,6 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;

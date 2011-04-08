@@ -21,7 +21,7 @@ import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AttributeType", propOrder = {"id", "key", "value", "_futureElements"})
+@XmlType(name = "AttributeInfo", propOrder = {"id", "key", "value", "_futureElements"})
 public final class AttributeInfo implements AttributeInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -104,19 +104,16 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
             return value;
         }
 
-        public Builder id(String id) {
+        public void setId(String id) {
             this.id = id;
-            return this;
         }
 
-        public Builder key(String key) {
+        public void setKey(String key) {
             this.key = key;
-            return this;
         }
 
-        public Builder value(String val) {
+        public void setValue(String val) {
             this.value = val;
-            return this;
         }
     }
 }

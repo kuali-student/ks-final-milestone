@@ -18,15 +18,20 @@ package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
+import org.w3c.dom.Element;
 
 
 /**
@@ -34,10 +39,20 @@ import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiLuiRelationInfo", propOrder = {"id","type","state","luiId", "relatedLuiId", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
 public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo 
   implements Serializable, LuiLuiRelationInfc {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlAttribute
+    private final String id;
+    
+    @XmlAttribute
+    private final String type;
+
+    @XmlAttribute
+    private final String state;
 
     @XmlElement
     private final String luiId;
@@ -51,14 +66,8 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     @XmlElement
     private final Date expirationDate;
 
-    @XmlAttribute
-    private final String type;
-
-    @XmlAttribute
-    private final String state;
-
-    @XmlAttribute
-    private final String id;
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
 
     private LuiLuiRelationInfo() {
     	luiId = null;
@@ -68,6 +77,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     	type = null;
     	state = null;
     	id = null;
+    	_futureElements = null;
     }
     
     private LuiLuiRelationInfo(LuiLuiRelationInfc builder) {
@@ -79,6 +89,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     	this.type = builder.getType();
     	this.state = builder.getState();
     	this.id = builder.getId();
+    	this._futureElements = null;
     }
 
     /**
@@ -164,7 +175,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
         return id;
     }
     
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements LuiLuiRelationInfc {
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiLuiRelationInfo>, LuiLuiRelationInfc {
     	
 	    private String luiId;
 	    private String relatedLuiId;
@@ -191,65 +202,60 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
 			return new LuiLuiRelationInfo(this);
 		}
 
-		@Override
-		public String getId() {
-			return id;
-		}
+        public String getLuiId() {
+            return luiId;
+        }
 
-		@Override
-		public String getType() {
-			return type;
-		}
+        public void setLuiId(String luiId) {
+            this.luiId = luiId;
+        }
 
-		@Override
-		public String getState() {
-			return state;
-		}
+        public String getRelatedLuiId() {
+            return relatedLuiId;
+        }
 
-		@Override
-		public Date getEffectiveDate() {
-			return effectiveDate;
-		}
+        public void setRelatedLuiId(String relatedLuiId) {
+            this.relatedLuiId = relatedLuiId;
+        }
 
-		@Override
-		public Date getExpirationDate() {
-			return expirationDate;
-		}
+        public Date getEffectiveDate() {
+            return effectiveDate;
+        }
 
-		@Override
-		public String getLuiId() {
-			return luiId;
-		}
+        public void setEffectiveDate(Date effectiveDate) {
+            this.effectiveDate = effectiveDate;
+        }
 
-		@Override
-		public String getRelatedLuiId() {
-			return relatedLuiId;
-		}
+        public Date getExpirationDate() {
+            return expirationDate;
+        }
 
-		public Builder id(String id) {
-			this.id = id;
-			return this;
-		}
+        public void setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+        }
 
-		public Builder luiId(String luiId) {
-			this.luiId = luiId;
-			return this;
-		}
+        public String getType() {
+            return type;
+        }
 
-		public Builder relatedLuiId(String relatedLuiId) {
-			this.relatedLuiId = relatedLuiId;
-			return this;
-		}
+        public void setType(String type) {
+            this.type = type;
+        }
 
-		public Builder type(String luLuRelationType) {
-			this.type = luLuRelationType;
-			return this;
-		}
-		
-		// pass-thru so right Builder is returned
-		public Builder metaInfo(MetaInfc metaInfo) {
-			super.metaInfo(metaInfo);
-			return this;
-		}
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }		
     }
 }

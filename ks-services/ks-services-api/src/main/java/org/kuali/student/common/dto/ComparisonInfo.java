@@ -33,7 +33,7 @@ import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ComparisonType", propOrder = {"fieldKey", "operator", "values", "ignoreCase", "_futureElements"})    
+@XmlType(name = "ComparisonInfo", propOrder = {"fieldKey", "operator", "values", "ignoreCase", "_futureElements"})    
 public class ComparisonInfo implements ComparisonInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -152,19 +152,16 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
          * @param value
          * @return
          */
-        public Builder setValue(String value) {
+        public void setValue(String value) {
             this.setValues(Arrays.asList(value));
-            return this;
         }
 
-        public Builder setValues(List<String> values) {
+        public void setValues(List<String> values) {
             this.values = values;
-            return this;
         }
 
-        public Builder setIgnoreCase(boolean ignoreCase) {
+        public void setIgnoreCase(boolean ignoreCase) {
             this.ignoreCase = ignoreCase;
-            return this;
         }
     }
 }

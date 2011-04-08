@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KSTypeType", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "refObjectURI", "attributes", "_futureElements"})
+@XmlType(name = "TypeInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "refObjectURI", "attributes", "_futureElements"})
 public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializable {
 	
     @XmlAttribute
@@ -139,36 +139,54 @@ public class TypeInfo extends HasAttributesInfo implements TypeInfc, Serializabl
 
         public TypeInfo build() {
             return new TypeInfo(this);
-        } 
-        
-		@Override
-		public String getKey() {
-			return key;
-		}
+        }
 
-		@Override
-		public Date getEffectiveDate() {
-			return effectiveDate;
-		}
+        public String getKey() {
+            return key;
+        }
 
-		@Override
-		public Date getExpirationDate() {
-			return expirationDate;
-		}
+        public void setKey(String key) {
+            this.key = key;
+        }
 
-		@Override
-		public String getName() {
-			return name;
-		}
+        public String getName() {
+            return name;
+        }
 
-		@Override
-		public String getDescr() {
-			return descr;
-		}
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        @Override
+        public String getDescr() {
+            return descr;
+        }
+
+        public void setDescr(String descr) {
+            this.descr = descr;
+        }
+
+        public Date getEffectiveDate() {
+            return effectiveDate;
+        }
+
+        public void setEffectiveDate(Date effectiveDate) {
+            this.effectiveDate = effectiveDate;
+        }
+
+        public Date getExpirationDate() {
+            return expirationDate;
+        }
+
+        public void setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+        }
+
         public String getRefObjectURI() {
             return refObjectURI;
         }
+
+        public void setRefObjectURI(String refObjectURI) {
+            this.refObjectURI = refObjectURI;
+        }         
     }
 }

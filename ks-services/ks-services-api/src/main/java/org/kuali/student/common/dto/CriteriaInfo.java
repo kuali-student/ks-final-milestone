@@ -15,7 +15,11 @@
  */
 package org.kuali.student.common.dto;
 
-import org.kuali.student.common.infc.ComparisonInfc;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -23,11 +27,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.kuali.student.common.infc.ComparisonInfc;
 import org.kuali.student.common.infc.CriteriaInfc;
+import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -39,7 +41,7 @@ import org.w3c.dom.Element;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CriteriaType", propOrder = {"comparisons", "maxResults", "_futureElements"})
+@XmlType(name = "CriteriaInfo", propOrder = {"comparisons", "maxResults", "_futureElements"})
 public class CriteriaInfo implements CriteriaInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,7 +84,7 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
         this._futureElements = null;
     }
 
-    public static class Builder implements CriteriaInfc {
+    public static class Builder implements ModelBuilder<CriteriaInfo>, CriteriaInfc {
 
         private List<? extends ComparisonInfc> comparisons;
         private Integer maxResults;
@@ -109,18 +111,12 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
             return this.maxResults;
         }
 
-        public Builder setComparisons(List<? extends ComparisonInfc> comparisons) {
+        public void setComparisons(List<? extends ComparisonInfc> comparisons) {
             this.comparisons = comparisons;
-            return this;
         }
 
-        public Builder setMaxResults(Integer maxResults) {
+        public void setMaxResults(Integer maxResults) {
             this.maxResults = maxResults;
-            return this;
         }
-
-
-		
-		// Add setters as needed
     }
 }

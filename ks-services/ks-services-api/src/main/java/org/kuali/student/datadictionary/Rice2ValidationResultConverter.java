@@ -18,9 +18,13 @@ package org.kuali.student.datadictionary;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.validation.result.ConstraintValidationResult;
-import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
+
 import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.infc.ValidationResultInfc;
+
+import org.kuali.rice.kns.datadictionary.validation.ErrorLevel;
+import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
+import org.kuali.rice.kns.datadictionary.validation.result.ConstraintValidationResult;
 
 /**
  *
@@ -44,10 +48,10 @@ public class Rice2ValidationResultConverter {
                 case INAPPLICABLE:
                     continue;
                 case ERROR:
-                    vr = new ValidationResultInfo();
-                    vr.setElement(cvr.getAttributeName());
-                    vr.setError(cvr.getErrorKey());
-                    vrs.add(vr);
+                    ValidationResultInfo.Builder vrBuilder = new ValidationResultInfo.Builder();
+                    vrBuilder.setElement(cvr.getAttributeName());
+                    vrBuilder.setError(cvr.getErrorKey());
+                    vrs.add(vrBuilder.build());
                 case WARN:
                     LOG.debug("Skipping warning " + cvr.getEntryName()
                       + "." + cvr.getAttributeName() + " " +

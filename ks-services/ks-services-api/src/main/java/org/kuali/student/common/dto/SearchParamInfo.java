@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SearchParamType", propOrder = {"key", "values", "_futureElements"})
+@XmlType(name = "SearchParamInfo", propOrder = {"key", "values", "_futureElements"})
 public class SearchParamInfo implements SearchParamInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,13 +85,33 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
         private String key;
         private List<String> values;
 
-        @Override
-        public List<String> getValues() {
-            return values;
+        public Builder() {}
+        
+        public Builder(SearchParamInfc searchInfo) {
+            this.key = searchInfo.getKey();
+            this.values = searchInfo.getValues();
         }
+        
         public SearchParamInfo build () {
             return new SearchParamInfo (this);
         }
+        
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public List<String> getValues() {
+            return values;
+        }
+
+        public void setValues(List<String> values) {
+            this.values = values;
+        }
+
         /**
          * Convenience method for setting a single value
          * Actually stores it as a list with one value.
@@ -99,21 +119,6 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
          */
         public Builder value(String value) {
             this.values = Arrays.asList(value);
-            return this;
-        }
-
-        public Builder values(List<String> values) {
-            this.values = values;
-            return this;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        public Builder key(String key) {
-            this.key = key;
             return this;
         }
     }

@@ -20,11 +20,13 @@ import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
+import org.kuali.student.common.infc.HasType;
 
 public interface LuiInfc
         extends HasAttributesAndMeta,
         HasId,
         HasState,
+        HasType,
         HasEffectiveDates {
 
     /**

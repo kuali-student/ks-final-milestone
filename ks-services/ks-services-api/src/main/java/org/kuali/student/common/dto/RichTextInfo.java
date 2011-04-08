@@ -29,7 +29,7 @@ import org.kuali.student.common.infc.RichTextInfc;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RichTextType", propOrder = {"plain", "formatted", "_futureElements"})
+@XmlType(name = "RichTextInfo", propOrder = {"plain", "formatted", "_futureElements"})
 public class RichTextInfo implements RichTextInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,14 +85,20 @@ public class RichTextInfo implements RichTextInfc, Serializable {
     		return new RichTextInfo(this);
     	}
 
-		@Override
-		public String getPlain() {
-			return plain;
-		}
+        public String getPlain() {
+            return plain;
+        }
 
-		@Override
-		public String getFormatted() {
-			return formatted;
-		}
+        public void setPlain(String plain) {
+            this.plain = plain;
+        }
+
+        public String getFormatted() {
+            return formatted;
+        }
+
+        public void setFormatted(String formatted) {
+            this.formatted = formatted;
+        }
     }
 }
