@@ -35,6 +35,7 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
     @XmlElement
     private String stateKey;
 
+
     protected EntityInfo() {
         name = null;
         descr = null;
