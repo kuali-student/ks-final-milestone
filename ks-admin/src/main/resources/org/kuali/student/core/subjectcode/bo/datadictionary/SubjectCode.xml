@@ -87,12 +87,12 @@
                 <bean parent="FieldDefinition" p:attributeName="state" />
             </list>
         </property>
-        <property name="title" value="Academic Time Period Lookup" />
+        <property name="title" value="Subject Code Lookup" />
     </bean>
 
     <bean id="SubjectCode-inquiryDefinition" parent="SubjectCode-inquiryDefinition-parentBean" />
     <bean id="SubjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Academic Time Period Inquiry" />
+        <property name="title" value="Subject Code Inquiry" />
         <property name="inquirySections">
             <list>
                 <bean parent="InquirySectionDefinition">

@@ -10,6 +10,12 @@
     	<property name="objectLabel" value="Subject Code Department" />
         <property name="businessObjectClass" value="org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg" />
         <property name="titleAttribute" value="id" />
+		<property name="lookupDefinition">
+            <ref bean="SubjectCodeJoinOrg-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="SubjectCodeJoinOrg-inquiryDefinition" />
+        </property>
         <property name="attributes">
             <list>
                 <ref bean="SubjectCodeJoinOrg-id" />
@@ -26,13 +32,20 @@
     <alias alias="SubjectCodeJoinOrg-activeFromDate" name="CoreTypeReference-activeFromDate" />
     <alias alias="SubjectCodeJoinOrg-activeToDate" name="CoreTypeReference-activeToDate" />
     <alias alias="SubjectCodeJoinOrg-active" name="CoreTypeReference-active" />
-    
-    <bean id="SubjectCodeJoinOrg-orgId" parent="SubjectCodeJoinOrg-orgId-parentBean" />
-    <bean id="SubjectCodeJoinOrg-orgId-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
-	  <property name="summary" value="Department Id"/>
-	  <property name="name" value="orgId"/>
-	  <property name="label" value="Department Id"/>
-	  <property name="description" value="Department Id"/>
+
+
+	<bean id="SubjectCodeJoinOrg-orgId" parent="KSubjectCodeJoinOrg-orgId-parentBean" />
+	<bean id="KSubjectCodeJoinOrg-orgId-parentBean"
+		abstract="true" parent="AttributeDefinition" p:name="orgId"
+		p:forceUppercase="false" p:label="Department" p:shortLabel="Dept"
+		p:maxLength="40" p:required="true">
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentValuesFinder" />
+		</property>
 	</bean>
 
     <bean id="SubjectCodeJoinOrg-subjectCodeId" parent="SubjectCodeJoinOrg-subjectCodeId-parentBean" />
@@ -42,4 +55,50 @@
 	  <property name="label" value="Subject Code"/>
 	  <property name="description" value="Subject Code"/>
 	</bean>
+	
+	<bean id="SubjectCodeJoinOrg-lookupDefinition" parent="SubjectCodeJoinOrg-lookupDefinition-parentBean" />
+    <bean id="SubjectCodeJoinOrg-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                <bean parent="FieldDefinition" p:attributeName="subjectCodeId" />
+                <bean parent="FieldDefinition" p:attributeName="orgId" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                <bean parent="FieldDefinition" p:attributeName="subjectCodeId" p:alternateDisplayAttributeName="subjectCode.code" />
+                <bean parent="FieldDefinition" p:attributeName="orgId" />
+            </list>
+        </property>
+        <property name="title" value="Subject Code Lookup" />
+    </bean>
+	
+	<bean id="SubjectCodeJoinOrg-inquiryDefinition" parent="SubjectCodeJoinOrg-inquiryDefinition-parentBean" />
+    <bean id="SubjectCodeJoinOrg-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Subject Code Org Relation Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="SubjectCodeJoinOrg" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+			                <bean parent="FieldDefinition" p:attributeName="id" />
+			                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+			                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+			                <bean parent="FieldDefinition" p:attributeName="subjectCodeId" p:alternateDisplayAttributeName="subjectCode.code" />
+			                <bean parent="FieldDefinition" p:attributeName="orgId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 </beans>

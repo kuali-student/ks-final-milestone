@@ -30,13 +30,13 @@
 
   <bean id="SubjectCodeTypeMaintenanceDocument-subjectCodeType" parent="SubjectCodeTypeMaintenanceDocument-subjectCodeType-parentBean"/>
   <bean id="SubjectCodeTypeMaintenanceDocument-subjectCodeType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Academic Time Period Seasonal Type Maintenance"/>
+    <property name="title" value="Subject Code Type Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" />
-        <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="activeToDate" />
       </list>
     </property>
