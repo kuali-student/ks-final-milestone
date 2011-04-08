@@ -21,7 +21,6 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
