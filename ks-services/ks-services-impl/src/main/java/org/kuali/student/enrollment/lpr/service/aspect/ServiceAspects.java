@@ -17,13 +17,9 @@ import org.kuali.student.common.exceptions.OperationFailedException;
  */
 public class ServiceAspects<T>  {
 
-	List <T>  serviceEntryDecorators; 
-
 	List<Throwable> includeThrowableClassList ;
 
-	public void setServiceEntryDecorators(List<T> serviceImplObjs) {
-		this.serviceEntryDecorators = serviceImplObjs;
-	}
+
 	public void setIncludeThrowableClassList(List <Throwable> serviceExceptionTypes) {
 		this.includeThrowableClassList = serviceExceptionTypes;
 	}
@@ -44,28 +40,6 @@ public class ServiceAspects<T>  {
 				
 			}
 		}
-	}
-	/**
-	 * Aspect method, this is the controller which routes the call to the top decorator 
-	 *  
-	 * @param call
-	 * @throws Throwable
-	 */
-	public Object invokeFirstDecorator(ProceedingJoinPoint join) throws Throwable{
-		Object retVal = null;
-
-		for (Object decorator : serviceEntryDecorators){
-			if	(join.getSignature().getDeclaringType().isAssignableFrom(decorator.getClass())) {
-				for (Method m : decorator.getClass().getMethods()){
-					if (m.getName().equals(join.getSignature().getName())) {
-						retVal =	m.invoke(decorator, join.getArgs());
-						break;
-					}
-				}
-			}
-
-		}
-		return retVal;
 	}
 
 	/**

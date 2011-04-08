@@ -34,13 +34,6 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 
 	private DataDictionaryValidatorInfc validator;
 
-	public void setNextDecorator(LuiPersonRelationService nextDecorator) {
-		this.nextDecorator = nextDecorator;
-	}
-	public LuiPersonRelationService getNextDecorator() {
-		return this.nextDecorator;
-	}
-
     @Override
     public DataDictionaryValidatorInfc getValidator() {
         return validator;
@@ -60,24 +53,11 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			MissingParameterException,
 			OperationFailedException,
 			PermissionDeniedException {
-		return this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
-	}
-
-
-
-	private void checkReadOnly(String field, Object orig, Object supplied)
-	throws ReadOnlyException {
-		checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);
-	}
-
-	private void checkReadOnly(String field, Object orig, Object supplied, String origStr, String suppliedStr)
-	throws ReadOnlyException {
-		if (orig != null) {
-			if (orig.equals(supplied)) {
-				return;
-			}
-		}
-		throw new ReadOnlyException(field + " is read only but the original value " + origStr + " and the supplied new=" + suppliedStr);
+		
+	    this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
+		
+	    return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+		
 	}
 
 	@Override
@@ -105,7 +85,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		if (!vris.isEmpty()) {
 			throw new DataValidationErrorException("Failed validation", vris);
 		}
-		return this.getNextDecorator().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+		return super.createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
@@ -139,8 +119,22 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			throw new DataValidationErrorException("Failed validation", vris);
 		}
 		
-		return this.getNextDecorator().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+		return super.updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
 
+    private void checkReadOnly(String field, Object orig, Object supplied)
+    throws ReadOnlyException {
+        checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);
+    }
+
+    private void checkReadOnly(String field, Object orig, Object supplied, String origStr, String suppliedStr)
+    throws ReadOnlyException {
+        if (orig != null) {
+            if (orig.equals(supplied)) {
+                return;
+            }
+        }
+        throw new ReadOnlyException(field + " is read only but the original value " + origStr + " and the supplied new=" + suppliedStr);
+    }
 }
 

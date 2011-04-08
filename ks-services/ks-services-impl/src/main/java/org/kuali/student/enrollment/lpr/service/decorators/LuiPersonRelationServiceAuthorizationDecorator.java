@@ -30,17 +30,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 	private PermissionService permissionService;
 	 
 	public static final String ENRLLMENT_NAMESPACE = "KS-Enrollment";
-	
-	
-	public void setNextDecorator(LuiPersonRelationService nextDecorator) {
-        this.nextDecorator = nextDecorator;
-    }
-	
-	public LuiPersonRelationService getNextDecorator() {
-        return this.nextDecorator;
-    }
-	
-	
+		
 	@Override
 	public PermissionService getPermissionService() {
 		return permissionService;
@@ -63,7 +53,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 		}else {
 			throw new NullPointerException("person id is null");
 		}
-		return bulkRelationshipValues;
+		return super.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
 	}
 
 
