@@ -17,7 +17,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
    </property>
    </bean>
 
-	<bean id="lprServiceOnBus" ref="lprServiceAuthorization"/>
+	<bean id="lprServiceOnBus" parent="lprServiceAuthorization"/>
 
     <!-- declare beans here -->
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl">

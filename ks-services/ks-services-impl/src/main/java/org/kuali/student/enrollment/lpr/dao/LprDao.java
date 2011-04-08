@@ -12,6 +12,6 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
 
     @SuppressWarnings({"unchecked"})
     public List<LuiPersonRelationEntity> getByLuiId(String luiId) {
-        return (List<LuiPersonRelationEntity>) em.createQuery("from LuiPersonRelation pr where pr.luiId=:luiId").setParameter("luiId", luiId).getResultList();
+        return (List<LuiPersonRelationEntity>) em.createQuery("from LuiPersonRelationEntity pr where pr.luiId=:luiId").setParameter("luiId", luiId).getResultList();
     }
 }
