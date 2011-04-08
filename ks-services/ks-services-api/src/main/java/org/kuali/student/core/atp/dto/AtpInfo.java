@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.KeyEntityInfo;
@@ -36,6 +37,8 @@ import org.kuali.student.core.atp.infc.AtpInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiInfo", propOrder = {"key", "type", "state", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+
 public class AtpInfo 
     extends KeyEntityInfo
     implements AtpInfc,

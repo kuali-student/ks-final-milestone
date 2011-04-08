@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.RelationshipInfo;
 import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
@@ -35,6 +36,7 @@ import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiInfo", propOrder = {"id", "type", "state", "name", "descr", "effectiveDate", "expirationDate", "atpKey", "milestoneKey", "metaInfo", "attributes", "_futureElements"})
 
 public class AtpMilestoneRelationInfo 
     extends RelationshipInfo
