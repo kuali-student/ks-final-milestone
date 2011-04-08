@@ -79,10 +79,12 @@
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuCode.xml</value>
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuLuRelationType.xml</value>
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuType.xml</value>
-        <value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCode.xml</value>
+		<value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCode.xml</value>
         <value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCodeType.xml</value>
         <value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCodeJoinOrg.xml</value>
         <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeJoinOrgMaintenanceDocument.xml</value>
       </list>
     </property>
   </bean>
