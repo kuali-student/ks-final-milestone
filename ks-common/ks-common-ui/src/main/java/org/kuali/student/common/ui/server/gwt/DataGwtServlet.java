@@ -64,8 +64,6 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		try{
 			return dataService.saveData(data);
-		}catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
 		} catch (Exception e) {
 			LOG.error("Could not save data ", e);
 			throw new OperationFailedException("Failed to save data");

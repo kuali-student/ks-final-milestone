@@ -57,21 +57,17 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTable;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -95,7 +91,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for course proposal screens.  This controller controls all functions of the course proposal process
@@ -616,7 +611,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 public void onSuccess(DataSaveResult result) {
                 	KSBlockingProgressIndicator.removeTask(saving);
 
-                	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+					clearAllWarnings();
+                	if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
                         saveActionEvent.doActionComplete();
@@ -659,7 +655,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				if(saveActionEvent.gotoNextView()){
 	    					CourseProposalController.this.showNextViewOnMenu();
 	    				}
-	    				KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+	    				
+	    				if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()){
+		    				isValid(result.getValidationResults(), false, true);
+	    					KSNotifier.add(new KSNotification("Saved with Warnings", false, 4000));
+	    				} else {
+	    					KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+	    				}  				
                 	}
                 }
             });

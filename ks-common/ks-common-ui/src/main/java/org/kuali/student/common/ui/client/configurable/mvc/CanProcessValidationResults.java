@@ -9,6 +9,6 @@ public interface CanProcessValidationResults {
 
     public abstract ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results);
 
-    public abstract ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearAllValidation);
+    public abstract ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearErrors);
 
 }

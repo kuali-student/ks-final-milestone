@@ -74,7 +74,7 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
+    public DataSaveResult saveData(Data data) throws OperationFailedException {
         try {
             SaveResult<Data> saveResult = assembler.save(data);
             if (saveResult != null) {

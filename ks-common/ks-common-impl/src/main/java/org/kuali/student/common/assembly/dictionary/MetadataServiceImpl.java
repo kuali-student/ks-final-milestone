@@ -35,6 +35,7 @@ import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -375,17 +376,19 @@ public class MetadataServiceImpl {
                     if (values != null) {
                         Constraint constraint = whenConstraint.getConstraint();
 
-                        // Set the required for next state flag
-                        if (values.contains(nextState)) {
-                            if (constraint.getMinOccurs() > 0) {
-                                constraintMetadata.setRequiredForNextState(true);
-                                constraintMetadata.setNextState(nextState);
-                            }
-                        }
-
-                        // Update constraints based on state constraints
-                        if (values.contains(state.toUpperCase())) {
-                            updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
+                        if (constraint.getErrorLevel() == ErrorLevel.ERROR){
+	                        // Set the required for next state flag
+	                        if (values.contains(nextState)) {
+	                            if (constraint.getMinOccurs() > 0) {
+	                                constraintMetadata.setRequiredForNextState(true);
+	                                constraintMetadata.setNextState(nextState);
+	                            }
+	                        }
+	
+	                        // Update constraints based on state constraints
+	                        if (values.contains(state.toUpperCase())) {
+	                            updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
+	                        }
                         }
                     }
                 }

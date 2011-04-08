@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +24,8 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -111,20 +114,31 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
+		
+		DataSaveResult saveResult = new DataSaveResult();
 		try {
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
-			dto = save(dto, filterProperties);
+			
+			List<ValidationResultInfo> validationResults = validate(dto);
+			if (ValidatorUtils.hasErrors(validationResults)){
+				saveResult.setValidationResults(validationResults);
+			} else {
+				dto = save(dto, filterProperties);
 				
-			Data persistedData = transformationManager.transform(dto, filterProperties);
-			return new DataSaveResult(null, persistedData);
+				Data persistedData = transformationManager.transform(dto, filterProperties);
+				saveResult.setValidationResults(validationResults);
+				saveResult.setValue(persistedData);
+			}				
 		}catch (DataValidationErrorException e){
-			throw e;
+			//This should never happen, since we call validate before calling the save method
 		}catch (Exception e) {
 			throw new OperationFailedException("Unable to save",e);
 		}
+		
+		return saveResult;
 	}
 
 	@Override
@@ -246,15 +260,26 @@ public abstract class AbstractDataService implements DataService{
 	protected abstract Object get(String id) throws Exception;
 	
 	/**
-	 * Implement this method to make to make service call to get DTO object. The method is called	 
-	 * by the get(Data) method before it invokes transformationManager to convert DTO to a Data map
+	 * Implement this method to make a service call to get DTO object. The method is called	 
+	 * by the save(Data) method after it invokes transformationManager to convert Data map to DTO 
 	 * 
-	 * @param id DTO id
-	 * @return the dto retrieved by calling the appropriate service method
+	 * @param dto
+	 * @param properties
+	 * @return the persisted dto object
 	 * @throws Exception
-	 */ 
+	 */
 	protected abstract Object save(Object dto, Map<String, Object> properties) throws Exception;
 	
+	/**
+	 * Implement this method to make a service call to get DTO object. The method is called	 
+	 * in the save(data) method before calling the save(dto,properties) method to validate the data
+ 
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
+	protected abstract List<ValidationResultInfo> validate(Object dto) throws Exception;
+
 	/**
 	 * Implement this method to return the type of the dto object.
 	 * 

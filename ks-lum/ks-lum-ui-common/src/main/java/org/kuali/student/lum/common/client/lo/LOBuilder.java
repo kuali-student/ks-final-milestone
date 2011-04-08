@@ -319,12 +319,12 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
     }
 
     @Override
-    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearAllValidation) {
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearErrors) {
 
         ErrorLevel status = ErrorLevel.OK;
         
         for (Section section : getSections()) {
-            ErrorLevel level = section.processValidationResults(results, clearAllValidation);
+            ErrorLevel level = section.processValidationResults(results, clearErrors);
             if (level.getLevel() > status.getLevel()) {
                 status = level;
             }

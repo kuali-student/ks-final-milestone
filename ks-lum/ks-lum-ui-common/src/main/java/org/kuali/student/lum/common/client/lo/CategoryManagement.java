@@ -468,7 +468,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidation();
+                    layout.clearValidationErrors();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;
@@ -575,7 +575,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidation();
+                    layout.clearValidationErrors();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;

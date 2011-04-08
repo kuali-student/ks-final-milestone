@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Key;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Key;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -42,6 +42,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
@@ -231,11 +232,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	 * Clear all validation errors from the layout (removes all red highlight and error text shown on the
 	 * screen)
 	 */
-	protected void clearValidation() {
-		layout.clearValidation();
-
+	protected void clearValidationErrors() {
+		layout.clearValidationErrors();
 	}
 
+	/**
+	 * Clear all validation warnings from the layout (removes all yellow highlight and warning text shown on the
+	 * screen)
+	 */
+	public void clearValidationWarnings() {
+		layout.clearValidationWarnings();
+	}
+	
 	/**
 	 * Gets all the fields in a section and its subsections.
 	 * 
@@ -277,9 +285,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	 * @see org.kuali.student.common.ui.client.configurable.mvc.sections.Section#processValidationResults(java.util.List, boolean)
 	 */
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation){
-		if(clearAllValidation){
-			this.clearValidation();
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors){
+		if(clearErrors){
+			this.clearValidationErrors();
 		}
 		ErrorLevel status = ErrorLevel.OK;
 
@@ -311,7 +319,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityItem item: mc.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearErrors);
 							if(fieldStatus.getLevel() > status.getLevel()){
 								status = fieldStatus;
 							}
@@ -325,7 +333,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityGroupItem item: mg.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearErrors);
 							if(fieldStatus.getLevel() > status.getLevel()){
 								status = fieldStatus;
 							}
@@ -333,7 +341,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            	}
 				}
                 if (f.getFieldWidget() instanceof CanProcessValidationResults) {
-                    ErrorLevel fieldStatus = ((CanProcessValidationResults) f.getFieldWidget()).processValidationResults(f, results, clearAllValidation);
+                    ErrorLevel fieldStatus = ((CanProcessValidationResults) f.getFieldWidget()).processValidationResults(f, results, clearErrors);
                     if (fieldStatus.getLevel() > status.getLevel()) {
                         status = fieldStatus;
                     }
@@ -341,7 +349,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			}
 
 	        for(Section s: sections){
-	            ErrorLevel subsectionStatus = s.processValidationResults(results,clearAllValidation);
+	            ErrorLevel subsectionStatus = s.processValidationResults(results,clearErrors);
 	            if(subsectionStatus.getLevel() > status.getLevel()){
 	            	status = subsectionStatus;
 	            }

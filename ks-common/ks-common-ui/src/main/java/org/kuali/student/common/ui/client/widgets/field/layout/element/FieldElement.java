@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
@@ -87,6 +88,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	
 	private Panel parentPanel;
 	private Element parentElement;
+	
+	private ErrorLevel status = ErrorLevel.OK;
+	
 
 	/**
 	 * Sets this field's validation panel, note that this does not add it to the ui.  Attaching must be done
@@ -367,6 +371,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 
 	public void setErrorState(boolean error){
 		if(error){
+			setWarnState(false);
 			fieldTitle.addStyleName("invalid");
 			if(parentPanel != null){
 				parentPanel.addStyleName("error");
@@ -385,8 +390,30 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 				parentElement.setClassName("");
 			}
 		}
-
 	}
+	
+	public void setWarnState(boolean warn){
+		if(warn){
+			//fieldTitle.addStyleName("invalid");
+			if(parentPanel != null){
+				parentPanel.addStyleName("warning");
+			}
+			else if(parentElement != null){
+				parentElement.setClassName("warning");
+			}
+
+		}
+		else{
+			//fieldTitle.removeStyleName("invalid");
+			if(parentPanel != null){
+				parentPanel.removeStyleName("warning");
+			}
+			else if(parentElement != null){
+				parentElement.setClassName("");
+			}
+		}
+	}
+	
 
 	/**
 	 * Processes a validation result and adds an appropriate message, if needed
@@ -394,7 +421,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	 * @return
 	 */
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
-		ErrorLevel status = ErrorLevel.OK;
+		status = ErrorLevel.OK;
 
 		if(vr.getLevel() == ErrorLevel.ERROR){
 			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
@@ -405,10 +432,12 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			}
 		}
 		else if(vr.getLevel() == ErrorLevel.WARN){
+			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
+			this.addValidationWarningMessage(message);
+			
 			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
-				status = vr.getLevel();
+				status = vr.getLevel();			
 			}
-			//TODO does nothing on warn, warn is not currently used
 		}
 		else{
 			//TODO does nothing on ok, ok is not currently used
@@ -429,16 +458,48 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else{
 				message = new KSLabel(text);
 			}
-			message.setStyleName("ks-form-validation-label");
+			message.setStyleName("ks-form-error-label");
 			this.setErrorState(true);
-			this.validationPanel.addMessage(message);
+			this.validationPanel.addErrorMessage(message);
 		}
 	}
 
-	public void clearValidationPanel(){
+	/**
+	 * Add a validation message to this fields validation panel as defined by setValidationPanel.
+	 * @param text
+	 */
+	public void addValidationWarningMessage(String text){
+		if(validationPanel != null){
+			KSLabel message;
+			if(fieldName != null && !fieldName.trim().equals("")){
+				message = new KSLabel(fieldName + " - " + text);
+			}
+			else{
+				message = new KSLabel(text);
+			}
+			message.setStyleName("ks-form-warn-label");
+			this.setWarnState(true);
+			this.validationPanel.addWarnMessage(message);
+		}
+	}
+
+	/**
+	 * Clears validation error and highlighting that may exist on this panel
+	 */
+	public void clearValidationErrors(){
 		this.setErrorState(false);
 		if(validationPanel != null){
-			this.validationPanel.clear();
+			this.validationPanel.clearErrors();
+		}
+	}
+
+	/**
+	 * Clears validation warnings and highlighting that may exist on this panel
+	 */
+	public void clearValidationWarnings(){
+		this.setWarnState(false);
+		if(validationPanel != null){
+			this.validationPanel.clearWarnings();
 		}
 	}
 

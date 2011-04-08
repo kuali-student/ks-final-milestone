@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -29,34 +30,52 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class ValidationMessagePanel extends Composite{
 	
-	private KSListPanel listPanel = new KSListPanel();
-	private int count = 0;
+	private VerticalFlowPanel container = new VerticalFlowPanel();
+	private KSListPanel errorListPanel = new KSListPanel();
+	private KSListPanel warnListPanel = new KSListPanel();
+	private int warnCount = 0;
+	private int errorCount = 0;
 	private boolean topMargin = true;
 	
 	public ValidationMessagePanel(){
-		this.initWidget(listPanel);
+		this.initWidget(container);
+		container.add(errorListPanel);
+		container.add(warnListPanel);
 		
 	}
 	
 	public ValidationMessagePanel(boolean topMargin){
-		this.initWidget(listPanel);
+		this.initWidget(errorListPanel);
 		this.topMargin = topMargin;
 	}
 	
-	public void addMessage(KSLabel message){
-		if(count == 0 && topMargin){
+	public void addErrorMessage(KSLabel message){
+		if(getMessageCount() == 0 && topMargin){
 			message.addStyleName("ks-form-module-single-line-margin");
 		}
-		listPanel.add(message);
-		count++;
+		errorListPanel.add(message);
+		errorCount++;
 	}
 	
-	public void clear(){
-		listPanel.clear();
-		count = 0;
+	public void addWarnMessage(KSLabel message){
+		if(getMessageCount() == 0 && topMargin){
+			message.addStyleName("ks-form-module-single-line-margin");
+		}
+		warnListPanel.add(message);
+		warnCount++;		
+	}
+	
+	public void clearErrors(){
+		errorListPanel.clear();
+		errorCount = 0;
+	}
+	
+	public void clearWarnings(){
+		warnListPanel.clear();
+		warnCount = 0;
 	}
 	
 	public int getMessageCount(){
-		return count;
+		return errorCount + warnCount;
 	}
 }

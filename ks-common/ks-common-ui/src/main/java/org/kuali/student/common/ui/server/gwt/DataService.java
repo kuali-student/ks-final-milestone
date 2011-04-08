@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -18,7 +17,7 @@ public interface DataService {
 	
 	public Metadata getMetadata(String id, Map<String, String> attributes) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException;
+	public DataSaveResult saveData(Data data) throws OperationFailedException;
 	
 	//AuthZ operations
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes);

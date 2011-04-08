@@ -102,9 +102,8 @@ public class SummaryTableSection extends VerticalSection {
     }
     
     @Override
-    public ErrorLevel processValidationResults(
-    		List<ValidationResultInfo> results, boolean clearAllValidation) {
-    	if(clearAllValidation){
+    public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors) {
+    	if(clearErrors){
     		this.removeValidationHighlighting();
     	}
     	return this.processValidationResults(results);

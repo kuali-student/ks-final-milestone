@@ -274,7 +274,7 @@ public class CollaboratorSectionView extends SectionView {
                 if (value instanceof Data.StringValue) {
                     String stringValue = ((Data.StringValue) value).get();
                     FieldElement fieldElement = person.getFieldElement();
-                    fieldElement.clearValidationPanel();
+                    fieldElement.clearValidationErrors();
                     if (stringValue.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
                         fieldElement.addValidationErrorMessage("Invalid Value");
                     }

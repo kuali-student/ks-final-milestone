@@ -690,13 +690,17 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 .error { background-color: #ffe0e9;  }
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
+.warning { background-color: #F4E271}
+.warning .ks-form-bordered-header { background-color: #f5d6df; }
+
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
 
 label.invalid{color: red;}
 h6.invalid{color: red;}
 legend.invalid{color: red;}
 
-.ks-form-validation-label{ color: red; };
+.ks-form-error-label{ color: red; };
+.ks-form-warn-label{ color: black; };
 
 .highlighted { background-color: #fffdd4; }
 .highlighted .ks-form-bordered-header { background-color: #f2f0c9; }

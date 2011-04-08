@@ -39,6 +39,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
@@ -151,7 +152,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
                 		//instead add the error messages directly
                 		FieldElement element = event.getFieldDescriptor().getFieldElement();
                 		if(element != null){
-	                		element.clearValidationPanel();
+	                		element.clearValidationErrors();
 	                		for(int i = 0; i < result.size(); i++){
 	                    		ValidationResultInfo vr = result.get(i);
 	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
@@ -449,17 +450,27 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return isValid;
 	}
 
-	private boolean isValid(List<ValidationResultInfo> validationResults, Section section, boolean allFields){
+	private boolean isValid(List<ValidationResultInfo> validationResults, Section section, boolean allFields){		
 		ErrorLevel status;
 		if(allFields){
 			section.setFieldHasHadFocusFlags(true);
 			status = section.processValidationResults(validationResults);
 		}
 		else{
+			boolean clearAllWarnings = ValidatorClientUtils.hasWarnings(validationResults);
 			status = section.processValidationResults(validationResults, false);
 		}
 
 		return (status != ErrorLevel.ERROR);
+	}
+	
+	protected void clearAllWarnings(){
+		for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
+			View v = entry.getValue();
+			if (v instanceof Section){
+				((Section)v).clearValidationWarnings();
+			}
+		}
 	}
 	
 	/**

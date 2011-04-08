@@ -78,8 +78,6 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
             return getDataService().saveData(data);
-        }catch (DataValidationErrorException dvee){
-            return new DataSaveResult(dvee.getValidationResults(), null);
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
             throw new OperationFailedException("Failed to save data");

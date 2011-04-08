@@ -232,6 +232,8 @@ public class CourseSummaryConfigurer implements
 											List<ValidationResultInfo> validationResult) {
 										//validationInfos = validationResult;
 										tableSection.enableValidation(showingValidation);
+										
+										//FIXME: Handle validation warnings
 										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
 
 										validationInfos = validationResult;
@@ -309,6 +311,7 @@ public class CourseSummaryConfigurer implements
 					}
 					showingValidation = true;
 					tableSection.enableValidation(showingValidation);
+					//FIXME: Handle validation warnings
 					tableSection.processValidationResults(validationInfos, true);
 				}
 				else{

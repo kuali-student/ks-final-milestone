@@ -80,7 +80,8 @@ public abstract class SectionView extends BaseSection implements View {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        super.clearValidation();
+        super.clearValidationErrors();
+        
         if (getController() != null) {
             getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
