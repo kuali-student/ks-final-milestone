@@ -22,7 +22,13 @@ import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
-
+/**
+ * An example authorization decorator for the {@link LuiPersonRelationService}.
+ * We would like to decorate the createBulkRelationshipsForPerson method here with authorization checks and custom logic
+ * 
+ * @author sambit
+ *
+ */
 
 
 public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRelationServiceDecorator  implements HoldsPermissionService {
@@ -65,9 +71,10 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 			throws DoesNotExistException,
 			MissingParameterException,
 			OperationFailedException,
-			PermissionDeniedException {
+			PermissionDeniedException, 
+			InvalidParameterException {
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
+		return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
 	}
 
 	  /**

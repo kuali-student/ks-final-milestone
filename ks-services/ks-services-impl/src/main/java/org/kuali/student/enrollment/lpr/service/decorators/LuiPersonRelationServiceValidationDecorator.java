@@ -28,6 +28,9 @@ import org.kuali.student.common.infc.HoldsValidator;
 import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 
 /**
+ * An example Validation decorator for the {@link LuiPersonRelationService}. Additional validations are performed for the validateLuiPersonRelation, createLuiPersonRelation and updateLuiPersonRelation
+ * methods here
+ * 
  * @author sambit
  */
 public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator implements HoldsValidator{
@@ -103,13 +106,12 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
 				luiPersonRelationInfo, context);
 		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
-		// once created these fields are never updatable directly by the application
+		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getType(), luiPersonRelationInfo.getType());
 		checkReadOnly("createId", orig.getMetaInfo().getCreateId(), luiPersonRelationInfo.getMetaInfo().getCreateId());
 		checkReadOnly("createTime", orig.getMetaInfo().getCreateTime(), luiPersonRelationInfo.getMetaInfo().getCreateTime());
-		// if nothing has changed since fetching then cannot update update info either
-		// TODO: consider throwing the optimistic lock exception (VersionMismatchException) if version ids do not match
+		
 		if (orig.getMetaInfo().getVersionInd().equals(luiPersonRelationInfo.getMetaInfo().getVersionInd())) {
 			checkReadOnly("updateId", orig.getMetaInfo().getUpdateId(), luiPersonRelationInfo.getMetaInfo().getUpdateId());
 			checkReadOnly("updateTime", orig.getMetaInfo().getUpdateTime(), luiPersonRelationInfo.getMetaInfo().getUpdateTime());

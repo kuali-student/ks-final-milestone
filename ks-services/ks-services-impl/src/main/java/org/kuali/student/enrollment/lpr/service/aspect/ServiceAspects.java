@@ -1,11 +1,10 @@
 package org.kuali.student.enrollment.lpr.service.aspect;
 
-import java.lang.reflect.Method;
+
 import java.util.List;
 
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 
@@ -25,7 +24,6 @@ public class ServiceAspects<T>  {
 	}
 
 	/**
-	 * 
 	 * @param join
 	 */
 	public void beforeInvokingService(JoinPoint join) throws Throwable{

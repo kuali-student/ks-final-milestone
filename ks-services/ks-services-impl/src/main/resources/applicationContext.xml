@@ -26,8 +26,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="lprUtility" class="org.kuali.student.enrollment.lpr.service.util.ConcreteLPRUtility"/>
 
     <!-- declare impls here -->
-
-     <!--  declare all service exceptions here or in KS core -->
+    <!--  declare all service exceptions here or in KS core -->
     <bean id="kualiInvalidParamException" class="org.kuali.student.core.exceptions.InvalidParameterException" />
     <bean id="kualiOperationFailedException" class="org.kuali.student.core.exceptions.OperationFailedException" />
     <bean id="kualiReadOnlyException" class="org.kuali.student.core.exceptions.ReadOnlyException" />

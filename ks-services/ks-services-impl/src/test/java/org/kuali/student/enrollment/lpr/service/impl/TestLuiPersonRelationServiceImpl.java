@@ -41,7 +41,7 @@ import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_I
 /**
  * @Author sambit
  */
-@Ignore
+
 public class TestLuiPersonRelationServiceImpl {
 
 
@@ -60,8 +60,8 @@ public class TestLuiPersonRelationServiceImpl {
     @Before
     public void setUp() {
         principalId = "123";
-        appContext = new ClassPathXmlApplicationContext(new String[]{"testContext.xml"});
-        lprService = (LuiPersonRelationService) appContext.getBean("lprService");
+        appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml","testContext.xml"});
+        lprService = (LuiPersonRelationService) appContext.getBean("lprPersistenceService");
         callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
         dataLoader = (DataLoader) appContext.getBean("dataLoader");
         dataLoader.load();
@@ -74,6 +74,7 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(personRelationInfos.size(), 1);
 
         LuiPersonRelationInfo personRelationInfo = personRelationInfos.get(0);
+        assertNotNull(personRelationInfo);
     }
 
 
