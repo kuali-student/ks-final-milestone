@@ -25,17 +25,15 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 
 public class LuiServiceDecorator implements LuiService {
 	
-    private LuiService luiService;
-    
 	protected LuiService nextDecorator;
 
 
-    public LuiService getLprService() {
-        return luiService;
+    public LuiService getNextDecorator() {
+        return nextDecorator;
     }
 
-	public  void setLprService(LuiService lprService) {
-		this.luiService=lprService;
+	public  void setNextDecorator(LuiService nextDecorator) {
+		this.nextDecorator=nextDecorator;
 	}
 	
 	@Override
@@ -43,7 +41,7 @@ public class LuiServiceDecorator implements LuiService {
 			throws OperationFailedException, MissingParameterException,
 			PermissionDeniedException {
 		
-		return luiService.getDataDictionaryEntryKeys(context);
+		return nextDecorator.getDataDictionaryEntryKeys(context);
 	}
 
 	@Override
@@ -52,14 +50,14 @@ public class LuiServiceDecorator implements LuiService {
 			MissingParameterException, PermissionDeniedException,
 			DoesNotExistException {
 		 
-		return luiService.getDataDictionaryEntry(entryKey, context);
+		return nextDecorator.getDataDictionaryEntry(entryKey, context);
 	}
 
 	@Override
 	public TypeInfo getType(String typeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return luiService.getType(typeKey, context);
+		return nextDecorator.getType(typeKey, context);
 	}
 
 	@Override
@@ -67,7 +65,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getTypesByRefObjectURI(refObjectURI, context);
+		return nextDecorator.getTypesByRefObjectURI(refObjectURI, context);
 	}
 
 	@Override
@@ -75,7 +73,7 @@ public class LuiServiceDecorator implements LuiService {
 			String relatedRefObjectURI, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return luiService.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+		return nextDecorator.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
 	}
 
 	@Override
@@ -83,14 +81,14 @@ public class LuiServiceDecorator implements LuiService {
 			String ownerTypeKey, String relationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return luiService.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+		return nextDecorator.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
 	}
 
 	@Override
 	public LuiInfo getLui(String luiId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return luiService.getLui(luiId, context);
+		return nextDecorator.getLui(luiId, context);
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuisByIdList(luiIdList, context);
+		return nextDecorator.getLuisByIdList(luiIdList, context);
 	}
 
 	@Override
@@ -106,14 +104,14 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuisInAtpByCluId(cluId, atpKey, context);
+		return nextDecorator.getLuisInAtpByCluId(cluId, atpKey, context);
 	}
 
 	@Override
 	public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return luiService.getLuiIdsByCluId(cluId, context);
+		return nextDecorator.getLuiIdsByCluId(cluId, context);
 	}
 
 	@Override
@@ -121,7 +119,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuiIdsInAtpByCluId(cluId, atpKey, context);
+		return nextDecorator.getLuiIdsInAtpByCluId(cluId, atpKey, context);
 	}
 
 	@Override
@@ -129,7 +127,7 @@ public class LuiServiceDecorator implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
+		return nextDecorator.getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
 	}
 
 	@Override
@@ -137,7 +135,7 @@ public class LuiServiceDecorator implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
+		return nextDecorator.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
 	}
 
 	@Override
@@ -145,7 +143,7 @@ public class LuiServiceDecorator implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey, context);
+		return nextDecorator.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey, context);
 	}
 
 	@Override
@@ -153,7 +151,7 @@ public class LuiServiceDecorator implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context);
+		return nextDecorator.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context);
 	}
 
 	@Override
@@ -161,7 +159,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuiLuiRelation(luiLuiRelationId, context);
+		return nextDecorator.getLuiLuiRelation(luiLuiRelationId, context);
 	}
 
 	@Override
@@ -169,7 +167,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.getLuiLuiRelationsByLui(luiId, context);
+		return nextDecorator.getLuiLuiRelationsByLui(luiId, context);
 	}
 
 	@Override
@@ -177,7 +175,7 @@ public class LuiServiceDecorator implements LuiService {
 			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.validateLui(validationType,luiInfo, context);
+		return nextDecorator.validateLui(validationType,luiInfo, context);
 	}
 
 	@Override
@@ -186,7 +184,7 @@ public class LuiServiceDecorator implements LuiService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luiService.createLui(cluId,atpKey,luiInfo, context);
+		return nextDecorator.createLui(cluId,atpKey,luiInfo, context);
 	}
 
 	@Override
@@ -195,7 +193,7 @@ public class LuiServiceDecorator implements LuiService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		return luiService.updateLui(luiId,luiInfo, context);
+		return nextDecorator.updateLui(luiId,luiInfo, context);
 	}
 
 	@Override
@@ -203,7 +201,7 @@ public class LuiServiceDecorator implements LuiService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luiService.deleteLui(luiId, context);
+		return nextDecorator.deleteLui(luiId, context);
 	}
 
 	@Override
@@ -212,7 +210,7 @@ public class LuiServiceDecorator implements LuiService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return luiService.updateLuiState(luiId, luState, context);
+		return nextDecorator.updateLuiState(luiId, luState, context);
 	}
 
 	@Override
@@ -221,7 +219,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return luiService.validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
+		return nextDecorator.validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
 	}
 
 	@Override
@@ -232,7 +230,7 @@ public class LuiServiceDecorator implements LuiService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luiService.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
+		return nextDecorator.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
 	}
 
 	@Override
@@ -242,7 +240,7 @@ public class LuiServiceDecorator implements LuiService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		return luiService.updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
+		return nextDecorator.updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
 	}
 
 	@Override
@@ -250,7 +248,7 @@ public class LuiServiceDecorator implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luiService.deleteLuiLuiRelation(luiLuiRelationId,context);
+		return nextDecorator.deleteLuiLuiRelation(luiLuiRelationId,context);
 	}
 
 }

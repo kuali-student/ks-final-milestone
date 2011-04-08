@@ -18,11 +18,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
    </bean>
 
 	<bean id="lprServiceOnBus" parent="lprServiceAuthorization"/>
+    <bean id="luiServiceOnBus" parent="luiServiceValidation"/>
 
     <!-- declare beans here -->
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao"/>
     </bean>
+    <bean id="luiService" class="org.kuali.student.enrollment.lui.service.impl.LuiServiceImpl"/>
+
+ 
     <bean id="lprUtility" class="org.kuali.student.enrollment.lpr.service.util.ConcreteLPRUtility"/>
 
     <!-- declare impls here -->
@@ -33,7 +37,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
    
     <bean id="permissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl"/>
-    
+     
+     <!--  decorators  --> 
     <bean id="lprServiceValidation" class="org.kuali.student.enrollment.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
         <property name="nextDecorator" ref="lprPersistenceService"/>
     </bean> 
@@ -43,9 +48,19 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
       <property name="permissionService" ref="permissionService"/>
     </bean>
 
-    <bean id = "luiMockImpl" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
-    <bean id = "mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-    <bean id = "mockIdentityService" class="org.kuali.student.kim.identity.mock.IdentityServiceMockImpl" />
+
+    <bean id="luiServiceAuthorization" class="org.kuali.student.enrollment.lui.service.decorators.LuiServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="luiService"/>
+        <property name="permissionService" ref="permissionService"/>
+    </bean> 
+
+    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.lui.service.decorators.LuiServiceValidationDecorator">
+      <property name="nextDecorator" ref="luiServiceAuthorization"/>
+
+    </bean>
+    
+    <!-- end of decorators -->
+    
     
     <aop:config>
      <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
