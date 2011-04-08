@@ -31,6 +31,7 @@ public interface AtpInfc
 
 
     /**
+     * Name: StartDate
      * Date and time the academic time period became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -44,6 +45,7 @@ public interface AtpInfc
 
 
     /**
+     * Name: StartDate
      * Date and time the academic time period expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period

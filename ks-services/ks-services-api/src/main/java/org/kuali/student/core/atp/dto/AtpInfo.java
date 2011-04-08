@@ -47,10 +47,10 @@ public class AtpInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private Date startDate;
+    private final Date startDate;
 
     @XmlElement
-    private Date endDate;
+    private final Date endDate;
 
 
     private AtpInfo() {

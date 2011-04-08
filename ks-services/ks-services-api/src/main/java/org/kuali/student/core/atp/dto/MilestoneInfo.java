@@ -49,13 +49,13 @@ public class MilestoneInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private boolean isDateRange;
+    private final Boolean isDateRange;
 
     @XmlElement
-    private Date startDate;
+    private final Date startDate;
 
     @XmlElement
-    private Date endDate;
+    private final Date endDate;
 
 
     private MilestoneInfo() {
@@ -89,7 +89,7 @@ public class MilestoneInfo
      */
 
     @Override
-    public boolean getIsDateRange() {
+    public Boolean getIsDateRange() {
         return isDateRange;
     }
 
@@ -128,7 +128,7 @@ public class MilestoneInfo
 	extends KeyEntityInfo.Builder 
 	implements MilestoneInfc {
 
-	private boolean isDateRange;
+	private Boolean isDateRange;
         private Date startDate;
         private Date endDate;
 
@@ -173,7 +173,7 @@ public class MilestoneInfo
 	 */
 	
 	@Override
-	public boolean getIsDateRange() {
+	public Boolean getIsDateRange() {
 	    return isDateRange;
 	}
 
@@ -188,7 +188,7 @@ public class MilestoneInfo
 	 * @return the builder
 	 */
 
-	public Builder dateRange(boolean isDateRange) {
+	public Builder dateRange(Boolean isDateRange) {
 	    this.isDateRange = isDateRange;
 	    return this;
 	}
