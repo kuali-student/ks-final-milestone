@@ -22,37 +22,47 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ValidationResultInfo implements Serializable{
+public class ValidationResultInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public enum ErrorLevel {
-        OK(0), WARN(1), ERROR(2);
+		OK(0), WARN(1), ERROR(2);
 
-        int level;
+		int level;
 
-        private ErrorLevel(int level) {
-            this.level = level;
-        }
+		private ErrorLevel(int level) {
+			this.level = level;
+		}
 
-        public int getLevel() {
-            return level;
-        }
-        
-        public static ErrorLevel min(ErrorLevel e1, ErrorLevel e2) {
-        	return e1.ordinal() < e2.ordinal() ? e1 : e2;
-        }
-        public static ErrorLevel max(ErrorLevel e1, ErrorLevel e2) {
-        	return e1.ordinal() > e2.ordinal() ? e1 : e2;
-        }
-    }	
-	
+		public int getLevel() {
+			return level;
+		}
+
+		public static ErrorLevel min(ErrorLevel e1, ErrorLevel e2) {
+			return e1.ordinal() < e2.ordinal() ? e1 : e2;
+		}
+
+		public static ErrorLevel max(ErrorLevel e1, ErrorLevel e2) {
+			return e1.ordinal() > e2.ordinal() ? e1 : e2;
+		}
+	}
+
+	private transient Object invalidData = null;
+
+	@XmlElement
+	protected String element;
+
+	@XmlElement
+	protected ErrorLevel level = ErrorLevel.OK;
+
+	@XmlElement
+	protected String message;
+
 	public ValidationResultInfo() {
 		super();
 		this.level = ErrorLevel.OK;
 	}
-
- private transient Object invalidData = null;
 
 	public ValidationResultInfo(String element) {
 		super();
@@ -62,19 +72,9 @@ public class ValidationResultInfo implements Serializable{
 
 	public ValidationResultInfo(String element, Object invalidData) {
 		this(element);
-  this.invalidData = invalidData;
+		this.invalidData = invalidData;
 	}
-	
-	
-	@XmlElement
-	protected String element;
-	
-	@XmlElement
-	protected ErrorLevel level = ErrorLevel.OK;
 
-	@XmlElement
-	protected String message;
-	
 	/**
 	 * @return the level
 	 */
@@ -83,7 +83,8 @@ public class ValidationResultInfo implements Serializable{
 	}
 
 	/**
-	 * @param level the level to set
+	 * @param level
+	 *            the level to set
 	 */
 	public void setLevel(ErrorLevel level) {
 		this.level = level;
@@ -97,7 +98,8 @@ public class ValidationResultInfo implements Serializable{
 	}
 
 	/**
-	 * @param message the message to set
+	 * @param message
+	 *            the message to set
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -110,67 +112,68 @@ public class ValidationResultInfo implements Serializable{
 	public void setElement(String element) {
 		this.element = element;
 	}
-	
-    /**
-     * Returns the ValidationResult's error level
-     *
-     * @return
-     */
-    public ErrorLevel getErrorLevel() {
-        return level;
-    }
 
-    /**
-     * Convenience method. Adds a message with an error level of WARN
-     *
-     * @param message
-     *            the message to add
-     */
-    public void setWarning(String message) {
-    	this.level = ErrorLevel.WARN;
-    	this.message = message;
-    }
+	/**
+	 * Returns the ValidationResult's error level
+	 * 
+	 * @return
+	 */
+	public ErrorLevel getErrorLevel() {
+		return level;
+	}
 
-    /**
-     * Convenience method. Adds a message with an error level of ERROR
-     *
-     * @param message
-     *            the message to add
-     */
-    public void setError(String message) {
-    	this.level = ErrorLevel.ERROR;
-    	this.message = message;
-    }
+	/**
+	 * Convenience method. Adds a message with an error level of WARN
+	 * 
+	 * @param message
+	 *            the message to add
+	 */
+	public void setWarning(String message) {
+		this.level = ErrorLevel.WARN;
+		this.message = message;
+	}
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-     *
-     * @return true if getErrorLevel() == ErrorLevel.OK
-     */
-    public boolean isOk() {
-        return getErrorLevel() == ErrorLevel.OK;
-    }
+	/**
+	 * Convenience method. Adds a message with an error level of ERROR
+	 * 
+	 * @param message
+	 *            the message to add
+	 */
+	public void setError(String message) {
+		this.level = ErrorLevel.ERROR;
+		this.message = message;
+	}
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-     *
-     * @return true if getErrorLevel() == ErrorLevel.WARN
-     */
-    public boolean isWarn() {
-        return getErrorLevel() == ErrorLevel.WARN;
-    }
+	/**
+	 * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
+	 * 
+	 * @return true if getErrorLevel() == ErrorLevel.OK
+	 */
+	public boolean isOk() {
+		return getErrorLevel() == ErrorLevel.OK;
+	}
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-     *
-     * @return true if getErrorLevel() == ErrorLevel.ERROR
-     */
-    public boolean isError() {
-        return getErrorLevel() == ErrorLevel.ERROR;
-    }
+	/**
+	 * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
+	 * 
+	 * @return true if getErrorLevel() == ErrorLevel.WARN
+	 */
+	public boolean isWarn() {
+		return getErrorLevel() == ErrorLevel.WARN;
+	}
 
-    public String toString(){
-    	return "[" + level + "] Path: [" + element + "] - " + message + " data=[" + invalidData + "]";
-    }
-	
+	/**
+	 * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
+	 * 
+	 * @return true if getErrorLevel() == ErrorLevel.ERROR
+	 */
+	public boolean isError() {
+		return getErrorLevel() == ErrorLevel.ERROR;
+	}
+
+	public String toString() {
+		return "[" + level + "] Path: [" + element + "] - " + message
+				+ " data=[" + invalidData + "]";
+	}
+
 }

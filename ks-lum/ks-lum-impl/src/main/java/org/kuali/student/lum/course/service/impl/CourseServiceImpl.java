@@ -1,7 +1,5 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +28,7 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
@@ -91,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -114,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -216,7 +215,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -264,7 +263,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 

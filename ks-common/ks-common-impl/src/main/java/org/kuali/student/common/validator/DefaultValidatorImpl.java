@@ -39,6 +39,7 @@ import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
@@ -303,8 +304,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
 
-        processBaseConstraints(valResults, constraint, field.getDataType(), field.getName(), value, elementStack);
-
+        processBaseConstraints(valResults, constraint, field, value, elementStack);
+        
         // Stop other checks if value is null
         if (value == null || "".equals(value.toString().trim())) {
             return;
@@ -327,6 +328,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     ValidationResultInfo val = processRequireConstraint(elementPath, rc, field, objStructure, dataProvider);
                     if (null != val) {
                         valResults.add(val);
+                        //FIXME: For clarity, might be better to handle this in the processRequireConstraint method instead.
+                        processCrossFieldWarning(valResults, rc, val.getErrorLevel(), field.getName());
                     }
                 }
             }
@@ -337,7 +340,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             for (MustOccurConstraint oc : constraint.getOccursConstraint()) {
                 ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider);
                 if (null != val) {
-                    valResults.add(val);
+                    valResults.add(val); 
                 }
             }
         }
@@ -370,7 +373,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             rMap.put("field1", field.getName());
             rMap.put("field2", fieldName);
             val = new ValidationResultInfo(element, fieldValue);
-            val.setError(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
+            val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
+            val.setLevel(constraint.getErrorLevel());                       
         }
 
         return val;
@@ -530,7 +534,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (!result) {
          // TODO: figure out what data should go here instead of null
             val = new ValidationResultInfo(element, null);
-            val.setError(getMessage("validation.occurs"));
+            val.setMessage(getMessage("validation.occurs"));
+            val.setLevel(constraint.getErrorLevel());
         }
 
         return val;
@@ -586,13 +591,17 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack) {
+    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, FieldDefinition field, Object value, Stack<String> elementStack) {
+    	DataType dataType = field.getDataType();
+    	String name = field.getName();
 
-        if (value == null || "".equals(value.toString().trim())) {
+    	if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
                 ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
-                val.setError(getMessage("validation.required"));
+                val.setMessage(getMessage("validation.required"));
+                val.setLevel(constraint.getErrorLevel());
                 valResults.add(val);
+               	processCrossFieldWarning(valResults, field.getCaseConstraint(), constraint.getErrorLevel());
             }
             return;
         }
@@ -615,7 +624,43 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             validateDate(value, constraint, elementPath, valResults, dateParser);
         }
     }
+    
+    /**
+     * This adds a warning on the related field when a processed case-constraint results in a warning
+     * 
+     * @param valResults
+     * @param crossConstraint
+     * @param field
+     */
+    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, CaseConstraint crossConstraint, ErrorLevel errorLevel){
+    	if (ErrorLevel.WARN == errorLevel && crossConstraint != null){
+            String crossFieldPath = crossConstraint.getFieldPath();
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage("validation.required"));
+    	}
+    }
 
+    /**
+     * This adds a warning on the related field when a processed case-constraint results in a warning
+     * 
+     * @param valResults
+     * @param requiredConstraint
+     * @param field
+     */
+    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field){
+    	if (ErrorLevel.WARN == errorLevel && requiredConstraint != null){
+            String crossFieldPath = requiredConstraint.getFieldPath();
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage("validation.required"));
+    	}
+    }
+
+    protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message){
+		ValidationResultInfo val = new ValidationResultInfo(crossFieldPath, null);
+        //TODO: Message needs to reflect field where error has occured
+		val.setMessage(message);
+        val.setLevel(ErrorLevel.WARN);
+        valResults.add(val);
+    }
+    
     protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         if (!(value instanceof Boolean)) {
             try {
