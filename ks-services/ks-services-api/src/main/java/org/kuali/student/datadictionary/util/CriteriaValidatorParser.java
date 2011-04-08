@@ -26,8 +26,8 @@ import java.util.List;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.infc.ComparisonInfc;
-import org.kuali.student.common.infc.CriteriaInfc;
+import org.kuali.student.common.infc.Comparison;
+import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 
@@ -53,7 +53,7 @@ public class CriteriaValidatorParser {
 
         EQ, IN, GT, LT, NEQ, GTE, LTE, LIKE, BETWEEN;
     }
-    private CriteriaInfc criteria;
+    private Criteria criteria;
     private DictionaryEntryInfc dictionaryEntry;
     private transient List<Object> parsedValues;
     private transient List<Operator> parsedOperators;
@@ -61,11 +61,11 @@ public class CriteriaValidatorParser {
     public CriteriaValidatorParser() {
     }
 
-    public CriteriaInfc getCriteria() {
+    public Criteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(CriteriaInfc criteria) {
+    public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 
@@ -117,13 +117,13 @@ public class CriteriaValidatorParser {
             throw new InvalidParameterException ("Comparisons list is null -- to select all specify an empty list");
         }
         int i = 0;
-        for (ComparisonInfc comparison : this.criteria.getComparisons()) {
+        for (Comparison comparison : this.criteria.getComparisons()) {
             this.validate(i, comparison);
             i++;
         }
     }
 
-    private void validate(int i, ComparisonInfc comparison)
+    private void validate(int i, Comparison comparison)
             throws InvalidParameterException,
             OperationFailedException {
         String fieldKey = comparison.getFieldKey();

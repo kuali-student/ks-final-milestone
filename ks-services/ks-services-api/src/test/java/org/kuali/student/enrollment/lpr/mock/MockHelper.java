@@ -36,7 +36,7 @@ public class MockHelper {
      * @param context
      * @return
      */
-    public MetaInfo createMeta(ContextInfc context) {
+    public MetaInfo createMeta(Context context) {
         MetaInfo.Builder builder = new MetaInfo.Builder();
         Date now = new Date();
         builder.setCreateId(context.getPrincipalId());
@@ -54,7 +54,7 @@ public class MockHelper {
      * @param context
      * @return new metainfo
      */
-    public MetaInfo updateMeta(MetaInfc orig, ContextInfc context) {
+    public MetaInfo updateMeta(Meta orig, Context context) {
         Date now = new Date();
         int oldVersionInd = Integer.parseInt(orig.getVersionInd());
         MetaInfo.Builder bldr = new MetaInfo.Builder(orig);

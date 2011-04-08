@@ -17,7 +17,7 @@ package org.kuali.student.common.infc;
 
 import java.util.Date;
 
-public interface VersionInfc {
+public interface Version {
 
     /**
      * Get ????

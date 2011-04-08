@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.StatusInfc;
+import org.kuali.student.common.infc.Status;
 import org.w3c.dom.Element;
 
 /**
@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatusInfo", propOrder = {"success", "message", "_futureElements"})
-public class StatusInfo implements StatusInfc, Serializable {
+public class StatusInfo implements Status, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement
@@ -53,7 +53,7 @@ public class StatusInfo implements StatusInfc, Serializable {
 		_futureElements = null;
 	}
 	
-	private StatusInfo(StatusInfc builder) {
+	private StatusInfo(Status builder) {
 		this.success = new Boolean(builder.isSuccess().booleanValue());
 		this.message = builder.getMessage();
 		this._futureElements = null;
@@ -69,13 +69,13 @@ public class StatusInfo implements StatusInfc, Serializable {
 		return message;
 	}
 	
-	public static class Builder implements ModelBuilder<StatusInfo>, StatusInfc {
+	public static class Builder implements ModelBuilder<StatusInfo>, Status {
 		private Boolean success;
 		private String message;
 
 		public Builder() {}
 		
-		public Builder(StatusInfc status) {
+		public Builder(Status status) {
 			this.success = status.isSuccess();
 			this.message = status.getMessage();
 		}

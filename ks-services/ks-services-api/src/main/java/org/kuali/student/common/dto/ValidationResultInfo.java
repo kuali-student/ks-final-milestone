@@ -17,12 +17,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.ValidationResultInfc;
+import org.kuali.student.common.infc.ValidationResult;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {"element", "level", "message", "_futureElements"})
-public class ValidationResultInfo implements ValidationResultInfc, Serializable {
+public class ValidationResultInfo implements ValidationResult, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
         this._futureElements = null;
     }
 
-    private ValidationResultInfo(ValidationResultInfc builder) {
+    private ValidationResultInfo(ValidationResult builder) {
         this.level = builder.getLevel();
         this.element = builder.getElement();
         this.message = builder.getMessage();
@@ -107,7 +107,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
     }
     
         
-    public static class Builder implements ModelBuilder<ValidationResultInfo>, ValidationResultInfc {
+    public static class Builder implements ModelBuilder<ValidationResultInfo>, ValidationResult {
 
         private String element;
         private Integer level = ErrorLevel.OK.getLevel();
@@ -116,7 +116,7 @@ public class ValidationResultInfo implements ValidationResultInfc, Serializable 
         
         public Builder() {}
         
-        public Builder(ValidationResultInfc validationResultInfo) {
+        public Builder(ValidationResult validationResultInfo) {
             this.element = validationResultInfo.getElement();
             this.level = validationResultInfo.getLevel();
             this.message = validationResultInfo.getMessage();

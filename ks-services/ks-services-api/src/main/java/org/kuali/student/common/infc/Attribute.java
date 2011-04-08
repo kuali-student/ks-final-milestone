@@ -23,7 +23,7 @@ package org.kuali.student.common.infc;
  *
  * @author nwright
  */
-public interface AttributeInfc {
+public interface Attribute {
 
     /**
      * Name: Id

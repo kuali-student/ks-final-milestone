@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Criteria for a generic query
  */
-public interface CriteriaInfc {
+public interface Criteria {
 
     /**
      * Name: Comparisons
@@ -28,7 +28,7 @@ public interface CriteriaInfc {
      * The list of comparisons to be applied
      * TODO: Decide if null or empty list is ok?  I.e. can you get ALL?
      */
-    public List<? extends ComparisonInfc> getComparisons();
+    public List<? extends Comparison> getComparisons();
 
     /**
      * Name: Maximum Results

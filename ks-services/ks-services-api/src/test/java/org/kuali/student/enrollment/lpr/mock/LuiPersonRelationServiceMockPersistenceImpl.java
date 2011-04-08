@@ -38,7 +38,7 @@ import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
-import org.kuali.student.common.infc.StateInfc;
+import org.kuali.student.common.infc.State;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
@@ -218,28 +218,28 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
         this.getLuiPersonRelationTypeEnum(processKey);
         if (isInstructorType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (StateInfc state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
                 states.add(new StateInfo.Builder(state).build());
             }
             return states;
         }
         if (processKey.equals(LuiPersonRelationConstants.ADVISOR_TYPE_KEY)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (StateInfc state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
                 states.add(new StateInfo.Builder(state).build());
             }
             return states;
         }
         if (isStudentCourseType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
-            for (StateInfc state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
                 states.add(new StateInfo.Builder(state).build());
             }
             return states;
         }
         if (isStudentProgramType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
-            for (StateInfc state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
                 states.add(new StateInfo.Builder(state).build());
             }
             return states;
@@ -529,22 +529,22 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (isInstructorType(processKey)) {
-            for (StateInfc state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }
         }
         if (processKey.equals(LuiPersonRelationConstants.ADVISOR_TYPE_KEY)) {
-            for (StateInfc state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }
         }
         if (isStudentCourseType(processKey)) {
-            for (StateInfc state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }
         }
         if (isStudentProgramType(processKey)) {
-            for (StateInfc state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }
         }

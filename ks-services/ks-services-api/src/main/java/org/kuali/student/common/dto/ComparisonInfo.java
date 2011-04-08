@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ComparisonInfc;
+import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ComparisonInfo", propOrder = {"fieldKey", "operator", "values", "ignoreCase", "_futureElements"})    
-public class ComparisonInfo implements ComparisonInfc, Serializable {
+public class ComparisonInfo implements Comparison, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -61,7 +61,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
         this._futureElements = null;
     }
 
-    private ComparisonInfo(ComparisonInfc bldr) {
+    private ComparisonInfo(Comparison bldr) {
         this.fieldKey = bldr.getFieldKey();
         this.operator = bldr.getOperator();
         if (bldr.getValues() == null)
@@ -95,7 +95,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
         return this.ignoreCase;
     }
 
-    public static class Builder implements ModelBuilder<ComparisonInfo>, ComparisonInfc {
+    public static class Builder implements ModelBuilder<ComparisonInfo>, Comparison {
 
         private String fieldKey;
         private String operator;
@@ -105,7 +105,7 @@ public class ComparisonInfo implements ComparisonInfc, Serializable {
         public Builder() {
         }
 
-        public Builder(ComparisonInfc infc) {
+        public Builder(Comparison infc) {
             this.fieldKey = infc.getFieldKey();
             this.operator = infc.getOperator();
             if (infc.getValues() != null) {

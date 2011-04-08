@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.common.infc.HasAttributesAndMeta;
-import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.common.infc.Meta;
 
 @SuppressWarnings("serial")
 @XmlTransient
@@ -38,7 +38,7 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo impleme
 
     public static class Builder extends HasAttributesInfo.Builder implements HasAttributesAndMeta {
 
-        private MetaInfc metaInfo;
+        private Meta metaInfo;
 
         public Builder() {}
 
@@ -48,11 +48,11 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo impleme
         }
 
         @Override
-        public MetaInfc getMetaInfo() {
+        public Meta getMetaInfo() {
             return metaInfo;
         }
 
-        public void setMetaInfo(MetaInfc metaInfo) {
+        public void setMetaInfo(Meta metaInfo) {
             this.metaInfo = metaInfo;
         }
     }

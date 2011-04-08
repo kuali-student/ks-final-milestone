@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author nwright
  */
-public interface SearchParamInfc {
+public interface SearchParam {
 
 
     /**

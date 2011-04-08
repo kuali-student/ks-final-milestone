@@ -21,7 +21,7 @@ import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
 import org.kuali.student.common.infc.HasType;
 
-public interface LuiLuiRelationInfc
+public interface LuiLuiRelation
 		extends HasAttributesAndMeta,
         HasId,
         HasType,

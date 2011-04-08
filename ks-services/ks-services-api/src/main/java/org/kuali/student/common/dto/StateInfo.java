@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.StateInfc;
+import org.kuali.student.common.infc.State;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes", "_futureElements"})
-public class StateInfo extends HasAttributesInfo implements StateInfc, Serializable {
+public class StateInfo extends HasAttributesInfo implements State, Serializable {
 
     @XmlAttribute
     private final String key;
@@ -55,7 +55,7 @@ public class StateInfo extends HasAttributesInfo implements StateInfc, Serializa
         _futureElements = null;
     }
 
-    private StateInfo(StateInfc builder) {
+    private StateInfo(State builder) {
         super(builder);
         this.key = builder.getKey();
         this.name = builder.getName();
@@ -90,7 +90,7 @@ public class StateInfo extends HasAttributesInfo implements StateInfc, Serializa
         return expirationDate;
     }
 
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<StateInfo>, StateInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<StateInfo>, State {
         private String key;
         private String name;
         private String descr;
@@ -99,7 +99,7 @@ public class StateInfo extends HasAttributesInfo implements StateInfc, Serializa
 
         public Builder() {}
 
-        public Builder(StateInfc stateInfo) {
+        public Builder(State stateInfo) {
             this.key = stateInfo.getKey();
             this.name = stateInfo.getName();
             this.descr = stateInfo.getDescr();

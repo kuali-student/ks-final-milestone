@@ -17,7 +17,7 @@ package org.kuali.student.common.infc;
 
 
 
-public interface TypeTypeRelationInfc extends HasKey, HasAttributes, HasEffectiveDates, HasType {
+public interface TypeTypeRelation extends HasKey, HasAttributes, HasEffectiveDates, HasType {
 
  /**
   * Get ????

@@ -13,12 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.infc;
+package org.kuali.student.common.infc;
 
+public interface TimeAmount {
 
-import org.kuali.student.common.infc.StateInfc;
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * ???
+     */
+    public String getAtpDurationTypeKey();
 
-public interface LuiPersonRelationStateInfc extends StateInfc {
-
+    /**
+     * Get ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * ???
+     */
+    public Integer getTimeQuantity();
 }
 

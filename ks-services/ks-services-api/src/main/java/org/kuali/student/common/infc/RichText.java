@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.infc;
 
-public interface TimeAmountInfc {
+public interface RichText {
 
     /**
      * Get ????
@@ -24,15 +24,15 @@ public interface TimeAmountInfc {
      * <p/>
      * ???
      */
-    public String getAtpDurationTypeKey();
+    public String getPlain();
 
     /**
      * Get ????
      * <p/>
-     * Type: Integer
+     * Type: String
      * <p/>
      * ???
      */
-    public Integer getTimeQuantity();
+    public String getFormatted();
 }
 

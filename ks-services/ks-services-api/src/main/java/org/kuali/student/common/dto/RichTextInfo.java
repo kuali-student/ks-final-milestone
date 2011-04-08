@@ -25,12 +25,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.RichTextInfc;
+import org.kuali.student.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RichTextInfo", propOrder = {"plain", "formatted", "_futureElements"})
-public class RichTextInfo implements RichTextInfc, Serializable {
+public class RichTextInfo implements RichText, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class RichTextInfo implements RichTextInfc, Serializable {
     	_futureElements=null;
     }
     
-    private RichTextInfo(RichTextInfc builder) {
+    private RichTextInfo(RichText builder) {
     	this.plain = builder.getPlain();
     	this.formatted = builder.getFormatted();
     	this._futureElements=null;
@@ -70,13 +70,13 @@ public class RichTextInfo implements RichTextInfc, Serializable {
     	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
     }
     
-    public static class Builder implements ModelBuilder<RichTextInfo>, RichTextInfc {
+    public static class Builder implements ModelBuilder<RichTextInfo>, RichText {
     	private String plain;
 		private String formatted;
 
 		public Builder() {}
     	
-    	public Builder(RichTextInfc rtInfo) {
+    	public Builder(RichText rtInfo) {
     		this.plain = rtInfo.getPlain();
     		this.formatted = rtInfo.getFormatted();
     	}

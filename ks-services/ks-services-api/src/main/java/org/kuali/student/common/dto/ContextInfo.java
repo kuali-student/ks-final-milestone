@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ContextInfc;
+import org.kuali.student.common.infc.Context;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContextInfo", propOrder = {"principalId", "localeLanguage", "localeVariant", "localeRegion", "localeScript", "timeZone", "attributes", "_futureElements"})
-public class ContextInfo extends HasAttributesInfo implements ContextInfc, Serializable {
+public class ContextInfo extends HasAttributesInfo implements Context, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -61,7 +61,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         _futureElements = null;
     }
 
-    private ContextInfo(ContextInfc builder) {
+    private ContextInfo(Context builder) {
         super(builder);
         this.principalId = builder.getPrincipalId();
         this.localeLanguage = builder.getLocaleLanguage();
@@ -102,7 +102,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         return timeZone;
     }
 
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<ContextInfo>, ContextInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<ContextInfo>, Context {
 
         private String principalId;
         private String localeLanguage;
@@ -114,7 +114,7 @@ public class ContextInfo extends HasAttributesInfo implements ContextInfc, Seria
         public Builder() {
         }
 
-        public Builder(ContextInfc ctxInfo) {
+        public Builder(Context ctxInfo) {
             super(ctxInfo);
             this.principalId = ctxInfo.getPrincipalId();
             this.localeLanguage = ctxInfo.getLocaleLanguage();

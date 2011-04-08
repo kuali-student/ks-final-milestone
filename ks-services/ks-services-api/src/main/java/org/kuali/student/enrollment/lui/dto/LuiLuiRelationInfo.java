@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.common.infc.Meta;
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.lui.infc.LuiLuiRelationInfc;
+import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
 import org.w3c.dom.Element;
 
 
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiLuiRelationInfo", propOrder = {"id","type","state","luiId", "relatedLuiId", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
 public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo 
-  implements Serializable, LuiLuiRelationInfc {
+  implements Serializable, LuiLuiRelation {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,7 +80,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     	_futureElements = null;
     }
     
-    private LuiLuiRelationInfo(LuiLuiRelationInfc builder) {
+    private LuiLuiRelationInfo(LuiLuiRelation builder) {
     	super(builder);
     	this.luiId = builder.getLuiId();
     	this.relatedLuiId = builder.getRelatedLuiId();
@@ -175,7 +175,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
         return id;
     }
     
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiLuiRelationInfo>, LuiLuiRelationInfc {
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiLuiRelationInfo>, LuiLuiRelation {
     	
 	    private String luiId;
 	    private String relatedLuiId;
@@ -187,7 +187,7 @@ public class LuiLuiRelationInfo extends HasAttributesAndMetaInfo
     	
     	public Builder() {}
     	
-    	public Builder(LuiLuiRelationInfc llrInfo) {
+    	public Builder(LuiLuiRelation llrInfo) {
     		super(llrInfo);
     		this.luiId = llrInfo.getLuiId();
     		this.relatedLuiId = llrInfo.getRelatedLuiId();

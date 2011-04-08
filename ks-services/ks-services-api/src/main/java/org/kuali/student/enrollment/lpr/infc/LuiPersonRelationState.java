@@ -15,10 +15,10 @@
  */
 package org.kuali.student.enrollment.lpr.infc;
 
-import org.kuali.student.common.infc.TypeInfc;
 
-public interface LuiPersonRelationTypeInfc extends TypeInfc {
+import org.kuali.student.common.infc.State;
 
-   
+public interface LuiPersonRelationState extends State {
+
 }
 

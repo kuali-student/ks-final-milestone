@@ -33,5 +33,5 @@ public interface HasAttributes {
      * @return a list of attributes
      */
 
-    public List<? extends AttributeInfc> getAttributes();
+    public List<? extends Attribute> getAttributes();
 }

@@ -13,26 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.infc;
+package org.kuali.student.enrollment.lpr.infc;
 
-public interface RichTextInfc {
+import org.kuali.student.common.infc.Type;
 
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public String getPlain();
+public interface LuiPersonRelationType extends Type {
 
-    /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
-     */
-    public String getFormatted();
+   
 }
 

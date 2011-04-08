@@ -13,40 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.infc;
+package org.kuali.student.enrollment.lui.infc;
 
-//import com.sun.xml.internal.bind.AnyTypeAdapter;
+
 import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
 import org.kuali.student.common.infc.HasType;
 
-/**
- * Detailed information about a single LUI to Person Relation.
- *
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Tue Mar 01 15:53:57 PST 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
- */
-public interface LuiPersonRelationInfc
+public interface Lui
         extends HasAttributesAndMeta,
         HasId,
-        HasType,
         HasState,
+        HasType,
         HasEffectiveDates {
 
- /**
-  * Name: LUI Id
-  * Unique identifier for a Learning Unit Instance (LUI).
-  */
- public String getLuiId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Code identifier/name for the LUI. This is typically used
+     * human readable form (e.g. ENGL 100 section 123).
+     */
+    public String getLuiCode();
 
- /**
-  * Name: Person Id
-  * Unique identifier for a person record.
-  */
- public String getPersonId();
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for a Canonical Learning Unit (CLU).
+     */
+    public String getCluId();
+
+    /**
+     * Get ????
+     * <p/>
+     * Type: String
+     * <p/>
+     * Unique identifier for an Academic Time Period (ATP).
+     */
+    public String getAtpKey();
+
+    /**
+     * Get ????
+     * <p/>
+     * Type: Integer
+     * <p/>
+     * Maximum number of "seats" that the LUI will hold for registration.
+     */
+    public Integer getMaxSeats();
+
 }
 

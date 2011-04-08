@@ -37,7 +37,7 @@ import org.kuali.rice.core.config.JAXBConfigImpl;
 import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.infc.ValidationResultInfc;
+import org.kuali.student.common.infc.ValidationResult;
 import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
@@ -144,7 +144,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         bldr.setType(null);
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
-        for (ValidationResultInfc vri : result) {
+        for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(1, result.size());
@@ -155,7 +155,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         info = bldr.build();
         validationType = DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = intstance.validate(validationType, info, context);
-        for (ValidationResultInfc vri : result) {
+        for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(0, result.size());
@@ -163,7 +163,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         bldr.setType(" this has \n an embedded return");
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
-        for (ValidationResultInfc vri : result) {
+        for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(1, result.size());

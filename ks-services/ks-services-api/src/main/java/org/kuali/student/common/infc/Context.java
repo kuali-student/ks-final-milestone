@@ -33,7 +33,7 @@ package org.kuali.student.common.infc;
  * @author Kamal
  */
 
-public interface ContextInfc extends HasAttributes {
+public interface Context extends HasAttributes {
 
     /**
      * Name: Principal Id

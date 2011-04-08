@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.infc;
 
-public interface ValidationResultInfc {
+public interface ValidationResult {
 
     public enum ErrorLevel {
 

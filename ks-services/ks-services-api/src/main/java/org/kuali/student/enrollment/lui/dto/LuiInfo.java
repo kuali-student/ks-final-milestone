@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.lui.infc.LuiInfc;
+import org.kuali.student.enrollment.lui.infc.Lui;
 import org.w3c.dom.Element;
 
 
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = {"id","type","state","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
 public class LuiInfo extends HasAttributesAndMetaInfo
-  implements Serializable, LuiInfc {
+  implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,7 +87,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     	_futureElements = null;
     }
     
-    private LuiInfo(LuiInfc builder) {
+    private LuiInfo(Lui builder) {
 		super(builder);
 		this.luiCode = builder.getLuiCode();
 		this.cluId = builder.getCluId();
@@ -186,7 +186,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     }
 
 
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiInfo>, LuiInfc {
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
 
 		private String luiCode;
 		private String cluId;
@@ -200,7 +200,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 		
 		public Builder() {}
 		
-		public Builder(LuiInfc luiInfo) {
+		public Builder(Lui luiInfo) {
 			super(luiInfo);
 			this.luiCode = luiInfo.getLuiCode();
 			this.cluId = luiInfo.getCluId();

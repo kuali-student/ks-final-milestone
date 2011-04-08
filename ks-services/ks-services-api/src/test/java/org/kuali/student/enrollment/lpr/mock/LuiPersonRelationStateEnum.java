@@ -21,8 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.StateInfc;
+import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.common.infc.State;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 
 /**
@@ -32,7 +32,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
  *
  * @author nwright
  */
-public enum LuiPersonRelationStateEnum implements StateInfc, Serializable {
+public enum LuiPersonRelationStateEnum implements State, Serializable {
 
     /**
      * Student states to courses
@@ -83,10 +83,10 @@ public enum LuiPersonRelationStateEnum implements StateInfc, Serializable {
     private String descr;
     private Date effectiveDate;
     private Date expirationDate;
-    private List<? extends AttributeInfc> attributes;
+    private List<? extends Attribute> attributes;
     private String key;
 
-    LuiPersonRelationStateEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<? extends AttributeInfc> attributes) {
+    LuiPersonRelationStateEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<? extends Attribute> attributes) {
         this.key = key;
         this.name = name;
         this.descr = descr;
@@ -115,12 +115,12 @@ public enum LuiPersonRelationStateEnum implements StateInfc, Serializable {
         return this.expirationDate;
     }
 
-    private void setAttributes(List<? extends AttributeInfc> attributes) {
+    private void setAttributes(List<? extends Attribute> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<? extends AttributeInfc> getAttributes() {
+    public List<? extends Attribute> getAttributes() {
         return this.attributes;
     }
 

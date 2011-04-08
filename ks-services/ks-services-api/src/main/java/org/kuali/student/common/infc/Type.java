@@ -14,7 +14,7 @@ package org.kuali.student.common.infc;
  * @author Kuali Student Team (Kamal)
  *
  */
-public interface TypeInfc extends HasKey, HasAttributes, HasEffectiveDates {
+public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
 
     /**
      * Name: Name

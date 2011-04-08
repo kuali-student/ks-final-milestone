@@ -15,7 +15,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.infc.HasAttributes;
 
 @SuppressWarnings("serial")
@@ -33,7 +33,7 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
         attributes = new ArrayList<AttributeInfo>();
 
         AttributeInfo.Builder attBuilder = new AttributeInfo.Builder();
-        for (AttributeInfc att : builder.getAttributes()) {
+        for (Attribute att : builder.getAttributes()) {
             attBuilder.setKey(att.getKey());
             attBuilder.setValue(att.getValue());
             attBuilder.setId(att.getId());
@@ -50,7 +50,7 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
     }
 
     public static class Builder implements HasAttributes {
-        private List<? extends AttributeInfc> attributes = new ArrayList<AttributeInfo>();
+        private List<? extends Attribute> attributes = new ArrayList<AttributeInfo>();
 
         public Builder() {}
 
@@ -59,11 +59,11 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
         }
 
         @Override
-        public List<? extends AttributeInfc> getAttributes() {
+        public List<? extends Attribute> getAttributes() {
             return attributes;
         }
 
-        public void setAttributes(List<? extends AttributeInfc> attributes) {
+        public void setAttributes(List<? extends Attribute> attributes) {
             this.attributes = attributes;
         }
     }

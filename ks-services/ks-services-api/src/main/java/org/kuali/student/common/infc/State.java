@@ -20,7 +20,7 @@ package org.kuali.student.common.infc;
  *
  * @author nwright
  */
-public interface StateInfc extends HasKey, HasAttributes, HasEffectiveDates {
+public interface State extends HasKey, HasAttributes, HasEffectiveDates {
     
    
     /**

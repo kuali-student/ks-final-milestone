@@ -24,7 +24,7 @@ import java.util.Date;
  * 
  * @author nwright
  */
-public interface MetaInfc {
+public interface Meta {
 
     /**
      * Name: Version Indicator

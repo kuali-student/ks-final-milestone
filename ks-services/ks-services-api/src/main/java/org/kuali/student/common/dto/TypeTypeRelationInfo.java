@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.TypeTypeRelationInfc;
+import org.kuali.student.common.infc.TypeTypeRelation;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "ownerType", "relatedType", "rank", "attributes", "_futureElements"})
-public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelationInfc, Serializable {
+public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelation, Serializable {
 	
     @XmlAttribute
 	private final String key;
@@ -78,7 +78,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 		_futureElements = null;
 	}
 		
-	private TypeTypeRelationInfo(TypeTypeRelationInfc builder) {
+	private TypeTypeRelationInfo(TypeTypeRelation builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
@@ -148,7 +148,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
         return rank;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeTypeRelationInfo>, TypeTypeRelationInfc {
+    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeTypeRelationInfo>, TypeTypeRelation {
     	private String key;
 		private String name;
 		private String descr;
@@ -161,7 +161,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
 
 		public Builder() {}
     	
-    	public Builder(TypeTypeRelationInfc typeTypeRelationInfo) {
+    	public Builder(TypeTypeRelation typeTypeRelationInfo) {
     		super(typeTypeRelationInfo);
     		this.key = typeTypeRelationInfo.getKey();
     		this.name = typeTypeRelationInfo.getName();

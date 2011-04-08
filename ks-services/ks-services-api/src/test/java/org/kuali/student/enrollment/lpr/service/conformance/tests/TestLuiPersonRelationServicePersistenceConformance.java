@@ -25,8 +25,8 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.ValidationResultInfc;
+import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.common.infc.ValidationResult;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -159,7 +159,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		 lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig.build (), context);
         } catch (DataValidationErrorException ex) {
             System.out.println (ex.getValidationResults().size() + " validation errors found");
-          for (ValidationResultInfc vri : ex.getValidationResults()) {
+          for (ValidationResult vri : ex.getValidationResults()) {
               System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
           }
           throw ex;
@@ -180,7 +180,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertEquals(orig.getAttributes().size(), fetched.getAttributes().size());
 		assertNotSame(orig.getAttributes(), fetched.getAttributes());
 
-		for (AttributeInfc origDa : orig.getAttributes()) {
+		for (Attribute origDa : orig.getAttributes()) {
 			AttributeInfo fetchedDa = findMatching(origDa, fetched.getAttributes());
 			assertNotNull(fetchedDa);
 			assertNotSame(origDa, fetchedDa);
@@ -284,7 +284,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 
 	}
 
-	private AttributeInfo findMatching(AttributeInfc search, List<? extends AttributeInfo> list) {
+	private AttributeInfo findMatching(Attribute search, List<? extends AttributeInfo> list) {
 		// TODO: when AttributeInfo gets it's own ID do the find by ID instead of values
 		for (AttributeInfo da : list) {
 			if (search.getKey().equals(da.getKey())) {

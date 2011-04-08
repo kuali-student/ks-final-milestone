@@ -16,13 +16,13 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeInfo", propOrder = {"id", "key", "value", "_futureElements"})
-public final class AttributeInfo implements AttributeInfc, Serializable {
+public final class AttributeInfo implements Attribute, Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -45,7 +45,7 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
         this._futureElements = null;
     }
 
-    private AttributeInfo(AttributeInfc builder) {
+    private AttributeInfo(Attribute builder) {
         this.id = builder.getId();
         this.key = builder.getKey();
         this.value = builder.getValue();
@@ -70,7 +70,7 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
     }
 
     
-    public static class Builder implements ModelBuilder<AttributeInfo>, AttributeInfc {
+    public static class Builder implements ModelBuilder<AttributeInfo>, Attribute {
 
         private String id;
         private String value;
@@ -79,7 +79,7 @@ public final class AttributeInfo implements AttributeInfc, Serializable {
         public Builder() {
         }
 
-        public Builder(AttributeInfc attInfo) {
+        public Builder(Attribute attInfo) {
             this.id = attInfo.getId();
             this.key = attInfo.getKey();
             this.value = attInfo.getValue();

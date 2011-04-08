@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiPersonRelationInfo", propOrder = {"id","type","state","luiId", "personId","effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
 public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
-        implements LuiPersonRelationInfc, Serializable {
+        implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlAttribute
@@ -65,7 +65,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         _futureElements = null;
     }
 
-    private LuiPersonRelationInfo(LuiPersonRelationInfc builder) {
+    private LuiPersonRelationInfo(LuiPersonRelation builder) {
         super(builder);
         this.luiId = builder.getLuiId();
         this.personId = builder.getPersonId();
@@ -112,7 +112,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         return id;
     }
 
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelationInfc {
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
 
         private String luiId;
         private String personId;
@@ -125,7 +125,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         public Builder() {
         }
 
-        public Builder(LuiPersonRelationInfc lprInfo) {
+        public Builder(LuiPersonRelation lprInfo) {
             super(lprInfo);
             this.luiId = lprInfo.getLuiId();
             this.personId = lprInfo.getPersonId();

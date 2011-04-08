@@ -23,7 +23,7 @@ import java.util.*;
 import org.kuali.student.common.dto.ComparisonInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CriteriaInfo;
-import org.kuali.student.common.infc.ComparisonInfc;
+import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -122,11 +122,11 @@ public class TestLuiPersonRelationServiceSearchConformance {
         ContextInfo context = getContext1();
         CriteriaInfo.Builder criteria = null;
         ComparisonInfo.Builder comparison = null;
-        List<ComparisonInfc> comparisons = null;
+        List<Comparison> comparisons = null;
         List<String> lprIds = null;
 
         criteria = new CriteriaInfo.Builder();
-        comparisons = new ArrayList<ComparisonInfc>();
+        comparisons = new ArrayList<Comparison>();
         criteria.setComparisons(comparisons);
         lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
         assertEquals(ALL_COUNT, lprIds.size());
@@ -143,7 +143,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
 
         // all should have this type
         criteria = new CriteriaInfo.Builder();
-        comparisons = new ArrayList<ComparisonInfc>();
+        comparisons = new ArrayList<Comparison>();
         criteria.setComparisons(comparisons);
         comparison = new ComparisonInfo.Builder();
         comparisons.add(comparison);
@@ -155,7 +155,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
 
         // one should have this type
         criteria = new CriteriaInfo.Builder();
-        comparisons = new ArrayList<ComparisonInfc>();
+        comparisons = new ArrayList<Comparison>();
         criteria.setComparisons(comparisons);
         comparison = new ComparisonInfo.Builder();
         comparisons.add(comparison);

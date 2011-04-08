@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Criteria for a generic query
  */
-public interface ComparisonInfc  {
+public interface Comparison  {
 
   
     /**

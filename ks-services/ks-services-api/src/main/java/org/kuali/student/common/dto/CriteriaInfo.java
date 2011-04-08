@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ComparisonInfc;
-import org.kuali.student.common.infc.CriteriaInfc;
+import org.kuali.student.common.infc.Comparison;
+import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CriteriaInfo", propOrder = {"comparisons", "maxResults", "_futureElements"})
-public class CriteriaInfo implements CriteriaInfc, Serializable {
+public class CriteriaInfo implements Criteria, Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -70,12 +70,12 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
         return this.maxResults;
     }
 
-    private CriteriaInfo(CriteriaInfc builder) {
+    private CriteriaInfo(Criteria builder) {
         if (builder.getComparisons() == null) {
             this.comparisons = null;
         } else {
             List<ComparisonInfo> list = new ArrayList(builder.getComparisons().size());
-            for (ComparisonInfc infc : builder.getComparisons()) {
+            for (Comparison infc : builder.getComparisons()) {
                 list.add(new ComparisonInfo.Builder(infc).build());
             }
             this.comparisons = Collections.unmodifiableList(list);
@@ -84,15 +84,15 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
         this._futureElements = null;
     }
 
-    public static class Builder implements ModelBuilder<CriteriaInfo>, CriteriaInfc {
+    public static class Builder implements ModelBuilder<CriteriaInfo>, Criteria {
 
-        private List<? extends ComparisonInfc> comparisons;
+        private List<? extends Comparison> comparisons;
         private Integer maxResults;
 
         public Builder() {
         }
 
-        public Builder(CriteriaInfc info) {
+        public Builder(Criteria info) {
             this.comparisons = info.getComparisons();
             this.maxResults = info.getMaxResults();
         }
@@ -102,7 +102,7 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
         }
 
         @Override
-        public List<? extends ComparisonInfc> getComparisons() {
+        public List<? extends Comparison> getComparisons() {
             return this.comparisons;
         }
 
@@ -111,7 +111,7 @@ public class CriteriaInfo implements CriteriaInfc, Serializable {
             return this.maxResults;
         }
 
-        public void setComparisons(List<? extends ComparisonInfc> comparisons) {
+        public void setComparisons(List<? extends Comparison> comparisons) {
             this.comparisons = comparisons;
         }
 

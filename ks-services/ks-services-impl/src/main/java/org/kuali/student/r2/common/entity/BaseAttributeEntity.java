@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.KSEntityConstants;
 
@@ -25,7 +25,7 @@ public class BaseAttributeEntity extends BaseEntity {
     	this.value = value;
 	}
 
-	public BaseAttributeEntity(AttributeInfc att) {
+	public BaseAttributeEntity(Attribute att) {
 		this.setId(att.getId());
 		this.key = att.getKey();
 		this.value = att.getValue();

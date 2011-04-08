@@ -29,7 +29,7 @@ package org.kuali.student.common.infc;
  *
  * @author nwright
  */
-public interface StatusInfc {
+public interface Status {
 
     /**
      * Name: Success Indicator

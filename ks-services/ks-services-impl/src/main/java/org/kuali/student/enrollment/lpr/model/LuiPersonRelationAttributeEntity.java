@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.lpr.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 
 @Entity
@@ -29,7 +29,7 @@ public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity {
 		super(key, value);
 	}
 
-	public LuiPersonRelationAttributeEntity(AttributeInfc att) {
+	public LuiPersonRelationAttributeEntity(Attribute att) {
 		super(att);
 	}
 }

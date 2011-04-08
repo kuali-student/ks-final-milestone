@@ -14,9 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 
 /**
  * @author Igor
@@ -51,7 +51,7 @@ public class LuiPersonRelationEntity {
 	public LuiPersonRelationEntity() {
 	}
     
-    public LuiPersonRelationEntity(LuiPersonRelationInfc dto) {
+    public LuiPersonRelationEntity(LuiPersonRelation dto) {
     	
     	this.setEffectiveDate(dto.getEffectiveDate());
     	this.setExpirationDate(dto.getExpirationDate());
@@ -63,7 +63,7 @@ public class LuiPersonRelationEntity {
     	// TODO - need to retrieve the LuiPersonRelationType based on the return of dto.getType()
     	// lpr.setPersonRelationType(new LuiPersonRelationType(dto.getType());
     	this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
-    	for (AttributeInfc att : dto.getAttributes()) {
+    	for (Attribute att : dto.getAttributes()) {
     		this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
     	}
     }
@@ -132,7 +132,7 @@ public class LuiPersonRelationEntity {
         this.attributes = attributes;
     }
     
-    public LuiPersonRelationInfc toDto() {
+    public LuiPersonRelation toDto() {
     	LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder();
     	return builder.build();
     }
