@@ -32,7 +32,12 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
 
 		SearchRequest searchRequest = new SearchRequest("org.search.generic");
-		searchRequest.addParam("org.queryParam.orgOptionalType", "kuali.org.Department");
+		List<String> orgTypes = new ArrayList<String>();
+		orgTypes.add("kuali.org.Department");
+		orgTypes.add("kuali.org.College");
+		orgTypes.add("kuali.org.Division");
+		orgTypes.add("kuali.org.Office");
+		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
 
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
