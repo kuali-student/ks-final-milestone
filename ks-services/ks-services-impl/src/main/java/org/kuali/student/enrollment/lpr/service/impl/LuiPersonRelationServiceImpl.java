@@ -46,7 +46,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LuiPersonRelationInfo> dtos = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : luiPersonRelations) {
-            dtos.add(new LuiPersonRelationInfo.Builder().id(entity.getLuiId()).build());
+            LuiPersonRelationInfo.Builder lprBldr = new LuiPersonRelationInfo.Builder();
+            lprBldr.setId(entity.getLuiId());
+            dtos.add(lprBldr.build());
         }
         return dtos;
     }
