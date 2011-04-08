@@ -48,7 +48,7 @@ public abstract class KeyEntityInfo extends EntityInfo implements KeyEntity, Ser
      * The builder class for this abstract EntityInfo.
      */
 
-    public static class Builder extends EntityInfo.Builder implements KeyEntity {
+    public static class Builder extends EntityInfo.Builder implements  KeyEntity {
 
         private String key;
 

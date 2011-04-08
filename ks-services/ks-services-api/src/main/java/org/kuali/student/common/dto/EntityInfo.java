@@ -98,9 +98,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
             return name;
         }
 
-        public Builder name(String name) {
+        public void setName(String name) {
             this.name = name;
-            return this;
         }
 
         @Override
@@ -108,9 +107,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
             return descr;
         }
 
-        public Builder descr(RichTextInfo descr) {
+        public void setDescr(RichTextInfo descr) {
             this.descr = descr;
-            return this;
         }
 
         @Override
@@ -118,9 +116,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
             return typeKey;
         }
 
-        public Builder type(String type) {
+        public void setType(String typeKey) {
             this.typeKey = typeKey;
-            return this;
         }
 
         @Override
@@ -128,9 +125,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
             return stateKey;
         }
 
-        public Builder state(String state) {
+        public void setState(String stateKey) {
             this.stateKey = stateKey;
-            return this;
         }
     }
 }

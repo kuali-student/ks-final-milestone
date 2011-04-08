@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.core.atp.infc.MilestoneInfc;
 
@@ -126,7 +127,8 @@ public class MilestoneInfo
 
     public static class Builder 
 	extends KeyEntityInfo.Builder 
-	implements MilestoneInfc {
+	implements ModelBuilder<MilestoneInfo>, 
+		   MilestoneInfc {
 
 	private Boolean isDateRange;
         private Date startDate;
@@ -159,7 +161,7 @@ public class MilestoneInfo
 	 * @return a new Milestone
 	 */
 
-        public MilestoneInfc build() {
+        public MilestoneInfo build() {
             return new MilestoneInfo(this);
         }
 
@@ -185,12 +187,10 @@ public class MilestoneInfo
 	 * @param isDateRange true if this Milestone has different
 	 *         start end end dates, false if this Milestone
 	 *         represents a single date
-	 * @return the builder
 	 */
 
-	public Builder dateRange(Boolean isDateRange) {
+	public void dateRange(Boolean isDateRange) {
 	    this.isDateRange = isDateRange;
-	    return this;
 	}
 
 
@@ -210,12 +210,10 @@ public class MilestoneInfo
 	 * Sets the Milestone start date.
 	 *
 	 * @param endDate the start date
-	 * @return the builder
 	 */
 
-        public Builder startDate(Date startDate) {
+        public void setStartDate(Date startDate) {
             this.startDate = new Date(startDate.getTime());
-            return this;
         }
 
 
@@ -235,12 +233,10 @@ public class MilestoneInfo
 	 * Sets the Milestone end date.
 	 *
 	 * @param endDate the end date
-	 * @return the builder
 	 */
 
-        public Builder endDate(Date endDate) {
+        public void setEndDate(Date endDate) {
             this.endDate = new Date(endDate.getTime());
-            return this;
         }
     }
 }
