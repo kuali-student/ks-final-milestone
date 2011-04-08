@@ -36,7 +36,7 @@ import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "atpKey", "milestoneKey", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "atpKey", "milestoneKey", "metaInfo", "attributes", "_futureElements"})
 
 public class AtpMilestoneRelationInfo 
     extends RelationshipInfo

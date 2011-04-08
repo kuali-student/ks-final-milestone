@@ -37,7 +37,7 @@ import org.kuali.student.core.atp.infc.AtpInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AtpInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
 public class AtpInfo 
     extends KeyEntityInfo
