@@ -102,7 +102,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
         String relationState = LuiPersonRelationConstants.APPLIED_STATE_KEY;
         String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
         LuiPersonRelationInfo.Builder lpr = new LuiPersonRelationInfo.Builder();
-        lpr.effectiveDate(parseDate("2010-01-01"));
+        lpr.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
         getService().createBulkRelationshipsForPerson(personId,
                 luiIdList,
