@@ -3066,6 +3066,43 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
+    <table name="KSSC_SUBJ_CD">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <column name="CD" size="255" type="VARCHAR"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSSC_SUBJ_CD_TYPE" name="KSSC_SUBJ_CD_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
+    </table>
+    <table name="KSSC_SUBJ_CD_JN_ORG">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ORG_ID" size="255" type="VARCHAR"/>
+        <column name="SUBJ_CD_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSSC_SUBJ_CD" name="KSSC_SUBJ_CD_JN_ORG_FK1">
+            <reference foreign="ID" local="SUBJ_CD_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSSC_SUBJ_CD_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
     <table name="KSST_NL_USAGE_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
