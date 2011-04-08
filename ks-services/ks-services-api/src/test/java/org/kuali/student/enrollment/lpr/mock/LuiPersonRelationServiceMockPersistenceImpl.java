@@ -40,12 +40,12 @@ import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.StateInfc;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
-import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 
 /**
  * @author nwright
@@ -80,7 +80,9 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             PermissionDeniedException {
         List<String> lprIds = new ArrayList<String>(luiIdList.size());
         for (String luiId : luiIdList) {
-            LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).luiId(luiId).build();
+            LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
+            bldr.setLuiId(luiId);
+            LuiPersonRelationInfo lprInfo = bldr.build();
 
             String lprId = this.createLuiPersonRelation(personId,
                     luiId,
@@ -106,7 +108,11 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             PermissionDeniedException {
         MockHelper helper = new MockHelper();
         LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
-        builder.id(UUID.randomUUID().toString()).personId(personId).luiId(luiId).type(luiPersonRelationType).metaInfo(helper.createMeta(context));
+        builder.setId(UUID.randomUUID().toString());
+        builder.setPersonId(personId);
+        builder.setLuiId(luiId);
+        builder.setType(luiPersonRelationType);
+        builder.setMetaInfo(helper.createMeta(context));
         LuiPersonRelationInfo copy = builder.build();
         this.lprCache.put(copy.getId(), copy);
         return copy.getId();
@@ -122,7 +128,9 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
         if (this.lprCache.remove(luiPersonRelationId) == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        return new StatusInfo.Builder().success(Boolean.TRUE).build();
+        StatusInfo.Builder bldr = new StatusInfo.Builder();
+        bldr.setSuccess(Boolean.TRUE);
+        return bldr.build();
     }
 
     @Override
@@ -466,13 +474,14 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
                     + existing.getMetaInfo().getUpdateId() + " with version of "
                     + existing.getMetaInfo().getVersionInd());
         }
-        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo).metaInfo(new MockHelper ().updateMeta(existing.getMetaInfo(), context));
+        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
+        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : luiPersonRelationInfo.getAttributes()) {
             atts.add(new AttributeInfo.Builder(att).build());
         }
-        builder.attributes(atts);
+        builder.setAttributes(atts);
         LuiPersonRelationInfo copy = builder.build();
         this.lprCache.put(luiPersonRelationId, copy);
         // mirroring what was done before immutable DTO's; why returning copy of copy?
