@@ -6,27 +6,24 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
 
 /**
  * @author Igor
  */
 @Entity
-public class LuiPersonRelationEntity {
-
-    @Id
-    @GeneratedValue
-    private String id;
+public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 
     private String personId;
 
@@ -45,7 +42,10 @@ public class LuiPersonRelationEntity {
     private LuiPersonRelationStateEntity personRelationState;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "LPR_ATTR_ID")
+//    @JoinColumn(name = "LPR_ATTR_ID")
+//    @JoinTable(name="LPR_ATTR_JOIN",
+//    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
+//    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
 
 	public LuiPersonRelationEntity() {
@@ -66,14 +66,6 @@ public class LuiPersonRelationEntity {
     	for (Attribute att : dto.getAttributes()) {
     		this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
     	}
-    }
-
-    public String getId() {
-    	return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPersonId() {
@@ -124,16 +116,34 @@ public class LuiPersonRelationEntity {
         this.personRelationState = personRelationState;
     }
 
+    @Override
     public List<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
+    @Override
     public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
     
-    public LuiPersonRelation toDto() {
+    public LuiPersonRelationInfo toDto() {
     	LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder();
-    	return builder.build();
+    	builder.setId(getId());
+    	builder.setLuiId(luiId);
+    	builder.setPersonId(personId);
+    	builder.setEffectiveDate(effectiveDate);
+    	builder.setExpirationDate(expirationDate);
+    	builder.setType(personRelationType.getId());
+    	builder.setState(personRelationState.getId());
+    	builder.setMetaInfo(super.toDTO());
+    	List<Attribute> atts = new ArrayList<Attribute>();
+    	for (LuiPersonRelationAttributeEntity att : getAttributes()) {
+    		Attribute attInfo = att.toDto();
+    		atts.add(attInfo);
+    	}
+		builder.setAttributes(atts);
+    	
+    	LuiPersonRelationInfo info = builder.build();
+    	return info;
     }
 }

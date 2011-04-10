@@ -47,6 +47,15 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         this.validator = validator;
     }
 
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    }
+    @Override
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+    }
+
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
 			LuiPersonRelationInfo luiPersonRelationInfo,

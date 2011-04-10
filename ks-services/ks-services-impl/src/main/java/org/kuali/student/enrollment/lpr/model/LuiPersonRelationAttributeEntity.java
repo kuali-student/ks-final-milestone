@@ -25,6 +25,9 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 @Table(name = "KSLP_LPR_ATTR")
 public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity {
 
+	public LuiPersonRelationAttributeEntity () {
+	}
+	
 	public LuiPersonRelationAttributeEntity(String key, String value) {
 		super(key, value);
 	}

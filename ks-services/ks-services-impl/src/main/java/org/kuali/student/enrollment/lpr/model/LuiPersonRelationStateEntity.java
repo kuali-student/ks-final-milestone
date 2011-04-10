@@ -5,23 +5,19 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
 
 /**
  * @author Igor
  */
 @Entity
-public class LuiPersonRelationStateEntity {
+public class LuiPersonRelationStateEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 	
-    @Id
-    @GeneratedValue
-    private Long id;
-
     private String name;
 
     private String description;
@@ -33,16 +29,11 @@ public class LuiPersonRelationStateEntity {
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_relation_state_id")
+    // @JoinColumn(name = "person_relation_state_id")
+//    @JoinTable(name="LPR_ATTR_JOIN",
+//    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
+//    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -76,11 +67,14 @@ public class LuiPersonRelationStateEntity {
         this.expirationDate = expirationDate;
     }
 
+    @Override
     public List<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setDynamicAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
+    @Override
+    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
+
 }

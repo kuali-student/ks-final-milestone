@@ -54,15 +54,18 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 		List<String> bulkRelationshipValues = new ArrayList<String>();
 		System.out.println("Inside authorization impl for createBulkRelationshipsForPerson" );
 		//Simulating unknown exception behavior
-		if(personId!=null){
-			bulkRelationshipValues.add(personId);
+		if(personId != null){
+			bulkRelationshipValues.addAll(nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
 		}else {
 			throw new NullPointerException("person id is null");
 		}
 		return super.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
 	}
 
-
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    }
 
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,

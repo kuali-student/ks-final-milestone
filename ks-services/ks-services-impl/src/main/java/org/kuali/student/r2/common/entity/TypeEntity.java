@@ -15,19 +15,25 @@
 
 package org.kuali.student.r2.common.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.infc.Attribute;
 
 @MappedSuperclass
-public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseTypeEntity implements AttributeOwner<T> {
+public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseTypeEntity implements AttributeOwner<T>  {
 
-    @OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "LPR_ATTR_ID")
-    private List<T> attributes;
+	private List<T> attributes;
 
 
 	/**
@@ -50,4 +56,23 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 		return attributes;
 	}
 
+	public TypeInfo toDto() {
+		TypeInfo.Builder builder = new TypeInfo.Builder();
+		builder.setName(this.getName());
+		builder.setKey(this.getId());
+		// TODO: what about RefObjId?
+		builder.setDescr(this.getDescr());
+		builder.setEffectiveDate(this.getEffectiveDate());
+		builder.setExpirationDate(this.getExpirationDate());
+		builder.setAttributes(new ArrayList<Attribute>());
+		// TODO - refactor this into a central place; probably Igor's Converter
+		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+		for (BaseAttributeEntity att : this.getAttributes()) {
+			atts.add(att.toDto());
+		}
+		// end refactor
+		builder.setAttributes(atts);
+		
+		return builder.build();
+	}
 }

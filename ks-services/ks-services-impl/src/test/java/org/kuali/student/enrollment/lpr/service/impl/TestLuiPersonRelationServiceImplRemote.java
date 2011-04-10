@@ -45,7 +45,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Daos( { @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprDao") })
 @PersistenceFileLocation("classpath:META-INF/persistence.xml")
-@Ignore
 public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl")

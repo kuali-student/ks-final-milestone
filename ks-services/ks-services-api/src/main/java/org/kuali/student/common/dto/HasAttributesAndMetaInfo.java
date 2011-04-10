@@ -44,7 +44,16 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo impleme
 
         public Builder(HasAttributesAndMeta hasAMInfo) {
             super(hasAMInfo);
-            this.metaInfo = hasAMInfo.getMetaInfo();
+            
+            if (null != hasAMInfo.getMetaInfo()) {
+	            MetaInfo.Builder builder = new MetaInfo.Builder();
+	            builder.setCreateId(hasAMInfo.getMetaInfo().getCreateId());
+	            builder.setCreateTime(hasAMInfo.getMetaInfo().getCreateTime());
+	            builder.setUpdateId(hasAMInfo.getMetaInfo().getUpdateId());
+	            builder.setUpdateTime(hasAMInfo.getMetaInfo().getUpdateTime());
+	            builder.setVersionInd(hasAMInfo.getMetaInfo().getVersionInd());
+	            this.metaInfo = builder.build();
+            }
         }
 
         @Override

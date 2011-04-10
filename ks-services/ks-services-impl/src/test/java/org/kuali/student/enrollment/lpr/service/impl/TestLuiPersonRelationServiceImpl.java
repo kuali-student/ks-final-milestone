@@ -15,9 +15,18 @@
  */
 package org.kuali.student.enrollment.lpr.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_ID1;
+import static org.kuali.student.enrollment.lpr.service.utilities.Constants.PERSON_ID1;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -30,12 +39,6 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.utilities.DataLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_ID1;
 
 
 /**
@@ -75,6 +78,9 @@ public class TestLuiPersonRelationServiceImpl {
 
         LuiPersonRelationInfo personRelationInfo = personRelationInfos.get(0);
         assertNotNull(personRelationInfo);
+        assertEquals(LUI_ID1, personRelationInfo.getLuiId());
+        assertEquals(PERSON_ID1, personRelationInfo.getPersonId());
+        assertEquals(2, personRelationInfo.getAttributes().size());
     }
 
 

@@ -2,8 +2,8 @@ package org.kuali.student.r2.common.entity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
 
+import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.KSEntityConstants;
@@ -11,7 +11,7 @@ import org.kuali.student.core.entity.KSEntityConstants;
 @MappedSuperclass
 public class BaseAttributeEntity extends BaseEntity {
 	
-	@Column(name = "KEY")
+	@Column(name = "\"KEY\"")
 	private String key;
 	
 	@Column(name = "VALUE",length=KSEntityConstants.LONG_TEXT_LENGTH)
@@ -46,4 +46,13 @@ public class BaseAttributeEntity extends BaseEntity {
     public void setValue(String value) {
         this.value = value;
     }
+
+	public AttributeInfo toDto() {
+		AttributeInfo.Builder builder = new AttributeInfo.Builder();
+		builder.setId(this.getId());
+		builder.setKey(this.getKey());
+		builder.setValue(this.getValue());
+		return builder.build();
+	}
+
 }
