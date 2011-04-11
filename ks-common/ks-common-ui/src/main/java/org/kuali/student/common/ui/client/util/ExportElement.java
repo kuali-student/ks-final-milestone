@@ -6,7 +6,7 @@ import java.util.List;
 public class ExportElement implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String fieldLabel = new String();
+    private String fieldLabel;
     private boolean isMandatory;
 
     private String fieldValue;
@@ -51,18 +51,11 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue() {
-        if (fieldValue != null) {
-            return fieldValue;
-        }
-        return "";
+        return this.fieldValue;
     }
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
-    }
-
-    public String getKey() {
-        return fieldLabel;
     }
 
     public boolean isSub() {
@@ -75,7 +68,7 @@ public class ExportElement implements Serializable {
 
     public void setSubset(List<ExportElement> subset) {
         if (subset != null && subset.size() > 0) {
-            this.subset = subset;            
+            this.subset = subset;
         }
     }
 
@@ -88,28 +81,48 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue2() {
-        if (fieldValue2 != null) {
-            return fieldValue2;
-        }
-        return "";
+        return fieldValue2;
     }
 
     public void setFieldValue2(String fieldValue2) {
         this.fieldValue2 = fieldValue2;
     }
 
+    public String getKey() {
+        if (this.getFieldLabel() != null) {
+            return this.getFieldLabel();
+        }
+        return "";
+    }
+
     public String getValue() {
-        return this.getFieldValue();
+        if (this.getFieldValue() != null) {
+            return getFieldValue();
+        }
+        return "";
     }
 
     public String getProposalValue() {
-        return this.getFieldValue();
+        if (this.getFieldValue() != null) {
+            return getFieldValue();
+        }
+        return "";
     }
 
     public String getOriginalValue() {
-        return this.getFieldValue2();
+        if (this.getFieldValue2() != null) {
+            return this.getFieldValue2();
+        }
+        return "";
     }
-    
+
+    public boolean isEmpty() {
+        if ((this.fieldLabel == null) && (this.fieldValue == null) && (this.fieldValue2 == null) && (this.subset == null)) {
+            return true;
+        }
+        return false;
+    }
+
     public String printLine() {
         String output = new String();
         output = this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
