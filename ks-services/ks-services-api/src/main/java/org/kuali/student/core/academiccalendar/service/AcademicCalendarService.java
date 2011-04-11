@@ -40,8 +40,8 @@ import org.kuali.student.common.service.StateService;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
-import org.kuali.student.core.academiccalendar.dto.MilestoneInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentMilestoneGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
 
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 
@@ -247,14 +247,14 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public StatusInfo deleteAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Copy an Academic Calendar. The associated Terms and Milestones
+     * Copy an Academic Calendar. The associated Terms and key datess
      * are also copied and related to this new calendar. This copy
      * operation allows for a calendar template to be created from an
      * existing calendar in which the dates of the Terms and
-     * Milestones will be updated.
+     * Key Dates will be updated.
      *
      * Currently, this method does not perform any date
-     * transformations on the Terms and Milestones (Labor Day has a
+     * transformations on the Terms and key dates (Labor Day has a
      * new date). A rollover process needs to make a copy of a
      * calendar and set the new dates for the new year.
      *
@@ -276,7 +276,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public AcademicCalendarInfo copyAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "newAcademicCalendarKey") String newAcademicCalendarKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Generates calendaring data for the Terms and Milestones in an
+     * Generates calendaring data for the Terms and key dates in an
      * Academic Calendar. The format of the data is specified by the
      * calendarDataFormatType. An example of such a type is VCALENDAR.
      *
@@ -616,61 +616,61 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public StatusInfo deleteTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the details of a single Milestone by a milestone key.
+     * Retrieves the details of a single key date by a key date key.
      *
-     * @param milestoneKey Unique key of the Milestone to be retrieved
+     * @param keyDateKey Unique key of the key date to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the details of the Milestone requested
-     * @throws DoesNotExistException milestoneKey not found
-     * @throws InvalidParameterException invalid milestoneKey
-     * @throws MissingParameterException missing milestoneKey
+     * @return the details of the key date requested
+     * @throws DoesNotExistException keyDateKey not found
+     * @throws InvalidParameterException invalid keyDateKey
+     * @throws MissingParameterException missing keyDateKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public KeyDateInfo getKeyDate(@WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Milestones corresponding to a list of
-     * milestones keys.
+     * Retrieves a list of key dates corresponding to a list of
+     * key date keys.
      *
-     * @param milestoneKeyList list of unique keys of the
-     *        Milestone to be retrieved
+     * @param keyDateKeyList list of unique keys of the
+     *        key date to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return a list of Milestones
-     * @throws DoesNotExistExceptionan  milestoneKey in list not found
-     * @throws InvalidParameterException invalid milestoneKey in list
-     * @throws MissingParameterException missing milestoneKeyList
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan  keyDateKey in list not found
+     * @throws InvalidParameterException invalid keyDateKey in list
+     * @throws MissingParameterException missing keyDateKeyList
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<MilestoneInfo> getMilestonesByKeyList(@WebParam(name = "milestoneKeyList") List<String> milestoneKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDateByKeyList(@WebParam(name = "keyDateKeyList") List<String> keyDateKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Milestones by Type.
+     * Retrieves a list of key dates by Type.
      *
-     * @param milestoneTypeKey a Type of Milestone to be retrieved
+     * @param keyDateTypeKey a Type of key date to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return a list of Milestones of the given Type
-     * @throws InvalidParameterException invalid milestoneTypeKey
-     * @throws MissingParameterException missing milestoneTypeKey
+     * @return a list of key dates of the given Type
+     * @throws InvalidParameterException invalid key dateTypeKey
+     * @throws MissingParameterException missing keyDateTypeKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<MilestoneInfo> getMilestonesByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDatesByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates a milestone. Depending on the value of validationType,
+     * Validates a key date. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * object and its directly contained subobjects or expanded to
      * perform all tests related to this object. If an identifier is
-     * present for the milestone and a record is found for that identifier,
-     * the validation checks if the milestone can be shifted to the new
+     * present for the key date and a record is found for that identifier,
+     * the validation checks if the key date can be shifted to the new
      * values. If a record cannot be found for the identifier, it is
      * assumed that the record does not exist and as such, the checks
      * performed will be much shallower, typically mimicking those
@@ -680,50 +680,50 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * statement instead of the server assigning an identifier.
      *
      * @param validationType Identifier of the extent of validation
-     * @param milestoneInfo the milestone information to be tested.
+     * @param keyDateInfo the key date information to be tested.
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return the results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, milestoneInfo
-     * @throws MissingParameterException missing validationTypeKey, milestoneInfo
+     * @throws InvalidParameterException invalid validationTypeKey, keyDateInfo
+     * @throws MissingParameterException missing validationTypeKey, keyDateInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationType") String validationType, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateKeyDate(@WebParam(name = "validationType") String validationType, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Creates a new Milestone.
+     * Creates a new Key Date.
      *
-     * @param milestoneTypeKey the type of Milestone to be created
-     * @param milestoneKey the key of the Milestone to be created
-     * @param milestoneInfo Details of the Milestone to be created
+     * @param keyDateTypeKey the type of Key Date to be created
+     * @param keyDateKey the key of the Key Date to be created
+     * @param keyDateInfo Details of the Key Date to be created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the details of the Milestone just created
-     * @throws AlreadyExistsException the Milestone being created already exists
+     * @return the details of the Key Date just created
+     * @throws AlreadyExistsException the Key Date being created already exists
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public KeyDateInfo createKeyDate(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates an existing Milestone.
+     * Updates an existing Key Date.
      *
-     * @param milestoneKey Key of Milestone to be updated
-     * @param milestoneInfo Details of updates to the Milestone
+     * @param keyDateKey Key of Key Date to be updated
+     * @param keyDateInfo Details of updates to the key date
      *        being updated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the details of Milestone just updated
+     * @return the details of key date just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
-     * @throws DoesNotExistException the milestone does not exist
+     * @throws DoesNotExistException the key date does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -731,53 +731,53 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws VersionMismatchException The action was attempted on an out of date 
      *         version.
      */
-    public MilestoneInfo updateMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public KeyDateInfo updateKeyDate(@WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing Milestone.
+     * Deletes an existing KeyDate.
      *
-     * @param milestoneKey the key of the Milestone to
+     * @param keyDateKey the key of the Key Date to
      *        be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException the Milestone does not exist
+     * @throws DoesNotExistException the KeyDate does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteKeyDate(@WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Gets the enrollment milestone group for a term.
+     * Gets the enrollment key date group for a term.
      *
      * @param termKey unique key of a term
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the enrollment milestone group
+     * @return the enrollment date group
      * @throws DoesNotExistException termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public EnrollmentMilestoneGroupInfo getEnrollmentMilestoneGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public EnrollmentDateGroupInfo getEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates a the enrollment milestone group for a term. The
-     * milestone group is a set of hardened well-known dates. Updating
-     * a milestone group is a short cut to creating the corresponding
-     * milestones and relating them to the given term.
+     * Updates a the enrollment key date group for a term. The
+     * date group is a set of hardened well-known dates. Updating
+     * a key date group is a short cut to creating the corresponding
+     * key dates and relating them to the given term.
      *
      * @param termKey key of Term
-     * @param enrollmentMilestoneGroup the enrollment milestone group
+     * @param enrollmentDateGroup the enrollment date group
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the details of enrollmemnt milestone group just updated
+     * @return the details of enrollmemnt date group just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
      * @throws DoesNotExistException the term does not exist
@@ -788,6 +788,5 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws VersionMismatchException The action was attempted on an out of date 
      *         version.
      */
-    public EnrollmentMilestoneGroupInfo updateEnrollmentMilestoneGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "enrollmentMilestoneGroup") EnrollmentMilestoneGroupInfo enrollmentMilestoneGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
+    public EnrollmentDateGroupInfo updateEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "enrollmentDateGroup") EnrollmentDateGroupInfo enrollmentDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 }

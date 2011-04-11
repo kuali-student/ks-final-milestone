@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.academiccalendar.infc.EnrollmentMilestoneGroupInfc;
+import org.kuali.student.core.academiccalendar.infc.EnrollmentDateGroupInfc;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
@@ -40,7 +40,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInfc, Serializable {
+public class EnrollmentDateGroupInfo implements EnrollmentDateGroupInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
     @XmlElement
     private final Date gradingEnd;
 
-    private EnrollmentMilestoneGroupInfo() {
+    private EnrollmentDateGroupInfo() {
 	registrationStart = null;
 	registrationEnd = null;
 	classStart = null;
@@ -88,22 +88,22 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
     }
 
     /**
-     * Constructs a new EnrollmentMilestoneGroupInfo from another
-     * EnrollmentMilestoneGroupInfo.
+     * Constructs a new EnrollmentDateGroupInfo from another
+     * EnrollmentDateGroupInfo.
      *
-     * @param milestoneGroup the EnrollmentMilestoneGroup to copy
+     * @param dateGroup the EnrollmentDateGroup to copy
      */
-    public EnrollmentMilestoneGroupInfo(EnrollmentMilestoneGroupInfc milestoneGroup) {
-	this.registrationStart = milestoneGroup.getRegistrationStartDate();
-	this.registrationEnd = milestoneGroup.getRegistrationEndDate();
-	this.classStart = milestoneGroup.getClassStartDate();
-	this.classEnd = milestoneGroup.getClassEndDate();
-	this.addDate = milestoneGroup.getAddDate();
-	this.dropDate = milestoneGroup.getDropDate();
-	this.finalsStart = milestoneGroup.getFinalExamStartDate();
-	this.finalsEnd = milestoneGroup.getFinalExamEndDate();
-	this.gradingStart = milestoneGroup.getGradingStartDate();
-	this.gradingEnd = milestoneGroup.getGradingEndDate();
+    public EnrollmentDateGroupInfo(EnrollmentDateGroupInfc dateGroup) {
+	this.registrationStart = dateGroup.getRegistrationStartDate();
+	this.registrationEnd = dateGroup.getRegistrationEndDate();
+	this.classStart = dateGroup.getClassStartDate();
+	this.classEnd = dateGroup.getClassEndDate();
+	this.addDate = dateGroup.getAddDate();
+	this.dropDate = dateGroup.getDropDate();
+	this.finalsStart = dateGroup.getFinalExamStartDate();
+	this.finalsEnd = dateGroup.getFinalExamEndDate();
+	this.gradingStart = dateGroup.getGradingStartDate();
+	this.gradingEnd = dateGroup.getGradingEndDate();
     }
 
 
@@ -216,9 +216,9 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
     }
 
     /**
-     * The builder class for this MilestoneInfo.
+     * The builder class for this DateInfo.
      */
-    public static class Builder implements ModelBuilder<EnrollmentMilestoneGroupInfo>, EnrollmentMilestoneGroupInfc {
+    public static class Builder implements ModelBuilder<EnrollmentDateGroupInfo>, EnrollmentDateGroupInfc {
 
 	private Date registrationStart;
 	private Date registrationEnd;
@@ -239,28 +239,28 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 *  Constructs a new builder initialized from another
-	 *  EnrollmentMilestoneGroup.
+	 *  EnrollmentDateGroup.
 	 */
-        public Builder(EnrollmentMilestoneGroupInfc milestoneGroupInfo) {
-	    registrationStart = milestoneGroupInfo.getRegistrationStartDate();
-	    registrationEnd = milestoneGroupInfo.getRegistrationStartDate();
-	    classStart =  milestoneGroupInfo.getClassStartDate();
-	    classEnd =  milestoneGroupInfo.getClassStartDate();
-	    addDate =  milestoneGroupInfo.getAddDate();
-	    dropDate =  milestoneGroupInfo.getDropDate();
-	    finalsStart =  milestoneGroupInfo.getFinalExamStartDate();
-	    finalsEnd =  milestoneGroupInfo.getFinalExamStartDate();
-	    gradingStart =  milestoneGroupInfo.getGradingStartDate();
-	    gradingEnd =  milestoneGroupInfo.getGradingStartDate();
+        public Builder(EnrollmentDateGroupInfc dateGroupInfo) {
+	    registrationStart = dateGroupInfo.getRegistrationStartDate();
+	    registrationEnd = dateGroupInfo.getRegistrationStartDate();
+	    classStart =  dateGroupInfo.getClassStartDate();
+	    classEnd =  dateGroupInfo.getClassStartDate();
+	    addDate =  dateGroupInfo.getAddDate();
+	    dropDate =  dateGroupInfo.getDropDate();
+	    finalsStart =  dateGroupInfo.getFinalExamStartDate();
+	    finalsEnd =  dateGroupInfo.getFinalExamStartDate();
+	    gradingStart =  dateGroupInfo.getGradingStartDate();
+	    gradingEnd =  dateGroupInfo.getGradingStartDate();
         }
 
 	/**
-	 * Builds the EnrollmentMilestoneGroup.
+	 * Builds the EnrollmentDateGroup.
 	 *
-	 * @return a new EnrollmentMilestoneGroup
+	 * @return a new EnrollmentDateGroup
 	 */
-        public EnrollmentMilestoneGroupInfo build() {
-            return new EnrollmentMilestoneGroupInfo(this);
+        public EnrollmentDateGroupInfo build() {
+            return new EnrollmentDateGroupInfo(this);
         }
 
 

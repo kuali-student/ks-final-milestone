@@ -20,18 +20,18 @@ import org.kuali.student.common.infc.KeyEntity;
 
 
 /**
- * Information about a milestone. A milestone may represent a single
+ * Information about a key date. A key date may represent a single
  * point in time or a range depending on the value of isDateRange().
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface MilestoneInfc extends KeyEntity {
+public interface KeyDateInfc extends KeyEntity {
 
     /**
      * Name: IsDateRange
-     * Tests if this milestone has a date range. 
+     * Tests if this key date has a date range. 
      *
      * @return true if the end date is different than the start date,
      *         false if the start end end date ar ethe same
@@ -40,18 +40,18 @@ public interface MilestoneInfc extends KeyEntity {
 
     /**
      * Name: StartDate
-     * The start date and time of the milestone.
+     * The start date and time of the key date.
      *
-     * @return the milestone start date 
+     * @return the key date start date 
      */
     public Date getStartDate();
 
     /**
      * Name: EndDate 
-     * The end date and time of the milestone. The end
+     * The end date and time of the key date. The end
      * date must be equal to or greater that the start.
      *
-     * @return the milestone end date
+     * @return the key date end date
      */
     public Date getEndDate();
 }

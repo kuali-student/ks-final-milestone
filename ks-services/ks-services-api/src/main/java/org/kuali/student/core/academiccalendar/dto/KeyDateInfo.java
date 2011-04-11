@@ -27,22 +27,22 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.academiccalendar.infc.MilestoneInfc;
+import org.kuali.student.core.academiccalendar.infc.KeyDateInfc;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
 /**
- * Information about a milestone.
+ * Information about a key date.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
-public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Serializable {
+public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,31 +55,31 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
     @XmlElement
     private final Date endDate;
 
-    private MilestoneInfo() {
+    private KeyDateInfo() {
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
     }
 
     /**
-     * Constructs a new MilestoneInfo from another Milestone.
+     * Constructs a new KeyDateInfo from another KeyDate.
      *
-     * @param milestone the Milestone to copy
+     * @param keyDate the KeyDate to copy
      */
-    public MilestoneInfo(MilestoneInfc milestone) {
-        super(milestone);
+    public KeyDateInfo(KeyDateInfc keyDate) {
+        super(keyDate);
 	this.isDateRange = false;
-        this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
-        this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
+        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
     }
 
     /**
      * Name: IsDateRange
-     * Tests if this milestone has a date range. If true, the end date
+     * Tests if this keyDate has a date range. If true, the end date
      * value follows the start date.
      *
-     * @return true if this Milestone has different start end end
-     *         dates, false if this Milestone represents a single date
+     * @return true if this KeyDate has different start end end
+     *         dates, false if this KeyDate represents a single date
      */
     @Override
     public Boolean getIsDateRange() {
@@ -88,9 +88,9 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 
     /**
      * Name: StartDate
-     * Gets the start Date and time of the milestone.
+     * Gets the start Date and time of the keyDate.
      *
-     * @return the milestone start
+     * @return the keyDate start
      */
     @Override
     public Date getStartDate() {
@@ -99,9 +99,9 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 
     /**
      * Name: EndDate
-     * Gets the end Date and time of the milestone.
+     * Gets the end Date and time of the keyDate.
      *
-     * @return the milestone end
+     * @return the keyDate end
      */
     @Override
     public Date getEndDate() {
@@ -109,9 +109,9 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
     }
 
     /**
-     * The builder class for this MilestoneInfo.
+     * The builder class for this KeyDateInfo.
      */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<MilestoneInfo>, MilestoneInfc {
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDateInfc {
 
 	private Boolean isDateRange;
         private Date startDate;
@@ -126,29 +126,29 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 
 	/**
 	 *  Constructs a new builder initialized from another
-	 *  Milestone.
+	 *  KeyDate.
 	 */
-        public Builder(MilestoneInfc milestoneInfo) {
-            super(milestoneInfo);
-            this.startDate = milestoneInfo.getStartDate();
-            this.endDate = milestoneInfo.getEndDate();
+        public Builder(KeyDateInfc keyDateInfo) {
+            super(keyDateInfo);
+            this.startDate = keyDateInfo.getStartDate();
+            this.endDate = keyDateInfo.getEndDate();
         }
 
 	/**
-	 * Builds the Milestone.
+	 * Builds the KeyDate.
 	 *
-	 * @return a new Milestone
+	 * @return a new KeyDate
 	 */
-        public MilestoneInfo build() {
-            return new MilestoneInfo(this);
+        public KeyDateInfo build() {
+            return new KeyDateInfo(this);
         }
 
 	/**
-	 * Tests if this milestone has a date range. If true, the end date
+	 * Tests if this keyDate has a date range. If true, the end date
 	 * value follows the start date.
 	 *
-	 * @return true if this Milestone has different start end end
-	 *         dates, false if this Milestone represents a single date
+	 * @return true if this KeyDate has different start end end
+	 *         dates, false if this KeyDate represents a single date
 	 */
 	@Override
 	public Boolean getIsDateRange() {
@@ -159,8 +159,8 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 	 * Sets the date range flag (should this flag be inferred from
 	 * the dates?)
 	 *
-	 * @param isDateRange true if this Milestone has different
-	 *         start end end dates, false if this Milestone
+	 * @param isDateRange true if this KeyDate has different
+	 *         start end end dates, false if this KeyDate
 	 *         represents a single date
 	 */
 	public void dateRange(Boolean isDateRange) {
@@ -170,7 +170,7 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 	/**
 	 * Gets the start date.
 	 *
-	 * @return the Milestone start date
+	 * @return the KeyDate start date
 	 */
         @Override
         public Date getStartDate() {
@@ -178,7 +178,7 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
         }
 
 	/**
-	 * Sets the Milestone start date.
+	 * Sets the KeyDate start date.
 	 *
 	 * @param endDate the start date
 	 */
@@ -189,7 +189,7 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
 	/**
 	 * Gets the start date.
 	 *
-	 * @return the Milestone end date
+	 * @return the KeyDate end date
 	 */
         @Override
         public Date getEndDate() {
@@ -197,7 +197,7 @@ public class MilestoneInfo extends KeyEntityInfo implements MilestoneInfc, Seria
         }
 
 	/**
-	 * Sets the Milestone end date.
+	 * Sets the KeyDate end date.
 	 *
 	 * @param endDate the end date
 	 */

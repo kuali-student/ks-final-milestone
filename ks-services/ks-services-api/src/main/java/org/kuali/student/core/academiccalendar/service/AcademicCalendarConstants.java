@@ -16,7 +16,7 @@ package org.kuali.student.core.academiccalendar.service;
 
 import org.kuali.student.common.service.CommonConstants;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
-import org.kuali.student.core.academiccalendar.dto.MilestoneInfo;
+import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 
 /**
  * This class holds the constants used by the Academic Calendar service

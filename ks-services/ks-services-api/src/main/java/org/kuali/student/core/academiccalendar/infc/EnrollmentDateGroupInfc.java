@@ -25,7 +25,7 @@ import java.util.Date;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface EnrollmentMilestoneGroupInfc {
+public interface EnrollmentDateGroupInfc {
 
     /**
      * Name: RegistrationStart
