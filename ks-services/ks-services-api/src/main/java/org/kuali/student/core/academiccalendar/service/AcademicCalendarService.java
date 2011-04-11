@@ -41,6 +41,7 @@ import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
 
 import org.kuali.student.datadictionary.service.DataDictionaryService;
@@ -678,7 +679,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<KeyDateInfo> getKeyDateByKeyList(@WebParam(name = "keyDateKeyList") List<String> keyDateKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDatesByKeyList(@WebParam(name = "keyDateKeyList") List<String> keyDateKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of key dates by Type.
@@ -694,6 +695,57 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public List<KeyDateInfo> getKeyDatesByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of key dates for an academic calendar. The
+     * dates include all key dates mapped to any terms, sub terms, or
+     * campus calendars.
+     *
+     * @param academicCalendarKey
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws InvalidParameterException invalid academicCalendarKey
+     * @throws MissingParameterException missing academicCalendarKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<KeyDateInfo> getKeyDatesForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of holidays for an academic calendar.
+     *
+     * @param academicCalendarKey
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of holidays
+     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws InvalidParameterException invalid academicCalendarKey
+     * @throws MissingParameterException missing academicCalendarKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<HolidayInfo> getHolidaysForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of key dates for a Term. The dates
+     * include all key dates mapped to any nested terms.
+     *
+     * @param termKey
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan termKey not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing termKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a key date. Depending on the value of validationType,
