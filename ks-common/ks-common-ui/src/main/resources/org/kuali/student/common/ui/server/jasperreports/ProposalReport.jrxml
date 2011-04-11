@@ -7,6 +7,7 @@
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="originalValue" class="java.lang.String"/>
 	<field name="proposalValue" class="java.lang.String"/>
+	<field name="empty" class="java.lang.Boolean"/>
 	<title>
 		<band height="30">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
@@ -58,7 +59,9 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="123" y="25" width="392" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
+				<reportElement x="123" y="25" width="392" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[!$F{empty}]]></printWhenExpression>
+				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid"/>
 				</graphicElement>

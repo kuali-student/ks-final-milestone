@@ -11,6 +11,7 @@
 	<field name="mandatory" class="java.lang.Boolean"/>
 	<field name="sectionName" class="java.lang.String"/>
 	<field name="originalValue" class="java.lang.String"/>
+	<field name="empty" class="java.lang.Boolean"/>
 	<group name="Section">
 		<groupExpression><![CDATA[$F{sectionName}]]></groupExpression>
 		<groupHeader>
@@ -32,7 +33,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="5"/>
+			<band/>
 		</groupFooter>
 	</group>
 	<pageHeader>
@@ -40,7 +41,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{sub}==false && !$F{empty}]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="0" y="0" width="123" height="15">
 					<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
@@ -79,7 +80,7 @@
 			</textField>
 		</band>
 		<band height="19">
-			<printWhenExpression><![CDATA[$F{sub}==true]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{sub}==true && !$F{empty}]]></printWhenExpression>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="0" width="515" height="19">
 					<printWhenExpression><![CDATA[$F{sub}==true]]></printWhenExpression>
