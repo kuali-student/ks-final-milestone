@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,16 +18,18 @@ import org.kuali.student.r2.common.entity.MetaEntity;
  * @author Igor
  */
 @Entity
+@Table(name = "KSLP_LPR_STATE")
 public class LuiPersonRelationStateEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 	
     private String name;
 
+    @Column(name="DESCR")
     private String description;
 
-    @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
 
-    @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL)

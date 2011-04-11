@@ -25,7 +25,6 @@ import static org.kuali.student.enrollment.lpr.service.utilities.Constants.PERSO
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
@@ -35,6 +34,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.lpr.model.LuiPersonRelationStateEntity;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.utilities.DataLoader;
 import org.springframework.context.ApplicationContext;
@@ -48,7 +49,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class TestLuiPersonRelationServiceImpl {
 
 
-    public LuiPersonRelationService lprService;
+    private static final String LUI_ID2 = "testLuiId2";
+	private static final String PERSON_ID2 = "testPersonId2";
+	public LuiPersonRelationService lprService;
     public ApplicationContext appContext;
     public static String principalId = "123";
     public ContextInfo callContext = new ContextInfo.Builder().build();
@@ -63,11 +66,19 @@ public class TestLuiPersonRelationServiceImpl {
     @Before
     public void setUp() {
         principalId = "123";
-        appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml","testContext.xml"});
+        appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
         lprService = (LuiPersonRelationService) appContext.getBean("lprPersistenceService");
         callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
         dataLoader = (DataLoader) appContext.getBean("dataLoader");
         dataLoader.load();
+    }
+
+    @Test
+    public void testCreateLuiPersonRelation() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, org.kuali.student.core.exceptions.OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
+    	LuiPersonRelationEntity lpr = new LuiPersonRelationEntity();
+    	lpr.setLuiId(LUI_ID2);
+    	lpr.setPersonId(PERSON_ID2);
+    	LuiPersonRelationStateEntity lprState = new LuiPersonRelationStateEntity();
     }
 
     @Test
@@ -81,11 +92,6 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(LUI_ID1, personRelationInfo.getLuiId());
         assertEquals(PERSON_ID1, personRelationInfo.getPersonId());
         assertEquals(2, personRelationInfo.getAttributes().size());
-    }
-
-
-    @After
-    public void tearDown() {
     }
 
     @Test

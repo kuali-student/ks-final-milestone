@@ -9,10 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
@@ -23,22 +23,25 @@ import org.kuali.student.r2.common.entity.MetaEntity;
  * @author Igor
  */
 @Entity
+@Table(name = "KSLP_LPR")
 public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 
     private String personId;
 
     private String luiId;
 
-    @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
 
-    @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "RELATION_TYPE_ID")
     private LuiPersonRelationTypeEntity personRelationType;
 
     @ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "RELATION_STATE_ID")
     private LuiPersonRelationStateEntity personRelationState;
 
     @OneToMany(cascade = CascadeType.ALL)
