@@ -758,5 +758,11 @@
 
 	<bean id="GwtExportRpcService"
 		class="org.kuali.student.common.ui.server.gwt.ExportGwtRpcServlet">
+		<property name="reportProcessor" ref="ReportProcessor"/>
 	</bean>
+	
+	<!-- Screen Report Processor -->
+	<bean id="ReportProcessor"
+          class="org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl">
+    </bean>
 </beans>
