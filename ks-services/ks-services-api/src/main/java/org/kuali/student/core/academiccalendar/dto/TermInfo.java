@@ -53,10 +53,14 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     @XmlElement
     private final List<TermInfo> terms;
 
+    @XmlElement
+    private final List<KeyDateInfo> keyDates;
+
     private TermInfo() {
     	startDate = null;
 	endDate = null;
 	terms = null;
+	keyDates = null;
     }
 
     /**
@@ -71,6 +75,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
 	/* copy me */
 	this.terms = null;
+	this.keyDates = null;
     }
 
     /**
@@ -116,6 +121,14 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	return terms;
     }
 
+    /**
+     * Name: KeyDates
+     * Gets the key dates directly mapped to this term.
+     */
+    public List<KeyDateInfo> getKeyDates() {
+	return (keyDates);
+    }
+
 
     /**
      * The builder class for this TermInfo.
@@ -125,6 +138,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     	private Date startDate;
 	private Date endDate;
 	private List<TermInfo> terms;
+	private List<KeyDateInfo> keyDates;
 
 	/**
 	 * Constructs a new builder.
@@ -196,6 +210,13 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	@Override
 	public List<TermInfo> getTerms() {
 	    return terms;
+	}
+
+	/**
+	 * Gets the key dates directly mapped to this term.
+	 */
+	public List<KeyDateInfo> getKeyDates() {
+	    return keyDates;
 	}
     }
 }
