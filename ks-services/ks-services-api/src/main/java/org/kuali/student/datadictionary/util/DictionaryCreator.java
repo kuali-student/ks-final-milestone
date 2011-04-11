@@ -24,7 +24,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,7 +92,7 @@ public class DictionaryCreator {
 
         //Step 1, create the abstract structure
         s.append("\n\n<!-- " + clazz.getSimpleName() + "-->");
-        s.append("\n<bean id=\"" + initLower(clazz.getName())
+        s.append("\n<bean id=\"" + initLower(clazz.getSimpleName())
                 + "-parent\" abstract=\"true\" parent=\"" + initLower(DataObjectEntry.class.getSimpleName())
                 + "\">");
         addProperty("name", initLower(clazz.getSimpleName()), s);
@@ -113,11 +116,9 @@ public class DictionaryCreator {
         s.append("\n<property name=\"attributes\">");
         s.append("\n<list>");
 
-        for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
-            if (!Class.class.equals(pd.getPropertyType())) {
-                String fieldName = initLower(clazz.getSimpleName() + "." + initLower(pd.getName()));
-                s.append("\n<ref bean=\"" + fieldName + "\"/>");
-            }
+        for (PropertyDescriptor pd : getFilteredSortedProperties(beanInfo)) {
+            String fieldName = initLower(clazz.getSimpleName() + "." + initLower(pd.getName()));
+            s.append("\n<ref bean=\"" + fieldName + "\"/>");
         }
         s.append("\n</list>");
         s.append("\n</property>");
@@ -129,15 +130,75 @@ public class DictionaryCreator {
 
         //Step 2, loop through attributes
         Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
-        for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
-            if (!Class.class.equals(
-                    pd.getPropertyType())) {
-                dependantStructures.addAll(addAttributeDefinition(clazz, pd, s, processed));
-            }
+        for (PropertyDescriptor pd : getFilteredSortedProperties(beanInfo)) {
+            dependantStructures.addAll(addAttributeDefinition(clazz, pd, s, processed));
         }
         //Step 3, process all dependant object structures
         for (Class<?> dependantClass : dependantStructures) {
             addObjectStructure(dependantClass, s, processed);
+        }
+    }
+
+    private List<PropertyDescriptor> getFilteredSortedProperties(BeanInfo beanInfo) {
+        List<PropertyDescriptor> list = new ArrayList(beanInfo.getPropertyDescriptors().length);
+        for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
+            if (pd.getPropertyType().equals(Class.class)) {
+                continue;
+            }
+            list.add(pd);
+        }
+        Collections.sort(list, new PropertyDescriptorComparator());
+        return list;
+    }
+
+    private static class PropertyDescriptorComparator implements Comparator<PropertyDescriptor> {
+
+        @Override
+        public int compare(PropertyDescriptor o1, PropertyDescriptor o2) {
+            return calcRank(o1).compareTo(calcRank(o2));
+        }
+
+        private String calcRank(PropertyDescriptor pd) {
+
+            String name = pd.getName();
+            String lowerName = pd.getName().toLowerCase();
+            if (lowerName.equals("id")) {
+                return "00" + name;
+            }
+            if (lowerName.equals("key")) {
+                return "00" + name;
+            }
+            if (lowerName.equals("typekey")) {
+                return "01" + name;
+            }
+            if (lowerName.equals("statekey")) {
+                return "02" + name;
+            }
+            if (lowerName.equals("name")) {
+                return "03" + name;
+            }
+            if (lowerName.equals("descr")) {
+                return "04" + name;
+            }
+            if (lowerName.equals("effectivedate")) {
+                return "10" + name;
+            }
+            if (lowerName.equals("expirationdate")) {
+                return "11" + name;
+            }
+            if (lowerName.equals("attributes")) {
+                return "80" + name;
+            }
+            if (lowerName.equals("metainfo")) {
+                return "90" + name;
+            }
+            if (lowerName.equals("startdate")) {
+                return "48" + name;
+            }
+            if (lowerName.equals ("enddate")) {
+                return "49" + name;
+            }
+            return "50" + name;
         }
     }
 
@@ -238,11 +299,11 @@ public class DictionaryCreator {
         if (lowerName.equals("key")) {
             return "baseKualiKey";
         }
-        if (lowerName.equals("type")) {
-            return "baseKualiType";
+        if (lowerName.equals("typeKey")) {
+            return "baseKualiTypeKey";
         }
-        if (lowerName.equals("state")) {
-            return "baseKualiState";
+        if (lowerName.equals("stateKey")) {
+            return "baseKualiStateKey";
         }
         if (lowerName.equals("effectivedate")) {
             return "baseKualiEffectiveDate";
