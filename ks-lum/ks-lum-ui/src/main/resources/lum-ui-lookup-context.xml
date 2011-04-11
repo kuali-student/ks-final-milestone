@@ -286,10 +286,10 @@
     </bean>
 	<bean parent="result">
      <property name="dataType" value="STRING" />
-     <property name="desc" value="Specializations(s)" />
+     <property name="desc" value="Specialization(s)" />
      <property name="hidden" value="false" />
      <property name="key" value="lu.resultColumn.variationId" />
-     <property name="name" value="Specializations(s)" />
+     <property name="name" value="Specialization(s)" />
     </bean>
 	<bean parent="result">
      <property name="dataType" value="STRING" />
