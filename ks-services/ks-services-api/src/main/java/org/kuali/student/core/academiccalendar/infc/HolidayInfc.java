@@ -20,38 +20,20 @@ import org.kuali.student.common.infc.KeyEntity;
 
 
 /**
- * Information about a key date. A key date may represent a single
- * point in time or a range depending on the value of isDateRange().
+ * Information about a holiday.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface KeyDateInfc extends KeyEntity {
+public interface HolidayInfc extends KeyDateInfc {
 
     /**
      * Name: IsDateRange
-     * Tests if this key date has a date range. 
+     * Tests if this holiday is an instructional day. 
      *
-     * @return true if the end date is different than the start date,
-     *         false if the start end end date ar ethe same
+     * @return true if this holiday is an instructional day false if
+     *         it does not count as an instructional day
      */
-    public Boolean getIsDateRange();
-
-    /**
-     * Name: StartDate
-     * The start date and time of the key date.
-     *
-     * @return the key date start date 
-     */
-    public Date getStartDate();
-
-    /**
-     * Name: EndDate 
-     * The end date and time of the key date. The end
-     * date must be equal to or greater that the start.
-     *
-     * @return the key date end date
-     */
-    public Date getEndDate();
+    public Boolean getIsInstructionalDay();
 }

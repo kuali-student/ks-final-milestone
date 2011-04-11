@@ -27,22 +27,22 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.academiccalendar.infc.KeyDateInfc;
+import org.kuali.student.core.academiccalendar.infc.HolidayInfc;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
 /**
- * Information about a key date.
+ * Information about a holiday.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "isInstructionalDay", "metaInfo", "attributes", "_futureElements"})
 
-public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializable {
+public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,31 +55,36 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     @XmlElement
     private final Date endDate;
 
-    private KeyDateInfo() {
+    @XmlElement
+    private final Boolean isInstructionalDay;
+
+    private HolidayInfo() {
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
+	isInstructionalDay = false;
     }
 
     /**
-     * Constructs a new KeyDateInfo from another KeyDate.
+     * Constructs a new HolidayInfo from another Holiday.
      *
-     * @param keyDate the KeyDate to copy
+     * @param holiday the Holiday to copy
      */
-    public KeyDateInfo(KeyDateInfc keyDate) {
-        super(keyDate);
-	this.isDateRange = keyDate.getIsDateRange();
-        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+    public HolidayInfo(HolidayInfc holiday) {
+        super(holiday);
+	this.isDateRange = holiday.getIsDateRange();
+        this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+        this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+	this.isInstructionalDay = holiday.getIsInstructionalDay();
     }
 
     /**
      * Name: IsDateRange
-     * Tests if this keyDate has a date range. If true, the end date
+     * Tests if this holiday has a date range. If true, the end date
      * value follows the start date.
      *
-     * @return true if this KeyDate has different start end end
-     *         dates, false if this KeyDate represents a single date
+     * @return true if this Holiday has different start end end
+     *         dates, false if this Holiday represents a single date
      */
     @Override
     public Boolean getIsDateRange() {
@@ -88,9 +93,9 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 
     /**
      * Name: StartDate
-     * Gets the start Date and time of the keyDate.
+     * Gets the start Date and time of the holiday.
      *
-     * @return the keyDate start
+     * @return the holiday start
      */
     @Override
     public Date getStartDate() {
@@ -99,9 +104,9 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 
     /**
      * Name: EndDate
-     * Gets the end Date and time of the keyDate.
+     * Gets the end Date and time of the holiday.
      *
-     * @return the keyDate end
+     * @return the holiday end
      */
     @Override
     public Date getEndDate() {
@@ -109,13 +114,25 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     }
 
     /**
-     * The builder class for this KeyDateInfo.
+     * Name: IsInstructionalDay
+     * Tests if this holiday is an instructional day. 
+     *
+     * @return true if this holiday is an instructional day false if
+     *         it does not count as an instructional day
      */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDateInfc {
+    public Boolean getIsInstructionalDay() {
+	return isInstructionalDay;
+    }
+
+    /**
+     * The builder class for this HolidayInfo.
+     */
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, HolidayInfc {
 
 	private Boolean isDateRange;
         private Date startDate;
         private Date endDate;
+	private Boolean isInstructionalDay;
 
 	/**
 	 * Constructs a new builder.
@@ -125,30 +142,31 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 
 	/**
 	 *  Constructs a new builder initialized from another
-	 *  KeyDate.
+	 *  Holiday.
 	 */
-        public Builder(KeyDateInfc keyDate) {
-            super(keyDate);
-	    this.isDateRange = keyDate.getIsDateRange();
-	    this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-	    this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+        public Builder(HolidayInfc holiday) {
+            super(holiday);
+	    this.isDateRange = holiday.getIsDateRange();
+	    this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+	    this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+	    this.isInstructionalDay = holiday.getIsInstructionalDay();
         }
 
 	/**
-	 * Builds the KeyDate.
+	 * Builds the Holiday.
 	 *
-	 * @return a new KeyDate
+	 * @return a new Holiday
 	 */
-        public KeyDateInfo build() {
-            return new KeyDateInfo(this);
+        public HolidayInfo build() {
+            return new HolidayInfo(this);
         }
 
 	/**
-	 * Tests if this keyDate has a date range. If true, the end date
+	 * Tests if this holiday has a date range. If true, the end date
 	 * value follows the start date.
 	 *
-	 * @return true if this KeyDate has different start end end
-	 *         dates, false if this KeyDate represents a single date
+	 * @return true if this Holiday has different start end end
+	 *         dates, false if this Holiday represents a single date
 	 */
 	@Override
 	public Boolean getIsDateRange() {
@@ -159,8 +177,8 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	 * Sets the date range flag (should this flag be inferred from
 	 * the dates?)
 	 *
-	 * @param isDateRange true if this KeyDate has different
-	 *         start end end dates, false if this KeyDate
+	 * @param isDateRange true if this Holiday has different
+	 *         start end end dates, false if this Holiday
 	 *         represents a single date
 	 */
 	public void dateRange(Boolean isDateRange) {
@@ -170,7 +188,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	/**
 	 * Gets the start date.
 	 *
-	 * @return the KeyDate start date
+	 * @return the Holiday start date
 	 */
         @Override
         public Date getStartDate() {
@@ -178,7 +196,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
         }
 
 	/**
-	 * Sets the KeyDate start date.
+	 * Sets the Holiday start date.
 	 *
 	 * @param endDate the start date
 	 */
@@ -189,7 +207,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	/**
 	 * Gets the start date.
 	 *
-	 * @return the KeyDate end date
+	 * @return the Holiday end date
 	 */
         @Override
         public Date getEndDate() {
@@ -197,12 +215,26 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
         }
 
 	/**
-	 * Sets the KeyDate end date.
+	 * Sets the Holiday end date.
 	 *
 	 * @param endDate the end date
 	 */
         public void setEndDate(Date endDate) {
             this.endDate = new Date(endDate.getTime());
         }
+
+	/**
+	 * Tests if this holiday is an instructional day. 
+	 *
+	 * @return true if this holiday is an instructional day false if
+	 *         it does not count as an instructional day
+	 */
+	public Boolean getIsInstructionalDay() {
+	    return isInstructionalDay;
+	}
+
+	public void setIsInstructionalDay(Boolean isInstructionalDay) {
+	    this.isInstructionalDay = isInstructionalDay;
+	}
     }
 }
