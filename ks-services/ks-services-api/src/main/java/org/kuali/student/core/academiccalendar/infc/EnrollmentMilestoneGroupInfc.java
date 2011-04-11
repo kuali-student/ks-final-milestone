@@ -16,7 +16,6 @@
 package org.kuali.student.core.academiccalendar.infc;
 
 import java.util.Date;
-import org.kuali.student.common.infc.KeyEntity;
 
 
 /**
@@ -26,47 +25,69 @@ import org.kuali.student.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface EnrollmentMilestoneGroupInfc extends KeyEntity {
+public interface EnrollmentMilestoneGroupInfc {
 
     /**
-     * Name: RegistrationPeriod
-     * Gets the milestone for the registration period.
+     * Name: RegistrationStart
+     * Gets registration start date.
      *
-     * @return a milestone
+     * @return the registration start date
      */
-    public MilestoneInfc getRegistrationPeriod();
+    public Date getRegistrationStartDate();
 
     /**
-     * Name: ClassPeriod
-     * Gets the milestone for the range of dates when classes are
-     * held.
+     * Name: RegistrationEnd
+     * Gets registration end date.
      *
-     * @return a milestone
+     * @return the registration end date
      */
-    public MilestoneInfc getClassPeriod();
+    public Date getRegistrationEndDate();
+
+    /**
+     * Name: ClassStart
+     * Gets class start date.
+     *
+     * @return the class start date
+     */
+    public Date getClassStartDate();
+
+    /**
+     * Name: ClassEnd
+     * Gets class end date.
+     *
+     * @return the class end date
+     */
+    public Date getClassEndDate();
 
     /**
      * Name: AddDate
-     * Gets the milestone for the add date.
+     * Gets the add date.
      *
-     * @return a milestone
+     * @return add date
      */
-    public MilestoneInfc getAddDate();
+    public Date getAddDate();
 
     /**
      * Name: DropDate
-     * Gets the milestone for the drop date.
+     * Gets the drop date.
      *
-     * @return a milestone
+     * @return drop date
      */
-    public MilestoneInfc getDropDate();
+    public Date getDropDate();
 
     /**
-     * Name: FinalExamPeriod
-     * Gets the milestone for the range of dates when finals
-     * held.
+     * Name: FinalExamStart
+     * Gets finalExam start date.
      *
-     * @return a milestone
+     * @return the final exam start date
      */
-    public MilestoneInfc getFinalExamPeriod();
+    public Date getFinalExamStartDate();
+
+    /**
+     * Name: FinalExamEnd
+     * Gets finalExam end date.
+     *
+     * @return the final exam end date
+     */
+    public Date getFinalExamEndDate();
 }

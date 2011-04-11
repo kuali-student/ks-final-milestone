@@ -41,6 +41,8 @@ import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.dto.MilestoneInfo;
+import org.kuali.student.core.academiccalendar.dto.EnrollmentMilestoneGroupInfo;
+
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 
@@ -207,7 +209,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates an existing Academic Calendar..
+     * Updates an existing Academic Calendar.
      *
      * @param academicCalendarKey Key of Academic Calendar to be updated
      * @param academicCalendarInfo Details of updates to the Academic
@@ -218,7 +220,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @return the details of Academic Calendar just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
-     * @throws DoesNotExistException the Academiic Calendar does not exist
+     * @throws DoesNotExistException the Academic Calendar does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -422,7 +424,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @return the details of Campus Calendar just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
-     * @throws DoesNotExistException the Academiic Calendar does not exist
+     * @throws DoesNotExistException the Campus Calendar does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -587,7 +589,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @return the details of Term just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
-     * @throws DoesNotExistException the Academiic Calendar does not exist
+     * @throws DoesNotExistException the term does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -722,7 +724,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @return the details of Milestone just updated
      * @throws DataValidationErrorException One or more values invalid for this 
      *         operation
-     * @throws DoesNotExistException the Academiic Calendar does not exist
+     * @throws DoesNotExistException the milestone does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -748,4 +750,45 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Gets the enrollment milestone group for a term.
+     *
+     * @param termKey unique key of a term
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the enrollment milestone group
+     * @throws DoesNotExistException termKey not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing termKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public EnrollmentMilestoneGroupInfo getEnrollmentMilestoneGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Updates a the enrollment milestone group for a term. The
+     * milestone group is a set of hardened well-known dates. Updating
+     * a milestone group is a short cut to creating the corresponding
+     * milestones and relating them to the given term.
+     *
+     * @param termKey key of Term
+     * @param enrollmentMilestoneGroup the enrollment milestone group
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the details of enrollmemnt milestone group just updated
+     * @throws DataValidationErrorException One or more values invalid for this 
+     *         operation
+     * @throws DoesNotExistException the term does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date 
+     *         version.
+     */
+    public EnrollmentMilestoneGroupInfo updateEnrollmentMilestoneGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "enrollmentMilestoneGroup") EnrollmentMilestoneGroupInfo enrollmentMilestoneGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
 }
