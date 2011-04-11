@@ -74,7 +74,7 @@ public class MilestoneInfo
 
     public MilestoneInfo(MilestoneInfc milestone) {
         super(milestone);
-	this.isDateRange = false;
+	this.isDateRange = milestone.getIsDateRange();
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
     }
