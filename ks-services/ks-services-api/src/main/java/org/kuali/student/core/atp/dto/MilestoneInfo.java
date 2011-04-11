@@ -148,10 +148,11 @@ public class MilestoneInfo
 	 *  Milestone.
 	 */
 
-        public Builder(MilestoneInfc milestoneInfo) {
-            super(milestoneInfo);
-            this.startDate = milestoneInfo.getStartDate();
-            this.endDate = milestoneInfo.getEndDate();
+        public Builder(MilestoneInfc milestone) {
+            super(milestone);
+	    this.isDateRange = milestone.getIsDateRange();
+            this.startDate = milestone.getStartDate();
+            this.endDate = milestone.getEndDate();
         }
 
 
