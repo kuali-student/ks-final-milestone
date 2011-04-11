@@ -274,7 +274,7 @@
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
 		<search:searchResultTypeInfo>
-			<ref bean="org.result.orgQuickView" />
+			<ref bean="org.result.orgQuickViewExtended" />
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
 			<ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" />
@@ -399,6 +399,17 @@
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgPositionRestrictionType" />
 			<ref bean="org.resultColumn.orgPositionRestrictionTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="org.result.orgQuickViewExtended" parent="org.result.orgQuickViewExtended-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgQuickViewExtended-parent"  abstract="true">
+		<search:name>Organization Quick View</search:name>
+		<search:desc>Quick view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgLongName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -738,7 +749,7 @@
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
-					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType ORDER BY rel.relatedOrg.shortName ASC</value>
+					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName, rel.relatedOrg.longName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType ORDER BY rel.relatedOrg.shortName ASC</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
 					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.id = :org_queryParam_orgId AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
