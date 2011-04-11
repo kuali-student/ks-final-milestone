@@ -213,7 +213,7 @@ public class SearchResultsTable extends Composite{
 	                	table.getScrollPanel().add(noResultsPanel);
                 	}
                 }
-                tableModel.selectFirstRow();
+//                tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
                 table.displayLoading(false);
             }
