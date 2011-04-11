@@ -29,6 +29,13 @@ import org.kuali.student.common.infc.KeyEntity;
 public interface AcademicCalendarInfc extends KeyEntity {
 
     /**
+     * Name: CampusCalendar 
+     * Gets the campus calendar corresponding to this academic
+     * calendar.
+     */
+    public CampusCalendarInfc getCampusCalendar();
+
+    /**
      * Name: StartDate
      * Date and time the academic calendar became effective. This
      * does not provide a bound on date ranges or milestones

@@ -38,11 +38,14 @@ import org.kuali.student.core.academiccalendar.infc.AcademicCalendarInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "credentialProgramId", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "campusCalendar", "startDate", "endDate", "credentialProgramId", "metaInfo", "attributes", "_futureElements"})
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendarInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private final CampusCalendarInfo campusCalendar;
 
     @XmlElement
     private final Date startDate;
@@ -54,6 +57,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private final String credentialProgramId;
 
     private AcademicCalendarInfo() {
+	campusCalendar = null;
     	startDate = null;
 	endDate = null;
 	credentialProgramId = null;
@@ -67,9 +71,20 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      */
     public AcademicCalendarInfo(AcademicCalendarInfc academicCalendar) {
 	super(academicCalendar);
+	this.campusCalendar = new CampusCalendarInfo(academicCalendar.getCampusCalendar());
 	this.startDate = academicCalendar.getStartDate();
 	this.endDate = academicCalendar.getEndDate();
 	this.credentialProgramId = academicCalendar.getCredentialProgramId();
+    }
+
+    /**
+     * Name: CampusCalendar 
+     * Gets the campus calendar corresponding to this academic
+     * calendar.
+     */
+    @Override
+    public CampusCalendarInfo getCampusCalendar() {
+	return campusCalendar;
     }
 
     /**
@@ -119,6 +134,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendarInfc {
     	
+	private CampusCalendarInfo campusCalendar;
     	private Date startDate;
 	private Date endDate;
 	private String credentialProgramId;
@@ -147,6 +163,19 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         public AcademicCalendarInfo build() {
             return new AcademicCalendarInfo(this);
         }
+
+	/**
+	 * Name: CampusCalendar 
+	 * Gets the campus calendar correspondingto this academic
+	 * calendar.
+	 */
+	public CampusCalendarInfo getCampusCalendar() {
+	    return campusCalendar;
+	}
+
+	public void setCampusCalendar(CampusCalendarInfo campuCalendar) {
+	    this.campusCalendar = campusCalendar;
+	}
 
 	/**
 	 * Gets the start date.
