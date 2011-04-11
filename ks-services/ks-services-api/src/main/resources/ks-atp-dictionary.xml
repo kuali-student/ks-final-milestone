@@ -22,7 +22,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- AtpInfo-->
-    <bean id="org.kuali.student.core.atp.dto.AtpInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="atpInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="atpInfo"/>
         <property name="objectClass" value="org.kuali.student.core.atp.dto.AtpInfo"/>
         <property name="objectLabel" value=""/>
@@ -51,7 +51,7 @@
 
     <bean id="atpInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
         <property name="name" value="attributes"/>
-        <property name="maxOccurs" value="999999999"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="atpInfo.attributes" parent="atpInfo.attributes-parent"/>
 
