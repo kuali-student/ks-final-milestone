@@ -18,7 +18,7 @@
 					<rightPen lineWidth="1.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement textAlignment="Left">
-					<font fontName="Arial" size="22"/>
+					<font fontName="DejaVu Sans" size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
@@ -35,7 +35,7 @@
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
