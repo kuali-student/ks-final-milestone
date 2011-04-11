@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -44,7 +45,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 	@JoinColumn(name = "RELATION_STATE_ID")
     private LuiPersonRelationStateEntity personRelationState;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 //    @JoinColumn(name = "LPR_ATTR_ID")
 //    @JoinTable(name="LPR_ATTR_JOIN",
 //    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
@@ -61,13 +62,15 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     	this.setId(dto.getId());
     	this.setLuiId(dto.getLuiId());
     	this.setPersonId(dto.getPersonId());
-    	// TODO - need to retrieve the LuiPersonRelationState based on the return of dto.getState()
-    	// lpr.setPersonRelationState(new LuiPersonRelationState(dto.getState());
-    	// TODO - need to retrieve the LuiPersonRelationType based on the return of dto.getType()
-    	// lpr.setPersonRelationType(new LuiPersonRelationType(dto.getType());
+    	// TODO - need to retrieve the LuiPersonRelationState based on the return of dto.getState()?
+    	// this.setPersonRelationState(new LuiPersonRelationStateEntity(dto.getStateKey()));
+    	// TODO - need to retrieve the LuiPersonRelationType based on the return of dto.getType()?
+    	// this.setPersonRelationType(new LuiPersonRelationTypeEntity(dto.getTypeKey()));
     	this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
-    	for (Attribute att : dto.getAttributes()) {
-    		this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
+    	if (null != dto.getAttributes()) {
+	    	for (Attribute att : dto.getAttributes()) {
+	    		this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
+	    	}
     	}
     }
 
@@ -136,8 +139,8 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     	builder.setPersonId(personId);
     	builder.setEffectiveDate(effectiveDate);
     	builder.setExpirationDate(expirationDate);
-    	builder.setType(personRelationType.getId());
-    	builder.setState(personRelationState.getId());
+    	builder.setTypeKey(personRelationType.getId());
+    	builder.setStateKey(personRelationState.getId());
     	builder.setMetaInfo(super.toDTO());
     	List<Attribute> atts = new ArrayList<Attribute>();
     	for (LuiPersonRelationAttributeEntity att : getAttributes()) {

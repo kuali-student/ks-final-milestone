@@ -39,7 +39,7 @@ public class LuiPersonRelationStateEntity extends MetaEntity implements Attribut
 //    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
 
-    public String getName() {
+	public String getName() {
         return name;
     }
 
