@@ -17,7 +17,6 @@ import org.kuali.student.common.ui.client.service.GwtExportRpcService;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
-import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -26,7 +25,15 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
 
     final Logger logger = Logger.getLogger(ExportGwtRpcServlet.class);
 
-    private ScreenReportProcessor reportProcessor = new JasperScreenReportProcessorImpl();
+    private ScreenReportProcessor reportProcessor;
+
+    public ScreenReportProcessor getReportProcessor() {
+        return reportProcessor;
+    }
+
+    public void setReportProcessor(ScreenReportProcessor reportProcessor) {
+        this.reportProcessor = reportProcessor;
+    }
 
     @Override
     public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
