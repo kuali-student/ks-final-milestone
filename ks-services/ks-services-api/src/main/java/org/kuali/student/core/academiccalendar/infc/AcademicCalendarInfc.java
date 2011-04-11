@@ -16,7 +16,10 @@
 package org.kuali.student.core.academiccalendar.infc;
 
 import java.util.Date;
+import java.util.List;
+
 import org.kuali.student.common.infc.KeyEntity;
+import org.kuali.student.common.infc.Type;
 
 
 /**
@@ -60,9 +63,16 @@ public interface AcademicCalendarInfc extends KeyEntity {
     public Date getEndDate();
 
     /**
-     * Name: CredentialProgramTypeKey
-     * Gets the credential program type key to which this calendar
+     * Name: Terms
+     * Gets the terms corresponding to this academic
+     * calendar.
+     */
+    public List<? extends TermInfc> getTerms();
+
+    /**
+     * Name: CredentialProgramType
+     * Gets the credential program type to which this calendar
      * relates.
      */
-    public String getCredentialProgramTypeKey();
+    public Type getCredentialProgramType();
 }
