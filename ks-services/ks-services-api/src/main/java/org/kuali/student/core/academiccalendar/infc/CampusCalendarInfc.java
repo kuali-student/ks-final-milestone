@@ -51,4 +51,10 @@ public interface CampusCalendarInfc extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+
+    /**
+     * Name: Location
+     * The campus or location to which this calendar pertains.
+     */
+    public String getLocation();
 }

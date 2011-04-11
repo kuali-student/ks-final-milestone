@@ -38,7 +38,7 @@ import org.kuali.student.core.academiccalendar.infc.AcademicCalendarInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "credentialProgramId", "metaInfo", "attributes", "_futureElements"})
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendarInfc, Serializable {
 
@@ -50,9 +50,13 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     @XmlElement
     private final Date endDate;
 
+    @XmlElement 
+    private final String credentialProgramId;
+
     private AcademicCalendarInfo() {
     	startDate = null;
 	endDate = null;
+	credentialProgramId = null;
     }
 
     /**
@@ -65,6 +69,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	super(academicCalendar);
 	this.startDate = academicCalendar.getStartDate();
 	this.endDate = academicCalendar.getEndDate();
+	this.credentialProgramId = academicCalendar.getCredentialProgramId();
     }
 
     /**
@@ -102,12 +107,21 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     /**
+     * Name: CredentialProgram
+     * Gets the credential program to which this calendar relates.
+     */
+    public String getCredentialProgramId() {
+	return credentialProgramId;
+    }
+
+    /**
      * The builder class for this AcademicCalendarInfo.
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendarInfc {
     	
     	private Date startDate;
 	private Date endDate;
+	private String credentialProgramId;
 
 
 	/**
@@ -121,7 +135,8 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     	public Builder(AcademicCalendarInfc academicCalendar) {
 	    super(academicCalendar);
 	    this.startDate = academicCalendar.getStartDate();
-	    this.startDate = academicCalendar.getEndDate();
+	    this.endDate = academicCalendar.getEndDate();
+	    this.credentialProgramId = academicCalendar.getCredentialProgramId();
     	}
 		
 	/**
@@ -170,6 +185,17 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 
 	public void setEndDate(Date endDate) {
 	    this.endDate = endDate;
+	}
+
+	/**
+	 * Gets the credential program to which this calendar relates.
+	 */
+	public String getCredentialProgramId() {
+	    return credentialProgramId;
+	}
+
+	public void setCredentialProgramId(String credentialProgramId) {
+	    this.credentialProgramId = credentialProgramId;
 	}
     }
 }

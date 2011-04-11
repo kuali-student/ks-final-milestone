@@ -54,7 +54,7 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
  *
  * Version: 1.0 (Dev)
  *
- * @Author Tom
+ * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 

@@ -123,6 +123,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return the class start date
      */
+    @Override
     public Date getClassStartDate() {
 	return classStart;
     }
@@ -133,6 +134,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return the class end date
      */
+    @Override
     public Date getClassEndDate() {
 	return classEnd;
     }
@@ -143,6 +145,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return add date
      */
+    @Override
     public Date getAddDate() {
 	return addDate;
     }
@@ -153,6 +156,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return drop date
      */
+    @Override
     public Date getDropDate() {
 	return dropDate;
     }
@@ -163,6 +167,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return the final exam start date
      */
+    @Override
     public Date getFinalExamStartDate() {
 	return finalsStart;
     }
@@ -173,6 +178,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
      *
      * @return the final exam end date
      */
+    @Override
     public Date getFinalExamEndDate() {
 	return finalsEnd;
     }
@@ -228,6 +234,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the registration start date
 	 */
+	@Override
 	public Date getRegistrationStartDate() {
 	    return registrationStart;
 	}
@@ -242,6 +249,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the registration end date
 	 */
+	@Override
 	public Date getRegistrationEndDate() {
 	    return registrationEnd;
 	}
@@ -256,6 +264,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the class start date
 	 */
+	@Override
 	public Date getClassStartDate() {
 	    return classStart;
 	}
@@ -270,6 +279,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the class end date
 	 */
+	@Override
 	public Date getClassEndDate() {
 	    return classEnd;
 	}
@@ -284,6 +294,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return add date
 	 */
+	@Override
 	public Date getAddDate() {
 	    return addDate;
 	}
@@ -298,6 +309,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return drop date
 	 */
+	@Override
 	public Date getDropDate() {
 	    return dropDate;
 	}
@@ -312,6 +324,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the final exam start date
 	 */
+	@Override
 	public Date getFinalExamStartDate() {
 	    return finalsStart;
 	}
@@ -326,6 +339,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	 *
 	 * @return the final exam end date
 	 */
+	@Override
 	public Date getFinalExamEndDate() {
 	    return finalsEnd;
 	}

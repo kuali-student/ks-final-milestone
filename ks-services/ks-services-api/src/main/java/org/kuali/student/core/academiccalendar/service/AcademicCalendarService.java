@@ -45,7 +45,6 @@ import org.kuali.student.core.academiccalendar.dto.EnrollmentMilestoneGroupInfo;
 
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 
-
 /**
  * Academic Calendar Service Description and Assumptions.
  *

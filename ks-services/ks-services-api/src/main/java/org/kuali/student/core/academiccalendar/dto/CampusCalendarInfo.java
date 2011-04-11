@@ -37,7 +37,7 @@ import org.kuali.student.core.academiccalendar.infc.CampusCalendarInfc;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
 public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,9 +48,13 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     @XmlElement
     private final Date endDate;
 
+    @XmlElement
+    private final String location;
+
     private CampusCalendarInfo() {
     	startDate = null;
 	endDate = null;
+	location = null;
     }
 
     /**
@@ -63,6 +67,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	super(campusCalendar);
 	this.startDate = campusCalendar.getStartDate();
 	this.endDate = campusCalendar.getEndDate();
+	this.location = campusCalendar.getLocation();
     }
 
     /**
@@ -100,13 +105,22 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     }
 
     /**
+     * Name: Location
+     * The campus or location to which this calendar pertains.
+     */
+    @Override
+    public String getLocation() {
+	return location;
+    }
+
+    /**
      * The builder class for this CampusCalendarInfo.
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<CampusCalendarInfo>, CampusCalendarInfc {
     	
     	private Date startDate;
 	private Date endDate;
-
+	private String location;
 
 	/**
 	 * Constructs a new builder.
@@ -119,7 +133,8 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     	public Builder(CampusCalendarInfc campusCalendar) {
 	    super(campusCalendar);
 	    this.startDate = campusCalendar.getStartDate();
-	    this.startDate = campusCalendar.getEndDate();
+	    this.endDate = campusCalendar.getEndDate();
+	    this.location = campusCalendar.getLocation();
     	}
 		
 	/**
@@ -168,6 +183,18 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 
 	public void setEndDate(Date endDate) {
 	    this.endDate = endDate;
+	}
+	
+	/**
+	 * The campus or location to which this calendar pertains.
+	 */
+	@Override
+	public String getLocation() {
+	    return location;
+	}
+
+	public void setLocation(String location) {
+	    this.location = location;
 	}
     }
 }

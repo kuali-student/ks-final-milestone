@@ -51,4 +51,10 @@ public interface AcademicCalendarInfc extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+
+    /**
+     * Name: CredentialProgram
+     * Gets the credential program to which this calendar relates.
+     */
+    public String getCredentialProgramId();
 }
