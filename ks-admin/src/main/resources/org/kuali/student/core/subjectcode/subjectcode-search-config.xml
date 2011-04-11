@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	<search:searchType id="subjectCode.search.subjectCodeGeneric">
+		<search:name>Generic Subject Code Search</search:name>
+		<search:desc>Search for all Subject Codes</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="subjectCode.results.generic"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="subjectCode.criteria.generic"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchType id="subjectCode.search.orgsForSubjectCode">
+		<search:name>Subject Code Organization Relations</search:name>
+		<search:desc>Search for all Organizations related to the giiven Subject Code</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="subjectCode.results.orgsForSubjectCode"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="subjectCode.criteria.generic"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="subjectCode.results.generic" parent="subjectCode.results.generic-parent"/>
+	<search:searchResultTypeInfo id="subjectCode.results.generic-parent" abstract="true">
+		<search:name>Subject Code Results</search:name>
+		<search:desc>Subject Code Results</search:desc>
+		<search:resultColumns>
+			<ref bean="subjectCode.resultColumn.id" />
+			<ref bean="subjectCode.resultColumn.code"/>
+			<ref bean="subjectCode.resultColumn.name"/>
+			<ref bean="subjectCode.resultColumn.type"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCode" parent="subjectCode.results.orgsForSubjectCode-parent"/>
+	<search:searchResultTypeInfo id="subjectCode.results.orgsForSubjectCode-parent" abstract="true">
+		<search:name>Subject Code Results</search:name>
+		<search:desc>Subject Code Results</search:desc>
+		<search:resultColumns>
+			<ref bean="subjectCode.resultColumn.code"/>
+			<ref bean="subjectCode.resultColumn.type"/>
+			<ref bean="subjectCode.resultColumn.activeFrom"/>
+			<ref bean="subjectCode.resultColumn.activeTo"/>
+			<ref bean="subjectCode.resultColumn.orgId"/>
+			<ref bean="subjectCode.resultColumn.orgShortName"/>
+			<ref bean="subjectCode.resultColumn.orgLongName"/>
+			<ref bean="subjectCode.resultColumn.orgType"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	 
+	<search:resultColumn id="subjectCode.resultColumn.id" parent="subjectCode.resultColumn.id-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.id-parent"  abstract="true">
+        <search:name>Subject Code Id</search:name>
+        <search:desc>Internal identifier of a Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.code" parent="subjectCode.resultColumn.code-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.code-parent"  abstract="true">
+        <search:name>Subject Code </search:name>
+        <search:desc>Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.name" parent="subjectCode.resultColumn.name-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.name-parent"  abstract="true">
+        <search:name>Subject Code Name</search:name>
+        <search:desc>Name of a Subject Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>	 
+	<search:resultColumn id="subjectCode.resultColumn.type" parent="subjectCode.resultColumn.type-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.type-parent"  abstract="true">
+        <search:name>Subject Code Usage Type</search:name>
+        <search:desc>Usage of a Subject Code (All of/One of)</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:resultColumn id="subjectCode.resultColumn.activeFrom" parent="subjectCode.resultColumn.activeFrom-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.activeFrom-parent"  abstract="true">
+        <search:name>Active From</search:name>
+        <search:desc>Active From</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.activeTo" parent="subjectCode.resultColumn.activeTo-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.activeTo-parent"  abstract="true">
+        <search:name>Active To</search:name>
+        <search:desc>Active To</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.orgId" parent="subjectCode.resultColumn.orgId-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgId-parent"  abstract="true">
+        <search:name>Org Id</search:name>
+        <search:desc>Org Id</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.orgShortName" parent="subjectCode.resultColumn.orgShortName-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgShortName-parent"  abstract="true">
+        <search:name>Org Short Name</search:name>
+        <search:desc>Org Short Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.orgLongName" parent="subjectCode.resultColumn.orgLongName-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgLongName-parent"  abstract="true">
+        <search:name>Org Long Name</search:name>
+        <search:desc>Org Long Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	<search:resultColumn id="subjectCode.resultColumn.orgType" parent="subjectCode.resultColumn.orgType-parent"/>
+	<search:resultColumn id="subjectCode.resultColumn.orgType-parent"  abstract="true">
+        <search:name>Org Type</search:name>
+        <search:desc>Org Type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+                       
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.generic" parent="subjectCode.criteria.generic-parent"/>
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.generic-parent" abstract="true">
+		<search:name>Subject Code Criteria</search:name>
+		<search:desc>Subject Code Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="subjectCode.queryParam.code"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="subjectCode.queryParam.code"	parent="subjectCode.queryParam.code-parent" />
+	<search:queryParam id="subjectCode.queryParam.code-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Subject Code</dict:name>
+			<dict:desc>Subject Code</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map/>
+		</property>
+	</bean>
+</beans>

@@ -37,7 +37,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="code" />
+				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="typeId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="state" />

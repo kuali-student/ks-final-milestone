@@ -101,5 +101,17 @@
   	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
   	<property name="cachingEnabled" value="true"/>
   </bean>
+
+  <bean id="ks.subjectCodeService" class="org.kuali.student.core.subjectcode.service.impl.SubjectCodeServiceImpl" >
+  	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
+  	<property name="cachingEnabled" value="true"/>
+  	<property name="searchManager" ref="ks.subjectCode.searchManager"/>
+  </bean>
+
+	<bean id="ks.subjectCode.searchManager"
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0"
+			value="classpath:org/kuali/student/core/subjectcode/subjectcode-search-config.xml" />
+	</bean>
         
 </beans>
