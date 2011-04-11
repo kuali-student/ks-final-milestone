@@ -29,7 +29,7 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: RegistrationStart
-     * Gets registration start date.
+     * Gets the registration start date.
      *
      * @return the registration start date
      */
@@ -37,7 +37,7 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: RegistrationEnd
-     * Gets registration end date.
+     * Gets the registration end date.
      *
      * @return the registration end date
      */
@@ -45,7 +45,7 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: ClassStart
-     * Gets class start date.
+     * Gets the class start date.
      *
      * @return the class start date
      */
@@ -53,7 +53,7 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: ClassEnd
-     * Gets class end date.
+     * Gets the class end date.
      *
      * @return the class end date
      */
@@ -77,7 +77,7 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: FinalExamStart
-     * Gets finalExam start date.
+     * Gets the final exam start date.
      *
      * @return the final exam start date
      */
@@ -85,9 +85,26 @@ public interface EnrollmentMilestoneGroupInfc {
 
     /**
      * Name: FinalExamEnd
-     * Gets finalExam end date.
+     * Gets the final exam end date.
      *
      * @return the final exam end date
      */
     public Date getFinalExamEndDate();
+
+    /**
+     * Name: GradingStart
+     * Gets the grading period start date.
+     *
+     * @return the grading start date
+     */
+    public Date getGradingStartDate();
+
+    /**
+     * Name: GradingEnd
+     * Gets the grading period end date.
+     *
+     * @return the grading end date
+     */
+    public Date getGradingEndDate();
+
 }

@@ -68,6 +68,12 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
     @XmlElement
     private final Date finalsEnd;
 
+    @XmlElement
+    private final Date gradingStart;
+
+    @XmlElement
+    private final Date gradingEnd;
+
     private EnrollmentMilestoneGroupInfo() {
 	registrationStart = null;
 	registrationEnd = null;
@@ -77,6 +83,8 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	dropDate = null;
 	finalsStart = null;
 	finalsEnd = null;
+	gradingStart = null;
+	gradingEnd = null;
     }
 
     /**
@@ -94,12 +102,14 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	this.dropDate = milestoneGroup.getDropDate();
 	this.finalsStart = milestoneGroup.getFinalExamStartDate();
 	this.finalsEnd = milestoneGroup.getFinalExamEndDate();
+	this.gradingStart = milestoneGroup.getGradingStartDate();
+	this.gradingEnd = milestoneGroup.getGradingEndDate();
     }
 
 
     /**
      * Name: RegistrationStart
-     * Gets registration start date.
+     * Gets the registration start date.
      *
      * @return the registration start date
      */
@@ -109,7 +119,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
     /**
      * Name: RegistrationEnd
-     * Gets registration end date.
+     * Gets the registration end date.
      *
      * @return the registration end date
      */
@@ -119,7 +129,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
     /**
      * Name: ClassStart
-     * Gets class start date.
+     * Gets the class start date.
      *
      * @return the class start date
      */
@@ -130,7 +140,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
     /**
      * Name: ClassEnd
-     * Gets class end date.
+     * Gets the class end date.
      *
      * @return the class end date
      */
@@ -163,7 +173,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
     /**
      * Name: FinalExamStart
-     * Gets finalExam start date.
+     * Gets the final exam start date.
      *
      * @return the final exam start date
      */
@@ -174,13 +184,35 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
     /**
      * Name: FinalExamEnd
-     * Gets finalExam end date.
+     * Gets the final exam end date.
      *
      * @return the final exam end date
      */
     @Override
     public Date getFinalExamEndDate() {
 	return finalsEnd;
+    }
+
+    /**
+     * Name: GradingStart
+     * Gets the grading period start date.
+     *
+     * @return the grading start date
+     */
+    @Override
+    public Date getGradingStartDate() {
+	return gradingStart;
+    }
+
+    /**
+     * Name: GradingEnd
+     * Gets the grading period end date.
+     *
+     * @return the grading end date
+     */
+    @Override
+    public Date getGradingEndDate() {
+	return gradingEnd;
     }
 
     /**
@@ -196,6 +228,8 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	private Date dropDate;
 	private Date finalsStart;
 	private Date finalsEnd;
+	private Date gradingStart;
+	private Date gradingEnd;
 
 	/**
 	 * Constructs a new builder.
@@ -216,6 +250,8 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	    dropDate =  milestoneGroupInfo.getDropDate();
 	    finalsStart =  milestoneGroupInfo.getFinalExamStartDate();
 	    finalsEnd =  milestoneGroupInfo.getFinalExamStartDate();
+	    gradingStart =  milestoneGroupInfo.getGradingStartDate();
+	    gradingEnd =  milestoneGroupInfo.getGradingStartDate();
         }
 
 	/**
@@ -230,7 +266,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 * Name: RegistrationStart
-	 * Gets registration start date.
+	 * Gets the registration start date.
 	 *
 	 * @return the registration start date
 	 */
@@ -245,7 +281,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 * Name: RegistrationEnd
-	 * Gets registration end date.
+	 * Gets the registration end date.
 	 *
 	 * @return the registration end date
 	 */
@@ -260,7 +296,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 * Name: ClassStart
-	 * Gets class start date.
+	 * Gets the class start date.
 	 *
 	 * @return the class start date
 	 */
@@ -275,7 +311,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 * Name: ClassEnd
-	 * Gets class end date.
+	 * Gets the class end date.
 	 *
 	 * @return the class end date
 	 */
@@ -320,7 +356,7 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 
 	/**
 	 * Name: FinalExamStart
-	 * Gets finalExam start date.
+	 * Gets the final exam start date.
 	 *
 	 * @return the final exam start date
 	 */
@@ -330,12 +366,12 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	}
 
 	public void setFinalExamStartDate(Date date) {
-	    this.finalsEnd = date;
+	    this.finalsStart = date;
 	}
 
 	/**
 	 * Name: FinalExamEnd
-	 * Gets finalExam end date.
+	 * Gets the final exam end date.
 	 *
 	 * @return the final exam end date
 	 */
@@ -344,8 +380,38 @@ public class EnrollmentMilestoneGroupInfo implements EnrollmentMilestoneGroupInf
 	    return finalsEnd;
 	}
 
-	public void setFinalsEndDate(Date date) {
+	public void setFinalExamEndDate(Date date) {
 	    this.finalsEnd = date;
+	}
+
+	/**
+	 * Name: GradingStart
+	 * Gets grading period start date.
+	 *
+	 * @return the grading period start date
+	 */
+	@Override
+	public Date getGradingStartDate() {
+	    return gradingStart;
+	}
+
+	public void setGradingStartDate(Date date) {
+	    this.gradingStart = date;
+	}
+
+	/**
+	 * Name: GradingEnd
+	 * Gets the grading period end date.
+	 *
+	 * @return the grading end date
+	 */
+	@Override
+	public Date getGradingEndDate() {
+	    return gradingEnd;
+	}
+
+	public void setGradingEndDate(Date date) {
+	    this.gradingEnd = date;
 	}
     }
 }
