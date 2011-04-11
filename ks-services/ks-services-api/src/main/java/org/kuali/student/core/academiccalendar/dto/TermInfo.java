@@ -212,11 +212,19 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	    return terms;
 	}
 
+	public void setTerms(List<TermInfo> terms) {
+	    this.terms = terms;
+	}
+
 	/**
 	 * Gets the key dates directly mapped to this term.
 	 */
 	public List<KeyDateInfo> getKeyDates() {
 	    return keyDates;
+	}
+
+	public void setKeyDates(List<KeyDateInfo> keyDates) {
+	    this.keyDates = keyDates;
 	}
     }
 }

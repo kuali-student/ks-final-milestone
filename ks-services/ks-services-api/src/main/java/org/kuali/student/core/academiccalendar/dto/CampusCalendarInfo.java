@@ -227,6 +227,10 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	public List<HolidayInfo> getHolidays() {
 	    return (holidays);
 	}
+
+	public void setHolidays(List<HolidayInfo> holidays) {
+	    this.holidays = holidays;
+	}
 	
 	/**
 	 * Gets the key dates mapped to this calendar.
@@ -234,6 +238,10 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	@Override
 	public List<KeyDateInfo> getKeyDates() {
 	    return keyDates;
+	}
+
+	public void setKeyDates(List<KeyDateInfo> keyDates) {
+	    this.keyDates = keyDates;
 	}
 	
 	/**
