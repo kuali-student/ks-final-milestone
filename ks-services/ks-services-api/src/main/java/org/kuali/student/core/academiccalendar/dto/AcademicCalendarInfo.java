@@ -54,13 +54,13 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private final Date endDate;
 
     @XmlElement 
-    private final String credentialProgramId;
+    private final String credentialProgramTypeKey;
 
     private AcademicCalendarInfo() {
 	campusCalendar = null;
     	startDate = null;
 	endDate = null;
-	credentialProgramId = null;
+	credentialProgramTypeKey = null;
     }
 
     /**
@@ -74,7 +74,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
 	this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
 	this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-	this.credentialProgramId = academicCalendar.getCredentialProgramId();
+	this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
     }
 
     /**
@@ -122,11 +122,12 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     /**
-     * Name: CredentialProgram
-     * Gets the credential program to which this calendar relates.
+     * Name: CredentialProgramTypeKey
+     * Gets the credential program type key to which this calendar
+     * relates.
      */
-    public String getCredentialProgramId() {
-	return credentialProgramId;
+    public String getCredentialProgramTypeKey() {
+	return credentialProgramTypeKey;
     }
 
     /**
@@ -137,7 +138,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	private CampusCalendarInfo campusCalendar;
     	private Date startDate;
 	private Date endDate;
-	private String credentialProgramId;
+	private String credentialProgramTypeKey;
 
 
 	/**
@@ -152,7 +153,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	    super(academicCalendar);
 	    this.startDate = academicCalendar.getStartDate();
 	    this.endDate = academicCalendar.getEndDate();
-	    this.credentialProgramId = academicCalendar.getCredentialProgramId();
+	    this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
     	}
 		
 	/**
@@ -217,14 +218,15 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	}
 
 	/**
-	 * Gets the credential program to which this calendar relates.
+	 * Gets the credential program type key to which this calendar
+	 * relates.
 	 */
-	public String getCredentialProgramId() {
-	    return credentialProgramId;
+	public String getCredentialProgramTypeKey() {
+	    return credentialProgramTypeKey;
 	}
 
-	public void setCredentialProgramId(String credentialProgramId) {
-	    this.credentialProgramId = credentialProgramId;
+	public void setCredentialProgramTypeKey(String credentialProgramTypeKey) {
+	    this.credentialProgramTypeKey = credentialProgramTypeKey;
 	}
     }
 }
