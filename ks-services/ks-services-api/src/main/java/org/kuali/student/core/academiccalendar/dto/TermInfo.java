@@ -39,7 +39,7 @@ import org.kuali.student.core.academiccalendar.infc.TermInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "terms", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "TermCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "terms", "keyDates", "metaInfo", "attributes", "_futureElements"})
 public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 
     private static final long serialVersionUID = 1L;

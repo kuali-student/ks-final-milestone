@@ -40,7 +40,7 @@ import org.kuali.student.core.academiccalendar.infc.AcademicCalendarInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "campusCalendar", "startDate", "endDate", "credentialProgramId", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "campusCalendar", "startDate", "endDate", "terms", "credentialProgramType", "metaInfo", "attributes", "_futureElements"})
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendarInfc, Serializable {
 
