@@ -1,0 +1,103 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+    <!-- MilestoneInfo-->
+    <bean id="milestoneInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="milestoneInfo"/>
+        <property name="objectClass" value="org.kuali.student.core.atp.dto.MilestoneInfo"/>
+        <property name="objectLabel" value=""/>
+        <property name="objectDescription" value=""/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>key</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="milestoneInfo.key"/>
+                <ref bean="milestoneInfo.typeKey"/>
+                <ref bean="milestoneInfo.stateKey"/>
+                <ref bean="milestoneInfo.name"/>
+                <ref bean="milestoneInfo.descr"/>
+                <ref bean="milestoneInfo.isDateRange"/>
+                <ref bean="milestoneInfo.startDate"/>
+                <ref bean="milestoneInfo.endDate"/>
+                <!--<ref bean="milestoneInfo.metaInfo"/>
+                <ref bean="milestoneInfo.attributes"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="milestoneInfo" parent="milestoneInfo-parent"/>
+
+    <bean id="milestoneInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="milestoneInfo.attributes" parent="milestoneInfo.attributes-parent"/>
+
+    <bean id="milestoneInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="milestoneInfo.descr" parent="milestoneInfo.descr-parent"/>
+
+    <bean id="milestoneInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="endDate"/>
+    </bean>
+    <bean id="milestoneInfo.endDate" parent="milestoneInfo.endDate-parent"/>
+
+    <bean id="milestoneInfo.isDateRange-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isDateRange"/>
+    </bean>
+    <bean id="milestoneInfo.isDateRange" parent="milestoneInfo.isDateRange-parent"/>
+
+    <bean id="milestoneInfo.key-parent" abstract="true" parent="baseKualiKey">
+        <property name="name" value="key"/>
+    </bean>
+    <bean id="milestoneInfo.key" parent="milestoneInfo.key-parent"/>
+
+    <bean id="milestoneInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="metaInfo"/>
+    </bean>
+    <bean id="milestoneInfo.metaInfo" parent="milestoneInfo.metaInfo-parent"/>
+
+    <bean id="milestoneInfo.name-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="milestoneInfo.name" parent="milestoneInfo.name-parent"/>
+
+    <bean id="milestoneInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="startDate"/>
+    </bean>
+    <bean id="milestoneInfo.startDate" parent="milestoneInfo.startDate-parent"/>
+
+    <bean id="milestoneInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="milestoneInfo.stateKey" parent="milestoneInfo.stateKey-parent"/>
+
+    <bean id="milestoneInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="milestoneInfo.typeKey" parent="milestoneInfo.typeKey-parent"/>
+</beans>
