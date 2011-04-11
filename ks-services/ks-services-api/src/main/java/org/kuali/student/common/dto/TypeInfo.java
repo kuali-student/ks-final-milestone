@@ -66,7 +66,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
 		_futureElements = null;
 	}
 		
-	private TypeInfo(Type builder) {
+	public TypeInfo(Type builder) {
 		super(builder);
 		this.key = builder.getKey();
 		this.name = builder.getName();
