@@ -117,7 +117,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
 		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
-		checkReadOnly("type", orig.getType(), luiPersonRelationInfo.getType());
+		checkReadOnly("type", orig.getTypeKey(), luiPersonRelationInfo.getTypeKey());
 		checkReadOnly("createId", orig.getMetaInfo().getCreateId(), luiPersonRelationInfo.getMetaInfo().getCreateId());
 		checkReadOnly("createTime", orig.getMetaInfo().getCreateTime(), luiPersonRelationInfo.getMetaInfo().getCreateTime());
 		
