@@ -65,8 +65,8 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
      */
     public CampusCalendarInfo(CampusCalendarInfc campusCalendar) {
 	super(campusCalendar);
-	this.startDate = campusCalendar.getStartDate();
-	this.endDate = campusCalendar.getEndDate();
+	this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
+	this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
 	this.location = campusCalendar.getLocation();
     }
 

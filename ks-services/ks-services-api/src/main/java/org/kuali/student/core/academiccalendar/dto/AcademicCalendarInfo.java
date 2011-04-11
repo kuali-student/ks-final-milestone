@@ -71,9 +71,9 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      */
     public AcademicCalendarInfo(AcademicCalendarInfc academicCalendar) {
 	super(academicCalendar);
-	this.campusCalendar = new CampusCalendarInfo(academicCalendar.getCampusCalendar());
-	this.startDate = academicCalendar.getStartDate();
-	this.endDate = academicCalendar.getEndDate();
+	this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
+	this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
+	this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
 	this.credentialProgramId = academicCalendar.getCredentialProgramId();
     }
 
@@ -173,7 +173,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	    return campusCalendar;
 	}
 
-	public void setCampusCalendar(CampusCalendarInfo campuCalendar) {
+	public void setCampusCalendar(CampusCalendarInfo campusCalendar) {
 	    this.campusCalendar = campusCalendar;
 	}
 

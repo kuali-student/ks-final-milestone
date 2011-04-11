@@ -500,6 +500,37 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public List<TermInfo> getTermsByType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Gets the immediate Terms inside an Academic Calendar.
+     *
+     * @param academicCalendarKey a term key
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of immediate Terms
+     * @throws InvalidParameterException invalid academicCalendarKey
+     * @throws MissingParameterException missing academicCalendarKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Gets all the terms and their descendant Terms inside an
+     * Academic Calendar.
+     *
+     * @param academicCalendarKey an academic calendar key
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of immediate Terms
+     * @throws InvalidParameterException invalid academicCalendarKey
+     * @throws MissingParameterException missing academicCalendarKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getAllTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Gets the immediate children nested inside a Term.
      *
      * @param termKey a term

@@ -128,10 +128,11 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	 *  Constructs a new builder initialized from another
 	 *  KeyDate.
 	 */
-        public Builder(KeyDateInfc keyDateInfo) {
-            super(keyDateInfo);
-            this.startDate = keyDateInfo.getStartDate();
-            this.endDate = keyDateInfo.getEndDate();
+        public Builder(KeyDateInfc keyDate) {
+            super(keyDate);
+	    this.isDateRange = keyDate.getIsDateRange();
+	    this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+	    this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
         }
 
 	/**

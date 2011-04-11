@@ -62,8 +62,8 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
      */
     public TermInfo(TermInfc term) {
 	super(term);
-	this.startDate = term.getStartDate();
-	this.endDate = term.getEndDate();
+	this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
+	this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
     }
 
     /**
