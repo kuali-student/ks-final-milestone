@@ -16,6 +16,8 @@
 package org.kuali.student.core.academiccalendar.infc;
 
 import java.util.Date;
+import java.util.List;
+
 import org.kuali.student.common.infc.KeyEntity;
 
 
@@ -51,4 +53,10 @@ public interface TermInfc extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+
+    /**
+     * Name: Terms
+     * Gets the Terms nested inside this Term.
+     */
+    public List<? extends TermInfc> getTerms();
 }

@@ -17,6 +17,7 @@ package org.kuali.student.core.academiccalendar.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -38,7 +39,7 @@ import org.kuali.student.core.academiccalendar.infc.TermInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "TermCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "terms", "metaInfo", "attributes", "_futureElements"})
 public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,9 +50,13 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     @XmlElement
     private final Date endDate;
 
+    @XmlElement
+    private final List<TermInfo> terms;
+
     private TermInfo() {
     	startDate = null;
 	endDate = null;
+	terms = null;
     }
 
     /**
@@ -64,6 +69,8 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	super(term);
 	this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
 	this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
+	/* copy me */
+	this.terms = null;
     }
 
     /**
@@ -99,6 +106,16 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
         return endDate;
     }
 
+
+    /**
+     * Name: Terms
+     * Gets the Terms nested inside this Term.
+     */
+    public List<TermInfo> getTerms() {
+	return terms;
+    }
+
+
     /**
      * The builder class for this TermInfo.
      */
@@ -106,7 +123,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     	
     	private Date startDate;
 	private Date endDate;
-
+	private List<TermInfo> terms;
 
 	/**
 	 * Constructs a new builder.
@@ -120,6 +137,8 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	    super(term);
 	    this.startDate = term.getStartDate();
 	    this.startDate = term.getEndDate();
+	    /* copy me */
+	    this.terms = null;
     	}
 		
 	/**
@@ -168,6 +187,13 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 
 	public void setEndDate(Date endDate) {
 	    this.endDate = endDate;
+	}
+
+	/**
+	 * Gets the Terms nested inside this Term.
+	 */
+	public List<TermInfo> getTerms() {
+	    return terms;
 	}
     }
 }
