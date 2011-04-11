@@ -54,4 +54,13 @@ public interface KeyDateInfc extends KeyEntity {
      * @return the key date end date
      */
     public Date getEndDate();
+
+    /**
+     * Name: IsDateRange
+     * Tests if this key date is an instructional day. 
+     *
+     * @return true if this key date is an instructional day false if
+     *         it does not count as an instructional day
+     */
+    public Boolean getIsInstructionalDay();
 }

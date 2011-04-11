@@ -55,10 +55,14 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     @XmlElement
     private final Date endDate;
 
+    @XmlElement
+    private final Boolean isInstructionalDay;
+
     private KeyDateInfo() {
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
+	isInstructionalDay = false;
     }
 
     /**
@@ -68,9 +72,10 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
      */
     public KeyDateInfo(KeyDateInfc keyDate) {
         super(keyDate);
-	this.isDateRange = false;
+	this.isDateRange = keyDate.getIsDateRange();
         this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
         this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+	this.isInstructionalDay = keyDate.getIsInstructionalDay();
     }
 
     /**
@@ -109,6 +114,17 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     }
 
     /**
+     * Name: IsDateRange
+     * Tests if this key date is an instructional day. 
+     *
+     * @return true if this key date is an instructional day false if
+     *         it does not count as an instructional day
+     */
+    public Boolean getIsInstructionalDay() {
+	return isInstructionalDay;
+    }
+
+    /**
      * The builder class for this KeyDateInfo.
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDateInfc {
@@ -116,7 +132,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	private Boolean isDateRange;
         private Date startDate;
         private Date endDate;
-
+	private Boolean isInstructionalDay;
 
 	/**
 	 * Constructs a new builder.
@@ -133,6 +149,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	    this.isDateRange = keyDate.getIsDateRange();
 	    this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
 	    this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+	    this.isInstructionalDay = keyDate.getIsInstructionalDay();
         }
 
 	/**
@@ -205,5 +222,19 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
         public void setEndDate(Date endDate) {
             this.endDate = new Date(endDate.getTime());
         }
+
+	/**
+	 * Tests if this key date is an instructional day. 
+	 *
+	 * @return true if this key date is an instructional day false if
+	 *         it does not count as an instructional day
+	 */
+	public Boolean getIsInstructionalDay() {
+	    return isInstructionalDay;
+	}
+
+	public void setIsInstructionalDay(Boolean isInstructionalDay) {
+	    this.isInstructionalDay = isInstructionalDay;
+	}
     }
 }
