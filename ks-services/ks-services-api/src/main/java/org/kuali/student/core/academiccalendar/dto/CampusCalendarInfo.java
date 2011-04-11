@@ -120,6 +120,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
      * Name: Holidays
      * Gets the holidays mapped to this calendar.
      */
+    @Override
     public List<HolidayInfo> getHolidays() {
 	return (holidays);
     }
@@ -128,6 +129,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
      * Name: KeyDates
      * Gets the key dates mapped to this calendar.
      */
+    @Override
     public List<KeyDateInfo> getKeyDates() {
 	return keyDates;
     }
@@ -221,6 +223,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	/**
 	 * Gets the holidays mapped to this calendar.
 	 */
+	@Override
 	public List<HolidayInfo> getHolidays() {
 	    return (holidays);
 	}
@@ -228,6 +231,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	/**
 	 * Gets the key dates mapped to this calendar.
 	 */
+	@Override
 	public List<KeyDateInfo> getKeyDates() {
 	    return keyDates;
 	}

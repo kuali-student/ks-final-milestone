@@ -111,6 +111,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
      * Name: Terms
      * Gets the Terms nested inside this Term.
      */
+    @Override
     public List<TermInfo> getTerms() {
 	return terms;
     }
@@ -192,6 +193,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	/**
 	 * Gets the Terms nested inside this Term.
 	 */
+	@Override
 	public List<TermInfo> getTerms() {
 	    return terms;
 	}
