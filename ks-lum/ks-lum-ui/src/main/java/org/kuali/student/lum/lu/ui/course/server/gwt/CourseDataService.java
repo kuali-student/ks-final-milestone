@@ -15,23 +15,28 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
 
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
-	private static final String DEFAULT_METADATA_STATE = "draft";
+	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
 	
@@ -52,6 +57,10 @@ public class CourseDataService extends AbstractDataService {
 	@Override
 	protected Object save(Object dto, Map<String, Object> properties) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
+		
+		//Set derived course fields before saving/updating
+		courseInfo = calculateCourseDerivedFields(courseInfo);
+		
 		if(properties!=null&&"kuali.proposal.type.course.modify".equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
@@ -69,6 +78,12 @@ public class CourseDataService extends AbstractDataService {
 		return courseInfo;
 	}
 	
+	
+	@Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return courseService.validateCourse("OBJECT", (CourseInfo)dto);
+	}
+
 	@Override
 	protected String getDefaultMetaDataState() {
 		return DEFAULT_METADATA_STATE;
@@ -104,4 +119,36 @@ public class CourseDataService extends AbstractDataService {
 		
 	}	
 
+
+	/**
+	 * This calculates and sets fields on course object that are derived from other course object fields.
+	 */
+	protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo){
+		//Course code is not populated in UI, need to derive them from the subject area and suffix fields
+		if(StringUtils.hasText(courseInfo.getCourseNumberSuffix()) && StringUtils.hasText(courseInfo.getSubjectArea())){
+			courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(),courseInfo.getCourseNumberSuffix()));
+		}
+		
+		//Derive course code for crosslistings
+		for(CourseCrossListingInfo crossListing:courseInfo.getCrossListings()){
+			 if(StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())){
+				 crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));         
+			 }
+		}
+		
+		return courseInfo;
+	}
+	
+	/**
+	 * 
+	 * This method calculates code for course and cross listed course.
+	 * 
+	 * @param subjectArea
+	 * @param suffixNumber
+	 * @return
+	 */
+	private String calculateCourseCode(String subjectArea, String suffixNumber) {
+	    return subjectArea + suffixNumber;
+	}
+	
 }

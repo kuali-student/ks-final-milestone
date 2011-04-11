@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2-M2-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -82,21 +82,6 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>xapool</groupId>
-          <artifactId>xapool</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jotm</groupId>
-          <artifactId>jotm</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.admin</groupId>
@@ -218,12 +203,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>backport-util-concurrent</groupId>
-    	<artifactId>backport-util-concurrent</artifactId>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
     </dependency>
     <dependency>
-    	<groupId>net.sf.jsr107cache</groupId>
-    	<artifactId>jsr107cache</artifactId>
+      <groupId>net.sf.jsr107cache</groupId>
+      <artifactId>jsr107cache</artifactId>
     </dependency>
   </dependencies>
 </project>

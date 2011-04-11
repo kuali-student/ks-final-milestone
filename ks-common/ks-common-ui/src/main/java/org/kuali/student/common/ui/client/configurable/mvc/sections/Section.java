@@ -21,12 +21,21 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasLayoutController;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Interface for Section.  Defines the methods necessary for a section.  A section contains fields and other
+ * sections.  A section represents a logical grouping of fields on the screen - it is also responsible for 
+ * automatic validation and layout of validation errors on the screen.
+ * 
+ * @author Kuali Student
+ *
+ */
 public interface Section extends HasLayoutController{
+
 	public String addField(FieldDescriptor field);
 	public String addSection(Section section);
 	public String addSection(String key, Section section);
@@ -50,7 +59,8 @@ public interface Section extends HasLayoutController{
 	public void enableValidation(boolean enableValidation);
 	public boolean isValidationEnabled();
 	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation);
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors);
+	public void clearValidationWarnings();
 	public boolean isDirty();
 	public void resetDirtyFlags();
 	

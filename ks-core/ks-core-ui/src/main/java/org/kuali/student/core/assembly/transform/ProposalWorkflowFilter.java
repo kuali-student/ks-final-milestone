@@ -21,12 +21,18 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
+import org.kuali.student.common.assembly.transform.FilterException;
+import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.TransformFilter;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Data.StringKey;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -48,7 +54,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     public static final String WORKFLOW_DOC_TYPE	= "ProposalWorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "ProposalWorkflowFilter.WorkflowUser";
         
-	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
 
     final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);
@@ -58,7 +64,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private SimpleDocumentActionsWebService simpleDocService;
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
-	private DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
+	private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
 		
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
@@ -118,7 +124,12 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				String referenceId = data.query("id");
 				proposalInfo.setProposalReferenceType(getProposalReferenceType());
 				proposalInfo.getProposalReference().add(referenceId);
-				proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+				
+                // TODO: this needs to be defined as a constant where all references will resolve
+                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())) {
+                    proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+                }
+
 				proposalInfo.setState("Saved");
 								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
@@ -212,10 +223,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
         	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
+        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent, "");
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent);
+        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent);
         }
 
         //Check if there were errors saving
@@ -381,6 +392,5 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
-	}
-
+    }
 }

@@ -33,35 +33,35 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.CurrencyAmountInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.CurrencyAmountInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
@@ -490,9 +490,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 
 		clu.getOfficialIdentifier().setCode("offId-divisionoffId-suffixcode");
+		clu.getOfficialIdentifier().getAttributes().put("OfficialIdentKey", "OfficialIdentValue");
+		
 		clu.getAlternateIdentifiers().get(0).setCode("cluId1-divisioncluId1-suffixcode");
+		clu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKey", "AltIdentValue");
 		clu.getAlternateIdentifiers().get(1).setCode("cluId2-divisioncluId2-suffixcode");
-
+		clu.getAlternateIdentifiers().get(1).getAttributes().put("AltIdentKey", "AltIdentValue");
+        
+		
 		// Do the actual create call
 		CluInfo createdClu = client.createClu("luType.shell.course", clu);
 		createdClu = client.getClu(createdClu.getId());
@@ -523,7 +528,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getSuffixCode());
 		assertEquals("offId-orgid", createdClu.getOfficialIdentifier()
 				.getOrgId());
-
+		assertEquals("OfficialIdentValue", createdClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKey"));
+		
+		
 		assertEquals("cluId1-divisioncluId1-suffixcode", createdClu
 				.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("cluId1-division", createdClu.getAlternateIdentifiers()
@@ -544,7 +551,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(0).getSuffixCode());
 		assertEquals("cluId1-orgid", createdClu.getAlternateIdentifiers()
 				.get(0).getOrgId());
-
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKey"));
+        
+		
 		assertEquals("cluId2-divisioncluId2-suffixcode", createdClu
 				.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId2-division", createdClu.getAlternateIdentifiers()
@@ -565,7 +574,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(1).getSuffixCode());
 		assertEquals("cluId2-orgid", createdClu.getAlternateIdentifiers()
 				.get(1).getOrgId());
-
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributes().get("AltIdentKey"));
+		
 		assertEquals("cluAttrValue1", createdClu.getAttributes().get(
 				"cluAttrKey1"));
 		assertEquals("cluAttrValue2", createdClu.getAttributes().get(
@@ -708,7 +718,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getOfficialIdentifier().setState("UPoffId-state");
 		createdClu.getOfficialIdentifier().setType("UPoffId-type");
 		createdClu.getOfficialIdentifier().setVariation("UPoffId-variation");
-
+		createdClu.getOfficialIdentifier().getAttributes().put("OfficialIdentKeyUptd", "OfficialIdentValueUptd");
+		
+		
 		createdClu.getAlternateIdentifiers().get(0).setCode("UPcluId1-code");
 		createdClu.getAlternateIdentifiers().get(0).setDivision(
 				"UPcluId1-division");
@@ -723,7 +735,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getAlternateIdentifiers().get(0).setType("UPcluId1-type");
 		createdClu.getAlternateIdentifiers().get(0).setVariation(
 				"UPcluId1-variation");
-
+		createdClu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKeyUptd", "AltIdentValueUptd");
+		
 		createdClu.getAlternateIdentifiers().remove(1);
 
 		CluIdentifierInfo cluId3 = new CluIdentifierInfo();
@@ -736,6 +749,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluId3.setState("cluId3-state");
 		cluId3.setType("cluId3-type");
 		cluId3.setVariation("cluId3-variation");
+		
+		
 		createdClu.getAlternateIdentifiers().add(cluId3);
 
 		createdClu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
@@ -879,7 +894,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getType());
 		assertEquals("UPoffId-variation", updatedClu.getOfficialIdentifier()
 				.getVariation());
-
+		assertEquals(2, updatedClu.getOfficialIdentifier().getAttributes().size());
+        assertEquals("OfficialIdentValueUptd", updatedClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKeyUptd"));
+		
+				
 		assertEquals("UPcluId1-code", updatedClu
 				.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("UPcluId1-division", updatedClu.getAlternateIdentifiers()
@@ -898,7 +916,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				0).getType());
 		assertEquals("UPcluId1-variation", updatedClu.getAlternateIdentifiers()
 				.get(0).getVariation());
-
+        assertEquals(2, updatedClu.getAlternateIdentifiers().get(0).getAttributes().size());
+        assertEquals("AltIdentValueUptd", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKeyUptd"));
+		
 		assertEquals("cluId3-code", updatedClu
 				.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId3-division", updatedClu.getAlternateIdentifiers()

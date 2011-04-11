@@ -328,7 +328,11 @@ padding:4px 6px;
 
 /*** Forms_ Activity ***/
 
-.ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
+.ks-form-course-format-activity { 
+	padding: 10px; 
+	margin-bottom: 10px;
+	max-width: 450px;
+}
 
 .ks-form-course-format-activity-header {
 border-bottom:1px dotted #CCCCCC;
@@ -346,8 +350,8 @@ position:relative;
                font-size:1.083em; 
                font-weight:bold; 
                height:1%; 
-               line-height: 1.7em; 
-
+               line-height: 1.7em;
+               text-transform:uppercase; 
 }
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 
@@ -598,7 +602,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 .ks-form-module-elements input[type="checkbox"] + label { 
     display:inline;
     font-weight:normal;
-    line-height:1.5em;
+    line-height: 2em;
     white-space:nowrap;
 } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
@@ -686,13 +690,17 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 .error { background-color: #ffe0e9;  }
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
+.warning { background-color: #F4E271}
+.warning .ks-form-bordered-header { background-color: #f5d6df; }
+
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
 
 label.invalid{color: red;}
 h6.invalid{color: red;}
 legend.invalid{color: red;}
 
-.ks-form-validation-label{ color: red; };
+.ks-form-error-label{ color: red; };
+.ks-form-warn-label{ color: black; };
 
 .highlighted { background-color: #fffdd4; }
 .highlighted .ks-form-bordered-header { background-color: #f2f0c9; }
@@ -958,6 +966,10 @@ a.ks-button-secondary-small:hover {
 	padding: 3px 3px 3px 3px;
 	border: 1px solid black;
 	width: 250px;
+}
+
+.ks-example-popup{
+	width: 300px;
 }
 
 .ks-table-title-column-width{

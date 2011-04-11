@@ -1,13 +1,9 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -19,15 +15,20 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
-import java.util.List;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
@@ -60,6 +61,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
         programs.addStyleName("bold");
         viewModify.add(programs);
+        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
@@ -76,11 +78,9 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(TOOLS_DESC));
         tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
         tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
+        tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
+        
         //Coming soon
-        Label depAnalysis = new Label(getMessage(DEP_ANALYSIS));
-        depAnalysis.setStyleName("contentBlock-navLink-disabled");
-        depAnalysis.setTitle("Coming Soon");
-        tools.add(depAnalysis);
         Label learningObjectives = new Label(getMessage(LOS));
         learningObjectives.setTitle("Coming Soon");
         learningObjectives.setStyleName("contentBlock-navLink-disabled");
@@ -95,7 +95,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-    private Widget getFindCredentialProgramWidget() {
+	private Widget getFindCredentialProgramWidget() {
         Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
         anchor.addClickHandler(new ClickHandler() {
             @Override
@@ -135,13 +135,15 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
                 @Override
                 public void exec(List<SelectedResults> result) {
-                    SelectedResults value = result.get(0);
-                    ViewContext viewContext = new ViewContext();
-                    viewContext.setId(value.getResultRow().getId());
-                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
-                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                	if (result != null && result.size() > 0) {
+	                    SelectedResults value = result.get(0);
+	                    ViewContext viewContext = new ViewContext();
+	                    viewContext.setId(value.getResultRow().getId());
+	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+	                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                	}
                 }
             });
         } else {

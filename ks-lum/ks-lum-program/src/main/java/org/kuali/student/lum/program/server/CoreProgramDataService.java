@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
@@ -68,6 +69,11 @@ public class CoreProgramDataService extends AbstractDataService {
         }
     }
 
+    @Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return programService.validateCoreProgram("OBJECT", (CoreProgramInfo)dto);
+	}
+    
     @Override
     protected Class<?> getDtoClass() {
         return CoreProgramInfo.class;

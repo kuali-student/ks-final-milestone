@@ -97,10 +97,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loInfo.desc.singleUse.(default) -->
 <!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loInfo.desc.singleUse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse" parent="object.field.loInfo.desc.singleUse.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse" parent="object.field.loInfo.desc.singleUse.abstract"/>
 
 <dict:type key="*" id="type.field.loInfo.desc.singleUse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -176,10 +176,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loInfo.metaInfo.singleUse.(default) -->
 <!-- ********************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loInfo.metaInfo.singleUse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse" parent="object.field.loInfo.metaInfo.singleUse.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse" parent="object.field.loInfo.metaInfo.singleUse.abstract"/>
 
 <dict:type key="*" id="type.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

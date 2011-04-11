@@ -20,6 +20,8 @@ public class VariationViewController extends VariationController {
 
     @Override
     protected void navigateToParent() {
-        HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
+    	String path = HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext()) + "/" + ProgramSections.SPECIALIZATIONS_VIEW;
+    	HistoryManager.navigate(path);
+        //HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
     }
 }

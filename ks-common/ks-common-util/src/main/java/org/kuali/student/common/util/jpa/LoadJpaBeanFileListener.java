@@ -45,7 +45,7 @@ import org.springframework.orm.jpa.SharedEntityManagerCreator;
  *    <property name="loadJpaBean">
  *       <bean class="org.kuali.student.common.util.jpa.LoadJpaBean" />
  *    </property>
- *    <property name="entityClass" value="org.kuali.student.core.messages.entity.MessageEntity" />
+ *    <property name="entityClass" value="org.kuali.student.common.messages.entity.MessageEntity" />
  *    <property name="persistenceUnit" value="MessageManagement"/>
  *    <property name="preloadMap">
  *       <map>

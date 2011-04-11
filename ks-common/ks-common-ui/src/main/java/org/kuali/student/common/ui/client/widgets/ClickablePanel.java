@@ -15,8 +15,13 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasAllFocusHandlers;
 import com.google.gwt.event.dom.client.HasAllKeyHandlers;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -39,10 +44,16 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ClickablePanel extends SimplePanel implements HasAllMouseHandlers, HasClickHandlers, HasAllKeyHandlers{
+/**
+ * A panel that handles all click, key, and mouse events
+ * @author Kuali Student Team
+ *
+ */
+public class ClickablePanel extends FocusPanel implements HasAllMouseHandlers, HasClickHandlers, HasAllKeyHandlers, HasAllFocusHandlers{
 	  
 	public ClickablePanel(Widget child){
 		  this();
@@ -92,4 +103,13 @@ public class ClickablePanel extends SimplePanel implements HasAllMouseHandlers, 
 	  public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
 	    return addDomHandler(handler, MouseWheelEvent.getType());
 	  }
+	  
+	  public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		    return addDomHandler(handler, FocusEvent.getType());
+	  }
+	  
+	  public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		    return addDomHandler(handler, BlurEvent.getType());
+	  }
+	  	  
 }

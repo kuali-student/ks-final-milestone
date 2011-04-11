@@ -49,8 +49,8 @@ public class MenuEditableSectionController extends MenuSectionController{
 		}
 	};
 
-	public MenuEditableSectionController(String controllerId) {
-		super(controllerId);
+	public MenuEditableSectionController() {
+		super();
 	}
 	
 	public void addMenuItem(String parentMenu, final View readOnlyView, final View editView){

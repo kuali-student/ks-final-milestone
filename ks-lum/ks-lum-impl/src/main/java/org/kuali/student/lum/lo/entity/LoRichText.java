@@ -18,7 +18,7 @@ package org.kuali.student.lum.lo.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.RichText;
+import org.kuali.student.common.entity.RichText;
 
 /**
  * @author Kuali Student Team

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.service.assembler;
 
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 
@@ -202,7 +203,7 @@ public class MajorDisciplineDataGenerator {
 		}
 
 		if("state".equals(name)){
-			return ProgramAssemblerConstants.DRAFT;
+			return DtoConstants.STATE_DRAFT;
 		}
 
 		if("campusLocations".equals(parentPropertyName)){

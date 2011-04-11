@@ -17,10 +17,10 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**

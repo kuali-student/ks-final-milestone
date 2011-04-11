@@ -38,13 +38,13 @@
     </bean>
 	
 	<bean id="searchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 	</bean>
 
     <bean id="dictionaryServiceDelegate"
-          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-loInfo-dictionary-context.xml</value>
@@ -63,14 +63,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.core.exceptions.OperationFailedException" />
+            value="org.kuali.student.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>

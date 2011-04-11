@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
@@ -193,7 +194,7 @@ public class CourseDataGenerator {
             return activities[generator.nextInt(activities.length)];
         }
         if ("state".equals(name)) {
-            return "draft";
+            return DtoConstants.STATE_DRAFT;
         }
         if ("contactHours".equals(parentPropertyName) && "unitType".equals(name)) {
             return "kuali.atp.duration.day";

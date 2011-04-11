@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
@@ -35,9 +34,8 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
-import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -251,14 +249,14 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 
 	public TabbedSectionLayout(String controllerId){
-	    super(controllerId);
+	    super();
 	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
 		super.initWidget(container);
 	}
 
 	public TabbedSectionLayout(String controllerId, KSTitleContainerImpl container){
-	    super(controllerId);
+	    super();
 	    this.container.setContent(tabPanel);
         this.container.setTitle(container.getTitle());
         this.container.setStatus(container.getStatus());
@@ -368,38 +366,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		}
 	}
 
-	@Override
-	public void addTool(final ToolView tool) {
-		viewEnums.put(tool.getViewEnum().toString(), tool.getViewEnum());
-		String tabKey = tool.getName();
-
-		TabLayout layout;
-		if(!(tabPanel.hasTabKey(tabKey))){
-			layout = new TabLayout();
-			tabLayoutMap.put(tabKey, layout);
-			tabPanel.addTab(tabKey, tabKey, tool.getImage(), layout, TabPosition.RIGHT);
-
-			tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
-
-				@Override
-				public void exec(String result) {
-					//layout.beforeShow();
-					showView(tool.getViewEnum(), NO_OP_CALLBACK);
-				}
-
-			});
-		}
-		else{
-			layout = tabLayoutMap.get(tabKey);
-		}
-
-		//layout.renderView(tool);
-		sectionNameTabMap.put(tool.getName(), tabKey);
-		viewMap.put(tool.getViewEnum(), tool);
-        tool.setController(this);
-
-	}
-
 	public void addToolbar(Widget toolbar){
 		this.container.setToolbar(toolbar);
 	}
@@ -492,13 +458,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			layout.updateModel();
 		}
     }
-
-	@Override
-	public Class<? extends Enum<?>> getViewsEnum() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	/**
  	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)

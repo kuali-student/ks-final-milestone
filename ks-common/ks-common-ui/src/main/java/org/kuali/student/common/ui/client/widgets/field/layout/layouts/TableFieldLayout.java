@@ -13,6 +13,11 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout which adds fields as rows in a table.  All child layouts appear after these fields.
+ * @author Kuali Student Team
+ *
+ */
 public class TableFieldLayout extends FieldLayout{
 	
 	private SpanPanel top = new SpanPanel();

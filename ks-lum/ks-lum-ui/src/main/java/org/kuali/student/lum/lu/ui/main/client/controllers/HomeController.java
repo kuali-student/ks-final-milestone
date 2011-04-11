@@ -6,10 +6,16 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CurriculumHomeController;
 import org.kuali.student.lum.lu.ui.main.client.configuration.AcknowledgeView;
 import org.kuali.student.lum.lu.ui.main.client.views.HomeView;
 
+/**
+ * Home controller for the LUM Application, controls its default view, the curriculum home view, and the
+ * Acknowledgments view page.
+ * 
+ * @author Kuali Student Team
+ * @see HomeView
+ */
 public class HomeController extends LayoutController{
 	
 	private final CurriculumHomeController curriculumHomeView;
@@ -20,7 +26,7 @@ public class HomeController extends LayoutController{
 	public enum HomeViews{DEFAULT, CURRICULUM_HOME, ACKNOWLEDGEMENTS}
 
 	public HomeController(Controller controller, String name, Enum<?> viewType) {
-		super(HomeController.class.getName());
+		super();
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);

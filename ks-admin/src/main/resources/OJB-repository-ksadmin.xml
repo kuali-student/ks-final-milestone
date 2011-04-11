@@ -781,4 +781,68 @@
     </collection-descriptor>
   </class-descriptor>
 
+  <class-descriptor class="org.kuali.student.core.subjectcode.bo.SubjectCode" table="KSSC_SUBJ_CD">
+    <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true" />
+    <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
+    <field-descriptor name="typeId" column="TYPE" jbdc-type="VARCHAR" />
+    <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+    <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
+    <field-descriptor name="createDate" column="CREATETIME" jbdc-type="TIMESTAMP" />
+    <field-descriptor name="updateId" column="UPDATEID" jbdc-type="VARCHAR" />
+    <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="TIMESTAMP" />
+
+    <field-descriptor name="code" column="CD" jbdc-type="VARCHAR" />
+    
+    <reference-descriptor name="type" class-ref="org.kuali.student.core.subjectcode.bo.SubjectCodeType"
+        auto-retrieve="true"
+        auto-delete="none"
+        auto-update="none"
+        proxy="true">
+      <foreignkey field-ref="typeId" />
+    </reference-descriptor>
+    
+    <collection-descriptor name="orgs"
+        collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+        element-class-ref="org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg"
+        auto-retrieve="true"
+        auto-update="object"
+        auto-delete="object"
+        proxy="true">
+      <inverse-foreignkey field-ref="subjectCodeId" />
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.student.core.subjectcode.bo.SubjectCodeType" table="KSSC_SUBJ_CD_TYPE">
+    <field-descriptor name="id" column="TYPE_KEY" jbdc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true" />
+    <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
+    <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg" table="KSSC_SUBJ_CD_JN_ORG">
+    <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true" />
+    <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
+    
+    <field-descriptor name="orgId" column="ORG_ID" jbdc-type="VARCHAR" />
+    
+    <field-descriptor name="subjectCodeId" column="SUBJ_CD_ID" jbdc-type="VARCHAR" />
+        
+    <reference-descriptor name="subjectCode" class-ref="org.kuali.student.core.subjectcode.bo.SubjectCode"
+        auto-retrieve="true"
+        auto-delete="none"
+        auto-update="none"
+        proxy="true">
+      <foreignkey field-ref="subjectCodeId" />
+    </reference-descriptor>
+    
+  </class-descriptor>
+  
 </descriptor-repository>

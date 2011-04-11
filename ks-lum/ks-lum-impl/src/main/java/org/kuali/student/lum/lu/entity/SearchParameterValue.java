@@ -19,7 +19,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.common.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_SPVALUE")

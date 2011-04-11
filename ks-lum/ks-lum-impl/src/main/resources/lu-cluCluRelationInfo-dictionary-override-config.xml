@@ -177,10 +177,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Format.(default) -->
 <!-- ***************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -323,10 +323,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default) -->
 <!-- ******************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -469,10 +469,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Co-Located.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.Co-Located"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.StringValue;
+import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
@@ -52,18 +57,13 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.shared.IdAttributes;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.StringValue;
-import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.SectionsEnum;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -265,13 +265,6 @@ public class OrgProposalController extends TabbedSectionLayout{
         }
         initialized = true;
     }
-
-
-	@Override
-	public Class<? extends Enum<?>> getViewsEnum() {
-		return null;
-	}
-
 
 	@SuppressWarnings("unchecked")
 	private void createNewOrgModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){

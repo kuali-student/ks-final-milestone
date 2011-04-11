@@ -17,12 +17,16 @@ package org.kuali.student.common.ui.client.widgets.pagetable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
+import com.google.gwt.gen2.table.client.CellRenderer;
+import com.google.gwt.gen2.table.client.ColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
+import com.google.gwt.gen2.table.client.TableDefinition.AbstractCellView;
 import com.google.gwt.user.client.ui.HTML;
 /**
  * Constructing a PagingScrollTable from GWT's Incubator is complicated. This class uses the Builder
@@ -145,6 +149,18 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         if(columnDefs!=null){
 	        for (AbstractColumnDefinition columnDef: columnDefs) {
 	            columnPixelWidths.add(columnDef.getPreferredColumnWidth());
+	            CellRenderer renderer = new CellRenderer(){
+
+					@Override
+					public void renderRowValue(Object rowValue,
+							ColumnDefinition columnDef, AbstractCellView view) {
+						if(rowValue!=null&& rowValue instanceof ResultRow){
+							view.setHTML((String)columnDef.getCellValue(rowValue));
+						}
+					}
+	            	
+	            };
+	            columnDef.setCellRenderer(renderer);
 	            tableDefinition.addColumnDefinition(columnDef);
 	        }
         }

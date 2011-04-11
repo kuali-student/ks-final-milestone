@@ -6,7 +6,7 @@ import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.fail;
 
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
 
 public class TestFreestandingLuSearchDictionary
 {

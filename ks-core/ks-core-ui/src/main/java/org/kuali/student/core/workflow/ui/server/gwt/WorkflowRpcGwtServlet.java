@@ -21,11 +21,11 @@ import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
-import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -327,8 +327,10 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	protected List<String> getCurrentActiveNodeNames(Long routeHeaderId) throws OperationFailedException, WorkflowException {
         List<String> currentActiveNodeNames = new ArrayList<String>();
         RouteNodeInstanceDTO[] nodeInstances = getWorkflowUtilityService().getActiveNodeInstances(routeHeaderId);
-        for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
-            currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
+        if (null != nodeInstances) {
+            for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
+                currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
+            }
         }
         return currentActiveNodeNames;
 	}

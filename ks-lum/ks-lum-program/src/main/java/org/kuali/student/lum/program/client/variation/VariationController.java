@@ -7,11 +7,12 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
@@ -30,7 +31,7 @@ public abstract class VariationController extends ProgramController {
 
     private String parentName;
 
-    private MajorController majorController;
+    protected MajorController majorController;
 
     /**
      * Constructor.
@@ -76,7 +77,7 @@ public abstract class VariationController extends ProgramController {
 
     @Override
     public String getProgramName() {
-        String name = (String) programModel.get(ProgramConstants.LONG_TITLE);
+        String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
             return ProgramProperties.get().variation_new();
         }

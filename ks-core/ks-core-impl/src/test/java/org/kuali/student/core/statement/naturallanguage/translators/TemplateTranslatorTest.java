@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.naturallanguage.translators.TemplateTranslator;
-import org.kuali.student.core.exceptions.OperationFailedException;
 
 public class TemplateTranslatorTest {
 

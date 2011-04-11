@@ -21,7 +21,7 @@ package org.kuali.student.common.ui.client.theme;
 import com.google.gwt.core.client.GWT;
 
 /**
- * This interface defines the base class required for implementing a theme for the JCS GWT Components library
+ * This interface defines the base class required for implementing a theme
  * 
  * @author wilj
  */

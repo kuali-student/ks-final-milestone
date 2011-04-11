@@ -1,15 +1,17 @@
 package org.kuali.student.lum.program.server;
 
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Igor
@@ -38,7 +40,7 @@ public class MajorDisciplineDataService extends AbstractDataService {
         if (null == id || id.length() == 0) {
             returnDTO = new MajorDisciplineInfo();
             returnDTO.setType(ProgramClientConstants.MAJOR_PROGRAM);
-            returnDTO.setState(ProgramClientConstants.STATE_DRAFT);
+            returnDTO.setState(DtoConstants.STATE_DRAFT);
             returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id);
@@ -64,14 +66,20 @@ public class MajorDisciplineDataService extends AbstractDataService {
         }
     }  
 
+    
     @Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return programService.validateMajorDiscipline("OBJECT", (MajorDisciplineInfo)dto);
+	}
+
+	@Override
     protected Class<?> getDtoClass() {
         return MajorDisciplineInfo.class;
     }
 
     private String getCredentialId() throws Exception {
 
-            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
+            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE);
             if (null == credIds || credIds.size() != 1) {
                 throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
                                                     (null == credIds ? "0" : credIds.size() +

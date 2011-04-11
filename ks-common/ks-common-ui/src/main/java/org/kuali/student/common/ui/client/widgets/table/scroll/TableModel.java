@@ -9,4 +9,8 @@ public interface TableModel {
 	public int getColumnCount();
 	
 	public boolean isMultipleSelectable();
+
+    void setCurrentIndex(int index);
+    int getCurrentIndex();
+    void setSelectedRow(int index);
 }

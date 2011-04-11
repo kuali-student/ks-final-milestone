@@ -3,12 +3,15 @@ package org.kuali.student.lum.program.server;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -34,7 +37,7 @@ public class CredentialProgramDataService extends AbstractDataService {
     @Override
     protected Object get(String id) throws Exception {
     	if (ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(id)){
-            List<String> credIds = luService.getCluIdsByLuType(id, ProgramClientConstants.STATE_ACTIVE);
+            List<String> credIds = luService.getCluIdsByLuType(id, DtoConstants.STATE_ACTIVE);
             if (null == credIds || credIds.size() != 1) {
                 throw new OperationFailedException("A single credential program of type " + id + " is required; database contains " +
                                                     (null == credIds ? "0" : credIds.size() +
@@ -64,6 +67,11 @@ public class CredentialProgramDataService extends AbstractDataService {
         }
     }
 
+    @Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return programService.validateCredentialProgram("OBJECT", (CredentialProgramInfo)dto);
+	}
+    
     @Override
     protected Class<?> getDtoClass() {
         return CredentialProgramInfo.class;

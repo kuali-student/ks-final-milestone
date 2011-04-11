@@ -29,6 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -41,15 +50,6 @@ import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.dto.RefDocRelationTypeInfo;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

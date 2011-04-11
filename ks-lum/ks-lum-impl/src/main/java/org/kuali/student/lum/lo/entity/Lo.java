@@ -21,7 +21,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,8 +32,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 
 /**
  * @author Kuali Student Team
@@ -75,6 +77,14 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LoAttribute> attributes;
 
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="lo")
+    @JoinTable(
+    		name="KSLO_LO_JN_LOCATEGORY",
+	        joinColumns=@JoinColumn(name="LO_ID", insertable=false, updatable=false),
+	        inverseJoinColumns=@JoinColumn(name="ID", insertable=false, updatable=false)
+	)
+	private List<LoLoCategoryJoin> categories;
+	
 	@ManyToOne
 	@JoinColumn(name = "LOTYPE_ID")
 	private LoType loType;
@@ -135,7 +145,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+	 * @see org.kuali.student.common.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
 	public List<LoAttribute> getAttributes() {
@@ -143,7 +153,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+	 * @see org.kuali.student.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
 	public void setAttributes(List<LoAttribute> attributes) {
@@ -176,5 +186,13 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	public String getState() {
 		return state;
+	}
+
+	public void setCategories(List<LoLoCategoryJoin> categories) {
+		this.categories = categories;
+	}
+
+	public List<LoLoCategoryJoin> getCategories() {
+		return categories;
 	}
 }

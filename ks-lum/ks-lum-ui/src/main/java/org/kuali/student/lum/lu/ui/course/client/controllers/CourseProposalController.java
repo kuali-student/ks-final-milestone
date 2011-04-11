@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -38,6 +43,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -48,7 +54,10 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
@@ -59,21 +68,19 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
@@ -86,13 +93,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Controller for course proposal screens
+ * Controller for course proposal screens.  This controller controls all functions of the course proposal process
+ * and contains the data model and is responsible for retrieving its data and metadata from the server. In
+ * addition, this controller is responsible for course proposal save events and updating its ui accordingly.
+ * 
  *
  * @author Kuali Student Team
  *
  */
 
-public class CourseProposalController extends MenuEditableSectionController implements RequiresAuthorization, WorkflowEnhancedNavController{
+public class CourseProposalController extends MenuEditableSectionController implements RequiresAuthorization, WorkflowEnhancedNavController, HasRequirements {
 
 	//RPC Services
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
@@ -124,9 +134,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
-
+    final CourseRequirementsDataModel reqDataModel;
+   
     public CourseProposalController(){
-        super(CourseProposalController.class.getName());
+        super();
+        reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
     }
@@ -150,11 +162,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void initialize() {
     	//TODO get from messages
-
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
-        super.setDefaultModelId(cfg.getModelId());
+   		super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
             @Override
@@ -289,6 +300,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                    comparisonModel.setDefinition(def);
 
 		                    configureScreens(def, onReadyCallback);
+
 		                }
 			          });
 					
@@ -325,19 +337,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setStatementTypes(stmtTypesOut);
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
-
+                
+                //Update any cross fields
+                for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+                	crossConstraint.reprocessWithUpdatedConstraints();
+                }
+                
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
         });
-    }
-
-	/**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return cfg.getViewsEnum();
     }
 
     @Override
@@ -412,13 +421,20 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				cluProposalModel.setRoot(result);
 		        setProposalHeaderTitle();
 		        setLastUpdated();
-		        getCourseComparisonModel(callback, workCompleteCallback);
+                reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                       if(result){
+                          getCourseComparisonModel(callback, workCompleteCallback);
+                       }
+                    }
+                });
 			}
 
     	});
     }
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	private void getCourseComparisonModel(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
@@ -429,24 +445,32 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                createNewCluProposalModel(proposalModelRequestCallback, workCompleteCallback);
 	                KSBlockingProgressIndicator.removeTask(loadDataTask);
 	            }
-	    		
-				@Override
-				public void onSuccess(Data result) {
-					if(result != null){
-						comparisonModel.setRoot(result);
-					}
-					proposalModelRequestCallback.onModelReady(cluProposalModel);
-					workCompleteCallback.exec(true);
-					KSBlockingProgressIndicator.removeTask(loadDataTask);
-				}
-			});
-		}
-		else{
-			proposalModelRequestCallback.onModelReady(cluProposalModel);
-			workCompleteCallback.exec(true);
-			KSBlockingProgressIndicator.removeTask(loadDataTask);
-		}
-	}
+
+                @Override
+                public void onSuccess(Data result) {
+                    if (result != null) {
+                        comparisonModel.setRoot(result);
+                    }
+                    proposalModelRequestCallback.onModelReady(cluProposalModel);
+                    workCompleteCallback.exec(true);
+                    reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                        @Override
+                        public void exec(Boolean result) {
+                            if (result) {
+                                //getCourseComparisonModel(proposalModelRequestCallback, workCompleteCallback);
+                                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                            }
+                        }
+                    });
+
+                }
+            });
+        } else {
+            proposalModelRequestCallback.onModelReady(cluProposalModel);
+            workCompleteCallback.exec(true);
+            KSBlockingProgressIndicator.removeTask(loadDataTask);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
@@ -485,6 +509,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
+		        
+		        // We need to update the current view context so that if the user clicks the back button it doesn't 
+		        // create a duplicate course proposal. 
+		        getViewContext().setIdType(docContext.getIdType());
+		        getViewContext().setId(docContext.getId());
+		        
 			}
 			
 			public void onFailure(Throwable caught) {
@@ -524,7 +554,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     	}
                     	else{
                     		//saveActionEvent.doActionComplete();
-                    		Window.alert("Save failed.  Please check fields for errors.");
+                    		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                     	}
 
                     }
@@ -543,18 +573,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     public boolean startSectionRequired(){
         String proposalId = cluProposalModel.get(cfg.getProposalPath()+"/id");
-
+        
         //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
         String proposalTitle = cluProposalModel.get(cfg.getProposalTitlePath());
+        String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
         if (proposalTitle == null || proposalTitle.isEmpty()){
-            String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
             cluProposalModel.set(QueryPath.parse(cfg.getProposalTitlePath()), courseTitle);
         }
-
-    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
+        
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing() && !hasTitles(proposalTitle, courseTitle);
     }
 
+    private boolean hasTitles(String proposalTitle, String courseTitle){
+    	return (proposalTitle != null && !proposalTitle.isEmpty()) && (courseTitle != null && !courseTitle.isEmpty());
+    }
+    
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	KSBlockingProgressIndicator.addTask(saving);
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
@@ -563,7 +597,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			public void exec(Throwable caught) {
 				 GWT.log("Save Failed.", caught);
 				 KSBlockingProgressIndicator.removeTask(saving);
-                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, 5000));
+                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
 			}
 
         };
@@ -577,7 +611,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 public void onSuccess(DataSaveResult result) {
                 	KSBlockingProgressIndicator.removeTask(saving);
 
-                	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+					clearAllWarnings();
+                	if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
                         saveActionEvent.doActionComplete();
@@ -620,7 +655,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				if(saveActionEvent.gotoNextView()){
 	    					CourseProposalController.this.showNextViewOnMenu();
 	    				}
-	    				KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+	    				
+	    				if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()){
+		    				isValid(result.getValidationResults(), false, true);
+	    					KSNotifier.add(new KSNotification("Saved with Warnings", false, 4000));
+	    				} else {
+	    					KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+	    				}  				
                 	}
                 }
             });
@@ -642,7 +683,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-		init(onReadyCallback);
+    	Application.getApplicationContext().clearCrossConstraintMap(null);
+    	Application.getApplicationContext().clearPathToFieldMapping(null);
+    	Application.getApplicationContext().setParentPath("");
+    	
+    	init(onReadyCallback);
 	}
     
    @Override
@@ -784,6 +829,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 									case CANCEL:
 										okToChange.exec(false);
 										dialog.hide();
+										// Because this event fires after the history change event we need to "undo" the history events. 
+										HistoryManager.logHistoryChange();  
 										break;
 								}
 							}
@@ -851,7 +898,54 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		return sb.toString();
 	}
 
+    public String getCourseId(){
+        return cluProposalModel.<String>get("id");
+    }
+
     public boolean isNew() {
         return isNew;
     }
+
+    public CourseRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
+    }
+      
+    @Override
+    public DataModel getExportDataModel() {
+        return cluProposalModel;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
+    @Override
+    public String getExportTemplateName() {
+        return "proposal.template";
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(cluProposalModel.getModelName());
+            heading.setFieldValue2(comparisonModel.getModelName());
+            exportElements.add(heading);
+            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+        }
+        return exportElements;
+    }
+    
+    @Override
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {   
+            return true;
+        } else {
+            return false;
+        }
+            
+    }  
 }

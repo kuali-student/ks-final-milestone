@@ -17,12 +17,12 @@ package org.kuali.student.core.comment.dao;
 
 import java.util.List;
 
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

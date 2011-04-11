@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -20,10 +24,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -99,7 +99,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	
 				@Override
 				public void onClick(ClickEvent event) {
-					showStateDialog(LUUIConstants.LU_STATE_ACTIVE);
+					showStateDialog(DtoConstants.STATE_ACTIVE);
 				}
 			});
 	    	inactivateCourseActionItem = new KSMenuItemData(this.getMessage("cluInactivateItem") + " (Not Yet Implemented)", new ClickHandler(){
@@ -122,13 +122,13 @@ public class CourseWorkflowActionList extends StylishDropDown {
     }
     
     private void showStateDialog(String newState) {
-    	if (newState.equals(LUUIConstants.LU_STATE_RETIRED)) {
+    	if (newState.equals(DtoConstants.STATE_RETIRED)) {
     		// TODO: create Retire dialog
-    	} else if (newState.equals(LUUIConstants.LU_STATE_ACTIVE)) {     		
+    	} else if (newState.equals(DtoConstants.STATE_ACTIVE)) {     		
     		// TODO: use message e.g. activateCurrentInstr, activateModificationInstr    		
     		activateSection.setInstructions(getInstructions(newState));    				
         	activateDialog.show();
-    	} else if (newState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
+    	} else if (newState.equals(DtoConstants.STATE_INACTIVE)) {
     		// TODO: create Inactivate dialog
     	}
     	
@@ -170,7 +170,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
                 //activateSection.updateModel(cluModel);
                 //set previous active to superseded
                 //set this version to active
-                setCourseState(LUUIConstants.LU_STATE_ACTIVE, stateChangeCallback);
+                setCourseState(DtoConstants.STATE_ACTIVE, stateChangeCallback);
                 activateDialog.hide();                
             }
 	    });
@@ -224,17 +224,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     	items.clear();      
     	
-    	if (cluState.equals(LUUIConstants.LU_STATE_APPROVED)) {
+    	if (cluState.equals(DtoConstants.STATE_APPROVED)) {
     		items.add(modifyCourseActionItem);
     		items.add(activateCourseActionItem);
     		if (isCurrentVersion) {
     			items.add(retireCourseActionItem);
     		}
-    	} else if (cluState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
+    	} else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
     		items.add(modifyCourseActionItem);
     		items.add(inactivateCourseActionItem);
     		items.add(retireCourseActionItem);
-    	} else if (cluState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
+    	} else if (cluState.equals(DtoConstants.STATE_INACTIVE)) {
     		items.add(activateCourseActionItem);
     	}
 		

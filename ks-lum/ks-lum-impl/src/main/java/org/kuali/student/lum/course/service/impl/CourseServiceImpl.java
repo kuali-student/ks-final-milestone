@@ -1,41 +1,40 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.validator.ValidatorUtils;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
@@ -91,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -114,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -216,7 +215,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -264,7 +263,7 @@ public class CourseServiceImpl implements CourseService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 

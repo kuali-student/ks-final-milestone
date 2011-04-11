@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SearchResultRow;
 
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
@@ -28,7 +28,6 @@ import org.kuali.student.core.search.dto.SearchResultRow;
  *   <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
  *   <useNonDerivedRoles>true</useNonDerivedRoles>
  *   <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
- *   <organizationShortNameQualifierKey>orgId</organizationShortNameQualifierKey>
  *   <organizationIdDocumentContentKey>orgId</organizationIdDocumentContentKey>
  * </role>
  * }
@@ -52,7 +51,6 @@ public class CocOrganizationQualifierResolver extends AbstractOrganizationServic
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CocOrganizationQualifierResolver.class);
 
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
-    protected static final String ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY = "organizationShortNameQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";
 
     public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
@@ -65,11 +63,10 @@ public class CocOrganizationQualifierResolver extends AbstractOrganizationServic
     @Override
     public List<AttributeSet> resolve(RouteContext context) {
         List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
-        String orgShortNameKey = getNodeSpecificOrganizationShortNameAttributeSetKey(context);
         String orgIdKey = getNodeSpecificOrganizationIdAttributeSetKey(context);
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
             List<SearchResultRow> results = relatedOrgsFromOrgId(orgId, getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
-            attributeSets.addAll(attributeSetFromSearchResult(results, orgShortNameKey, orgIdKey));
+            attributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
         }
         return attributeSets;
     }
@@ -83,17 +80,7 @@ public class CocOrganizationQualifierResolver extends AbstractOrganizationServic
         }
         return organizationIdFieldKey;
     }
-
-    public String getNodeSpecificOrganizationShortNameAttributeSetKey(RouteContext context) {
-        String organizationShortNameFieldKey = RouteNodeUtils.getValueOfCustomProperty(context.getNodeInstance().getRouteNode(), ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY);
-        if (StringUtils.isBlank(organizationShortNameFieldKey)) {
-            if (usesNonDerivedOrganizationRoles(context)) {
-                throw new RuntimeException("Cannot find required XML element '" + ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY + "' on the Route Node XML configuration.");
-            }
-        }
-        return organizationShortNameFieldKey;
-    }
-
+    
     public Boolean usesNonDerivedOrganizationRoles(RouteContext context) {
         String useNonDerivedOrganizationRoles = RouteNodeUtils.getValueOfCustomProperty(context.getNodeInstance().getRouteNode(), ROUTE_NODE_XML_USE_NON_DERIVED_ROLES);
         if (StringUtils.isNotBlank(useNonDerivedOrganizationRoles)) {

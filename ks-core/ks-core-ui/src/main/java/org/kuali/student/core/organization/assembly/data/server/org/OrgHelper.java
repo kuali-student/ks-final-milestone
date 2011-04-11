@@ -21,8 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.helper.PropertyEnum;
 import org.kuali.student.core.organization.assembly.data.client.RuntimeDataHelper;
 
 public class OrgHelper{

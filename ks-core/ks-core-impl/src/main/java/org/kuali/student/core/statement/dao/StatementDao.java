@@ -17,9 +17,9 @@ package org.kuali.student.core.statement.dao;
 
 import java.util.List;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.statement.entity.RefStatementRelation;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
@@ -33,4 +33,6 @@ public interface StatementDao extends CrudDao, SearchableDao {
     public List<Statement> getStatementsForReqComponent(String reqComponentId);
     public List<RefStatementRelation> getRefStatementRelations(String refObjectTypeKey, String refObjectId);
     public Statement getParentStatement(String childId) throws DoesNotExistException;
+	public List<Object[]> getStatementsWithDependencies(
+			List<String> cluVersionIndIds, List<String> cluSetIds);
 }

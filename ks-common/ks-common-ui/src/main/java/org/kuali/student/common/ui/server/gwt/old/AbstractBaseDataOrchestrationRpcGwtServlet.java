@@ -24,18 +24,18 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.old.Assembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.old.Assembler;
-import org.kuali.student.core.assembly.old.data.SaveResult;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
+		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
 
 
 	<bean id="constraint.defaultVarCharLength" parent="constraint">
@@ -22,7 +22,7 @@
 		<property name="desc" value="The ATP must start in the future" />
 		<property name="serverSide" value="true" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.atp.validation.FutureATPValidatorValidator" />
+			value="org.kuali.student.common.atp.validation.FutureATPValidatorValidator" />
 	</bean>
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
@@ -50,7 +50,7 @@
 		<property name="comments"
 			value="How do we know who the real user is when a service calls another service?" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.auth.calculation.AuthenticatedPrincipalCalculator" />
+			value="org.kuali.student.common.auth.calculation.AuthenticatedPrincipalCalculator" />
 	</bean>
 	<bean id="constraint.calc.copy.course.official.numberPart" parent="constraint">
 		<property name="id" value="calc.copy.course.official.numberPart" />
@@ -81,7 +81,7 @@
 		<property name="comments"
 			value="This could be as simple as a nano-second date-time stamp of the last update or a sequence number of the object that gets incremented on each update or some other more complex computation." />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculationVersionIndCalculator" />
+			value="org.kuali.student.common.calculationVersionIndCalculator" />
 	</bean>
 	<bean id="constraint.calc.now" parent="constraint">
 		<property name="id" value="calc.now" />
@@ -89,7 +89,7 @@
 		<property name="serverSide" value="true" />
 		<property name="comments" value="Worry about timezone issues" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.NowCalculator" />
+			value="org.kuali.student.common.calculation.NowCalculator" />
 	</bean>
 	<bean id="constraint.code" parent="constraint">
 		<property name="id" value="code" />
@@ -177,7 +177,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.lu\.relation\.type\.co-located" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.cross-listed" parent="constraint">
 		<property name="id" value="hard.coded.cross-listed" />
@@ -188,7 +188,7 @@
 		<property name="validChars"
 			value="regex:kuali\.lu\.type\.CreditCourse\.identifier\.cross-listed" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.feeType.Revenue" parent="constraint">
 		<property name="id" value="hard.coded.feeType.Revenue" />
@@ -197,7 +197,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Revenue" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.lolorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lolorealtion.includes" />
@@ -208,7 +208,7 @@
 		<property name="validChars"
 			value="regex:kulai\.lo\.lo\.relation\.type\.includes" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.lulorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lulorealtion.includes" />
@@ -219,7 +219,7 @@
 		<property name="validChars"
 			value="regex:kulai\.lu\.lo\.relation\.type\.includes" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.one" parent="constraint">
 		<property name="id" value="hard.coded.one" />
@@ -228,7 +228,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:1" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.rateType.fixedRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.fixedRate" />
@@ -237,7 +237,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Fixed Rate" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.rateType.multipleRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.multipleRate" />
@@ -246,7 +246,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Multiple Rate" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.rateType.perCreditRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.perCreditRate" />
@@ -255,7 +255,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Per Credit Rate" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.rateType.variableRate" parent="constraint">
 		<property name="id" value="hard.coded.rateType.variableRate" />
@@ -264,7 +264,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:Variable Rate" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.referenceType.CLU" parent="constraint">
 		<property name="id" value="hard.coded.referenceType.CLU" />
@@ -273,7 +273,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.referenceType\.CLU" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo" />
@@ -282,7 +282,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.lo\.type\.singleUse" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo.repository" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo.repository" />
@@ -292,7 +292,7 @@
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.loRepository\.key\.singleUse" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hard.coded.version" parent="constraint">
 		<property name="id" value="hard.coded.version" />
@@ -303,7 +303,7 @@
 		<property name="validChars"
 			value="regex:kuali\.lu\.type\.CreditCourse\.identifier\.version" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+			value="org.kuali.student.common.calculation.HardCodedValueCalculator" />
 	</bean>
 	<bean id="constraint.hidden" parent="constraint">
 		<property name="id" value="hidden" />
@@ -336,7 +336,7 @@
 		<property name="comments"
 			value="MinOccur on ID's of 1 may not work because it is missing on the create" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.validation.KualiIdValidator" />
+			value="org.kuali.student.common.validation.KualiIdValidator" />
 	</bean>
 	<bean id="constraint.kuali.meta.data" parent="constraint">
 		<property name="id" value="kuali.meta.data" />
@@ -349,7 +349,7 @@
 		<property name="comments"
 			value="MinOccur on Meta data structures may not 1 not work because it is not supplied  on the create" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.validation.KualiMetaDataValidator" />
+			value="org.kuali.student.common.validation.KualiMetaDataValidator" />
 	</bean>
 	<bean id="constraint.kuali.state" parent="constraint">
 		<property name="id" value="kuali.state" />
@@ -580,7 +580,7 @@
 		<property name="comments"
 			value="Requires special logic to check that the ID supplied actually exists" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.org.validation.OrgIdExistsValidator" />
+			value="org.kuali.student.common.org.validation.OrgIdExistsValidator" />
 	</bean>
 	<bean id="constraint.related.personId" parent="constraint">
 		<property name="id" value="related.personId" />
@@ -592,7 +592,7 @@
 		<property name="comments"
 			value="Requires special logic to check that the ID supplied actually exists" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.person.validation.PersonIddExistsValidator" />
+			value="org.kuali.student.common.person.validation.PersonIddExistsValidator" />
 	</bean>
 	<bean id="constraint.related.principalId" parent="constraint">
 		<property name="id" value="related.principalId" />
@@ -604,7 +604,7 @@
 		<property name="comments"
 			value="Requires special logic to check that the ID supplied actually exists" />
 		<property name="specialValidator"
-			value="org.kuali.student.core.auth.validation.PrincipaldExistsValidator" />
+			value="org.kuali.student.common.auth.validation.PrincipaldExistsValidator" />
 	</bean>
 	<bean id="constraint.related.proposalId" parent="constraint">
 		<property name="id" value="related.proposalId" />

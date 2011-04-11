@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -81,11 +82,12 @@ CreditCourseLearningResultsConstants
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
     private String type = "Course";
-    private String state = "draft";
+    private String state = DtoConstants.STATE_DRAFT;
     private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 
     private DataModelDefinition modelDefinition;
     private List<StatementTypeInfo> stmtTypes;
+    private CourseSummaryConfigurer summaryConfigurer;
 
     public static enum ViewCourseSections{BRIEF, DETAILED, CATALOG}
 
@@ -115,7 +117,7 @@ CreditCourseLearningResultsConstants
         groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
-        CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
+        summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
         		(Controller)layoutController, modelId);
         layoutController.addTab(summaryConfigurer.generateCourseBriefSection(), "At a Glance");
         layoutController.addTab(summaryConfigurer.generateCourseSummarySection(), "Detailed View");
@@ -126,5 +128,9 @@ CreditCourseLearningResultsConstants
         //dropdown.addStyleName("KS-Workflow-DropDown");
         //layoutController.addContentWidget(dropdown);
 
+    }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
     }
 }

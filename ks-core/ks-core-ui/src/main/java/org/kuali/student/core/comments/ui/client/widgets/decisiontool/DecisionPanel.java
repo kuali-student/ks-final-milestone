@@ -14,8 +14,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.service.CommentRpcService;
-import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -27,6 +25,8 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -422,6 +422,10 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	}
     private static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
+    }
+    
+    public boolean isExportButtonActive() {
+        return false;
     }
 }
 

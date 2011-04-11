@@ -16,7 +16,7 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.Metadata;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -1,9 +1,9 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.StringKey;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import java.util.Date;

@@ -33,8 +33,9 @@ public enum ValidationMessageKeys {
 	DATE("validation.mustBeDate"),
 	LENGTH_OUT_OF_RANGE("validation.lengthOutOfRange"),
 	MAX_LENGTH("validation.maxLengthFailed", "maxLength"),
-	MIN_LENGTH("validation.minLengthFailed", "minLength")
-	;
+	MIN_LENGTH("validation.minLengthFailed", "minLength"),
+	INVALID_VALUE("validation.invalid");
+    
 	private final String key;
 	private final String property;
 	

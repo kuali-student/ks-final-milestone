@@ -3,13 +3,13 @@ package org.kuali.student.common.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

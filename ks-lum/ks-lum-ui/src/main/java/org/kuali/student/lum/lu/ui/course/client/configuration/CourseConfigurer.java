@@ -35,6 +35,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -67,8 +72,6 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
@@ -77,11 +80,9 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
@@ -100,8 +101,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -111,20 +110,17 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  */
 public class CourseConfigurer extends AbstractCourseConfigurer {
-    protected String groupName;
-
-    protected String type = "course";
-    protected String state = "draft";
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
-
-    
+  
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
     protected DocumentTool documentTool;
+    //
+    CourseSummaryConfigurer summaryConfigurer;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -136,23 +132,28 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         PROGRAM_INFO, ASSEMBLER_TEST
     }
 
-    protected DataModelDefinition modelDefinition;
     protected List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
-        this.modelDefinition = modelDefinition;
+        super.modelDefinition = modelDefinition;
     }
 
     public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
         this.stmtTypes = stmtTypes;
     }
 
+    /**
+     * Sets up all the views, sections, and views of the CourseProposalController.  This should be called
+     * once for initialization and setup per CourseProposalController instance.
+     * 
+     * @param layout
+     */
     public void configure(final CourseProposalController layout) {
-        groupName = LUUIConstants.COURSE_GROUP_NAME;
+    	type = "course";
+        state = DtoConstants.STATE_DRAFT;
+    	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
-        groupName = LUUIConstants.COURSE_GROUP_NAME;
-
-        if (modelDefinition.getMetadata().isCanEdit()) {
+    	if (modelDefinition.getMetadata().isCanEdit()) {
         	addCluStartSection(layout);
             String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
 
@@ -179,11 +180,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
-            documentTool.setModelDefinition(modelDefinition);
+            documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -198,7 +199,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -206,7 +207,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         layout.setDefaultView(CourseSections.SUMMARY);
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
         final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
-        commentTool.setController((Controller)layout);
+        commentTool.setController(layout);
         
         layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
             
@@ -226,7 +227,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             	decisionPanel.show();
             }
         }));
-
+        
     }
     
     protected KSButton getContinueButton(final CourseProposalController layout){
@@ -334,7 +335,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 COURSE_NUMBER_SUFFIX, 
                                 LUUIConstants.COURSE_NUMBER_LABEL_KEY, null, null, true)),
                         null,
-                        null);
+                        null,0);
         SpanPanel jntlabelpan = new SpanPanel();
         jntlabelpan.setStyleName("ks-multiplicity-section-label");
         jntlabelpan.setHTML("Jointly Offered Courses");
@@ -348,7 +349,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 CreditCourseJointsConstants.COURSE_ID, 
                                 LUUIConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null, true)),
                                 null,
-                                null);
+                                null,0);
         SpanPanel vsnlabelpan = new SpanPanel();
         vsnlabelpan.setStyleName("ks-multiplicity-section-label");
         vsnlabelpan.setHTML("Version Codes");
@@ -366,7 +367,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 LUUIConstants.TITLE_LABEL_KEY, null, null, true)
                 ),
                 null,
-                null);
+                null,0);
         return result;
     }
     
@@ -416,19 +417,21 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return config;
     }
 
-    protected void addMultiplicityFields(Section section,  
+    protected MultiplicitySection addMultiplicityFields(Section section,  
             String path, String addItemlabelMessageKey,
             String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
-            List<String> deletionParentKeys) {
+            List<String> deletionParentKeys,int defaultItemsCreated) {
         MultiplicityConfiguration config = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
                 path, addItemlabelMessageKey, itemLabelMessageKey,
                 fieldConfigs, swappableFieldsDefinition, deletionParentKeys);
+        config.setDefaultItemsCreated(defaultItemsCreated);
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(config, swappableFieldsDefinition, deletionParentKeys);
         section.addSection(ms);
+        return ms;
     }
 
     protected Metadata getMetaData(String fieldKey) {
@@ -551,7 +554,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         MultiplicityFieldWidgetInitializer multipleCreditInitializer = 
             new MultiplicityFieldWidgetInitializer() {
                 @Override
-                public ModelWidgetBinding getModelWidgetBindingInstance() {
+                public ModelWidgetBinding<?> getModelWidgetBindingInstance() {
                     return new ListOfStringBinding();
                 }
                 @Override
@@ -593,18 +596,19 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 )
         );
         
-        addMultiplicityFields(
+        MultiplicitySection ms = addMultiplicityFields(
                 courseOutcomes, 
                 path, 
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 Arrays.asList(
-                        new MultiplicityFieldConfig(
+                		new MultiplicityFieldConfig(
                                 CreditCourseConstants.TYPE,
                                 LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY,
                                 null, null, true)
-                ), swappableFieldsDefinition, null);
-
+                ), swappableFieldsDefinition, null,1);
+        //Set the required panel
+        courseOutcomes.setRequired(ms.getConfig().getParentFd().getFieldElement().getRequiredPanel());
         return courseOutcomes;
 
     }
@@ -631,13 +635,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         VerticalSection courseFormats = initSection(getH3Title(LUUIConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         courseFormats.setHelp(getLabel(LUUIConstants.FORMATS_LABEL_KEY + "-help"));
         courseFormats.setInstructions(getLabel(LUUIConstants.FORMATS_LABEL_KEY + "-instruct"));
-        
         MultiplicityConfiguration courseFormatConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
                 COURSE + "/" + FORMATS, LUUIConstants.COURSE_ADD_FORMAT_LABEL_KEY,
                 LUUIConstants.FORMAT_LABEL_KEY,
                 null, null, null);
+        courseFormatConfig.setDefaultItemsCreated(1);
         MultiplicityConfiguration activitiesConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.SUB_LEVEL_GROUP,
@@ -665,13 +669,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 true),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey",
-                                LUUIConstants.DURATION_TYPE_LABEL_KEY,
+                                LUUIConstants.COURSE_FORMATS_DURATION_TYPE_LABEL_KEY,
                                 null,
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "timeQuantity",
-                                LUUIConstants.DURATION_LITERAL_LABEL_KEY,
+                                LUUIConstants.DURATION_QUANTITY_LABEL_KEY,
                                 null,
                                 null,
                                 true),
@@ -682,13 +686,15 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 null,
                                 true)
                 ), null, null);
+        activitiesConfig.setDefaultItemsCreated(1);
         courseFormatConfig.setNestedConfig(activitiesConfig);
+        
 
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(courseFormatConfig, 
                 null, null);
         courseFormats.addSection(ms);
-        
+        courseFormats.setRequired(courseFormatConfig.getParentFd().getFieldElement().getRequiredPanel());
         return courseFormats;
     }
 
@@ -742,6 +748,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct"));
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
@@ -752,7 +759,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);
         final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
         
         loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
@@ -813,6 +820,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
              */
         }
 
+        @Override
         public boolean isMultipleSelect() {
             return true;
         }
@@ -852,63 +860,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
+    @Override
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
-    }
-
-    protected String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
-    }
-
-    protected SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH2Title(String labelKey) {
-        return SectionTitle.generateH2Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH3Title(String labelKey) {
-        return SectionTitle.generateH3Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    }
-
-    protected SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
-    }
-
-    // TODO - when DOL is pushed farther down into LOBuilder,
-    // revert these 5 methods to returning void again.
-
-    public FieldDescriptor addField(Section section, String fieldKey) {
-        return addField(section, fieldKey, null, null, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return addField(section, fieldKey, messageKey, null, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
-        return addField(section, fieldKey, messageKey, widget, null);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
-        return addField(section, fieldKey, messageKey, null, parentPath);
-    }
-
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
-        QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
-
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
-        return fd;
     }
 
     protected SectionView generateFinancialsSection() {
@@ -1088,8 +1042,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 "Percentage", null, null, true)                                
                 ),
                 null,
-                null
-        );
+                null,
+                0);
     }
     
     protected void setupExpenditureSection(Section parentSection) {
@@ -1110,8 +1064,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 "Percentage", null, null, true)                                
                 ),
                 null,
-                null
-        );
+                null,
+                0);
     }
     
     protected SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey, 
@@ -1173,6 +1127,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         }
 
         return sb.toString();
+    }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
     }
 }
 
@@ -1253,7 +1211,8 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
                         Data idItem = p.getValue();
                         String id = idItem.get(key);
                         Data runtimeData = idItem.get("_runtimeData");
-                        Data translationData = runtimeData.get(key);
+                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                        Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
                         newIdsData = (newIdsData == null) ? new Data() : newIdsData;
                         newIdsData.add(id);
                         newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;
@@ -1279,7 +1238,7 @@ class MultiplicityFieldConfig {
     public MultiplicityFieldConfig() {
     }
     public MultiplicityFieldConfig(String fieldKey, String labelKey,
-            Widget fieldWidget, ModelWidgetBinding modelWidgetBinding, boolean nextLine) {
+            Widget fieldWidget, ModelWidgetBinding<?> modelWidgetBinding, boolean nextLine) {
         setFieldKey(fieldKey);
         setLabelKey(labelKey);
         setNextLine(nextLine);

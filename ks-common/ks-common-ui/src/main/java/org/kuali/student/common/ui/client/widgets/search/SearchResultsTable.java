@@ -18,10 +18,21 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
@@ -29,12 +40,6 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RetrieveAdditiona
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.core.assembly.data.LookupResultMetadata;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -45,7 +50,7 @@ public class SearchResultsTable extends Composite{
 
     private final int PAGE_SIZE = 10;
     
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
     
     private VerticalPanel layout = new VerticalPanel();
     
@@ -53,9 +58,23 @@ public class SearchResultsTable extends Composite{
     private String resultIdColumnKey;
     private SearchRequest searchRequest;
     private Table table = new Table();
-    private boolean isMultiSelect = true;
+	private boolean isMultiSelect = true;
+	private boolean withMslable = true;
+    private KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
-    public SearchResultsTable(){
+	
+    public KSButton getMslabel() {
+		return mslabel;
+	}
+
+	public void setMslabel(KSButton mslabel) {
+		this.mslabel = mslabel;
+	}
+
+	public Table getContentTable(){
+		return table;
+	}
+	public SearchResultsTable(){
         super();
         redraw();
         layout.setWidth("100%");
@@ -69,10 +88,18 @@ public class SearchResultsTable extends Composite{
     public void setMutipleSelect(boolean isMultiSelect){
     	this.isMultiSelect = isMultiSelect;
     }
-    
-    //FIXME do we really need to recreate the table for every refresh?
+ 
+	public void setWithMslable(boolean withMslable) {
+		this.withMslable = withMslable;
+	}
+
+	//FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
-    	table = new Table();
+    	
+    	if(table == null){
+    		table = new Table();
+    	}
+    	table.removeAllRows();
         this.resultIdColumnKey = resultIdKey;
         
         tableModel = new DefaultTableModel();
@@ -112,7 +139,7 @@ public class SearchResultsTable extends Composite{
                  //tableModel.fireTableDataChanged();
 			}
 		});
-        
+
         redraw();
         layout.add(table);
   }   
@@ -160,7 +187,8 @@ public class SearchResultsTable extends Composite{
 
             @Override
             public void onSuccess(SearchResult results) {
-
+            	table.addContent();
+            	
                 if(results != null && results.getRows() != null && results.getRows().size() != 0){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
@@ -174,7 +202,18 @@ public class SearchResultsTable extends Composite{
                     }
                 } else {
                 	tableModel.setMoreData(false);
+                	
+                	//add no matches found if no search results
+                	if(searchRequest.getStartAt() == 0){
+	                	table.removeContent();
+	                	VerticalFlowPanel noResultsPanel = new VerticalFlowPanel();
+	                	noResultsPanel.add(new KSLabel("No matches found"));
+	                	if(withMslable) noResultsPanel.add(mslabel);
+	                	noResultsPanel.addStyleName("ks-no-results-message");
+	                	table.getScrollPanel().add(noResultsPanel);
+                	}
                 }
+                tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
                 table.displayLoading(false);
             }

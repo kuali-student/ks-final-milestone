@@ -36,7 +36,7 @@
 			<param-value>classpath:lum-gwt-context.xml</param-value>
 		</init-param>
 	</servlet>
-
+   
 	<servlet-mapping>
 		<servlet-name>GWT</servlet-name>
 		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/*</url-pattern>

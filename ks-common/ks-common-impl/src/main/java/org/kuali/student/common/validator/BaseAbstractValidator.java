@@ -18,9 +18,9 @@ package org.kuali.student.common.validator;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 /**
  * This is an abstract class that allows the sub implementations an option to reference ValidatorFactory.
@@ -42,13 +42,13 @@ public abstract class BaseAbstractValidator implements Validator {
     }
 
     /**
-     * @see org.kuali.student.common.validator.Validator#validateObject(java.lang.Object, org.kuali.student.core.dictionary.dto.ObjectStructureDefinition)
+     * @see org.kuali.student.common.validator.Validator#validateObject(java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition)
      */
     @Override
     public abstract List<ValidationResultInfo> validateObject(Object o, ObjectStructureDefinition objStructure);
 
     /**
-     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.core.dictionary.dto.FieldDefinition, java.lang.Object, org.kuali.student.core.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
+     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.common.dictionary.dto.FieldDefinition, java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
      */
     @Override
     public abstract List<ValidationResultInfo> validateObject(FieldDefinition field, Object o, ObjectStructureDefinition objStructure, Stack<String> elementStack);

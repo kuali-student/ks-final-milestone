@@ -95,10 +95,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluLoRelationInfo.metaInfo.includes.(default) -->
 <!-- ******************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluLoRelationInfo.metaInfo.includes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluLoRelationInfo.metaInfo.includes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluLoRelationInfo.metaInfo.includes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluLoRelationInfo.metaInfo.includes" parent="object.field.cluLoRelationInfo.metaInfo.includes.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluLoRelationInfo.metaInfo.includes" parent="object.field.cluLoRelationInfo.metaInfo.includes.abstract"/>
 
 <dict:type key="*" id="type.field.cluLoRelationInfo.metaInfo.includes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

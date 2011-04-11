@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -16,12 +20,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -102,9 +102,8 @@ public class SummaryTableSection extends VerticalSection {
     }
     
     @Override
-    public ErrorLevel processValidationResults(
-    		List<ValidationResultInfo> results, boolean clearAllValidation) {
-    	if(clearAllValidation){
+    public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors) {
+    	if(clearErrors){
     		this.removeValidationHighlighting();
     	}
     	return this.processValidationResults(results);
@@ -459,6 +458,10 @@ public class SummaryTableSection extends VerticalSection {
     public String addSection(String key, Section section) {
         GWT.log("addSection(String key, Section section) method not supported");
         throw new UnsupportedOperationException("SummaryTableSection.addSection(String key, Section section) method not supported");
+    }
+
+    public SummaryTable getSummaryTable() {
+        return summaryTable;
     }
 
 }

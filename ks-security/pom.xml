@@ -3,16 +3,13 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2-M2-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.security</groupId>
   <artifactId>ks-security</artifactId>
   <packaging>pom</packaging>
   <name>KS Security</name>
   <description>KS Security</description>
-  <properties>
-    <kuali.site.download.path>org/kuali/student/security</kuali.site.download.path>
-  </properties>
   <modules>
     <module>ks-standard-sec</module>
     <module>ks-sts</module>

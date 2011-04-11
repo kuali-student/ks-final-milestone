@@ -17,7 +17,7 @@
 
 <module>
 	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.kuali.student.core.Core' />
-	<inherits name='org.kuali.student.core.search.Search' />
+	<inherits name='org.kuali.student.common.Core' />
+	<inherits name='org.kuali.student.common.search.Search' />
 	<source path='dto' />
 </module>

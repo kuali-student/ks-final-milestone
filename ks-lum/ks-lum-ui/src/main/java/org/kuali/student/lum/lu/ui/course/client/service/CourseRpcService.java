@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 
@@ -28,11 +28,11 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CourseRpcService")
 public interface CourseRpcService extends BaseDataOrchestrationRpcService{
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception;
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                                                         Map<Integer, StatementTreeViewInfo> rules) throws Exception;    
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
     public StatusInfo changeState(String courseId, String newState) throws Exception;
     public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception;
  

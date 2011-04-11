@@ -15,11 +15,11 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;

@@ -31,7 +31,8 @@
     <param name="http.port">8888</param>  
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
-    <param name="serviceNamespace">KSCoreUI</param>    
+    <param name="serviceNamespace">KSCoreUI</param>
+	<param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param>    
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>

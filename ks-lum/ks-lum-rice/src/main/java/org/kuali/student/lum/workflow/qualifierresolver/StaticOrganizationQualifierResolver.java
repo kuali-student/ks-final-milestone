@@ -76,7 +76,6 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 OrgInfo orgInfo = getOrganizationService().getOrganization(orgId);
                 AttributeSet attrSet = new AttributeSet();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
-                attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName());
                 attributeSets.add(attrSet);
             }
         } catch (DOMException e) {

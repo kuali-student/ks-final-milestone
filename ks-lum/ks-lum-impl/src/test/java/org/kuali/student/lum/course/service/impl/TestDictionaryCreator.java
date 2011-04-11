@@ -3,7 +3,8 @@ package org.kuali.student.lum.course.service.impl;
 import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
-import org.kuali.student.core.dictionary.service.impl.DictionaryCreator;
+
+import org.kuali.student.common.dictionary.service.impl.DictionaryCreator;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.GradeInfo;

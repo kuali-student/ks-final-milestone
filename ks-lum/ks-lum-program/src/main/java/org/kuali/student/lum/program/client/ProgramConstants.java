@@ -17,6 +17,7 @@ public class ProgramConstants {
     public static final String MAJOR_LU_TYPE_ID = "kuali.lu.type.MajorDiscipline";
     public static final String CORE_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
     public static final String CRED_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
+    public static final String CRED_LU_TYPE_PREFIX = "kuali.lu.type.credential";
     public static final String VARIATION_TYPE_KEY = "kuali.lu.type.Variation";
     public static final String MAJOR_REFERENCE_TYPE_ID = "referenceType.clu";
     public static final String RUNTIME_DATA = "_runtimeData";

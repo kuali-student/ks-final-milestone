@@ -15,11 +15,15 @@
 
 package org.kuali.student.common.validator;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public class ValidatorUtils {
 
@@ -28,7 +32,15 @@ public class ValidatorUtils {
 
 		boolean result = false;
 		Integer compareResult = null;
-
+		if("has_value".equalsIgnoreCase(operator)){
+			if(value1==null){
+				return "false".equals(value2.toString().toLowerCase());
+			}
+			if(value1 instanceof Collection && ((Collection<?>) value1).isEmpty()){
+				return "false".equals(value2.toString().toLowerCase());
+			}
+			return "true".equals(value2.toString().toLowerCase());
+		}
 		// Convert objects into appropriate data types
 		if (null != dataType) {
 			if (DataType.STRING.equals(dataType)) {
@@ -77,12 +89,12 @@ public class ValidatorUtils {
 			}
 
 			if (("not_equal".equalsIgnoreCase (operator)
-     || "greater_than".equalsIgnoreCase(operator)) && compareResult >= 1) {
+     || "greater_than".equalsIgnoreCase(operator) || "greater_than_equal".equalsIgnoreCase(operator)) && compareResult >= 1) {
 				result = true;
 			}
 
 			if (("not_equal".equalsIgnoreCase (operator)
-     || "less_than".equalsIgnoreCase(operator)) && compareResult <= -1) {
+     || "less_than".equalsIgnoreCase(operator)|| "less_than_equal".equalsIgnoreCase(operator)) && compareResult <= -1) {
 				result = true;
 			}
 		}
@@ -221,6 +233,42 @@ public class ValidatorUtils {
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
+
+	/**
+	 * Inspect the validation result to determine if there are any errors.
+	 * 
+	 * @param validationResults
+	 * @return true if at least one validation result is an error. 
+	 */
+	public static boolean hasErrors(List<ValidationResultInfo> validationResults){
+		if (validationResults !=null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.ERROR){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Inspect the validation result to determine if there are any errors.
+	 * 
+	 * @param validationResults
+	 * @return true if at least one validation result is an error. 
+	 */
+	public static boolean hasWarnings(List<ValidationResultInfo> validationResults){
+		if (validationResults !=null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.WARN){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 }
 

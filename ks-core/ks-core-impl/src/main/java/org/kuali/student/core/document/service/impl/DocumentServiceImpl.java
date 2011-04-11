@@ -21,10 +21,20 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
@@ -39,16 +49,6 @@ import org.kuali.student.core.document.entity.RefDocRelationType;
 import org.kuali.student.core.document.entity.RefObjectSubType;
 import org.kuali.student.core.document.entity.RefObjectType;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -50,7 +50,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         return rules;
     }
 
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                                                         Map<Integer, StatementTreeViewInfo> rules) throws Exception {
 
         Map<Integer, StatementTreeViewInfo> storedRules = new HashMap<Integer, StatementTreeViewInfo>();
@@ -63,10 +63,10 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
                     storedRules.put(key, null);
                     break;
                 case ADDED:
-                    storedRules.put(key, createCourseStatement(courseId, rule));
+                    storedRules.put(key, createCourseStatement(courseId, courseState, rule));
                     break;
                 case EDITED:
-                    storedRules.put(key, updateCourseStatement(courseId, rule));
+                    storedRules.put(key, updateCourseStatement(courseId, courseState, rule));
                     break;
                 case DELETED:
                     storedRules.put(key, null);
@@ -80,9 +80,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        statementTreeViewInfo.setState("Active");
-        CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
         return rule;
@@ -94,9 +94,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     }
 
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        statementTreeViewInfo.setState("Active");
-        CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
         return rule;

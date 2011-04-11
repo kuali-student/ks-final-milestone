@@ -4,7 +4,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
+
 import static org.junit.Assert.fail;
 
 public class TestClusetUiObjectDictionary

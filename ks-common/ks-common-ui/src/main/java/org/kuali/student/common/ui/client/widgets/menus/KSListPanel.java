@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.WidgetCollection;
 
 /**
  * @author wilj
@@ -94,5 +95,8 @@ public class KSListPanel extends ComplexPanel {
 
     }
 
+    public WidgetCollection getChildren() {
+        return super.getChildren();    
+    }
 
 }

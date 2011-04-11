@@ -18,13 +18,13 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -64,8 +64,6 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		try{
 			return dataService.saveData(data);
-		}catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
 		} catch (Exception e) {
 			LOG.error("Could not save data ", e);
 			throw new OperationFailedException("Failed to save data");

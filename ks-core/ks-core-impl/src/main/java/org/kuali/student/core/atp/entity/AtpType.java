@@ -24,8 +24,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.Type;
 
 @Entity
 @Table(name = "KSAP_ATP_TYPE")

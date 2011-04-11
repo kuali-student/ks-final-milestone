@@ -18,13 +18,13 @@ package org.kuali.student.core.statement.naturallanguage.translators;
 import java.util.List;
 import java.util.Locale;
 
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.common.messagebuilder.booleanmessage.MessageContainer;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanMessageImpl;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.naturallanguage.util.ReqComponentReference;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

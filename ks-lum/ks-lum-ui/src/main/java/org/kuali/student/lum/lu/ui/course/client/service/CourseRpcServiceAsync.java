@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 
@@ -28,11 +28,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
     public void getCourseStatements(String courseId, String nlUsageTypeKey, String language, AsyncCallback<List<StatementTreeViewInfo>> callback);
-    public void storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    public void storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                             Map<Integer, StatementTreeViewInfo> rules, AsyncCallback<Map<Integer, StatementTreeViewInfo>> callback);    
-    public void createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    public void createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
     public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatusInfo> callback);
-    public void updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    public void updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
     public void changeState(String courseId, String newState, AsyncCallback<StatusInfo> callback);
     public void changeState(String courseId, String newState, Date currentVersionStart, AsyncCallback<StatusInfo> callback);
    

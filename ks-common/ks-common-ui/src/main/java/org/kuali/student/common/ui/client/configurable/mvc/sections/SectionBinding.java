@@ -20,17 +20,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Model widget binding for a section - calls the bindings on its fields and sub sections.  Special handling
+ * for sections which can have their sections deleted by the user.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class SectionBinding extends ModelWidgetBindingSupport<Section> {
 	public static SectionBinding INSTANCE = new SectionBinding();
 

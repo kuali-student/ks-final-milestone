@@ -3,6 +3,9 @@
  */
 package org.kuali.student.lum.workflow;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,12 +15,14 @@ import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.LUConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,9 +37,9 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + LUConstants.LU_STATE_SUBMITTED + "'");
+        LOG.info("Will set CLU state to '" + DtoConstants.STATE_SUBMITTED + "'");
         CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
-        updateCourse(actionTakenEvent, LUConstants.LU_STATE_SUBMITTED, courseInfo);
+        updateCourse(actionTakenEvent, DtoConstants.STATE_SUBMITTED, courseInfo);
     }
 
     @Override
@@ -70,20 +75,20 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_APPROVED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
         } else {
             // no status to set
             return null;
@@ -121,16 +126,23 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             getCourseService().updateCourse(courseInfo);
             
             //For a newly approved course (w/no prior active versions), make the new course the current version.
-            if (LUConstants.LU_STATE_APPROVED.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
+            if (DtoConstants.STATE_APPROVED.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
             	// TODO: set states of other approved courses to superseded                
                 
             	// if current version's state is not active then we can set this course as the active course
-            	if (!LUConstants.LU_STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
+            	if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
             		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null);
             	}
             }
+            
+            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
+            
+            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+            
+            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+        		courseService.updateCourseStatement(courseInfo.getId(), it.next());
         }
-
+        
     }
 
     protected boolean preProcessCourseSave(IDocumentEvent iDocumentEvent, CourseInfo courseInfo) {
@@ -143,5 +155,22 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         }
         return this.courseService;
     }
+    
+    /*
+     * Recursively set state for StatementTreeViewInfo
+     * TODO: We are not able to reuse the code in CourseStateUtil for dependency reason.
+     */   
+    public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
+    	while(itr.hasNext()) {
+        	StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();
+        	statementTreeViewInfo.setState(courseState);
+        	List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+        	for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+        		it.next().setState(courseState);
+
+        	statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
+        }
+    }  
+    
 
 }

@@ -23,8 +23,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 

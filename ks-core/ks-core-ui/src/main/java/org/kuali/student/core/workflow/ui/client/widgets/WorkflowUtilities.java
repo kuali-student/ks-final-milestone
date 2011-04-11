@@ -17,6 +17,9 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
@@ -24,17 +27,13 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
-import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
-import org.kuali.student.common.ui.client.service.CommentRpcService;
-import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmApprovalCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
@@ -49,11 +48,10 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
@@ -113,7 +111,7 @@ public class WorkflowUtilities{
 	
 	boolean loaded=false;
     
-	private boolean workflowWidgetsEnabled = true;
+    private boolean workflowWidgetsEnabled = true;
 	
 	private KSMenuItemData wfApproveItem;
 	private KSMenuItemData wfDisApproveItem;
@@ -125,32 +123,31 @@ public class WorkflowUtilities{
     private KSMenuItemData wfReturnToPreviousItem;
     private KSMenuItemData wfBlanketApproveItem;
 	
-	private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+	private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 	    
     SaveActionEvent approveSaveActionEvent;
     SaveActionEvent startWorkflowSaveActionEvent;
     
     WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
-    private CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
+    private final CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
     
     private String modelName;
     private String proposalPath;
     private String proposalId = "";
-    private String workflowId = "";
+    private String workflowId;
     private String proposalName="";
     private String workflowActions="";
-    private String proposalVersion="";
         
-	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
+	private final List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
 	private Callback<Boolean> submitCallback;
-	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
+	private final ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
 	private VerticalPanel dialogPanel;
     
-    private KSLabel workflowStatusLabel = new KSLabel("");
+    private final KSLabel workflowStatusLabel = new KSLabel("");
     
-    private LayoutController parentController;
+    private final LayoutController parentController;
 	
 	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
 		this.parentController = parentController;
@@ -162,7 +159,7 @@ public class WorkflowUtilities{
 	public void requestAndSetupModel() {
 		
 		if(null==dataModel){
-			//Get the Model from the controller
+			//Get the Model from the controller and register a model change handler when the workflow model is updated
 			parentController.requestModel(modelName, new ModelRequestCallback<DataModel>() {
 			
 				@Override
@@ -174,13 +171,13 @@ public class WorkflowUtilities{
 				public void onModelReady(DataModel model) {
 					//After we get the model update immediately
 					dataModel = model;
-					updateWorkflow(dataModel, false);
+					updateWorkflow(dataModel);
 				}
-			});			
+			});
 		}else{
 			//If the model has been set don't waste time finding it again and don't register 
 			//another change listener, just update
-			updateWorkflow(dataModel, false);
+			updateWorkflow(dataModel);
 		}
 	}
 	
@@ -215,13 +212,14 @@ public class WorkflowUtilities{
 			public void onClick(ClickEvent event) {
 				dialog.getConfirmButton().setEnabled(false);
 				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-					public void handleFailure(Throwable caught) {
+					@Override
+                    public void handleFailure(Throwable caught) {
 						Window.alert("Error starting Proposal workflow");
 						dialog.getConfirmButton().setEnabled(true);
 					}
 					public void onSuccess(Boolean result) {
 						if (result){
-							updateWorkflow(dataModel, false);						
+							updateWorkflow(dataModel);						
 							dialog.hide();
 							dialog.getConfirmButton().setEnabled(true);
 							if(submitCallback != null){
@@ -246,7 +244,7 @@ public class WorkflowUtilities{
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
 		workflowActionsDropDown.setVisible(false);
-		refresh();
+		updateWorkflow(dataModel);
 /*		infoContainer.add(workflowActionsDropDown);
 		infoContainer.showWarnStyling(false);
 		infoContainer.setVisible(true);*/
@@ -254,8 +252,8 @@ public class WorkflowUtilities{
 		return workflowActionsDropDown;
 	}
 	
-	public void enableWorkflowActionsWidgets(boolean enable){
-		workflowWidgetsEnabled = enable;
+    public void enableWorkflowActionsWidgets(boolean enable) {
+        workflowWidgetsEnabled = enable;
 		updateWorkflowActionsWidget();
 	}
 	
@@ -267,49 +265,23 @@ public class WorkflowUtilities{
 		return workflowStatusLabel;
 	}
 	
-	/*
-	 * This updates the workflowId, proposalName, and proposalId when workflowId has changed and returns true if it has.
-	 */
-	private boolean updateWorkflowIdFromModel(final DataModel model){
+	private void updateWorkflowIdFromModel(final DataModel model){
 		if(model!=null){
-			String modelWorkflowId = model.get(QueryPath.parse(proposalPath + "/workflowId")); 
+			String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
 			
 			//If proposalId in model has been set or changed, get new workflowId and update workfow widget
-			if (modelWorkflowId != null && !modelWorkflowId.isEmpty() && !modelWorkflowId.equals(workflowId)){
-				workflowId = modelWorkflowId; 
-				proposalId = model.get(QueryPath.parse(proposalPath + "/id"));
+			if (modelProposalId != null && !modelProposalId.isEmpty() && !modelProposalId.equals(proposalId)){
+				proposalId = modelProposalId;
+				workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));
 				proposalName = model.get(QueryPath.parse(proposalPath + "/name"));
-				proposalVersion = model.get(QueryPath.parse(proposalPath + "/metaInfo/versionInd"));
-				return true;
 			}
 		}
-		
-		return false;
 	}
-	
-	/*
-	 * This updates the proposal version number when it has changed and returns true if it has.
-	 */
-	private boolean updateProposalVersionNumber(final DataModel model){
-		if(model!=null){
-			String modelProposalVersion = model.get(QueryPath.parse(proposalPath + "/metaInfo/versionInd"));
-			if (modelProposalVersion != null && !modelProposalVersion.isEmpty() && !modelProposalVersion.equals(proposalVersion)){
-				proposalVersion = modelProposalVersion;
-				return true;
-			}
-		}
+
+	private void updateWorkflow(DataModel model){
+		updateWorkflowIdFromModel(model);
 		
-		return false;
-	}
-	
-	/*
-	 * This method makes workflow service calls to update workflow document status and and items
-	 * to display in workflow drop down. NOTE: This method should be called only when needed to reduce
-	 * number of KEW service calls needed. 
-	 */
-	private void updateWorkflow(DataModel model, boolean workflowActionTaken){
-		//Only update doc status and action drop down if new proposal loaded
-		if (updateWorkflowIdFromModel(model) || updateProposalVersionNumber(model) || workflowActionTaken){			
+		if (workflowId != null && !workflowId.isEmpty()){
 			//Determine which workflow actions are displayed in the drop down
 			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
 		
@@ -330,9 +302,9 @@ public class WorkflowUtilities{
 					setWorkflowStatus(result);
 				}						
 			});
-		} else if (workflowId == null || workflowId.isEmpty()){
-			workflowStatusLabel.setText("Status: Draft");			
-		}
+		} else {
+			workflowStatusLabel.setText("Status: Draft");
+		}			
 	}
 	
 	private void updateWorkflowActionsWidget(){
@@ -394,13 +366,14 @@ public class WorkflowUtilities{
 	        public void onClick(ClickEvent event) {	   
 	        	addRationale(rationaleEditor,DecisionRationaleDetail.FYI.getType());
 				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-					public void handleFailure(Throwable caught) {
+					@Override
+                    public void handleFailure(Throwable caught) {
 						Window.alert("Error FYIing Proposal");
 					}
 					public void onSuccess(
 							Boolean result) {
 						if(result){
-							updateWorkflow(dataModel, true);
+							updateWorkflow(dataModel);
 							if(submitCallback != null){
 								submitCallback.exec(true);
 							}
@@ -430,14 +403,15 @@ public class WorkflowUtilities{
 						if(!result.name().equals("CANCEL")){
 							addRationale(rationaleEditor,DecisionRationaleDetail.ACKNOWLEDGE.getType());
 							workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-								public void handleFailure(Throwable caught) {
+								@Override
+                                public void handleFailure(Throwable caught) {
 									submitSuccessDialog.hide();
 									Window.alert("Error acknowledging Proposal");
 								}
 								public void onSuccess(Boolean result) {
 									submitSuccessDialog.hide();
 									if(result){
-										updateWorkflow(dataModel, true);
+										updateWorkflow(dataModel);
 										if(submitCallback != null){
 											submitCallback.exec(true);
 										}
@@ -488,7 +462,8 @@ public class WorkflowUtilities{
 							else{
 								addRationale(rationaleEditor,DecisionRationaleDetail.REJECT.getType());
 								workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-									public void handleFailure(Throwable caught) {
+									@Override
+                                    public void handleFailure(Throwable caught) {
 										submitSuccessDialog.hide();
 										Window.alert("Error rejecting Proposal");
 									}
@@ -499,7 +474,7 @@ public class WorkflowUtilities{
 										}
 										if(result){
 											KSNotifier.add(new KSNotification("Proposal was rejected", false));
-											updateWorkflow(dataModel, true);
+											updateWorkflow(dataModel);
 										}else{
 											Window.alert("Error rejecting Proposal");
 										}
@@ -556,14 +531,15 @@ public class WorkflowUtilities{
 								addRationale(rationaleEditor,DecisionRationaleDetail.APPROVE.getType());
 								
 								workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-								public void handleFailure(Throwable caught) {
+								@Override
+                                public void handleFailure(Throwable caught) {
 									submitSuccessDialog.hide();
 									Window.alert("Error approving Proposal");
 								}
 								public void onSuccess(Boolean result) {
 									submitSuccessDialog.hide();
 									if (result){
-										updateWorkflow(dataModel, true);
+										updateWorkflow(dataModel);
 										if(submitCallback != null){
 											submitCallback.exec(result);
 										}
@@ -622,6 +598,7 @@ public class WorkflowUtilities{
                                 addRationale(rationaleEditor, DecisionRationaleDetail.WITHDRAW.getType());
 
                                 workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                                    @Override
                                     public void handleFailure(Throwable caught) {
                                         submitSuccessDialog.hide();
                                         Window.alert("Error withdrawing Proposal");
@@ -630,7 +607,7 @@ public class WorkflowUtilities{
                                     public void onSuccess(Boolean result) {
                                         submitSuccessDialog.hide();
                                         if (result) {
-                                            updateWorkflow(dataModel, true);
+                                            updateWorkflow(dataModel);
                                             if (submitCallback != null) {
                                                 submitCallback.exec(result);
                                             }
@@ -688,6 +665,7 @@ public class WorkflowUtilities{
                                 addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
 
                                 workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                                    @Override
                                     public void handleFailure(Throwable caught) {
                                         submitSuccessDialog.hide();
                                         Window.alert("Error blanket approving Proposal");
@@ -696,7 +674,12 @@ public class WorkflowUtilities{
                                     public void onSuccess(Boolean result) {
                                         submitSuccessDialog.hide();
                                         if (result) {
-                                            updateWorkflow(dataModel, true);
+                                            // KSLAB-1828; we get "B" back from workflowRpcServiceAsync.getActionsRequested()
+                                            // even though we just successfully submitted blanket approval to workflow,
+                                            // because the workflow action hasn't been completed yet.
+                                            enableWorkflowActionsWidgets(false);
+
+                                            updateWorkflow(dataModel);
                                             if (submitCallback != null) {
                                                 submitCallback.exec(result);
                                             }
@@ -740,6 +723,7 @@ public class WorkflowUtilities{
         final KSDropDown nodeNameDropDown = new KSDropDown();
         nodeNameDropDown.setBlankFirstItem(true);
         workflowRpcServiceAsync.getPreviousRouteNodeNames(workflowId, new KSAsyncCallback<List<String>>() {
+            @Override
             public void handleFailure(Throwable caught) {
                 Window.alert("Error getting previous node names for Proposal");
             }
@@ -779,6 +763,7 @@ public class WorkflowUtilities{
                                 addRationale(rationaleEditor, DecisionRationaleDetail.RETURN_TO_PREVIOUS.getType());
                                 String nodeName = nodeNameDropDown.getSelectedItem().trim();
                                 workflowRpcServiceAsync.returnDocumentWithId(workflowId, nodeName, new KSAsyncCallback<Boolean>() {
+                                    @Override
                                     public void handleFailure(Throwable caught) {
                                         submitSuccessDialog.hide();
                                         Window.alert("Error returning the Proposal to a previous node");
@@ -787,7 +772,7 @@ public class WorkflowUtilities{
                                     public void onSuccess(Boolean result) {
                                         submitSuccessDialog.hide();
                                         if (result) {
-                                            updateWorkflow(dataModel, true);
+                                            updateWorkflow(dataModel);
                                             if (submitCallback != null) {
                                                 submitCallback.exec(result);
                                             }
@@ -868,7 +853,7 @@ public class WorkflowUtilities{
                     @Override
                     public void exec(List<ValidationResultInfo> result) {
                     	
-                    	boolean isValid = ((LayoutController)parentController).isValid(result, false);
+                        boolean isValid = parentController.isValid(result, false);
                     	if(isValid){
             				dialog.show();
                     	}
@@ -887,27 +872,43 @@ public class WorkflowUtilities{
         KSMenuItemData wfCancelWorkflowItem;
         final KSRichEditor rationaleEditor = new KSRichEditor();
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
-                workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
-                    public void handleFailure(Throwable caught) {
-                        Window.alert("Error Cancelling Proposal");
-                    }
-
-                    public void onSuccess(Boolean result) {
-                        if (result) {
-                            updateWorkflow(dataModel, true);
-                            if (submitCallback != null) {
-                                submitCallback.exec(true);
-                            }
-                            // Notify the user that the document was FYIed
-                            KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
-                        } else {
-                            Window.alert("Error Cancelling Proposal");
-                        }
-                    }
+            public void onClick(ClickEvent event) {	
+            	final ConfirmationDialog confirmationCancelProposal =
+                    new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
+                 
+            	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
+            	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
+                confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
+                   
+            	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
+            		@Override
+            		public void onClick(ClickEvent event) {
+            			addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
+            			workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+            				@Override
+                            public void handleFailure(Throwable caught) {
+            					confirmationCancelProposal.hide();
+            					Window.alert("Error Cancelling Proposal");
+            				}
+            				public void onSuccess(Boolean result) {
+            					confirmationCancelProposal.hide();
+            					if (result) {
+            						updateWorkflow(dataModel);
+            						if (submitCallback != null) {
+            							submitCallback.exec(true);
+            						}
+            						// Notify the user that the document was canceled
+            						KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
+            					} else {
+            						Window.alert("Error Cancelling Proposal");
+            					}
+            				}
+            			});
+            		
+            		}
 
                 });
+            	confirmationCancelProposal.show();
             }
         });
         return wfCancelWorkflowItem;
@@ -963,8 +964,9 @@ public class WorkflowUtilities{
 		this.workflowRpcServiceAsync = workflowRpcServiceAsync;
 	}
 
+    //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
 	public void refresh(){
-		updateWorkflow(dataModel, false);
+		updateWorkflow(dataModel);
 	}
 	
     private String getLabel(String labelKey) {

@@ -30,6 +30,7 @@
 	<bean parent="enCommon" p:messageId="confirm"		p:value="Confirm"/>
    	<bean parent="enCommon" p:messageId="cancel"		p:value="Cancel"/>
    	<bean parent="enCommon" p:messageId="continue"		p:value="Continue"/>
+   	<bean parent="enCommon" p:messageId="export"		p:value="Export"/>
    	<bean parent="enCommon" p:messageId="edit"		    p:value="Edit"/>
    	<bean parent="enCommon" p:messageId="update"		p:value="Update"/>
    	<bean parent="enCommon" p:messageId="save"		    p:value="Save"/>
@@ -104,11 +105,18 @@
     <bean parent="enCommon" p:messageId="wfInitiated"      p:value="Initiated" />
     <bean parent="enCommon" p:messageId="wfEnroute"      p:value="Enroute" />
     <bean parent="enCommon" p:messageId="wfApproved"      p:value="Approved" />
+    <bean parent="enCommon" p:messageId="wfFinal"      p:value="Final" />
     <bean parent="enCommon" p:messageId="wfCancelled"      p:value="Cancelled" />
     <bean parent="enCommon" p:messageId="wfException"      p:value="Exception" />
     <bean parent="enCommon" p:messageId="wfDisapproved"      p:value="Disapproved" />
     <bean parent="enCommon" p:messageId="wfDisapprovedCancel"      p:value="Disapproved-Cancel" />
     <bean parent="enCommon" p:messageId="wfProcessed"      p:value="Processed" />
+    
+    <!-- Report Export Messages -->
+  	<bean parent="enCommon" p:messageId="exportTitle"       p:value="Export Document"/>
+    <bean parent="enCommon" p:messageId="exportDialog"      p:value="Select the document type to export as:"/>
+    <bean parent="enCommon" p:messageId="pdfFormat"         p:value=".pdf (Adobe Acrobat)"/>
+    <bean parent="enCommon" p:messageId="docFormat"         p:value=".doc (Microsoft Word)"/>
 
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
@@ -163,4 +171,6 @@
     <bean parent="enValidation" p:messageId="validation.validChars.gpa9.9" p:value="Can only contain a GPA in the form 9.9."/>
     <bean parent="enValidation" p:messageId="validation.validChars.positive.integer" p:value="Can only contain a positive integer."/>
     <bean parent="enValidation" p:messageId="validation.validChars.relationalOperator" p:value="Can only contain one of these operators &gt;,&lt;,=,&gt;=,&lt;=, or &lt;&gt;"/>
+    
+    
 </beans>

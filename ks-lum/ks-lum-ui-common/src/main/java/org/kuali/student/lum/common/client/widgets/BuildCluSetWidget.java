@@ -17,17 +17,17 @@ package org.kuali.student.lum.common.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.AccessWidgetValue;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValue;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

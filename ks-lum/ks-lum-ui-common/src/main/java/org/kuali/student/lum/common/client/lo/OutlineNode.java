@@ -15,7 +15,7 @@
 
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data;
 
 public class OutlineNode<T> {
     int indentLevel = 0;

@@ -21,9 +21,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.LookupMetadata.Usage;
+import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -40,22 +48,17 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -126,6 +129,7 @@ public class SearchPanel extends Composite{
                 @Override
                public void exec(ButtonEnum result) {
                     if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+                    	table.getContentTable().removeContent();
                         getActionCompleteCallback().exec(true);                                 
                     }
                }
@@ -187,6 +191,23 @@ public class SearchPanel extends Composite{
         table.addStyleName("KS-Advanced-Search-Results-Table");
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
+        
+        table.getMslabel().addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(modifySearchPanel.isOpen()){
+					modifySearchPanel.close();
+				}
+				else{
+					modifySearchPanel.open();
+				}
+				
+				resultsTablePanel.setVisible(false);
+				resultsSelected = false;
+				actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+			}
+		});
         
         resultsSelected = false;
         actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
@@ -584,7 +605,14 @@ public class SearchPanel extends Composite{
             }
         }
         else if (widget instanceof KSPicker){
-            param.setValue(((KSPicker)widget).getDisplayValue());
+        	KSPicker pickerWidget = (KSPicker)widget; 
+        	String pickerValue = pickerWidget.getValue().toString();
+        	if (UtilConstants.IMPOSSIBLE_CHARACTERS.equals(pickerValue)){
+        		SuggestBox suggestBox = (SuggestBox)pickerWidget.getInputWidget();
+        		pickerValue = suggestBox.getText();
+        	}
+        	
+            param.setValue(pickerValue);
         }
         else {
             param.setValue("");
@@ -725,11 +753,16 @@ public class SearchPanel extends Composite{
             public void exec(Boolean result) {                               
                 
                 if (resultsSelected == true) {
-                    List<SelectedResults> selectedItems = getSelectedValues();
-                    for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
-                        callback.exec(selectedItems);
-                    }  
-                    return;
+                	List<SelectedResults> selectedItems = getSelectedValues();
+                	if (selectedItems.isEmpty())
+                		Window.alert("Please, select a value");
+                	else
+                	{	
+                		for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
+                			callback.exec(selectedItems);
+                		}  
+                		return;
+                	}	
                 }
                 
                 actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("select"));
@@ -765,6 +798,7 @@ public class SearchPanel extends Composite{
                             resultsSelected = false;
                         }});
                     SearchPanel.this.layout.insert(modifySearchPanel, 0);
+                    
                 }
                 else{
                     modifySearchPanel.close();

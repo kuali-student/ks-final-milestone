@@ -18,7 +18,7 @@ package org.kuali.student.core.statement.config.context.lu;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 

@@ -1,6 +1,6 @@
 package org.kuali.student.common.ui.shared;
 
-import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 
 public class IdAttributes {
 	

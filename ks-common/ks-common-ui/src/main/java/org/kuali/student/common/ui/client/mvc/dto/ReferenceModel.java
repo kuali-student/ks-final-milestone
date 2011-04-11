@@ -28,7 +28,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * A small model that contains id, type, and state
  * 
  * @author Kuali Student Team
  *

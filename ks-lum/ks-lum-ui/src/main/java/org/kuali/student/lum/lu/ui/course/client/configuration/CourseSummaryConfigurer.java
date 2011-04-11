@@ -1,7 +1,17 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
@@ -11,29 +21,27 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentList;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentListBinding;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
@@ -41,11 +49,22 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.*;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseExpenditureInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseRevenueInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -79,7 +98,7 @@ public class CourseSummaryConfigurer implements
     private static final String OPTIONAL = "o";
 
     protected String type = "course";
-    protected String state = "draft";
+    protected String state = DtoConstants.STATE_DRAFT;
     protected String groupName;
     protected DataModelDefinition modelDefinition;
     private List<StatementTypeInfo> stmtTypes;
@@ -213,6 +232,8 @@ public class CourseSummaryConfigurer implements
 											List<ValidationResultInfo> validationResult) {
 										//validationInfos = validationResult;
 										tableSection.enableValidation(showingValidation);
+										
+										//FIXME: Handle validation warnings
 										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
 
 										validationInfos = validationResult;
@@ -290,6 +311,7 @@ public class CourseSummaryConfigurer implements
 					}
 					showingValidation = true;
 					tableSection.enableValidation(showingValidation);
+					//FIXME: Handle validation warnings
 					tableSection.processValidationResults(validationInfos, true);
 				}
 				else{
@@ -422,7 +444,7 @@ public class CourseSummaryConfigurer implements
         		LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(CreditCourseConstants.TYPE, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
-		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CONTACT_HOURS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUUIConstants.CREDIT_VALUE_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MIN_CREDITS, LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList(CREDIT_OPTION_MAX_CREDITS, LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList("resultValues", LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY, OPTIONAL)),
@@ -475,7 +497,7 @@ public class CourseSummaryConfigurer implements
 		        Arrays.asList(
 		                Arrays.asList(ACTIVITY_TYPE, LUUIConstants.ACTIVITY_TYPE_LABEL_KEY),
 		                Arrays.asList(CONTACT_HOURS + "/" + "unitQuantity", LUUIConstants.CONTACT_HOURS_LABEL_KEY),
-		                Arrays.asList(CONTACT_HOURS + "/" + "unitType", "per"),
+		                Arrays.asList(CONTACT_HOURS + "/" + "unitType", LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY),
 		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", LUUIConstants.DURATION_TYPE_LABEL_KEY),
 		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", LUUIConstants.DURATION_LITERAL_LABEL_KEY),
 		                Arrays.asList(DEFAULT_ENROLLMENT_ESTIMATE, LUUIConstants.CLASS_SIZE_LABEL_KEY)));
@@ -573,23 +595,15 @@ public class CourseSummaryConfigurer implements
 
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
-                String courseId = (model).getRoot().get("id");
-                KSBlockingProgressIndicator.addTask(loadDataTask);
-                
-                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
-                reqDataModel.retrieveStatementTypes(courseId, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {
-                        Iterator<StatementTreeViewInfo> iter = reqDataModel.getCourseReqInfo(stmtType.getId()).iterator();
-                        panel.clear();                        
-                        if (iter.hasNext()) {
-                            StatementTreeViewInfo rule = iter.next();
-                            SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
-                            panel.add(ruleWidget);
-                        }
-                        KSBlockingProgressIndicator.removeTask(loadDataTask);                        
+                panel.clear();
+                if (controller instanceof HasRequirements) {
+                    HasRequirements requirementsController = (HasRequirements) controller;
+                    List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+                    for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                        panel.add(ruleWidget);
                     }
-                });
+                }
             }
         };
 
@@ -836,4 +850,8 @@ public class CourseSummaryConfigurer implements
 
 		return verticalSection;
 	}
+
+    public SummaryTableSection getTableSection() {
+        return tableSection;
+    }
 }

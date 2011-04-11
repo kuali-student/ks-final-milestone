@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.common.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_PUBL_VARI", uniqueConstraints={@UniqueConstraint(columnNames={"VARI_KEY", "OWNER"})})

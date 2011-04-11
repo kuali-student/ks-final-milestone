@@ -56,6 +56,13 @@ public class KSNotification extends Composite implements HasCloseHandlers<KSNoti
 		super.initWidget(panel);
 	}
 	
+	public KSNotification(final String message, boolean isHtml, boolean isError, final int duration) {
+		this(message, isHtml, duration);
+		if (isError){
+			panel.setStyleName("ks-notification-error");			
+		}
+	}
+
 	public KSNotification(final String message, boolean isHtml) {
 		this.duration = DEFAULT_DURATION;
 		panel.setStyleName("ks-notification-message");

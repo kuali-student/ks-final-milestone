@@ -1,31 +1,37 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.dto.DtoConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
@@ -36,8 +42,12 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -64,13 +74,15 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected boolean reloadMetadata = false;
 
+    protected boolean processBeforeShow = true;
+
     /**
      * Constructor.
      *
      * @param programModel
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name);
+        super();
         programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
@@ -88,46 +100,52 @@ public abstract class ProgramController extends MenuSectionController {
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
-        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
+        if (processBeforeShow) {
+            super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
-            @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
-                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
-                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
-                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+                @Override
+                public void exec(Boolean result) {
+                    if (result) {
+                        if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
+                            ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                            final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                            buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
 
-                            @Override
-                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
-                                switch (result) {
-                                    case YES:
-                                        dialog.hide();
-                                        fireUpdateEvent(okToChange);
-                                        break;
-                                    case NO:
-                                        dialog.hide();
-                                        resetModel();
-                                        needToLoadOldModel = true;
-                                        resetFieldInteractionFlag();
-                                        okToChange.exec(true);
-                                        break;
-                                    case CANCEL:
-                                        okToChange.exec(false);
-                                        dialog.hide();
-                                        break;
+                                @Override
+                                public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                                    switch (result) {
+                                        case YES:
+                                            dialog.hide();
+                                            fireUpdateEvent(okToChange);
+                                            break;
+                                        case NO:
+                                            dialog.hide();
+                                            resetModel();
+                                            needToLoadOldModel = true;
+                                            resetFieldInteractionFlag();
+                                            okToChange.exec(true);
+                                            break;
+                                        case CANCEL:
+                                            okToChange.exec(false);
+                                            dialog.hide();
+                                            // Because this event fires after the history change event we need to "undo" the history events. 
+                                            HistoryManager.logHistoryChange();  
+                                            break;
+                                    }
                                 }
-                            }
-                        });
-                        dialog.show();
+                            });
+                            dialog.show();
+                        } else {
+                            okToChange.exec(true);
+                        }
                     } else {
-                        okToChange.exec(true);
+                        okToChange.exec(false);
                     }
-                } else {
-                    okToChange.exec(false);
                 }
-            }
-        });
+            });
+        } else {
+            processBeforeShow = true;
+        }
     }
 
     protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
@@ -167,11 +185,11 @@ public abstract class ProgramController extends MenuSectionController {
     public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType == ReferenceModel.class) {
             ReferenceModel referenceModel = new ReferenceModel();
-            referenceModel.setReferenceId((String) programModel.get("id"));
+            referenceModel.setReferenceId(ProgramUtils.getProgramId(programModel));
             referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_REFERENCE_TYPE_ID);
             referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
             Map<String, String> attributes = new HashMap<String, String>();
-            attributes.put("name", (String) programModel.get("name"));
+            attributes.put("name", getStringProperty("name"));
             referenceModel.setReferenceAttributes(attributes);
             callback.onModelReady(referenceModel);
         } else {
@@ -212,12 +230,13 @@ public abstract class ProgramController extends MenuSectionController {
         if (needToLoadOldModel) {
             needToLoadOldModel = false;
         } else {
-            if (null != programModel.get(ProgramConstants.ID)) {
+            String id = ProgramUtils.getProgramId(programModel);
+            if (null != id) {
                 // add to recently viewed
                 ViewContext docContext = new ViewContext();
-                docContext.setId((String) programModel.get(ProgramConstants.ID));
+                docContext.setId(id);
                 docContext.setIdType(IdType.OBJECT_ID);
-                String pgmType = (String) programModel.get(ProgramConstants.TYPE);
+                String pgmType = getStringProperty(ProgramConstants.TYPE);
                 docContext.setAttribute(ProgramConstants.TYPE, pgmType + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                 RecentlyViewedHelper.addDocument(getProgramName(),
                         HistoryManager.appendContext(getProgramViewLocation(pgmType), docContext));
@@ -239,13 +258,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void setStatus() {
-        statusLabel.setText(ProgramProperties.get().common_status(programModel.<String>get(ProgramConstants.STATE)));
+        statusLabel.setText(ProgramProperties.get().common_status(getStringProperty(ProgramConstants.STATE)));
     }
 
     public String getProgramName() {
-        String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
+        String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = "New Program";
+            name = ProgramProperties.get().common_newProgram();
         }
         return name;
     }
@@ -285,7 +304,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @return
      */
     protected boolean loadMetadataCondition() {
-        return lastLoadedStatus == null || ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE)) != lastLoadedStatus;
+        return lastLoadedStatus == null || ProgramStatus.of(programModel) != lastLoadedStatus;
     }
 
     /**
@@ -306,7 +325,7 @@ public abstract class ProgramController extends MenuSectionController {
             }
         }
         if (programModel.getRoot() != null) {
-            ProgramStatus programStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+            ProgramStatus programStatus = ProgramStatus.of(programModel);
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
             if (programStatus.getNextStatus() != null) {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
@@ -319,7 +338,7 @@ public abstract class ProgramController extends MenuSectionController {
                 super.onSuccess(result);
                 DataModelDefinition def = new DataModelDefinition(result);
                 programModel.setDefinition(def);
-                lastLoadedStatus = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                lastLoadedStatus = ProgramStatus.of(programModel);
                 afterMetadataLoaded(onReadyCallback);
             }
 
@@ -395,5 +414,66 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     public void onModelLoadedEvent() {
+    }
+
+    protected String getStringProperty(String key) {
+        return programModel.get(key);
+    }
+
+    protected Data getDataProperty(String key) {
+        return programModel.get(key);
+    }
+    
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null) {
+            if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY) 
+                    || this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)) {
+                return true;            
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+
+        String viewName = null;
+        String sectionTitle = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+            if (currentView != null && currentView instanceof Section) {
+                Section currentSection = (Section) currentView;
+                List<Section> nestedSections = currentSection.getSections();
+                for (int i = 0; i < nestedSections.size(); i++) {
+                    ExportElement sectionExportItem = new ExportElement();
+                    ArrayList<ExportElement> subList = null;
+                    Section nestedSection = nestedSections.get(i);
+                    if (nestedSection != null && nestedSection instanceof SectionView) {
+                        SectionView nestedSectionView = (SectionView) nestedSection;
+                        viewName =  nestedSectionView.getName();
+                        sectionTitle = nestedSectionView.getTitle();
+                        sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
+                        sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
+                        subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
+                        if (subList != null && subList.size()> 0) {
+                            sectionExportItem.setSubset(subList);
+                            exportElements.add(sectionExportItem);
+                        }
+                    }                    
+                }
+            }
+            return exportElements;
+            
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;
+    
     }
 }

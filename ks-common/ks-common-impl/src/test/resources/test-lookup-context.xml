@@ -4,15 +4,15 @@
 
  <import resource="classpath:common-lookup-context.xml" />
  <bean id="uIlookupConfig-parent" abstract="true"
-       class="org.kuali.student.core.assembly.data.UILookupConfig" />
+       class="org.kuali.student.common.assembly.data.UILookupConfig" />
 
  <bean id="lookupResultMetadata-parent" abstract="true"
-       class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
+       class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
  <bean id="lookupQosMeatadata-parent" abstract="true"
-       class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
+       class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
 
 	<bean id="result" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
  <!-- Field to Lookup Definition Bindings -->
 
  <bean id="addressInfo.us.state.lookup.config" parent="uIlookupConfig-parent">
@@ -89,7 +89,7 @@
 		<property name="id" value="kuali.enumeration.search" />
 	</bean>
 
-	<bean id="uilookupdata.us.states" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="uilookupdata.us.states" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="lookup.us.states">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -210,7 +210,7 @@
   <property name="id" value="kuali.common.lookup.campusLocations" />
  </bean>
 
-<bean id="uilookupdata.canadian.provinces" class="org.kuali.student.core.assembly.data.UILookupData"
+<bean id="uilookupdata.canadian.provinces" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="lookup.canadian.provinces">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />

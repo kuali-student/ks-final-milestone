@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);

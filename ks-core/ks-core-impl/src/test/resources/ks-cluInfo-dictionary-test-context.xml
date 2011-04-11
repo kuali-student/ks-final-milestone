@@ -114,7 +114,7 @@
 
 	<bean id="cluInfo.descr-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="descr" />
-		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
+		<property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo" />
 	</bean>
 	<bean id="cluInfo.descr" parent="cluInfo.descr-parent" />
 
@@ -203,7 +203,7 @@
 
 	<bean id="cluInfo.intensity-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="intensity" />
-		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.AmountInfo" />
+		<property name="dataObjectStructure" ref="org.kuali.student.common.dto.AmountInfo" />
 	</bean>
 	<bean id="cluInfo.intensity" parent="cluInfo.intensity-parent" />
 
@@ -260,7 +260,7 @@
 
 	<bean id="cluInfo.stdDuration-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="stdDuration" />
-		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
+		<property name="dataObjectStructure" ref="org.kuali.student.common.dto.TimeAmountInfo" />
 	</bean>
 	<bean id="cluInfo.stdDuration" parent="cluInfo.stdDuration-parent" />
 
@@ -276,9 +276,9 @@
 	<bean id="cluInfo.type" parent="cluInfo.type-parent" />
 
 	<!-- RichTextInfo-->
-	<bean id="org.kuali.student.core.dto.RichTextInfo-parent"
+	<bean id="org.kuali.student.common.dto.RichTextInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
+		<property name="name" value="org.kuali.student.common.dto.RichTextInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="richTextInfo.formatted" />
@@ -287,7 +287,7 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
+	<bean id="org.kuali.student.common.dto.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent" />
 
 	<bean id="richTextInfo.formatted-parent" abstract="true"
 		parent="baseSingleString">
@@ -377,7 +377,7 @@
 		parent="baseSingleComplex">
 		<property name="name" value="feeAmount" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.core.dto.CurrencyAmountInfo" />
+			ref="org.kuali.student.common.dto.CurrencyAmountInfo" />
 	</bean>
 	<bean id="cluFeeRecordInfo.feeAmount" parent="cluFeeRecordInfo.feeAmount-parent" />
 
@@ -393,10 +393,10 @@
 	<bean id="cluFeeRecordInfo.id" parent="cluFeeRecordInfo.id-parent" />
 
 	<!-- CurrencyAmountInfo-->
-	<bean id="org.kuali.student.core.dto.CurrencyAmountInfo-parent"
+	<bean id="org.kuali.student.common.dto.CurrencyAmountInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.core.dto.CurrencyAmountInfo" />
+			value="org.kuali.student.common.dto.CurrencyAmountInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="currencyAmountInfo.currencyQuantity" />
@@ -405,7 +405,7 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.dto.CurrencyAmountInfo" parent="org.kuali.student.core.dto.CurrencyAmountInfo-parent" />
+	<bean id="org.kuali.student.common.dto.CurrencyAmountInfo" parent="org.kuali.student.common.dto.CurrencyAmountInfo-parent" />
 
 	<bean id="currencyAmountInfo.currencyQuantity-parent" abstract="true"
 		parent="baseSingleInteger">
@@ -467,9 +467,9 @@
 	<bean id="affiliatedOrgInfo.percentage" parent="affiliatedOrgInfo.percentage-parent" />
 
 	<!-- AmountInfo-->
-	<bean id="org.kuali.student.core.dto.AmountInfo-parent" abstract="true"
+	<bean id="org.kuali.student.common.dto.AmountInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.core.dto.AmountInfo" />
+		<property name="name" value="org.kuali.student.common.dto.AmountInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="amountInfo.unitQuantity" />
@@ -478,7 +478,7 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.dto.AmountInfo" parent="org.kuali.student.core.dto.AmountInfo-parent" />
+	<bean id="org.kuali.student.common.dto.AmountInfo" parent="org.kuali.student.common.dto.AmountInfo-parent" />
 
 	<bean id="amountInfo.unitQuantity-parent" abstract="true"
 		parent="baseSingleString">
@@ -694,9 +694,9 @@
 	<bean id="luCodeInfo.value" parent="luCodeInfo.value-parent" />
 
 	<!-- TimeAmountInfo-->
-	<bean id="org.kuali.student.core.dto.TimeAmountInfo-parent"
+	<bean id="org.kuali.student.common.dto.TimeAmountInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.core.dto.TimeAmountInfo" />
+		<property name="name" value="org.kuali.student.common.dto.TimeAmountInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="timeAmountInfo.atpDurationTypeKey" />
@@ -705,7 +705,7 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-	<bean id="org.kuali.student.core.dto.TimeAmountInfo" parent="org.kuali.student.core.dto.TimeAmountInfo-parent" />
+	<bean id="org.kuali.student.common.dto.TimeAmountInfo" parent="org.kuali.student.common.dto.TimeAmountInfo-parent" />
 
 	<bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true"
 		parent="baseSingleString">

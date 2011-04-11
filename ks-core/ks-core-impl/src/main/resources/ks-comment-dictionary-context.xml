@@ -24,7 +24,7 @@
 
  <bean id="commentInfo.commentText-parent" abstract="true" parent="baseComplex">
   <property name="name" value="commentText"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="commentInfo.commentText" parent="commentInfo.commentText-parent"/>
 

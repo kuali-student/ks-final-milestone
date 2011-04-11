@@ -21,7 +21,7 @@
         <property name="jaxWsService" value="true" />
         <property name="service" ref="ks.messageService" />
         <property name="serviceInterface"
-          value="org.kuali.student.core.messages.service.MessageService" />
+          value="org.kuali.student.common.messages.service.MessageService" />
         <property name="localServiceName" value="MessageService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
         <property name="busSecurity" value="false" />

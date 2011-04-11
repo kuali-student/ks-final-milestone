@@ -24,7 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;;;
 @Entity
 @Table(name = "KSCO_COMMENT_TYPE")
 @NamedQueries(

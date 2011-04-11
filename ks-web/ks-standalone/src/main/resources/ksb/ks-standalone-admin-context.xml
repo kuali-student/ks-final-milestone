@@ -29,7 +29,7 @@
 	<bean id="ks.messageServiceMock" parent="ks.messageService"/>
 	
 	<bean id="ks.messageService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
 	</bean>
 	

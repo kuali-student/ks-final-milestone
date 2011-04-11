@@ -21,7 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.common.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 

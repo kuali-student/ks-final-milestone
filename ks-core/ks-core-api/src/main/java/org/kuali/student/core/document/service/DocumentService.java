@@ -21,23 +21,23 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 
-import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.dto.RefDocRelationTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 
 

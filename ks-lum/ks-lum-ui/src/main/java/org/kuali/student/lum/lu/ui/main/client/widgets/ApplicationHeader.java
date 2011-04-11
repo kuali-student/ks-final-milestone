@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
@@ -28,6 +29,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -51,6 +53,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -126,7 +129,6 @@ public class ApplicationHeader extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
-	                    
 	                    if (result.get(CODE_SERVER) != null){
 	                    	codeServer	= result.get(CODE_SERVER);
 	                    }
@@ -148,10 +150,6 @@ public class ApplicationHeader extends Composite{
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);
-		ksHeader.addLogout(versionAnchor);
-
-		//headerBottomLinks.add(logoutLink);
-		createHelpInfo();
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
@@ -164,24 +162,6 @@ public class ApplicationHeader extends Composite{
 
 		navDropDown.addStyleName("KS-Navigation-DropDown");
 		content.addStyleName("KS-Wrapper-Content");
-	}
-
-	private void createHelpInfo(){
-	    versionAnchor.addClickHandler(new ClickHandler(){
-
-	           public void onClick(ClickEvent event) {
-	               final PopupPanel helpPopup = new PopupPanel(true);
-	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; " + appVersion + "&nbsp;&nbsp;<h3>"));
-
-	               helpPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-	                   public void setPosition(int offsetWidth, int offsetHeight) {
-	                     int left = (Window.getClientWidth() - offsetWidth);
-	                     int top = 0;
-	                     helpPopup.setPopupPosition(left, top);
-	                   }
-	               });
-	           }
-	    });
 	}
 
 	private void createUserDropDown() {
@@ -307,4 +287,9 @@ public class ApplicationHeader extends Composite{
     private static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
+    
+    public void setHeaderTitle(String title) {
+    	ksHeader.setApplicationTitle(title);
+    }
+    
 }

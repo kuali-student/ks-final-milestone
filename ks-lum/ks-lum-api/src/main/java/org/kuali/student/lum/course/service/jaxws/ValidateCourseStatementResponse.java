@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class ValidateCourseStatementResponse {
 
     @XmlElement(name = "return")
-    private java.util.List<org.kuali.student.core.validation.dto.ValidationResultInfo> _return;
+    private java.util.List<org.kuali.student.common.validation.dto.ValidationResultInfo> _return;
 
-    public java.util.List<org.kuali.student.core.validation.dto.ValidationResultInfo> getReturn() {
+    public java.util.List<org.kuali.student.common.validation.dto.ValidationResultInfo> getReturn() {
         return this._return;
     }
 
-    public void setReturn(java.util.List<org.kuali.student.core.validation.dto.ValidationResultInfo> new_return)  {
+    public void setReturn(java.util.List<org.kuali.student.common.validation.dto.ValidationResultInfo> new_return)  {
         this._return = new_return;
     }
 

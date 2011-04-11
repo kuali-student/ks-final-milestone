@@ -18,9 +18,9 @@ package org.kuali.student.lum.lu.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
@@ -90,5 +90,10 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<CluPublication> getCluPublicationsByType(
 			String luPublicationTypeKey);
 	public List<CluPublication> getCluPublicationsByCluId(String cluId);
+	public List<CluSet> getCluSetsByCluVersionIndId(List<String> cluVersionIndId);
+	public List<CluSet> getAllDynamicCluSets();
+	List<Clu> getClusByRelatedCluId(String relatedCluId,
+			String luLuRelationTypeId);
+	public List<Clu> getCrossListedClusByCodes(List<String> crossListedCodes);
 
 }
