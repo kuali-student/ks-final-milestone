@@ -347,7 +347,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // Process lookup Constraint
         if (null != constraint.getLookupDefinition()) {
-            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider);
+            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider,objStructure, rootData, rootObjStructure, value);
         }
     }
 
@@ -542,22 +542,61 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     // TODO: Implement lookup constraint
-    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider) {
+    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider, ObjectStructureDefinition objStructure, Object rootData, ObjectStructureDefinition rootObjStructure, Object value) {
         if (lookupConstraint == null) {
             return;
         }
 
         // Create search params based on the param mapping
         List<SearchParam> params = new ArrayList<SearchParam>();
-        Object fieldValue = null;
+
         for (CommonLookupParam paramMapping : lookupConstraint.getParams()) {
+        	//Skip params that are the search param id key
+            if(lookupConstraint.getSearchParamIdKey()!=null&&lookupConstraint.getSearchParamIdKey().equals(paramMapping.getKey())){
+            	continue;
+            }
+        	
             SearchParam param = new SearchParam();
 
             param.setKey(paramMapping.getKey());
 
             // If the value of the search param comes form another field then get it
             if (paramMapping.getFieldPath() != null && !paramMapping.getFieldPath().isEmpty()) {
-                fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
+                FieldDefinition lookupField = null;
+            	boolean absolutePath = false;
+                if(hasText(paramMapping.getFieldPath())){
+                	if(paramMapping.getFieldPath().startsWith("/")){
+                		absolutePath = true;
+                		lookupField = ValidatorUtils.getField(paramMapping.getFieldPath().substring(1), rootObjStructure);
+                	}else{
+                		lookupField = ValidatorUtils.getField(paramMapping.getFieldPath(), objStructure); 
+                	}
+                }
+                Object fieldValue = null;
+                if(lookupField!=null){
+                	if(absolutePath){
+                		try {
+                			if(lookupField.isDynamic()){
+                				//Pull the value from the dynamic attribute map
+                				//Until then, this will only work for root level properties
+                				Map<String,String> attributes = (Map<String,String>) PropertyUtils.getNestedProperty(rootData, "attributes");
+                				if(attributes!=null){
+                					fieldValue = attributes.get(paramMapping.getFieldPath().substring(1));
+                				}
+                			}else{
+                				fieldValue = PropertyUtils.getNestedProperty(rootData, paramMapping.getFieldPath().substring(1));
+                			}
+        				} catch (IllegalAccessException e) {
+        				} catch (InvocationTargetException e) {
+        				} catch (NoSuchMethodException e) {
+        				}
+                	}else{
+                    	fieldValue = dataProvider.getValue(lookupField.getName());
+                	}
+                }else{
+                	fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
+                }
+                
                 if (fieldValue instanceof String) {
                     param.setValue((String) fieldValue);
                 } else if (fieldValue instanceof List<?>) {
@@ -571,6 +610,17 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             params.add(param);
         }
 
+        if(lookupConstraint.getSearchParamIdKey()!=null){
+        	SearchParam param = new SearchParam();
+        	param.setKey(lookupConstraint.getSearchParamIdKey());
+            if (value instanceof String) {
+                param.setValue((String) value);
+            } else if (value instanceof List<?>) {
+                param.setValue((List<String>) value);
+            }
+        	params.add(param);
+        }
+        
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setMaxResults(1);
         searchRequest.setStartAt(0);
@@ -585,8 +635,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             LOG.info("Error calling Search", e);
         }
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
-            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), fieldValue);
-            val.setError(getMessage("validation.lookup"));
+            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), value);
+            val.setError(getMessage("validation.invalid"));
             valResults.add(val);
         }
     }
