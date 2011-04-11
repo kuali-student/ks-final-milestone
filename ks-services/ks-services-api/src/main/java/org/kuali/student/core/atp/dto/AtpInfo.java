@@ -22,8 +22,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.core.atp.infc.AtpInfc;
 
@@ -36,6 +38,8 @@ import org.kuali.student.core.atp.infc.AtpInfc;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AtpInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+
 public class AtpInfo 
     extends KeyEntityInfo
     implements AtpInfc,
@@ -44,10 +48,10 @@ public class AtpInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private Date startDate;
+    private final Date startDate;
 
     @XmlElement
-    private Date endDate;
+    private final Date endDate;
 
 
     private AtpInfo() {
@@ -113,7 +117,8 @@ public class AtpInfo
 
     public static class Builder 
 	extends KeyEntityInfo.Builder 
-	implements AtpInfc {
+	implements ModelBuilder<AtpInfo>, 
+		   AtpInfc {
     	
     	private Date startDate;
 	private Date endDate;
@@ -143,7 +148,7 @@ public class AtpInfo
 	 * @return a new ATP
 	 */
 
-        public AtpInfc build() {
+        public AtpInfo build() {
             return new AtpInfo(this);
         }
 
@@ -164,12 +169,10 @@ public class AtpInfo
 	 * Sets the ATP start date.
 	 *
 	 * @param startDate the start date for the ATP
-	 * @return the builder
 	 */
     	
-	public Builder startDate(Date startDate) {
+	public void setStartDate(Date startDate) {
 	    this.startDate = startDate;
-	    return this;
 	}
 
 
@@ -189,12 +192,10 @@ public class AtpInfo
 	 * Sets the ATP end date.
 	 *
 	 * @param endDate the end date for the ATP
-	 * @return the builder
 	 */
 
-	public Builder endDate(Date endDate) {
+	public void setEndDate(Date endDate) {
 	    this.endDate = endDate;
-	    return this;
 	}
     }
 }

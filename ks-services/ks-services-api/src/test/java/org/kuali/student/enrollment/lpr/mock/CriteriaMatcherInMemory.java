@@ -26,11 +26,12 @@ import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DictionaryObjectAttributeValueReader;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.infc.ComparisonInfc;
-import org.kuali.student.common.infc.CriteriaInfc;
+import org.kuali.student.common.infc.Comparison;
+import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.datadictionary.Student2RiceDictionaryEntryConverter;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
-import org.kuali.student.enrollment.lpr.mock.CriteriaValidatorParser.Operator;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
+import org.kuali.student.datadictionary.util.CriteriaValidatorParser.Operator;
 
 /**
  * A helper class for the Mock implementation to match criteria to values on the object
@@ -43,7 +44,7 @@ public class CriteriaMatcherInMemory<T> {
     }
     private transient DataObjectEntry riceDictionaryEntry;
     private DictionaryEntryInfc dictionaryEntry;
-        private CriteriaInfc criteria;
+        private Criteria criteria;
     private transient List<Object> parsedValues;
     private transient List<CriteriaValidatorParser.Operator> parsedOperators;
 
@@ -60,11 +61,11 @@ public class CriteriaMatcherInMemory<T> {
         return dictionaryEntry;
     }
 
-    public CriteriaInfc getCriteria() {
+    public Criteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(CriteriaInfc criteria) {
+    public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 
@@ -133,7 +134,7 @@ public class CriteriaMatcherInMemory<T> {
     public boolean matches(Object infoObject) {
         // logically and them together
         int i = 0;
-        for (ComparisonInfc comparison : this.getCriteria().getComparisons()) {
+        for (Comparison comparison : this.getCriteria().getComparisons()) {
             if (!matches(i, infoObject, comparison)) {
                 return false;
             }
@@ -142,7 +143,7 @@ public class CriteriaMatcherInMemory<T> {
         return true;
     }
 
-    private boolean matches(int i, Object infoObject, ComparisonInfc comparison) {
+    private boolean matches(int i, Object infoObject, Comparison comparison) {
         AttributeDefinition ad = null;
         try {
             ad = this.getAttributeDefinition(comparison.getFieldKey());

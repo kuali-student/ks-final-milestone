@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.SearchParamInfc;
+import org.kuali.student.common.infc.SearchParam;
 import org.w3c.dom.Element;
 
 /**
@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SearchParamType", propOrder = {"key", "values", "_futureElements"})
-public class SearchParamInfo implements SearchParamInfc, Serializable {
+@XmlType(name = "SearchParamInfo", propOrder = {"key", "values", "_futureElements"})
+public class SearchParamInfo implements SearchParam, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlAttribute
@@ -60,7 +60,7 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
         this._futureElements = null;
     }
 
-    public SearchParamInfo(SearchParamInfc infc) {
+    public SearchParamInfo(SearchParam infc) {
         this.key = infc.getKey();
         if (this.values == null) {
             this.values = null;
@@ -80,18 +80,38 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
         return key;
     }
 
-    public static class Builder implements ModelBuilder<SearchParamInfo>, SearchParamInfc {
+    public static class Builder implements ModelBuilder<SearchParamInfo>, SearchParam {
 
         private String key;
         private List<String> values;
 
-        @Override
-        public List<String> getValues() {
-            return values;
+        public Builder() {}
+        
+        public Builder(SearchParam searchInfo) {
+            this.key = searchInfo.getKey();
+            this.values = searchInfo.getValues();
         }
+        
         public SearchParamInfo build () {
             return new SearchParamInfo (this);
         }
+        
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public List<String> getValues() {
+            return values;
+        }
+
+        public void setValues(List<String> values) {
+            this.values = values;
+        }
+
         /**
          * Convenience method for setting a single value
          * Actually stores it as a list with one value.
@@ -99,21 +119,6 @@ public class SearchParamInfo implements SearchParamInfc, Serializable {
          */
         public Builder value(String value) {
             this.values = Arrays.asList(value);
-            return this;
-        }
-
-        public Builder values(List<String> values) {
-            this.values = values;
-            return this;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        public Builder key(String key) {
-            this.key = key;
             return this;
         }
     }

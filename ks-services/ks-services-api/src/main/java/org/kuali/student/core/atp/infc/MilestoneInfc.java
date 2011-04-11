@@ -38,7 +38,7 @@ public interface MilestoneInfc
      *         false if the start end end date ar ethe same
      */
 
-    public boolean getIsDateRange();
+    public Boolean getIsDateRange();
 
 
     /**
@@ -52,7 +52,8 @@ public interface MilestoneInfc
 
 
     /**
-     * Name: EndDate The end date and time of the milestone. The end
+     * Name: EndDate 
+     * The end date and time of the milestone. The end
      * date must be equal to or greater that the start.
      *
      * @return the milestone end date

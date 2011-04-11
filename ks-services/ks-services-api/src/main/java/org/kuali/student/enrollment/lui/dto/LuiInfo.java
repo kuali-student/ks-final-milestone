@@ -18,15 +18,19 @@ package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.common.infc.MetaInfc;
-import org.kuali.student.enrollment.lui.infc.LuiInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.enrollment.lui.infc.Lui;
+import org.w3c.dom.Element;
 
 
 /**
@@ -34,18 +38,28 @@ import org.kuali.student.enrollment.lui.infc.LuiInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiInfo", propOrder = {"id","type","state","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
 public class LuiInfo extends HasAttributesAndMetaInfo
-  implements Serializable, LuiInfc {
+  implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private final String id;
+
+    @XmlAttribute 
+    private final String type;
+    
+    @XmlAttribute
+    private final String state;
+    
     @XmlElement
     private final String luiCode;
 
     @XmlElement
     private final String cluId;
 
-    @XmlElement(name = "atpKey")
+    @XmlElement
     private final String atpKey;
 
     @XmlElement
@@ -57,12 +71,9 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     @XmlElement
     private final Date expirationDate;
 
-    @XmlAttribute
-    private final String state;
-
-    @XmlAttribute
-    private final String id;
-
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
+    
     private LuiInfo() {
     	luiCode = null;
     	cluId = null;
@@ -72,18 +83,22 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     	expirationDate = null;
     	state = null;
     	id = null;
+    	type = null;
+    	_futureElements = null;
     }
     
-    private LuiInfo(LuiInfc builder) {
+    private LuiInfo(Lui builder) {
 		super(builder);
-		this.luiCode = new String(builder.getLuiCode());
-		this.cluId = new String(builder.getCluId());
-		this.atpKey = new String(builder.getAtpKey());
-		this.maxSeats = new Integer(builder.getMaxSeats());
+		this.luiCode = builder.getLuiCode();
+		this.cluId = builder.getCluId();
+		this.atpKey = builder.getAtpKey();
+		this.maxSeats =builder.getMaxSeats();
     	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
-		this.id = new String(builder.getId());
-		this.state = new String(builder.getState());
+		this.id = builder.getId();
+		this.state = builder.getState();
+		this.type = builder.getType();
+		this._futureElements = null;
 	}
 
     /**
@@ -165,7 +180,13 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return id;
     }
     
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements LuiInfc {
+    @Override
+    public String getType() {
+        return type;
+    }
+
+
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
 
 		private String luiCode;
 		private String cluId;
@@ -175,10 +196,11 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 		private Date expirationDate;
 		private String id;
 		private String state;
+		private String type;
 		
 		public Builder() {}
 		
-		public Builder(LuiInfc luiInfo) {
+		public Builder(Lui luiInfo) {
 			super(luiInfo);
 			this.luiCode = luiInfo.getLuiCode();
 			this.cluId = luiInfo.getCluId();
@@ -188,76 +210,83 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 			this.expirationDate = luiInfo.getExpirationDate();
 			this.id = luiInfo.getId();
 			this.state= luiInfo.getState();
+			this.type = luiInfo.getType();
 		}
 		
 		public LuiInfo build() {
 			return new LuiInfo(this);
 		}
-		
-		public Builder setCluId(String cluId) {
-			this.cluId = cluId;
-			return this;
-		}
 
-		public Builder setAtpKey(String atpKey) {
-			this.atpKey = atpKey;
-			return this;
-		}
-
-		public Builder setId(String id) {
-			this.id = id;
-			return this;
-		}
-
-        public Builder setState (String state) {
-            this.state = state;
-            return this;
+        public String getLuiCode() {
+            return luiCode;
         }
-		// passthru so right Builder is returned
-        @Override
-		public Builder metaInfo(MetaInfc metaInfo) {
-			super.metaInfo(metaInfo);
-			return this;
-		}
 
-		@Override
-		public String getId() {
-			return id;
-		}
+        public void setLuiCode(String luiCode) {
+            this.luiCode = luiCode;
+        }
 
-		@Override
-		public String getState() {
-			return state;
-		}
+        public String getCluId() {
+            return cluId;
+        }
 
-		@Override
-		public Date getEffectiveDate() {
-			return effectiveDate;
-		}
+        public void setCluId(String cluId) {
+            this.cluId = cluId;
+        }
 
-		@Override
-		public Date getExpirationDate() {
-			return expirationDate;
-		}
+        public String getAtpKey() {
+            return atpKey;
+        }
 
-		@Override
-		public String getLuiCode() {
-			return luiCode;
-		}
+        public void setAtpKey(String atpKey) {
+            this.atpKey = atpKey;
+        }
 
-		@Override
-		public String getCluId() {
-			return cluId;
-		}
+        public Integer getMaxSeats() {
+            return maxSeats;
+        }
 
-		@Override
-		public String getAtpKey() {
-			return atpKey;
-		}
+        public void setMaxSeats(Integer maxSeats) {
+            this.maxSeats = maxSeats;
+        }
 
-		@Override
-		public Integer getMaxSeats() {
-			return maxSeats;
-		}
-    }
+        public Date getEffectiveDate() {
+            return effectiveDate;
+        }
+
+        public void setEffectiveDate(Date effectiveDate) {
+            this.effectiveDate = effectiveDate;
+        }
+
+        public Date getExpirationDate() {
+            return expirationDate;
+        }
+
+        public void setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }		        
+   }
 }

@@ -28,25 +28,33 @@ import org.kuali.student.common.infc.HoldsValidator;
 import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 
 /**
+ * An example Validation decorator for the {@link LuiPersonRelationService}. Additional validations are performed for the validateLuiPersonRelation, createLuiPersonRelation and updateLuiPersonRelation
+ * methods here
+ * 
  * @author sambit
  */
-public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator{
+public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator implements HoldsValidator{
 
 	private DataDictionaryValidatorInfc validator;
 
-	
-	
-	public void setValidator(DataDictionaryValidatorInfc validator) {
-		this.validator = validator;
-	}
+    @Override
+    public DataDictionaryValidatorInfc getValidator() {
+        return validator;
+    }
 
+    @Override
+    public void setValidator(DataDictionaryValidatorInfc validator) {
+        this.validator = validator;
+    }
 
-	public void setNextDecorator(LuiPersonRelationService nextDecorator) {
-		this.nextDecorator = nextDecorator;
-	}
-	public LuiPersonRelationService getNextDecorator() {
-		return this.nextDecorator;
-	}
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    }
+    @Override
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+    }
 
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
@@ -57,22 +65,11 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			MissingParameterException,
 			OperationFailedException,
 			PermissionDeniedException {
-		return this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
-	}
-
-	private void checkReadOnly(String field, Object orig, Object supplied)
-	throws ReadOnlyException {
-		checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);
-	}
-
-	private void checkReadOnly(String field, Object orig, Object supplied, String origStr, String suppliedStr)
-	throws ReadOnlyException {
-		if (orig != null) {
-			if (orig.equals(supplied)) {
-				return;
-			}
-		}
-		throw new ReadOnlyException(field + " is read only but the original value " + origStr + " and the supplied new=" + suppliedStr);
+		
+	    this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
+		
+	    return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+		
 	}
 
 	@Override
@@ -100,7 +97,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		if (!vris.isEmpty()) {
 			throw new DataValidationErrorException("Failed validation", vris);
 		}
-		return this.getNextDecorator().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+		return super.createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
@@ -118,13 +115,12 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
 				luiPersonRelationInfo, context);
 		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
-		// once created these fields are never updatable directly by the application
+		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getType(), luiPersonRelationInfo.getType());
 		checkReadOnly("createId", orig.getMetaInfo().getCreateId(), luiPersonRelationInfo.getMetaInfo().getCreateId());
 		checkReadOnly("createTime", orig.getMetaInfo().getCreateTime(), luiPersonRelationInfo.getMetaInfo().getCreateTime());
-		// if nothing has changed since fetching then cannot update update info either
-		// TODO: consider throwing the optimistic lock exception (VersionMismatchException) if version ids do not match
+		
 		if (orig.getMetaInfo().getVersionInd().equals(luiPersonRelationInfo.getMetaInfo().getVersionInd())) {
 			checkReadOnly("updateId", orig.getMetaInfo().getUpdateId(), luiPersonRelationInfo.getMetaInfo().getUpdateId());
 			checkReadOnly("updateTime", orig.getMetaInfo().getUpdateTime(), luiPersonRelationInfo.getMetaInfo().getUpdateTime());
@@ -133,13 +129,23 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		if (!vris.isEmpty()) {
 			throw new DataValidationErrorException("Failed validation", vris);
 		}
-		return this.getNextDecorator().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+		
+		return super.updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
 
-	
-	public DataDictionaryValidatorInfc getValidator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private void checkReadOnly(String field, Object orig, Object supplied)
+    throws ReadOnlyException {
+        checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);
+    }
+
+    private void checkReadOnly(String field, Object orig, Object supplied, String origStr, String suppliedStr)
+    throws ReadOnlyException {
+        if (orig != null) {
+            if (orig.equals(supplied)) {
+                return;
+            }
+        }
+        throw new ReadOnlyException(field + " is read only but the original value " + origStr + " and the supplied new=" + suppliedStr);
+    }
 }
 

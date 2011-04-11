@@ -24,12 +24,13 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.TimeAmountInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.common.infc.TimeAmount;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimeAmountType", propOrder = {"atpDurationTypeKey", "timeQuantity", "_futureElements"})
-public class TimeAmountInfo implements TimeAmountInfc, Serializable {
+@XmlType(name = "TimeAmountInfo", propOrder = {"atpDurationTypeKey", "timeQuantity", "_futureElements"})
+public class TimeAmountInfo implements TimeAmount, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement
@@ -47,7 +48,7 @@ public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 		_futureElements = null;
 	}
 	
-	private TimeAmountInfo(TimeAmountInfc builder) {
+	private TimeAmountInfo(TimeAmount builder) {
 		this.atpDurationTypeKey = builder.getAtpDurationTypeKey();
 		this.timeQuantity = builder.getTimeQuantity();
 		this._futureElements = null;
@@ -61,13 +62,13 @@ public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 		return timeQuantity;
 	}
 	
-	public static class Builder implements TimeAmountInfc {
+	public static class Builder implements ModelBuilder<TimeAmountInfo>, TimeAmount {
 		private String atpDurationTypeKey;
 		private Integer timeQuantity;
 
 		public Builder() {}
 		
-		public Builder(TimeAmountInfc taInfo) {
+		public Builder(TimeAmount taInfo) {
 			this.atpDurationTypeKey = taInfo.getAtpDurationTypeKey();
 			this.timeQuantity = taInfo.getTimeQuantity();
 		}
@@ -76,14 +77,20 @@ public class TimeAmountInfo implements TimeAmountInfc, Serializable {
 			return new TimeAmountInfo(this);
 		}
 
-		@Override
-		public String getAtpDurationTypeKey() {
-			return atpDurationTypeKey;
-		}
+        public String getAtpDurationTypeKey() {
+            return atpDurationTypeKey;
+        }
 
-		@Override
-		public Integer getTimeQuantity() {
-			return timeQuantity;
-		}
+        public void setAtpDurationTypeKey(String atpDurationTypeKey) {
+            this.atpDurationTypeKey = atpDurationTypeKey;
+        }
+
+        public Integer getTimeQuantity() {
+            return timeQuantity;
+        }
+
+        public void setTimeQuantity(Integer timeQuantity) {
+            this.timeQuantity = timeQuantity;
+        }
 	}
 }

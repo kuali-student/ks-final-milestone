@@ -21,7 +21,8 @@ import org.kuali.student.common.exceptions.*;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dao.LprDao;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelation;
+import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.lpr.model.LuiPersonRelationTypeEntity;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 import javax.jws.WebService;
@@ -43,10 +44,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelation> luiPersonRelations = lprDao.getByLuiId(luiId);
+        List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LuiPersonRelationInfo> dtos = new ArrayList<LuiPersonRelationInfo>();
-        for (LuiPersonRelation entity : luiPersonRelations) {
-            dtos.add(new LuiPersonRelationInfo.Builder().id(entity.getLuiId()).build());
+        for (LuiPersonRelationEntity entity : luiPersonRelations) {
+            dtos.add(entity.toDto());
         }
         return dtos;
     }
@@ -146,7 +147,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+    	LuiPersonRelationEntity lpr = new LuiPersonRelationEntity();
+    	lpr.setPersonId(personId);
+    	lpr.setLuiId(luiId);
+    	// lpr.setPersonRelationType(LuiPersonRelationTypeEntity.toDto(this.getType(luiPersonRelationType, context)));
         return null;
     }
 
@@ -216,7 +220,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+    	// TODO - 
         return null;
     }
 

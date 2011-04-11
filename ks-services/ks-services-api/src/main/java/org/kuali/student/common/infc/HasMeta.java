@@ -41,5 +41,5 @@ public interface HasMeta {
      *
      */
 
-    public MetaInfc getMetaInfo();
+    public Meta getMetaInfo();
 }

@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.RelationshipInfo;
 import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
 
@@ -35,6 +37,7 @@ import org.kuali.student.core.atp.infc.AtpMilestoneRelationInfc;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "atpKey", "milestoneKey", "metaInfo", "attributes", "_futureElements"})
 
 public class AtpMilestoneRelationInfo 
     extends RelationshipInfo
@@ -102,7 +105,8 @@ public class AtpMilestoneRelationInfo
 
     public static class Builder 
 	extends RelationshipInfo.Builder 
-	implements AtpMilestoneRelationInfc {
+	implements ModelBuilder<AtpMilestoneRelationInfo>, 
+		   AtpMilestoneRelationInfc {
 
         private String atpKey;
         private String milestoneKey;
@@ -134,7 +138,7 @@ public class AtpMilestoneRelationInfo
 	 * @return a new AtpMilestoneRelation
 	 */
 
-        public AtpMilestoneRelationInfc build() {
+        public AtpMilestoneRelationInfo build() {
             return new AtpMilestoneRelationInfo(this);
         }
 
@@ -155,12 +159,10 @@ public class AtpMilestoneRelationInfo
 	 * Sets the ATP key in this relation.
 	 *
 	 * @param atpKey the ATP key
-	 * @return the builder
 	 */
 
-        public Builder atpKey(String atpKey) {
+        public void atpKey(String atpKey) {
             this.atpKey = atpKey;
-            return this;
         }
 
 
@@ -180,12 +182,10 @@ public class AtpMilestoneRelationInfo
 	 * Sets the Milestone key in this relation.
 	 *
 	 * @param milestone the Milestone key
-	 * @return the builder
 	 */
 
-        public Builder milestoneKey(String milestoneKey) {
+        public void setMilestoneKey(String milestoneKey) {
             this.milestoneKey = milestoneKey;
-            return this;
         }
     }
 }

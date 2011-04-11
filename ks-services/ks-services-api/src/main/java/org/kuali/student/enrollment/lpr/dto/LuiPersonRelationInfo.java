@@ -21,19 +21,28 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.common.infc.AttributeInfc;
-import org.kuali.student.common.infc.MetaInfc;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationInfc;
+import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id","type","state","luiId", "personId","effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
 public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
-        implements LuiPersonRelationInfc, Serializable {
+        implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlAttribute
+    private final String id;
+    @XmlAttribute
+    private final String type;
+    @XmlAttribute
+    private final String state;
     @XmlElement
     private final String luiId;
     @XmlElement
@@ -42,12 +51,8 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
     private final Date effectiveDate;
     @XmlElement
     private final Date expirationDate;
-    @XmlAttribute
-    private final String type;
-    @XmlAttribute
-    private final String state;
-    @XmlAttribute
-    private final String id;
+    @XmlAnyElement
+    private final List<Element> _futureElements;
 
     private LuiPersonRelationInfo() {
         luiId = null;
@@ -57,9 +62,10 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         type = null;
         state = null;
         id = null;
+        _futureElements = null;
     }
 
-    private LuiPersonRelationInfo(LuiPersonRelationInfc builder) {
+    private LuiPersonRelationInfo(LuiPersonRelation builder) {
         super(builder);
         this.luiId = builder.getLuiId();
         this.personId = builder.getPersonId();
@@ -68,6 +74,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         this.type = builder.getType();
         this.state = builder.getState();
         this.id = builder.getId();
+        this._futureElements = null;
     }
 
     @Override
@@ -105,7 +112,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         return id;
     }
 
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements LuiPersonRelationInfc {
+    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
 
         private String luiId;
         private String personId;
@@ -118,7 +125,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         public Builder() {
         }
 
-        public Builder(LuiPersonRelationInfc lprInfo) {
+        public Builder(LuiPersonRelation lprInfo) {
             super(lprInfo);
             this.luiId = lprInfo.getLuiId();
             this.personId = lprInfo.getPersonId();
@@ -133,87 +140,61 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             return new LuiPersonRelationInfo(this);
         }
 
-        public Builder luiId(String luiId) {
-            this.luiId = luiId;
-            return this;
-        }
-
-        public Builder personId(String personId) {
-            this.personId = personId;
-            return this;
-        }
-
-        public Builder effectiveDate(Date effDate) {
-            this.effectiveDate = new Date(effDate.getTime());
-            return this;
-        }
-
-        public Builder expirationDate(Date expDate) {
-            this.expirationDate = new Date(expDate.getTime());
-            return this;
-        }
-
-        public Builder type(String luiPersonRelationType) {
-            this.type = luiPersonRelationType;
-            return this;
-        }
-
-        public Builder state(String state) {
-            this.state = state;
-            return this;
-        }
-
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
-
-        @Override
-        public Builder metaInfo(MetaInfc metaInfo) {
-            super.metaInfo(metaInfo);
-            return this;
-        }
-
-        // passthru to return correct Builder
-        @Override
-        public Builder attributes(List<? extends AttributeInfc> attributes) {
-            super.attributes(attributes);
-            return this;
-        }
-
-        @Override
         public String getLuiId() {
             return luiId;
         }
 
-        @Override
+        public void setLuiId(String luiId) {
+            this.luiId = luiId;
+        }
+
         public String getPersonId() {
             return personId;
         }
 
-        @Override
+        public void setPersonId(String personId) {
+            this.personId = personId;
+        }
+
         public Date getEffectiveDate() {
             return effectiveDate;
         }
 
-        @Override
+        public void setEffectiveDate(Date effectiveDate) {
+            this.effectiveDate = effectiveDate;
+        }
+
         public Date getExpirationDate() {
             return expirationDate;
         }
 
-        @Override
+        public void setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+        }
+
         public String getType() {
             return type;
         }
 
-        @Override
+        public void setType(String type) {
+            this.type = type;
+        }
+
         public String getState() {
             return state;
         }
 
-        @Override
+        public void setState(String state) {
+            this.state = state;
+        }
+
         public String getId() {
             return id;
         }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+        
     }
 }

@@ -22,7 +22,13 @@ import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
-
+/**
+ * An example authorization decorator for the {@link LuiPersonRelationService}.
+ * We would like to decorate the createBulkRelationshipsForPerson method here with authorization checks and custom logic
+ * 
+ * @author sambit
+ *
+ */
 
 
 public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRelationServiceDecorator  implements HoldsPermissionService {
@@ -30,17 +36,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 	private PermissionService permissionService;
 	 
 	public static final String ENRLLMENT_NAMESPACE = "KS-Enrollment";
-	
-	
-	public void setNextDecorator(LuiPersonRelationService nextDecorator) {
-        this.nextDecorator = nextDecorator;
-    }
-	
-	public LuiPersonRelationService getNextDecorator() {
-        return this.nextDecorator;
-    }
-	
-	
+		
 	@Override
 	public PermissionService getPermissionService() {
 		return permissionService;
@@ -58,15 +54,18 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 		List<String> bulkRelationshipValues = new ArrayList<String>();
 		System.out.println("Inside authorization impl for createBulkRelationshipsForPerson" );
 		//Simulating unknown exception behavior
-		if(personId!=null){
-			bulkRelationshipValues.add(personId);
+		if(personId != null){
+			bulkRelationshipValues.addAll(nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
 		}else {
 			throw new NullPointerException("person id is null");
 		}
-		return bulkRelationshipValues;
+		return super.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
 	}
 
-
+    @Override
+    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    }
 
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
@@ -75,9 +74,10 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 			throws DoesNotExistException,
 			MissingParameterException,
 			OperationFailedException,
-			PermissionDeniedException {
+			PermissionDeniedException, 
+			InvalidParameterException {
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
+		return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
 	}
 
 	  /**

@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.MetaInfc;
+import org.kuali.student.common.infc.Meta;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MetaType", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
-public class MetaInfo implements MetaInfc, Serializable {
+@XmlType(name = "MetaInfo", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
+public class MetaInfo implements Meta, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -55,7 +55,7 @@ public class MetaInfo implements MetaInfc, Serializable {
         _futureElements = null;
     }
 
-    private MetaInfo(MetaInfc builder) {
+    private MetaInfo(Meta builder) {
         this.versionInd = builder.getVersionInd();
         this.createTime = null != builder.getCreateTime() ? new Date(builder.getCreateTime().getTime()) : null;
         this.createId = builder.getCreateId();
@@ -89,7 +89,7 @@ public class MetaInfo implements MetaInfc, Serializable {
         return updateId;
     }
 
-    public static class Builder implements ModelBuilder<MetaInfo>, MetaInfc {
+    public static class Builder implements ModelBuilder<MetaInfo>, Meta {
 
         private String versionInd;
         private Date createTime;
@@ -100,7 +100,7 @@ public class MetaInfo implements MetaInfc, Serializable {
         public Builder() {
         }
 
-        public Builder(MetaInfc metaInfo) {
+        public Builder(Meta metaInfo) {
             if (null != metaInfo) {
                 this.versionInd = metaInfo.getVersionInd();
                 this.createTime = metaInfo.getCreateTime();
@@ -139,29 +139,24 @@ public class MetaInfo implements MetaInfc, Serializable {
             return updateId;
         }
 
-        public Builder versionInd(String versionInd) {
+        public void setVersionInd(String versionInd) {
             this.versionInd = versionInd;
-            return this;
         }
 
-        public Builder createTime(Date createTime) {
+        public void setCreateTime(Date createTime) {
             this.createTime = createTime;
-            return this;
         }
 
-        public Builder createId(String createId) {
+        public void setCreateId(String createId) {
             this.createId = createId;
-            return this;
         }
 
-        public Builder updateTime(Date updateTime) {
+        public void setUpdateTime(Date updateTime) {
             this.updateTime = updateTime;
-            return this;
         }
 
-        public Builder updateId(String updateId) {
+        public void setUpdateId(String updateId) {
             this.updateId = updateId;
-            return this;
-        }
+        }  
     }
 }

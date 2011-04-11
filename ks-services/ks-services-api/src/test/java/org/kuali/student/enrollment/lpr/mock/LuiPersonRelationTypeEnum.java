@@ -7,14 +7,14 @@
  */
 package org.kuali.student.enrollment.lpr.mock;
 
-import org.kuali.student.common.infc.AttributeInfc;
+import org.kuali.student.common.infc.Attribute;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTypeInfc;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationType;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 
 /**
@@ -24,7 +24,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
  * 
  * @author nwright
  */
-public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Serializable {
+public enum LuiPersonRelationTypeEnum implements LuiPersonRelationType, Serializable {
 
     INSTRUCTOR_MAIN(LuiPersonRelationConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
     INSTRUCTOR_ASSISTANT(LuiPersonRelationConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
@@ -54,10 +54,10 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     private String descr;
     private Date effectiveDate;
     private Date expirationDate;
-    private List<? extends AttributeInfc> attributes;
+    private List<? extends Attribute> attributes;
     private String key;
 
-    LuiPersonRelationTypeEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<AttributeInfc> attributes) {
+    LuiPersonRelationTypeEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<Attribute> attributes) {
         this.key = key;
         this.name = name;
         this.descr = descr;
@@ -92,7 +92,7 @@ public enum LuiPersonRelationTypeEnum implements LuiPersonRelationTypeInfc, Seri
     }
 
     @Override
-    public List<? extends AttributeInfc> getAttributes() {
+    public List<? extends Attribute> getAttributes() {
         return this.attributes;
     }
 
