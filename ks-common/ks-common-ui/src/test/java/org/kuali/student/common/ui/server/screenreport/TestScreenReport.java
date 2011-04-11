@@ -137,6 +137,8 @@ public class TestScreenReport {
         element4.setSubset(subElements);
         dataList.add(element4);
         
+        dataList.add(new ExportElement());
+        
         ExportElement element5 = new ExportElement();
         element5.setSectionName("Section 2");
         element5.setFieldLabel("5th label");
