@@ -111,7 +111,7 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
         builder.setId(UUID.randomUUID().toString());
         builder.setPersonId(personId);
         builder.setLuiId(luiId);
-        builder.setType(luiPersonRelationType);
+        builder.setTypeKey(luiPersonRelationType);
         builder.setMetaInfo(helper.createMeta(context));
         LuiPersonRelationInfo copy = builder.build();
         this.lprCache.put(copy.getId(), copy);
@@ -164,10 +164,10 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             if (!personId.equals(lpr.getPersonId())) {
                 continue;
             }
-            if (!luiPersonRelationType.equals(lpr.getType())) {
+            if (!luiPersonRelationType.equals(lpr.getTypeKey())) {
                 continue;
             }
-            if (!relationState.equals(lpr.getState())) {
+            if (!relationState.equals(lpr.getStateKey())) {
                 continue;
             }
             LuiInfo lui = luiService.getLui(lpr.getLuiId(), context);
@@ -288,10 +288,10 @@ public class LuiPersonRelationServiceMockPersistenceImpl extends LuiPersonRelati
             if (!personId.equals(bean.getPersonId())) {
                 continue;
             }
-            if (!luiPersonRelationType.equals(bean.getType())) {
+            if (!luiPersonRelationType.equals(bean.getTypeKey())) {
                 continue;
             }
-            if (!relationState.equals(bean.getState())) {
+            if (!relationState.equals(bean.getStateKey())) {
                 continue;
             }
 

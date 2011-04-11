@@ -22,7 +22,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -32,32 +31,20 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "ownerType", "relatedType", "rank", "attributes", "_futureElements"})
-public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeRelation, Serializable {
+@XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "ownerTypeKey", "relatedTypeKey", "rank", "attributes", "metaInfo", "_futureElements"})
+public class TypeTypeRelationInfo extends KeyEntityInfo implements TypeTypeRelation, Serializable {
 	
-    @XmlAttribute
-	private final String key;
-	
-    @XmlAttribute
-    private final String type;
-
-    @XmlElement
-	private final String name;
-	
-	@XmlElement
-	private final String descr;
-
-	@XmlElement
+  	@XmlElement
 	private final Date effectiveDate;
 	
 	@XmlElement
 	private final Date expirationDate;
 		
 	@XmlElement
-	private final String ownerType;
+	private final String ownerTypeKey;
 	
 	@XmlElement
-	private final String relatedType;
+	private final String relatedTypeKey;
 
 	@XmlElement
 	private final Integer rank;
@@ -66,81 +53,45 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
     private final List<Element> _futureElements;    
 	
 	private TypeTypeRelationInfo() {
-		key = null;
-		name = null;
-		descr = null;
 		effectiveDate = null;
 		expirationDate = null;
-		type = null;
-		ownerType = null;
-		relatedType = null;
+		ownerTypeKey = null;
+		relatedTypeKey = null;
 		rank = null;
 		_futureElements = null;
 	}
 		
 	private TypeTypeRelationInfo(TypeTypeRelation builder) {
 		super(builder);
-		this.key = builder.getKey();
-		this.name = builder.getName();
-		this.descr = builder.getDescr();
     	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-    	this.type = builder.getType();
-    	this.ownerType = builder.getOwnerType();
-    	this.relatedType = builder.getRelatedType();
+    	this.ownerTypeKey = builder.getOwnerTypeKey();
+    	this.relatedTypeKey = builder.getRelatedTypeKey();
     	this.rank = builder.getRank();
     	this._futureElements = null;
 	}
 	
-    /**
-     * @return the key
-     */
-    public String getKey() {
-        return key;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the descr
-     */
-    public String getDescr() {
-        return descr;
-    }
-
-    /**
-     * @return the effectiveDate
-     */
+  
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    /**
-     * @return the expirationDate
-     */
+
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
     
 
     @Override
-    public String getType() {
-        return type;
+    public String getOwnerTypeKey() {
+        return ownerTypeKey;
     }
 
     @Override
-    public String getOwnerType() {
-        return ownerType;
-    }
-
-    @Override
-    public String getRelatedType() {
-        return relatedType;
+    public String getRelatedTypeKey() {
+        return relatedTypeKey;
     }
 
     @Override
@@ -148,29 +99,22 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
         return rank;
     }
     
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeTypeRelationInfo>, TypeTypeRelation {
-    	private String key;
-		private String name;
-		private String descr;
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<TypeTypeRelationInfo>, TypeTypeRelation {
+    
 		private Date effectiveDate;
 		private Date expirationDate;
-		private String type;
-	    private String ownerType;	    
-	    private String relatedType;
+	    private String ownerTypeKey;
+	    private String relatedTypeKey;
 	    private Integer rank;
 
 		public Builder() {}
     	
     	public Builder(TypeTypeRelation typeTypeRelationInfo) {
     		super(typeTypeRelationInfo);
-    		this.key = typeTypeRelationInfo.getKey();
-    		this.name = typeTypeRelationInfo.getName();
-    		this.descr = typeTypeRelationInfo.getDescr();
     		this.effectiveDate = typeTypeRelationInfo.getEffectiveDate();
     		this.expirationDate = typeTypeRelationInfo.getExpirationDate();
-    		this.type = typeTypeRelationInfo.getType();
-    		this.ownerType = typeTypeRelationInfo.getOwnerType();
-    		this.relatedType = typeTypeRelationInfo.getRelatedType();
+    		this.ownerTypeKey = typeTypeRelationInfo.getOwnerTypeKey();
+    		this.relatedTypeKey = typeTypeRelationInfo.getRelatedTypeKey();
     		this.rank = typeTypeRelationInfo.getRank();
     	}
 
@@ -178,30 +122,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
             return new TypeTypeRelationInfo(this);
         }
 
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescr() {
-            return descr;
-        }
-
-        public void setDescr(String descr) {
-            this.descr = descr;
-        }
-
+       @Override
         public Date getEffectiveDate() {
             return effectiveDate;
         }
@@ -210,6 +131,7 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
             this.effectiveDate = effectiveDate;
         }
 
+        @Override
         public Date getExpirationDate() {
             return expirationDate;
         }
@@ -218,28 +140,22 @@ public class TypeTypeRelationInfo extends HasAttributesInfo implements TypeTypeR
             this.expirationDate = expirationDate;
         }
 
-        public String getType() {
-            return type;
+        @Override
+        public String getOwnerTypeKey() {
+            return ownerTypeKey;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setOwnerTypeKey(String ownerTypeKey) {
+            this.ownerTypeKey = ownerTypeKey;
         }
 
-        public String getOwnerType() {
-            return ownerType;
+        @Override
+        public String getRelatedTypeKey() {
+            return relatedTypeKey;
         }
 
-        public void setOwnerType(String ownerType) {
-            this.ownerType = ownerType;
-        }
-
-        public String getRelatedType() {
-            return relatedType;
-        }
-
-        public void setRelatedType(String relatedType) {
-            this.relatedType = relatedType;
+        public void setRelatedTypeKey(String relatedTypeKey) {
+            this.relatedTypeKey = relatedTypeKey;
         }
 
         public Integer getRank() {

@@ -23,11 +23,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.w3c.dom.Element;
@@ -38,21 +38,12 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id","type","state","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
-public class LuiInfo extends HasAttributesAndMetaInfo
+@XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
+public class LuiInfo extends IdEntityInfo
   implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
-
-    @XmlAttribute
-    private final String id;
-
-    @XmlAttribute 
-    private final String type;
-    
-    @XmlAttribute
-    private final String state;
-    
+ 
     @XmlElement
     private final String luiCode;
 
@@ -81,9 +72,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
     	maxSeats = null;
     	effectiveDate = null;
     	expirationDate = null;
-    	state = null;
-    	id = null;
-    	type = null;
     	_futureElements = null;
     }
     
@@ -95,9 +83,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 		this.maxSeats =builder.getMaxSeats();
     	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
-		this.id = builder.getId();
-		this.state = builder.getState();
-		this.type = builder.getType();
 		this._futureElements = null;
 	}
 
@@ -158,35 +143,9 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         return expirationDate;
     }
 
-    /**
-     * The current status of the LUI. The values for this field are
-     * constrained to those in the luState enumeration. A separate
-     * setup operation does not exist for retrieval of the meta data
-     * around this value.
-     */
-    @Override
-    public String getState() {
-        return state;
-    }
+   
 
-    /**
-     * Unique identifier for a Learning Unit Instance (LUI). This is
-     * optional, due to the identifier being set at the time of
-     * creation. Once the LUI has been created, this should be seen as
-     * required.
-     */
-    @Override
-    public String getId() {
-        return id;
-    }
-    
-    @Override
-    public String getType() {
-        return type;
-    }
-
-
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
+    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
 
 		private String luiCode;
 		private String cluId;
@@ -194,9 +153,6 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 		private Integer maxSeats;
 		private Date effectiveDate;
 		private Date expirationDate;
-		private String id;
-		private String state;
-		private String type;
 		
 		public Builder() {}
 		
@@ -208,15 +164,14 @@ public class LuiInfo extends HasAttributesAndMetaInfo
 			this.maxSeats = luiInfo.getMaxSeats();
 			this.effectiveDate = luiInfo.getEffectiveDate();
 			this.expirationDate = luiInfo.getExpirationDate();
-			this.id = luiInfo.getId();
-			this.state= luiInfo.getState();
-			this.type = luiInfo.getType();
 		}
-		
+
+        @Override
 		public LuiInfo build() {
 			return new LuiInfo(this);
 		}
 
+        @Override
         public String getLuiCode() {
             return luiCode;
         }
@@ -225,6 +180,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
             this.luiCode = luiCode;
         }
 
+        @Override
         public String getCluId() {
             return cluId;
         }
@@ -233,6 +189,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
             this.cluId = cluId;
         }
 
+        @Override
         public String getAtpKey() {
             return atpKey;
         }
@@ -241,6 +198,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
             this.atpKey = atpKey;
         }
 
+        @Override
         public Integer getMaxSeats() {
             return maxSeats;
         }
@@ -249,6 +207,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
             this.maxSeats = maxSeats;
         }
 
+        @Override
         public Date getEffectiveDate() {
             return effectiveDate;
         }
@@ -257,6 +216,7 @@ public class LuiInfo extends HasAttributesAndMetaInfo
             this.effectiveDate = effectiveDate;
         }
 
+        @Override
         public Date getExpirationDate() {
             return expirationDate;
         }
@@ -264,29 +224,5 @@ public class LuiInfo extends HasAttributesAndMetaInfo
         public void setExpirationDate(Date expirationDate) {
             this.expirationDate = expirationDate;
         }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }		        
-   }
+    }
 }

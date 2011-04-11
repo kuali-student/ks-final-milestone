@@ -17,38 +17,28 @@ package org.kuali.student.common.infc;
 
 
 
-public interface TypeTypeRelation extends HasKey, HasAttributes, HasEffectiveDates, HasType {
+public interface TypeTypeRelation extends KeyEntity, HasEffectiveDates {
+
+
 
  /**
-  * Get ????
+  * Name: Owner Type Key
   *
-  * Type: String
-  *
-  * ???
+  * The key for the type that is the controlling or "main" type in this type-type relationship.
   */
- public String getName();
+ public String getOwnerTypeKey ();
 
  /**
-  * Get ????
+  * Name: Related Type Key
   *
-  * Type: String
-  *
-  * ???
+  * The key for the type that is the controlled or "secondary" type in this type-type relationhip.
   */
- public String getDescr();
-
- /**
-  * Get ???? Type: String ???
-  */
- public String getOwnerType();
-
- /**
-  * Get ???? Type: String ???
-  */
- public String getRelatedType();
+ public String getRelatedTypeKey ();
  
  /**
-  * Get ???? Type: String ???
+  * Name: Rank
+  *
+  * The rank or ordering of this relationship as compared to other relationships of the same type and same owner type.
   */    
  public Integer getRank();
 }

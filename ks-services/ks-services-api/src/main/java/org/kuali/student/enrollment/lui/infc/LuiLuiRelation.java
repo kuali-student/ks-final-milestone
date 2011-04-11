@@ -15,33 +15,23 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.HasId;
-import org.kuali.student.common.infc.HasState;
-import org.kuali.student.common.infc.HasType;
+import org.kuali.student.common.infc.IdEntity;
 
 public interface LuiLuiRelation
-		extends HasAttributesAndMeta,
-        HasId,
-        HasType,
-        HasState,
+		extends IdEntity,
         HasEffectiveDates {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Lui Id
+     *
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getLuiId();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Related Lui Id
+     * 
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getRelatedLuiId();

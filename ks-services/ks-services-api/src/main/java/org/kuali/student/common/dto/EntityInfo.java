@@ -38,6 +38,7 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
 
 
     protected EntityInfo() {
+        super ();
         name = null;
         descr = null;
         typeKey = null;
@@ -48,8 +49,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         super(builder);
         this.name = builder.getName();
         this.descr = builder.getDescr();
-        this.typeKey = builder.getType();
-        this.stateKey = builder.getState();
+        this.typeKey = builder.getTypeKey();
+        this.stateKey = builder.getStateKey();
     }
 
     @Override
@@ -63,12 +64,12 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
     }
 
     @Override
-    public String getType() {
+    public String getTypeKey() {
         return typeKey;
     }
 
     @Override
-    public String getState() {
+    public String getStateKey() {
         return stateKey;
     }
 
@@ -89,8 +90,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
             super(entity);
             this.name = entity.getName();
             this.descr = entity.getDescr();
-            this.typeKey = entity.getType();
-            this.stateKey = entity.getState();
+            this.typeKey = entity.getTypeKey();
+            this.stateKey = entity.getStateKey();
         }
 
         @Override
@@ -112,20 +113,20 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         }
 
         @Override
-        public String getType() {
+        public String getTypeKey() {
             return typeKey;
         }
 
-        public void setType(String typeKey) {
+        public void setTypeKey(String typeKey) {
             this.typeKey = typeKey;
         }
 
         @Override
-        public String getState() {
+        public String getStateKey() {
             return stateKey;
         }
 
-        public void setState(String stateKey) {
+        public void setStateKey(String stateKey) {
             this.stateKey = stateKey;
         }
     }

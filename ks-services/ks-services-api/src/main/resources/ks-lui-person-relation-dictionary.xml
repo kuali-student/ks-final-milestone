@@ -40,8 +40,8 @@
                 <ref bean="luiPersonRelationInfo.personId"/>
                 <ref bean="luiPersonRelationInfo.effectiveDate"/>
                 <ref bean="luiPersonRelationInfo.expirationDate"/>
-                <ref bean="luiPersonRelationInfo.type"/>
-                <ref bean="luiPersonRelationInfo.state"/>
+                <ref bean="luiPersonRelationInfo.typeKey"/>
+                <ref bean="luiPersonRelationInfo.stateKey"/>
 <!--
                 <ref bean="luiPersonRelationInfo.metaInfo"/>
                 <ref bean="luiPersonRelationInfo.metaInfo.createTime"/>
@@ -118,13 +118,13 @@
     </bean>
     <bean id="luiPersonRelationInfo.expirationDate" parent="luiPersonRelationInfo.expirationDate-parent"/>
 
-    <bean id="luiPersonRelationInfo.type-parent" abstract="true" parent="baseKualiType">
+    <bean id="luiPersonRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
     </bean>
-    <bean id="luiPersonRelationInfo.type" parent="luiPersonRelationInfo.type-parent"/>
+    <bean id="luiPersonRelationInfo.typeKey" parent="luiPersonRelationInfo.typeKey-parent"/>
 
-    <bean id="luiPersonRelationInfo.state-parent" abstract="true" parent="baseKualiState">
+    <bean id="luiPersonRelationInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
     </bean>
-    <bean id="luiPersonRelationInfo.state" parent="luiPersonRelationInfo.state-parent"/>
+    <bean id="luiPersonRelationInfo.stateKey" parent="luiPersonRelationInfo.stateKey-parent"/>
 
     <bean id="luiPersonRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiMeta">
     </bean>

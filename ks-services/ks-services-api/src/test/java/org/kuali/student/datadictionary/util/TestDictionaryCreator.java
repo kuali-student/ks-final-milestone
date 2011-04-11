@@ -20,7 +20,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.datadictionary.util.DictionaryCreator;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -59,5 +60,7 @@ public class TestDictionaryCreator {
         new DictionaryCreator().execute(LuiPersonRelationInfo.class, "target/ks-lui-person-relation-dictinoary.xml");
         new DictionaryCreator().execute(LuiInfo.class, "target/ks-lui-dictinoary.xml");
         new DictionaryCreator().execute(LuiLuiRelationInfo.class, "target/ks-lui-lui-relation-dictinoary.xml");
+        new DictionaryCreator().execute(AtpInfo.class, "target/ks-atp-dictinoary.xml");
+        new DictionaryCreator().execute(MilestoneInfo.class, "target/ks-milestone-dictinoary.xml");
     }
 }

@@ -24,11 +24,11 @@ package org.kuali.student.common.infc;
 public interface HasState  {
 
     /**
-     * Name: State
+     * Name: State Key
      * Unique identifier for the state of this object.
      * 
      * @return the state
      */
 
-    public String getState();
+    public String getStateKey();
 }

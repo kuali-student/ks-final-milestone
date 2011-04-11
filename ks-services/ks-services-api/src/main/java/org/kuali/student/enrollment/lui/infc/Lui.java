@@ -16,17 +16,14 @@
 package org.kuali.student.enrollment.lui.infc;
 
 
-import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasId;
 import org.kuali.student.common.infc.HasState;
 import org.kuali.student.common.infc.HasType;
+import org.kuali.student.common.infc.IdEntity;
 
 public interface Lui
-        extends HasAttributesAndMeta,
-        HasId,
-        HasState,
-        HasType,
+        extends IdEntity,
         HasEffectiveDates {
 
     /**

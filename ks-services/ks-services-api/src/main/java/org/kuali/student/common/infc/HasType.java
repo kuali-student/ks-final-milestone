@@ -24,11 +24,11 @@ package org.kuali.student.common.infc;
 public interface HasType  {
 
     /**
-     * Name: Type
+     * Name: Type Key
      * Unique identifier for the type of this object.
      *
      * @return the type
      */
 
-    public String getType();
+    public String getTypeKey();
 }

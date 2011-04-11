@@ -133,9 +133,9 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 
 		LuiPersonRelationInfo.Builder orig = new LuiPersonRelationInfo.Builder();
         orig.setPersonId(personId);
-        orig.setType(luiPersonRelationType);
+        orig.setTypeKey(luiPersonRelationType);
         orig.setLuiId(luiId);
-        orig.setState(LuiPersonRelationConstants.APPLIED_STATE_KEY);
+        orig.setStateKey(LuiPersonRelationConstants.APPLIED_STATE_KEY);
         orig.setEffectiveDate(parseDate("2010-01-01"));
 		AttributeInfo.Builder da = new AttributeInfo.Builder();
 		List<AttributeInfo> das = new ArrayList<AttributeInfo>();
@@ -173,8 +173,8 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertEquals(lprId, fetched.getId());
 		assertEquals(personId, fetched.getPersonId());
 		assertEquals(luiId, fetched.getLuiId());
-		assertEquals(luiPersonRelationType, fetched.getType());
-		assertEquals(orig.getState(), fetched.getState());
+		assertEquals(luiPersonRelationType, fetched.getTypeKey());
+		assertEquals(orig.getStateKey(), fetched.getStateKey());
 		assertEquals(orig.getEffectiveDate(), fetched.getEffectiveDate());
 		assertEquals(orig.getExpirationDate(), fetched.getExpirationDate());
 		assertEquals(orig.getAttributes().size(), fetched.getAttributes().size());
@@ -210,7 +210,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched);
 		builder.setPersonId("personId.2");
 		builder.setLuiId("luiId.2");
-		builder.setState(LuiPersonRelationConstants.ADMITTED_STATE_KEY);
+		builder.setStateKey(LuiPersonRelationConstants.ADMITTED_STATE_KEY);
 		builder.setEffectiveDate(parseDate("2010-01-01"));
 		builder.setExpirationDate(parseDate("2010-02-01"));
 		fetched = builder.build();
@@ -236,11 +236,11 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertEquals(fetched.getId(), updated.getId());
 		assertEquals(fetched.getPersonId(), updated.getPersonId());
 		assertEquals(fetched.getLuiId(), updated.getLuiId());
-		assertEquals(fetched.getType(), updated.getType());
+		assertEquals(fetched.getTypeKey(), updated.getTypeKey());
 		assertEquals(fetched.getPersonId(), updated.getPersonId());
 		assertEquals(fetched.getLuiId(), updated.getLuiId());
-		assertEquals(fetched.getType(), updated.getType());
-		assertEquals(fetched.getState(), updated.getState());
+		assertEquals(fetched.getTypeKey(), updated.getTypeKey());
+		assertEquals(fetched.getStateKey(), updated.getStateKey());
 		assertEquals(fetched.getEffectiveDate(), updated.getEffectiveDate());
 		assertEquals(fetched.getExpirationDate(), updated.getExpirationDate());
 		assertEquals(fetched.getAttributes().size(), updated.getAttributes().size());

@@ -103,7 +103,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         builder.setId(UUID.randomUUID().toString());
         builder.setLuiId(luiId);
         builder.setRelatedLuiId(relatedLuiId);
-        builder.setType(luLuRelationType);
+        builder.setTypeKey(luLuRelationType);
         builder.setMetaInfo(helper.createMeta(context));
         LuiLuiRelationInfo copy = builder.build();
         this.llrCache.put(copy.getId(), copy);
@@ -157,7 +157,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         List<String> luiIds = new ArrayList<String>();
         for (LuiLuiRelationInfo info : this.llrCache.values()) {
             if (info.getRelatedLuiId().equals(relatedLuiId)) {
-                if (info.getType().equals(luLuRelationType)) {
+                if (info.getTypeKey().equals(luLuRelationType)) {
                     luiIds.add(info.getLuiId());
                 }
             }
@@ -216,7 +216,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         for (LuiLuiRelationInfo info : this.llrCache.values()) {
             // TODO: consider speading up the list search by converting to a hashmap
             if (info.getRelatedLuiId().equals(relatedLuiId)) {
-                if (info.getType().equals(luLuRelationType)) {
+                if (info.getTypeKey().equals(luLuRelationType)) {
                     try {
                         infos.add(this.getLui(info.getLuiId(), context));
                     } catch (DoesNotExistException ex) {
@@ -251,7 +251,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         List<String> luiIds = new ArrayList<String>();
         for (LuiLuiRelationInfo info : this.llrCache.values()) {
             if (info.getLuiId().equals(luiId)) {
-                if (info.getType().equals(luLuRelationType)) {
+                if (info.getTypeKey().equals(luLuRelationType)) {
                     luiIds.add(info.getRelatedLuiId());
                 }
             }
@@ -265,7 +265,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
         List<LuiInfo> luiIds = new ArrayList<LuiInfo>();
         for (LuiLuiRelationInfo info : this.llrCache.values()) {
             if (info.getLuiId().equals(luiId)) {
-                if (info.getType().equals(luLuRelationType)) {
+                if (info.getTypeKey().equals(luLuRelationType)) {
                     try {
                         luiIds.add(this.getLui(info.getRelatedLuiId(), context));
                     } catch (DoesNotExistException ex) {
@@ -334,7 +334,7 @@ public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
             PermissionDeniedException {
         LuiInfo existing = this.getLui(luiId, context);
         LuiInfo.Builder luiBuilder = new LuiInfo.Builder(existing);
-        luiBuilder.setState(luState);
+        luiBuilder.setStateKey(luState);
         LuiInfo updated = luiBuilder.build();
         try {
             return this.updateLui(luiId, updated, context);

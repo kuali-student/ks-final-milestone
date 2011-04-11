@@ -22,27 +22,20 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id","type","state","luiId", "personId","effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
-public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
+@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiId", "personId","effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
+public class LuiPersonRelationInfo extends IdEntityInfo
         implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlAttribute
-    private final String id;
-    @XmlAttribute
-    private final String type;
-    @XmlAttribute
-    private final String state;
     @XmlElement
     private final String luiId;
     @XmlElement
@@ -55,13 +48,11 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
     private final List<Element> _futureElements;
 
     private LuiPersonRelationInfo() {
+        super ();
         luiId = null;
         personId = null;
         effectiveDate = null;
         expirationDate = null;
-        type = null;
-        state = null;
-        id = null;
         _futureElements = null;
     }
 
@@ -71,9 +62,6 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         this.personId = builder.getPersonId();
         this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
         this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-        this.type = builder.getType();
-        this.state = builder.getState();
-        this.id = builder.getId();
         this._futureElements = null;
     }
 
@@ -97,30 +85,13 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
         return expirationDate;
     }
 
-    @Override
-    public String getType() {
-        return type;
-    }
 
-    @Override
-    public String getState() {
-        return state;
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
+    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
 
         private String luiId;
         private String personId;
         private Date effectiveDate;
         private Date expirationDate;
-        private String type;
-        private String state;
-        private String id;
 
         public Builder() {
         }
@@ -131,15 +102,14 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             this.personId = lprInfo.getPersonId();
             this.effectiveDate = lprInfo.getEffectiveDate();
             this.expirationDate = lprInfo.getExpirationDate();
-            this.type = lprInfo.getType();
-            this.state = lprInfo.getState();
-            this.id = lprInfo.getId();
         }
 
+        @Override
         public LuiPersonRelationInfo build() {
             return new LuiPersonRelationInfo(this);
         }
 
+        @Override
         public String getLuiId() {
             return luiId;
         }
@@ -148,6 +118,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             this.luiId = luiId;
         }
 
+        @Override
         public String getPersonId() {
             return personId;
         }
@@ -156,6 +127,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             this.personId = personId;
         }
 
+        @Override
         public Date getEffectiveDate() {
             return effectiveDate;
         }
@@ -164,6 +136,7 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             this.effectiveDate = effectiveDate;
         }
 
+        @Override
         public Date getExpirationDate() {
             return expirationDate;
         }
@@ -172,29 +145,6 @@ public class LuiPersonRelationInfo extends HasAttributesAndMetaInfo
             this.expirationDate = expirationDate;
         }
 
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-        
+       
     }
 }

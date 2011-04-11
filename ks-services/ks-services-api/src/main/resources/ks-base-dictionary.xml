@@ -22,6 +22,9 @@
     <import resource="classpath:ks-base-dictionary-validchars.xml"/>
     <import resource="classpath:ks-base-dictionary-controls.xml"/>
 
+	<bean id="ComplexAttributeDefinition" class="org.kuali.rice.kns.datadictionary.ComplexAttributeDefinition"
+		abstract="true" />
+        
     <bean id="AttributeDefinition"
           class="org.kuali.rice.kns.datadictionary.AttributeDefinition"
           abstract="true" />
@@ -155,17 +158,17 @@
         <property name="description" value="Unique ID"/>
     </bean>
 
-    <bean id="baseKualiType" parent="baseKualiCode" abstract="true">
+    <bean id="baseKualiTypeKey" parent="baseKualiCode" abstract="true">
         <property name="required" value="true"/>
-        <property name="name" value="type"/>
+        <property name="name" value="typeKey"/>
         <property name="childEntryName" value="type"/>
         <property name="shortLabel" value="Type"/>
         <property name="summary" value="Type of the object"/>
         <property name="label" value="Type"/>
-        <property name="description" value="The type of the object"/>
+        <property name="description" value="The key to the type of the object"/>
     </bean>
 
-    <bean id="baseKualiKey" parent="baseKualiType" abstract="true">
+    <bean id="baseKualiKey" parent="baseKualiTypeKey" abstract="true">
         <property name="required" value="true"/>
         <property name="unique" value="true"/>
         <property name="name" value="key"/>
@@ -176,13 +179,13 @@
         <property name="description" value="The key to an object"/>
     </bean>
 
-    <bean id="baseKualiState" parent="baseKualiCode" abstract="true">
-        <property name="name" value="state"/>
-        <property name="childEntryName" value="state"/>
+    <bean id="baseKualiStateKey" parent="baseKualiCode" abstract="true">
+        <property name="name" value="stateKey"/>
+        <property name="childEntryName" value="stateKey"/>
         <property name="shortLabel" value="State"/>
         <property name="summary" value="State of the object"/>
         <property name="label" value="State"/>
-        <property name="description" value="The state of the object"/>
+        <property name="description" value="The key of the state of the object"/>
     </bean>
 
     <bean id="baseKualiEffectiveDate" parent="baseKualiDateTime" abstract="true">

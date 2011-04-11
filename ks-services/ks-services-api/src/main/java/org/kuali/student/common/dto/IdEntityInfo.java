@@ -27,6 +27,7 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
     private String id;
 
     protected IdEntityInfo() {
+        super ();
         id = null;
     }
 

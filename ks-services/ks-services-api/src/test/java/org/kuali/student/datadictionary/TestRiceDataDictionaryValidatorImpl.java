@@ -29,7 +29,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
@@ -38,10 +37,8 @@ import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.infc.ValidationResult;
-import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationStateEnum;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationTypeEnum;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -128,8 +125,8 @@ public class TestRiceDataDictionaryValidatorImpl {
         LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder();
         bldr.setPersonId("personId.1");
         bldr.setLuiId("luiId.1");
-        bldr.setType(LuiPersonRelationTypeEnum.REGISTRANT.getKey());
-        bldr.setState(LuiPersonRelationStateEnum.APPLIED.getKey());
+        bldr.setTypeKey(LuiPersonRelationConstants.REGISTRANT_TYPE_KEY);
+        bldr.setStateKey(LuiPersonRelationConstants.APPLIED_STATE_KEY);
         bldr.setEffectiveDate(parseDate("2010-01-01"));
         Object info = bldr.build();
         ContextInfo context = getContext1();
@@ -141,7 +138,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         result = intstance.validate(validationType, info, context);
         assertEquals(0, result.size());
 
-        bldr.setType(null);
+        bldr.setTypeKey(null);
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResult vri : result) {
@@ -151,7 +148,7 @@ public class TestRiceDataDictionaryValidatorImpl {
 
 
 
-        bldr.setType(null);
+        bldr.setTypeKey(null);
         info = bldr.build();
         validationType = DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = intstance.validate(validationType, info, context);
@@ -160,7 +157,7 @@ public class TestRiceDataDictionaryValidatorImpl {
         }
         assertEquals(0, result.size());
 
-        bldr.setType(" this has \n an embedded return");
+        bldr.setTypeKey(" this has \n an embedded return");
         info = bldr.build();
         result = intstance.validate(validationType, info, context);
         for (ValidationResult vri : result) {

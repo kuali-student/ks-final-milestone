@@ -147,7 +147,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
         criteria.setComparisons(comparisons);
         comparison = new ComparisonInfo.Builder();
         comparisons.add(comparison);
-        comparison.setFieldKey("type");
+        comparison.setFieldKey("typeKey");
         comparison.setOperator("=");
         comparison.setValue(LuiPersonRelationConstants.REGISTRANT_TYPE_KEY);
         lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
