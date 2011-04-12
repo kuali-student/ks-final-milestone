@@ -44,128 +44,127 @@ import org.kuali.student.core.atp.infc.AtpMilestoneRelation;
 
 public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMilestoneRelation, Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private final String atpKey;
+	@XmlElement
+	private final String atpKey;
 
-    @XmlElement
-    private final String milestoneKey;
+	@XmlElement
+	private final String milestoneKey;
 
-    @XmlAnyElement
-    private final List<Element> _futureElements;  
+	@XmlAnyElement
+	private final List<Element> _futureElements;  
 
-    private AtpMilestoneRelationInfo() {
-        atpKey = null;
-        milestoneKey = null;
-	_futureElements = null;
-    }
-
-    /**
-     * Constructs a new AtpMilestoneRelationInfo from another
-     * AtpMilestoneRelation.
-     *
-     * @param milestone the AtpMilestoneRelation to copy
-     */
-    public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
-        super(amr);
-        this.atpKey = amr.getAtpKey();
-        this.milestoneKey = amr.getMilestoneKey();
-	_futureElements = null;
-    }
-
-    /**
-     * Name: AtpKey
-     * Gets the ATP key in this relationship.
-     *
-     * @return the ATP key
-     */
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
-
-    /**
-     * Name: MilestoneKey
-     * Gets the Milestone key in this relationship.
-     *
-     * @return the Milestone key
-     */
-    @Override
-    public String getMilestoneKey() {
-        return milestoneKey;
-    }
-
-    /**
-     * The builder class for this AtpMilestonerelationInfo.
-     */
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpMilestoneRelationInfo>, AtpMilestoneRelation {
-
-        private String atpKey;
-        private String milestoneKey;
+	private AtpMilestoneRelationInfo() {
+		atpKey = null;
+		milestoneKey = null;
+		_futureElements = null;
+	}
 
 	/**
-	 * Constructs a new builder.
-	 */
-        public Builder() {
-        }
-
-	/**
-	 *  Constructs a new builder initialized from another
-	 *  AtpMilestoneRelation.
-	 */
-        public Builder(AtpMilestoneRelation amrInfo) {
-            super(amrInfo);
-            this.atpKey = amrInfo.getAtpKey();
-            this.milestoneKey = amrInfo.getMilestoneKey();
-        }
-
-	/**
-	 * Builds the AtpMilestoneRelation.
+	 * Constructs a new AtpMilestoneRelationInfo from another
+	 * AtpMilestoneRelation.
 	 *
-	 * @return a new AtpMilestoneRelation
+	 * @param milestone the AtpMilestoneRelation to copy
 	 */
-        public AtpMilestoneRelationInfo build() {
-            return new AtpMilestoneRelationInfo(this);
-        }
+	public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
+		super(amr);
+		this.atpKey = amr.getAtpKey();
+		this.milestoneKey = amr.getMilestoneKey();
+		_futureElements = null;
+	}
 
 	/**
-	 * Gets the ATP key in this relation.
+	 * Name: AtpKey
+	 * Gets the ATP key in this relationship.
 	 *
 	 * @return the ATP key
 	 */
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
+	@Override
+	public String getAtpKey() {
+		return atpKey;
+	}
 
 	/**
-	 * Sets the ATP key in this relation.
-	 *
-	 * @param atpKey the ATP key
-	 */
-        public void atpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
-
-	/**
-	 * Gets the Milestone key in this relation.
+	 * Name: MilestoneKey
+	 * Gets the Milestone key in this relationship.
 	 *
 	 * @return the Milestone key
 	 */
-        @Override
-        public String getMilestoneKey() {
-            return milestoneKey;
-        }
+	@Override
+	public String getMilestoneKey() {
+		return milestoneKey;
+	}
 
 	/**
-	 * Sets the Milestone key in this relation.
-	 *
-	 * @param milestone the Milestone key
+	 * The builder class for this AtpMilestonerelationInfo.
 	 */
+	public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpMilestoneRelationInfo>, AtpMilestoneRelation {
 
-        public void setMilestoneKey(String milestoneKey) {
-            this.milestoneKey = milestoneKey;
-        }
-    }
+		private String atpKey;
+		private String milestoneKey;
+
+		/**
+		 * Constructs a new builder.
+		 */
+		public Builder() {
+		}
+
+		/**
+		 *  Constructs a new builder initialized from another
+		 *  AtpMilestoneRelation.
+		 */
+		public Builder(AtpMilestoneRelation amrInfo) {
+			super(amrInfo);
+			this.atpKey = amrInfo.getAtpKey();
+			this.milestoneKey = amrInfo.getMilestoneKey();
+		}
+
+		/**
+		 * Builds the AtpMilestoneRelation.
+		 *
+		 * @return a new AtpMilestoneRelation
+		 */
+		public AtpMilestoneRelationInfo build() {
+			return new AtpMilestoneRelationInfo(this);
+		}
+
+		/**
+		 * Gets the ATP key in this relation.
+		 *
+		 * @return the ATP key
+		 */
+		@Override
+		public String getAtpKey() {
+			return atpKey;
+		}
+
+		/**
+		 * Sets the ATP key in this relation.
+		 *
+		 * @param atpKey the ATP key
+		 */
+		public void atpKey(String atpKey) {
+			this.atpKey = atpKey;
+		}
+
+		/**
+		 * Gets the Milestone key in this relation.
+		 *
+		 * @return the Milestone key
+		 */
+		@Override
+		public String getMilestoneKey() {
+			return milestoneKey;
+		}
+
+		/**
+		 * Sets the Milestone key in this relation.
+		 *
+		 * @param milestone the Milestone key
+		 */
+		public void setMilestoneKey(String milestoneKey) {
+			this.milestoneKey = milestoneKey;
+		}
+	}
 }

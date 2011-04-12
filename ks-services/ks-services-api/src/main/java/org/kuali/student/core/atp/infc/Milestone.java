@@ -29,29 +29,29 @@ import org.kuali.student.common.infc.KeyEntity;
 
 public interface Milestone extends KeyEntity {
 
-    /**
-     * Name: IsDateRange
-     * Tests if this milestone has a date range. 
-     *
-     * @return true if the end date is different than the start date,
-     *         false if the start end end date ar ethe same
-     */
-    public Boolean getIsDateRange();
+	/**
+	 * Name: IsDateRange
+	 * Tests if this milestone has a date range. 
+	 *
+	 * @return true if the end date is different than the start date,
+	 *         false if the start end end date are the same
+	 */
+	public Boolean getIsDateRange();
 
-    /**
-     * Name: StartDate
-     * The start date and time of the milestone.
-     *
-     * @return the milestone start date 
-     */
-    public Date getStartDate();
+	/**
+	 * Name: StartDate
+	 * The start date and time of the milestone.
+	 *
+	 * @return the milestone start date 
+	 */
+	public Date getStartDate();
 
-    /**
-     * Name: EndDate 
-     * The end date and time of the milestone. The end
-     * date must be equal to or greater that the start.
-     *
-     * @return the milestone end date
-     */
-    public Date getEndDate();
+	/**
+	 * Name: EndDate 
+	 * The end date and time of the milestone. The end
+	 * date must be equal to or greater that the start.
+	 *
+	 * @return the milestone end date
+	 */
+	public Date getEndDate();
 }
