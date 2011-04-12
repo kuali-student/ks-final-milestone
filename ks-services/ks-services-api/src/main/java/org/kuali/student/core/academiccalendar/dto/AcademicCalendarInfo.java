@@ -18,9 +18,12 @@ package org.kuali.student.core.academiccalendar.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -30,6 +33,7 @@ import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.core.academiccalendar.infc.AcademicCalendarInfc;
+import org.kuali.student.core.academiccalendar.infc.TermInfc;
 
 
 /**
@@ -61,12 +65,16 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     @XmlElement 
     private final TypeInfo credentialProgramType;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private AcademicCalendarInfo() {
 	campusCalendar = null;
     	startDate = null;
 	endDate = null;
 	terms = null;
 	credentialProgramType = null;
+	_futureElements = null;
     }
 
     /**
@@ -80,10 +88,17 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
 	this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
 	this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-	/* copy me */
-	//this.terms = academicCalendar.getTerms();
-	this.terms = null;
+	if (academicCalendar.getTerms() != null) {
+	    this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
+	    for (TermInfc t : academicCalendar.getTerms()) {
+		this.terms.add(new TermInfo(t));
+	    }
+	} else {
+	    this.terms = new ArrayList<TermInfo>();
+	}
+
 	this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
+	_futureElements = null;
     }
 
     /**
@@ -172,8 +187,12 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	    super(academicCalendar);
 	    this.startDate = academicCalendar.getStartDate();
 	    this.endDate = academicCalendar.getEndDate();
-	    /* copy me */
-	    //this.terms = academicCalendar.getTerms();
+	    if (academicCalendar.getTerms() != null) {
+		this.terms = new ArrayList(academicCalendar.getTerms().size());
+		for (TermInfc t : academicCalendar.getTerms()) {
+		    this.terms.add(new TermInfo(t));
+		}
+	    }
 	    this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
     	}
 		

@@ -59,10 +59,4 @@ public interface TermInfc extends KeyEntity {
      * Gets the Terms nested inside this Term.
      */
     public List<? extends TermInfc> getTerms();
-
-    /**
-     * Name: KeyDates
-     * Gets the key dates directly mapped to this term.
-     */
-    public List<? extends KeyDateInfc> getKeyDates();
 }

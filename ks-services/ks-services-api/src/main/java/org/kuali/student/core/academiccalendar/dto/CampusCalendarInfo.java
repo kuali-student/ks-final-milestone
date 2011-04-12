@@ -18,9 +18,11 @@ package org.kuali.student.core.academiccalendar.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -38,7 +40,7 @@ import org.kuali.student.core.academiccalendar.infc.CampusCalendarInfc;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "holidays", "keyDates", "location", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
 public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,21 +51,17 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     @XmlElement
     private final Date endDate;
 
-    @XmlElement 
-    private final List<HolidayInfo> holidays;
-
-    @XmlElement
-    private final List<KeyDateInfo> keyDates;
-
     @XmlElement
     private final String location;
+
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
 
     private CampusCalendarInfo() {
     	startDate = null;
 	endDate = null;
-	holidays = null;
-	keyDates = null;
 	location = null;
+	_futureElements = null;
     }
 
     /**
@@ -76,10 +74,8 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	super(campusCalendar);
 	this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
 	this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
-	/* copy me */
-	this.holidays = null;
-	this.keyDates = null;
 	this.location = campusCalendar.getLocation();
+	_futureElements = null;
     }
 
     /**
@@ -117,24 +113,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     }
 
     /**
-     * Name: Holidays
-     * Gets the holidays mapped to this calendar.
-     */
-    @Override
-    public List<HolidayInfo> getHolidays() {
-	return (holidays);
-    }
-
-    /**
-     * Name: KeyDates
-     * Gets the key dates mapped to this calendar.
-     */
-    @Override
-    public List<KeyDateInfo> getKeyDates() {
-	return keyDates;
-    }
-
-    /**
      * Name: Location
      * The campus or location to which this calendar pertains.
      */
@@ -150,8 +128,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     	
     	private Date startDate;
 	private Date endDate;
-	private List<HolidayInfo> holidays;
-	private List<KeyDateInfo> keyDates;
 	private String location;
 
 	/**
@@ -166,9 +142,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	    super(campusCalendar);
 	    this.startDate = campusCalendar.getStartDate();
 	    this.endDate = campusCalendar.getEndDate();
-	    /* copy me */
-	    this.holidays = null;
-	    this.keyDates = null;
 	    this.location = campusCalendar.getLocation();
     	}
 		
@@ -218,30 +191,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 
 	public void setEndDate(Date endDate) {
 	    this.endDate = endDate;
-	}
-	
-	/**
-	 * Gets the holidays mapped to this calendar.
-	 */
-	@Override
-	public List<HolidayInfo> getHolidays() {
-	    return (holidays);
-	}
-
-	public void setHolidays(List<HolidayInfo> holidays) {
-	    this.holidays = holidays;
-	}
-	
-	/**
-	 * Gets the key dates mapped to this calendar.
-	 */
-	@Override
-	public List<KeyDateInfo> getKeyDates() {
-	    return keyDates;
-	}
-
-	public void setKeyDates(List<KeyDateInfo> keyDates) {
-	    this.keyDates = keyDates;
 	}
 	
 	/**

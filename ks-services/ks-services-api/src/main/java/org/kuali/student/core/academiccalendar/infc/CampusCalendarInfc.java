@@ -55,18 +55,6 @@ public interface CampusCalendarInfc extends KeyEntity {
     public Date getEndDate();
 
     /**
-     * Name: Holidays
-     * Gets the holidays mapped to this calendar.
-     */
-    public List<? extends HolidayInfc> getHolidays();
-
-    /**
-     * Name: KeyDates
-     * Gets the key dates mapped to this calendar.
-     */
-    public List<? extends KeyDateInfc> getKeyDates();
-
-    /**
      * Name: Location
      * The campus or location to which this calendar pertains.
      */

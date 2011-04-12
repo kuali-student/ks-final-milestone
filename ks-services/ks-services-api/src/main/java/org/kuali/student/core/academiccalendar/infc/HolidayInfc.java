@@ -32,8 +32,17 @@ public interface HolidayInfc extends KeyDateInfc {
      * Name: IsDateRange
      * Tests if this holiday is an instructional day. 
      *
-     * @return true if this holiday is an instructional day false if
+     * @return true if this holiday is an instructional day, false if
      *         it does not count as an instructional day
      */
     public Boolean getIsInstructionalDay();
+
+    /**
+     * Name: IsDateRange
+     * Tests if this holiday is an exam day. 
+     *
+     * @return true if this holiday is an exam day, false if
+     *         it does not count as an exam day
+     */
+    public Boolean getIsExamDay();
 }

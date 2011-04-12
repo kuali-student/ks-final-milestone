@@ -17,9 +17,12 @@ package org.kuali.student.core.academiccalendar.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -40,7 +43,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "isInstructionalDay", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "isInstructionalDay", "isExamDay", "metaInfo", "attributes", "_futureElements"})
 
 public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializable {
 
@@ -58,11 +61,19 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
     @XmlElement
     private final Boolean isInstructionalDay;
 
+    @XmlElement
+    private final Boolean isExamDay;
+
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private HolidayInfo() {
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
 	isInstructionalDay = false;
+	isExamDay = false;
+	_futureElements = null;
     }
 
     /**
@@ -76,6 +87,8 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
         this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
         this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
 	this.isInstructionalDay = holiday.getIsInstructionalDay();
+	this.isExamDay = holiday.getIsExamDay();
+	_futureElements = null;
     }
 
     /**
@@ -117,11 +130,23 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
      * Name: IsInstructionalDay
      * Tests if this holiday is an instructional day. 
      *
-     * @return true if this holiday is an instructional day false if
+     * @return true if this holiday is an instructional day, false if
      *         it does not count as an instructional day
      */
+    @Override
     public Boolean getIsInstructionalDay() {
 	return isInstructionalDay;
+    }
+
+    /**
+     * Name: IsExamDay
+     * Tests if exams are permitted on this holiday.
+     *
+     * @return true if this holiday is an exam day, false otherwise
+     */
+    @Override
+    public Boolean getIsExamDay() {
+	return isExamDay;
     }
 
     /**
@@ -133,6 +158,7 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
         private Date startDate;
         private Date endDate;
 	private Boolean isInstructionalDay;
+	private Boolean isExamDay;
 
 	/**
 	 * Constructs a new builder.
@@ -150,6 +176,7 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
 	    this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
 	    this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
 	    this.isInstructionalDay = holiday.getIsInstructionalDay();
+	    this.isExamDay = holiday.getIsExamDay();
         }
 
 	/**
@@ -226,7 +253,7 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
 	/**
 	 * Tests if this holiday is an instructional day. 
 	 *
-	 * @return true if this holiday is an instructional day false if
+	 * @return true if this holiday is an instructional day, false if
 	 *         it does not count as an instructional day
 	 */
 	public Boolean getIsInstructionalDay() {
@@ -235,6 +262,20 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
 
 	public void setIsInstructionalDay(Boolean isInstructionalDay) {
 	    this.isInstructionalDay = isInstructionalDay;
+	}
+
+	/**
+	 * Tests if this holiday is an exam day. 
+	 *
+	 * @return true if this holiday is an exam day, false if
+	 *         it does not count as an exam day
+	 */
+	public Boolean getIsExamDay() {
+	    return isExamDay;
+	}
+
+	public void setIsExamDay(Boolean isExamDay) {
+	    this.isExamDay = isExamDay;
 	}
     }
 }

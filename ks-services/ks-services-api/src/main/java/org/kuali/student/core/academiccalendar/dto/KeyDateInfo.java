@@ -17,9 +17,12 @@ package org.kuali.student.core.academiccalendar.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -55,10 +58,14 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     @XmlElement
     private final Date endDate;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private KeyDateInfo() {
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
+	_futureElements = null;
     }
 
     /**
@@ -71,6 +78,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
 	this.isDateRange = keyDate.getIsDateRange();
         this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
         this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+	_futureElements = null;
     }
 
     /**
