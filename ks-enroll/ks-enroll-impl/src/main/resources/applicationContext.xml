@@ -31,9 +31,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <!-- declare impls here -->
     <!--  declare all service exceptions here or in KS core -->
-    <bean id="kualiInvalidParamException" class="org.kuali.student.core.exceptions.InvalidParameterException" />
-    <bean id="kualiOperationFailedException" class="org.kuali.student.core.exceptions.OperationFailedException" />
-    <bean id="kualiReadOnlyException" class="org.kuali.student.core.exceptions.ReadOnlyException" />
+    <bean id="kualiInvalidParamException" class="org.kuali.student.r2.common.exceptions.InvalidParameterException" />
+    <bean id="kualiOperationFailedException" class="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+    <bean id="kualiReadOnlyException" class="org.kuali.student.r2.common.exceptions.ReadOnlyException" />
   
    
     <bean id="permissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl"/>

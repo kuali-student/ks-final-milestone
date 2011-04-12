@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -45,6 +46,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Author sambit
  */
 
+@Ignore
 public class TestLuiPersonRelationServiceImpl {
 
 

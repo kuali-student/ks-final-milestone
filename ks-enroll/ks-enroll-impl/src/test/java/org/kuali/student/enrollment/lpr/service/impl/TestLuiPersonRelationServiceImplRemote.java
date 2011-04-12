@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -47,6 +48,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		 @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprStateDao"),
 		 @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprTypeDao") } )
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
+@Ignore
 public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl")
