@@ -3081,6 +3081,9 @@
         <foreign-key foreignTable="KSSC_SUBJ_CD_TYPE" name="KSSC_SUBJ_CD_FK1">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
+        <unique name="KSSC_SUBJ_CD_IX1">
+            <unique-column name="CD"/>
+        </unique>
     </table>
     <table name="KSSC_SUBJ_CD_JN_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>

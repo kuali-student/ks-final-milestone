@@ -42,10 +42,6 @@
         ID="18" NAME="Chemistry"
         OBJ_ID="04d1f81e-dcf3-4cc7-8384-2366f84a6684" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="CHEM" CREATEID="kr" CREATETIME="20110426000000"
-        ID="19" NAME="Chemistry"
-        OBJ_ID="5cfae2c6-069b-44a5-8140-20d06dc0f00a" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
     <KSSC_SUBJ_CD CD="AASP" CREATEID="kr" CREATETIME="20110409000000"
         ID="2" NAME="African American Studies"
         OBJ_ID="0677e556-fb00-4d0c-8798-1ac838f658e7" STATE="Actual"
@@ -69,10 +65,6 @@
     <KSSC_SUBJ_CD CD="ENGL" CREATEID="kr" CREATETIME="20110501000000"
         ID="24" NAME="English"
         OBJ_ID="1eb81f63-4d49-474d-a9db-4a87c3cb7aa9" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="ENGL" CREATEID="kr" CREATETIME="20110502000000"
-        ID="25" NAME="English"
-        OBJ_ID="0ad6ced8-d9fd-4f8b-87af-b8621cfdda5a" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
     <KSSC_SUBJ_CD CD="FINA" CREATEID="kr" CREATETIME="20110503000000"
         ID="26" NAME="Finance"
@@ -158,21 +150,9 @@
         ID="44" NAME="PubAdmin"
         OBJ_ID="1cd8c58b-b1a6-4e15-93e0-02e3f06c5b16" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="ROBT" CREATEID="kr" CREATETIME="20110522000000"
-        ID="45" NAME="CompSci"
-        OBJ_ID="00ee04e9-14af-435c-9f0b-cea34400fc1b" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
     <KSSC_SUBJ_CD CD="ROBT" CREATEID="kr" CREATETIME="20110523000000"
         ID="46" NAME="Robotics"
         OBJ_ID="e0077878-6712-48d4-88b3-5b7487393dfc" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="ROBT" CREATEID="kr" CREATETIME="20110524000000"
-        ID="47" NAME="Mechanical"
-        OBJ_ID="cdb55575-6881-44b7-bc78-99eff78bd9a2" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="SOCY" CREATEID="kr" CREATETIME="20110525000000"
-        ID="48" NAME="Sociology"
-        OBJ_ID="246618ab-44d2-42d7-ae14-2b07a0de3a0c" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
     <KSSC_SUBJ_CD CD="SOCY" CREATEID="kr" CREATETIME="20110526000000"
         ID="49" NAME="Sociology"
