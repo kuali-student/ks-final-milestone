@@ -80,9 +80,12 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
 	this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
 	this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-	/* copy me */
-	//this.terms = academicCalendar.getTerms();
-	this.terms = null;
+	if (term.getTerms() != null) {
+	    this.terms = new ArrayList(term.getTerms().size());
+	    for (Term t : term.getTerms()) {
+		this.terms.add(new TermInfo(t));
+	    }
+	}
 	this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
     }
 
@@ -172,8 +175,12 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	    super(academicCalendar);
 	    this.startDate = academicCalendar.getStartDate();
 	    this.endDate = academicCalendar.getEndDate();
-	    /* copy me */
-	    //this.terms = academicCalendar.getTerms();
+	    if (term.getTerms() != null) {
+		this.terms = new ArrayList(term.getTerms().size());
+		for (Term t : term.getTerms()) {
+		    this.terms.add(new TermInfo(t));
+		}
+	    }
 	    this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
     	}
 		
