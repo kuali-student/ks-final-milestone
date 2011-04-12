@@ -391,13 +391,45 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *                and locale information about the caller of service
      *                operation
      * @return Details of requested Atp milestone relation
-     * @throws DoesNotExistException milestoneKey not found
+     * @throws DoesNotExistException atpMilestoneRelationId not found
+     * @throws InvalidParameterException invalid atpMilestonerelationId
+     * @throws MissingParameterException invalid atpMilestoneRelationId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public AtpMilestoneRelationInfo getAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationId") String atpMilestoneRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves all ATP Milestone Relationships by ATP.
+     *
+     * @param atpKey Unique key of an ATP
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Atp milestone relationships
+     * @throws DoesNotExistException atpKey not found
+     * @throws InvalidParameterException invalid atpKey
+     * @throws MissingParameterException invalid atpKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves all ATP Milestone Relationships by Milestone.
+     *
+     * @param milestoneKey Unique key of a Milestone
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Atp milestone relationships
+     * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid milestoneKey
      * @throws MissingParameterException invalid milestoneKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public AtpMilestoneRelationInfo getAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationId") String atpMilestoneRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ATP/Milestone relationship. Depending on the value
