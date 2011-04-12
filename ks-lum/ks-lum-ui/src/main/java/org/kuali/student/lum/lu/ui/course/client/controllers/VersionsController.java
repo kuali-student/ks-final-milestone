@@ -28,6 +28,7 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
@@ -40,7 +41,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
-public class VersionsController extends BasicLayoutWithContentHeader{
+public class VersionsController extends BasicLayoutWithContentHeader implements HasRequirements{
 	
 	public static enum Views{VERSION_SELECT, VERSION_VIEW, VERSION_COMPARE}
 	
@@ -62,6 +63,8 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private String lastId2 = "";
 	private HorizontalSection workflowVersionInfoSection = new HorizontalSection();
 	
+    private final CourseRequirementsDataModel reqDataModel1;
+    private final CourseRequirementsDataModel reqDataModel2;
 	
 	private boolean initialized = false;
 	private String versionIndId = "";
@@ -85,7 +88,10 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     		}
     	});
         versionHistoryButton.addStyleName("versionHistoryLink");
-        
+
+        reqDataModel1 = new CourseRequirementsDataModel(this);
+        reqDataModel2 = new CourseRequirementsDataModel(this);
+
         workflowVersionInfoSection.addWidget(this.getStatusLabel());
         workflowVersionInfoSection.addWidget(this.generateActionDropDown());
         workflowVersionInfoSection.addWidget(versionHistoryButton);
@@ -161,6 +167,15 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        		updateState(cluModel1);
 	 	            callback.onModelReady(cluModel1);
 	 	            lastId1 = courseId;
+
+	 	            reqDataModel1.retrieveStatementTypes(cluModel1.<String>get("id"), new Callback<Boolean>() {
+	                    @Override
+	                    public void exec(Boolean result) {
+	                        if (result) {
+	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	                        }
+	                    }
+	                }); 
 	        	}
 	        	else{
 	        		cluModel2 = new DataModel();
@@ -174,11 +189,17 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        		}
 	 	            callback.onModelReady(cluModel2);
 	 	            lastId2 = courseId;
-	        	}
-	            
-	            KSBlockingProgressIndicator.removeTask(loadDataTask);
-	        }
-	
+
+	 	            reqDataModel2.retrieveStatementTypes(cluModel2.<String>get("id"), new Callback<Boolean>() {
+	                    @Override
+	                    public void exec(Boolean result) {
+	                        if (result) {
+	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	                        }
+	                    }
+	                });
+	        	}	            
+	        }	
 	    });
 	}
 	
@@ -360,4 +381,14 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	public void setCurrentTitle(String currentTitle) {
     	this.getHeader().setTitle(currentTitle);
 	}
+	
+	
+	@Override
+	public CourseRequirementsDataModel getReqDataModel() {
+		return reqDataModel1;
+	}
+
+	public CourseRequirementsDataModel getReqDataModelComp() {
+		return reqDataModel2;
+	} 
 }
