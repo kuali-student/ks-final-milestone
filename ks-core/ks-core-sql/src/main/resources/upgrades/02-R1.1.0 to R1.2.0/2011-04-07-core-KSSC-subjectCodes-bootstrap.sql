@@ -1,3 +1,10 @@
+--/
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSC_SUBJ_CD_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSC_SUBJ_CD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
 CREATE
     TABLE KSSC_SUBJ_CD_TYPE
     (
@@ -11,13 +18,18 @@ CREATE
         CONSTRAINT KSSC_SUBJ_CD_TYPEP1 PRIMARY KEY (TYPE_KEY)
     )
 /
-   
+ 
 insert into KSSC_SUBJ_CD_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, VER_NBR) values ('ks.core.subjectcode.usage.all', 'All of', to_date('2000-01-01', 'yyyy-mm-dd'), null, 'All', '1', 0)
 /
 insert into KSSC_SUBJ_CD_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, VER_NBR) values ('ks.core.subjectcode.usage.one', 'One of', to_date('2000-01-01', 'yyyy-mm-dd'), null, 'One', '2', 0)
 /
-
-
+--/
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSC_SUBJ_CD';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSC_SUBJ_CD CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
 CREATE
     TABLE KSSC_SUBJ_CD
     (
@@ -33,10 +45,17 @@ CREATE
         TYPE VARCHAR2(255),
         OBJ_ID VARCHAR2(36),
         CONSTRAINT KSSC_SUBJ_CD_P1 PRIMARY KEY (ID),
-        CONSTRAINT KSSC_SUBJ_CD_FK1 FOREIGN KEY (TYPE) REFERENCES KSSC_SUBJ_CD_TYPE (TYPE_KEY)
+        CONSTRAINT KSSC_SUBJ_CD_FK1 FOREIGN KEY (TYPE) REFERENCES KSSC_SUBJ_CD_TYPE (TYPE_KEY),
+        CONSTRAINT KSSC_SUBJ_CD_IX1 UNIQUE (CD)
     )
 /
-
+--/
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSC_SUBJ_CD_JN_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSC_SUBJ_CD_JN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
 CREATE
     TABLE KSSC_SUBJ_CD_JN_ORG
     (
@@ -50,6 +69,9 @@ CREATE
         CONSTRAINT KSSC_SUBJ_CD_JN_ORG_P1 PRIMARY KEY (ID),
         CONSTRAINT KSSC_SUBJ_CD_JN_ORG_FK1 FOREIGN KEY (SUBJ_CD_ID) REFERENCES KSSC_SUBJ_CD (ID)
     )
+/
+
+delete from KREW_DOC_TYP_T WHERE DOC_TYP_NM IN('SubjectCodeTypeMaintenanceDocument', 'SubjectCodeMaintenanceDocument', 'SubjectCodeJoinOrgMaintenanceDocument')
 /
 
 insert into KREW_DOC_TYP_T (DOC_TYP_ID, PARNT_ID, DOC_TYP_NM, DOC_TYP_VER_NBR, ACTV_IND, CUR_IND, LBL, PREV_DOC_TYP_VER_NBR, DOC_HDR_ID, DOC_TYP_DESC, DOC_HDLR_URL, POST_PRCSR, JNDI_URL, BLNKT_APPR_PLCY, ADV_DOC_SRCH_URL, CSTM_ACTN_LIST_ATTRIB_CLS_NM, CSTM_ACTN_EMAIL_ATTRIB_CLS_NM, CSTM_DOC_NTE_ATTRIB_CLS_NM, RTE_VER_NBR, NOTIFY_ADDR, SVC_NMSPC, EMAIL_XSL, SEC_XML, VER_NBR, BLNKT_APPR_GRP_ID, RPT_GRP_ID, GRP_ID, HELP_DEF_URL, OBJ_ID, DOC_SEARCH_HELP_URL) values (3028, 3009, 'SubjectCodeTypeMaintenanceDocument', 0, 1, 1, 'Subject Code Type', null, null, null, null, null, null, null, null, null, null, null, '2', null, null, null, null, 1, null, null, null, null, '5E9B1033-09E7-F99D-546A-0F845682823D', null)
@@ -95,8 +117,6 @@ insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NB
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('18', 'kr', to_date('2011-04-25', 'yyyy-mm-dd'), null, null, 1, 'Chemistry', 'Actual', 'CHEM', 'ks.core.subjectcode.usage.all', '04d1f81e-dcf3-4cc7-8384-2366f84a6684')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('19', 'kr', to_date('2011-04-26', 'yyyy-mm-dd'), null, null, 1, 'Chemistry', 'Actual', 'CHEM', 'ks.core.subjectcode.usage.all', '5cfae2c6-069b-44a5-8140-20d06dc0f00a')
-/
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('20', 'kr', to_date('2011-04-27', 'yyyy-mm-dd'), null, null, 1, 'Civil Engineering', 'Actual', 'CIVI', 'ks.core.subjectcode.usage.all', 'c1dfcfa7-0fc1-4662-82b4-5ba944415e3c')
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('21', 'kr', to_date('2011-04-28', 'yyyy-mm-dd'), null, null, 1, 'CompSci', 'Actual', 'CSCI', 'ks.core.subjectcode.usage.all', '1c461855-a6b6-4890-86d7-d41d0c5f7d37')
@@ -106,8 +126,6 @@ insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NB
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('23', 'kr', to_date('2011-04-30', 'yyyy-mm-dd'), null, null, 1, 'Education', 'Actual', 'EDUC', 'ks.core.subjectcode.usage.all', '0bc2b673-2361-4c53-a5c1-b0eb5fc13241')
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('24', 'kr', to_date('2011-05-01', 'yyyy-mm-dd'), null, null, 1, 'English', 'Actual', 'ENGL', 'ks.core.subjectcode.usage.all', '1eb81f63-4d49-474d-a9db-4a87c3cb7aa9')
-/
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('25', 'kr', to_date('2011-05-02', 'yyyy-mm-dd'), null, null, 1, 'English', 'Actual', 'ENGL', 'ks.core.subjectcode.usage.all', '0ad6ced8-d9fd-4f8b-87af-b8621cfdda5a')
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('26', 'kr', to_date('2011-05-03', 'yyyy-mm-dd'), null, null, 1, 'Finance', 'Actual', 'FINA', 'ks.core.subjectcode.usage.all', '66948f84-3a2a-4e37-a1c1-83d620b2fd12')
 /
@@ -147,13 +165,7 @@ insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NB
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('44', 'kr', to_date('2011-05-21', 'yyyy-mm-dd'), null, null, 1, 'PubAdmin', 'Actual', 'PUAD', 'ks.core.subjectcode.usage.all', '1cd8c58b-b1a6-4e15-93e0-02e3f06c5b16')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('45', 'kr', to_date('2011-05-22', 'yyyy-mm-dd'), null, null, 1, 'CompSci', 'Actual', 'ROBT', 'ks.core.subjectcode.usage.all', '00ee04e9-14af-435c-9f0b-cea34400fc1b')
-/
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('46', 'kr', to_date('2011-05-23', 'yyyy-mm-dd'), null, null, 1, 'Robotics', 'Actual', 'ROBT', 'ks.core.subjectcode.usage.all', 'e0077878-6712-48d4-88b3-5b7487393dfc')
-/
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('47', 'kr', to_date('2011-05-24', 'yyyy-mm-dd'), null, null, 1, 'Mechanical', 'Actual', 'ROBT', 'ks.core.subjectcode.usage.all', 'cdb55575-6881-44b7-bc78-99eff78bd9a2')
-/
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('48', 'kr', to_date('2011-05-25', 'yyyy-mm-dd'), null, null, 1, 'Sociology', 'Actual', 'SOCY', 'ks.core.subjectcode.usage.all', '246618ab-44d2-42d7-ae14-2b07a0de3a0c')
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('49', 'kr', to_date('2011-05-26', 'yyyy-mm-dd'), null, null, 1, 'Sociology', 'Actual', 'SOCY', 'ks.core.subjectcode.usage.all', 'b84474a4-787e-4bf8-a40f-380e296d44ae')
 /
