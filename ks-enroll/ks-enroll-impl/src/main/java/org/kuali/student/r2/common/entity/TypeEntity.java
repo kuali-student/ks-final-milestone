@@ -22,11 +22,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-import org.kuali.student.common.dto.AttributeInfo;
-import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+
 
 @MappedSuperclass
 public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseTypeEntity implements AttributeOwner<T>  {

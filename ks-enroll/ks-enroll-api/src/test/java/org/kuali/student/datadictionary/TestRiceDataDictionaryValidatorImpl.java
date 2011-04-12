@@ -34,11 +34,11 @@ import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.JAXBConfigImpl;
 import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.infc.ValidationResult;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.springframework.context.ApplicationContext;
 
 /**

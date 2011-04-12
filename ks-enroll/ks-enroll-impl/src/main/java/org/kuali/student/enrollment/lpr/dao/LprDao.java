@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.lpr.dao;
 
+
+import java.util.List;
+
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
 
-import javax.persistence.EntityManager;
-import java.util.List;
+
 
 /**
  * @author Igor

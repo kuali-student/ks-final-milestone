@@ -19,25 +19,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_ID1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.PERSON_ID1;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationStateEntity;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.utilities.Constants;
 import org.kuali.student.enrollment.lpr.service.utilities.DataLoader;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -74,7 +73,7 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
-    public void testCreateLuiPersonRelation() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, org.kuali.student.core.exceptions.OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
+    public void testCreateLuiPersonRelation() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
     	LuiPersonRelationEntity lpr = new LuiPersonRelationEntity();
     	lpr.setLuiId(LUI_ID2);
     	lpr.setPersonId(PERSON_ID2);
@@ -82,15 +81,15 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
-    public void testFindLuiPersonRelationsForLui() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, org.kuali.student.core.exceptions.OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
-        List<LuiPersonRelationInfo> personRelationInfos = lprService.findLuiPersonRelationsForLui(LUI_ID1, new ContextInfo.Builder().build());
+    public void testFindLuiPersonRelationsForLui() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
+        List<LuiPersonRelationInfo> personRelationInfos = lprService.findLuiPersonRelationsForLui(Constants.LUI_ID1, new ContextInfo.Builder().build());
         assertNotNull(personRelationInfos);
         assertEquals(personRelationInfos.size(), 1);
 
         LuiPersonRelationInfo personRelationInfo = personRelationInfos.get(0);
         assertNotNull(personRelationInfo);
-        assertEquals(LUI_ID1, personRelationInfo.getLuiId());
-        assertEquals(PERSON_ID1, personRelationInfo.getPersonId());
+        assertEquals(Constants.LUI_ID1, personRelationInfo.getLuiId());
+        assertEquals(Constants.PERSON_ID1, personRelationInfo.getPersonId());
         assertEquals(2, personRelationInfo.getAttributes().size());
     }
 

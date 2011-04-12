@@ -24,14 +24,14 @@ import java.util.regex.Pattern;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DictionaryObjectAttributeValueReader;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.datadictionary.Student2RiceDictionaryEntryConverter;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.datadictionary.util.CriteriaValidatorParser.Operator;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
  * A helper class for the Mock implementation to match criteria to values on the object

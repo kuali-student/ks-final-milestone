@@ -22,18 +22,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.service.TypeService;
 import org.kuali.student.common.service.StateService;
 
@@ -45,6 +34,17 @@ import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
 
 import org.kuali.student.datadictionary.service.DataDictionaryService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
  * Academic Calendar Service Description and Assumptions.

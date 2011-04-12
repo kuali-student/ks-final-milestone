@@ -20,13 +20,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.kuali.student.common.dto.ComparisonInfo;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.CriteriaInfo;
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.r2.common.dto.ComparisonInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

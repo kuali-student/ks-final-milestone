@@ -15,5 +15,69 @@
       <artifactId>ks-core-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.kuali.student.lum</groupId>
+      <artifactId>ks-lum-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.kuali.rice</groupId>
+        <artifactId>rice-impl</artifactId>
+        <version>2.0.0-m2</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>maven-kscontractdoc-plugin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>kscontractdoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirs>
+            <sourceDir>${project.basedir}/src/main/java</sourceDir>
+          </sourceDirs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <version>2.3.1</version>
+        <executions>
+          <execution>
+            <id>luiPersonRelationService-wsdl</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <className>org.kuali.student.enrollment.lpr.service.LuiPersonRelationService</className>
+              <genWsdl>true</genWsdl>
+              <verbose>true</verbose>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

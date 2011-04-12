@@ -20,9 +20,9 @@ import org.kuali.student.common.infc.*;
 
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 
 /**
  * A helper class for the Mock implementation

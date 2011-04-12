@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.core.academiccalendar.infc.AcademicCalendarInfc;
 import org.kuali.student.core.academiccalendar.infc.TermInfc;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 
 /**

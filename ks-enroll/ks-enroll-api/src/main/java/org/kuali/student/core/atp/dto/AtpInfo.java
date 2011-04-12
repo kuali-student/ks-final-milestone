@@ -29,8 +29,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.core.atp.infc.Atp;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 
 
 /**

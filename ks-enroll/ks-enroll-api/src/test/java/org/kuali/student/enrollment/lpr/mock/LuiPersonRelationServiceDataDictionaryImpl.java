@@ -17,16 +17,16 @@ package org.kuali.student.enrollment.lpr.mock;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 /**
  * @author nwright

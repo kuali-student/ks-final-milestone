@@ -1,16 +1,13 @@
 package org.kuali.student.enrollment.lpr.dao;
 
-import org.springframework.orm.jpa.JpaTemplate;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * @author Igor

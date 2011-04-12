@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.infc;
 
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 
 /**
