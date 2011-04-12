@@ -63,6 +63,8 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConst
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 
@@ -578,8 +580,12 @@ public class CourseSummaryConfigurer implements
 
         //one row per requirement type
         for (StatementTypeInfo stmtType : stmtTypes) {
-            SummaryTableFieldRow arow = new SummaryTableFieldRow(addRequisiteField(new FlowPanel(), stmtType), addRequisiteField(new FlowPanel(), stmtType));
-            block.addSummaryTableFieldRow(arow);
+        	SummaryTableFieldRow arow;
+        	if (controller instanceof VersionsController || controller instanceof CourseProposalController)
+        		arow = new SummaryTableFieldRow(addRequisiteField(new FlowPanel(), stmtType), addRequisiteFieldComp(new FlowPanel(), stmtType));
+        	else
+        		arow = new SummaryTableFieldRow(addRequisiteField(new FlowPanel(), stmtType), addRequisiteField(new FlowPanel(), stmtType));
+        	block.addSummaryTableFieldRow(arow);
         }
 
         return block;
@@ -612,6 +618,37 @@ public class CourseSummaryConfigurer implements
 
         return requisiteField;
     }
+
+    private FieldDescriptorReadOnly addRequisiteFieldComp(final FlowPanel panel, final StatementTypeInfo stmtType) {
+
+        final ModelWidgetBinding<FlowPanel> widgetBinding = new ModelWidgetBinding<FlowPanel>() {
+
+            @Override
+            public void setModelValue(FlowPanel panel, DataModel model, String path) {
+            }
+
+            @Override
+            public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
+                panel.clear();
+                List<StatementTreeViewInfo> statementTreeViewInfos = null;
+
+                if (controller instanceof VersionsController) 
+                    statementTreeViewInfos = ((VersionsController) controller).getReqDataModelComp().getCourseReqInfo(stmtType.getId());
+                else if (controller instanceof CourseProposalController)   
+                	statementTreeViewInfos = ((CourseProposalController) controller).getReqDataModelComp().getCourseReqInfo(stmtType.getId());
+
+                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                    panel.add(ruleWidget);
+                }
+            }
+        };
+
+        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
+        requisiteField.setWidgetBinding(widgetBinding);
+
+        return requisiteField;
+    } 
 
     private MultiplicityConfiguration getMultiplicityConfig(String path,
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels){
