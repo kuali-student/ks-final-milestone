@@ -12,9 +12,8 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.core.academiccalendar.service;
+package org.kuali.student.common.util.constants;
 
-import org.kuali.student.common.service.CommonConstants;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 

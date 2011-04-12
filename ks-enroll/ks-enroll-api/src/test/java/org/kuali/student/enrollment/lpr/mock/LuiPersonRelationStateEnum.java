@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.infc.State;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
+import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 
 /**
  * States for Learning Person Relations

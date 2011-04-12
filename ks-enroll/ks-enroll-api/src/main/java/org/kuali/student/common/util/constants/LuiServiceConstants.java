@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lui.service;
+package org.kuali.student.common.util.constants;
 
 
 /**

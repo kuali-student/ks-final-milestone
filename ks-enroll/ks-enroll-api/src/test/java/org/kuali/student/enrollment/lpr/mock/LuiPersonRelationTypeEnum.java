@@ -8,6 +8,7 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -15,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationType;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 
 /**
  * Types for Learning Person Relations

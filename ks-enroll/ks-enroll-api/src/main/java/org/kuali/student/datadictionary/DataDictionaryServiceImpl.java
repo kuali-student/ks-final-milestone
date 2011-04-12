@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.student.common.service.CommonConstants;
+import org.kuali.student.common.util.constants.CommonConstants;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
