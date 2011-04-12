@@ -31,48 +31,48 @@ import org.kuali.student.common.infc.Type;
 
 public interface AcademicCalendarInfc extends KeyEntity {
 
-	/**
-	 * Name: CampusCalendar 
-	 * Gets the campus calendar corresponding to this academic
-	 * calendar.
-	 */
-	public CampusCalendarInfc getCampusCalendar();
+    /**
+     * Name: CampusCalendar 
+     * Gets the campus calendar corresponding to this academic
+     * calendar.
+     */
+    public CampusCalendarInfc getCampusCalendar();
 
-	/**
-	 * Name: StartDate
-	 * Date and time the academic calendar became effective. This
-	 * does not provide a bound on date ranges or milestones
-	 * associated with this calendar, but instead indicates the
-	 * calendar proper. This is a similar concept to the effective
-	 * date on enumerated values. When an expiration date has been
-	 * specified, this field must be less than or equal to the
-	 * expiration date.
-	 */
-	public Date getStartDate();
+    /**
+     * Name: StartDate
+     * Date and time the academic calendar became effective. This
+     * does not provide a bound on date ranges or milestones
+     * associated with this calendar, but instead indicates the
+     * calendar proper. This is a similar concept to the effective
+     * date on enumerated values. When an expiration date has been
+     * specified, this field must be less than or equal to the
+     * expiration date.
+     */
+    public Date getStartDate();
 
-	/**
-	 * Name: StartDate
-	 * Date and time the academic calendar expires. This does not
-	 * provide a bound on date ranges or milestones associated with
-	 * this calendar, but instead indicates the calendar
-	 * proper. If specified, this must be greater than or equal to the
-	 * effective date. If this field is not specified, then no
-	 * expiration date has been currently defined and should
-	 * automatically be considered greater than the effective date.
-	 */
-	public Date getEndDate();
+    /**
+     * Name: StartDate
+     * Date and time the academic calendar expires. This does not
+     * provide a bound on date ranges or milestones associated with
+     * this calendar, but instead indicates the calendar
+     * proper. If specified, this must be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
+     */
+    public Date getEndDate();
 
-	/**
-	 * Name: Terms
-	 * Gets the terms corresponding to this academic
-	 * calendar.
-	 */
-	public List<? extends TermInfc> getTerms();
+    /**
+     * Name: Terms
+     * Gets the terms corresponding to this academic
+     * calendar.
+     */
+    public List<? extends TermInfc> getTerms();
 
-	/**
-	 * Name: CredentialProgramType
-	 * Gets the credential program type to which this calendar
-	 * relates.
-	 */
-	public Type getCredentialProgramType();
+    /**
+     * Name: CredentialProgramType
+     * Gets the credential program type to which this calendar
+     * relates.
+     */
+    public Type getCredentialProgramType();
 }

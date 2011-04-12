@@ -30,33 +30,33 @@ import org.kuali.student.common.infc.KeyEntity;
 
 public interface TermInfc extends KeyEntity {
 
-	/**
-	 * Name: StartDate
-	 * Date and time the term became effective. This
-	 * does not provide a bound on date ranges or milestones
-	 * associated with this time period, but instead indicates the
-	 * time period proper. This is a similar concept to the effective
-	 * date on enumerated values. When an expiration date has been
-	 * specified, this field must be less than or equal to the
-	 * expiration date.
-	 */
-	public Date getStartDate();
+    /**
+     * Name: StartDate
+     * Date and time the term became effective. This
+     * does not provide a bound on date ranges or milestones
+     * associated with this time period, but instead indicates the
+     * time period proper. This is a similar concept to the effective
+     * date on enumerated values. When an expiration date has been
+     * specified, this field must be less than or equal to the
+     * expiration date.
+     */
+    public Date getStartDate();
 
-	/**
-	 * Name: StartDate
-	 * Date and time the term expires. This does not
-	 * provide a bound on date ranges or milestones associated with
-	 * this time period, but instead indicates the time period
-	 * proper. If specified, this must be greater than or equal to the
-	 * effective date. If this field is not specified, then no
-	 * expiration date has been currently defined and should
-	 * automatically be considered greater than the effective date.
-	 */
-	public Date getEndDate();
+    /**
+     * Name: StartDate
+     * Date and time the term expires. This does not
+     * provide a bound on date ranges or milestones associated with
+     * this time period, but instead indicates the time period
+     * proper. If specified, this must be greater than or equal to the
+     * effective date. If this field is not specified, then no
+     * expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
+     */
+    public Date getEndDate();
 
-	/**
-	 * Name: Terms
-	 * Gets the Terms nested inside this Term.
-	 */
-	public List<? extends TermInfc> getTerms();
+    /**
+     * Name: Terms
+     * Gets the Terms nested inside this Term.
+     */
+    public List<? extends TermInfc> getTerms();
 }

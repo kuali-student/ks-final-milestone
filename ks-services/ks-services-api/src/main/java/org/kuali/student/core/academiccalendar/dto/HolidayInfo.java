@@ -47,235 +47,235 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private final Boolean isDateRange;
+    @XmlElement
+    private final Boolean isDateRange;
 
-	@XmlElement
-	private final Date startDate;
+    @XmlElement
+    private final Date startDate;
 
-	@XmlElement
-	private final Date endDate;
+    @XmlElement
+    private final Date endDate;
 
-	@XmlElement
-	private final Boolean isInstructionalDay;
+    @XmlElement
+    private final Boolean isInstructionalDay;
 
-	@XmlElement
-	private final Boolean isExamDay;
+    @XmlElement
+    private final Boolean isExamDay;
 
-	@XmlAnyElement
-	private final List<Element> _futureElements;  
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
 
-	private HolidayInfo() {
-		isDateRange = false;
-		startDate = null;
-		endDate = null;
-		isInstructionalDay = false;
-		isExamDay = false;
-		_futureElements = null;
-	}
+    private HolidayInfo() {
+        isDateRange = false;
+        startDate = null;
+        endDate = null;
+        isInstructionalDay = false;
+        isExamDay = false;
+        _futureElements = null;
+    }
 
-	/**
-	 * Constructs a new HolidayInfo from another Holiday.
-	 *
-	 * @param holiday the Holiday to copy
-	 */
-	public HolidayInfo(HolidayInfc holiday) {
-		super(holiday);
-		this.isDateRange = holiday.getIsDateRange();
-		this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-		this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
-		this.isInstructionalDay = holiday.getIsInstructionalDay();
-		this.isExamDay = holiday.getIsExamDay();
-		_futureElements = null;
-	}
+    /**
+     * Constructs a new HolidayInfo from another Holiday.
+     *
+     * @param holiday the Holiday to copy
+     */
+    public HolidayInfo(HolidayInfc holiday) {
+        super(holiday);
+        this.isDateRange = holiday.getIsDateRange();
+        this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+        this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+        this.isInstructionalDay = holiday.getIsInstructionalDay();
+        this.isExamDay = holiday.getIsExamDay();
+        _futureElements = null;
+    }
 
-	/**
-	 * Name: IsDateRange
-	 * Tests if this holiday has a date range. If true, the end date
-	 * value follows the start date.
-	 *
-	 * @return true if this Holiday has different start end end
-	 *         dates, false if this Holiday represents a single date
-	 */
-	@Override
-	public Boolean getIsDateRange() {
-		return isDateRange;
-	}
+    /**
+     * Name: IsDateRange
+     * Tests if this holiday has a date range. If true, the end date
+     * value follows the start date.
+     *
+     * @return true if this Holiday has different start end end
+     *         dates, false if this Holiday represents a single date
+     */
+    @Override
+    public Boolean getIsDateRange() {
+        return isDateRange;
+    }
 
-	/**
-	 * Name: StartDate
-	 * Gets the start Date and time of the holiday.
-	 *
-	 * @return the holiday start
-	 */
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * Name: StartDate
+     * Gets the start Date and time of the holiday.
+     *
+     * @return the holiday start
+     */
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	/**
-	 * Name: EndDate
-	 * Gets the end Date and time of the holiday.
-	 *
-	 * @return the holiday end
-	 */
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+    /**
+     * Name: EndDate
+     * Gets the end Date and time of the holiday.
+     *
+     * @return the holiday end
+     */
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	/**
-	 * Name: IsInstructionalDay
-	 * Tests if this holiday is an instructional day. 
-	 *
-	 * @return true if this holiday is an instructional day, false if
-	 *         it does not count as an instructional day
-	 */
-	@Override
-	public Boolean getIsInstructionalDay() {
-		return isInstructionalDay;
-	}
+    /**
+     * Name: IsInstructionalDay
+     * Tests if this holiday is an instructional day. 
+     *
+     * @return true if this holiday is an instructional day, false if
+     *         it does not count as an instructional day
+     */
+    @Override
+    public Boolean getIsInstructionalDay() {
+        return isInstructionalDay;
+    }
 
-	/**
-	 * Name: IsExamDay
-	 * Tests if exams are permitted on this holiday.
-	 *
-	 * @return true if this holiday is an exam day, false otherwise
-	 */
-	@Override
-	public Boolean getIsExamDay() {
-		return isExamDay;
-	}
+    /**
+     * Name: IsExamDay
+     * Tests if exams are permitted on this holiday.
+     *
+     * @return true if this holiday is an exam day, false otherwise
+     */
+    @Override
+    public Boolean getIsExamDay() {
+        return isExamDay;
+    }
 
-	/**
-	 * The builder class for this HolidayInfo.
-	 */
-	public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, HolidayInfc {
+    /**
+     * The builder class for this HolidayInfo.
+     */
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, HolidayInfc {
 
-		private Boolean isDateRange;
-		private Date startDate;
-		private Date endDate;
-		private Boolean isInstructionalDay;
-		private Boolean isExamDay;
+        private Boolean isDateRange;
+        private Date startDate;
+        private Date endDate;
+        private Boolean isInstructionalDay;
+        private Boolean isExamDay;
 
-		/**
-		 * Constructs a new builder.
-		 */
-		public Builder() {
-		}
+        /**
+         * Constructs a new builder.
+         */
+        public Builder() {
+        }
 
-		/**
-		 *  Constructs a new builder initialized from another
-		 *  Holiday.
-		 */
-		public Builder(HolidayInfc holiday) {
-			super(holiday);
-			this.isDateRange = holiday.getIsDateRange();
-			this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-			this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
-			this.isInstructionalDay = holiday.getIsInstructionalDay();
-			this.isExamDay = holiday.getIsExamDay();
-		}
+        /**
+         *  Constructs a new builder initialized from another
+         *  Holiday.
+         */
+        public Builder(HolidayInfc holiday) {
+            super(holiday);
+            this.isDateRange = holiday.getIsDateRange();
+            this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+            this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+            this.isInstructionalDay = holiday.getIsInstructionalDay();
+            this.isExamDay = holiday.getIsExamDay();
+        }
 
-		/**
-		 * Builds the Holiday.
-		 *
-		 * @return a new Holiday
-		 */
-		public HolidayInfo build() {
-			return new HolidayInfo(this);
-		}
+        /**
+         * Builds the Holiday.
+         *
+         * @return a new Holiday
+         */
+        public HolidayInfo build() {
+            return new HolidayInfo(this);
+        }
 
-		/**
-		 * Tests if this holiday has a date range. If true, the end date
-		 * value follows the start date.
-		 *
-		 * @return true if this Holiday has different start end end
-		 *         dates, false if this Holiday represents a single date
-		 */
-		@Override
-		public Boolean getIsDateRange() {
-			return isDateRange;
-		}
+        /**
+         * Tests if this holiday has a date range. If true, the end date
+         * value follows the start date.
+         *
+         * @return true if this Holiday has different start end end
+         *         dates, false if this Holiday represents a single date
+         */
+        @Override
+        public Boolean getIsDateRange() {
+            return isDateRange;
+        }
 
-		/**
-		 * Sets the date range flag (should this flag be inferred from
-		 * the dates?)
-		 *
-		 * @param isDateRange true if this Holiday has different
-		 *         start end end dates, false if this Holiday
-		 *         represents a single date
-		 */
-		public void dateRange(Boolean isDateRange) {
-			this.isDateRange = isDateRange;
-		}
+        /**
+         * Sets the date range flag (should this flag be inferred from
+         * the dates?)
+         *
+         * @param isDateRange true if this Holiday has different
+         *         start end end dates, false if this Holiday
+         *         represents a single date
+         */
+        public void dateRange(Boolean isDateRange) {
+            this.isDateRange = isDateRange;
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the Holiday start date
-		 */
-		@Override
-		public Date getStartDate() {
-			return startDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the Holiday start date
+         */
+        @Override
+        public Date getStartDate() {
+            return startDate;
+        }
 
-		/**
-		 * Sets the Holiday start date.
-		 *
-		 * @param endDate the start date
-		 */
-		public void setStartDate(Date startDate) {
-			this.startDate = new Date(startDate.getTime());
-		}
+        /**
+         * Sets the Holiday start date.
+         *
+         * @param endDate the start date
+         */
+        public void setStartDate(Date startDate) {
+            this.startDate = new Date(startDate.getTime());
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the Holiday end date
-		 */
-		@Override
-		public Date getEndDate() {
-			return endDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the Holiday end date
+         */
+        @Override
+        public Date getEndDate() {
+            return endDate;
+        }
 
-		/**
-		 * Sets the Holiday end date.
-		 *
-		 * @param endDate the end date
-		 */
-		public void setEndDate(Date endDate) {
-			this.endDate = new Date(endDate.getTime());
-		}
+        /**
+         * Sets the Holiday end date.
+         *
+         * @param endDate the end date
+         */
+        public void setEndDate(Date endDate) {
+            this.endDate = new Date(endDate.getTime());
+        }
 
-		/**
-		 * Tests if this holiday is an instructional day. 
-		 *
-		 * @return true if this holiday is an instructional day, false if
-		 *         it does not count as an instructional day
-		 */
-		public Boolean getIsInstructionalDay() {
-			return isInstructionalDay;
-		}
+        /**
+         * Tests if this holiday is an instructional day. 
+         *
+         * @return true if this holiday is an instructional day, false if
+         *         it does not count as an instructional day
+         */
+        public Boolean getIsInstructionalDay() {
+            return isInstructionalDay;
+        }
 
-		public void setIsInstructionalDay(Boolean isInstructionalDay) {
-			this.isInstructionalDay = isInstructionalDay;
-		}
+        public void setIsInstructionalDay(Boolean isInstructionalDay) {
+            this.isInstructionalDay = isInstructionalDay;
+        }
 
-		/**
-		 * Tests if this holiday is an exam day. 
-		 *
-		 * @return true if this holiday is an exam day, false if
-		 *         it does not count as an exam day
-		 */
-		public Boolean getIsExamDay() {
-			return isExamDay;
-		}
+        /**
+         * Tests if this holiday is an exam day. 
+         *
+         * @return true if this holiday is an exam day, false if
+         *         it does not count as an exam day
+         */
+        public Boolean getIsExamDay() {
+            return isExamDay;
+        }
 
-		public void setIsExamDay(Boolean isExamDay) {
-			this.isExamDay = isExamDay;
-		}
-	}
+        public void setIsExamDay(Boolean isExamDay) {
+            this.isExamDay = isExamDay;
+        }
+    }
 }

@@ -27,84 +27,84 @@ import java.util.Date;
 
 public interface EnrollmentDateGroupInfc {
 
-	/**
-	 * Name: RegistrationStart
-	 * Gets the registration start date.
-	 *
-	 * @return the registration start date
-	 */
-	public Date getRegistrationStartDate();
+    /**
+     * Name: RegistrationStart
+     * Gets the registration start date.
+     *
+     * @return the registration start date
+     */
+    public Date getRegistrationStartDate();
 
-	/**
-	 * Name: RegistrationEnd
-	 * Gets the registration end date.
-	 *
-	 * @return the registration end date
-	 */
-	public Date getRegistrationEndDate();
+    /**
+     * Name: RegistrationEnd
+     * Gets the registration end date.
+     *
+     * @return the registration end date
+     */
+    public Date getRegistrationEndDate();
 
-	/**
-	 * Name: ClassStart
-	 * Gets the class start date.
-	 *
-	 * @return the class start date
-	 */
-	public Date getClassStartDate();
+    /**
+     * Name: ClassStart
+     * Gets the class start date.
+     *
+     * @return the class start date
+     */
+    public Date getClassStartDate();
 
-	/**
-	 * Name: ClassEnd
-	 * Gets the class end date.
-	 *
-	 * @return the class end date
-	 */
-	public Date getClassEndDate();
+    /**
+     * Name: ClassEnd
+     * Gets the class end date.
+     *
+     * @return the class end date
+     */
+    public Date getClassEndDate();
 
-	/**
-	 * Name: AddDate
-	 * Gets the add date.
-	 *
-	 * @return add date
-	 */
-	public Date getAddDate();
+    /**
+     * Name: AddDate
+     * Gets the add date.
+     *
+     * @return add date
+     */
+    public Date getAddDate();
 
-	/**
-	 * Name: DropDate
-	 * Gets the drop date.
-	 *
-	 * @return drop date
-	 */
-	public Date getDropDate();
+    /**
+     * Name: DropDate
+     * Gets the drop date.
+     *
+     * @return drop date
+     */
+    public Date getDropDate();
 
-	/**
-	 * Name: FinalExamStart
-	 * Gets the final exam start date.
-	 *
-	 * @return the final exam start date
-	 */
-	public Date getFinalExamStartDate();
+    /**
+     * Name: FinalExamStart
+     * Gets the final exam start date.
+     *
+     * @return the final exam start date
+     */
+    public Date getFinalExamStartDate();
 
-	/**
-	 * Name: FinalExamEnd
-	 * Gets the final exam end date.
-	 *
-	 * @return the final exam end date
-	 */
-	public Date getFinalExamEndDate();
+    /**
+     * Name: FinalExamEnd
+     * Gets the final exam end date.
+     *
+     * @return the final exam end date
+     */
+    public Date getFinalExamEndDate();
 
-	/**
-	 * Name: GradingStart
-	 * Gets the grading period start date.
-	 *
-	 * @return the grading start date
-	 */
-	public Date getGradingStartDate();
+    /**
+     * Name: GradingStart
+     * Gets the grading period start date.
+     *
+     * @return the grading start date
+     */
+    public Date getGradingStartDate();
 
-	/**
-	 * Name: GradingEnd
-	 * Gets the grading period end date.
-	 *
-	 * @return the grading end date
-	 */
-	public Date getGradingEndDate();
+    /**
+     * Name: GradingEnd
+     * Gets the grading period end date.
+     *
+     * @return the grading end date
+     */
+    public Date getGradingEndDate();
 
 }
