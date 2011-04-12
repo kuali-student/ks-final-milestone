@@ -29,19 +29,19 @@ import org.kuali.student.common.infc.Relationship;
 
 public interface AtpMilestoneRelation extends Relationship {
 
-	/**
-	 *  Name: ATP Key
-	 *  A unique identifier for the related ATP.
-	 * 
-	 *  @return the ATP key
-	 */
-	public String getAtpKey();
+    /**
+     *  Name: ATP Key
+     *  A unique identifier for the related ATP.
+     * 
+     *  @return the ATP key
+     */
+    public String getAtpKey();
 
-	/**
-	 *  Name: Milestone Key
-	 *  A unique identifier for the related Milestone.
-	 *
-	 *  @return the Milestone key
-	 */
-	public String getMilestoneKey();
+    /**
+     *  Name: Milestone Key
+     *  A unique identifier for the related Milestone.
+     *
+     *  @return the Milestone key
+     */
+    public String getMilestoneKey();
 }
