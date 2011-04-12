@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
@@ -36,7 +35,6 @@ import org.kuali.student.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.mock.MockHelper;
 
 /**
@@ -56,12 +54,6 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         return null;
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.datadictionary.service.DataDictionaryService#getDataDictionaryEntry(java.lang.String,
-     *      org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -120,24 +112,12 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         return null;
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.common.service.StateService#getStatesByProcess(java.lang.String,
-     *      org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.common.service.StateService#getInitialValidStates(java.lang.String,
-     *      org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -169,7 +149,7 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
 
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
-            if (atp.getStartDate().before(searchDate) && atp.getEndDate().after(searchDate)) {
+            if ((atp.getStartDate().before(searchDate) || atp.getStartDate().equals(searchDate)) && (atp.getEndDate().after(searchDate) || atp.getEndDate().equals(searchDate))) {
                 atpList.add(atp);
             }
         }
@@ -244,8 +224,16 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
 
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
-            if (startDate.before(milestone.getStartDate()) && endDate.after(milestone.getEndDate())) {
-                milestoneList.add(milestone);
+
+            if (milestone.getIsDateRange()) {
+                if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate()))  && 
+                        (endDate.after(milestone.getEndDate()) || endDate.equals(milestone.getEndDate())) ) {
+                    milestoneList.add(milestone);
+                }
+            } else {
+                if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate()))) {
+                    milestoneList.add(milestone);
+                }
             }
         }
 
@@ -256,11 +244,10 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
     public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
 
-        Set<String> keys = milestoneCache.keySet();
-
-        for (String key : keys) {
-            MilestoneInfo milestone = milestoneCache.get(key);
-            if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey) && startDate.before(milestone.getStartDate()) && endDate.after(milestone.getEndDate())) {
+        List<MilestoneInfo> milestoneByDates = this.getMilestonesByDates(startDate, endDate, context);
+                
+        for(MilestoneInfo milestone : milestoneByDates) {
+            if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
                 milestoneList.add(milestone);
             }
         }
@@ -416,16 +403,10 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         builder.setAttributes(atts);
         AtpMilestoneRelationInfo copy = builder.build();
         this.atpMilestoneRltnCache.put(atpMilestoneRelationId, copy);
-        // mirroring what was done before immutable DTO's; why returning copy of copy?
+
         return copy;
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.core.atp.service.AtpService#deleteAtpMilestoneRelation(java.lang.String,
-     *      org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public StatusInfo deleteAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Check to see if Milestone exists in a relationship
