@@ -17,9 +17,12 @@ package org.kuali.student.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -61,6 +64,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
+	_futureElements = null;
     }
 
     /**
@@ -73,6 +77,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 	this.isDateRange = milestone.getIsDateRange();
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
+	_futureElements = null;
     }
 
     /**

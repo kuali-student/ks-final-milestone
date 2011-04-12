@@ -18,9 +18,11 @@ package org.kuali.student.core.academiccalendar.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -59,6 +61,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     	startDate = null;
 	endDate = null;
 	location = null;
+	_futureElements = null;
     }
 
     /**
@@ -72,6 +75,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
 	this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
 	this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
 	this.location = campusCalendar.getLocation();
+	_futureElements = null;
     }
 
     /**

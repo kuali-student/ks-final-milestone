@@ -19,9 +19,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -61,6 +63,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     	startDate = null;
 	endDate = null;
 	terms = null;
+	_futureElements = null;
     }
 
     /**
@@ -82,6 +85,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	} else {
 	    this.terms = new ArrayList<TermInfo>();
 	}
+	_futureElements = null;
     }
 
     /**

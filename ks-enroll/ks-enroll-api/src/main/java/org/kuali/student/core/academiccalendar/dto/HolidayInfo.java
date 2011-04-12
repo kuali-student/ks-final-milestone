@@ -17,9 +17,12 @@ package org.kuali.student.core.academiccalendar.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -70,6 +73,7 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
 	endDate = null;
 	isInstructionalDay = false;
 	isExamDay = false;
+	_futureElements = null;
     }
 
     /**
@@ -84,6 +88,7 @@ public class HolidayInfo extends KeyEntityInfo implements HolidayInfc, Serializa
         this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
 	this.isInstructionalDay = holiday.getIsInstructionalDay();
 	this.isExamDay = holiday.getIsExamDay();
+	_futureElements = null;
     }
 
     /**

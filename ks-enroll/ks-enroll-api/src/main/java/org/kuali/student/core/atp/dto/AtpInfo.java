@@ -17,9 +17,12 @@ package org.kuali.student.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -56,6 +59,7 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
     private AtpInfo() {
     	startDate = null;
 	endDate = null;
+	_futureElements = null;
     }
 
     /**
@@ -67,6 +71,7 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 	super(atp);
 	this.startDate = atp.getStartDate();
 	this.endDate = atp.getEndDate();
+	_futureElements = null;
     }
 
     /**

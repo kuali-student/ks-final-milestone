@@ -19,9 +19,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -72,6 +74,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	endDate = null;
 	terms = null;
 	credentialProgramType = null;
+	_futureElements = null;
     }
 
     /**
@@ -95,6 +98,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 	}
 
 	this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
+	_futureElements = null;
     }
 
     /**
