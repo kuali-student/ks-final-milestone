@@ -18,6 +18,7 @@ package org.kuali.student.core.academiccalendar.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -71,10 +72,12 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
 
 	if (term.getTerms() != null) {
-	    this.terms = new ArrayList(term.getTerms().size());
-	    for (Term t : term.getTerms()) {
+	    this.terms = new ArrayList<TermInfo>(term.getTerms().size());
+	    for (TermInfc t : term.getTerms()) {
 		this.terms.add(new TermInfo(t));
 	    }
+	} else {
+	    this.terms = new ArrayList<TermInfo>();
 	}
     }
 
@@ -144,7 +147,7 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
 	    this.startDate = term.getEndDate();
 	    if (term.getTerms() != null) {
 		this.terms = new ArrayList(term.getTerms().size());
-		for (Term t : term.getTerms()) {
+		for (TermInfc t : term.getTerms()) {
 		    this.terms.add(new TermInfo(t));
 		}
 	    }
