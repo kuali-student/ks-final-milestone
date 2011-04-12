@@ -63,6 +63,9 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     @XmlElement 
     private final TypeInfo credentialProgramType;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private AcademicCalendarInfo() {
 	campusCalendar = null;
     	startDate = null;

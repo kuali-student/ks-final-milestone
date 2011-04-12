@@ -50,6 +50,9 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
     @XmlElement
     private final Date endDate;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private AtpInfo() {
     	startDate = null;
 	endDate = null;

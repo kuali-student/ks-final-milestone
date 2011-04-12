@@ -54,6 +54,9 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
     @XmlElement
     private final Date endDate;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private MilestoneInfo() {
 	isDateRange = false;
 	startDate = null;

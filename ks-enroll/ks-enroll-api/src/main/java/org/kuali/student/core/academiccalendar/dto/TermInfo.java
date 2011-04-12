@@ -54,6 +54,9 @@ public class TermInfo extends KeyEntityInfo implements TermInfc, Serializable {
     @XmlElement
     private final List<TermInfo> terms;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private TermInfo() {
     	startDate = null;
 	endDate = null;

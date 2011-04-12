@@ -861,4 +861,23 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *         version.
      */
     public EnrollmentDateGroupInfo updateEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "enrollmentDateGroup") EnrollmentDateGroupInfo enrollmentDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /** 
+     * Calculates the number of instructional days for a Term. The
+     * number of instructional days is the number of class days in a
+     * Term minus the non-instructional holidays on the related campus
+     * calendar.
+     *
+     * @param termKey unique key of a term
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the number of instructional days
+     * @throws DoesNotExistException termKey not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing termKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Integer getInstructionalDaysForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

@@ -52,6 +52,9 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendarI
     @XmlElement
     private final String location;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private CampusCalendarInfo() {
     	startDate = null;
 	endDate = null;

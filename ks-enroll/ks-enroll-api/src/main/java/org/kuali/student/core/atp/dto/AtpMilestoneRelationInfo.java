@@ -49,6 +49,9 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
     @XmlElement
     private final String milestoneKey;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private AtpMilestoneRelationInfo() {
         atpKey = null;
         milestoneKey = null;

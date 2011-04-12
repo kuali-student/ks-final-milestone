@@ -55,6 +55,9 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDateInfc, Serializa
     @XmlElement
     private final Date endDate;
 
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
+
     private KeyDateInfo() {
 	isDateRange = false;
 	startDate = null;
