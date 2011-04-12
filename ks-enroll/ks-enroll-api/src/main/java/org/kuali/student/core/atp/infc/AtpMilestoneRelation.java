@@ -27,8 +27,7 @@ import org.kuali.student.common.infc.Relationship;
  *  @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-public interface AtpMilestoneRelationInfc 
-    extends Relationship {
+public interface AtpMilestoneRelation extends Relationship {
 
     /**
      *  Name: ATP Key
@@ -36,9 +35,7 @@ public interface AtpMilestoneRelationInfc
      * 
      *  @return the ATP key
      */
-
     public String getAtpKey();
-
 
     /**
      *  Name: Milestone Key
@@ -46,6 +43,5 @@ public interface AtpMilestoneRelationInfc
      *
      *  @return the Milestone key
      */
-
     public String getMilestoneKey();
 }

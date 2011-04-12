@@ -297,7 +297,6 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      */
     public String getAcademicCalendarData(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "calendarDataFormatTypeKey") String calendarDataFormatTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-
     /** 
      * Retrieves the details of a single Campus Calendar by an
      * campus calendar key.

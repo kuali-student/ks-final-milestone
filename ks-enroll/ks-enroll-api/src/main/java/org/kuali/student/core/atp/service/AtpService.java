@@ -61,10 +61,7 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface AtpService 
-    extends DataDictionaryService,
-	    TypeService,
-	    StateService {
+public interface AtpService extends DataDictionaryService, TypeService, StateService {
 
     /** 
      * Retrieves the details of a single Academic Time Period by atpKey.
@@ -78,10 +75,9 @@ public interface AtpService
      * @throws InvalidParameterException invalid atpKey
      * @throws MissingParameterException invalid atpKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of Academic Time Periods that the supplied
@@ -95,10 +91,9 @@ public interface AtpService
      * @throws InvalidParameterException invalid searchDate
      * @throws MissingParameterException invalid searchDate
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public List<AtpInfo> getAtpsByDate(@WebParam(name = "searchDate") Date searchDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<AtpInfo> getAtpsByDate(@WebParam(name = "searchDate") Date searchDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of Academic Time Periods that are totally
@@ -114,10 +109,26 @@ public interface AtpService
      * @throws InvalidParameterException invalid searchDate
      * @throws MissingParameterException invalid searchDate
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
+    public List<AtpInfo> getAtpsByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    public List<AtpInfo> getAtpsByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    /** 
+     * Retrieves a list of Academic Time Periods corresponding to the
+     * given list of ATP keys.
+     *
+     * @param atpTypeKeyList list of ATPs to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return List of Academic Time Period keys that contain the supplied date
+     * @throws DoesNotExistExceptionan  atpKey in list not found
+     * @throws InvalidParameterException invalid atpKey
+     * @throws MissingParameterException invalid atpKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Academic Time Periods of the specified type.
@@ -126,14 +137,13 @@ public interface AtpService
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return List of Academic Time Periods that contain the supplied date
+     * @return  a list of Academic Time Period keys 
      * @throws InvalidParameterException invalid atpTypeKey
      * @throws MissingParameterException invalid atpTypeKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public List<AtpInfo> getAtpsByAtpType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<String> getAtpKeysByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the details of the specified milestone.
@@ -147,10 +157,9 @@ public interface AtpService
      * @throws InvalidParameterException invalid milestoneKey
      * @throws MissingParameterException invalid milestoneKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of milestones for a specified Academic Time
@@ -164,10 +173,9 @@ public interface AtpService
      * @throws InvalidParameterException invalid atpKey
      * @throws MissingParameterException invalid atpKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public List<MilestoneInfo> getMilestonesByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<MilestoneInfo> getMilestonesByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of milestones that fall within a specified
@@ -182,10 +190,9 @@ public interface AtpService
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameter(s) missing
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public List<MilestoneInfo> getMilestonesByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<MilestoneInfo> getMilestonesByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of milestones of a specified type that fall
@@ -201,10 +208,9 @@ public interface AtpService
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-
-    public List<MilestoneInfo> getMilestonesByDatesAndType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<MilestoneInfo> getMilestonesByDatesAndType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an academic time period. Depending on the value of
@@ -233,9 +239,7 @@ public interface AtpService
      * @throws MissingParameterException missing validationTypeKey, atpInfo
      * @throws OperationFailedException unable to complete request
      */
-
     public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationType") String validationType, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
 
     /** 
      * Creates a new Academic Time Period.
@@ -254,9 +258,7 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public AtpInfo createAtp(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Updates an existing Academic Time Period.
@@ -277,9 +279,7 @@ public interface AtpService
      * @throws VersionMismatchException The action was attempted on an out of date 
      *         version.
      */
-
     public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
 
     /** 
      * Deletes an existing Academic Time Period.
@@ -295,9 +295,7 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public StatusInfo deleteAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Validates a milestone. Depending on the value of
@@ -326,9 +324,7 @@ public interface AtpService
      * @throws MissingParameterException missing validationTypeKey, milestoneInfo
      * @throws OperationFailedException unable to complete request
      */
-
     public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationType") String validationType, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
 
     /** 
      * Create a new milestone.
@@ -347,9 +343,7 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public MilestoneInfo createMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Updates an existing milestone.
@@ -370,9 +364,7 @@ public interface AtpService
      * @throws VersionMismatchException The action was attempted on an out of 
      *         date version.date
      */
-
     public MilestoneInfo updateMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
 
     /** 
      * Deletes an existing milestone from all ATPs.
@@ -388,9 +380,7 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public StatusInfo deleteMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Validates an ATP/Milestone relationship. Depending on the value
@@ -420,9 +410,7 @@ public interface AtpService
      * @throws MissingParameterException missing validationTypeKey, atpInfo
      * @throws OperationFailedException unable to complete request
      */
-
     public List<ValidationResultInfo> validateAtpMilestoneRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
 
     /** 
      * Adds a Milestone to an ATP by creating a relationship.
@@ -438,9 +426,7 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public AtpMilestoneRelationInfo createAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Updates an ATP Mielstone Relationship.
@@ -452,15 +438,17 @@ public interface AtpService
      *                and locale information about the caller of service
      *                operation
      * @return status
-     * @throws AlreadyExistsException Milestone being added already exists
+     * @throws DataValidationErrorException One or more values invalid for this 
+     *         operation
+     * @throws DoesNotExistException Milestone does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of 
+     *         date version.date
      */
-
-    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(@WebParam(name = "atpMilestonRelationId") String atpMilestoneRelationId, @WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(@WebParam(name = "atpMilestonRelationId") String atpMilestoneRelationId, @WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
      * Removes an existing milestone from an ATP by deleting the relationship.
@@ -476,6 +464,5 @@ public interface AtpService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-
     public StatusInfo deleteAtpMilestoneRelation(@WebParam(name = "atpMilestonRelationId") String atpMilestoneRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
