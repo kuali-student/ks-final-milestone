@@ -37,8 +37,8 @@ import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.infc.ValidationResult;
+import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationConstants;
 import org.springframework.context.ApplicationContext;
 
 /**

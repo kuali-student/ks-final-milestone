@@ -21,6 +21,7 @@ import org.kuali.student.common.infc.HoldsPermissionService;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 
 /**
  * An example authorization decorator for the {@link LuiPersonRelationService}.

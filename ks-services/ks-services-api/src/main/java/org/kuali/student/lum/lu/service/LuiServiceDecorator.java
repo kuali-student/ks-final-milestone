@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lui.service.decorators;
+package org.kuali.student.lum.lu.service;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 
-public class LuiServiceDecorator implements LuiService {
+public abstract class LuiServiceDecorator implements LuiService {
 	
 	protected LuiService nextDecorator;
 

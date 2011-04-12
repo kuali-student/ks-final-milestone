@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.lpr.service.decorators;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 
 import java.util.*;
 

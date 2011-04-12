@@ -26,7 +26,7 @@ import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.service.CommonConstants;
+import org.kuali.student.common.util.constants.CommonConstants;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.springframework.context.ApplicationContext;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.student.lum.lu;
+package org.kuali.student.common.util.constants;
 
 
 /**

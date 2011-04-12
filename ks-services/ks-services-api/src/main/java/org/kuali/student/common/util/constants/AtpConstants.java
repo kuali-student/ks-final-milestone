@@ -12,9 +12,8 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.core.atp.service;
+package org.kuali.student.common.util.constants;
 
-import org.kuali.student.common.service.CommonConstants;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 

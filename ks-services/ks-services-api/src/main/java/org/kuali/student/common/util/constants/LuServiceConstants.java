@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2007 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lui.service;
+package org.kuali.student.common.util.constants;
 
 
 /**
@@ -24,7 +24,7 @@ package org.kuali.student.enrollment.lui.service;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 
-public class LuiServiceConstants {
-
-    public static final String LUI_NAMESPACE = "http://student.kuali.org/wsdl/lui";
+public class LuServiceConstants {
+    public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
+    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
 }

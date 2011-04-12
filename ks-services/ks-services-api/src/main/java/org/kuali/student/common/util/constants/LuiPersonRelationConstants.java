@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service;
+package org.kuali.student.common.util.constants;
 
-import org.kuali.student.common.service.CommonConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 
 /**

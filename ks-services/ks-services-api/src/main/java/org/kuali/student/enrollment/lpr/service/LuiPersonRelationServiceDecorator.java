@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.decorators;
+package org.kuali.student.enrollment.lpr.service;
 
 import java.util.List;
 
@@ -37,7 +37,6 @@ import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 
 
 
@@ -48,7 +47,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
  * 
  * @author nwright
  */
-public class LuiPersonRelationServiceDecorator implements LuiPersonRelationService{
+public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRelationService{
 
 
 	protected LuiPersonRelationService nextDecorator;

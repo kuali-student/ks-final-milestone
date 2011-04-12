@@ -70,7 +70,7 @@ public class TestLuiPersonRelationServiceImpl {
         lprService = (LuiPersonRelationService) appContext.getBean("lprPersistenceService");
         callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
         dataLoader = (DataLoader) appContext.getBean("dataLoader");
-        dataLoader.load();
+     //   dataLoader.load();
     }
 
     @Test
@@ -121,17 +121,5 @@ public class TestLuiPersonRelationServiceImpl {
             assertTrue(ex instanceof OperationFailedException);
         }
     }
-    /*
-     @Test
-     public void testfindLuiPersonRelationStates() throws Throwable {
-
-             List<LuiPersonRelationStateInfo> stateInfo = lprService.findLuiPersonRelationStates(callContext);
-             assertTrue(stateInfo.size()==1);
-             assertTrue(  ((LuiPersonRelationStateInfo)stateInfo.get(0)).getDescr().equals("ABC") );
-
-
-     }
-     */
-
-
+  
 }

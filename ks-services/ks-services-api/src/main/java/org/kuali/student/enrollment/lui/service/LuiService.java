@@ -36,6 +36,7 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.service.TypeService;
+import org.kuali.student.common.util.constants.LuiServiceConstants;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
