@@ -135,10 +135,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
     final CourseRequirementsDataModel reqDataModel;
+    final CourseRequirementsDataModel reqDataModelComp;
    
     public CourseProposalController(){
         super();
         reqDataModel = new CourseRequirementsDataModel(this);
+        reqDataModelComp = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
     }
@@ -450,6 +452,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 public void onSuccess(Data result) {
                     if (result != null) {
                         comparisonModel.setRoot(result);
+                        reqDataModelComp.retrieveStatementTypes(comparisonModel.<String>get("id"), new Callback<Boolean>() {
+                            @Override
+                            public void exec(Boolean result) {
+                                if (result) {
+                                    KSBlockingProgressIndicator.removeTask(loadDataTask);
+                                }
+                            }
+                        });
                     }
                     proposalModelRequestCallback.onModelReady(cluProposalModel);
                     workCompleteCallback.exec(true);
@@ -909,7 +919,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseRequirementsDataModel getReqDataModel() {
         return reqDataModel;
     }
-      
+
+    public CourseRequirementsDataModel getReqDataModelComp() {
+        return reqDataModelComp;
+    }
+
     @Override
     public DataModel getExportDataModel() {
         return cluProposalModel;
