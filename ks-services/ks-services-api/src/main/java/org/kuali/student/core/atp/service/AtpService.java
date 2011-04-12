@@ -117,18 +117,18 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * Retrieves a list of Academic Time Periods corresponding to the
      * given list of ATP keys.
      *
-     * @param atpTypeKeyList list of ATPs to be retrieved
+     * @param atpKeyList list of ATPs to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return List of Academic Time Period keys that contain the supplied date
-     * @throws DoesNotExistExceptionan  atpKey in list not found
+     * @return List of Academic Time Period keys of the given type
+     * @throws DoesNotExistException an atpKey in list not found
      * @throws InvalidParameterException invalid atpKey
      * @throws MissingParameterException invalid atpKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Academic Time Periods of the specified type.
@@ -160,6 +160,23 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws PermissionDeniedException authorization failure
      */
     public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of Milestones corresponding to the given list
+     * of Milestone keys.
+     *
+     * @param milestoneKeyList list of Milestones to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the list of milestone keys 
+     * @throws DoesNotExistException a milestoneKey in list not found
+     * @throws InvalidParameterException invalid milestoneKey
+     * @throws MissingParameterException invalid milestibeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getMilestonesByKeyList(@WebParam(name = "milestoneKeyList") List<String> milestoneKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of milestones for a specified Academic Time
