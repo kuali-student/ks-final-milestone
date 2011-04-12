@@ -383,6 +383,23 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     public StatusInfo deleteMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves an ATP Milestone Relationship.
+     *
+     * @param atpMilestoneRelationId Unique id of the atp milestone relation 
+     *        to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return Details of requested Atp milestone relation
+     * @throws DoesNotExistException milestoneKey not found
+     * @throws InvalidParameterException invalid milestoneKey
+     * @throws MissingParameterException invalid milestoneKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public AtpMilestoneRelationInfo getAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationId") String atpMilestoneRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Validates an ATP/Milestone relationship. Depending on the value
      * of validationType, this validation could be limited to tests on
      * just the current object and its directly contained subobjects
