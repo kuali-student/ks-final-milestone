@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.decorators;
+package org.kuali.student.enrollment.lpr.service;
 
 import java.util.List;
 
 
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -48,7 +47,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * 
  * @author nwright
  */
-public class LuiPersonRelationServiceDecorator implements LuiPersonRelationService{
+public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRelationService{
 
 
 	protected LuiPersonRelationService nextDecorator;
