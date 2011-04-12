@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expriationDate","metaInfo","attributes", "_futureElements"})
+@XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
 public class LuiInfo extends IdEntityInfo
   implements Serializable, Lui {
 
