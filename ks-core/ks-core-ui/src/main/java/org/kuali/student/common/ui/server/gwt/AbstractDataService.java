@@ -120,20 +120,27 @@ public abstract class AbstractDataService implements DataService{
 		
 		DataSaveResult saveResult = new DataSaveResult();
 		try {
+			//Convert data object to dto object
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
 			
+			//This calls save method for DataService impl, which makes the needed service calls to persist dto
+			//The service call should do it's own validation, any errors will cause DataValidationErrorException
+			//and is handled in the catch below.
+			dto = save(dto, filterProperties);
+			
+			//Validate saved data again to get validation warnings that may exist on the data
 			List<ValidationResultInfo> validationResults = validate(dto);
-			if (ValidatorUtils.hasErrors(validationResults)){
-				saveResult.setValidationResults(validationResults);
-			} else {
-				dto = save(dto, filterProperties);
-				
-				Data persistedData = transformationManager.transform(dto, filterProperties);
-				saveResult.setValidationResults(validationResults);
-				saveResult.setValue(persistedData);
-			}				
-		}catch (DataValidationErrorException e){
-			//This should never happen, since we call validate before calling the save method
+			
+			//Convert saved data object back to data object to send to UI
+			Data persistedData = transformationManager.transform(dto, filterProperties);			
+			
+			saveResult.setValue(persistedData);
+			saveResult.setValidationResults(validationResults);			
+		}catch (DataValidationErrorException dvee){
+			//This should only get thrown if service save call resulted in validation errors. These errors
+			//should be sent to the UI using DataSaveResult instead of throwing an exception.
+			//Sending null for data value, since UI should already have it and nothing changed.
+			saveResult.setValidationResults(dvee.getValidationResults());
 		}catch (Exception e) {
 			throw new OperationFailedException("Unable to save",e);
 		}
