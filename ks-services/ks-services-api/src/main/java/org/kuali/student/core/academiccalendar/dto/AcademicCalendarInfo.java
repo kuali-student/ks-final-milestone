@@ -48,237 +48,237 @@ import org.kuali.student.core.academiccalendar.infc.Term;
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendar, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private final CampusCalendarInfo campusCalendar;
+    @XmlElement
+    private final CampusCalendarInfo campusCalendar;
 
-	@XmlElement
-	private final Date startDate;
+    @XmlElement
+    private final Date startDate;
 
-	@XmlElement
-	private final Date endDate;
+    @XmlElement
+    private final Date endDate;
 
-	@XmlElement
-	private final List<TermInfo> terms;
+    @XmlElement
+    private final List<TermInfo> terms;
 
-	@XmlElement 
-	private final TypeInfo credentialProgramType;
+    @XmlElement 
+    private final TypeInfo credentialProgramType;
 
-	@XmlAnyElement
-	private final List<Element> _futureElements;  
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
 
-	private AcademicCalendarInfo() {
-		campusCalendar = null;
-		startDate = null;
-		endDate = null;
-		terms = null;
-		credentialProgramType = null;
-		_futureElements = null;
-	}
+    private AcademicCalendarInfo() {
+        campusCalendar = null;
+        startDate = null;
+        endDate = null;
+        terms = null;
+        credentialProgramType = null;
+        _futureElements = null;
+    }
 
-	/**
-	 * Constructs a new AcademicCalendarInfo from another
-	 * AcademicCalendar.
-	 *
-	 * @param academicCalendar the Academic Calendar to copy
-	 */
-	public AcademicCalendarInfo(AcademicCalendar academicCalendar) {
-		super(academicCalendar);
-		this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
-		this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
-		this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-		if (academicCalendar.getTerms() != null) {
-			this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
-			for (Term t : academicCalendar.getTerms()) {
-				this.terms.add(new TermInfo(t));
-			}
-		} else {
-			this.terms = new ArrayList<TermInfo>();
-		}
+    /**
+     * Constructs a new AcademicCalendarInfo from another
+     * AcademicCalendar.
+     *
+     * @param academicCalendar the Academic Calendar to copy
+     */
+    public AcademicCalendarInfo(AcademicCalendar academicCalendar) {
+        super(academicCalendar);
+        this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
+        this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
+        this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
+        if (academicCalendar.getTerms() != null) {
+            this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
+            for (Term t : academicCalendar.getTerms()) {
+                this.terms.add(new TermInfo(t));
+            }
+        } else {
+            this.terms = new ArrayList<TermInfo>();
+        }
 
-		this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
-		_futureElements = null;
-	}
+        this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
+        _futureElements = null;
+    }
 
-	/**
-	 * Name: CampusCalendar 
-	 * Gets the campus calendar corresponding to this academic
-	 * calendar.
-	 */
-	@Override
-	public CampusCalendarInfo getCampusCalendar() {
-		return campusCalendar;
-	}
+    /**
+     * Name: CampusCalendar 
+     * Gets the campus calendar corresponding to this academic
+     * calendar.
+     */
+    @Override
+    public CampusCalendarInfo getCampusCalendar() {
+        return campusCalendar;
+    }
 
-	/**
-	 * Name: StartDate
-	 * Date and time the academic calendar becomes effective. This
-	 * does not provide a bound on date ranges or milestones
-	 * associated with this time calendar, but instead indicates the
-	 * calendar proper. This is a similar concept to the effective
-	 * date on enumerated values. When an end date has been specified,
-	 * this field must be less than or equal to the end date.
-	 *
-	 * @return the Academic Calendar start date
-	 */
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * Name: StartDate
+     * Date and time the academic calendar becomes effective. This
+     * does not provide a bound on date ranges or milestones
+     * associated with this time calendar, but instead indicates the
+     * calendar proper. This is a similar concept to the effective
+     * date on enumerated values. When an end date has been specified,
+     * this field must be less than or equal to the end date.
+     *
+     * @return the Academic Calendar start date
+     */
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	/**
-	 * Name: EndDate
-	 * Date and time the academic calendar becomes
-	 * ineffective. This does not provide a bound on date ranges or
-	 * milestones associated with this calendar, but instead
-	 * indicates the calendar proper. If specified, this must be
-	 * greater than or equal to the start date. If this field is not
-	 * specified, then no end date has been currently defined
-	 * and should automatically be considered greater than the
-	 * effective date.
-	 *
-	 * @return the Academic Calendar end date
-	 */
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+    /**
+     * Name: EndDate
+     * Date and time the academic calendar becomes
+     * ineffective. This does not provide a bound on date ranges or
+     * milestones associated with this calendar, but instead
+     * indicates the calendar proper. If specified, this must be
+     * greater than or equal to the start date. If this field is not
+     * specified, then no end date has been currently defined
+     * and should automatically be considered greater than the
+     * effective date.
+     *
+     * @return the Academic Calendar end date
+     */
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	/**
-	 * Name: Terms
-	 * Gets the terms corresponding to this academic
-	 * calendar.
-	 */
-	public List<TermInfo> getTerms() {
-		return terms;
-	}
+    /**
+     * Name: Terms
+     * Gets the terms corresponding to this academic
+     * calendar.
+     */
+    public List<TermInfo> getTerms() {
+        return terms;
+    }
 
-	/**
-	 * Name: CredentialProgramType
-	 * Gets the credential program type to which this calendar
-	 * relates.
-	 */
-	public TypeInfo getCredentialProgramType() {
-		return credentialProgramType;
-	}
+    /**
+     * Name: CredentialProgramType
+     * Gets the credential program type to which this calendar
+     * relates.
+     */
+    public TypeInfo getCredentialProgramType() {
+        return credentialProgramType;
+    }
 
-	/**
-	 * The builder class for this AcademicCalendarInfo.
-	 */
-	public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendar {
+    /**
+     * The builder class for this AcademicCalendarInfo.
+     */
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendar {
 
-		private CampusCalendarInfo campusCalendar;
-		private Date startDate;
-		private Date endDate;
-		private List<TermInfo> terms;
-		private TypeInfo credentialProgramType;
+        private CampusCalendarInfo campusCalendar;
+        private Date startDate;
+        private Date endDate;
+        private List<TermInfo> terms;
+        private TypeInfo credentialProgramType;
 
 
-		/**
-		 * Constructs a new builder.
-		 */
-		public Builder() {}
+        /**
+         * Constructs a new builder.
+         */
+        public Builder() {}
 
-		/**
-		 * Constructs a new builder initialized from another AcademicCalendar
-		 */
-		public Builder(AcademicCalendar academicCalendar) {
-			super(academicCalendar);
-			this.startDate = academicCalendar.getStartDate();
-			this.endDate = academicCalendar.getEndDate();
-			if (academicCalendar.getTerms() != null) {
-				this.terms = new ArrayList(academicCalendar.getTerms().size());
-				for (Term t : academicCalendar.getTerms()) {
-					this.terms.add(new TermInfo(t));
-				}
-			}
-			this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
-		}
+        /**
+         * Constructs a new builder initialized from another AcademicCalendar
+         */
+        public Builder(AcademicCalendar academicCalendar) {
+            super(academicCalendar);
+            this.startDate = academicCalendar.getStartDate();
+            this.endDate = academicCalendar.getEndDate();
+            if (academicCalendar.getTerms() != null) {
+                this.terms = new ArrayList(academicCalendar.getTerms().size());
+                for (Term t : academicCalendar.getTerms()) {
+                    this.terms.add(new TermInfo(t));
+                }
+            }
+            this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
+        }
 
-		/**
-		 * Builds the AcademicCalendar.
-		 *
-		 * @return a new AcademicCalendar
-		 */
-		public AcademicCalendarInfo build() {
-			return new AcademicCalendarInfo(this);
-		}
+        /**
+         * Builds the AcademicCalendar.
+         *
+         * @return a new AcademicCalendar
+         */
+        public AcademicCalendarInfo build() {
+            return new AcademicCalendarInfo(this);
+        }
 
-		/**
-		 * Name: CampusCalendar 
-		 * Gets the campus calendar correspondingto this academic
-		 * calendar.
-		 */
-		public CampusCalendarInfo getCampusCalendar() {
-			return campusCalendar;
-		}
+        /**
+         * Name: CampusCalendar 
+         * Gets the campus calendar correspondingto this academic
+         * calendar.
+         */
+        public CampusCalendarInfo getCampusCalendar() {
+            return campusCalendar;
+        }
 
-		public void setCampusCalendar(CampusCalendarInfo campusCalendar) {
-			this.campusCalendar = campusCalendar;
-		}
+        public void setCampusCalendar(CampusCalendarInfo campusCalendar) {
+            this.campusCalendar = campusCalendar;
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the Academic Calendar start date
-		 */
-		@Override
-		public Date getStartDate() {
-			return startDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the Academic Calendar start date
+         */
+        @Override
+        public Date getStartDate() {
+            return startDate;
+        }
 
-		/**
-		 * Sets the Academic Calendar start date.
-		 *
-		 * @param startDate the start date for the Academic Calendar
-		 */
-		public void setStartDate(Date startDate) {
-			this.startDate = startDate;
-		}
+        /**
+         * Sets the Academic Calendar start date.
+         *
+         * @param startDate the start date for the Academic Calendar
+         */
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the Academic Calendar end date
-		 */
-		@Override
-		public Date getEndDate() {
-			return endDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the Academic Calendar end date
+         */
+        @Override
+        public Date getEndDate() {
+            return endDate;
+        }
 
-		/**
-		 * Sets the Academic Calendar end date.
-		 *
-		 * @param endDate the end date for the Academic Calendar
-		 */
+        /**
+         * Sets the Academic Calendar end date.
+         *
+         * @param endDate the end date for the Academic Calendar
+         */
 
-		public void setEndDate(Date endDate) {
-			this.endDate = endDate;
-		}
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
 
-		/**
-		 * Gets the terms corresponding to this academic
-		 * calendar.
-		 */
-		public List<TermInfo> getTerms() {
-			return terms;
-		}
+        /**
+         * Gets the terms corresponding to this academic
+         * calendar.
+         */
+        public List<TermInfo> getTerms() {
+            return terms;
+        }
 
-		public void setTerms(List<TermInfo> terms) {
-			this.terms = terms;
-		}
+        public void setTerms(List<TermInfo> terms) {
+            this.terms = terms;
+        }
 
-		/**
-		 * Gets the credential program type to which this calendar
-		 * relates.
-		 */
-		public TypeInfo getCredentialProgramType() {
-			return credentialProgramType;
-		}
+        /**
+         * Gets the credential program type to which this calendar
+         * relates.
+         */
+        public TypeInfo getCredentialProgramType() {
+            return credentialProgramType;
+        }
 
-		public void setCredentialProgramType(TypeInfo credentialProgramType) {
-			this.credentialProgramType = credentialProgramType;
-		}
-	}
+        public void setCredentialProgramType(TypeInfo credentialProgramType) {
+            this.credentialProgramType = credentialProgramType;
+        }
+    }
 }

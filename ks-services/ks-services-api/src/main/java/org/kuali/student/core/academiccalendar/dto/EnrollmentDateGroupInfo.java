@@ -47,408 +47,408 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private final String termKey;
+    @XmlElement
+    private final String termKey;
 
-	@XmlElement
-	private final Date registrationStart;
+    @XmlElement
+    private final Date registrationStart;
 
-	@XmlElement
-	private final Date registrationEnd;
+    @XmlElement
+    private final Date registrationEnd;
 
-	@XmlElement
-	private final Date classStart;
+    @XmlElement
+    private final Date classStart;
 
-	@XmlElement
-	private final Date classEnd;
+    @XmlElement
+    private final Date classEnd;
 
-	@XmlElement
-	private final Date addDate;
+    @XmlElement
+    private final Date addDate;
 
-	@XmlElement
-	private final Date dropDate;
+    @XmlElement
+    private final Date dropDate;
 
-	@XmlElement
-	private final Date finalsStart;
+    @XmlElement
+    private final Date finalsStart;
 
-	@XmlElement
-	private final Date finalsEnd;
+    @XmlElement
+    private final Date finalsEnd;
 
-	@XmlElement
-	private final Date gradingStart;
+    @XmlElement
+    private final Date gradingStart;
 
-	@XmlElement
-	private final Date gradingEnd;
+    @XmlElement
+    private final Date gradingEnd;
 
-	@XmlAnyElement
-	private final List<Element> _futureElements;  
+    @XmlAnyElement
+    private final List<Element> _futureElements;  
 
-	private EnrollmentDateGroupInfo() {
-		termKey = null;
-		registrationStart = null;
-		registrationEnd = null;
-		classStart = null;
-		classEnd = null;
-		addDate = null;
-		dropDate = null;
-		finalsStart = null;
-		finalsEnd = null;
-		gradingStart = null;
-		gradingEnd = null;
-		_futureElements = null;
-	}
+    private EnrollmentDateGroupInfo() {
+        termKey = null;
+        registrationStart = null;
+        registrationEnd = null;
+        classStart = null;
+        classEnd = null;
+        addDate = null;
+        dropDate = null;
+        finalsStart = null;
+        finalsEnd = null;
+        gradingStart = null;
+        gradingEnd = null;
+        _futureElements = null;
+    }
 
-	/**
-	 * Constructs a new EnrollmentDateGroupInfo from another
-	 * EnrollmentDateGroupInfo.
-	 *
-	 * @param dateGroup the EnrollmentDateGroup to copy
-	 */
-	public EnrollmentDateGroupInfo(EnrollmentDateGroup dateGroup) {
-		this.termKey = dateGroup.getTermKey();
-		this.registrationStart = dateGroup.getRegistrationStartDate();
-		this.registrationEnd = dateGroup.getRegistrationEndDate();
-		this.classStart = dateGroup.getClassStartDate();
-		this.classEnd = dateGroup.getClassEndDate();
-		this.addDate = dateGroup.getAddDate();
-		this.dropDate = dateGroup.getDropDate();
-		this.finalsStart = dateGroup.getFinalExamStartDate();
-		this.finalsEnd = dateGroup.getFinalExamEndDate();
-		this.gradingStart = dateGroup.getGradingStartDate();
-		this.gradingEnd = dateGroup.getGradingEndDate();
-		_futureElements = null;
-	}
+    /**
+     * Constructs a new EnrollmentDateGroupInfo from another
+     * EnrollmentDateGroupInfo.
+     *
+     * @param dateGroup the EnrollmentDateGroup to copy
+     */
+    public EnrollmentDateGroupInfo(EnrollmentDateGroup dateGroup) {
+        this.termKey = dateGroup.getTermKey();
+        this.registrationStart = dateGroup.getRegistrationStartDate();
+        this.registrationEnd = dateGroup.getRegistrationEndDate();
+        this.classStart = dateGroup.getClassStartDate();
+        this.classEnd = dateGroup.getClassEndDate();
+        this.addDate = dateGroup.getAddDate();
+        this.dropDate = dateGroup.getDropDate();
+        this.finalsStart = dateGroup.getFinalExamStartDate();
+        this.finalsEnd = dateGroup.getFinalExamEndDate();
+        this.gradingStart = dateGroup.getGradingStartDate();
+        this.gradingEnd = dateGroup.getGradingEndDate();
+        _futureElements = null;
+    }
 
-	/**
-	 * Name: TermKey
-	 * Gets the term key for this date group.
-	 *
-	 * @return the term key
-	 */
-	public String getTermKey() {
-		return termKey;
-	}
+    /**
+     * Name: TermKey
+     * Gets the term key for this date group.
+     *
+     * @return the term key
+     */
+    public String getTermKey() {
+        return termKey;
+    }
 
-	/**
-	 * Name: RegistrationStart
-	 * Gets the registration start date.
-	 *
-	 * @return the registration start date
-	 */
-	public Date getRegistrationStartDate() {
-		return registrationStart;
-	}
+    /**
+     * Name: RegistrationStart
+     * Gets the registration start date.
+     *
+     * @return the registration start date
+     */
+    public Date getRegistrationStartDate() {
+        return registrationStart;
+    }
 
-	/**
-	 * Name: RegistrationEnd
-	 * Gets the registration end date.
-	 *
-	 * @return the registration end date
-	 */
-	public Date getRegistrationEndDate() {
-		return registrationEnd;
-	}
+    /**
+     * Name: RegistrationEnd
+     * Gets the registration end date.
+     *
+     * @return the registration end date
+     */
+    public Date getRegistrationEndDate() {
+        return registrationEnd;
+    }
 
-	/**
-	 * Name: ClassStart
-	 * Gets the class start date.
-	 *
-	 * @return the class start date
-	 */
-	@Override
-	public Date getClassStartDate() {
-		return classStart;
-	}
+    /**
+     * Name: ClassStart
+     * Gets the class start date.
+     *
+     * @return the class start date
+     */
+    @Override
+    public Date getClassStartDate() {
+        return classStart;
+    }
 
-	/**
-	 * Name: ClassEnd
-	 * Gets the class end date.
-	 *
-	 * @return the class end date
-	 */
-	@Override
-	public Date getClassEndDate() {
-		return classEnd;
-	}
+    /**
+     * Name: ClassEnd
+     * Gets the class end date.
+     *
+     * @return the class end date
+     */
+    @Override
+    public Date getClassEndDate() {
+        return classEnd;
+    }
 
-	/**
-	 * Name: AddDate
-	 * Gets the add date.
-	 *
-	 * @return add date
-	 */
-	@Override
-	public Date getAddDate() {
-		return addDate;
-	}
+    /**
+     * Name: AddDate
+     * Gets the add date.
+     *
+     * @return add date
+     */
+    @Override
+    public Date getAddDate() {
+        return addDate;
+    }
 
-	/**
-	 * Name: DropDate
-	 * Gets the drop date.
-	 *
-	 * @return drop date
-	 */
-	@Override
-	public Date getDropDate() {
-		return dropDate;
-	}
+    /**
+     * Name: DropDate
+     * Gets the drop date.
+     *
+     * @return drop date
+     */
+    @Override
+    public Date getDropDate() {
+        return dropDate;
+    }
 
-	/**
-	 * Name: FinalExamStart
-	 * Gets the final exam start date.
-	 *
-	 * @return the final exam start date
-	 */
-	@Override
-	public Date getFinalExamStartDate() {
-		return finalsStart;
-	}
+    /**
+     * Name: FinalExamStart
+     * Gets the final exam start date.
+     *
+     * @return the final exam start date
+     */
+    @Override
+    public Date getFinalExamStartDate() {
+        return finalsStart;
+    }
 
-	/**
-	 * Name: FinalExamEnd
-	 * Gets the final exam end date.
-	 *
-	 * @return the final exam end date
-	 */
-	@Override
-	public Date getFinalExamEndDate() {
-		return finalsEnd;
-	}
+    /**
+     * Name: FinalExamEnd
+     * Gets the final exam end date.
+     *
+     * @return the final exam end date
+     */
+    @Override
+    public Date getFinalExamEndDate() {
+        return finalsEnd;
+    }
 
-	/**
-	 * Name: GradingStart
-	 * Gets the grading period start date.
-	 *
-	 * @return the grading start date
-	 */
-	@Override
-	public Date getGradingStartDate() {
-		return gradingStart;
-	}
+    /**
+     * Name: GradingStart
+     * Gets the grading period start date.
+     *
+     * @return the grading start date
+     */
+    @Override
+    public Date getGradingStartDate() {
+        return gradingStart;
+    }
 
-	/**
-	 * Name: GradingEnd
-	 * Gets the grading period end date.
-	 *
-	 * @return the grading end date
-	 */
-	@Override
-	public Date getGradingEndDate() {
-		return gradingEnd;
-	}
+    /**
+     * Name: GradingEnd
+     * Gets the grading period end date.
+     *
+     * @return the grading end date
+     */
+    @Override
+    public Date getGradingEndDate() {
+        return gradingEnd;
+    }
 
-	/**
-	 * The builder class for this DateInfo.
-	 */
-	public static class Builder implements ModelBuilder<EnrollmentDateGroupInfo>, EnrollmentDateGroup {
-		private String termKey;
-		private Date registrationStart;
-		private Date registrationEnd;
-		private Date classStart;
-		private Date classEnd;
-		private Date addDate;
-		private Date dropDate;
-		private Date finalsStart;
-		private Date finalsEnd;
-		private Date gradingStart;
-		private Date gradingEnd;
+    /**
+     * The builder class for this DateInfo.
+     */
+    public static class Builder implements ModelBuilder<EnrollmentDateGroupInfo>, EnrollmentDateGroup {
+        private String termKey;
+        private Date registrationStart;
+        private Date registrationEnd;
+        private Date classStart;
+        private Date classEnd;
+        private Date addDate;
+        private Date dropDate;
+        private Date finalsStart;
+        private Date finalsEnd;
+        private Date gradingStart;
+        private Date gradingEnd;
 
-		/**
-		 * Constructs a new builder.
-		 */
-		public Builder() {
-		}
+        /**
+         * Constructs a new builder.
+         */
+        public Builder() {
+        }
 
-		/**
-		 *  Constructs a new builder initialized from another
-		 *  EnrollmentDateGroup.
-		 */
-		public Builder(EnrollmentDateGroup dateGroup) {
-			termKey = dateGroup.getTermKey();
-			registrationStart = dateGroup.getRegistrationStartDate();
-			registrationEnd = dateGroup.getRegistrationStartDate();
-			classStart =  dateGroup.getClassStartDate();
-			classEnd =  dateGroup.getClassStartDate();
-			addDate =  dateGroup.getAddDate();
-			dropDate =  dateGroup.getDropDate();
-			finalsStart =  dateGroup.getFinalExamStartDate();
-			finalsEnd =  dateGroup.getFinalExamStartDate();
-			gradingStart =  dateGroup.getGradingStartDate();
-			gradingEnd =  dateGroup.getGradingStartDate();
-		}
+        /**
+         *  Constructs a new builder initialized from another
+         *  EnrollmentDateGroup.
+         */
+        public Builder(EnrollmentDateGroup dateGroup) {
+            termKey = dateGroup.getTermKey();
+            registrationStart = dateGroup.getRegistrationStartDate();
+            registrationEnd = dateGroup.getRegistrationStartDate();
+            classStart =  dateGroup.getClassStartDate();
+            classEnd =  dateGroup.getClassStartDate();
+            addDate =  dateGroup.getAddDate();
+            dropDate =  dateGroup.getDropDate();
+            finalsStart =  dateGroup.getFinalExamStartDate();
+            finalsEnd =  dateGroup.getFinalExamStartDate();
+            gradingStart =  dateGroup.getGradingStartDate();
+            gradingEnd =  dateGroup.getGradingStartDate();
+        }
 
-		/**
-		 * Builds the EnrollmentDateGroup.
-		 *
-		 * @return a new EnrollmentDateGroup
-		 */
-		public EnrollmentDateGroupInfo build() {
-			return new EnrollmentDateGroupInfo(this);
-		}
+        /**
+         * Builds the EnrollmentDateGroup.
+         *
+         * @return a new EnrollmentDateGroup
+         */
+        public EnrollmentDateGroupInfo build() {
+            return new EnrollmentDateGroupInfo(this);
+        }
 
-		/**
-		 * Gets the term key for this date group.
-		 *
-		 * @return the term key
-		 */
-		public String getTermKey() {
-			return termKey;
-		}
+        /**
+         * Gets the term key for this date group.
+         *
+         * @return the term key
+         */
+        public String getTermKey() {
+            return termKey;
+        }
 
-		public void setTermKey(String termKey) {
-			this.termKey = termKey;
-		}
+        public void setTermKey(String termKey) {
+            this.termKey = termKey;
+        }
 
-		/**
-		 * Name: RegistrationStart
-		 * Gets the registration start date.
-		 *
-		 * @return the registration start date
-		 */
-		@Override
-		public Date getRegistrationStartDate() {
-			return registrationStart;
-		}
+        /**
+         * Name: RegistrationStart
+         * Gets the registration start date.
+         *
+         * @return the registration start date
+         */
+        @Override
+        public Date getRegistrationStartDate() {
+            return registrationStart;
+        }
 
-		public void setRegistrationStartDate(Date date) {
-			this.registrationStart = date;
-		}
+        public void setRegistrationStartDate(Date date) {
+            this.registrationStart = date;
+        }
 
-		/**
-		 * Name: RegistrationEnd
-		 * Gets the registration end date.
-		 *
-		 * @return the registration end date
-		 */
-		@Override
-		public Date getRegistrationEndDate() {
-			return registrationEnd;
-		}
+        /**
+         * Name: RegistrationEnd
+         * Gets the registration end date.
+         *
+         * @return the registration end date
+         */
+        @Override
+        public Date getRegistrationEndDate() {
+            return registrationEnd;
+        }
 
-		public void setRegistrationEndDate(Date date) {
-			this.registrationEnd = date;
-		}
+        public void setRegistrationEndDate(Date date) {
+            this.registrationEnd = date;
+        }
 
-		/**
-		 * Name: ClassStart
-		 * Gets the class start date.
-		 *
-		 * @return the class start date
-		 */
-		@Override
-		public Date getClassStartDate() {
-			return classStart;
-		}
+        /**
+         * Name: ClassStart
+         * Gets the class start date.
+         *
+         * @return the class start date
+         */
+        @Override
+        public Date getClassStartDate() {
+            return classStart;
+        }
 
-		public void setClassStartDate(Date date) {
-			this.classStart = date;
-		}
+        public void setClassStartDate(Date date) {
+            this.classStart = date;
+        }
 
-		/**
-		 * Name: ClassEnd
-		 * Gets the class end date.
-		 *
-		 * @return the class end date
-		 */
-		@Override
-		public Date getClassEndDate() {
-			return classEnd;
-		}
+        /**
+         * Name: ClassEnd
+         * Gets the class end date.
+         *
+         * @return the class end date
+         */
+        @Override
+        public Date getClassEndDate() {
+            return classEnd;
+        }
 
-		public void setClassEndDate(Date date) {
-			this.classEnd = date;
-		}
+        public void setClassEndDate(Date date) {
+            this.classEnd = date;
+        }
 
-		/**
-		 * Name: AddDate
-		 * Gets the add date.
-		 *
-		 * @return add date
-		 */
-		@Override
-		public Date getAddDate() {
-			return addDate;
-		}
+        /**
+         * Name: AddDate
+         * Gets the add date.
+         *
+         * @return add date
+         */
+        @Override
+        public Date getAddDate() {
+            return addDate;
+        }
 
-		public void setAddDate(Date date) {
-			this.addDate = date;
-		}
+        public void setAddDate(Date date) {
+            this.addDate = date;
+        }
 
-		/**
-		 * Name: DropDate
-		 * Gets the drop date.
-		 *
-		 * @return drop date
-		 */
-		@Override
-		public Date getDropDate() {
-			return dropDate;
-		}
+        /**
+         * Name: DropDate
+         * Gets the drop date.
+         *
+         * @return drop date
+         */
+        @Override
+        public Date getDropDate() {
+            return dropDate;
+        }
 
-		public void setDropDate(Date date) {
-			this.dropDate = date;
-		}
+        public void setDropDate(Date date) {
+            this.dropDate = date;
+        }
 
-		/**
-		 * Name: FinalExamStart
-		 * Gets the final exam start date.
-		 *
-		 * @return the final exam start date
-		 */
-		@Override
-		public Date getFinalExamStartDate() {
-			return finalsStart;
-		}
+        /**
+         * Name: FinalExamStart
+         * Gets the final exam start date.
+         *
+         * @return the final exam start date
+         */
+        @Override
+        public Date getFinalExamStartDate() {
+            return finalsStart;
+        }
 
-		public void setFinalExamStartDate(Date date) {
-			this.finalsStart = date;
-		}
+        public void setFinalExamStartDate(Date date) {
+            this.finalsStart = date;
+        }
 
-		/**
-		 * Name: FinalExamEnd
-		 * Gets the final exam end date.
-		 *
-		 * @return the final exam end date
-		 */
-		@Override
-		public Date getFinalExamEndDate() {
-			return finalsEnd;
-		}
+        /**
+         * Name: FinalExamEnd
+         * Gets the final exam end date.
+         *
+         * @return the final exam end date
+         */
+        @Override
+        public Date getFinalExamEndDate() {
+            return finalsEnd;
+        }
 
-		public void setFinalExamEndDate(Date date) {
-			this.finalsEnd = date;
-		}
+        public void setFinalExamEndDate(Date date) {
+            this.finalsEnd = date;
+        }
 
-		/**
-		 * Name: GradingStart
-		 * Gets grading period start date.
-		 *
-		 * @return the grading period start date
-		 */
-		@Override
-		public Date getGradingStartDate() {
-			return gradingStart;
-		}
+        /**
+         * Name: GradingStart
+         * Gets grading period start date.
+         *
+         * @return the grading period start date
+         */
+        @Override
+        public Date getGradingStartDate() {
+            return gradingStart;
+        }
 
-		public void setGradingStartDate(Date date) {
-			this.gradingStart = date;
-		}
+        public void setGradingStartDate(Date date) {
+            this.gradingStart = date;
+        }
 
-		/**
-		 * Name: GradingEnd
-		 * Gets the grading period end date.
-		 *
-		 * @return the grading end date
-		 */
-		@Override
-		public Date getGradingEndDate() {
-			return gradingEnd;
-		}
+        /**
+         * Name: GradingEnd
+         * Gets the grading period end date.
+         *
+         * @return the grading end date
+         */
+        @Override
+        public Date getGradingEndDate() {
+            return gradingEnd;
+        }
 
-		public void setGradingEndDate(Date date) {
-			this.gradingEnd = date;
-		}
-	}
+        public void setGradingEndDate(Date date) {
+            this.gradingEnd = date;
+        }
+    }
 }

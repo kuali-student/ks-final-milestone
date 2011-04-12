@@ -47,170 +47,170 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private final Boolean isDateRange;
+    @XmlElement
+    private final Boolean isDateRange;
 
-	@XmlElement
-	private final Date startDate;
+    @XmlElement
+    private final Date startDate;
 
-	@XmlElement
-	private final Date endDate;
+    @XmlElement
+    private final Date endDate;
 
-	@XmlAnyElement
-	private final List<Element> _futureElements;
+    @XmlAnyElement
+    private final List<Element> _futureElements;
 
-	private KeyDateInfo() {
-		isDateRange = false;
-		startDate = null;
-		endDate = null;
-		_futureElements = null;
-	}
+    private KeyDateInfo() {
+        isDateRange = false;
+        startDate = null;
+        endDate = null;
+        _futureElements = null;
+    }
 
-	/**
-	 * Constructs a new KeyDateInfo from another KeyDate.
-	 *
-	 * @param keyDate the KeyDate to copy
-	 */
-	public KeyDateInfo(KeyDate keyDate) {
-		super(keyDate);
-		this.isDateRange = keyDate.getIsDateRange();
-		this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-		this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
-		_futureElements = null;
-	}
+    /**
+     * Constructs a new KeyDateInfo from another KeyDate.
+     *
+     * @param keyDate the KeyDate to copy
+     */
+    public KeyDateInfo(KeyDate keyDate) {
+        super(keyDate);
+        this.isDateRange = keyDate.getIsDateRange();
+        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+        _futureElements = null;
+    }
 
-	/**
-	 * Name: IsDateRange
-	 * Tests if this keyDate has a date range. If true, the end date
-	 * value follows the start date.
-	 *
-	 * @return true if this KeyDate has different start end end
-	 *         dates, false if this KeyDate represents a single date
-	 */
-	@Override
-	public Boolean getIsDateRange() {
-		return isDateRange;
-	}
+    /**
+     * Name: IsDateRange
+     * Tests if this keyDate has a date range. If true, the end date
+     * value follows the start date.
+     *
+     * @return true if this KeyDate has different start end end
+     *         dates, false if this KeyDate represents a single date
+     */
+    @Override
+    public Boolean getIsDateRange() {
+        return isDateRange;
+    }
 
-	/**
-	 * Name: StartDate
-	 * Gets the start Date and time of the keyDate.
-	 *
-	 * @return the keyDate start
-	 */
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * Name: StartDate
+     * Gets the start Date and time of the keyDate.
+     *
+     * @return the keyDate start
+     */
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	/**
-	 * Name: EndDate
-	 * Gets the end Date and time of the keyDate.
-	 *
-	 * @return the keyDate end
-	 */
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+    /**
+     * Name: EndDate
+     * Gets the end Date and time of the keyDate.
+     *
+     * @return the keyDate end
+     */
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	/**
-	 * The builder class for this KeyDateInfo.
-	 */
-	public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
+    /**
+     * The builder class for this KeyDateInfo.
+     */
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
 
-		private Boolean isDateRange;
-		private Date startDate;
-		private Date endDate;
+        private Boolean isDateRange;
+        private Date startDate;
+        private Date endDate;
 
-		/**
-		 * Constructs a new builder.
-		 */
-		public Builder() {
-		}
+        /**
+         * Constructs a new builder.
+         */
+        public Builder() {
+        }
 
-		/**
-		 *  Constructs a new builder initialized from another
-		 *  KeyDate.
-		 */
-		public Builder(KeyDate keyDate) {
-			super(keyDate);
-			this.isDateRange = keyDate.getIsDateRange();
-			this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-			this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
-		}
+        /**
+         *  Constructs a new builder initialized from another
+         *  KeyDate.
+         */
+        public Builder(KeyDate keyDate) {
+            super(keyDate);
+            this.isDateRange = keyDate.getIsDateRange();
+            this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+            this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+        }
 
-		/**
-		 * Builds the KeyDate.
-		 *
-		 * @return a new KeyDate
-		 */
-		public KeyDateInfo build() {
-			return new KeyDateInfo(this);
-		}
+        /**
+         * Builds the KeyDate.
+         *
+         * @return a new KeyDate
+         */
+        public KeyDateInfo build() {
+            return new KeyDateInfo(this);
+        }
 
-		/**
-		 * Tests if this keyDate has a date range. If true, the end date
-		 * value follows the start date.
-		 *
-		 * @return true if this KeyDate has different start end end
-		 *         dates, false if this KeyDate represents a single date
-		 */
-		@Override
-		public Boolean getIsDateRange() {
-			return isDateRange;
-		}
+        /**
+         * Tests if this keyDate has a date range. If true, the end date
+         * value follows the start date.
+         *
+         * @return true if this KeyDate has different start end end
+         *         dates, false if this KeyDate represents a single date
+         */
+        @Override
+        public Boolean getIsDateRange() {
+            return isDateRange;
+        }
 
-		/**
-		 * Sets the date range flag (should this flag be inferred from
-		 * the dates?)
-		 *
-		 * @param isDateRange true if this KeyDate has different
-		 *         start end end dates, false if this KeyDate
-		 *         represents a single date
-		 */
-		public void dateRange(Boolean isDateRange) {
-			this.isDateRange = isDateRange;
-		}
+        /**
+         * Sets the date range flag (should this flag be inferred from
+         * the dates?)
+         *
+         * @param isDateRange true if this KeyDate has different
+         *         start end end dates, false if this KeyDate
+         *         represents a single date
+         */
+        public void dateRange(Boolean isDateRange) {
+            this.isDateRange = isDateRange;
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the KeyDate start date
-		 */
-		@Override
-		public Date getStartDate() {
-			return startDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the KeyDate start date
+         */
+        @Override
+        public Date getStartDate() {
+            return startDate;
+        }
 
-		/**
-		 * Sets the KeyDate start date.
-		 *
-		 * @param endDate the start date
-		 */
-		public void setStartDate(Date startDate) {
-			this.startDate = new Date(startDate.getTime());
-		}
+        /**
+         * Sets the KeyDate start date.
+         *
+         * @param endDate the start date
+         */
+        public void setStartDate(Date startDate) {
+            this.startDate = new Date(startDate.getTime());
+        }
 
-		/**
-		 * Gets the start date.
-		 *
-		 * @return the KeyDate end date
-		 */
-		@Override
-		public Date getEndDate() {
-			return endDate;
-		}
+        /**
+         * Gets the start date.
+         *
+         * @return the KeyDate end date
+         */
+        @Override
+        public Date getEndDate() {
+            return endDate;
+        }
 
-		/**
-		 * Sets the KeyDate end date.
-		 *
-		 * @param endDate the end date
-		 */
-		public void setEndDate(Date endDate) {
-			this.endDate = new Date(endDate.getTime());
-		}
-	}
+        /**
+         * Sets the KeyDate end date.
+         *
+         * @param endDate the end date
+         */
+        public void setEndDate(Date endDate) {
+            this.endDate = new Date(endDate.getTime());
+        }
+    }
 }
