@@ -73,7 +73,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 	 * @return Details of the Academic Time Period requested
 	 * @throws DoesNotExistException atpKey not found
 	 * @throws InvalidParameterException invalid atpKey
-	 * @throws MissingParameterException invalid atpKey
+	 * @throws MissingParameterException missing atpKey
 	 * @throws OperationFailedException unable to complete request
 	 * @throws PermissionDeniedException authorization failure
 	 */
@@ -125,7 +125,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 	 * @return List of Academic Time Period keys of the given type
 	 * @throws DoesNotExistException an atpKey in list not found
 	 * @throws InvalidParameterException invalid atpKey
-	 * @throws MissingParameterException invalid atpKey
+	 * @throws MissingParameterException missing atpKey
 	 * @throws OperationFailedException unable to complete request
 	 * @throws PermissionDeniedException authorization failure
 	 */
@@ -204,7 +204,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 	 *                operation
 	 * @return List of milestones for this Academic Time Period
 	 * @throws InvalidParameterException invalid atpKey
-	 * @throws MissingParameterException invalid atpKey
+	 * @throws MissingParameterException missing atpKey
 	 * @throws OperationFailedException unable to complete request
 	 * @throws PermissionDeniedException authorization failure
 	 */
@@ -441,7 +441,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 	 * @return a list of Atp milestone relationships
 	 * @throws DoesNotExistException atpKey not found
 	 * @throws InvalidParameterException invalid atpKey
-	 * @throws MissingParameterException invalid atpKey
+	 * @throws MissingParameterException missing atpKey
 	 * @throws OperationFailedException unable to complete request
 	 * @throws PermissionDeniedException authorization failure
 	 */
@@ -457,7 +457,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 	 * @return a list of Atp milestone relationships
 	 * @throws DoesNotExistException atpKey not found
 	 * @throws InvalidParameterException invalid milestoneKey
-	 * @throws MissingParameterException invalid milestoneKey
+	 * @throws MissingParameterException missing milestoneKey
 	 * @throws OperationFailedException unable to complete request
 	 * @throws PermissionDeniedException authorization failure
 	 */
