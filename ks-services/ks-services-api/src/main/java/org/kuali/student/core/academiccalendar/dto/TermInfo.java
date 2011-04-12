@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.academiccalendar.interface.Term;
+import org.kuali.student.core.academiccalendar.infc.Term;
 
 
 /**

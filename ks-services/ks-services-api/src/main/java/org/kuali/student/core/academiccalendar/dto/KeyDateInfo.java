@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.academiccalendar.interface.KeyDate;
+import org.kuali.student.core.academiccalendar.infc.KeyDate;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
