@@ -3,16 +3,13 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum</artifactId>
   <packaging>pom</packaging>
   <name>KS LUM</name>
   <description>KS Learning Unit Management</description>
-  <properties>
-    <kuali.site.download.path>org/kuali/student/lum</kuali.site.download.path>
-  </properties>
   <profiles>
     <profile>
       <id>default</id>

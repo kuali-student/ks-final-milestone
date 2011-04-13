@@ -13,6 +13,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -197,7 +199,7 @@ public class VariationEditController extends VariationController {
                             okToChange.exec(true);
                         } else {
                             okToChange.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -262,7 +264,7 @@ public class VariationEditController extends VariationController {
 
     
 	@Override
-	public void beforeShow(Callback<Boolean> onReadyCallback) {
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	//clear all cross constraints that start with variations
     	Application.getApplicationContext().clearCrossConstraintsWithStartingPath(null,ProgramConstants.VARIATIONS);
     	
@@ -270,42 +272,15 @@ public class VariationEditController extends VariationController {
     	String newParentPath = ProgramConstants.VARIATIONS+"/"+org.kuali.student.lum.program.client.ProgramRegistry.getRow()+"/";
     	Application.getApplicationContext().setParentPath(newParentPath);
 		
-    	super.beforeShow(onReadyCallback);
-        
-        //Update any cross fields
-        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
-        	crossConstraint.reprocessWithUpdatedConstraints();
-        }
-        
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+			}
+        };
+		super.beforeShow(updateCrossConstraintsCallback);
 	}
-//	@Override
-//	public void beforeShow(Callback<Boolean> onReadyCallback) {
-//		super.beforeShow(onReadyCallback);
-//        if(majorController!=null){
-//        	majorController.requestModel(new ModelRequestCallback<DataModel>(){
-//				public void onModelReady(DataModel programModel) {
-//	            	//Update default values from other fields if they are currently null 
-//	            	for(Map.Entry<FieldDescriptor,String> entry:Application.getApplicationContext().getDefaultValueMapping(null).entrySet()){
-//	            		FieldDescriptor fd = entry.getKey();
-//	            		if(fd != null){
-//	            			final String pathToSet = fd.getFieldKey();
-//	            			if(programModel.get(pathToSet)==null){
-//	            				final Data defaultValue = ((Data)programModel.get(entry.getValue())).copy();
-//	            				VariationEditController.this.requestModel(new ModelRequestCallback<DataModel>(){
-//									public void onModelReady(DataModel vairationModel) {
-//										vairationModel.set(QueryPath.parse(pathToSet), defaultValue);
-//			            			}
-//									public void onRequestFail(Throwable cause) {
-//									}
-//	            				});
-//	            			}
-//	            		}
-//	            	}
-//				}
-//				public void onRequestFail(Throwable cause) {
-//				}
-//	        });
-//        }
-//	}
 
 }

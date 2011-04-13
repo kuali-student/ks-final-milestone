@@ -101,7 +101,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	    			if(!(propValue instanceof List) && pd.getPropertyType().isAssignableFrom(List.class)){
 	    				ArrayList<Object> list = new ArrayList<Object>(1);
 	    				list.add(propValue);
-	    				pd.getWriteMethod().invoke(result, new Object[] {list});
+	    				pd.getWriteMethod().invoke(result, list);
 	    			}else{
 	    				pd.getWriteMethod().invoke(result, new Object[] {propValue});
 	    			}

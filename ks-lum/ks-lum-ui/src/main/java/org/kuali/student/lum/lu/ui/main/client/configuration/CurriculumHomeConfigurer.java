@@ -61,6 +61,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
         programs.addStyleName("bold");
         viewModify.add(programs);
+        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
@@ -77,11 +78,9 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(TOOLS_DESC));
         tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
         tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
+        tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
+        
         //Coming soon
-        Label depAnalysis = new Label(getMessage(DEP_ANALYSIS));
-        depAnalysis.setStyleName("contentBlock-navLink-disabled");
-        depAnalysis.setTitle("Coming Soon");
-        tools.add(depAnalysis);
         Label learningObjectives = new Label(getMessage(LOS));
         learningObjectives.setTitle("Coming Soon");
         learningObjectives.setStyleName("contentBlock-navLink-disabled");
@@ -96,7 +95,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-    private Widget getFindCredentialProgramWidget() {
+	private Widget getFindCredentialProgramWidget() {
         Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
         anchor.addClickHandler(new ClickHandler() {
             @Override

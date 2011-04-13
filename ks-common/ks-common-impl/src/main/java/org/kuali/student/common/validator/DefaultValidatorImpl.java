@@ -408,7 +408,17 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if(caseField!=null){
         	if(absolutePath){
         		try {
-					fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
+        			if(caseField.isDynamic()){
+        				//Pull the value from the dynamic attribute map
+        				//TODO There needs to be some mapping from PropertyUtils to the KS path
+        				//Until then, this will only work for root level properties
+        				Map<String,String> attributes = (Map<String,String>) PropertyUtils.getNestedProperty(rootData, "attributes");
+        				if(attributes!=null){
+        					fieldValue = attributes.get(constraint.getFieldPath().substring(1));
+        				}
+        			}else{
+        				fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
+        			}
 				} catch (IllegalAccessException e) {
 				} catch (InvocationTargetException e) {
 				} catch (NoSuchMethodException e) {

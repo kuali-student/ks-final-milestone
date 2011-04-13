@@ -202,12 +202,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentActivityIds.containsKey(activity.getId()))) {
-		        
+		    	activity.setState(format.getState());
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
                         .disassemble(activity, NodeOperation.CREATE);
-                activityNode.getNodeData().setState(format.getState());
                 results.add(activityNode);
 
                 // Create the relationship and add it as well
@@ -231,9 +230,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					&& currentActivityIds.containsKey(activity.getId())) {
 				// If the format already has this activity, then just update the
 				// activity
+            	activity.setState(format.getState());
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
 						.disassemble(activity, NodeOperation.UPDATE);
-				activityNode.getNodeData().setState(format.getState());
 				results.add(activityNode);
 
 				// remove this entry from the map so we can tell what needs to

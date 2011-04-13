@@ -423,6 +423,10 @@ public class DecisionPanel implements HasReferenceId, ToolView {
     private static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
+    
+    public boolean isExportButtonActive() {
+        return false;
+    }
 }
 
 class FieldAscendingRowComparator extends RowComparator {

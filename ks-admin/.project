@@ -23,7 +23,7 @@
   </buildSpec>
   <natures>
     <nature>org.springframework.ide.eclipse.core.springnature</nature>
-    <nature>org.maven.ide.eclipse.maven2Nature</nature>
     <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>org.maven.ide.eclipse.maven2Nature</nature>
   </natures>
 </projectDescription>

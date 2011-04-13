@@ -119,6 +119,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String COURSE_TITLE_PATH = "/courseTitle";
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
     protected DocumentTool documentTool;
+    //
+    CourseSummaryConfigurer summaryConfigurer;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -150,9 +152,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     	type = "course";
         state = DtoConstants.STATE_DRAFT;
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
-    	Application.getApplicationContext().clearCrossConstraintMap(null);
-    	Application.getApplicationContext().clearPathToFieldMapping(null);
-    	Application.getApplicationContext().setParentPath("");
+
     	if (modelDefinition.getMetadata().isCanEdit()) {
         	addCluStartSection(layout);
             String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
@@ -184,7 +184,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -669,13 +669,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 true),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey",
-                                LUUIConstants.DURATION_TYPE_LABEL_KEY,
+                                LUUIConstants.COURSE_FORMATS_DURATION_TYPE_LABEL_KEY,
                                 null,
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
                                 CreditCourseActivityConstants.DURATION + "/" + "timeQuantity",
-                                LUUIConstants.DURATION_LITERAL_LABEL_KEY,
+                                LUUIConstants.DURATION_QUANTITY_LABEL_KEY,
                                 null,
                                 null,
                                 true),
@@ -759,7 +759,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);
         final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
         
         loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
@@ -1128,6 +1128,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         return sb.toString();
     }
+
+    public CourseSummaryConfigurer getSummaryConfigurer() {
+        return summaryConfigurer;
+    }
 }
 
 
@@ -1207,7 +1211,8 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
                         Data idItem = p.getValue();
                         String id = idItem.get(key);
                         Data runtimeData = idItem.get("_runtimeData");
-                        Data translationData = runtimeData.get(key);
+                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                        Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
                         newIdsData = (newIdsData == null) ? new Data() : newIdsData;
                         newIdsData.add(id);
                         newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;

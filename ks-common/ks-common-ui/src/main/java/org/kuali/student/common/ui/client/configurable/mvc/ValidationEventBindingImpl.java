@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -51,10 +52,12 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
                 }
             });
         } else if(w instanceof KSPicker && ((KSPicker)w).getInputWidget() instanceof HasSelectionChangeHandlers){
-            ((HasSelectionChangeHandlers) ((KSPicker)w).getInputWidget()).addSelectionChangeHandler(new SelectionChangeHandler() {
+            ((KSPicker)w).addSelectionChangeHandler(new SelectionChangeHandler() {
                 @Override
                 public void onSelectionChange(SelectionChangeEvent event) {
-                    processValidationEvent(fd);
+                	if(event.isUserInitiated()){
+                		processValidationEvent(fd);
+                	}
                 }
             });
         } else if (w instanceof HasBlurHandlers) {

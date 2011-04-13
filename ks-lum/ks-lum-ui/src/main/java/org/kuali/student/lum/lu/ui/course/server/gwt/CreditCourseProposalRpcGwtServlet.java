@@ -39,12 +39,12 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
         return null;
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
         return null;  
     }
 
@@ -54,7 +54,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     }
     
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
         return null;
     }
     

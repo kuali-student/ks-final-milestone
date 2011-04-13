@@ -103,6 +103,29 @@ public class DocumentList extends Composite{
                     uploadedFileSectionHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
                     tableLayout.setWidget(rowIndex, columnIndex, uploadedFileSectionHeader);
                     tableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
+                    
+                    // Create headers that say "File Name"  "Description"  "Delete" as per wireframe in
+                    // KSLAB-1476
+                    rowIndex++;
+                    
+                    // File Name header
+                    HTML fileNameHeader = new HTML();
+                    fileNameHeader.setText("File Name");
+                    fileNameHeader.addStyleName("KS-DocumentList-Attachment-Column-Header");
+                    tableLayout.setWidget(rowIndex, 0, fileNameHeader);
+                    
+                    // Description header
+                    HTML descriptionHeader = new HTML();
+                    descriptionHeader.setText("Description");
+                    descriptionHeader.addStyleName("KS-DocumentList-Attachment-Column-Header");
+                    tableLayout.setWidget(rowIndex, 1, descriptionHeader);
+                    
+                    // Delete header
+                    HTML deleteHeader = new HTML();
+                    deleteHeader.setText("Delete");
+                    deleteHeader.addStyleName("KS-DocumentList-Attachment-Column-Header");
+                    tableLayout.setWidget(rowIndex, 2, deleteHeader);
+                    
                     rowIndex++;
                 }
                 

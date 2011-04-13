@@ -26,6 +26,17 @@ public class SearchResultCell implements Serializable {
 	private String value;
 	private String key;
 
+	public SearchResultCell() {
+		super();
+	}
+
+	public SearchResultCell(String key, String value) {
+		this();
+		this.key = key;
+		this.value = value;
+	}
+
+	
 	public String getValue() {
 		return value;
 	}

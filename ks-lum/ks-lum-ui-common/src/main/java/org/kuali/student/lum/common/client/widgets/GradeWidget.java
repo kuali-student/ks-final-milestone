@@ -31,8 +31,8 @@ import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
-import org.kuali.student.common.ui.client.widgets.rules.AccessWidgetValue;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValue;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;

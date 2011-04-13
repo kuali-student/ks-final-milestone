@@ -1423,6 +1423,9 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 	
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		if(atpKey==null){
+			return null;
+		}
 		return atpService.getAtp(atpKey);
 	}
 	//FIXME error should return using message service and not static text

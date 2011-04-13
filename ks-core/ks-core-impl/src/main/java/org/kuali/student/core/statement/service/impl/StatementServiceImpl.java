@@ -16,9 +16,11 @@
 package org.kuali.student.core.statement.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jws.WebService;
@@ -36,8 +38,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchManager;
@@ -75,6 +79,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class StatementServiceImpl implements StatementService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
+
+	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "stmt.search.dependencyAnalysis";
 
 	private StatementDao statementDao;
 	private NaturalLanguageTranslator naturalLanguageTranslator;
@@ -700,13 +706,118 @@ public class StatementServiceImpl implements StatementService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-    @Override
+	@Override
     public SearchResult search(final SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
+        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
+        	//Special case for dependency analysis.
+        	//Parse out query params and execute custom search
+        	List<String> cluVersionIndIds = new ArrayList<String>();
+        	List<String> cluSetIds = new ArrayList<String>();
+    		for(SearchParam param:searchRequest.getParams()){
+    			if("stmt.queryParam.cluSetIds".equals(param.getKey())){
+    				cluSetIds.addAll((List<String>)param.getValue());
+    				continue;
+    			}else if("stmt.queryParam.cluVersionIndIds".equals(param.getKey())){
+    				cluVersionIndIds.addAll((List<String>)param.getValue());
+    			}
+    		}
+    		if(cluVersionIndIds.isEmpty()){
+    			cluVersionIndIds.add("");
+    		}
+    		if(cluSetIds.isEmpty()){
+    			cluSetIds.add("");
+    		}
+			return doDependencyAnalysisSearch(cluVersionIndIds,cluSetIds);
+        }
+        
         return searchManager.search(searchRequest, statementDao);
     }
 
-    @Override
+    private SearchResult doDependencyAnalysisSearch(
+			List<String> cluVersionIndIds, List<String> cluSetIds) {
+    	//First look up all the statements that have requirement components that reference the 
+    	//given cluIds and clusets
+    	List<Object[]> results = statementDao.getStatementsWithDependencies(cluVersionIndIds,cluSetIds);
+    	
+    	//From the Object[], which contains a statement at index 0, and a result component id at index 1
+    	//obtain a list of statements and a comma delimited list of requirement component ids for each 
+    	//statement which contain the target clu/cluset
+    	Map<String,String> statementToResultComponentIds = new HashMap<String,String>();
+    	Map<String, Statement> statements = new HashMap<String,Statement>();
+    	for(Object[] result:results){
+    		Statement statement = (Statement) result[0];
+    		statements.put(statement.getId(),statement);
+    		String resultComponentIds = statementToResultComponentIds.get(statement.getId());
+    		if(resultComponentIds == null){
+    			resultComponentIds = (String)result[1];
+    		}else{
+    			resultComponentIds+="," + (String)result[1];
+    		}
+    		statementToResultComponentIds.put(statement.getId(), resultComponentIds);
+    	}
+    	
+    	
+    	//HashMap of root statements used to store non duplicate root statements 
+    	Map<String,Statement> rootStatements = new HashMap<String,Statement>();
+    	
+    	Map<String,String> rootToRequirementComponentList = new HashMap<String,String>();
+    	
+    	//Next find the root statements since only the root is related to a clu
+    	for(Statement statement:statements.values()){
+    		Statement child = statement;
+    		Statement parent = child;
+    		while(parent!=null){
+	    		try{
+	    			//Search for parent of this child
+	    			parent = statementDao.getParentStatement(child.getId());
+	    			child = parent;
+	    		}catch(DoesNotExistException e){
+	    			//This is the root (no parent) so add to list of roots
+	    			rootStatements.put(child.getId(), child);
+	    			
+	    			//Create a comma delimited mapping of all the requirement components
+	    			//ids that contain the trigger clu within this root statement
+	        		String childStatementList = rootToRequirementComponentList.get(child.getId());
+	        		if(childStatementList==null){
+	        			childStatementList = statementToResultComponentIds.get(statement.getId());
+	        		}else{
+	        			childStatementList += ","+statementToResultComponentIds.get(statement.getId());
+	        		}
+	        		rootToRequirementComponentList.put(child.getId(), childStatementList);
+	    			
+	    			//Exit condition(hopefully there are no cyclic statements)
+	    			parent = null;
+	    		}
+    		}
+    	}
+    	
+    	SearchResult searchResult = new SearchResult();
+    	
+    	//Record each statement's reference id type and reference type as a search result row
+    	//Use a hashset of the cell values to remove duplicates
+    	Set<String> processed = new HashSet<String>();
+    	for(Statement statement:rootStatements.values()){
+    		for(RefStatementRelation relation:statement.getRefStatementRelations()){
+    			String rowId = relation.getRefObjectId()+"|"+relation.getRefObjectTypeKey();
+    			if(!processed.contains(rowId)){
+    				//This row does not exist yet so we can add it to the results.
+    				processed.add(rowId);
+	    			SearchResultRow row = new SearchResultRow();
+	    			row.addCell("stmt.resultColumn.refObjId",relation.getRefObjectId());
+	    			row.addCell("stmt.resultColumn.rootId",statement.getId());
+	    			row.addCell("stmt.resultColumn.requirementComponentIds",rootToRequirementComponentList.get(statement.getId()));
+	    			row.addCell("stmt.resultColumn.statementTypeId",statement.getStatementType().getId());
+	    			row.addCell("stmt.resultColumn.statementTypeName",statement.getStatementType().getName());
+	     			searchResult.getRows().add(row);
+    			}
+    		}
+    	}
+    	
+		return searchResult;
+	}
+
+	@Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }

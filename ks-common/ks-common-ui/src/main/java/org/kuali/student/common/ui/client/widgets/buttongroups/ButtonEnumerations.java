@@ -550,4 +550,36 @@ public class ButtonEnumerations {
         return CANCEL;
     }	
     };
+    
+    public static enum ExportCancelEnum implements ButtonEnum{EXPORT, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case EXPORT:
+                return context.getMessage("export");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;
+    }
+    @Override
+    public ButtonStyle getStyle() {
+        switch(this){
+        case EXPORT:
+            return ButtonStyle.PRIMARY;
+        case CANCEL:
+            return ButtonStyle.DEFAULT_ANCHOR;
+        }
+        return ButtonStyle.PRIMARY;
+    }
+    @Override
+    public ButtonEnum getActionType() {
+        return EXPORT;
+    }
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }
+};
 }

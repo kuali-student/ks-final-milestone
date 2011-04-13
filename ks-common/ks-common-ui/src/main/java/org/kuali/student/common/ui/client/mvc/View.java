@@ -76,4 +76,14 @@ public interface View extends HistorySupport, BreadcrumbSupport {
      */
     public Widget asWidget();
     
+    /**
+     * 
+     * This method needs to be implemented only on views that want the export button to display.
+     * The default implementation is not to display the export button
+     * 
+     * @return
+     */
+    public boolean isExportButtonActive();
+    
+    
 }

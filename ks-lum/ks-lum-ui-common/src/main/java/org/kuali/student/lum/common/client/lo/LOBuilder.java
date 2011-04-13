@@ -62,7 +62,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 	private static String state;
 	private static String repoKey;
 	private static String messageGroup;
-    private static String startOfPath = "learningObjectives";
+    private static String startOfPath;
     private static String endOfPath = "loInfo/desc/plain";
     private static String middleOfPath = "loDisplayInfoList";
 	HorizontalPanel searchMainPanel = new HorizontalPanel();
@@ -74,19 +74,20 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 	protected LOBuilder() {
 	}
 
-	public LOBuilder(String luType, String luState, String luGroup,	String loRepoKey, final Metadata metadata) {
+    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, String queryPathStart, final Metadata metadata) {
 		super();
 
 		type = luType;
 		state = luState;
 		repoKey = loRepoKey;
 		messageGroup = luGroup;
+        startOfPath = queryPathStart;
 
 		 if(metadata.getInitialLookup() != null) {
 		 	searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
 		  	searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
 		  		public void onValueChange(ValueChangeEvent<List<String>> event) {
-		  		        List<String> selection = (List<String>)event.getValue();
+		  		        List<String> selection = event.getValue();
 		  				loList.addSelectedLOs(selection);
 		  			}
 		  	    }

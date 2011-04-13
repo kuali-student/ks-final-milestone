@@ -10,8 +10,6 @@ import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 public class MajorEditConfigurer extends AbstractProgramConfigurer {
 
     public MajorEditConfigurer() {
-    	Application.getApplicationContext().clearCrossConstraintMap(null);
-    	Application.getApplicationContext().clearPathToFieldMapping(null);
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(new MajorInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
