@@ -5,193 +5,231 @@
     <KSSC_SUBJ_CD CD="AACH" CREATEID="kr" CREATETIME="20110408000000"
         ID="1" NAME="Architecture"
         OBJ_ID="3a512547-5442-4c3b-9965-6f3a0b60866c" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="BIOC" CREATEID="kr" CREATETIME="20110417000000"
-        ID="10" NAME="Biochemistry"
-        OBJ_ID="95bb66d8-5dbd-4901-a3d1-a42cc42bd6a2" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
-    <KSSC_SUBJ_CD CD="BIOL" CREATEID="kr" CREATETIME="20110418000000"
-        ID="11" NAME="Biology"
-        OBJ_ID="e4c689bf-8378-4a00-9a95-a55302ba0ddb" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110412000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BIOM" CREATEID="kr" CREATETIME="20110419000000"
         ID="12" NAME="Biometrics"
         OBJ_ID="b2ade3b1-ec73-4e55-8ec0-c8d1deb4030c" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BMGT" CREATEID="kr" CREATETIME="20110420000000"
         ID="13" NAME="Business Management"
         OBJ_ID="5f613895-e03c-463a-8483-e22a2bd65f68" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BOTA" CREATEID="kr" CREATETIME="20110421000000"
         ID="14" NAME="Botany"
         OBJ_ID="3b755af6-d9ea-40ed-9159-cf338d3531c0" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BSCI" CREATEID="kr" CREATETIME="20110422000000"
         ID="15" NAME="Biological Sciences"
         OBJ_ID="23beb29b-7e73-44bd-ae5a-b2590cb2fb48" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="CCJS" CREATEID="kr" CREATETIME="20110423000000"
         ID="16" NAME="Criminal Justice"
         OBJ_ID="4dc5f871-dd0e-4b3f-9880-3bcc2c3eca4f" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="CHEE" CREATEID="kr" CREATETIME="20110424000000"
         ID="17" NAME="Chemical Engineering"
         OBJ_ID="26514b91-66b4-44f9-a20c-97d366cf8d59" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="CHEM" CREATEID="kr" CREATETIME="20110425000000"
         ID="18" NAME="Chemistry"
         OBJ_ID="04d1f81e-dcf3-4cc7-8384-2366f84a6684" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="AASP" CREATEID="kr" CREATETIME="20110409000000"
         ID="2" NAME="African American Studies"
         OBJ_ID="0677e556-fb00-4d0c-8798-1ac838f658e7" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="CIVI" CREATEID="kr" CREATETIME="20110427000000"
         ID="20" NAME="Civil Engineering"
         OBJ_ID="c1dfcfa7-0fc1-4662-82b4-5ba944415e3c" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="CSCI" CREATEID="kr" CREATETIME="20110428000000"
         ID="21" NAME="CompSci"
         OBJ_ID="1c461855-a6b6-4890-86d7-d41d0c5f7d37" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ECON" CREATEID="kr" CREATETIME="20110429000000"
         ID="22" NAME="Economics"
         OBJ_ID="7344fae8-3767-4c8a-9c73-70f0838108b1" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="EDUC" CREATEID="kr" CREATETIME="20110430000000"
         ID="23" NAME="Education"
         OBJ_ID="0bc2b673-2361-4c53-a5c1-b0eb5fc13241" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ENGL" CREATEID="kr" CREATETIME="20110501000000"
         ID="24" NAME="English"
         OBJ_ID="1eb81f63-4d49-474d-a9db-4a87c3cb7aa9" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="FINA" CREATEID="kr" CREATETIME="20110503000000"
         ID="26" NAME="Finance"
         OBJ_ID="66948f84-3a2a-4e37-a1c1-83d620b2fd12" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="FREN" CREATEID="kr" CREATETIME="20110504000000"
         ID="27" NAME="French"
         OBJ_ID="678daa79-049e-4344-9d05-67a5dcfc090e" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="GEMS" CREATEID="kr" CREATETIME="20110505000000"
         ID="28" NAME="Gemstone"
         OBJ_ID="fe6b7d6a-90b6-4e4c-be83-c7ec69002e31" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="GEOG" CREATEID="kr" CREATETIME="20110506000000"
         ID="29" NAME="Geography"
         OBJ_ID="8cc2451a-01cd-4e6e-9383-5e8d902357c3" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="AAST" CREATEID="kr" CREATETIME="20110410000000"
         ID="3" NAME="Asian American Studies"
         OBJ_ID="bde40bf9-0f10-44e1-9e88-5a3a450bc76a" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="GEOL" CREATEID="kr" CREATETIME="20110507000000"
         ID="30" NAME="Geology"
         OBJ_ID="b244d1bd-cb72-4a38-88dd-f79387eccaec" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="GVPT" CREATEID="kr" CREATETIME="20110508000000"
-        ID="31" NAME="Political Science"
+        ID="31" NAME="Government"
         OBJ_ID="5d35d8eb-2001-4de3-bd44-3b9d0faed3ee" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="HIST" CREATEID="kr" CREATETIME="20110509000000"
         ID="32" NAME="History"
         OBJ_ID="6920a32e-0391-49c8-8254-c91a2dd801b5" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="HONR" CREATEID="kr" CREATETIME="20110510000000"
         ID="33" NAME="Honors"
         OBJ_ID="c81ccb41-ea37-4f98-b9dd-542d21f9004d" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.one" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="INTB" CREATEID="kr" CREATETIME="20110511000000"
-        ID="34" NAME="InternationalBusiness"
+        ID="34" NAME="International Business"
         OBJ_ID="1f985699-b0fd-4827-bb8e-9dc6ef735bbf" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="LING" CREATEID="kr" CREATETIME="20110512000000"
         ID="35" NAME="Linguistics"
         OBJ_ID="650c4e16-23a4-407a-88fc-e9bcff76512b" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="MARK" CREATEID="kr" CREATETIME="20110513000000"
-        ID="36" NAME="Marketing "
+        ID="36" NAME="Marketing"
         OBJ_ID="d0a33485-7754-4923-bc44-56bc2cc7c3bb" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="MATH" CREATEID="kr" CREATETIME="20110514000000"
         ID="37" NAME="Math"
         OBJ_ID="58992156-f68f-4a51-9b5d-c78f42471914" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="MENG" CREATEID="kr" CREATETIME="20110515000000"
         ID="38" NAME="Mechanical Engineering"
         OBJ_ID="59062a42-072b-421c-b252-21e3256f286b" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="MUSC" CREATEID="kr" CREATETIME="20110516000000"
         ID="39" NAME="Music"
         OBJ_ID="a0a073fc-15f4-43a0-a59f-090fba286877" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ACCT" CREATEID="kr" CREATETIME="20110411000000"
         ID="4" NAME="Accounting"
         OBJ_ID="db04c658-f506-4393-a6bc-c26a5e779ac1" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="PHIL" CREATEID="kr" CREATETIME="20110517000000"
         ID="40" NAME="Philosophy"
         OBJ_ID="e28006c3-47f3-4f48-84a4-4b87efb26690" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="PHYS" CREATEID="kr" CREATETIME="20110518000000"
         ID="41" NAME="Physics"
         OBJ_ID="00707ba9-46d3-4baf-a38b-4b13e3e80f34" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="POLI" CREATEID="kr" CREATETIME="20110519000000"
-        ID="42" NAME="PolySci"
+        ID="42" NAME="Political Science"
         OBJ_ID="88ca03dd-d8f3-4f41-a8eb-edf8ce1ce797" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="PSYC" CREATEID="kr" CREATETIME="20110520000000"
         ID="43" NAME="Psychology"
         OBJ_ID="4dc34d04-25a3-451d-97db-242189c2b06a" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="PUAD" CREATEID="kr" CREATETIME="20110521000000"
-        ID="44" NAME="PubAdmin"
+        ID="44" NAME="Public Administration"
         OBJ_ID="1cd8c58b-b1a6-4e15-93e0-02e3f06c5b16" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ROBT" CREATEID="kr" CREATETIME="20110523000000"
         ID="46" NAME="Robotics"
         OBJ_ID="e0077878-6712-48d4-88b3-5b7487393dfc" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="SOCY" CREATEID="kr" CREATETIME="20110526000000"
         ID="49" NAME="Sociology"
         OBJ_ID="b84474a4-787e-4bf8-a40f-380e296d44ae" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ARHU" CREATEID="kr" CREATETIME="20110412000000"
         ID="5" NAME="Arts and Humanities"
         OBJ_ID="fa824f46-d252-4afc-8294-bc2d3a581fa0" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
     <KSSC_SUBJ_CD CD="SOWK" CREATEID="kr" CREATETIME="20110527000000"
         ID="50" NAME="Social Work"
         OBJ_ID="249bba4a-c5fb-4192-8688-04059af3724f" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="STAT" CREATEID="kr" CREATETIME="20110528000000"
         ID="51" NAME="Statistics"
         OBJ_ID="efadc2f0-e793-4297-82b8-83e0e247b5ee" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="THET" CREATEID="kr" CREATETIME="20110529000000"
         ID="52" NAME="Theater"
         OBJ_ID="fa78480f-ba62-451f-8d1f-fac23d712878" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="UNIV" CREATEID="kr" CREATETIME="20110530000000"
         ID="53" NAME="University Studies"
         OBJ_ID="48cc8048-aa6b-4f40-8e95-d7940ef758a9" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.one" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ARTH" CREATEID="kr" CREATETIME="20110413000000"
         ID="6" NAME="Art History"
         OBJ_ID="73c56e37-6273-4061-9069-668ffdb84908" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="ARTS" CREATEID="kr" CREATETIME="20110414000000"
         ID="7" NAME="FineArts"
         OBJ_ID="22a76253-78db-4194-ae82-35f17918cbd9" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BCHM" CREATEID="kr" CREATETIME="20110415000000"
-        ID="8" NAME="Bio Chemistry"
+        ID="8" NAME="Biochemistry"
         OBJ_ID="e831a7f4-1553-4c45-a942-fabed9873c31" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="2"/>
     <KSSC_SUBJ_CD CD="BENG" CREATEID="kr" CREATETIME="20110416000000"
-        ID="9" NAME="Biomed"
+        ID="9" NAME="Biomedical Engineering"
         OBJ_ID="b481b138-fb62-4eae-ab58-9a2d34a6b257" STATE="Actual"
-        TYPE="ks.core.subjectcode.usage.all" VER_NBR="1"/>
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="3"/>
 </dataset>
