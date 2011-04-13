@@ -369,9 +369,13 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		return fieldName;
 	}
 
+	/**
+	 * Turn on/off styling for errors on field element
+	 * 
+	 * @param error When true turns on error styling, when false turns off error styling
+	 */
 	public void setErrorState(boolean error){
 		if(error){
-			setWarnState(false);
 			fieldTitle.addStyleName("invalid");
 			if(parentPanel != null){
 				parentPanel.addStyleName("error");
@@ -379,7 +383,8 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else if(parentElement != null){
 				parentElement.setClassName("error");
 			}
-
+			//When there is an error, don't use warning style
+			setWarnState(false);
 		}
 		else{
 			fieldTitle.removeStyleName("invalid");
@@ -389,9 +394,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else if(parentElement != null){
 				parentElement.setClassName("");
 			}
+			//Reset earn state, in case there are warnings
+			setWarnState(validationPanel.hasWarnings());
 		}
 	}
 	
+	/**
+	 * Turn on/off styling for warnings on field element
+	 * 
+	 * @param warn When true turns on warning styling, when false turns off warning styling
+	 */
 	public void setWarnState(boolean warn){
 		if(warn){
 			//fieldTitle.addStyleName("invalid");
@@ -470,15 +482,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	 */
 	public void addValidationWarningMessage(String text){
 		if(validationPanel != null){
-			KSLabel message;
+			SpanPanel message = new SpanPanel();
 			if(fieldName != null && !fieldName.trim().equals("")){
-				message = new KSLabel(fieldName + " - " + text);
+				message.setHTML("<b> Warning </b> " + fieldName + " - " + text);
 			}
 			else{
-				message = new KSLabel(text);
+				message.setHTML("<b> Warning </b> " + text);
 			}
 			message.setStyleName("ks-form-warn-label");
-			this.setWarnState(true);
+			//Only set field styling to warn, when no errors
+			this.setWarnState((status != ErrorLevel.ERROR));
 			this.validationPanel.addWarnMessage(message);
 		}
 	}

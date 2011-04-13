@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The validation message panel used for field elements, adds validation errors to a list and styles
@@ -41,7 +42,8 @@ public class ValidationMessagePanel extends Composite{
 		this.initWidget(container);
 		container.add(errorListPanel);
 		container.add(warnListPanel);
-		
+		errorListPanel.addStyleName("ks-form-module-validation-errors");
+		warnListPanel.addStyleName("ks-form-module-validation-warnings");		
 	}
 	
 	public ValidationMessagePanel(boolean topMargin){
@@ -52,17 +54,21 @@ public class ValidationMessagePanel extends Composite{
 	public void addErrorMessage(KSLabel message){
 		if(getMessageCount() == 0 && topMargin){
 			message.addStyleName("ks-form-module-single-line-margin");
-		}
+		}		
 		errorListPanel.add(message);
 		errorCount++;
 	}
 	
-	public void addWarnMessage(KSLabel message){
+	public void addWarnMessage(Widget message){
 		if(getMessageCount() == 0 && topMargin){
 			message.addStyleName("ks-form-module-single-line-margin");
 		}
 		warnListPanel.add(message);
 		warnCount++;		
+	}
+	
+	public boolean hasWarnings(){
+		return (warnCount > 0);
 	}
 	
 	public void clearErrors(){

@@ -543,8 +543,14 @@ margin-left:4px;
 	margin-right: 10px;
 }
 
-.ks-form-module-validation-inline ul { 
+.ks-form-module-validation-errors ul { 
 	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
+.ks-form-module-validation-warnings ul { 
+	background: transparent url('images/common/exclamation-diamond-frame.png') no-repeat scroll left;
 	margin: 0; 
 	padding-left: 20px; 
 }
@@ -700,7 +706,10 @@ h6.invalid{color: red;}
 legend.invalid{color: red;}
 
 .ks-form-error-label{ color: red; };
-.ks-form-warn-label{ color: black; };
+.ks-form-warn-label{
+	font-weight: normal; 
+	color: black; 
+};
 
 .highlighted { background-color: #fffdd4; }
 .highlighted .ks-form-bordered-header { background-color: #f2f0c9; }
