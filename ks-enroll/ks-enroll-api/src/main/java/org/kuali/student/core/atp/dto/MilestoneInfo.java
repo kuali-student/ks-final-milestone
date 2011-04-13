@@ -163,8 +163,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 	}
 
 	/**
-	 * Sets the date range flag (should this flag be inferred from
-	 * the dates?)
+	 * Sets the date range flag.
 	 *
 	 * @param isDateRange true if this Milestone has different
 	 *         start end end dates, false if this Milestone

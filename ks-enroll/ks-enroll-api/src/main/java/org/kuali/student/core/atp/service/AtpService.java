@@ -22,17 +22,13 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
 import org.kuali.student.common.service.TypeService;
 import org.kuali.student.common.service.StateService;
 
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
-import org.kuali.student.core.atp.dto.AtpMilestoneRelationInfo;
-import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -41,6 +37,11 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 
 /**
@@ -73,7 +74,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @return Details of the Academic Time Period requested
      * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid atpKey
-     * @throws MissingParameterException invalid atpKey
+     * @throws MissingParameterException missing atpKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -81,7 +82,8 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 
     /** 
      * Retrieves the list of Academic Time Periods that the supplied
-     * date falls within.
+     * date falls within inclusive of the start end end date of the
+     * ATP.
      *
      * @param searchDate Timestamp to be matched
      * @param context Context information containing the principalId
@@ -89,7 +91,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *                operation
      * @return List of Academic Time Periods that contain the supplied searchDate
      * @throws InvalidParameterException invalid searchDate
-     * @throws MissingParameterException invalid searchDate
+     * @throws MissingParameterException missing searchDate
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -98,16 +100,16 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /** 
      * Retrieves the list of Academic Time Periods that are totally
      * contained within the supplied dates. The entire Atp falls
-     * within the supplied dates.
+     * within the supplied dates inclusive of the dates.
      *
      * @param startDate Earliest Timestamp
      * @param endDate Latest Timestamp
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return List of Academic Time Periods that contain the supplied searchDate
-     * @throws InvalidParameterException invalid searchDate
-     * @throws MissingParameterException invalid searchDate
+     * @return a list of Academic Time Periods 
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -117,18 +119,18 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * Retrieves a list of Academic Time Periods corresponding to the
      * given list of ATP keys.
      *
-     * @param atpTypeKeyList list of ATPs to be retrieved
+     * @param atpKeyList list of ATPs to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return List of Academic Time Period keys that contain the supplied date
-     * @throws DoesNotExistExceptionan  atpKey in list not found
+     * @return List of Academic Time Period keys of the given type
+     * @throws DoesNotExistException an atpKey in list not found
      * @throws InvalidParameterException invalid atpKey
-     * @throws MissingParameterException invalid atpKey
+     * @throws MissingParameterException missing atpKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Academic Time Periods of the specified type.
@@ -139,7 +141,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *                operation
      * @return  a list of Academic Time Period keys 
      * @throws InvalidParameterException invalid atpTypeKey
-     * @throws MissingParameterException invalid atpTypeKey
+     * @throws MissingParameterException missing atpTypeKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -155,11 +157,43 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @return Details of requested milestone
      * @throws DoesNotExistException milestoneKey not found
      * @throws InvalidParameterException invalid milestoneKey
-     * @throws MissingParameterException invalid milestoneKey
+     * @throws MissingParameterException missing milestoneKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public MilestoneInfo getMilestone(@WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of Milestones corresponding to the given list
+     * of Milestone keys.
+     *
+     * @param milestoneKeyList list of Milestones to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the list of milestone keys 
+     * @throws DoesNotExistException a milestoneKey in list not found
+     * @throws InvalidParameterException invalid milestoneKey
+     * @throws MissingParameterException missing milestoneKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<MilestoneInfo> getMilestonesByKeyList(@WebParam(name = "milestoneKeyList") List<String> milestoneKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of Milestones of the specified type.
+     *
+     * @param milestoneTypeKey Milestone type to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return  a list of Milestone keys 
+     * @throws InvalidParameterException invalid milestoneTypeKey
+     * @throws MissingParameterException missing milestoneTypeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getMilestoneKeysByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of milestones for a specified Academic Time
@@ -171,7 +205,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *                operation
      * @return List of milestones for this Academic Time Period
      * @throws InvalidParameterException invalid atpKey
-     * @throws MissingParameterException invalid atpKey
+     * @throws MissingParameterException missing atpKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -179,7 +213,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 
     /** 
      * Retrieves the list of milestones that fall within a specified
-     * set of dates.
+     * set of dates inclusive of the dates.
      *
      * @param startDate Start Date for date span
      * @param endDate End Date for date span
@@ -188,7 +222,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *                operation
      * @return List of milestones that fall within this set of dates
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameter(s) missing
+     * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -196,7 +230,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
 
     /** 
      * Retrieves a list of milestones of a specified type that fall
-     * within a specified set of dates.
+     * within a specified set of dates inclusive of the dates.
      *
      * @param milestoneTypeKey Milestone type to be retrieved
      * @param startDate Start Date for date range
@@ -399,6 +433,38 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     public AtpMilestoneRelationInfo getAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationId") String atpMilestoneRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves a list of AtpMilestoneRelations corresponding to the given list
+     * of identifiers.
+     *
+     * @param atpMilestoneRelationIdList list of AtpMilestoneRelations to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the list of AtpMilestoneRelations
+     * @throws DoesNotExistException an atpMilestoneRelationId in list not found
+     * @throws InvalidParameterException invalid atpMilestoneRelationId
+     * @throws MissingParameterException missing atpMilestoneRelationId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByIdList(@WebParam(name = "atpMilestoneRelationIdList") List<String> atpMilestoneRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of AtpMilestoneRelations of the specified type.
+     *
+     * @param atpMilestoneTypeKey Milestone type to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return  a list of AtpMilestoneRelation identifiers
+     * @throws InvalidParameterException invalid atpMilestoneRelationTypeKey
+     * @throws MissingParameterException missing atpMilestoneRelationTypeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getAtpMilestoneRelationKeysByType(@WebParam(name = "atpMilestoneRelationTypeKey") String atpMilestoneRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Retrieves all ATP Milestone Relationships by ATP.
      *
      * @param atpKey Unique key of an ATP
@@ -408,7 +474,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @return a list of Atp milestone relationships
      * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid atpKey
-     * @throws MissingParameterException invalid atpKey
+     * @throws MissingParameterException missing atpKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -424,7 +490,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @return a list of Atp milestone relationships
      * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid milestoneKey
-     * @throws MissingParameterException invalid milestoneKey
+     * @throws MissingParameterException missing milestoneKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -481,7 +547,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *
      * @param atpMilestoneRelationId the Id of the ATP Milestone Relation to be 
      *        updated
-     * @param atpMilestoneRelationInfo the ATP Milstone relation to be updated
+     * @param atpMilestoneRelationInfo the ATP Milestone relation to be updated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation

@@ -34,7 +34,7 @@ public interface Milestone extends KeyEntity {
      * Tests if this milestone has a date range. 
      *
      * @return true if the end date is different than the start date,
-     *         false if the start end end date ar ethe same
+     *         false if the start end end date are the same
      */
     public Boolean getIsDateRange();
 

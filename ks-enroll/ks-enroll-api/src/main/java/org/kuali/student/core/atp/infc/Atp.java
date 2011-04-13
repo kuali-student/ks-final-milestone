@@ -41,7 +41,7 @@ public interface Atp extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: StartDate
+     * Name: EndDate
      * Date and time the academic time period expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
