@@ -115,14 +115,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      */
     public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
 
-        Stack<String> elementStack = new Stack<String>();
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+    	Stack<String> elementStack = new Stack<String>();
 
-        return validateObject(data, objStructure, elementStack, data, objStructure, true);
+       validateObject(results, data, objStructure, elementStack, data, objStructure, true);
+       
+       return results;
     }
 
-    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot) {
-
-       List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+    private void validateObject(List<ValidationResultInfo> results, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot) {
 
         ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
         dataProvider.initialize(data);
@@ -139,13 +140,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
          * provided
          */
         if (null == objStructure) {
-            return results;
+            return;
         }
 
         for (FieldDefinition f : objStructure.getAttributes()) {
-            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
-
-            results.addAll(l);
+            validateField(results, f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
 
             // Use Custom Validators
             if (f.getCustomValidatorClass() != null || f.isServerSide() && serverSide) {
@@ -153,7 +152,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             	if(customValidator==null){
             		throw new RuntimeException("Custom Validator "+f.getCustomValidatorClass()+" was not configured in this context");
             	}
-            	l = customValidator.validateObject(f,data, objStructure,elementStack);
+            	List<ValidationResultInfo> l = customValidator.validateObject(f,data, objStructure,elementStack);
             	results.addAll(l);
             }
         }
@@ -170,18 +169,16 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // }
         // }
         // results = resultsBuffer;
-        return results;
     }
 
-    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure) {
+    public void validateField(List<ValidationResultInfo> results, FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure) {
 
         Object value = dataProvider.getValue(field.getName());
-        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         // Handle null values in field
         if (value == null || "".equals(value.toString().trim())) {
             processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
-            return results;
+            return; //no need to do further processing
         }
 
         /*
@@ -275,7 +272,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             }
 
         }
-        return results;
     }
 
     protected Integer tryParse(String s) {
@@ -291,9 +287,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
-
-        results.addAll(validateObject(value, nestedObjStruct, elementStack, rootData, rootObjStructure, false));
-
+        validateObject(results, value, nestedObjStruct, elementStack, rootData, rootObjStructure, false);
     }
 
     protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
@@ -708,11 +702,21 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message){
-		ValidationResultInfo val = new ValidationResultInfo(crossFieldPath, null);
-        //TODO: Message needs to reflect field where error has occured
-		val.setMessage(message);
-        val.setLevel(ErrorLevel.WARN);
-        valResults.add(val);
+    	//Check to see if the exact same validation message already exists on referenced field
+    	boolean warnAlreadyExists = false;
+    	for (ValidationResultInfo vr:valResults){
+    		if (vr.getElement().equals(crossFieldPath) && vr.getMessage().equals(message)){
+    			warnAlreadyExists = true;
+    		}
+    	}
+    	
+    	//Only add this warning, if it hasn't been already added
+    	if (!warnAlreadyExists){
+	    	ValidationResultInfo val = new ValidationResultInfo(crossFieldPath, null);
+			val.setMessage(message);
+	        val.setLevel(ErrorLevel.WARN);
+	        valResults.add(val);
+    	}
     }
     
     protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
