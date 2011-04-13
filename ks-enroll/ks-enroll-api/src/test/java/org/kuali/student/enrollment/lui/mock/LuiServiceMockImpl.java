@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.kuali.student.common.infc.HoldsLuService;
-import org.kuali.student.enrollment.lpr.mock.MockHelper;
+import org.kuali.student.enroll.test.utilities.MockHelper;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -44,7 +44,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 /**
  * @author nwright
  */
-public class LuiServiceMockPersistenceImpl extends LuiServiceAdapter
+public class LuiServiceMockImpl extends LuiServiceAdapter
         implements HoldsLuService {
 
     private LuService luService;

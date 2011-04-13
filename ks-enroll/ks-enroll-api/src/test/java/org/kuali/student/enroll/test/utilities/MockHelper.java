@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.mock;
+package org.kuali.student.enroll.test.utilities;
 
 import java.util.ArrayList;
 import org.kuali.student.common.infc.*;
