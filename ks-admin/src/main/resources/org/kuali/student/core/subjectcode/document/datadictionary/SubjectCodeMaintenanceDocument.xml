@@ -21,6 +21,7 @@
 		<property name="lockingKeys">
 			<list>
 				<value>id</value>
+				<value>code</value>
 			</list>
 		</property>
 	</bean>
@@ -33,11 +34,9 @@
 		<property name="title" value="Subject Code Maintenance" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="id"
-					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="name"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="typeId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="state" />

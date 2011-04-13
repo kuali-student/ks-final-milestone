@@ -635,9 +635,27 @@
 		<property name="desc" value="Returns the list of all ATP Duration Types" />
 		<property name="resultReturnKey" value="atp.resultColumn.atpDurType" />
 		<property name="searchParamIdKey" value="atp.queryParam.atpDurationType" />
-  <property name="params">
+  		<property name="params">
 			<list/>
-  </property>
+  		</property>
+	</bean>
+
+	<bean id="kuali.common.lookup.subjectCodes" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.subjectCodes" />
+		<property name="searchTypeId" value="subjectCode.search.subjectCodeGeneric" />
+		<property name="name" value="All Subject Codes" />
+		<property name="desc" value="Returns the list of all Subject Codes" />
+		<property name="resultReturnKey" value="subjectCode.resultColumn.code" />
+		<property name="searchParamIdKey" value="subjectCode.queryParam.code" />
+  		<property name="params">
+			<bean parent="param">   <!-- suggest box entry definition -->
+				<property name="key" value="subjectCode.queryParam.code" />
+				<property name="name" value="Subject Code" />
+				<property name="desc" value="Subject Code" />
+				<property name="writeAccess" value="ALWAYS" />
+				<property name="usage" value="DEFAULT" />
+			</bean>
+  		</property>
 	</bean>
 
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="commonLookup-parent">

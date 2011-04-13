@@ -50,6 +50,8 @@
 	  <property name="name" value="code"/>
 	  <property name="label" value="Subject Code"/>
 	  <property name="description" value="Subject Code"/>
+	  <property name="unique" value="true"/>
+	  <property name="forceUppercase" value="true"/>
 	</bean>
 
     <bean id="SubjectCode-state" parent="SubjectCode-state-parentBean" />

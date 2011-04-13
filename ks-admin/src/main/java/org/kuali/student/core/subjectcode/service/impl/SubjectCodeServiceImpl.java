@@ -18,6 +18,7 @@ import org.kuali.rice.core.util.MaxAgeSoftReference;
 import org.kuali.rice.core.util.MaxSizeMap;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.LookupService;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -42,6 +43,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingBean{
 
 	private static OrganizationService organizationService;
+	private static LookupService lookupService;
 	private BusinessObjectService businessObjectService;
 	private SearchManager searchManager;
 	private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -154,10 +156,15 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
     private SearchResult doOrgsForSubjectCodeSearch(Map<String, Object> paramMap) throws MissingParameterException {
 		SearchResult searchResult = new SearchResult();
 		Map<String,Object> queryMap = new HashMap<String,Object>();
-		String code = (String) paramMap.get("subjectCode.queryParam.code");
-		if(code!=null){ 
-			queryMap.put("subjectCode.code", paramMap.get("subjectCode.queryParam.code"));
+		String codeParam = (String) paramMap.get("subjectCode.queryParam.code");
+		if(codeParam!=null){ 
+			queryMap.put("subjectCode.code", codeParam);
 		}
+		String orgIdParam = (String) paramMap.get("subjectCode.queryParam.optionalOrgId");
+		if(orgIdParam!=null){ 
+			queryMap.put("orgId", orgIdParam);
+		}
+		
 		//Use the BO service to perform the query
 		List<SubjectCodeJoinOrg> subjectCodeJoinOrgs = (List<SubjectCodeJoinOrg>) getBusinessObjectService().findMatching(SubjectCodeJoinOrg.class, queryMap);
         Map<String,List<SearchResultRow>> orgIdToRowMapping = new HashMap<String,List<SearchResultRow>> ();
@@ -223,10 +230,10 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		Map<String,Object> queryMap = new HashMap<String,Object>();
 		String code = (String) paramMap.get("subjectCode.queryParam.code");
 		if(code!=null){ 
-			queryMap.put("code", paramMap.get("subjectCode.queryParam.code"));
+			queryMap.put("code", "*" + paramMap.get("subjectCode.queryParam.code") + "*");
 		}
 
-		List<SubjectCode> subjectCodes = (List<SubjectCode>) getBusinessObjectService().findMatching(SubjectCode.class, queryMap);
+		List<SubjectCode> subjectCodes = (List<SubjectCode>) getLookupService().findCollectionBySearchHelper(SubjectCode.class, queryMap, true);
         
         for(SubjectCode subjectCode:subjectCodes){
         	SearchResultRow row = new SearchResultRow();
@@ -244,6 +251,12 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
             businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return  businessObjectService;
+    }
+	protected LookupService getLookupService() {
+        if (lookupService == null) {
+        	lookupService = KNSServiceLocator.getLookupService();
+        }
+        return lookupService;
     }
     
 	protected static OrganizationService getOrganizationService() {

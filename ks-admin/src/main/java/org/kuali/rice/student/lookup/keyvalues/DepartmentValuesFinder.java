@@ -37,22 +37,23 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		orgTypes.add("kuali.org.College");
 		orgTypes.add("kuali.org.Division");
 		orgTypes.add("kuali.org.Office");
+		orgTypes.add("kuali.org.School");
 		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
-
+		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = null;
-				String orgShortName = null;
+				String orgLongName = null;
 				for (SearchResultCell resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
 						orgId = resultCell.getValue();
-					} else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-						orgShortName = resultCell.getValue();
+					} else if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
+						orgLongName = resultCell.getValue();
 					}					
 				}
-	            orgEntities.add(new KeyLabelPair(orgId, orgShortName));
+	            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
 			}
 
 			return orgEntities;

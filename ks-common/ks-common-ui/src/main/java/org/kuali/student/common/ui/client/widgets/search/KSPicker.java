@@ -186,7 +186,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
                     @Override
                     public void onSelectionChange(SelectionChangeEvent event) {
-                        IdableSuggestion currentSuggestion = suggestBox.getSelectedSuggestion();
+                    	IdableSuggestion currentSuggestion = suggestBox.getSelectedSuggestion();
                         SelectedResults selectedResults = new SelectedResults(
                                 currentSuggestion.getReplacementString(), currentSuggestion.getId());
                         for(Callback<SelectedResults> basicSelectionCallback: basicSelectionCallbacks){
@@ -512,6 +512,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		public void addSelectionChangeHandler(SelectionChangeHandler handler) {
 		    if (basicWidget instanceof KSSelectItemWidgetAbstract)  {
 				((KSSelectItemWidgetAbstract) basicWidget).addSelectionChangeHandler(handler);
+			}else if(config!=null&&!config.isRepeating&&basicWidget instanceof KSSuggestBox){
+				((KSSuggestBox) basicWidget).addSelectionChangeHandler(handler);
 			}
 		}
 

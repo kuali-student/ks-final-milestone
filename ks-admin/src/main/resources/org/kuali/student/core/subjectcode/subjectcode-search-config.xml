@@ -24,7 +24,7 @@
 			<ref bean="subjectCode.results.orgsForSubjectCode"/>
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="subjectCode.criteria.generic"/>
+			<ref bean="subjectCode.criteria.orgsForSubjectCode"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
@@ -127,6 +127,16 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.orgsForSubjectCode" parent="subjectCode.criteria.orgsForSubjectCode-parent"/>
+	<search:searchCriteriaTypeInfo id="subjectCode.criteria.orgsForSubjectCode-parent" abstract="true">
+		<search:name>Subject Code Organizations Criteria</search:name>
+		<search:desc>Subject Code Organizations Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="subjectCode.queryParam.code"/>
+			<ref bean="subjectCode.queryParam.optionalOrgId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
 	<search:queryParam id="subjectCode.queryParam.code"	parent="subjectCode.queryParam.code-parent" />
 	<search:queryParam id="subjectCode.queryParam.code-parent" optional="true" abstract="true">
 		<dict:fieldDescriptor>
@@ -136,6 +146,15 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>
 	
+	<search:queryParam id="subjectCode.queryParam.optionalOrgId" parent="subjectCode.queryParam.optionalOrgId-parent" />
+	<search:queryParam id="subjectCode.queryParam.optionalOrgId-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Organization Id</dict:name>
+			<dict:desc>Organization Id</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
     <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map/>

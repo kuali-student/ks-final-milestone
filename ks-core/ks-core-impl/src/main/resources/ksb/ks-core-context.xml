@@ -433,6 +433,23 @@
             </bean>
         </property>
     </bean>
+    
+    <!-- Subject Code service -->
+	<bean id="subjectCodeServiceImpl"
+		class="org.kuali.student.core.subjectcode.service.impl.MockSubjectCodeServiceImpl"/>
+
+	<bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="jaxWsService" value="true" />
+				<property name="service" ref="subjectCodeServiceImpl" />
+				<property name="serviceInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService" />
+				<property name="localServiceName" value="SubjectCodeService" />
+				<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/subjectCode" />
+				<property name="busSecurity" value="${ks.core.bus.security}" />
+			</bean>
+		</property>
+	</bean>
 
     <!-- Proposal Service -->
     <bean id="proposalEntityManagerFactory" parent="coreDefaultEntityManagerFactory">

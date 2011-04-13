@@ -29,6 +29,9 @@
 	<!-- the gwt application code is defaulting to the mock service impl, so override it as well -->
 	<alias alias="ks.messageServiceMock" name="ks.messageService" />
 
+	<!-- override Subject code service with KS-Admin -->
+	<alias alias="subjectCodeServiceImpl" name="ks.subjectCodeService" />
+
 	<bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
 	</bean>

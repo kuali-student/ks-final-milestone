@@ -568,6 +568,7 @@
 
     <bean id="cluIdentifierInfo.division-parent" abstract="true" parent="baseKualiCodeLoose">
         <property name="name" value="division"/>
+        <property name="lookupDefinition" ref="constraint.lookup.subjectCodes"/>
     </bean>
     <bean id="cluIdentifierInfo.division" parent="cluIdentifierInfo.division-parent"/>
 
@@ -699,6 +700,13 @@
           parent="kuali.common.lookup.durations">
         <property name="id" value="all.durations"/>
     </bean>
+
+    <bean id="constraint.lookup.subjectCodes"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.subjectCodes">
+        <property name="id" value="all.subjectCodes"/>
+    </bean>
+
 
     <bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="atpDurationTypeKey"/>

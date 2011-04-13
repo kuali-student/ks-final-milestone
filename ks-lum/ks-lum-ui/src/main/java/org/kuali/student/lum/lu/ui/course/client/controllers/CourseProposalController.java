@@ -75,6 +75,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
@@ -85,6 +86,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
+import org.kuali.student.lum.program.client.ProgramSections;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -340,11 +342,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
                 
-                //Update any cross fields
-                for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
-                	crossConstraint.reprocessWithUpdatedConstraints();
-                }
-                
+
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
@@ -699,7 +697,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	
     	init(onReadyCallback);
 	}
-    
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
+	}
+ 
    @Override
    public void showDefaultView(Callback<Boolean> onReadyCallback) {
 	   if(isNew){
@@ -776,7 +789,35 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 
 	@Override
-	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
+	public void beforeViewChange(final Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
+		//Make sure the course information data is bound before viewing any other sections for cross field constraints
+		final Callback<Boolean> reallyOkToChange = new Callback<Boolean>(){
+			@Override
+			public void exec(Boolean result) {
+				if(CourseSections.GOVERNANCE.equals(viewChangingTo)){
+					getView(CourseSections.COURSE_INFO, new Callback<View>(){
+						@Override
+						public void exec(final View view) {
+							if(view!=null && view instanceof SectionView){
+								requestModel(new ModelRequestCallback<DataModel>(){
+									public void onModelReady(DataModel model) {
+										((SectionView)view).updateWidgetData(model);
+										okToChange.exec(true);
+									}
+									public void onRequestFail(Throwable cause) {
+										okToChange.exec(false);
+									}
+								});
+							}else{
+								okToChange.exec(true);
+							}
+						}});
+				}else{
+					okToChange.exec(true);
+				}
+			}
+		};
+		
 		//We do this check here because theoretically the subcontroller views
 		//will display their own messages to the user to give them a reason why the view
 		//change has been cancelled, otherwise continue to check for reasons not to change
@@ -802,10 +843,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
 											@Override
 											public void onActionComplete(ActionEvent action) {
 												if(e.isSaveSuccessful()){
-													okToChange.exec(true);
+													reallyOkToChange.exec(true);
 												}
 												else{
-													okToChange.exec(false);
+													reallyOkToChange.exec(false);
 												}
 											}
 											
@@ -821,7 +862,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 												if (getCurrentView()instanceof Section){
 							    					((Section) getCurrentView()).resetFieldInteractionFlags();
 												}
-												okToChange.exec(true);
+												reallyOkToChange.exec(true);
 												dialog.hide();
 											}
 
@@ -829,7 +870,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 											public void onRequestFail(Throwable cause) {
 												//TODO Is this correct... do we want to stop view change if we can't restore the data?  Possibly traps the user
 												//if we don't it messes up saves, possibly warn the user that it failed and continue?
-												okToChange.exec(false);
+												reallyOkToChange.exec(false);
 												dialog.hide();
 												GWT.log("Unable to retrieve model for data restore on view change with no save", cause);
 											}},
@@ -837,7 +878,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 										break;
 									case CANCEL:
-										okToChange.exec(false);
+										reallyOkToChange.exec(false);
 										dialog.hide();
 										// Because this event fires after the history change event we need to "undo" the history events. 
 										HistoryManager.logHistoryChange();  
@@ -848,11 +889,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 						dialog.show();
 					}
 					else{
-						okToChange.exec(true);
+						reallyOkToChange.exec(true);
 					}
 				}
 				else{
-					okToChange.exec(false);
+					reallyOkToChange.exec(false);
 				}
 			}
 		});

@@ -238,6 +238,7 @@
                 <ref bean="enumServiceClient"/>
                 <ref bean="atpClient"/>
                 <ref bean="statementServiceClient"/>
+                <ref bean="subjectCodeClient"/>
             </list>
         </property>
     </bean>
@@ -533,6 +534,11 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
+    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
+    </bean>
+    
     <bean id="statementServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"

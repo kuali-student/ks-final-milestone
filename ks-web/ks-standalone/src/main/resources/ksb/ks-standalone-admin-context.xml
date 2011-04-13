@@ -27,12 +27,19 @@
 	<!-- the gwt application code is defaulting to the mock service impl, so override it as well -->
 	<!--<alias alias="ks.messageServiceMock" name="ks.messageService" />-->
 	<bean id="ks.messageServiceMock" parent="ks.messageService"/>
-	
+
 	<bean id="ks.messageService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
 	</bean>
-	
+
+	<bean id="subjectCodeServiceImpl" parent="ks.subjectCodeService"/>	
+
+	<bean id="ks.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubejctCodeService" />
+	</bean>
+		
 	<!-- Caching -->
 	<bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />

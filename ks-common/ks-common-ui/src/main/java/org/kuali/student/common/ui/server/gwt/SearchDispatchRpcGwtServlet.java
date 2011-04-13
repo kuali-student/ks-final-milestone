@@ -34,7 +34,7 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 
     private SearchDispatcher searchDispatcher;
 
-    private ConcurrentHashMap<SearchRequest, SearchResult> cache = new ConcurrentHashMap<SearchRequest, SearchResult>();
+    private ConcurrentHashMap<String, SearchResult> cache = new ConcurrentHashMap<String, SearchResult>();//FIXME this cache has no timeout!
 
     public SearchDispatchRpcGwtServlet() {
         super();
@@ -63,11 +63,12 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 
     @Override
     public SearchResult cachingSearch(SearchRequest searchRequest) {
-        if(cache.containsKey(searchRequest)){
-            return cache.get(searchRequest);
-        }
+//    	String cacheKey = searchRequest.toString(); 
+//        if(cache.containsKey(cacheKey)){
+//            return cache.get(cacheKey);
+//        }
         SearchResult searchResult = search(searchRequest);
-        cache.putIfAbsent(searchRequest, searchResult);
+//        cache.putIfAbsent(cacheKey, searchResult);
         return searchResult;
     }
 
