@@ -18,20 +18,16 @@ package org.kuali.student.common.infc;
 public interface RichText {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Plain Text
+     *
+     * Plain text version of the rich text with all the special formatting stripped out.
      */
     public String getPlain();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Formatted Text
+     *
+     * Formatted version of the rich text with all the formatting included.
      */
     public String getFormatted();
 }
