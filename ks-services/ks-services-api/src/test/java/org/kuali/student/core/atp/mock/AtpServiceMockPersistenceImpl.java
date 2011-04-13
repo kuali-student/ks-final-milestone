@@ -50,36 +50,25 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.common.service.TypeService#getType(java.lang.String, org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;
+        TypeInfo.Builder typeBldr = new TypeInfo.Builder();
+        typeBldr.setKey(typeKey);
+        typeBldr.setName(typeKey);
+        return typeBldr.build();
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.common.service.TypeService#getTypesByRefObjectURI(java.lang.String,
-     *      org.kuali.student.common.dto.ContextInfo)
-     */
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -90,44 +79,37 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
      */
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<String> getProcessKeys(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -173,6 +155,22 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
 
         return atpList;
 
+    }
+
+    @Override
+    public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> atpKeyList = new ArrayList<String>();
+
+        Set<String> keys = atpCache.keySet();
+
+        for (String key : keys) {
+            AtpInfo atp = atpCache.get(key);
+            if (atp.getTypeKey().equalsIgnoreCase(atpTypeKey)) {
+                atpKeyList.add(atp.getKey());
+            }
+        }
+
+        return atpKeyList;
     }
 
     @Override
@@ -226,8 +224,7 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
             MilestoneInfo milestone = milestoneCache.get(key);
 
             if (milestone.getIsDateRange()) {
-                if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate()))  && 
-                        (endDate.after(milestone.getEndDate()) || endDate.equals(milestone.getEndDate())) ) {
+                if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate())) && (endDate.after(milestone.getEndDate()) || endDate.equals(milestone.getEndDate()))) {
                     milestoneList.add(milestone);
                 }
             } else {
@@ -241,12 +238,39 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
     }
 
     @Override
+    public List<MilestoneInfo> getMilestonesByKeyList(List<String> milestoneKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
+
+        for (String key : milestoneKeyList) {
+            milestoneList.add(this.getMilestone(key, context));
+        }
+
+        return milestoneList;
+    }
+
+    @Override
+    public List<String> getMilestoneKeysByType(String milestoneTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> milestoneKeyList = new ArrayList<String>();
+
+        Set<String> keys = milestoneCache.keySet();
+
+        for (String key : keys) {
+            MilestoneInfo milestone = milestoneCache.get(key);
+            if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
+                milestoneKeyList.add(milestone.getKey());
+            }
+        }
+
+        return milestoneKeyList;
+    }
+
+    @Override
     public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
 
         List<MilestoneInfo> milestoneByDates = this.getMilestonesByDates(startDate, endDate, context);
-                
-        for(MilestoneInfo milestone : milestoneByDates) {
+
+        for (MilestoneInfo milestone : milestoneByDates) {
             if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
                 milestoneList.add(milestone);
             }
@@ -339,12 +363,6 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         }
         MilestoneInfo.Builder builder = new MilestoneInfo.Builder(milestoneInfo);
         builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
-        // update attributes in order to be different than that in luiPersonRelationInfo
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeInfo att : milestoneInfo.getAttributes()) {
-            atts.add(new AttributeInfo.Builder(att).build());
-        }
-        builder.setAttributes(atts);
         MilestoneInfo copy = builder.build();
         this.milestoneCache.put(milestoneKey, copy);
 
@@ -362,6 +380,48 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         StatusInfo.Builder bldr = new StatusInfo.Builder();
         bldr.setSuccess(Boolean.TRUE);
         return bldr.build();
+    }
+
+    @Override
+    public AtpMilestoneRelationInfo getAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AtpMilestoneRelationInfo atpM = atpMilestoneRltnCache.get(atpMilestoneRelationId);
+        if (null == atpM) {
+            throw new DoesNotExistException("No atp milestone rltn found for: " + atpMilestoneRelationId);
+        }
+
+        return atpM;
+    }
+
+    @Override
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpMilestoneRelationInfo> atpMilestoneList = new ArrayList<AtpMilestoneRelationInfo>();
+
+        Set<String> keys = atpMilestoneRltnCache.keySet();
+
+        for (String key : keys) {
+            AtpMilestoneRelationInfo atpM = atpMilestoneRltnCache.get(key);
+            if (atpM.getAtpKey().equalsIgnoreCase(atpKey)) {
+                atpMilestoneList.add(atpM);
+            }
+        }
+
+        return atpMilestoneList;
+    }
+
+    @Override
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpMilestoneRelationInfo> atpMilestoneList = new ArrayList<AtpMilestoneRelationInfo>();
+
+        Set<String> keys = atpMilestoneRltnCache.keySet();
+
+        for (String key : keys) {
+            AtpMilestoneRelationInfo atpM = atpMilestoneRltnCache.get(key);
+            if (atpM.getMilestoneKey().equalsIgnoreCase(milestoneKey)) {
+                atpMilestoneList.add(atpM);
+            }
+        }
+
+        return atpMilestoneList;
     }
 
     @Override
@@ -417,29 +477,5 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         StatusInfo.Builder bldr = new StatusInfo.Builder();
         bldr.setSuccess(Boolean.TRUE);
         return bldr.build();
-    }
-
-    @Override
-    public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public AtpMilestoneRelationInfo getAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
     }
 }
