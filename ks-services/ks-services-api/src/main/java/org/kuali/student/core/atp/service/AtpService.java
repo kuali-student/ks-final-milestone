@@ -177,7 +177,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AtpInfo> getMilestonesByKeyList(@WebParam(name = "milestoneKeyList") List<String> milestoneKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MilestoneInfo> getMilestonesByKeyList(@WebParam(name = "milestoneKeyList") List<String> milestoneKeyList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Milestones of the specified type.
