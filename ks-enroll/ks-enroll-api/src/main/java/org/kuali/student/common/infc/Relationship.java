@@ -12,9 +12,7 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.common.infc;
-
 
 /**
  * A common interface pattern for service relationships.
@@ -22,8 +20,11 @@ package org.kuali.student.common.infc;
  * @author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
-
 public interface Relationship
-    extends IdEntity,
-	    HasEffectiveDates {
+        extends HasPrimaryKey,
+        HasId,
+        HasType,
+        HasState,
+        HasEffectiveDates,
+        HasAttributesAndMeta {
 }

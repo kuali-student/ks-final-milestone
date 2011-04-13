@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "atpKey", "milestoneKey", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "milestoneKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
 
 public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMilestoneRelation, Serializable {
 

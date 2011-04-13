@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
 import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.common.infc.Relationship;
 
 /**
  * Detailed information about a single LUI to Person Relation.
@@ -28,8 +28,7 @@ import org.kuali.student.common.infc.IdEntity;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
  */
 public interface LuiPersonRelation
-        extends IdEntity,
-        HasEffectiveDates {
+        extends Relationship {
 
  /**
   * Name: LUI Id

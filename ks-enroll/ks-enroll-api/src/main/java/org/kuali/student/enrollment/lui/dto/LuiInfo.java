@@ -66,6 +66,7 @@ public class LuiInfo extends IdEntityInfo
     private final List<Element> _futureElements;    
     
     private LuiInfo() {
+        super ();
     	luiCode = null;
     	cluId = null;
     	atpKey = null;

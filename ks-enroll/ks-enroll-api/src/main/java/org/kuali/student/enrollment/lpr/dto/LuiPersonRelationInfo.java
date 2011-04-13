@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,12 +26,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiId", "personId","effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
-public class LuiPersonRelationInfo extends IdEntityInfo
+@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
+public class LuiPersonRelationInfo extends RelationshipInfo
         implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,10 +39,6 @@ public class LuiPersonRelationInfo extends IdEntityInfo
     private final String luiId;
     @XmlElement
     private final String personId;
-    @XmlElement
-    private final Date effectiveDate;
-    @XmlElement
-    private final Date expirationDate;
     @XmlAnyElement
     private final List<Element> _futureElements;
 
@@ -51,8 +46,6 @@ public class LuiPersonRelationInfo extends IdEntityInfo
         super ();
         luiId = null;
         personId = null;
-        effectiveDate = null;
-        expirationDate = null;
         _futureElements = null;
     }
 
@@ -60,9 +53,7 @@ public class LuiPersonRelationInfo extends IdEntityInfo
         super(builder);
         this.luiId = builder.getLuiId();
         this.personId = builder.getPersonId();
-        this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-        this._futureElements = null;
+        _futureElements = null;
     }
 
     @Override
@@ -75,23 +66,11 @@ public class LuiPersonRelationInfo extends IdEntityInfo
         return personId;
     }
 
-    @Override
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
 
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
+    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
 
         private String luiId;
         private String personId;
-        private Date effectiveDate;
-        private Date expirationDate;
 
         public Builder() {
         }
@@ -100,8 +79,6 @@ public class LuiPersonRelationInfo extends IdEntityInfo
             super(lprInfo);
             this.luiId = lprInfo.getLuiId();
             this.personId = lprInfo.getPersonId();
-            this.effectiveDate = lprInfo.getEffectiveDate();
-            this.expirationDate = lprInfo.getExpirationDate();
         }
 
         @Override
@@ -126,25 +103,6 @@ public class LuiPersonRelationInfo extends IdEntityInfo
         public void setPersonId(String personId) {
             this.personId = personId;
         }
-
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        @Override
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
-
        
     }
 }
