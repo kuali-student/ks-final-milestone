@@ -18,6 +18,13 @@ package org.kuali.student.common.infc;
 /**
  * Describes the state of an object
  *
+ * States are used in Kuali Student to decribe where the entity is within a process
+ *
+ * For example: A new course may be created in a "draft" state, then move to a "submitted"
+ * state for review until it is finally "approved".
+ *
+ * Most of validation of the the fields on the entity should be based on state in combination with the entity's type.
+ *
  * @author nwright
  */
 public interface State extends HasKey, HasAttributes, HasEffectiveDates {

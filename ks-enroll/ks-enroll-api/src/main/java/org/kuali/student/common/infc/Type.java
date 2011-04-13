@@ -9,8 +9,14 @@ package org.kuali.student.common.infc;
 
 
 /**
- * Detailed Information about a Type 
+ * Detailed Information about a Type
+ *
+ * Types are used in Kuali Student to further refine the entity in question.
+ * For example: An organization type may be a "Department" or a "College" or
+ * a "Student Group" or a "Thesis Committee".
  * 
+ * Most of validation of the the fields on the entity should be based on a combination of type and state.
+ *
  * @author Kuali Student Team (Kamal)
  *
  */
