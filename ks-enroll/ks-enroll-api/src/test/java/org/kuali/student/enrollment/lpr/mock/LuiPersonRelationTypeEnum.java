@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationType;
+import org.kuali.student.common.infc.Type;
 
 /**
  * Types for Learning Person Relations
@@ -24,7 +24,7 @@ import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationType;
  * 
  * @author nwright
  */
-public enum LuiPersonRelationTypeEnum implements LuiPersonRelationType, Serializable {
+public enum LuiPersonRelationTypeEnum implements Type, Serializable {
 
     INSTRUCTOR_MAIN(LuiPersonRelationConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
     INSTRUCTOR_ASSISTANT(LuiPersonRelationConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
