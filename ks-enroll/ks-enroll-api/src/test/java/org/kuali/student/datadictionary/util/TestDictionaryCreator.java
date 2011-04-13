@@ -20,7 +20,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -62,5 +68,11 @@ public class TestDictionaryCreator {
         new DictionaryCreator().execute(LuiLuiRelationInfo.class, "target/ks-lui-lui-relation-dictinoary.xml");
         new DictionaryCreator().execute(AtpInfo.class, "target/ks-atp-dictinoary.xml");
         new DictionaryCreator().execute(MilestoneInfo.class, "target/ks-milestone-dictinoary.xml");
+        new DictionaryCreator().execute(AtpMilestoneRelationInfo.class, "target/ks-atp-milestone-relation-dictinoary.xml");        
+        new DictionaryCreator().execute(AcademicCalendarInfo.class, "target/ks-academic-calendar-dictinoary.xml");          
+        new DictionaryCreator().execute(CampusCalendarInfo.class, "target/ks-campus-calendar-dictinoary.xml");          
+        new DictionaryCreator().execute(EnrollmentDateGroupInfo.class, "target/ks-enrollment-date-group-dictinoary.xml");   
+        new DictionaryCreator().execute(HolidayInfo.class, "target/ks-holiday-dictinoary.xml");   
+        new DictionaryCreator().execute(TermInfo.class, "target/ks-term-dictinoary.xml");           
     }
 }

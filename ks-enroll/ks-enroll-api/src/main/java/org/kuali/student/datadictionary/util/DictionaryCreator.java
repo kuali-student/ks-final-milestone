@@ -174,6 +174,13 @@ public class DictionaryCreator {
             if (lowerName.equals("statekey")) {
                 return "02" + name;
             }
+            // to handle r1 services
+            if (lowerName.equals("type")) {
+                return "01" + name;
+            }
+            if (lowerName.equals("state")) {
+                return "02" + name;
+            }
             if (lowerName.equals("name")) {
                 return "03" + name;
             }
@@ -303,6 +310,13 @@ public class DictionaryCreator {
             return "baseKualiTypeKey";
         }
         if (lowerName.equals("stateKey")) {
+            return "baseKualiStateKey";
+        }
+        // to handle r1 services
+        if (lowerName.equals("type")) {
+            return "baseKualiTypeKey";
+        }
+        if (lowerName.equals("state")) {
             return "baseKualiStateKey";
         }
         if (lowerName.equals("effectivedate")) {
