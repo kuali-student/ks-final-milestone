@@ -39,7 +39,6 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
@@ -408,6 +407,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	 * @return
 	 */
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
+		
 		boolean isValid = true;
 
 		if (checkCurrentSectionOnly){
@@ -457,13 +457,15 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			status = section.processValidationResults(validationResults);
 		}
 		else{
-			boolean clearAllWarnings = ValidatorClientUtils.hasWarnings(validationResults);
 			status = section.processValidationResults(validationResults, false);
 		}
 
 		return (status != ErrorLevel.ERROR);
 	}
 	
+	/**
+	 * This clears all warnings that currently displayed on all fields and sections.
+	 */
 	protected void clearAllWarnings(){
 		for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
 			View v = entry.getValue();

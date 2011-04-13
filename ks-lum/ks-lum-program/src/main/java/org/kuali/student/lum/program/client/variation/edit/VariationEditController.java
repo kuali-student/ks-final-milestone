@@ -112,6 +112,7 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(SpecializationCreatedEvent event) {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
+                updateVariationWarnings();
             }
         });
 
@@ -131,6 +132,9 @@ public class VariationEditController extends VariationController {
                         showView(getCurrentViewEnum());
                     }
                 }
+                
+                //update with any new warnings that exist on specialization
+                updateVariationWarnings();
             }
         });
 
@@ -272,15 +276,28 @@ public class VariationEditController extends VariationController {
     	String newParentPath = ProgramConstants.VARIATIONS+"/"+org.kuali.student.lum.program.client.ProgramRegistry.getRow()+"/";
     	Application.getApplicationContext().setParentPath(newParentPath);
 		
-		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+    	//This callback restricts values displayed in widget (eg. dropdowns, pickers) based on a cross field selection
+    	//and updates the warning messages displayed for the variation. A callback is used since we need the parent 
+    	//ProgramController to finish configuring the view before proceeding.
+		Callback<Boolean> finalizeVariationView = new Callback<Boolean>(){
 			public void exec(Boolean result) {
-				onReadyCallback.exec(result);
-		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        //Update widgets with constraints
+				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
+
+				updateVariationWarnings();
+		        onReadyCallback.exec(result);
 			}
         };
-		super.beforeShow(updateCrossConstraintsCallback);
+		super.beforeShow(finalizeVariationView);
 	}
 
+	/**
+	 * This updates the warnings displayed for the current variation
+	 */
+	protected void updateVariationWarnings(){
+    	clearAllWarnings();		
+        isValid(ProgramRegistry.getVariationWarnings(), false, true);					
+	}
 }

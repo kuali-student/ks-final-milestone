@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -61,7 +62,7 @@ public class ApplicationContext {
 	private String parentPath = "";
 	private HashMap<String,HashMap<String,FieldDescriptor>> pathToFieldMapping = new HashMap<String,HashMap<String,FieldDescriptor>>();
 	private HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>> crossConstraints = new HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>>();
-	private List<ValidationResultInfo> validationWarnings;
+	private List<ValidationResultInfo> validationWarnings = new ArrayList<ValidationResultInfo>();
 
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
@@ -364,10 +365,25 @@ public class ApplicationContext {
 		return validationWarnings;
 	}
 
-	public void setValidationWarnings(List<ValidationResultInfo> validationWarnings) {
-		this.validationWarnings = validationWarnings;
+	/**
+	 * Adds warnings from the validationResults to the application context.
+	 * 
+	 * @param validationResults
+	 */
+	public void addValidationWarnings(List<ValidationResultInfo> validationResults) {
+		if (validationResults != null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.WARN){
+					this.validationWarnings.add(vr);
+				}
+			}
+		}
 	}
 
+	public void clearValidationWarnings(){
+		validationWarnings.clear();
+	}
+	
 	public String getParentPath() {
 		return parentPath;
 	}

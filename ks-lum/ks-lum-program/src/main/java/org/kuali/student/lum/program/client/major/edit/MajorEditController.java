@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -323,8 +324,13 @@ public class MajorEditController extends MajorController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
 
+                //Clear warning states on field and any warnings stored in ApplicationContext;
+                clearAllWarnings();
+                Application.getApplicationContext().clearValidationWarnings();
+                
                 List<ValidationResultInfo> validationResults = result.getValidationResults();
-                if (validationResults != null && !validationResults.isEmpty()) {
+                Application.getApplicationContext().addValidationWarnings(validationResults);
+                if (ValidatorClientUtils.hasErrors(validationResults)) {
                     if (previousState != null) {
                         ProgramUtils.setStatus(programModel, previousState.getValue());
                     }
@@ -365,6 +371,14 @@ public class MajorEditController extends MajorController {
                     viewContext.setId(getStringProperty(ProgramConstants.ID));
                     viewContext.setIdType(IdType.OBJECT_ID);
 
+    				if (ValidatorClientUtils.hasWarnings(validationResults)){
+    					//Show validation warnings for major
+	    				isValid(result.getValidationResults(), false, true);	    				
+    					KSNotifier.show("Saved with Warnings");
+    				} else {
+                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+    				}  				
+                    
                     // add to recently viewed now that we're sure to know the program's id
                     ViewContext docContext = new ViewContext();
                     docContext.setId(getStringProperty(ProgramConstants.ID));
@@ -372,7 +386,7 @@ public class MajorEditController extends MajorController {
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
                             HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                   
                     okCallback.exec(true);
                     processCurrentView();
                 }
