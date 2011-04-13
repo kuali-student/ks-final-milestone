@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.dao;
+package org.kuali.student.enrollment.dao;
 
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationTypeEntity;
 

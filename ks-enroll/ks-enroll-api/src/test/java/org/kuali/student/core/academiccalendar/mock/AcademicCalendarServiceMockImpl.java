@@ -1,9 +1,6 @@
 package org.kuali.student.core.academiccalendar.mock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
@@ -29,6 +26,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import javax.jws.WebParam;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
 
@@ -435,7 +434,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
 	public List<KeyDateInfo> getKeyDatesForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -444,7 +448,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
 	public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -453,7 +462,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<KeyDateInfo> getKeyDatesForAllTermsByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
 	public List<ValidationResultInfo> validateKeyDate(String validationType,
 			KeyDateInfo keyDateInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,

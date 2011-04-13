@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lpr.dao;
+package org.kuali.student.enrollment.dao;
 
 
 import static org.junit.Assert.assertEquals;

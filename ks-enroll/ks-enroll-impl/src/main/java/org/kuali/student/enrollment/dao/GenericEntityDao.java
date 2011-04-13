@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.dao;
+package org.kuali.student.enrollment.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

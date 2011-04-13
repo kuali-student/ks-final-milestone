@@ -46,7 +46,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Author sambit
  */
 
-@Ignore
 public class TestLuiPersonRelationServiceImpl {
 
 
