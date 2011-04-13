@@ -156,4 +156,8 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
 		names.add(this.getName());
 		
 	}
+	
+	   public boolean isExportButtonActive() {
+	        return false;
+	    }
 }

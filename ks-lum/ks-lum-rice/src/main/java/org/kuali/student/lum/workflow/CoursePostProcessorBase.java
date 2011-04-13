@@ -23,7 +23,6 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.LUConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -87,7 +86,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
              */
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
         } else {
@@ -135,15 +134,15 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null);
             	}
             }
+            
+            List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
+            
+            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+            
+            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+        		courseService.updateCourseStatement(courseInfo.getId(), it.next());
         }
         
-        List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
-        
-        statementTreeViewInfoStateSetter(courseState, statementTreeViewInfos.iterator());
-        
-        for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
-    		courseService.updateCourseStatement(courseInfo.getId(), it.next());
-
     }
 
     protected boolean preProcessCourseSave(IDocumentEvent iDocumentEvent, CourseInfo courseInfo) {
@@ -157,6 +156,10 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         return this.courseService;
     }
     
+    /*
+     * Recursively set state for StatementTreeViewInfo
+     * TODO: We are not able to reuse the code in CourseStateUtil for dependency reason.
+     */   
     public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
     	while(itr.hasNext()) {
         	StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();

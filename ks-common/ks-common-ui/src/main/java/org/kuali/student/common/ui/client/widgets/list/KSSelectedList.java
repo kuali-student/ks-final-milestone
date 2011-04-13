@@ -38,6 +38,7 @@ import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -47,12 +48,13 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks {
+public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks, HasCrossConstraints {
     private static final String VALUE = "value";
     private static final String DISPLAY = "display";
 
@@ -105,20 +107,26 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             addItemButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    DataValue v = (DataValue) picker.getValue();
-                    Data d = v.get();
-
-                    Iterator<Property> iter = d.realPropertyIterator();
-                    while (iter.hasNext()) {
-                        Property p = iter.next();
-                        String s = p.getValue();
+                	Value v = picker.getValue();
+                	if(v instanceof DataValue){
+	                    Data d = ((DataValue) picker.getValue()).get();
+	                    
+	                    Iterator<Property> iter = d.realPropertyIterator();
+	                    while (iter.hasNext()) {
+	                        Property p = iter.next();
+	                        String s = p.getValue();
+	                        KSItemLabel selectedItem = createItem(s, picker.getDisplayValue(),
+	                                hasDetails);
+	                        addItem(selectedItem);
+	                    }
+                	}else{
+                		String s = v.get();
                         KSItemLabel selectedItem = createItem(s, picker.getDisplayValue(),
-                                hasDetails);
-                        addItem(selectedItem);
-                    }
-                    picker.clear();
+	                                hasDetails);
+	                    addItem(selectedItem);
+                	}
+                	picker.clear();
                     addItemButton.setEnabled(false);
-
                 }
             });
 
@@ -191,9 +199,24 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                     addItemButton.setEnabled(enabled);
                 }
             });
+        } else if(picker.getInputWidget() instanceof KSDropDown){
+        	KSDropDown dropDown = (KSDropDown) picker.getInputWidget();
+        	dropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                	//Enable if not null
+                    String displayValue = picker.getDisplayValue();
+                    boolean enabled = displayValue != null && !displayValue.isEmpty();
+                    addItemButton.setEnabled(enabled);
+                }
+            });
         }
     }
 
+    public void addItem(String value, String display) {
+        addItem(createItem(value, display, hasDetails));
+    }
+    
     public void addItem(final KSItemLabel item) {
         addItem(item, true);
     }
@@ -420,4 +443,32 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         }
         return picker.getInputWidget();
     }
+
+	@Override
+	public HashSet<String> getCrossConstraints() {
+		if(picker!=null){
+			return picker.getCrossConstraints();
+		}
+		return new HashSet<String>();
+	}
+
+	@Override
+	public void reprocessWithUpdatedConstraints() {
+		if(picker!=null){
+			picker.reprocessWithUpdatedConstraints();
+		}
+	}
+
+	public KSButton getAddItemButton() {
+		return addItemButton;
+	}
+
+	public VerticalFlowPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	public KSPicker getPicker() {
+		return picker;
+	}
+
 }

@@ -158,4 +158,8 @@ public class VerticalFieldLayout extends FieldLayout {
 
     }
 
+    public Map<String, FlowPanel> getFieldContainers() {
+        return fieldContainers;
+    }
+
 }

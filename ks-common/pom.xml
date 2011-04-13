@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.common</groupId>
   <artifactId>ks-common</artifactId>
@@ -14,9 +14,6 @@
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
   </issueManagement>
-  <properties>
-    <kuali.site.download.path>org/kuali/student/common</kuali.site.download.path>
-  </properties>
   <profiles>
     <profile>
       <id>default</id>

@@ -53,6 +53,7 @@ public class IdTranslator {
     	sr.setNeededTotalResults(false);
     	
     	sr.setSearchKey(lookupMetadata.getSearchTypeId());
+    	sr.setSortColumn(lookupMetadata.getResultSortKey());
 
 
     	List<SearchParam> searchParams = new ArrayList<SearchParam>();

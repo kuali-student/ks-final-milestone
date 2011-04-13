@@ -1,6 +1,11 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -16,15 +21,16 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
@@ -33,9 +39,9 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
@@ -43,12 +49,22 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.*;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseExpenditureInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseRevenueInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -77,8 +93,6 @@ public class CourseSummaryConfigurer implements
     public static final String PROPOSAL = "";
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
-	private static final String REQ_COMP_TYPE_CREDITS_REPEAT_MAX = "kuali.reqComponent.type.course.credits.repeat.max";
-
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
     private static final String OPTIONAL = "o";
@@ -215,75 +229,22 @@ public class CourseSummaryConfigurer implements
 
 									@Override
 									public void exec(
-											final List<ValidationResultInfo> validationResult) {
+											List<ValidationResultInfo> validationResult) {
 										//validationInfos = validationResult;
 										tableSection.enableValidation(showingValidation);
-										
-										//Custom validation to see if CourseRequisites are required...
-										//
-						                if(controller instanceof CourseProposalController){
-						                    final CourseProposalController courseProposalController = (CourseProposalController) controller;
-						                    courseProposalController.requestModel(new ModelRequestCallback<DataModel>() {
-												public void onModelReady(
-														DataModel model) {
-													String courseNumber = model.get(COURSE_NUMBER_SUFFIX);
-													if(courseNumber != null
-													&& (courseNumber.endsWith("8") || courseNumber.endsWith("9"))){
-									                    boolean foundStmtType = false;
-														for(StatementTypeInfo stmtType:stmtTypes){
-										                    List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
-										                    if (hasStatementType(statementTreeViewInfos,
-																	REQ_COMP_TYPE_CREDITS_REPEAT_MAX)) {
-																foundStmtType = true;
-																break;
-															}
-									                    }
-														if(!foundStmtType){
-															ValidationResultInfo vr = new ValidationResultInfo();
-															vr.setElement(COURSE + "/" + "requisites/kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
-															vr.setError("validation.missingCreditsRepeatMax");
-															validationResult.add(vr);
-														}
+										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
 
-													}
-													
-													ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
-
-													validationInfos = validationResult;
-						                        	if(isValid != ErrorLevel.ERROR){
-						                				infoContainer1.showWarningLayout(false);
-						                				infoContainer2.showWarningLayout(false);
-						                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
-						                        	}
-						                        	else{
-						                        		infoContainer1.showWarningLayout(true);
-						                        		infoContainer2.showWarningLayout(true);
-						                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
-						                        	}
-												}
-												public void onRequestFail(
-														Throwable cause) {
-													
-												}
-											});
-
-							                  
-										
-						                }else{
-											ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
-	
-											validationInfos = validationResult;
-				                        	if(isValid != ErrorLevel.ERROR){
-				                				infoContainer1.showWarningLayout(false);
-				                				infoContainer2.showWarningLayout(false);
-				                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
-				                        	}
-				                        	else{
-				                        		infoContainer1.showWarningLayout(true);
-				                        		infoContainer2.showWarningLayout(true);
-				                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
-				                        	}
-						                }
+										validationInfos = validationResult;
+			                        	if(isValid != ErrorLevel.ERROR){
+			                				infoContainer1.showWarningLayout(false);
+			                				infoContainer2.showWarningLayout(false);
+			                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
+			                        	}
+			                        	else{
+			                        		infoContainer1.showWarningLayout(true);
+			                        		infoContainer2.showWarningLayout(true);
+			                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
+			                        	}
 										onReadyCallback.exec(result);
 
 									}});
@@ -311,21 +272,6 @@ public class CourseSummaryConfigurer implements
 
     }
 
-	private boolean hasStatementType(
-			List<StatementTreeViewInfo> statementTrees,
-			String statementType) {
-		for (StatementTreeViewInfo statementTree : statementTrees) {
-			for (ReqComponentInfo reqComp : statementTree.getReqComponents()) {
-				if (statementType.equals(reqComp.getType())) {
-					return true;
-				}
-			}
-			return hasStatementType(statementTree.getStatements(),
-					statementType);
-		}
-		return false;
-	}
-	
     private SummaryTableFieldBlock generateProposalDocumentsSection() {
     	SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.DOCUMENTS));
@@ -647,18 +593,18 @@ public class CourseSummaryConfigurer implements
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
                 panel.clear();
-                if(controller instanceof CourseProposalController){
-                CourseProposalController courseProposalController = (CourseProposalController) controller;
-                List<StatementTreeViewInfo> statementTreeViewInfos = courseProposalController.getReqDataModel().getCourseReqInfo(stmtType.getId());
-                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
-                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
-                    panel.add(ruleWidget);
+                if (controller instanceof HasRequirements) {
+                    HasRequirements requirementsController = (HasRequirements) controller;
+                    List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController.getReqDataModel().getCourseReqInfo(stmtType.getId());
+                    for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                        panel.add(ruleWidget);
+                    }
                 }
-            }
             }
         };
 
-        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + "requisites/"+stmtType.getId(), new MessageKeyInfo(stmtType.getName()), null, panel);
+        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
         requisiteField.setWidgetBinding(widgetBinding);
 
         return requisiteField;
@@ -901,4 +847,8 @@ public class CourseSummaryConfigurer implements
 
 		return verticalSection;
 	}
+
+    public SummaryTableSection getTableSection() {
+        return tableSection;
+    }
 }

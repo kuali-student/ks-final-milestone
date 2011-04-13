@@ -461,4 +461,8 @@ public class SummaryTableSection extends VerticalSection {
         throw new UnsupportedOperationException("SummaryTableSection.addSection(String key, Section section) method not supported");
     }
 
+    public SummaryTable getSummaryTable() {
+        return summaryTable;
+    }
+
 }

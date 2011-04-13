@@ -48,6 +48,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private Callback pendingCallback;
     private HasText textWidget;
     private String resultDisplayKey;
+    private String resultSortKey;
     private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
@@ -103,6 +104,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.searchIdKey = lookupMetadata.getSearchParamIdKey();
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
+        this.resultSortKey = lookupMetadata.getResultSortKey();
     }
 
     public void setAdditionalSearchParams(List<SearchParam> params){
@@ -151,6 +153,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	SearchRequest sr = new SearchRequest();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
+    	sr.setSortColumn(this.resultSortKey);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param1 = createParam(this.searchTextKey, query);
@@ -167,6 +170,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	SearchRequest sr = new SearchRequest();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
+    	sr.setSortColumn(this.resultSortKey);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param2 = createParam(this.searchIdKey, searchId);

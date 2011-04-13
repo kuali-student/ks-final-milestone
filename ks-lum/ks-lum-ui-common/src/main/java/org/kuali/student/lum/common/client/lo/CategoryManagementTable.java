@@ -65,6 +65,10 @@ public class CategoryManagementTable extends Composite {
     private LoCategoryRpcServiceAsync loCatRpcServiceAsync = GWT.create(LoCategoryRpcService.class);
     private static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
 
+    // Categories to filter out after the are loaded from the backend
+    // See KSLAB-1871
+    private List<LoCategoryInfo> loCategoriesToFilter = new ArrayList<LoCategoryInfo>();
+    
     class CategoryRow extends Row{
     	ResultRow row;
     	
@@ -134,6 +138,23 @@ public class CategoryManagementTable extends Composite {
     public CategoryManagementTable() {
         super();
         initCategoryManagementTable(false);
+    }
+    /**
+     * Constructor that allows us to filter categories.
+     * <p>
+     * Currently used to filter categories that are already in the picker. 
+     * <p>
+     *  See KSLAB-1871
+     *
+     * @param hideInactiveCategories
+     * @param isMultiSelect
+     * @param loCategoriesToFilter categories to filter out
+     */
+    public CategoryManagementTable(boolean hideInactiveCategories, boolean isMultiSelect, List<LoCategoryInfo> loCategoriesToFilter) {
+        super();
+        this.hideInactiveCategories = hideInactiveCategories;
+        this.loCategoriesToFilter = loCategoriesToFilter;  // needed in constructor due to async
+        initCategoryManagementTable(isMultiSelect);
     }
     /**
      * This constructs a CategoryManagementTable with an instance option
@@ -267,10 +288,47 @@ public class CategoryManagementTable extends Composite {
         }
     }
     
+    /**
+     * 
+     * This method will filter out categories that should be excluded 
+     * from the list (e.g. those already in the picker).
+     * <p>
+     * It is called from the filterResults method.
+     * <p>
+     * See KSLAB-1871
+     * 
+     * @param results
+     * @return
+     */
+    private List<LoCategoryInfo> filterResultsWithExcludedCategories(List<LoCategoryInfo> results){
+        if (loCategoriesToFilter == null || loCategoriesToFilter.size() == 0){
+            // If nothing to filter just return results passed in
+            return results;
+        }
+        List<LoCategoryInfo> filteredResults = new ArrayList<LoCategoryInfo>();
+        for(LoCategoryInfo result : results) {
+            boolean shouldExcludeRow = false;
+            for (LoCategoryInfo toFilter : loCategoriesToFilter) {
+                String name = toFilter.getName();
+                String type = toFilter.getType();
+                if (result.getName().equals(name) && result.getType().equals(type)){
+                    shouldExcludeRow = true;
+                    break;
+                }
+            } 
+            if (!shouldExcludeRow){
+                filteredResults.add(result);
+            }
+        }
+        return filteredResults;
+    }
 
     
     private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
 
+       // Filter if already in picker etc
+       result = filterResultsWithExcludedCategories(result);
+  
        if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {

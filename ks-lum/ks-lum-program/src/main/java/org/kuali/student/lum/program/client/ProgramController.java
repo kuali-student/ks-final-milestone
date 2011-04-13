@@ -1,6 +1,8 @@
 package org.kuali.student.lum.program.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -19,6 +21,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -124,6 +128,8 @@ public abstract class ProgramController extends MenuSectionController {
                                         case CANCEL:
                                             okToChange.exec(false);
                                             dialog.hide();
+                                            // Because this event fires after the history change event we need to "undo" the history events. 
+                                            HistoryManager.logHistoryChange();  
                                             break;
                                     }
                                 }
@@ -416,5 +422,58 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected Data getDataProperty(String key) {
         return programModel.get(key);
+    }
+    
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null) {
+            if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY) 
+                    || this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)) {
+                return true;            
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+
+        String viewName = null;
+        String sectionTitle = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+            if (currentView != null && currentView instanceof Section) {
+                Section currentSection = (Section) currentView;
+                List<Section> nestedSections = currentSection.getSections();
+                for (int i = 0; i < nestedSections.size(); i++) {
+                    ExportElement sectionExportItem = new ExportElement();
+                    ArrayList<ExportElement> subList = null;
+                    Section nestedSection = nestedSections.get(i);
+                    if (nestedSection != null && nestedSection instanceof SectionView) {
+                        SectionView nestedSectionView = (SectionView) nestedSection;
+                        viewName =  nestedSectionView.getName();
+                        sectionTitle = nestedSectionView.getTitle();
+                        sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
+                        sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
+                        subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
+                        if (subList != null && subList.size()> 0) {
+                            sectionExportItem.setSubset(subList);
+                            exportElements.add(sectionExportItem);
+                        }
+                    }                    
+                }
+            }
+            return exportElements;
+            
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;
+    
     }
 }

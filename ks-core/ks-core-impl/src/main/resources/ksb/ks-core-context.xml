@@ -183,7 +183,8 @@
             </bean>
         </property>
     </bean>
-
+	
+	<!-- Kim identity service client -->
     <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
@@ -250,7 +251,6 @@
     </bean>
 
     <!-- Comment Service Config -->
-
 	<bean id="commentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Comment"/>
 		<property name="persistenceXmlLocation"
@@ -298,6 +298,61 @@
                 <property name="localServiceName" value="CommentService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/comment" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Statement Service Config -->
+    <bean id="statementEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Statement"/>
+        <property name="persistenceXmlLocation"
+                  value="classpath:META-INF/statement-persistence.xml"/>
+        <property name="dataSource" ref="lumDataSource"/>
+    </bean>
+
+    <bean id="statementEntityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="statementEntityManagerFactory"/>
+    </bean>
+
+    <bean id="statementDao"
+          class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+        <property name="em" ref="statementEntityManager"/>
+    </bean>
+
+    <bean id="statementSearchManager"
+          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+    </bean>
+
+    <bean id="statementAssembler"
+          class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+        <property name="statementDao" ref="statementDao"/>
+    </bean>
+
+    <bean id="statementServiceImpl"
+          class="org.kuali.student.core.statement.service.impl.StatementServiceImpl" >
+        <property name="statementAssembler" ref="statementAssembler"/>
+        <property name="statementDao" ref="statementDao"/>
+        <property name="searchManager" ref="statementSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
+		<property name="validatorFactory" ref="lumValidatorFactory"/>
+        <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
+    </bean>
+
+    <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true"/>
+                <property name="service" ref="statementServiceImpl"/>
+                <property name="serviceInterface"
+                          value="org.kuali.student.core.statement.service.StatementService"/>
+                <property name="localServiceName" value="StatementService"/>
+                <property name="serviceNameSpaceURI"
+                          value="http://student.kuali.org/wsdl/statement"/>
+                <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
         </property>
     </bean>

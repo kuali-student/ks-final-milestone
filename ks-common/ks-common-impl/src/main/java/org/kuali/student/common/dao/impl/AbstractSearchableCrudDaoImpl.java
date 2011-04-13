@@ -18,6 +18,7 @@ package org.kuali.student.common.dao.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -206,7 +207,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			    } else {
 			        queryParamValue = searchParam.getValue();
 			    }
-			    
+			    //Needed to get around Hibernate not supporting IN(:var) where var is null or an empty collection
+			    if((queryParamValue==null||queryParamValue instanceof Collection && ((Collection<?>)queryParamValue).isEmpty())&&"list".equals(paramDataType)){
+			    	queryParamValue = "";
+			    }
 			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
 			}
 		}

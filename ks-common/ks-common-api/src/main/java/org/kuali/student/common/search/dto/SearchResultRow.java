@@ -26,6 +26,10 @@ public class SearchResultRow implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<SearchResultCell> cells;
 
+	public void addCell(String key, String value){
+		getCells().add(new SearchResultCell(key, value));
+	}
+	
 	public List<SearchResultCell> getCells() {
 		if (cells == null) {
 			cells = new ArrayList<SearchResultCell>(0);

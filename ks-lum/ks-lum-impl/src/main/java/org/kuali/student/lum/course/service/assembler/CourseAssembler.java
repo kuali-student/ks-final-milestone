@@ -614,7 +614,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						ResultComponentInfo resultComponent = new ResultComponentInfo();
 						resultComponent.setId(id);
 						resultComponent.setType(type);
-						//resultComponent.setState ("Active");
 						resultComponent.setState (course.getState());
 						resultComponent.setResultValues(resultValues);
 						resultComponent.setAttributes(attributes);
@@ -767,7 +766,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		
 		// Loop through all the los in this clu
 		for(LoDisplayInfo loDisplay : course.getCourseSpecificLOs()){
-
+			
 			// If this is a clu create/new lo update then all los will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId()))) {
@@ -796,8 +795,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 results.add(relationNode);
             } else if (NodeOperation.UPDATE == operation
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-				// If the clu already has this lo, then just update the lo
             	loDisplay.getLoInfo().setState(course.getState());
+            	// If the clu already has this lo, then just update the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                 		.disassemble(loDisplay, NodeOperation.UPDATE);
 				results.add(loNode);
@@ -976,7 +975,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		    	format.setState(course.getState());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.CREATE);
-                formatNode.getNodeData().setState(course.getState());
                 results.add(formatNode);
 
                 
@@ -1005,7 +1003,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             	format.setState(course.getState());
 				BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.UPDATE);
-				formatNode.getNodeData().setState(course.getState());
 				results.add(formatNode);
 
 				// remove this entry from the map so we can tell what needs to
@@ -1130,7 +1127,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Loop through all the joints in this course
 		for (CourseJointInfo joint : course.getJoints()) {
-
 			// If this is a course create then all joints will be created
 			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
 					&& currentJointIds.containsKey(joint.getRelationId())) {
@@ -1138,11 +1134,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// be deleted at the end
 				CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
 				relation.setRelatedCluId(joint.getCourseId());
+				relation.setState(course.getState());
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
 				jointNode.setBusinessDTORef(joint);
 				jointNode.setNodeData(relation);
 				jointNode.setOperation(NodeOperation.UPDATE);
-				jointNode.getNodeData().setState(course.getState());
 				results.add(jointNode);
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the joint does not exist, so create cluclurelation

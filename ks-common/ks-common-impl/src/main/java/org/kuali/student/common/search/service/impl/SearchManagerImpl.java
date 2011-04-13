@@ -139,7 +139,10 @@ public class SearchManagerImpl implements SearchManager{
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) {
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException {
+		if(searchRequest == null){
+			throw new MissingParameterException("Search Request can not be null.");
+		}
 		
 		String searchKey = searchRequest.getSearchKey();
 		
@@ -147,6 +150,7 @@ public class SearchManagerImpl implements SearchManager{
 		SearchTypeInfo searchType = searchInfoTypeMap.get(searchKey);
 		if(searchType instanceof CrossSearchTypeInfo){
 			if(crossSearchManager == null){
+				//FIXME should we change these to Operation Failed Exceptions? also we need to handle invalid parameters.
 				throw new RuntimeException("Requested cross service search:"+searchKey+", but no cross service search manager was defined.");
 			}
 			return crossSearchManager.doCrossSearch(searchRequest, (CrossSearchTypeInfo) searchType);

@@ -101,8 +101,169 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
 	</search:crossSearchType>
 	
+	<!-- Browse Program Search -->
+	<search:searchType id="lu.search.browseProgram">
+		<search:name>Browse Program</search:name>
+		<search:desc>Search for all Program Clus</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.browseProgram"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.browseProgram"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 	
+	<search:searchResultTypeInfo id="lu.result.browseProgram" parent="lu.result.browseProgram-parent"/>
+	<search:searchResultTypeInfo id="lu.result.browseProgram-parent" abstract="true">
+		<search:name>Browse Program Results</search:name>
+		<search:desc>View of Program Clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.resultComponentId"/>
+			<ref bean="lu.resultColumn.luOptionalAdminOrg"/>
+			<ref bean="lu.resultColumn.variationId"/>
+			<ref bean="lu.resultColumn.luOptionalCampusLocation"/>
+			<ref bean="lu.resultColumn.cluOfficialIdentifier.level"/>
+			<ref bean="lu.resultColumn.credentialCluId"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.resultComponentId" parent="lu.resultColumn.resultComponentId-parent"/>
+	<search:resultColumn id="lu.resultColumn.resultComponentId-parent"  abstract="true">
+        <search:name>Result Component Key</search:name>
+        <search:desc>Result Component Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseProgram" parent="lu.criteria.browseProgram-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseProgram-parent" abstract="true">
+		<search:name>Browse Program Criteria</search:name>
+		<search:desc>Browse Program Criteria</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 	
+	<!-- Browse Variations Search -->
+	<search:searchType id="lu.search.browseVariations">
+		<search:name>Browse Variations</search:name>
+		<search:desc>Search for all Variation Clus</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.browseVariations"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.browseVariations"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="lu.result.browseVariations" parent="lu.result.browseVariations-parent"/>
+	<search:searchResultTypeInfo id="lu.result.browseVariations-parent" abstract="true">
+		<search:name>Browse Program Results</search:name>
+		<search:desc>View of Program Clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseVariations" parent="lu.criteria.browseVariations-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseVariations-parent" abstract="true">
+		<search:name>Browse Variations Criteria</search:name>
+		<search:desc>Browse Variations Criteria</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<!-- Dependency Analysis Search -->
+	<search:searchType id="lu.search.dependencyAnalysis">
+		<search:name>Dependency Analysis</search:name>
+		<search:desc>Search for Clus that are dependencies of the target Clu</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.dependencyAnalysis"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.dependencyAnalysis"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis" parent="lu.result.dependencyAnalysis-parent"/>
+	<search:searchResultTypeInfo id="lu.result.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Results</search:name>
+		<search:desc>Full view of clus/clusets that are dependencies of the target Clu</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluType" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyType"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyTypeName"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRootId"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementComponentIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeIds"/>
+			<ref bean="lu.resultColumn.luOptionalOversightCommitteeNames"/>
+			<ref bean="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType" parent="lu.resultColumn.luOptionalDependencyType-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyType-parent" abstract="true">
+		<search:name>Dependency Type</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName" parent="lu.resultColumn.luOptionalDependencyTypeName-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyTypeName-parent" abstract="true">
+		<search:name>Dependency Type Name</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId" parent="lu.resultColumn.luOptionalDependencyRootId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRootId-parent" abstract="true">
+		<search:name>Dependency Root Id</search:name>
+		<search:desc>Course Requirement, Program Requirement, or Clu Set</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds" parent="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementComponentIds-parent" abstract="true">
+		<search:name>Dependency Requirement Component Ids</search:name>
+		<search:desc>Comma delimited list of requirement component ids</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds" parent="lu.resultColumn.luOptionalOversightCommitteeIds-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeIds-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Ids</search:name>
+		<search:desc>Comma delimited list of oversight committee ids</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames" parent="lu.resultColumn.luOptionalOversightCommitteeNames-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalOversightCommitteeNames-parent" abstract="true">
+		<search:name>Dependency Requirement Oversight Committee Names</search:name>
+		<search:desc>Comma delimited list of oversight committee Names</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg" parent="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg-parent" abstract="true">
+		<search:name>Different Admin Orgs</search:name>
+		<search:desc>Flag if no oversight orgs in target clu are found in dependent clus</search:desc>
+		<search:dataType>boolean</search:dataType>
+	</search:resultColumn>	
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis" parent="lu.criteria.dependencyAnalysis-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.dependencyAnalysis-parent" abstract="true">
+		<search:name>Dependency Analysis Criteria</search:name>
+		<search:desc>Dependency Analysis Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalCluId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 	
 	<!-- definition for generic search component -->
 	<search:searchType id="lu.search.current" parent="lu.search.generic-parent"/>
@@ -143,6 +304,10 @@
 
 	<search:queryParam id="lu.queryParam.luOptionalId" parent="lu.queryParam.luOptionalId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalCluId" parent="lu.queryParam.luOptionalCluId-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCluId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalShortName" parent="lu.queryParam.luOptionalShortName-parent"/>
@@ -312,7 +477,14 @@
 		<search:desc>Department</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
-
+	
+	<search:resultColumn id="lu.resultColumn.luOptionalCampusLocation" parent="lu.resultColumn.luOptionalCampusLocation-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalCampusLocation-parent"  abstract="true">
+		<search:name>Campus Location</search:name>
+		<search:desc>Campus Location</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
 	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId" parent="lu.resultColumn.luOptionalVersionIndId-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId-parent"  abstract="true">
 		<search:name>VersionIndId</search:name>
@@ -530,10 +702,19 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
+    <search:resultColumn id="lu.resultColumn.credentialCluId" parent="lu.resultColumn.cluId-parent"/>
+
     <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName" parent="lu.resultColumn.cluOfficialIdentifier.longName-parent"/>
 	<search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName-parent"  abstract="true">
         <search:name>Clu Long Name</search:name>
         <search:desc>Official identifier long name of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.level" parent="lu.resultColumn.cluOfficialIdentifier.level-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.level-parent"  abstract="true">
+        <search:name>Level</search:name>
+        <search:desc>Level</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
@@ -1610,7 +1791,27 @@
                 <entry key="lu.queryParam.luOptionalRelationType">
                     <value>rel.luLuRelationType.id = :lu_queryParam_luOptionalRelationType</value>
                 </entry>
-
+                <entry key="lu.search.browseProgram">
+                    <value>SELECT clu.id, ident.longName, clu.state, options.resultComponentId, org.orgId, '', campus.campusLocation, credentialIdent.level, rel.clu.id 
+                    FROM CluIdentifier ident, CluResult result, IN(result.resultOptions) options, Clu clu, IN(clu.adminOrgs) org, IN(clu.campusLocations) campus, CluCluRelation rel, CluIdentifier credentialIdent 
+                    WHERE clu.officialIdentifier.id = ident.id 
+                    AND clu.luType.id = 'kuali.lu.type.MajorDiscipline' 
+                    AND result.clu.id = clu.id 
+                    AND result.cluResultType.id = 'kuali.resultType.degree'
+                    AND org.type = 'kuali.adminOrg.type.CurriculumOversightDivision'
+                    AND clu.state IN ('Active','Inactive','Retired')
+                    AND rel.relatedClu.id = clu.id
+                    AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasMajorProgram'
+                    AND rel.clu.officialIdentifier.id = credentialIdent.id 
+                    </value>
+                </entry>
+                <entry key="lu.search.browseVariations">
+                	<value>SELECT rel.clu.id, rel.relatedClu.officialIdentifier.longName
+                    FROM CluCluRelation rel
+                    WHERE rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
+                    AND rel.relatedClu.luType.id = 'kuali.lu.type.Variation' ORDER BY rel.relatedClu.officialIdentifier.longName ASC
+                    </value>
+                </entry>
             </map>
 		</property>
 	</bean>

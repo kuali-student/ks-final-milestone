@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    <import resource="classpath:dao.xml"/>
+   <!-- Infrastructure code which handles invocation for all service impls -->
+  <bean id = "layeringAspects" class="org.kuali.student.enrollment.lpr.service.aspect.ServiceAspects">
+    <property name="includeThrowableClassList">
+      <list>
+       <ref bean="kualiInvalidParamException"/>
+       <ref bean="kualiReadOnlyException"/>
+       <ref bean="kualiOperationFailedException"/>
+      </list>
+   </property>
+   </bean>
+
+	<bean id="lprServiceOnBus" parent="lprServiceAuthorization"/>
+    <bean id="luiServiceOnBus" parent="luiServiceValidation"/>
+
+    <!-- declare beans here -->
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.lpr.service.impl.LuiPersonRelationServiceImpl">
+        <property name="lprDao" ref="lprDao"/>
+    </bean>
+    <bean id="luiService" class="org.kuali.student.enrollment.lui.service.impl.LuiServiceImpl"/>
+
+ 
+    <bean id="lprUtility" class="org.kuali.student.enrollment.lpr.service.util.ConcreteLPRUtility"/>
+
+    <!-- declare impls here -->
+    <!--  declare all service exceptions here or in KS core -->
+    <bean id="kualiInvalidParamException" class="org.kuali.student.r2.common.exceptions.InvalidParameterException" />
+    <bean id="kualiOperationFailedException" class="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+    <bean id="kualiReadOnlyException" class="org.kuali.student.r2.common.exceptions.ReadOnlyException" />
+  
+   
+    <bean id="permissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl"/>
+     
+     <!--  decorators  --> 
+    <bean id="lprServiceValidation" class="org.kuali.student.enrollment.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+        <property name="nextDecorator" ref="lprPersistenceService"/>
+    </bean> 
+
+    <bean id="lprServiceAuthorization" class="org.kuali.student.enrollment.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
+      <property name="nextDecorator" ref="lprServiceValidation"/>
+      <property name="permissionService" ref="permissionService"/>
+    </bean>
+
+
+    <bean id="luiServiceAuthorization" class="org.kuali.student.enrollment.lui.service.decorators.LuiServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="luiService"/>
+        <property name="permissionService" ref="permissionService"/>
+    </bean> 
+
+    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.lui.service.decorators.LuiServiceValidationDecorator">
+      <property name="nextDecorator" ref="luiServiceAuthorization"/>
+
+    </bean>
+    
+    <!-- end of decorators -->
+    
+    
+    <aop:config>
+     <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
+      <!-- For exceptions use expression = "execution() and  !execution()" -->
+       <aop:pointcut id="commonBeforeConcerns" expression="execution(* org.kuali.student.enrollment.*.service.impl..*.*(..))"/>
+       <aop:before pointcut-ref="commonBeforeConcerns" method="beforeInvokingService"/>
+       <aop:pointcut id="lprExceptionPointCut" expression="execution(* org.kuali.student.enrollment.*.service..*.*(..))"/>
+       <aop:after-throwing pointcut-ref="lprExceptionPointCut" throwing="ex" method="handleExceptions"/>
+     </aop:aspect>
+    </aop:config>
+     
+</beans>

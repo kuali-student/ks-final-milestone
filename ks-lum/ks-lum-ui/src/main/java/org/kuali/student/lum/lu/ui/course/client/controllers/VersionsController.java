@@ -212,6 +212,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	workflowVersionInfoSection.setVisible(false);
     	this.getHeader().showPrint(false);
+    	this.getHeader().showJasper(false);
     	showDefaultView(onReadyCallback);
     }
     
@@ -344,10 +345,12 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 		if(viewType != Views.VERSION_SELECT){
 			workflowVersionInfoSection.setVisible(true);
 			this.getHeader().showPrint(true);
+			this.getHeader().showJasper(true);
 		}
 		else{
 			workflowVersionInfoSection.setVisible(false);
 			this.getHeader().showPrint(false);
+			this.getHeader().showJasper(false);
 		}
 		super.showView(viewType, onReadyCallback);
 	}
