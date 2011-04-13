@@ -583,6 +583,27 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public List<KeyDateInfo> getKeyDatesForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves a list of key dates for an academic calendar that 
+     * fall within the given date range inclusive. The dates
+     * include all key dates mapped to any terms, sub terms, or
+     * campus calendars.
+     *
+     * @param academicCalendarKey
+     * @param startDate the start of the date range
+     * @param endDate the end of the date range
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws InvalidParameterException invalid academicCalendarKey
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Retrieves a list of key dates immediately mapped to a Term.
      *
      * @param termKey
@@ -599,10 +620,30 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves a list of key dates for a given Term that 
+     * fall within the given date range inclusive. The dates
+     * include only those dates immediate mapped to the Term.
+     *
+     * @param termKey unique key for a Term
+     * @param startDate start of date range
+     * @param endDate end of date range
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan termKey not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Retrieves a list of key dates for a Term. The dates
      * include all key dates mapped to any nested terms.
      *
-     * @param termKey
+     * @param termKey unique key for a Term
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -614,6 +655,26 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public List<KeyDateInfo> getAllKeyDatesForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of key dates for a given Term that 
+     * fall within the given date range inclusive. The dates
+     * include all key dates mapped to any nested terms.
+     *
+     * @param termKey unique key for a Term
+     * @param startDate start of date range
+     * @param endDate end of date range
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of key dates
+     * @throws DoesNotExistExceptionan termKey not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<KeyDateInfo> getKeyDatesForAllTermsByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a key date. Depending on the value of validationType,
