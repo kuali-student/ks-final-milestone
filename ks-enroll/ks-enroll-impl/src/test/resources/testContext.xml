@@ -8,6 +8,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     
     <bean id="lprServiceToTest" parent="lprServiceOnBus"/>
     
+    <bean id="academicCalendarServiceToTest" class="org.kuali.student.core.academiccalendar.mock.AcademicCalendarServiceMockImpl" />
+    
     <bean name="dataLoader" class="org.kuali.student.enrollment.lpr.service.utilities.DataLoader">
         <property name="em" ref="entityManager"/>
     </bean>
