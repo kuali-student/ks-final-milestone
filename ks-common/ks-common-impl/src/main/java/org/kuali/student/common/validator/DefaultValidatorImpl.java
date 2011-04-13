@@ -685,7 +685,9 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, CaseConstraint crossConstraint, ErrorLevel errorLevel){
     	if (ErrorLevel.WARN == errorLevel && crossConstraint != null){
             String crossFieldPath = crossConstraint.getFieldPath();
-            addCrossFieldWarning(valResults, crossFieldPath, getMessage("validation.required"));
+            String crossFieldMessageId = crossConstraint.getFieldPathMessageId() == null ? 
+            		"validation.required":crossConstraint.getFieldPathMessageId();            
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
     	}
     }
 
@@ -699,7 +701,9 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field){
     	if (ErrorLevel.WARN == errorLevel && requiredConstraint != null){
             String crossFieldPath = requiredConstraint.getFieldPath();
-            addCrossFieldWarning(valResults, crossFieldPath, getMessage("validation.required"));
+            String crossFieldMessageId = requiredConstraint.getFieldPathMessageId() == null ? 
+            		"validation.required":requiredConstraint.getFieldPathMessageId();
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
     	}
     }
 

@@ -11,6 +11,8 @@ public class RequiredConstraint {
 	@XmlElement
     protected String fieldPath;
 	@XmlElement
+    protected String fieldPathMessageKey;	
+	@XmlElement
 	protected ErrorLevel errorLevel = ErrorLevel.ERROR;
 
 	public String getFieldPath() {
@@ -27,5 +29,14 @@ public class RequiredConstraint {
 
 	public void setErrorLevel(ErrorLevel errorLevel) {
 		this.errorLevel = errorLevel;
-	}	
+	}
+
+	public String getFieldPathMessageId() {
+		return fieldPathMessageKey;
+	}
+
+	public void setFieldPathMessageId(String fieldPathMessageKey) {
+		this.fieldPathMessageKey = fieldPathMessageKey;
+	}
+		
 }
