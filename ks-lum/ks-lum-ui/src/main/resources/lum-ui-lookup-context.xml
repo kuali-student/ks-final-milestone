@@ -2263,42 +2263,14 @@
 
  <!-- Curriculum oversight constrained by subject code -->
 	<bean id="kuali.lu.lookup.admin.orgcurriculum.fromSubjectCode"
-		class="org.kuali.student.common.assembly.data.UILookupData">
+		class="org.kuali.student.common.assembly.data.UILookupData"
+		parent="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode">
 		<property name="id"
 			value="kuali.lu.lookup.admin.orgcurriculum.fromSubjectCode" />
-		<property name="name" value="Find Organizations" />
-		<property name="desc"
-			value="Search for administrative department organization for a given subject code" />
 		<property name="title" value="Curriculum Oversight" />
 		<property name="widget" value="DROP_DOWN" />
-		<property name="searchTypeId" value="subjectCode.search.orgsForSubjectCode"/>
-		<property name="searchParamIdKey" value="subjectCode.queryParam.optionalOrgId" />
-		<property name="resultReturnKey" value="subjectCode.resultColumn.orgId" />
 		<property name="resultDisplayKey" value="subjectCode.resultColumn.orgLongName" />
 		<property name="resultSortKey" value="subjectCode.resultColumn.orgLongName" />
-		<property name="params">
-			<list>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="subjectCode.queryParam.optionalOrgId" />
-					<property name="name" value="Org Id" />
-					<property name="desc" value="Identifier of Organization" />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="false" />
-					<property name="usage" value="DEFAULT" />
-				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="subjectCode.queryParam.code" />
-					<property name="name" value="Subject Code" />
-					<property name="desc" value="SubjectCode cross constraint" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="usage" value="DEFAULT" />
-					<property name="fieldPath" value="/subjectArea"/>
-				</bean>
-			</list>
-		</property>
 		<property name="results">
 			<list>
 				<bean parent="result" autowire-candidate="default"

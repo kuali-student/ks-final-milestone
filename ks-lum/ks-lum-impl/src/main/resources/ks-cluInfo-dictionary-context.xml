@@ -136,6 +136,14 @@
         <property name="id" value="all atps"/>
     </bean>
 
+    <bean id="constraint.lookup.basic.orgcurriculum.fromSubjectCode"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode">
+        <property name="id" value="constraint.lookup.basic.orgcurriculum.fromSubjectCode"/>
+    </bean>
+
+
+
     <bean id="cluInfo.expectedFirstAtp-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="expectedFirstAtp"/>
         <property name="lookupDefinition" ref="constraint.lookup.atp"/>

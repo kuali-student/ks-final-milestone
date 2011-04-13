@@ -19,6 +19,41 @@
 	<bean id="param" abstract="true"
 		class="org.kuali.student.common.dictionary.dto.CommonLookupParam" />
 
+	<bean id="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode"
+		parent="commonLookup-parent">
+		<property name="id"
+			value="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode" />
+		<property name="name" value="Find Organizations" />
+		<property name="desc"
+			value="Search for administrative department organization for a given subject code" />
+		<property name="searchTypeId" value="subjectCode.search.orgsForSubjectCode"/>
+		<property name="searchParamIdKey" value="subjectCode.queryParam.optionalOrgId" />
+		<property name="resultReturnKey" value="subjectCode.resultColumn.orgId" />
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="subjectCode.queryParam.optionalOrgId" />
+					<property name="name" value="Org Id" />
+					<property name="desc" value="Identifier of Organization" />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="subjectCode.queryParam.code" />
+					<property name="name" value="Subject Code" />
+					<property name="desc" value="SubjectCode cross constraint" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/subjectArea"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="kuali.common.lookup.admin.departments.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
 		<property name="name" value="Organization search" />
