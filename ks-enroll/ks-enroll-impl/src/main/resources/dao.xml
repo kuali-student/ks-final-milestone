@@ -4,12 +4,12 @@
 
     <import resource="classpath:services-commons.xml"/>
 
-    <bean id="lprDao" class="org.kuali.student.enrollment.dao.LprDao">
+    <bean id="lprDao" class="org.kuali.student.enrollment.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.dao.LprTypeDao"/>
+    <bean id="lprTypeDao" class="org.kuali.student.enrollment.lpr.dao.LprTypeDao"/>
 
-    <bean id="lprStateDao" class="org.kuali.student.enrollment.dao.LprStateDao"/>
+    <bean id="lprStateDao" class="org.kuali.student.enrollment.lpr.dao.LprStateDao"/>
 
 </beans>

@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.enrollment.lpr.dao.LprDao;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.lpr.service.utilities.Constants;
 

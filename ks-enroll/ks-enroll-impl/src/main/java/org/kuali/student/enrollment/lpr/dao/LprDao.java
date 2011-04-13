@@ -1,8 +1,9 @@
-package org.kuali.student.enrollment.dao;
+package org.kuali.student.enrollment.lpr.dao;
 
 
 import java.util.List;
 
+import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
 
 
