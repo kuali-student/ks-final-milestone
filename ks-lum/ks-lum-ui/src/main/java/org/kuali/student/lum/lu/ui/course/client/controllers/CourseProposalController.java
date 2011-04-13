@@ -626,7 +626,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
                         saveActionEvent.doActionComplete();
-                        KSNotifier.add(new KSNotification("Save Failed. There were validation errors.", false, 5000));
+                        KSNotifier.show("Save Failed. There were validation errors.");
                 	}else{
                 		
                 		saveActionEvent.setSaveSuccessful(true);
@@ -666,11 +666,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    					CourseProposalController.this.showNextViewOnMenu();
 	    				}
 	    				
-	    				if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()){
+	    				if (ValidatorClientUtils.hasWarnings(result.getValidationResults())){
 		    				isValid(result.getValidationResults(), false, true);
-	    					KSNotifier.add(new KSNotification("Saved with Warnings", false, 4000));
+	    					KSNotifier.show("Saved with Warnings");
 	    				} else {
-	    					KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+	    					KSNotifier.show("Save Successful");
 	    				}  				
                 	}
                 }
