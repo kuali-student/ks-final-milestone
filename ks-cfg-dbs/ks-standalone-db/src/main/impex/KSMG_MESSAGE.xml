@@ -530,6 +530,11 @@
         ID="3de651ca-3a4d-40d1-8fa0-3caa73d410d6" LOCALE="en"
         MSG_ID="cluCourseDetails" MSG_VALUE="Course Details"
         OBJ_ID="2b86eaf4-f18d-4945-8914-2451c81e2a84" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="3fb52d13-39cb-42ce-b4b4-352ba3654cf9" LOCALE="en"
+        MSG_ID="validation.variationEndTerm"
+        MSG_VALUE="The value in this field must equal to or earlier than the values in the corresponding fields in the parent major in order to submit this modification. Either change the value in this field or change the corresponding fields in the parent major."
+        OBJ_ID="SYS_GUID()" VER_NBR="5"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="3fbd85d1-3bc4-4aca-aa9a-d49d8ecc12ee" LOCALE="es"
         MSG_ID="remove" MSG_VALUE="Quite"
@@ -892,6 +897,11 @@
         ID="66a5e393-570e-4add-9123-890e045e97d9" LOCALE="en"
         MSG_ID="cluPercentage" MSG_VALUE="Percentage"
         OBJ_ID="6d1598d5-df17-42f6-bc88-db5f5c473891" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="673088c1-511b-48eb-aff0-797545321164" LOCALE="en"
+        MSG_ID="validation.variationStartTerm"
+        MSG_VALUE="The value in this field must equal to or greater than the values in the corresponding fields in the parent major in order to submit this modification. Either change the value in this field or change the corresponding fields in the parent major."
+        OBJ_ID="SYS_GUID()" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="67f38d5c-8781-49ca-8ec9-8f0babc86d9d" LOCALE="en"
         MSG_ID="wrapperPanelTitleCurriculumManagement"
@@ -1365,15 +1375,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A0D39D3E89905BBDE040C60AF05B183F" LOCALE="en"
+        ID="A0E7847DE1483E63E040C60AF05B5254" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A0D39D3E89915BBDE040C60AF05B183F" VER_NBR="1"/>
+        OBJ_ID="A0E7847DE1493E63E040C60AF05B5254" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A0D39D3E89925BBDE040C60AF05B183F" LOCALE="en"
+        ID="A0E7847DE14A3E63E040C60AF05B5254" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A0D39D3E89935BBDE040C60AF05B183F" VER_NBR="1"/>
+        OBJ_ID="A0E7847DE14B3E63E040C60AF05B5254" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
@@ -1419,6 +1429,15 @@
         MSG_ID="validation.validCharsFailed"
         MSG_VALUE="Invalid Characters"
         OBJ_ID="718c04e4-3fa8-4738-8322-a0aa47f9e0be" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="a6574d51-ad24-4049-998f-ff33e5f7eadb" LOCALE="en"
+        MSG_ID="validation.lookup" MSG_VALUE="Invalid value"
+        OBJ_ID="718c04e4-3fa8-4738-8322-a0aa47f9e0ce" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="a6574d51-ad24-4049-998f-ff33e5f7eadc" LOCALE="en"
+        MSG_ID="validation.lookup.cause"
+        MSG_VALUE="The selected value is causing another field to be invalid"
+        OBJ_ID="718c04e4-3fa8-4738-8322-a0aa47f9e0de" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="a6d90d97-b591-4a05-ac08-5ead48b9c87a" LOCALE="en"
         MSG_ID="cluLearningResultPassFail"
@@ -1607,6 +1626,11 @@
         ID="b7db4536-2650-4f20-91ef-0c58b51e768d" LOCALE="en"
         MSG_ID="cluSetOrganization" MSG_VALUE="Organization"
         OBJ_ID="d58d9569-e9fc-436f-b26a-596d9ec4e5a6" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="b7f303e7-215b-4155-b637-db414a3cfffa" LOCALE="en"
+        MSG_ID="validation.majorEndTermRequiresVariationStartTerm"
+        MSG_VALUE="The value in this field must be equal to or less than the values in the corresponding fields in the associated specializations in order to submit this application."
+        OBJ_ID="SYS_GUID()" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="b851b8fd-138b-407e-853d-7da42c3f472e" LOCALE="en"
         MSG_ID="cluSetApprovedProgram" MSG_VALUE="Approved Programs"
@@ -1837,6 +1861,11 @@
         ID="d811a444-8324-4648-b6ac-e3026f4d9d29" LOCALE="en"
         MSG_ID="cluCourseRestrictions" MSG_VALUE="Course Restrictions"
         OBJ_ID="5b3f5b7d-5b68-4073-9c17-c42b81f0d7a9" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="d818d3ed-2c39-4454-991c-c28350229e25" LOCALE="en"
+        MSG_ID="validation.variation"
+        MSG_VALUE="Items in this specialization conflict with values in items in the parent major. Click on the specialization name to modify and resolve the conflict. You may also change the value in the parent major."
+        OBJ_ID="SYS_GUID()" VER_NBR="4"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d8e5a303-10ef-45f4-b49b-30ba0cc911f4" LOCALE="en"
         MSG_ID="cluAddLearningResultAssessmentScale"
@@ -2018,6 +2047,11 @@
         ID="eb3b5537-a2f4-4367-8408-338b70f3aa41" LOCALE="en"
         MSG_ID="orgPersonRelationSection" MSG_VALUE="Membership"
         OBJ_ID="bdb9b6f8-631d-4ae7-9709-a01fbf9621bd" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="ebd58a7d-2dfc-45ce-bb72-f5c270bbfe1f" LOCALE="en"
+        MSG_ID="validation.majorEndTermRequiresVariationEndTerm"
+        MSG_VALUE="The value in this field must be equal to or greater than the values in the corresponding fields in the associated specializations in order to submit this application."
+        OBJ_ID="SYS_GUID()" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="ebee6673-bc26-440d-86f4-87dc05701003" LOCALE="en"
         MSG_ID="cluSetInformation" MSG_VALUE="CluSet Information"
