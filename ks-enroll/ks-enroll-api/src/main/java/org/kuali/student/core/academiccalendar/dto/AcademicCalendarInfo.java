@@ -18,7 +18,6 @@ package org.kuali.student.core.academiccalendar.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,9 +30,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+
 import org.kuali.student.core.academiccalendar.infc.AcademicCalendar;
-import org.kuali.student.core.academiccalendar.infc.Term;
 
 
 /**
@@ -44,14 +42,11 @@ import org.kuali.student.core.academiccalendar.infc.Term;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "campusCalendar", "startDate", "endDate", "terms", "credentialProgramType", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKey", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendar, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private final CampusCalendarInfo campusCalendar;
 
     @XmlElement
     private final Date startDate;
@@ -60,20 +55,19 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private final Date endDate;
 
     @XmlElement
-    private final List<TermInfo> terms;
+    private final String campusCalendarKey;
 
     @XmlElement 
-    private final TypeInfo credentialProgramType;
+    private final String credentialProgramTypeKey;
 
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
     private AcademicCalendarInfo() {
-        campusCalendar = null;
         startDate = null;
         endDate = null;
-        terms = null;
-        credentialProgramType = null;
+        campusCalendarKey = null;
+        credentialProgramTypeKey = null;
         _futureElements = null;
     }
 
@@ -85,34 +79,16 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      */
     public AcademicCalendarInfo(AcademicCalendar academicCalendar) {
         super(academicCalendar);
-        this.campusCalendar = null !=academicCalendar.getCampusCalendar() ? new CampusCalendarInfo(academicCalendar.getCampusCalendar()) : null;
+
         this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
         this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-        if (academicCalendar.getTerms() != null) {
-            this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
-            for (Term t : academicCalendar.getTerms()) {
-                this.terms.add(new TermInfo(t));
-            }
-        } else {
-            this.terms = new ArrayList<TermInfo>();
-        }
+        this.campusCalendarKey = academicCalendar.getCampusCalendarKey();
+        this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
 
-        this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
         _futureElements = null;
     }
 
     /**
-     * Name: CampusCalendar 
-     * Gets the campus calendar corresponding to this academic
-     * calendar.
-     */
-    @Override
-    public CampusCalendarInfo getCampusCalendar() {
-        return campusCalendar;
-    }
-
-    /**
-     * Name: StartDate
      * Date and time the academic calendar becomes effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time calendar, but instead indicates the
@@ -128,7 +104,6 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     /**
-     * Name: EndDate
      * Date and time the academic calendar becomes
      * ineffective. This does not provide a bound on date ranges or
      * milestones associated with this calendar, but instead
@@ -146,21 +121,20 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     /**
-     * Name: Terms
-     * Gets the terms corresponding to this academic
+     * Gets the campus calendar key corresponding to this academic
      * calendar.
      */
-    public List<TermInfo> getTerms() {
-        return terms;
+    @Override
+    public String getCampusCalendarKey() {
+        return campusCalendarKey;
     }
 
     /**
-     * Name: CredentialProgramType
-     * Gets the credential program type to which this calendar
+     * Gets the credential program type key to which this calendar
      * relates.
      */
-    public TypeInfo getCredentialProgramType() {
-        return credentialProgramType;
+    public String getCredentialProgramTypeKey() {
+        return credentialProgramTypeKey;
     }
 
     /**
@@ -168,11 +142,10 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendar {
 
-        private CampusCalendarInfo campusCalendar;
         private Date startDate;
         private Date endDate;
-        private List<TermInfo> terms;
-        private TypeInfo credentialProgramType;
+        private String campusCalendarKey;
+        private String credentialProgramTypeKey;
 
 
         /**
@@ -185,16 +158,11 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
          */
         public Builder(AcademicCalendar academicCalendar) {
             super(academicCalendar);
+
             this.startDate = academicCalendar.getStartDate();
             this.endDate = academicCalendar.getEndDate();
-            if (academicCalendar.getTerms() != null) {
-                this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
-                for (Term t : academicCalendar.getTerms()) {
-                    this.terms.add(new TermInfo(t));
-                }
-            }
-            this.campusCalendar =  new CampusCalendarInfo(academicCalendar.getCampusCalendar());
-            this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
+            this.campusCalendarKey =  academicCalendar.getCampusCalendarKey();
+            this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
         }
 
         /**
@@ -204,19 +172,6 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
          */
         public AcademicCalendarInfo build() {
             return new AcademicCalendarInfo(this);
-        }
-
-        /**
-         * Name: CampusCalendar 
-         * Gets the campus calendar correspondingto this academic
-         * calendar.
-         */
-        public CampusCalendarInfo getCampusCalendar() {
-            return campusCalendar;
-        }
-
-        public void setCampusCalendar(CampusCalendarInfo campusCalendar) {
-            this.campusCalendar = campusCalendar;
         }
 
         /**
@@ -259,27 +214,27 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         }
 
         /**
-         * Gets the terms corresponding to this academic
+         * Gets the campus calendar key corresponding to this academic
          * calendar.
          */
-        public List<TermInfo> getTerms() {
-            return terms;
+        public String getCampusCalendarKey() {
+            return campusCalendarKey;
         }
 
-        public void setTerms(List<TermInfo> terms) {
-            this.terms = terms;
+        public void setCampusCalendarKey(String campusCalendarKey) {
+            this.campusCalendarKey = campusCalendarKey;
         }
 
         /**
-         * Gets the credential program type to which this calendar
+         * Gets the credential program type key to which this calendar
          * relates.
          */
-        public TypeInfo getCredentialProgramType() {
-            return credentialProgramType;
+        public String getCredentialProgramTypeKey() {
+            return credentialProgramTypeKey;
         }
 
-        public void setCredentialProgramType(TypeInfo credentialProgramType) {
-            this.credentialProgramType = credentialProgramType;
+        public void setCredentialProgramTypeKey(String credentialProgramTypeKey) {
+            this.credentialProgramTypeKey = credentialProgramTypeKey;
         }
     }
 }

@@ -30,7 +30,7 @@ import org.kuali.student.common.infc.KeyEntity;
 public interface KeyDate extends KeyEntity {
 
     /**
-     * Name: IsDateRange
+     * Name: Is Date Range
      * Tests if this key date has a date range. 
      *
      * @return true if the end date is different than the start date,
@@ -39,7 +39,7 @@ public interface KeyDate extends KeyEntity {
     public Boolean getIsDateRange();
 
     /**
-     * Name: StartDate
+     * Name: Start Date
      * The start date and time of the key date.
      *
      * @return the key date start date 
@@ -47,7 +47,7 @@ public interface KeyDate extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: EndDate 
+     * Name: End Date 
      * The end date and time of the key date. The end
      * date must be equal to or greater that the start.
      *

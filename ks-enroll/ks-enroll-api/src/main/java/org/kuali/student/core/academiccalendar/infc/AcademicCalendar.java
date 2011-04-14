@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.common.infc.KeyEntity;
-import org.kuali.student.common.infc.Type;
 
 
 /**
@@ -32,14 +31,7 @@ import org.kuali.student.common.infc.Type;
 public interface AcademicCalendar extends KeyEntity {
 
     /**
-     * Name: CampusCalendar 
-     * Gets the campus calendar corresponding to this academic
-     * calendar.
-     */
-    public CampusCalendar getCampusCalendar();
-
-    /**
-     * Name: StartDate
+     * Name: Start Date
      * Date and time the academic calendar became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this calendar, but instead indicates the
@@ -51,7 +43,7 @@ public interface AcademicCalendar extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: StartDate
+     * Name: End Date
      * Date and time the academic calendar expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this calendar, but instead indicates the calendar
@@ -63,16 +55,16 @@ public interface AcademicCalendar extends KeyEntity {
     public Date getEndDate();
 
     /**
-     * Name: Terms
-     * Gets the terms corresponding to this academic
+     * Name: Campus Calendar 
+     * Gets the campus calendar key corresponding to this academic
      * calendar.
      */
-    public List<? extends Term> getTerms();
+    public String getCampusCalendarKey();
 
     /**
-     * Name: CredentialProgramType
-     * Gets the credential program type to which this calendar
+     * Name: Credential Program Type Key
+     * Gets the credential program type key to which this calendar
      * relates.
      */
-    public Type getCredentialProgramType();
+    public String getCredentialProgramTypeKey();
 }

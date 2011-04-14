@@ -247,7 +247,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
             this.registrationStartDate = date;
         }
 
-   
+
         @Override
         public Date getRegistrationEndDate() {
             return registrationEndDate;
@@ -277,7 +277,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
             this.classEndDate = date;
         }
 
- 
+
         @Override
         public Date getAddDate() {
             return addDate;
@@ -287,7 +287,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
             this.addDate = date;
         }
 
- 
+
         @Override
         public Date getDropDate() {
             return dropDate;
@@ -297,7 +297,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
             this.dropDate = date;
         }
 
-   
+
         @Override
         public Date getFinalExamStartDate() {
             return finalsStartDate;

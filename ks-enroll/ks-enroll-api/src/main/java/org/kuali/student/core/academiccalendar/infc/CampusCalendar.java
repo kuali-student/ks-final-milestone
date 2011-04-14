@@ -31,7 +31,7 @@ import org.kuali.student.common.infc.KeyEntity;
 public interface CampusCalendar extends KeyEntity {
 
     /**
-     * Name: StartDate
+     * Name: Start Date
      * Date and time the campus calendar became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this calendar, but instead indicates the
@@ -43,7 +43,7 @@ public interface CampusCalendar extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: StartDate
+     * Name: Start Date
      * Date and time the campus calendarexpires. This does not
      * provide a bound on date ranges or milestones associated with
      * this calendar, but instead indicates the calendar

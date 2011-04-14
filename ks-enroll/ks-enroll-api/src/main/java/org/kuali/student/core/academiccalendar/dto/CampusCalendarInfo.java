@@ -79,7 +79,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     }
 
     /**
-     * Name: StartDate
      * Date and time the campus time period becomes effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -95,7 +94,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     }
 
     /**
-     * Name: EndDate
      * Date and time the campus time period becomes
      * ineffective. This does not provide a bound on date ranges or
      * milestones associated with this time period, but instead
@@ -113,7 +111,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     }
 
     /**
-     * Name: Location
      * The campus or location to which this calendar pertains.
      */
     @Override

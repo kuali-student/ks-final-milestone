@@ -31,7 +31,7 @@ import org.kuali.student.common.infc.KeyEntity;
 public interface Term extends KeyEntity {
 
     /**
-     * Name: StartDate
+     * Name: Start Date
      * Date and time the term became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -43,7 +43,7 @@ public interface Term extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: StartDate
+     * Name: End Date
      * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
@@ -53,10 +53,4 @@ public interface Term extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
-
-    /**
-     * Name: Terms
-     * Gets the Terms nested inside this Term.
-     */
-    public List<? extends Term> getTerms();
 }

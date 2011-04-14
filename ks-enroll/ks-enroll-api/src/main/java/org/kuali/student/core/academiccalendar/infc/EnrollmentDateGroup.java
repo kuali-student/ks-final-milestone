@@ -62,7 +62,7 @@ public interface EnrollmentDateGroup {
     public Date getClassStartDate();
 
     /**
-     * Name: ClassEnd
+     * Name: Class End
      *
      * End of Classes
      *
@@ -123,5 +123,4 @@ public interface EnrollmentDateGroup {
      * @return the grading end date
      */
     public Date getGradingEndDate();
-
 }
