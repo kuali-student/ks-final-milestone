@@ -14,8 +14,12 @@
  */
 package org.kuali.student.common.util.constants;
 
-import org.kuali.student.core.academiccalendar.dto.TermInfo;
+import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.academiccalendar.dto.TermInfo;
 
 /**
  * This class holds the constants used by the Academic Calendar service
@@ -29,8 +33,28 @@ public class AcademicCalendarConstants {
      */
     public static final String SERVICE_NAMESPACE_SUFFIX = "academiccalendar";
     public static final String REF_OBJECT_URI_SERVICE_PREFIX = CommonConstants.REF_OBJECT_URI_GLOBAL_PREFIX + SERVICE_NAMESPACE_SUFFIX;
-
+    public static final String REF_OBJECT_URI_TERM = REF_OBJECT_URI_SERVICE_PREFIX + "/" + TermInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ACADEMIC_CALENDAR = REF_OBJECT_URI_SERVICE_PREFIX + "/" + AcademicCalendarInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_CAMPUS_CALENDAR = REF_OBJECT_URI_SERVICE_PREFIX + "/" + CampusCalendarInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_HOLIDAY = REF_OBJECT_URI_SERVICE_PREFIX + "/" + HolidayInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_KEY_DATE = REF_OBJECT_URI_SERVICE_PREFIX + "/" + KeyDateInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ENROLLMENT_DATE_GROUP = REF_OBJECT_URI_SERVICE_PREFIX + "/" + EnrollmentDateGroupInfo.class.getSimpleName();
     /**
      * Academic Calendar Types
      */
+    public static final String ACADEMIC_CALENDAR_TYPE_KEY = AtpConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;
+    public static final String CAMPUS_CALENDAR_TYPE_KEY = AtpConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY;
+    /**
+     * Enrollment Date Groups
+     */
+    public static final String REGISTRATION_PERIOD_TYPE_KEY = AtpConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY;
+    public static final String ADD_DATE_TYPE_KEY = AtpConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY;
+    public static final String DROP_DATE_TYPE_KEY = AtpConstants.MILESTONE_DROP_DATE_TYPE_KEY;
+    public static final String CLASSES_BEGIN_TYPE_KEY = AtpConstants.MILESTONE_CLASSES_BEGIN_TYPE_KEY;
+    public static final String CLASSES_END_TYPE_KEY = AtpConstants.MILESTONE_CLASSES_END_TYPE_KEY;
+    public static final String FINAL_EXAM_PERIOD_TYPE_KEY = AtpConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY;
+        // TODO: Map to Grading Start Date periods
+//    public static final String GRADING_PERIOD_START_TYPE_KEY = ????
+    public static final String GRADING_PERIOD_END_TYPE_KEY = AtpConstants.MILESTONE_GRADES_DUE_TYPE_KEY;
+
 }

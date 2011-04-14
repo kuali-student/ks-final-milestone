@@ -6,10 +6,6 @@ package org.kuali.student.kim.permission.mock;
 
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
-import org.kuali.rice.kim.service.support.KimTypeService;
 
 /**
  *

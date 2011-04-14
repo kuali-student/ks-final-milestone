@@ -34,6 +34,8 @@ public class AtpConstants {
     /**
      * ATP Types
      */
+    public static final String ATP_ACADEMIC_CALENDAR_TYPE_KEY = "kuali.atp.type.AcademicCalendar";
+    public static final String ATP_CAMPUS_CALENDAR_TYPE_KEY = "kuali.atp.type.CampusCalendar";
     public static final String ATP_AY_TYPE_KEY = "kuali.atp.type.AY";
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
     public static final String ATP_FALL_TYPE_KEY = "kuali.atp.type.Fall";
@@ -83,6 +85,7 @@ public class AtpConstants {
     public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
     public static final String MILESTONE_NEW_STUDENT_ORIENTATION_TYPE_KEY = "kuali.atp.milestone.NewStudentOrientation";
     public static final String MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.AdvanceRegistrationPeriod";
+    public static final String MILESTONE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.RegistrationPeriod";
     public static final String MILESTONE_READING_PERIOD_TYPE_KEY = "kuali.atp.milestone.ReadingPeriod";
     public static final String MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY = "kuali.atp.milestone.FinalExamPeriod";
     public static final String MILESTONE_ADMISSIONS_APPLICATION_DUE_EARLY_CYCLE_TYPE_KEY = "kuali.atp.milestone.AdmissionsApplicationDueEarlyCycle";
@@ -104,11 +107,9 @@ public class AtpConstants {
     public static final String MILESTONE_BACCALAUREATE_TYPE_KEY = "kuali.atp.milestone.Baccalaureate";
     public static final String MILESTONE_COMMENCEMENT_TYPE_KEY = "kuali.atp.milestone.Commencement";
     public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
-    public static final String MILESTONE_THANKSGIVING_BREAK_BEGIN_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreakBegin";
-    public static final String MILESTONE_THANKSGIVING_BREAK_END_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreakEnd";
+    public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";
     public static final String MILESTONE_MLK_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MLKDayObserved";
-    public static final String MILESTONE_SPRING_BREAK_BEGINS_TYPE_KEY = "kuali.atp.milestone.SpringBreakBegins";
-    public static final String MILESTONE_SPRING_BREAK_ENDS_TYPE_KEY = "kuali.atp.milestone.SpringBreakEnds";
+    public static final String MILESTONE_SPRING_BREAK_TYPE_KEY = "kuali.atp.milestone.SpringBreak";
     public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
     public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
     public static final String MILESTONE_LEAVE_OF_ABSENSE_BEGIN_TYPE_KEY = "kuali.atp.milestone.LeaveofAbsenseBegin";
