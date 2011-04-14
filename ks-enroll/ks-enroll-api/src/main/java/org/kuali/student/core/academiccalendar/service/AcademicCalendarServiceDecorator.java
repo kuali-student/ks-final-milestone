@@ -29,6 +29,73 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public abstract class AcademicCalendarServiceDecorator implements
 		AcademicCalendarService {
 
+	@Override
+	public List<TermInfo> getTermsForAcademicCalendar(
+			List<String> academicCalendar, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TermInfo> getTermsForTerm(List<String> termCalendar,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateTerm(String validationType,
+			TermInfo termInfo, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TermInfo createTerm(String termKey, TermInfo termInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TermInfo updateTerm(String termKey, TermInfo termInfo,
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteTerm(String termKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateEnrollmentDateGroup(
+			String validationType,
+			EnrollmentDateGroupInfo enrollmentDateGroupInfo, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	protected AcademicCalendarService nextDecorator;
     		
     public AcademicCalendarService getNextDecorator() {
