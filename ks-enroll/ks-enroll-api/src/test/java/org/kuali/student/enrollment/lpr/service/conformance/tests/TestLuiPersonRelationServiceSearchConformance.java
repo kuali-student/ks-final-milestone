@@ -15,11 +15,21 @@
  */
 package org.kuali.student.enrollment.lpr.service.conformance.tests;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -30,11 +40,10 @@ import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import static org.junit.Assert.*;
-
 /**
  * @author nwright
  */
+@Ignore
 public class TestLuiPersonRelationServiceSearchConformance {
 
     public TestLuiPersonRelationServiceSearchConformance() {

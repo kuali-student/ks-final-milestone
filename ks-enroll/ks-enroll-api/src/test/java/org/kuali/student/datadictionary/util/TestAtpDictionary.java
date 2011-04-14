@@ -16,11 +16,14 @@
 package org.kuali.student.datadictionary.util;
 
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import static org.junit.Assert.*;
 
+@Ignore
 public class TestAtpDictionary {
 
     @Test

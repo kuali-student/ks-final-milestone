@@ -1,35 +1,23 @@
 package org.kuali.student.core.academiccalendar.conformance.tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.directwebremoting.servlet.TestHandler;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-
-
-import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.service.AcademicCalendarService;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.test.utilities.MockHelper;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
  
+@Ignore
 public class TestAcademicCalendarServiceConformance {
 	
 	
