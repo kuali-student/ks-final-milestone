@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.atp.dto;
+package org.kuali.student.r2.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.core.atp.infc.AtpMilestoneRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 
 
 /**

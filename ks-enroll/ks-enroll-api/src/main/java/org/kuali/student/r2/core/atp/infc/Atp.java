@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.atp.infc;
+package org.kuali.student.r2.core.atp.infc;
 
 import java.util.Date;
 import org.kuali.student.common.infc.KeyEntity;
