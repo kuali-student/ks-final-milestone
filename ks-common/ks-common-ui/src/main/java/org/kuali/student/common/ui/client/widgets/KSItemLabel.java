@@ -6,11 +6,16 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.util.Elements;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,6 +53,9 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     private static int classInstanceId = -1;
     public int instanceId;
     
+    ValidationMessagePanel validationPanel = new ValidationMessagePanel();
+	private ErrorLevel status = ErrorLevel.OK;
+	
     public KSItemLabel(boolean canEdit, DataHelper dataParser) {
         init(canEdit, false, dataParser);
     }
@@ -77,6 +85,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
             delete.getElement().getStyle().setProperty("top", "1px");
             mainPanel.add(delete);
             initDeleteHandlers();
+            mainPanel.add(validationPanel);
         }
         String labelText = "";
         panel.getElementById(contentId).setInnerText(labelText);
@@ -224,4 +233,141 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
         return key.hashCode() + displayText.hashCode();
     }
     
+    
+	/**
+	 * Clears validation error and highlighting that may exist on this panel
+	 */
+	public void clearValidationErrors(){
+		this.setErrorState(false);
+		if(validationPanel != null){
+			this.validationPanel.clearErrors();
+		}
+	}
+
+	/**
+	 * Clears validation warnings and highlighting that may exist on this panel
+	 */
+	public void clearValidationWarnings(){
+		this.setWarnState(false);
+		if(validationPanel != null){
+			this.validationPanel.clearWarnings();
+		}
+	}
+    
+	/**
+	 * Processes a validation result and adds an appropriate message, if needed
+	 * @param vr
+	 * @return
+	 */
+	public ErrorLevel processValidationResult(ValidationResultInfo vr, String fieldName) {
+		//Check if this field is responsible for processing its own validation results
+		status = ErrorLevel.OK;
+
+		if(vr.getLevel() == ErrorLevel.ERROR){
+			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
+			this.addValidationErrorMessage(message,fieldName);
+			
+			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
+				status = vr.getLevel();
+			}
+		}
+		else if(vr.getLevel() == ErrorLevel.WARN){
+			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
+			this.addValidationWarningMessage(message,fieldName);
+			
+			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
+				status = vr.getLevel();			
+			}
+		}
+		else{
+			//TODO does nothing on ok, ok is not currently used
+		}
+		return status;
+	}
+    
+	/**
+	 * Add a validation message to this fields validation panel as defined by setValidationPanel.
+	 * @param text
+	 */
+	public void addValidationErrorMessage(String text, String fieldName){
+		if(validationPanel != null){
+			KSLabel message;
+			if(fieldName != null && !fieldName.trim().equals("")){
+				message = new KSLabel(fieldName + " - " + text);
+			}
+			else{
+				message = new KSLabel(text);
+			}
+			this.setErrorState(true);
+			message.setStyleName("ks-form-error-label");
+			this.validationPanel.addErrorMessage(message);
+		}
+	}
+
+	/**
+	 * Add a validation message to this fields validation panel as defined by setValidationPanel.
+	 * @param text
+	 */
+	public void addValidationWarningMessage(String text, String fieldName){
+		if(validationPanel != null){
+			SpanPanel message = new SpanPanel();
+			if(fieldName != null && !fieldName.trim().equals("")){
+				message.setHTML("<b> Warning </b> " + fieldName + " - " + text);
+			}
+			else{
+				message.setHTML("<b> Warning </b> " + text);
+			}
+			message.setStyleName("ks-form-warn-label");
+			//Only set field styling to warn, when no errors
+			this.setWarnState((status != ErrorLevel.ERROR));
+			this.validationPanel.addWarnMessage(message);
+		}
+	}
+	
+	/**
+	 * Turn on/off styling for errors on field element
+	 * 
+	 * @param error When true turns on error styling, when false turns off error styling
+	 */
+	public void setErrorState(boolean error){
+		if(error){
+			//fieldTitle.addStyleName("invalid");
+			if(mainPanel != null){
+				mainPanel.addStyleName("error");
+			}
+			//When there is an error, don't use warning style
+			setWarnState(false);
+		}
+		else{
+			//fieldTitle.removeStyleName("invalid");
+			if(mainPanel != null){
+				mainPanel.removeStyleName("error");
+			}
+			//Reset earn state, in case there are warnings
+			setWarnState(validationPanel.hasWarnings());
+		}
+	}
+	
+	/**
+	 * Turn on/off styling for warnings on field element
+	 * 
+	 * @param warn When true turns on warning styling, when false turns off warning styling
+	 */
+	public void setWarnState(boolean warn){
+		if(warn){
+			//fieldTitle.addStyleName("invalid");
+			if(mainPanel != null){
+				mainPanel.addStyleName("warning");
+			}
+
+
+		}
+		else{
+			//fieldTitle.removeStyleName("invalid");
+			if(mainPanel != null){
+				mainPanel.removeStyleName("warning");
+			}
+
+		}
+	}
 }

@@ -76,7 +76,11 @@
 
  <bean id="courseInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsContentOwner" />
-  <property name="lookupDefinition" ref="constraint.lookup.basic.orgcurriculum.fromSubjectCode"/>
+  <property name="lookupDefinition">
+   <bean parent="constraint.lookup.basic.orgcurriculum.fromSubjectCode">
+   	<property name="errorLevel" value="WARN"/>
+   </bean>
+  </property>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>

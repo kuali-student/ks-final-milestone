@@ -249,12 +249,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
-                	elementStack.push(Integer.toBinaryString(i));
-//                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
-                    processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
-//                    beanPathStack.pop();
-//                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
-                    elementStack.pop();
+                	//This is tricky, try to temporarily swap the field name and the index in the elementStack(this is for lists of non complex types)
+                	String oldFieldName = field.getName();
+                	elementStack.push(oldFieldName);
+                	field.setName(Integer.toBinaryString(i));
+
+                	processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
+                    
+                	elementStack.pop();
+                    field.setName(oldFieldName);
                     i++;
                 }
 
@@ -632,10 +635,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         } catch (Exception e) {
             LOG.info("Error calling Search", e);
         }
+        //If there are no search results then make a validation result
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
             ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), value);
-            val.setError(getMessage("validation.invalid"));
+            val.setLevel(lookupConstraint.getErrorLevel());
+            val.setMessage(getMessage("validation.lookup"));
             valResults.add(val);
+        	processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel());
         }
     }
 
@@ -709,6 +715,25 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     	}
     }
 
+    /**
+     * This adds a warning on the related field when a processed lookup-constraint results in a warning
+     * 
+     * @param valResults
+     * @param lookupConstraint
+     */
+    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, ErrorLevel errorLevel){
+    	if (ErrorLevel.WARN == errorLevel && lookupConstraint != null){
+    		for(CommonLookupParam param:lookupConstraint.getParams()){
+    			if(param.getFieldPath()!=null && !param.getFieldPath().isEmpty()){
+		            String crossFieldPath = param.getFieldPath();
+		            String crossFieldMessageId = param.getFieldPathMessageId() == null ? 
+		            		"validation.lookup.cause":param.getFieldPathMessageId();
+		            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
+    			}
+    		}
+    	}
+    }
+    
     protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message){
     	//Check to see if the exact same validation message already exists on referenced field
     	boolean warnAlreadyExists = false;

@@ -15,6 +15,42 @@
 
 package org.kuali.student.common.ui.client.widgets.list;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
+import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
+import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.util.UtilConstants;
+import org.kuali.student.common.ui.client.widgets.DataHelper;
+import org.kuali.student.common.ui.client.widgets.HasInputWidget;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.ValidationProcessable;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -26,35 +62,7 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
-import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.util.UtilConstants;
-import org.kuali.student.common.ui.client.widgets.DataHelper;
-import org.kuali.student.common.ui.client.widgets.HasInputWidget;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSItemLabel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
-import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks, HasCrossConstraints {
+public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks, HasCrossConstraints, ValidationProcessable {
     private static final String VALUE = "value";
     private static final String DISPLAY = "display";
 
@@ -469,6 +477,19 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
 	public KSPicker getPicker() {
 		return picker;
+	}
+
+	@Override
+	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
+		//Validation results passed to selected list should be in the form foo/bar/1
+		String indexNumber=vr.getElement().substring(vr.getElement().lastIndexOf('/')+1);
+		KSItemLabel itemLabel = getSelectedItems().get(Integer.parseInt(indexNumber));
+		return itemLabel.processValidationResult(vr, vr.getElement().substring(0, vr.getElement().lastIndexOf('/')));
+	}
+
+	@Override
+	public boolean shouldProcessValidationResult() {
+		return true;
 	}
 
 }

@@ -433,6 +433,13 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	 * @return
 	 */
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
+		//Check if this field is responsible for processing its own validation results
+		if(getFieldWidget() instanceof ValidationProcessable){
+			if(((ValidationProcessable)getFieldWidget()).shouldProcessValidationResult()){
+				return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr);
+			}
+		}
+		
 		status = ErrorLevel.OK;
 
 		if(vr.getLevel() == ErrorLevel.ERROR){

@@ -301,6 +301,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         if(vrElement.startsWith("/")){
                             vrElement = vrElement.substring(1);
                         }
+                        //Strip out end indexes for collections of primitives to be handled by the element
+                        vrElement = vrElement.replaceFirst("^(\\S+)/[0-9]+$", "$1");
+                                   
 						if(vrElement.equals(f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
 							if (element != null){

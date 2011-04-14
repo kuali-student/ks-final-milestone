@@ -24,7 +24,7 @@ public class CommonLookupParam  implements Serializable {
     private boolean caseSensitive;
     private Usage usage;
 	protected String fieldPath;
-
+	protected String fieldPathMessageId;
 
     public enum Widget {
         SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
@@ -142,5 +142,13 @@ public class CommonLookupParam  implements Serializable {
 
 	public void setWidget(Widget widget) {
 		this.widget = widget;
+	}
+
+	public String getFieldPathMessageId() {
+		return fieldPathMessageId;
+	}
+
+	public void setFieldPathMessageId(String fieldPathMessageId) {
+		this.fieldPathMessageId = fieldPathMessageId;
 	}
 }
