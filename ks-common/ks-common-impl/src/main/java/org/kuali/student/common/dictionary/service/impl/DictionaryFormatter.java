@@ -544,6 +544,10 @@ public class DictionaryFormatter
   {
    return "ATP";
   }
+  if (searchType.startsWith ("subjectCode."))
+  {
+   return "SC";
+  }
   throw new IllegalArgumentException ("Unknown type of search: " + searchType);
  }
 
