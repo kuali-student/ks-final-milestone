@@ -226,7 +226,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
-                        val.setError(getMessage("validation.required"));
+                        if(field.getLabelKey()!=null){
+                        	val.setError(getMessage(field.getLabelKey()));
+                        } else {
+                        	val.setError(getMessage("validation.required"));
+                        }
                         results.add(val);
                     }
                 }
@@ -642,7 +646,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     	if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
                 ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
-                val.setMessage(getMessage("validation.required"));
+                if(constraint.getLabelKey()!=null){
+                	val.setError(getMessage(constraint.getLabelKey()));
+                } else {
+                	val.setMessage(getMessage("validation.required"));
+                }
                 val.setLevel(constraint.getErrorLevel());
                 valResults.add(val);
                	processCrossFieldWarning(valResults, field.getCaseConstraint(), constraint.getErrorLevel());

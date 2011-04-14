@@ -101,7 +101,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -135,7 +135,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
-        if (isNotEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -159,7 +159,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -711,7 +711,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -750,7 +750,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -787,7 +787,7 @@ public class ProgramServiceImpl implements ProgramService {
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
-        if (isNotEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1084,7 +1084,7 @@ public class ProgramServiceImpl implements ProgramService {
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1192,7 +1192,7 @@ public class ProgramServiceImpl implements ProgramService {
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
