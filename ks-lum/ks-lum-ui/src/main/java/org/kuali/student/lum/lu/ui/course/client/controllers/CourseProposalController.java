@@ -619,8 +619,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 public void onSuccess(DataSaveResult result) {
                 	KSBlockingProgressIndicator.removeTask(saving);
 
-					clearAllWarnings();
-                	if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
+					Application.getApplicationContext().clearValidationWarnings();
+					Application.getApplicationContext().addValidationWarnings(result.getValidationResults());
+                	
+					if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
                         saveActionEvent.doActionComplete();
@@ -665,7 +667,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				}
 	    				
 	    				if (ValidatorClientUtils.hasWarnings(result.getValidationResults())){
-		    				isValid(result.getValidationResults(), false, true);
+		    				//isValid(result.getValidationResults(), false, true);
 	    					KSNotifier.show("Saved with Warnings");
 	    				} else {
 	    					KSNotifier.show("Save Successful");
@@ -694,23 +696,32 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	Application.getApplicationContext().clearCrossConstraintMap(null);
     	Application.getApplicationContext().clearPathToFieldMapping(null);
     	Application.getApplicationContext().setParentPath("");
-    	
+    	   	
     	init(onReadyCallback);
 	}
-	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
-	//This gets called twice which is not optimal
+
+    //Before show is called before the model is bound to the widgets. We need to update cross constraints and re-display 
+    // validation warnings after widget binding
+    //This gets called twice which is not optimal
 	@Override
 	public <V extends Enum<?>> void showView(V viewType,
 			final Callback<Boolean> onReadyCallback) {
-		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+		Callback<Boolean> finalizeView = new Callback<Boolean>(){
 			public void exec(Boolean result) {
 				onReadyCallback.exec(result);
-		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+				//Update cross constraints
+				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
+
+	        	//Clear existing warnings and re-display new ones if they exist
+				clearAllWarnings();
+				if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
+					isValid(Application.getApplicationContext().getValidationWarnings(), true);
+	        	}				
 			}
         };
-		super.showView(viewType, updateCrossConstraintsCallback);
+		super.showView(viewType, finalizeView);
 	}
  
    @Override
