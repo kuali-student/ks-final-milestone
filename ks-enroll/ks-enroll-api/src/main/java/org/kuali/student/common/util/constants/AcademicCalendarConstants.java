@@ -16,7 +16,7 @@ package org.kuali.student.common.util.constants;
 
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
@@ -38,7 +38,7 @@ public class AcademicCalendarConstants {
     public static final String REF_OBJECT_URI_CAMPUS_CALENDAR = REF_OBJECT_URI_SERVICE_PREFIX + "/" + CampusCalendarInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_HOLIDAY = REF_OBJECT_URI_SERVICE_PREFIX + "/" + HolidayInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_KEY_DATE = REF_OBJECT_URI_SERVICE_PREFIX + "/" + KeyDateInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_ENROLLMENT_DATE_GROUP = REF_OBJECT_URI_SERVICE_PREFIX + "/" + EnrollmentDateGroupInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ENROLLMENT_DATE_GROUP = REF_OBJECT_URI_SERVICE_PREFIX + "/" + RegistrationDateGroupInfo.class.getSimpleName();
     /**
      * Academic Calendar Types
      */

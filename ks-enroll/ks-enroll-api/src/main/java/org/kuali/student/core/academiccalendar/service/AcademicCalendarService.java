@@ -31,7 +31,7 @@ import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -1007,29 +1007,29 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public StatusInfo deleteHoliday(@WebParam(name = "holidayKey") String holidayKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Gets the enrollment key date group for a term.
+     * Gets the registration key date group for a term.
      *
      * @param termKey unique key of a term
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the enrollment date group
+     * @return the registration date group
      * @throws DoesNotExistException termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public EnrollmentDateGroupInfo getEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RegistrationDateGroupInfo getRegistrationDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates an enrollment date grpup. Depending on the value of
+     * Validates an registration date grpup. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained subobjects
      * or expanded to perform all tests related to this object. If an
-     * identifier is present for the enrollment date group and a
+     * identifier is present for the registration date group and a
      * record is found for that identifier, the validation checks if
-     * the enrollment date group can be shifted to the new values. If
+     * the registration date group can be shifted to the new values. If
      * a record cannot be found for the identifier, it is assumed that
      * the record does not exist and as such, the checks performed
      * will be much shallower, typically mimicking those performed by
@@ -1039,7 +1039,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * of the server assigning an identifier.
      *
      * @param validationType Identifier of the extent of validation
-     * @param enrollmentDateGroupInfo the enrollment date group to be tested.
+     * @param registrationDateGroupInfo the registration date group to be tested.
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -1049,28 +1049,28 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateEnrollmentDateGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "enrollmentDateGroupInfo") EnrollmentDateGroupInfo enrollmentDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateRegistrationDateGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationDateGroupInfo") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Updates a the enrollment key date group for a term. The
+     * Updates a the registration key date group for a term. The
      * date group is a set of hardened well-known dates. 
      *
-     * Updating an enrollment date group is a short cut to creating or
+     * Updating an registration date group is a short cut to creating or
      * updating the corresponding key dates and relating them to the
-     * given term. An EnrollmentDateGroupInfo is available for all
+     * given term. An RegistrationDateGroupInfo is available for all
      * Terms by default and does not explicitly need to be created.
      *
      * If the KeyDates have not been created for the dates in
-     * the group, an EnrollmentDateGroup is still returned from
-     * getEnrollmentDateGroup() but with empty or default dates.
+     * the group, an RegistrationDateGroup is still returned from
+     * getRegistrationDateGroup() but with empty or default dates.
      *
-     * Setting date values in an EnrollmentDateGroup through this
+     * Setting date values in an RegistrationDateGroup through this
      * update method either creates the KeyDates with the appropriate
      * Types that map to the fields in the date group for the given
      * Term or updates them if they already exist.
      *
      * @param termKey key of Term
-     * @param enrollmentDateGroup the enrollment date group
+     * @param registrationDateGroup the registration date group
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -1085,7 +1085,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws VersionMismatchException The action was attempted on an out of date 
      *         version.
      */
-    public EnrollmentDateGroupInfo updateEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "enrollmentDateGroup") EnrollmentDateGroupInfo enrollmentDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public RegistrationDateGroupInfo updateRegistrationDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "registrationDateGroup") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
      * Calculates the number of instructional days for a Term. The

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
@@ -480,16 +480,16 @@ public abstract class AcademicCalendarServiceDecorator implements
 	}
 
 	@Override
-	public EnrollmentDateGroupInfo getEnrollmentDateGroup(String termKey,
+	public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return nextDecorator.getEnrollmentDateGroup(termKey, context);
+		return nextDecorator.getRegistrationDateGroup(termKey, context);
 	}
 
 	@Override
-	public EnrollmentDateGroupInfo updateEnrollmentDateGroup(String termKey,
-			EnrollmentDateGroupInfo enrollmentDateGroupInfo, ContextInfo context)
+	public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey,
+			RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,

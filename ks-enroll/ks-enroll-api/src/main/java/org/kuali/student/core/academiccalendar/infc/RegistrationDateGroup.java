@@ -22,7 +22,7 @@ import java.util.Date;
  * A cluster of hardened dates pertinent to an academic term.
  *
  * A Date Group is a short cut to accessing a set of KeyDates dates
- * relating to a Term. An EnrollmentDateGroup is available for all
+ * relating to a Term. An RegistrationDateGroup is available for all
  * Terms by default and does not explicitly need to be created.
  *
  * The dates in this group map to KeyDates. If a KeyDate does not
@@ -39,7 +39,7 @@ import java.util.Date;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface EnrollmentDateGroup {
+public interface RegistrationDateGroup {
 
     /**
      * Name: Term Key

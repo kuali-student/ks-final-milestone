@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.core.academiccalendar.infc.EnrollmentDateGroup;
+import org.kuali.student.core.academiccalendar.infc.RegistrationDateGroup;
 
 
 
@@ -39,9 +39,9 @@ import org.kuali.student.core.academiccalendar.infc.EnrollmentDateGroup;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnrollmentDateGroupInfo", propOrder = {"termKey", "registrationStartDate", "registrationEndDate", "classStartDate", "classEndDate", "addDate", "dropDate", "finalExamStartDate", "finalExamEndDate", "gradingStartDate", "gradingEndDate", "_futureElements"})
+@XmlType(name = "RegistrationDateGroupInfo", propOrder = {"termKey", "registrationStartDate", "registrationEndDate", "classStartDate", "classEndDate", "addDate", "dropDate", "finalExamStartDate", "finalExamEndDate", "gradingStartDate", "gradingEndDate", "_futureElements"})
 
-public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializable {
+public class RegistrationDateGroupInfo implements RegistrationDateGroup, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -81,7 +81,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
-    private EnrollmentDateGroupInfo() {
+    private RegistrationDateGroupInfo() {
         termKey = null;
         registrationStartDate = null;
         registrationEndDate = null;
@@ -97,12 +97,12 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
     }
 
     /**
-     * Constructs a new EnrollmentDateGroupInfo from another
-     * EnrollmentDateGroupInfo.
+     * Constructs a new RegistrationDateGroupInfo from another
+     * RegistrationDateGroupInfo.
      *
-     * @param dateGroup the EnrollmentDateGroup to copy
+     * @param dateGroup the RegistrationDateGroup to copy
      */
-    public EnrollmentDateGroupInfo(EnrollmentDateGroup dateGroup) {
+    public RegistrationDateGroupInfo(RegistrationDateGroup dateGroup) {
         this.termKey = dateGroup.getTermKey();
         this.registrationStartDate = dateGroup.getRegistrationStartDate();
         this.registrationEndDate = dateGroup.getRegistrationEndDate();
@@ -183,7 +183,7 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
     /**
      * The builder class for this DateInfo.
      */
-    public static class Builder implements ModelBuilder<EnrollmentDateGroupInfo>, EnrollmentDateGroup {
+    public static class Builder implements ModelBuilder<RegistrationDateGroupInfo>, RegistrationDateGroup {
         private String termKey;
         private Date registrationStartDate;
         private Date registrationEndDate;
@@ -204,9 +204,9 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
 
         /**
          *  Constructs a new builder initialized from another
-         *  EnrollmentDateGroup.
+         *  RegistrationDateGroup.
          */
-        public Builder(EnrollmentDateGroup dateGroup) {
+        public Builder(RegistrationDateGroup dateGroup) {
             termKey = dateGroup.getTermKey();
             registrationStartDate = dateGroup.getRegistrationStartDate();
             registrationEndDate = dateGroup.getRegistrationStartDate();
@@ -221,12 +221,12 @@ public class EnrollmentDateGroupInfo implements EnrollmentDateGroup, Serializabl
         }
 
         /**
-         * Builds the EnrollmentDateGroup.
+         * Builds the RegistrationDateGroup.
          *
-         * @return a new EnrollmentDateGroup
+         * @return a new RegistrationDateGroup
          */
-        public EnrollmentDateGroupInfo build() {
-            return new EnrollmentDateGroupInfo(this);
+        public RegistrationDateGroupInfo build() {
+            return new RegistrationDateGroupInfo(this);
         }
 
         @Override
