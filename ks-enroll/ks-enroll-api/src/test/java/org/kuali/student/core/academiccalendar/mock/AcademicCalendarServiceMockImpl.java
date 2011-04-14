@@ -14,7 +14,6 @@ import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.service.AcademicCalendarService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.enroll.test.utilities.MockHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -29,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.test.utilities.MockHelper;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
 

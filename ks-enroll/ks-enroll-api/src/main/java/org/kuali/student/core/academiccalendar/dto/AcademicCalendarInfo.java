@@ -188,11 +188,12 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
             this.startDate = academicCalendar.getStartDate();
             this.endDate = academicCalendar.getEndDate();
             if (academicCalendar.getTerms() != null) {
-                this.terms = new ArrayList(academicCalendar.getTerms().size());
+                this.terms = new ArrayList<TermInfo>(academicCalendar.getTerms().size());
                 for (Term t : academicCalendar.getTerms()) {
                     this.terms.add(new TermInfo(t));
                 }
             }
+            this.campusCalendar =  new CampusCalendarInfo(academicCalendar.getCampusCalendar());
             this.credentialProgramType = new TypeInfo(academicCalendar.getCredentialProgramType());
         }
 

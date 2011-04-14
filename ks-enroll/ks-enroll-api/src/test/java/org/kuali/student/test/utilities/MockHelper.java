@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enroll.test.utilities;
+package org.kuali.student.test.utilities;
 
-import java.util.ArrayList;
 import org.kuali.student.common.infc.*;
 
 import java.util.Date;
-import java.util.List;
+
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+
 
 /**
  * A helper class for the Mock implementation
@@ -63,5 +62,8 @@ public class MockHelper {
         bldr.setVersionInd("" + (oldVersionInd + 1));
         return bldr.build();
     }
+    
+    
+  
 }
 

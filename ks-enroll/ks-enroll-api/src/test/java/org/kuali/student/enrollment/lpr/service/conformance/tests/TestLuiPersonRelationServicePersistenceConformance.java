@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -74,13 +75,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		this.service = service;
 	}
 
-	private ContextInfo getContext1() {
-		return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
-	}
-
-	private ContextInfo getContext2() {
-		return new ContextInfo.Builder().principalId("principalId.2").localeLanguage("fr").localeRegion("ca").build();
-	}
+	
 
 	private Date parseDate(String str) {
 		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -109,7 +104,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		LuiPersonRelationInfo.Builder lprBldr = new LuiPersonRelationInfo.Builder();
 		lprBldr.setEffectiveDate(parseDate("2010-01-01"));		
 		LuiPersonRelationInfo luiPersonRelationInfo = lprBldr.build();
-		ContextInfo context = getContext1();
+		ContextInfo context = TestHelper.getContext1();
 
 		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
 		assertEquals(3, lprIds.size());
@@ -152,7 +147,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		das.add(da.build());
 		orig.setAttributes(das);
 		// orig.setAttributes(das);
-		ContextInfo context = getContext1();
+		ContextInfo context = TestHelper.getContext1();
 		Date beforeCreate = new Date();
         String lprId = null;
         try {
@@ -227,7 +222,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		LuiPersonRelationInfo.Builder lfbldr = new LuiPersonRelationInfo.Builder(fetched);
 		lfbldr.setAttributes(das);
 		fetched = lfbldr.build();
-		context = getContext2();
+		context = TestHelper.getContext2();
 
 		Date beforeUpdate = new Date();
 		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(fetched.getId(), fetched, context);

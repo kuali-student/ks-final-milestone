@@ -27,7 +27,6 @@ import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.State;
 import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
-import org.kuali.student.enroll.test.utilities.MockHelper;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -46,6 +45,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.test.utilities.MockHelper;
 import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 
 /**
