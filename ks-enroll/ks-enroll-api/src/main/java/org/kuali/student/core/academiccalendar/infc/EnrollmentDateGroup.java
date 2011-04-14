@@ -21,6 +21,20 @@ import java.util.Date;
 /**
  * A cluster of hardened dates pertinent to an academic term.
  *
+ * A Date Group is a short cut to accessing a set of KeyDates dates
+ * relating to a Term. An EnrollmentDateGroup is available for all
+ * Terms by default and does not explicitly need to be created.
+ *
+ * The dates in this group map to KeyDates. If a KeyDate does not
+ * exist, then the return valueis null. An update of this structure
+ * will update the corresponding KeyDate if it exists, or create one
+ * of the appropriate Type if it does not exist.
+ *
+ * The KeyDate Type is used to link a specific KeyDate with one of the
+ * elements in this structure. For example, getRegistrationStartDate()
+ * returns the starting date of the range in a KeyDate of type
+ * kuali.apt.milestone.RegistrationPeriod for the associated term.
+ *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 

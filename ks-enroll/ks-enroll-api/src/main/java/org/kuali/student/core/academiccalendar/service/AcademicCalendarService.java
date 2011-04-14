@@ -106,7 +106,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of Academic Calendars
-     * @throws DoesNotExistExceptionan  academicCalendarKey in list not found
+     * @throws DoesNotExistException an  academicCalendarKey in list not found
      * @throws InvalidParameterException invalid academicCalendarKey in list
      * @throws MissingParameterException missing academicCalendarKeyList
      * @throws OperationFailedException unable to complete request
@@ -341,7 +341,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of Campus Calendars
-     * @throws DoesNotExistExceptionan  campusCalendarKey in list not found
+     * @throws DoesNotExistException a campusCalendarKey in list not found
      * @throws InvalidParameterException invalid campusCalendarKey in list
      * @throws MissingParameterException missing campusCalendarKeyList
      * @throws OperationFailedException unable to complete request
@@ -492,7 +492,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of Terms
-     * @throws DoesNotExistExceptionan  termKey in list not found
+     * @throws DoesNotExistException a termKey in list not found
      * @throws InvalidParameterException invalid termKey in list
      * @throws MissingParameterException missing termKeyList
      * @throws OperationFailedException unable to complete request
@@ -514,6 +514,129 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getTermKeysByType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list Terms mapped to the given Academic Calendar.
+     *
+     * Mappings are managed through Type configuration and inferred by
+     * the dates of the calendar and term so operations to manage the
+     * mappings are not currently defined.
+     *
+     * @param academicCalendarKey a key for an academic calendar
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Terms
+     * @throws DoesNotExistException the academic calendar not found
+     * @throws InvalidParameterException invalid acadenmicCalendarKey
+     * @throws MissingParameterException missing academicCalendarKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") List<String> academicCalendar, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list Terms nested inside the given Term.
+     *
+     * Mappings are managed through Type configuration and inferred by
+     * the dates of the terms so operations to manage the mappings are
+     * not currently defined.
+     *
+     * @param termKey a key for a Term
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Terms
+     * @throws DoesNotExistException the term is not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing termKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getTermsForTerm(@WebParam(name = "termKey") List<String> termCalendar, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Validates a term. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained subobjects or expanded to
+     * perform all tests related to this object. If an identifier is
+     * present for the term and a record is found for that identifier,
+     * the validation checks if the term can be shifted to the new
+     * values. If a record cannot be found for the identifier, it is
+     * assumed that the record does not exist and as such, the checks
+     * performed will be much shallower, typically mimicking those
+     * performed by setting the validationType to the current
+     * object. This is a slightly different pattern from the standard
+     * validation as the caller provides the identifier in the create
+     * statement instead of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param termInfo the term information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, termInfo
+     * @throws MissingParameterException missing validationTypeKey, termInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateTerm(@WebParam(name = "validationType") String validationType, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Creates a new Tern.
+     *
+     * @param termKey the key of the term to be created
+     * @param termInfo Details of the term to be created
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the details of the Term just created
+     * @throws AlreadyExistsException the Term being created already exists
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TermInfo createTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Updates an existing Term.
+     *
+     * @param termKey Key of Term to be updated
+     * @param termInfo Details of updates to the Term being updated
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the details of Term just updated
+     * @throws DataValidationErrorException One or more values invalid for this 
+     *         operation
+     * @throws DoesNotExistException the Term does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date 
+     *         version.
+     */
+    public TermInfo updateTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /** 
+     * Deletes an existing Term.
+     *
+     * @param termKey the key of the Term to be deleted
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException the Term does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the details of a single key date by a key date key.
@@ -541,7 +664,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan  keyDateKey in list not found
+     * @throws DoesNotExistException an  keyDateKey in list not found
      * @throws InvalidParameterException invalid keyDateKey in list
      * @throws MissingParameterException missing keyDateKeyList
      * @throws OperationFailedException unable to complete request
@@ -574,7 +697,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws DoesNotExistException an academicCalendarKey not found
      * @throws InvalidParameterException invalid academicCalendarKey
      * @throws MissingParameterException missing academicCalendarKey
      * @throws OperationFailedException unable to complete request
@@ -595,7 +718,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws DoesNotExistException an academicCalendarKey not found
      * @throws InvalidParameterException invalid academicCalendarKey
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
@@ -611,7 +734,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan termKey not found
+     * @throws DoesNotExistException a termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
      * @throws OperationFailedException unable to complete request
@@ -631,7 +754,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan termKey not found
+     * @throws DoesNotExistException a termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
@@ -648,7 +771,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan termKey not found
+     * @throws DoesNotExistException a termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
      * @throws OperationFailedException unable to complete request
@@ -668,7 +791,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of key dates
-     * @throws DoesNotExistExceptionan termKey not found
+     * @throws DoesNotExistException a termKey not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
@@ -789,7 +912,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      *                and locale information about the caller of service
      *                operation
      * @return a list of holidays
-     * @throws DoesNotExistExceptionan academicCalendarKey not found
+     * @throws DoesNotExistException an academicCalendarKey not found
      * @throws InvalidParameterException invalid academicCalendarKey
      * @throws MissingParameterException missing academicCalendarKey
      * @throws OperationFailedException unable to complete request
@@ -900,10 +1023,51 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public EnrollmentDateGroupInfo getEnrollmentDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Validates an enrollment date grpup. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the enrollment date group and a
+     * record is found for that identifier, the validation checks if
+     * the enrollment date group can be shifted to the new values. If
+     * a record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param enrollmentDateGroupInfo the enrollment date group to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateEnrollmentDateGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "enrollmentDateGroupInfo") EnrollmentDateGroupInfo enrollmentDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
      * Updates a the enrollment key date group for a term. The
-     * date group is a set of hardened well-known dates. Updating
-     * a key date group is a short cut to creating the corresponding
-     * key dates and relating them to the given term.
+     * date group is a set of hardened well-known dates. 
+     *
+     * Updating an enrollment date group is a short cut to creating or
+     * updating the corresponding key dates and relating them to the
+     * given term. An EnrollmentDateGroupInfo is available for all
+     * Terms by default and does not explicitly need to be created.
+     *
+     * If the KeyDates have not been created for the dates in
+     * the group, an EnrollmentDateGroup is still returned from
+     * getEnrollmentDateGroup() but with empty or default dates.
+     *
+     * Setting date values in an EnrollmentDateGroup through this
+     * update method either creates the KeyDates with the appropriate
+     * Types that map to the fields in the date group for the given
+     * Term or updates them if they already exist.
      *
      * @param termKey key of Term
      * @param enrollmentDateGroup the enrollment date group
