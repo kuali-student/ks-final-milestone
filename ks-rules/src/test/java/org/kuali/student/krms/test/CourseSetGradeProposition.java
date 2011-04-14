@@ -1,7 +1,7 @@
 package org.kuali.student.krms.test;
 
-import org.kuali.rice.krms.api.Asset;
-import org.kuali.rice.krms.api.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.student.lum.lrc.dto.GradeInfo;
 import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
@@ -17,7 +17,7 @@ public class CourseSetGradeProposition extends ComparisonOverCourseSetPropositio
     private GradeTypeInfo gradeTypeInfo;
     private GradeInfo gradeInfo;
     
-    private final Asset creditsAsset = new Asset("gradeInACourseAsset", "GradeValue");
+    private final TermSpecification creditsAsset = new TermSpecification("gradeInACourseAsset", "GradeValue");
     
     @Autowired
     private LrcService lrcService;

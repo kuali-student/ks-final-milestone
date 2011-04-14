@@ -1,8 +1,6 @@
 package org.kuali.student.krms.test;
 
-import org.kuali.rice.krms.api.Asset;
-import org.kuali.rice.krms.api.ExecutionEnvironment;
-import org.kuali.rice.krms.api.Proposition;
+import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 
 public class CourseSetGPAProposition extends ComparisonOverCourseSetProposition {
@@ -11,7 +9,7 @@ public class CourseSetGPAProposition extends ComparisonOverCourseSetProposition 
     private Float gpa;
     private ComparisonOperator operator;
     
-    private final Asset creditsAsset = new Asset("gpaInACourseAsset", "Float");
+    private final TermSpecification creditsAsset = new TermSpecification("gpaInACourseAsset", "Float");
 
     public CourseSetGPAProposition(String courseSetId, Float gpa, ComparisonOperator operator) {
         super(courseSetId);

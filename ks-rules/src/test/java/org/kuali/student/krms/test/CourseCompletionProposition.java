@@ -3,14 +3,15 @@ package org.kuali.student.krms.test;
 import java.util.Collection;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.rice.krms.api.Asset;
-import org.kuali.rice.krms.api.AssetResolutionException;
-import org.kuali.rice.krms.api.ExecutionEnvironment;
-import org.kuali.rice.krms.api.Proposition;
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermSpecification;
+import org.kuali.rice.krms.framework.engine.Proposition;
 
 public abstract class CourseCompletionProposition implements Proposition {
     
-    private final Asset studentCompletedCoursesAsset = new Asset("studentCompletedCourseIds", "Collection<String>");
+    private final Term studentCompletedCoursesAsset = new Term(new TermSpecification("studentCompletedCourseIds", "Collection<String>"));
     
     protected final boolean checkForAllCompleted;
     
@@ -32,7 +33,7 @@ public abstract class CourseCompletionProposition implements Proposition {
         
         try {
             enrolledCourses = environment.resolveTerm(studentCompletedCoursesAsset);
-        } catch (AssetResolutionException e) {
+        } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }
         

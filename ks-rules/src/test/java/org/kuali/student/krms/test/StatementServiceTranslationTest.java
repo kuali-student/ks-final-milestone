@@ -1,5 +1,8 @@
 package org.kuali.student.krms.test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,15 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.krms.api.Agenda;
-import org.kuali.rice.krms.api.Proposition;
-import org.kuali.rice.krms.api.Rule;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.AgendaTree;
+import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.CompoundProposition;
-import org.kuali.rice.krms.framework.engine.LogicalOperator;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.Rule;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -25,14 +34,14 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class StatementServiceTranslationTest {
     
-    private static final String COREQUISITE_STATMENT_TYPE = "fill in with valid data for coreq";
+    private static final String COREQUISITE_STATMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
     
-    @Autowired
-    StatementService statementService;
+    private StatementService statementService;
+
+    //private ApplicationContext appContext;
     
     private static final List<String> validRequirementComponentTypes;
     
@@ -53,6 +62,79 @@ public class StatementServiceTranslationTest {
         validRequirementComponentTypes = Collections.unmodifiableList(Arrays.asList(REQ_COM_TYPE_SEED_DATA));
     }
     
+    @Before
+    public void setUp() {
+        //appContext = new FileSystemXmlApplicationContext("file:///home/andy/src/kualiWorkspace/ks-r2-poc/ks-rules/src/test/resources/applicationContext.xml");
+        //statementService = (StatementService) appContext.getBean("statementService");
+        
+        statementService = new DummyStatementService();
+    }
+
+    
+    @After
+    public void tearDown() {
+    }
+    
+    @Test
+    public void testStatementTranslationOne() {
+        try {
+            Agenda a = translateStatement("1");
+            assertNotNull(a);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+            fail();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    @Test
+    public void testStatementTranslationTwo() {
+        try {
+            Agenda a = translateStatement("2");
+            assertNotNull(a);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+            fail();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    @Test
+    public void testStatementTranslationThree() {
+        try {
+            Agenda a = translateStatement("3");
+            assertNotNull(a);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+            fail();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+            fail();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
     public Agenda translateStatement(String statmentId) throws DoesNotExistException, 
             InvalidParameterException, MissingParameterException, OperationFailedException {
         
@@ -62,7 +144,10 @@ public class StatementServiceTranslationTest {
         
         Rule rule = new BasicRule(rootProposition, null);
         
-        AgendaTree agendaTree = new AgendaTree(Arrays.asList(rule), null, null, null);
+        List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>();
+        treeEntries.add(new BasicAgendaTreeEntry(rule));
+        
+        AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
         
         Agenda result = new BasicAgenda("statementAgenda", null, agendaTree);
         
@@ -202,6 +287,8 @@ public class StatementServiceTranslationTest {
             String courseId = fieldMap.get("kuali.reqComponent.field.type.course.clu.id").getValue();
             
             result = new SingleCourseCompletionProposition(courseId);
+            
+            return result;
         }
         
         String courseSetId = fieldMap.get("kuali.reqComponent.field.type.course.cluSet.id").getValue();
@@ -221,7 +308,7 @@ public class StatementServiceTranslationTest {
         Map<String, ReqCompFieldInfo> result = new HashMap<String, ReqCompFieldInfo>(reqCompFields.size());
         
         for(ReqCompFieldInfo field : reqCompFields) {
-            result.put(field.getId(), field);
+            result.put(field.getType(), field);
         }
         
         return result;
@@ -305,5 +392,5 @@ public class StatementServiceTranslationTest {
         
         return result;
     }
-    
+
 }

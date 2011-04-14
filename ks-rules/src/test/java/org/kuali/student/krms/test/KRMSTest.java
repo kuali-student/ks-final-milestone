@@ -3,6 +3,7 @@ package org.kuali.student.krms.test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,26 +11,31 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.rice.krms.api.Agenda;
-import org.kuali.rice.krms.api.Asset;
-import org.kuali.rice.krms.api.AssetResolver;
-import org.kuali.rice.krms.api.Context;
-import org.kuali.rice.krms.api.ContextProvider;
-import org.kuali.rice.krms.api.EngineResults;
-import org.kuali.rice.krms.api.ExecutionOptions;
-import org.kuali.rice.krms.api.Proposition;
-import org.kuali.rice.krms.api.Rule;
-import org.kuali.rice.krms.api.SelectionCriteria;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.api.engine.TermSpecification;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.AgendaTree;
+import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
 import org.kuali.rice.krms.framework.engine.BasicContext;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.engine.ComparableTermBasedProposition;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.CompoundProposition;
-import org.kuali.rice.krms.framework.engine.LogicalOperator;
+import org.kuali.rice.krms.framework.engine.Context;
+import org.kuali.rice.krms.framework.engine.ContextProvider;
+import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
 import org.kuali.rice.krms.framework.engine.ResultLogger;
+import org.kuali.rice.krms.framework.engine.Rule;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -52,27 +58,32 @@ public class KRMSTest {
 //		ComparableTerm term1 = new SimpleComparableTerm<Integer>(Integer.valueOf(100));
 //		ResolvableComparableTerm<Integer> resolvableComparableTerm = new ResolvableComparableTerm<Integer>(testResolver.getOutput());
 		
-		Proposition prop1 = new ComparableTermBasedProposition(ComparisonOperator.GREATER_THAN, totalCostAsset, Integer.valueOf(1));
-		Proposition prop2 = new ComparableTermBasedProposition(ComparisonOperator.LESS_THAN, totalCostAsset, Integer.valueOf(1000));
-		Proposition prop3 = new ComparableTermBasedProposition(ComparisonOperator.GREATER_THAN, totalCostAsset, Integer.valueOf(1000));
+	    Term totalCostTerm = new Term(totalCostAsset);
+	    
+		Proposition prop1 = new ComparableTermBasedProposition<Integer>(ComparisonOperator.GREATER_THAN, totalCostTerm, Integer.valueOf(1));
+		Proposition prop2 = new ComparableTermBasedProposition<Integer>(ComparisonOperator.LESS_THAN, totalCostTerm, Integer.valueOf(1000));
+		Proposition prop3 = new ComparableTermBasedProposition<Integer>(ComparisonOperator.GREATER_THAN, totalCostTerm, Integer.valueOf(1000));
 		CompoundProposition compoundProp1 = new CompoundProposition(LogicalOperator.AND, Arrays.asList(prop1, prop2, prop3));
 		
 		Rule rule = new BasicRule("InBetween",compoundProp1, null);
 		
-		AgendaTree agendaTree = new AgendaTree(Arrays.asList(rule), null, null, null); 
+		List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>();
+		treeEntries.add(new BasicAgendaTreeEntry(rule));
+		
+		AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
 		Agenda agenda = new BasicAgenda("test", new HashMap<String, String>(), agendaTree);
 		
 		Map<String, String> contextQualifiers = new HashMap<String, String>();
 		contextQualifiers.put("docTypeName", "Proposal");
 		
-		List<AssetResolver<?>> resolvers = new ArrayList<AssetResolver<?>>();
+		List<TermResolver<?>> resolvers = new ArrayList<TermResolver<?>>();
 		resolvers.add(gpaResolver);
 		resolvers.add(learningResultsResolver);
 		
-		Context context = new BasicContext(contextQualifiers, Arrays.asList(agenda), resolvers);
+		Context context = new BasicContext(Arrays.asList(agenda), resolvers);
 		ContextProvider contextProvider = new ManualContextProvider(context);
 		
-		SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria("test", contextQualifiers, Collections.EMPTY_MAP);
+		SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria("test", new Date(), contextQualifiers, Collections.EMPTY_MAP);
 		
 		ProviderBasedEngine engine = new ProviderBasedEngine();
 		engine.setContextProvider(contextProvider);
@@ -81,58 +92,68 @@ public class KRMSTest {
 		HashMap<String, String> xOptions = new HashMap<String, String>();
 		xOptions.put(ExecutionOptions.LOG_EXECUTION.toString(), Boolean.toString(true));
 		
-		HashMap<Asset, Object> execFacts = new HashMap<Asset, Object>();
-		execFacts.put(studentId, new String("013005779"));
+		HashMap<Term, Object> execFacts = new HashMap<Term, Object>();
+		execFacts.put(new Term(studentId), new String("013005779"));
 		
 		LOG.init();
 		EngineResults results = engine.execute(selectionCriteria, execFacts, xOptions);
 		
 	}
 	
-	private static final Asset totalCostAsset = new Asset("totalCost","Integer");
+	private static final TermSpecification totalCostAsset = new TermSpecification("totalCost","Integer");
 	
-	private static final AssetResolver<Integer> testResolver = new AssetResolver<Integer>(){
+	private static final TermResolver<Integer> testResolver = new TermResolver<Integer>(){
 		
 		@Override
 		public int getCost() { return 1; }
 		
 		@Override
-		public Asset getOutput() { return totalCostAsset; }
+		public TermSpecification getOutput() { return totalCostAsset; }
 		
 		@Override
-		public Set<Asset> getPrerequisites() { return Collections.emptySet(); }
+		public Set<TermSpecification> getPrerequisites() { return Collections.emptySet(); }
 		
-		@Override
-		public Integer resolve(Map<Asset, Object> resolvedPrereqs) {
-			return 5;
-		}
+        @Override
+        public Set<String> getParameterNames() {
+            return Collections.emptySet();
+        }
+
+        @Override
+        public Integer resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+            return 5;
+        }
 	};
 	
 
-	private static final Asset studentId = new Asset("gpa","String");
+	private static final TermSpecification studentId = new TermSpecification("gpa","String");
 	
-	private static final Asset gpaAsset = new Asset("gpa","Float");
+	private static final TermSpecification gpaAsset = new TermSpecification("gpa","Float");
 	
-	private static final AssetResolver<Float> gpaResolver = new AssetResolver<Float>(){
+	private static final TermResolver<Float> gpaResolver = new TermResolver<Float>(){
 		
 		@Override
 		public int getCost() { return 1; }
 		
 		@Override
-		public Asset getOutput() { return gpaAsset; }
+		public TermSpecification getOutput() { return gpaAsset; }
 		
 		@Override
-		public Set<Asset> getPrerequisites() {
-			Set<Asset> preReqs = new HashSet<Asset>();
+		public Set<TermSpecification> getPrerequisites() {
+			Set<TermSpecification> preReqs = new HashSet<TermSpecification>();
 			
 			preReqs.add(studentId);
 			return preReqs; 
 		}
 		
 		@Override
-		public Float resolve(Map<Asset, Object> resolvedPrereqs) {
-			return new Float(3.2);
-		}
+        public Float resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+            return new Float(3.2);
+        }
+
+        @Override
+        public Set<String> getParameterNames() {
+            return Collections.emptySet();
+        }
 	};
 	
 	
@@ -141,33 +162,38 @@ public class KRMSTest {
 		private CluInfo clu;
 	}
 	
-	private static final Asset learningResultsAsset = new Asset("academicRecord","ListOfLearningResults");
+	private static final TermSpecification learningResultsAsset = new TermSpecification("academicRecord","ListOfLearningResults");
 	
-	private static final AssetResolver<List<LearningResult>> learningResultsResolver = new AssetResolver<List<LearningResult>>(){
+	private static final TermResolver<List<LearningResult>> learningResultsResolver = new TermResolver<List<LearningResult>>(){
 		
 		@Override
 		public int getCost() { return 1; }
 		
 		@Override
-		public Asset getOutput() { return gpaAsset; }
+		public TermSpecification getOutput() { return gpaAsset; }
 		
 		@Override
-		public Set<Asset> getPrerequisites() {
-			Set<Asset> preReqs = new HashSet<Asset>();
+		public Set<TermSpecification> getPrerequisites() {
+			Set<TermSpecification> preReqs = new HashSet<TermSpecification>();
 			
 			preReqs.add(studentId);
 			return preReqs; 
 		}
 		
-		@Override
-		public List<LearningResult> resolve(Map<Asset, Object> resolvedPrereqs) {
-			return new ArrayList<LearningResult>();
-		}
+        @Override
+        public Set<String> getParameterNames() {
+            return Collections.emptySet();
+        }
+
+        @Override
+        public List<LearningResult> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+            return Collections.emptyList();
+        }
 	};
 
-	private static final Asset enrolledProgramsAsset = new Asset("academicRecord","ListOfPrograms");
+	private static final TermSpecification enrolledProgramsAsset = new TermSpecification("academicRecord","ListOfPrograms");
 	
-	private static final AssetResolver<List<CredentialProgramInfo>> enrolledProgramsResolver = new AssetResolver<List<CredentialProgramInfo>>(){
+	private static final TermResolver<List<CredentialProgramInfo>> enrolledProgramsResolver = new TermResolver<List<CredentialProgramInfo>>(){
 		
 	    @Autowired
 	    ProgramService programService;
@@ -176,18 +202,18 @@ public class KRMSTest {
 		public int getCost() { return 1; }
 		
 		@Override
-		public Asset getOutput() { return gpaAsset; }
+		public TermSpecification getOutput() { return gpaAsset; }
 		
 		@Override
-		public Set<Asset> getPrerequisites() {
-			Set<Asset> preReqs = new HashSet<Asset>();
+		public Set<TermSpecification> getPrerequisites() {
+			Set<TermSpecification> preReqs = new HashSet<TermSpecification>();
 			
 			preReqs.add(studentId);
 			return preReqs; 
 		}
 		
 		@Override
-		public List<CredentialProgramInfo> resolve(Map<Asset, Object> resolvedPrereqs) {
+        public List<CredentialProgramInfo> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 			List<CredentialProgramInfo> programs = new ArrayList<CredentialProgramInfo>();
 			String id = "asdfasdfasdf";
 			try {
@@ -196,5 +222,10 @@ public class KRMSTest {
 			
 			return programs;
 		}
+
+		@Override
+        public Set<String> getParameterNames() {
+            return Collections.emptySet();
+        }
 	};
 }

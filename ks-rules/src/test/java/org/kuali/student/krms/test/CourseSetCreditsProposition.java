@@ -1,23 +1,31 @@
 package org.kuali.student.krms.test;
 
-import org.kuali.rice.krms.api.Asset;
-import org.kuali.rice.krms.api.AssetResolutionException;
-import org.kuali.rice.krms.api.ExecutionEnvironment;
-import org.kuali.rice.krms.api.Proposition;
-import org.kuali.rice.krms.framework.engine.ComparableTermBasedProposition;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
+import org.kuali.rice.krms.framework.engine.Proposition;
 
 public class CourseSetCreditsProposition implements Proposition {
 
-    private String courseSetId;
     private ComparisonOperator operator;
-    private final Asset creditsAsset = new Asset("completedCoursesInACourseListAsset", "Integer");
+    private final TermSpecification creditsAsset = new TermSpecification("completedCoursesInACourseListAsset", "Integer");
     private Integer compareCreditCount;
+    
+    private Term creditsTerm;
 
     public CourseSetCreditsProposition(String courseSetId, ComparisonOperator operator, Integer compareCreditCount) {
-        this.courseSetId = courseSetId;
         this.operator = operator;
         this.compareCreditCount = compareCreditCount;
+        
+        
+        Map<String, String> creditsParams = new HashMap<String, String>();
+        creditsParams.put("courseSetId", courseSetId);
+        creditsTerm = new Term(creditsAsset, creditsParams);
     }
 
     @Override
@@ -30,8 +38,8 @@ public class CourseSetCreditsProposition implements Proposition {
         
         Integer termValue;
         try {
-            termValue = environment.resolveTerm(creditsAsset);
-        } catch (AssetResolutionException e) {
+            termValue = environment.resolveTerm(creditsTerm);
+        } catch (TermResolutionException e) {
             // TODO Something better than this
             throw new RuntimeException(e);
         }

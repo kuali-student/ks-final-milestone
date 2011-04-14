@@ -1,8 +1,8 @@
 package org.kuali.student.krms.test;
 
-import org.kuali.rice.krms.api.ExecutionEnvironment;
-import org.kuali.rice.krms.api.Proposition;
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
+import org.kuali.rice.krms.framework.engine.Proposition;
 
 public class TestScoreCompareProposition implements Proposition {
 
