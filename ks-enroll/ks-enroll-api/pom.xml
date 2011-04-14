@@ -46,7 +46,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <executions>
           <execution>
-            <phase>install</phase>
+            <phase>site</phase>
             <goals>
               <goal>kscontractdoc</goal>
             </goals>
@@ -58,7 +58,7 @@
           </sourceDirs>
         </configuration>
       </plugin>
-      <plugin>
+     <!-- <plugin>
         <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-ksdictionarydoc-plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
@@ -76,7 +76,7 @@
           </inputFiles>
           <projectUrl>https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources</projectUrl>
         </configuration>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2ws-plugin</artifactId>
