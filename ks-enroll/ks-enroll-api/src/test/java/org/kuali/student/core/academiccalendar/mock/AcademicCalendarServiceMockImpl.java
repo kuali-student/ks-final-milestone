@@ -8,11 +8,12 @@ import java.util.Map;
 
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
+
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
-import org.kuali.student.core.academiccalendar.infc.CampusCalendar;
+
 import org.kuali.student.core.academiccalendar.service.AcademicCalendarService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -637,25 +638,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	@Override
-	public EnrollmentDateGroupInfo getEnrollmentDateGroup(String termKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EnrollmentDateGroupInfo updateEnrollmentDateGroup(String termKey,
-			EnrollmentDateGroupInfo enrollmentDateGroupInfo, ContextInfo context)
-	throws DataValidationErrorException, DoesNotExistException,
-	InvalidParameterException, MissingParameterException,
-	OperationFailedException, PermissionDeniedException,
-	VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public Integer getInstructionalDaysForTerm(String termKey,
@@ -762,12 +745,36 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
+	
+
 	@Override
-	public List<ValidationResultInfo> validateEnrollmentDateGroup(
+	public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateRegistrationDateGroup(
 			String validationType,
-			EnrollmentDateGroupInfo enrollmentDateGroupInfo, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+			RegistrationDateGroupInfo registrationDateGroupInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RegistrationDateGroupInfo updateRegistrationDateGroup(
+			String termKey,
+			RegistrationDateGroupInfo registrationDateGroupInfo,
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -22,8 +22,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.EnrollmentDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
@@ -71,7 +71,7 @@ public class TestDictionaryCreator {
         new DictionaryCreator().execute(AtpMilestoneRelationInfo.class, "target/ks-atp-milestone-relation-dictinoary.xml");        
         new DictionaryCreator().execute(AcademicCalendarInfo.class, "target/ks-academic-calendar-dictinoary.xml");          
         new DictionaryCreator().execute(CampusCalendarInfo.class, "target/ks-campus-calendar-dictinoary.xml");          
-        new DictionaryCreator().execute(EnrollmentDateGroupInfo.class, "target/ks-enrollment-date-group-dictinoary.xml");   
+        new DictionaryCreator().execute(RegistrationDateGroupInfo.class, "target/ks-enrollment-date-group-dictinoary.xml");   
         new DictionaryCreator().execute(HolidayInfo.class, "target/ks-holiday-dictinoary.xml");   
         new DictionaryCreator().execute(TermInfo.class, "target/ks-term-dictinoary.xml");           
     }
