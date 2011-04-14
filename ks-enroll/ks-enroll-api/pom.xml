@@ -46,7 +46,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <executions>
           <execution>
-            <phase>site</phase>
+            <phase>install</phase>
             <goals>
               <goal>kscontractdoc</goal>
             </goals>
@@ -56,6 +56,25 @@
           <sourceDirs>
             <sourceDir>${project.basedir}/src/main/java</sourceDir>
           </sourceDirs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>maven-ksdictionarydoc-plugin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>ksdictionarydoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <inputFiles>
+            <inputFile>ks-lui-person-relation-dictionary.xml</inputFile>
+          </inputFiles>
+          <projectUrl>https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources</projectUrl>
         </configuration>
       </plugin>
       <plugin>
