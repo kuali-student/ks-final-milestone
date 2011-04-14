@@ -123,8 +123,9 @@
                                 <property name="summaryTitle" value="Org" />
                                 <property name="inquiryFields">
                                     <list>
-                                    	<bean parent="FieldDefinition" p:attributeName="name" />
-                                    	<bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                                    	<bean parent="FieldDefinition" p:attributeName="orgId" />
+                                    	<bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+                                    	<bean parent="FieldDefinition" p:attributeName="activeToDate"/>
                                     </list>
                                 </property>
                             </bean>

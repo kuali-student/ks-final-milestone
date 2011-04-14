@@ -58,7 +58,7 @@
 					<property name="summaryTitle" value="Organizations" />
 					<property name="summaryFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="name" />
+							<bean parent="MaintainableFieldDefinition" p:name="orgId" />
 						</list>
 					</property>
 					<property name="maintainableFields">
