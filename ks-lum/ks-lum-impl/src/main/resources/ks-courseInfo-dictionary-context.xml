@@ -81,6 +81,7 @@
    	<property name="errorLevel" value="WARN"/>
    </bean>
   </property>
+  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>

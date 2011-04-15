@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
@@ -78,7 +77,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	private Widget fieldWidget;
 	private SpanPanel widgetSpan = new SpanPanel();
 	private String fieldHTMLId;
-	private LineNum margin;
 	private String watermarkText = null;
 	public static enum LineNum{SINGLE, DOUBLE, TRIPLE}
 
@@ -435,7 +433,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
 		//Check if this field is responsible for processing its own validation results
 		if(getFieldWidget() instanceof ValidationProcessable){
-			if(((ValidationProcessable)getFieldWidget()).shouldProcessValidationResult()){
+			if(((ValidationProcessable)getFieldWidget()).shouldProcessValidationResult(vr)){
 				return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr);
 			}
 		}

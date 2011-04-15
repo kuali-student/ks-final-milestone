@@ -488,8 +488,12 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 	}
 
 	@Override
-	public boolean shouldProcessValidationResult() {
-		return true;
+	public boolean shouldProcessValidationResult(ValidationResultInfo vr) {
+		//Check if the element ends in a number and is thus a list of primitives (foo/bar/2)
+		if(vr.getElement()!=null&&vr.getElement().matches("^\\S+/[0-9]+$")){
+			return true;
+		}
+		return false;
 	}
 
 }

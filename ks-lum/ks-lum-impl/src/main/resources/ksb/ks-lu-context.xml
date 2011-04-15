@@ -401,9 +401,9 @@
 				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
 					<property name="atpService" ref="atpClient"/>
 				</bean>
-				<!--<bean  class="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator">
-					<property name="courseService" ref="courseServiceImpl"/>
-				</bean>-->
+				<bean class="org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
+					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
 			</list>
         </property>
     </bean>
