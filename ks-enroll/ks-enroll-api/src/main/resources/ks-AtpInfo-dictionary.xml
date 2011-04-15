@@ -24,7 +24,7 @@
     <!-- AtpInfo-->
     <bean id="atpInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="atpInfo"/>
-        <property name="objectClass" value="org.kuali.student.core.atp.dto.AtpInfo"/>
+        <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>
