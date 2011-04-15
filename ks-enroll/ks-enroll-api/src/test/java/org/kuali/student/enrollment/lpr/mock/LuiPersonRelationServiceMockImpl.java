@@ -26,7 +26,8 @@ import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.State;
 import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -36,7 +37,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -51,8 +56,7 @@ import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAdapter
-        implements LuiPersonRelationService, HoldsLprService, HoldsLuiService {
+public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationService, HoldsLprService, HoldsLuiService {
 
     private LuiService luiService;
 
@@ -498,7 +502,7 @@ public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAd
 
         // get the dictionary entry for the LPR object
         String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
-        DictionaryEntryInfc dictionaryEntry;
+        DictionaryEntry dictionaryEntry;
         try {
             dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
         } catch (DoesNotExistException ex) {
@@ -552,5 +556,129 @@ public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAd
         
         throw new DoesNotExistException("Requested state does not exist!");
     }
+
+	@Override
+	public LuiPersonRelationService getLprService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLprService(LuiPersonRelationService lprService) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
+			throws OperationFailedException, MissingParameterException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
+			ContextInfo context) throws OperationFailedException,
+			MissingParameterException, PermissionDeniedException,
+			DoesNotExistException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeInfo getType(String typeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
+			String relatedRefObjectURI, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
+			String ownerTypeKey, String relationTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getProcessKeys(String typeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StateInfo> getInitialValidStates(String processKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StateInfo getNextHappyState(String processKey,
+			String currentStateKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> findPersonIdsRelatedToLui(String luiId,
+			String luiPersonRelationTypeKey, String relationState,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateLuiPersonRelation(
+			String validationType, LuiPersonRelationInfo luiPersonRelationInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> createBulkRelationshipsForLui(String luiId,
+			List<String> personIdList, String relationState,
+			String luiPersonRelationTypeKey,
+			LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			DoesNotExistException, DisabledIdentifierException,
+			ReadOnlyException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

@@ -7,6 +7,6 @@
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
    <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockImpl" />
     <bean id="academicCalendarServiceToTest" class= "org.kuali.student.core.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator"/>
-    <bean id="lprServiceToTest" parent="mockLprService" />
+
     <bean id="validatorToTest" parent="validator" />
 </beans>

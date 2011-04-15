@@ -27,7 +27,7 @@ import org.kuali.rice.kns.datadictionary.validation.DictionaryObjectAttributeVal
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.datadictionary.Student2RiceDictionaryEntryConverter;
-import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.datadictionary.util.CriteriaValidatorParser.Operator;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -43,12 +43,12 @@ public class CriteriaMatcherInMemory<T> {
         super();
     }
     private transient DataObjectEntry riceDictionaryEntry;
-    private DictionaryEntryInfc dictionaryEntry;
+    private DictionaryEntry dictionaryEntry;
         private Criteria criteria;
     private transient List<Object> parsedValues;
     private transient List<CriteriaValidatorParser.Operator> parsedOperators;
 
-    public void setDictionaryEntry(DictionaryEntryInfc dictionaryEntry) {
+    public void setDictionaryEntry(DictionaryEntry dictionaryEntry) {
         this.dictionaryEntry = dictionaryEntry;
         if (dictionaryEntry == null) {
             this.riceDictionaryEntry = null;
@@ -57,7 +57,7 @@ public class CriteriaMatcherInMemory<T> {
         this.riceDictionaryEntry = new Student2RiceDictionaryEntryConverter().convert(dictionaryEntry);
     }
 
-    public DictionaryEntryInfc getDictionaryEntry() {
+    public DictionaryEntry getDictionaryEntry() {
         return dictionaryEntry;
     }
 

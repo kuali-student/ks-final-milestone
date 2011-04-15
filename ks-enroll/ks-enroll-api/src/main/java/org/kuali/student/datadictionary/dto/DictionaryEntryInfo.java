@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
-import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.infc.DictionaryEntry;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
+public class DictionaryEntryInfo implements DictionaryEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -55,7 +55,7 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
         this.attributes = null;
     }
 
-    private DictionaryEntryInfo(DictionaryEntryInfc infc) {
+    private DictionaryEntryInfo(DictionaryEntry infc) {
         this.objectClass = infc.getObjectClass();
         this.name = infc.getName();
         this.objectLabel = infc.getObjectLabel();
@@ -108,7 +108,7 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
         return attributes;
     }
 
-    public static class Builder implements DictionaryEntryInfc {
+    public static class Builder implements DictionaryEntry {
 
         private String objectClass;
         private String name;
@@ -121,7 +121,7 @@ public class DictionaryEntryInfo implements DictionaryEntryInfc, Serializable {
         public Builder() {
         }
 
-        public Builder(DictionaryEntryInfc infc) {
+        public Builder(DictionaryEntry infc) {
             this.objectClass = infc.getObjectClass();
             this.name = infc.getName();
             this.objectLabel = infc.getObjectLabel();

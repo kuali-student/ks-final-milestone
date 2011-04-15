@@ -20,8 +20,7 @@ import java.util.List;
 import org.kuali.student.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -31,8 +30,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelationServiceAdapter
-        implements LuiPersonRelationService, HoldsDataDictionaryService {
+public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelationServiceDecorator
+        implements  HoldsDataDictionaryService {
 
     private DataDictionaryService dataDictionaryService;
 

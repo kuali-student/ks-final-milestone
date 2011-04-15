@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.student.common.infc.HoldsValidator;
 import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceAdapter;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationServiceAdapter
+public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator
         implements LuiPersonRelationService, HoldsValidator {
 
     private DataDictionaryValidatorInfc validator;
@@ -84,7 +84,7 @@ public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationSer
         if (!vris.isEmpty()) {
             throw new DataValidationErrorException("Failed validation", vris);
         }
-        return this.getLprService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+        return this.nextDecorator.createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class LuiPersonRelationServiceValidationImpl extends LuiPersonRelationSer
         if (!vris.isEmpty()) {
             throw new DataValidationErrorException("Failed validation", vris);
         }
-        return this.getLprService().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+        return this.nextDecorator.updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
     }
 }
 

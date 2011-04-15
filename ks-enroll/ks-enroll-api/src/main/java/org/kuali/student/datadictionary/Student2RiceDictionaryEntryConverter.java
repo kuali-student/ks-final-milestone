@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
-import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.infc.DictionaryEntry;
 
 /**
  *
@@ -30,7 +30,7 @@ public class Student2RiceDictionaryEntryConverter {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Student2RiceDictionaryEntryConverter.class);
 
-    public DataObjectEntry convert(DictionaryEntryInfc student) {
+    public DataObjectEntry convert(DictionaryEntry student) {
         DataObjectEntry rice = new DataObjectEntry ();
         try {
             rice.setObjectClass(Class.forName(student.getObjectClass()));

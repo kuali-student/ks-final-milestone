@@ -360,7 +360,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
 		for (AcademicCalendarInfo info : this.acCache.values()) {
 
-			if (   campusCalendarKeyList.contains(info.getCampusCalendarKey())    ) {
+			if (campusCalendarKeyList.contains(info.getCampusCalendarKey())    ) {
 
 				campusCalendars.add( ccCache.get(info.getCampusCalendarKey()) );
 
@@ -449,7 +449,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException {
 		StatusInfo.Builder statusInfo = new StatusInfo.Builder();
 		CampusCalendarInfo ccInfo=  ccCache.remove(campusCalendarKey);
-		statusInfo.setSuccess(ccInfo.equals(null));
+		statusInfo.setSuccess(ccInfo==null);
 
 		return statusInfo.build();
 

@@ -27,7 +27,7 @@ import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.datadictionary.infc.AttributeDefinitionInfc;
-import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
+import org.kuali.student.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -54,7 +54,7 @@ public class CriteriaValidatorParser {
         EQ, IN, GT, LT, NEQ, GTE, LTE, LIKE, BETWEEN;
     }
     private Criteria criteria;
-    private DictionaryEntryInfc dictionaryEntry;
+    private DictionaryEntry dictionaryEntry;
     private transient List<Object> parsedValues;
     private transient List<Operator> parsedOperators;
 
@@ -69,11 +69,11 @@ public class CriteriaValidatorParser {
         this.criteria = criteria;
     }
 
-    public DictionaryEntryInfc getDictionaryEntry() {
+    public DictionaryEntry getDictionaryEntry() {
         return dictionaryEntry;
     }
 
-    public void setDictionaryEntry(DictionaryEntryInfc dictionaryEntry) {
+    public void setDictionaryEntry(DictionaryEntry dictionaryEntry) {
         this.dictionaryEntry = dictionaryEntry;
     }
 

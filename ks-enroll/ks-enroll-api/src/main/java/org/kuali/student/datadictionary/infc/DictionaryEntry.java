@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author nwright
  */
-public interface DictionaryEntryInfc  {
+public interface DictionaryEntry  {
 
     /**
      * Name: Object Class

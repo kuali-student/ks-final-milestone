@@ -13,17 +13,19 @@
     <bean id="mockIdentityService" class="org.kuali.student.kim.identity.mock.IdentityServiceMockImpl" />
 
     <bean id="mockLprService" parent="mockLprValidationService" />
-    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceValidationImpl" >
-        <property name="lprService" ref="mockLprPersistenceService"/>
+    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceValidationDecorator" >
+        <property name="nextDecorator" ref="mockLprPersistenceService"/>
         <property name="validator" ref="validator"/>
     </bean>
-    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockImpl">
-        <property name="lprService" ref="lprDataDictionaryService"/>
-    </bean>
+    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockImpl"/>
+        
+
     <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">
         <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr"/>
-        <property name="lprService" ref="lprUnimplementedService"/>
+        <property name="nextDecorator" ref="mockLprPersistenceService"/>
     </bean>
+     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl"/>
+    
     <bean id="lprUnimplementedService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceUnimplemented"/>
 
 </beans>
