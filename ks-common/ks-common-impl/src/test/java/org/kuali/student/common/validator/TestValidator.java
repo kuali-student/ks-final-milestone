@@ -188,7 +188,7 @@ public class TestValidator {
      }
     	assertEquals(5, results.size());
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(0).getMessage(), "validation.invalid");   
+    	assertEquals(results.get(0).getMessage(), "validation.lookup");   
     }
     
     public class MockSearchService implements SearchService{
