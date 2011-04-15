@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.State;
-import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
+import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.datadictionary.infc.DictionaryEntryInfc;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -224,7 +224,7 @@ public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAd
             }
             return states;
         }
-        if (processKey.equals(LuiPersonRelationConstants.ADVISOR_TYPE_KEY)) {
+        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
             for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
                 states.add(new StateInfo.Builder(state).build());
@@ -497,7 +497,7 @@ public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAd
             PermissionDeniedException {
 
         // get the dictionary entry for the LPR object
-        String dictionaryEntryKey = LuiPersonRelationConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
+        String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
         DictionaryEntryInfc dictionaryEntry;
         try {
             dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
@@ -534,7 +534,7 @@ public class LuiPersonRelationServiceMockImpl extends LuiPersonRelationServiceAd
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }
         }
-        if (processKey.equals(LuiPersonRelationConstants.ADVISOR_TYPE_KEY)) {
+        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
             for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
                 if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
             }

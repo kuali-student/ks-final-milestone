@@ -16,6 +16,9 @@
 
 package org.kuali.student.common.util.constants;
 
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+
 
 /**
  * This is a description of what this class does - Kamal don't forget
@@ -26,5 +29,7 @@ package org.kuali.student.common.util.constants;
 
 public class LuiServiceConstants {
 
-    public static final String LUI_NAMESPACE = "http://student.kuali.org/wsdl/lui";
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX +  "lui";
+    public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();
 }

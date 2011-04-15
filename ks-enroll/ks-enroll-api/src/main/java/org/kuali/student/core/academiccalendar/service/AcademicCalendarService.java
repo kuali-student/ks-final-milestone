@@ -24,6 +24,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.service.TypeService;
 import org.kuali.student.common.service.StateService;
+import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
@@ -75,7 +76,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @Since Sun Apr 10 14:22:34 EDT 2011
  */
 
-@WebService(name = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/academiccalendar")
+@WebService(name = "AcademicCalendarService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AcademicCalendarService extends DataDictionaryService, TypeService, StateService {
 

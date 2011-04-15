@@ -19,6 +19,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.student.common.util.constants.DataDictionaryServiceConstants;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -42,7 +43,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  *
  * @author nwright
  */
-@WebService(name = "DataDictionaryService", targetNamespace = "http://student.kuali.org/wsdl/datadictionary")
+@WebService(name = "DataDictionaryService", targetNamespace = DataDictionaryServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DataDictionaryService {
 

@@ -37,7 +37,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.infc.ValidationResult;
-import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
+import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -113,8 +113,8 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		luiIdList.add("luiId1");
 		luiIdList.add("luiId2");
 		luiIdList.add("luiId3");
-		String relationState = LuiPersonRelationConstants.APPLIED_STATE_KEY;
-		String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
+		String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
+		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
 		LuiPersonRelationInfo.Builder lprBldr = new LuiPersonRelationInfo.Builder();
 		lprBldr.setEffectiveDate(parseDate("2010-01-01"));		
 		LuiPersonRelationInfo luiPersonRelationInfo = lprBldr.build();
@@ -138,13 +138,13 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		System.out.println("testLuiPersonRelationLifeCycle");
 		String personId = "personId.1";
 		String luiId = "luiId.1";
-		String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
+		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
 
 		LuiPersonRelationInfo.Builder orig = new LuiPersonRelationInfo.Builder();
         orig.setPersonId(personId);
         orig.setTypeKey(luiPersonRelationType);
         orig.setLuiId(luiId);
-        orig.setStateKey(LuiPersonRelationConstants.APPLIED_STATE_KEY);
+        orig.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
         orig.setEffectiveDate(parseDate("2010-01-01"));
 		AttributeInfo.Builder da = new AttributeInfo.Builder();
 		List<AttributeInfo> das = new ArrayList<AttributeInfo>();
@@ -219,7 +219,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched);
 		builder.setPersonId("personId.2");
 		builder.setLuiId("luiId.2");
-		builder.setStateKey(LuiPersonRelationConstants.ADMITTED_STATE_KEY);
+		builder.setStateKey(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY);
 		builder.setEffectiveDate(parseDate("2010-01-01"));
 		builder.setExpirationDate(parseDate("2010-02-01"));
 		fetched = builder.build();

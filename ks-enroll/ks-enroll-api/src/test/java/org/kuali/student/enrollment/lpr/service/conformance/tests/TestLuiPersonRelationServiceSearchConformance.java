@@ -31,7 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.infc.Comparison;
-import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
+import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ComparisonInfo;
@@ -108,8 +108,8 @@ public class TestLuiPersonRelationServiceSearchConformance {
         luiIdList.add("luiId4");
         luiIdList.add("luiId5");
         luiIdList.add("luiId6");
-        String relationState = LuiPersonRelationConstants.APPLIED_STATE_KEY;
-        String luiPersonRelationType = LuiPersonRelationConstants.REGISTRANT_TYPE_KEY;
+        String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
+        String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
         LuiPersonRelationInfo.Builder lpr = new LuiPersonRelationInfo.Builder();
         lpr.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
@@ -158,7 +158,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
         comparisons.add(comparison);
         comparison.setFieldKey("typeKey");
         comparison.setOperator("=");
-        comparison.setValue(LuiPersonRelationConstants.REGISTRANT_TYPE_KEY);
+        comparison.setValue(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
         assertEquals(ALL_COUNT, lprIds.size());
 

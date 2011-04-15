@@ -12,6 +12,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.student.common.util.constants.TypeServiceConstants;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -31,7 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * 
  * @author kamal
  */
-@WebService(name = "TypeService", targetNamespace = "http://student.kuali.org/wsdl/type")
+@WebService(name = "TypeService", targetNamespace = TypeServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface TypeService {
 

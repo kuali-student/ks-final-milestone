@@ -22,14 +22,13 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
  *
  * @author nwright
  */
-public class LuiPersonRelationConstants {
+public class LuiPersonRelationServiceConstants {
 
     /**
      * Reference Object URI's
      */
-    public static final String SERVICE_NAMESPACE_SUFFIX = "luiPersonRelation";
-    public static final String REF_OBJECT_URI_SERVICE_PREFIX = CommonConstants.REF_OBJECT_URI_GLOBAL_PREFIX + SERVICE_NAMESPACE_SUFFIX;
-    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = REF_OBJECT_URI_SERVICE_PREFIX + "/" + LuiPersonRelationInfo.class.getSimpleName();
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "luiPersonRelation";
+    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/" + LuiPersonRelationInfo.class.getSimpleName();
     /**
      * Types and knowns groups of types
      */

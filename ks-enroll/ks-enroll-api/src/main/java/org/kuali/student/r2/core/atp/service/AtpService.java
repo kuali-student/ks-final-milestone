@@ -24,6 +24,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.service.TypeService;
 import org.kuali.student.common.service.StateService;
+import org.kuali.student.common.util.constants.AtpServiceConstants;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -59,7 +60,7 @@ import org.kuali.student.datadictionary.service.DataDictionaryService;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-@WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
+@WebService(name = "AtpService", targetNamespace = AtpServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface AtpService extends DataDictionaryService, TypeService, StateService {

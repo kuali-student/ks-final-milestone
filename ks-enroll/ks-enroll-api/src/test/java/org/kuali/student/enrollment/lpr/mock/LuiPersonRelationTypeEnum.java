@@ -8,7 +8,7 @@
 package org.kuali.student.enrollment.lpr.mock;
 
 import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.common.util.constants.LuiPersonRelationConstants;
+import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -26,15 +26,15 @@ import org.kuali.student.common.infc.Type;
  */
 public enum LuiPersonRelationTypeEnum implements Type, Serializable {
 
-    INSTRUCTOR_MAIN(LuiPersonRelationConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
-    INSTRUCTOR_ASSISTANT(LuiPersonRelationConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
-    INSTRUCTOR_SUPPORT(LuiPersonRelationConstants.INSTRUCTOR_SUPPORT_TYPE_KEY, "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null),
-    REGISTRANT(LuiPersonRelationConstants.REGISTRANT_TYPE_KEY, "Registrant", "Registrant who is taking course or section", asDate("20010101"), null, null),
+    INSTRUCTOR_MAIN(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null),
+    INSTRUCTOR_ASSISTANT(LuiPersonRelationServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null),
+    INSTRUCTOR_SUPPORT(LuiPersonRelationServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY, "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null),
+    REGISTRANT(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY, "Registrant", "Registrant who is taking course or section", asDate("20010101"), null, null),
     /**
      * Programs
      */
-    ENROLLEE(LuiPersonRelationConstants.ENROLLEE_TYPE_KEY, "Enrollee", "Enrollee in the program", asDate("20010101"), null, null),
-    ADVISOR(LuiPersonRelationConstants.ADVISOR_TYPE_KEY, "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
+    ENROLLEE(LuiPersonRelationServiceConstants.ENROLLEE_TYPE_KEY, "Enrollee", "Enrollee in the program", asDate("20010101"), null, null),
+    ADVISOR(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY, "Advisor", "Advisor to students in the program", asDate("20010101"), null, null);
     /**
      * Types used for isntructors of courses
      */

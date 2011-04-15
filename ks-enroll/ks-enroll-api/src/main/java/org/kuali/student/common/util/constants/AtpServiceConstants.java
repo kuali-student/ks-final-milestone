@@ -16,28 +16,32 @@ package org.kuali.student.common.util.constants;
 
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 
 /**
  * This class holds the constants used by the ATP service
  *
  * @author nwright
  */
-public class AtpConstants {
+public class AtpServiceConstants {
 
     /**
      * Reference Object URI's
      */
-    public static final String SERVICE_NAMESPACE_SUFFIX = "atp";
-    public static final String REF_OBJECT_URI_SERVICE_PREFIX = CommonConstants.REF_OBJECT_URI_GLOBAL_PREFIX + SERVICE_NAMESPACE_SUFFIX;
-    public static final String REF_OBJECT_URI_ATP = REF_OBJECT_URI_SERVICE_PREFIX + "/" + AtpInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_MILESTONE = REF_OBJECT_URI_SERVICE_PREFIX + "/" + MilestoneInfo.class.getSimpleName();
+
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "atp";
+    public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ATP_MILESTONE_RELATION = NAMESPACE + "/" + AtpMilestoneRelationInfo.class.getSimpleName();
     /**
      * ATP Types
      */
     public static final String ATP_ACADEMIC_CALENDAR_TYPE_KEY = "kuali.atp.type.AcademicCalendar";
     public static final String ATP_CAMPUS_CALENDAR_TYPE_KEY = "kuali.atp.type.CampusCalendar";
+    // reporting groups
     public static final String ATP_AY_TYPE_KEY = "kuali.atp.type.AY";
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
+    // terms
     public static final String ATP_FALL_TYPE_KEY = "kuali.atp.type.Fall";
     public static final String ATP_HALF_FALL_1_TYPE_KEY = "kuali.atp.type.HalfFall1";
     public static final String ATP_HALF_FALL_2_TYPE_KEY = "kuali.atp.type.HalfFall2";
@@ -56,6 +60,9 @@ public class AtpConstants {
     public static final String ATP_SUMMER_TYPE_KEY = "kuali.atp.type.Summer";
     public static final String ATP_SUMMER_EVE_TYPE_KEY = "kuali.atp.type.SummerEve";
     public static final String ATP_WINTER_TYPE_KEY = "kuali.atp.type.Winter";
+    // adhoc
+    public static final String ATP_ADHOC_TYPE_KEY = "kuali.atp.type.Adhoc";
+    // program
     public static final String ATP_UNDERGRAD_PROGRAM_TYPE_KEY = "kuali.atp.type.UndergradProgram";
     public static final String ATP_FRESHMAN_YEAR_TYPE_KEY = "kuali.atp.type.FreshmanYear";
     public static final String ATP_FRESHMAN_YEAR_TERM_1_TYPE_KEY = "kuali.atp.type.FreshmanYearTerm1";
@@ -69,66 +76,75 @@ public class AtpConstants {
     public static final String ATP_SENIOR_YEAR_TYPE_KEY = "kuali.atp.type.SeniorYear";
     public static final String ATP_SENIOR_YEAR_TERM_1_TYPE_KEY = "kuali.atp.type.SeniorYearTerm1";
     public static final String ATP_SENIOR_YEAR_TERM_2_TYPE_KEY = "kuali.atp.type.SeniorYearTerm2";
+    // course offering options
     public static final String ATP_EVEN_YEARS_TYPE_KEY = "kuali.atp.type.EvenYears";
     public static final String ATP_FALL_EVEN_YEARS_TYPE_KEY = "kuali.atp.type.FallEvenYears";
     public static final String ATP_SPRING_EVEN_YEARS_TYPE_KEY = "kuali.atp.type.SpringEvenYears";
     public static final String ATP_ODD_YEARS_TYPE_KEY = "kuali.atp.type.OddYears";
     public static final String ATP_FALL_ODD_YEARS_TYPE_KEY = "kuali.atp.type.FallOddYears";
     public static final String ATP_SPRING_ODD_YEARS_TYPE_KEY = "kuali.atp.type.SpringOddYears";
-    public static final String ATP_ADHOC_TYPE_KEY = "kuali.atp.type.Adhoc";
     /**
      * Milstone types
      */
-    public static final String MILESTONE_PROPOSAL_PERIOD_TYPE_KEY = "kuali.atp.milestone.ProposalPeriod";
-    public static final String MILESTONE_REVIEW_PERIOD_TYPE_KEY = "kuali.atp.milestone.ReviewPeriod";
-    public static final String MILESTONE_FAMILY_WEEKEND_TYPE_KEY = "kuali.atp.milestone.FamilyWeekend";
-    public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
-    public static final String MILESTONE_NEW_STUDENT_ORIENTATION_TYPE_KEY = "kuali.atp.milestone.NewStudentOrientation";
+    // registration
     public static final String MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.AdvanceRegistrationPeriod";
     public static final String MILESTONE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.RegistrationPeriod";
-    public static final String MILESTONE_READING_PERIOD_TYPE_KEY = "kuali.atp.milestone.ReadingPeriod";
-    public static final String MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY = "kuali.atp.milestone.FinalExamPeriod";
-    public static final String MILESTONE_ADMISSIONS_APPLICATION_DUE_EARLY_CYCLE_TYPE_KEY = "kuali.atp.milestone.AdmissionsApplicationDueEarlyCycle";
-    public static final String MILESTONE_GENERATE_BILLS_TYPE_KEY = "kuali.atp.milestone.GenerateBills";
-    public static final String MILESTONE_DISBURSE_FUNDS_TYPE_KEY = "kuali.atp.milestone.DisburseFunds";
-    public static final String MILESTONE_PAYMENT_DUE_TYPE_KEY = "kuali.atp.milestone.PaymentDue";
-    public static final String MILESTONE_PROCESS_REFUNDS_TYPE_KEY = "kuali.atp.milestone.ProcessRefunds";
-    public static final String MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY = "kuali.atp.milestone.FinancialAidCensus";
-    public static final String MILESTONE_COORDINATORS_KICKOFF_MEETING_TYPE_KEY = "kuali.atp.milestone.CoordinatorsKickoffMeeting";
-    public static final String MILESTONE_CURRICULUM_COMMITTEE_MEETING_TYPE_KEY = "kuali.atp.milestone.CurriculumCommitteeMeeting";
-    public static final String MILESTONE_MAJOR_CHANGES_DEADLINE_TYPE_KEY = "kuali.atp.milestone.MajorChangesDeadline";
-    public static final String MILESTONE_MINOR_CHANGES_DEADLINE_TYPE_KEY = "kuali.atp.milestone.MinorChangesDeadline";
-    public static final String MILESTONE_LAST_MINUTE_PROPOSALS_DEADLINE_TYPE_KEY = "kuali.atp.milestone.LastMinuteProposalsDeadline";
-    public static final String MILESTONE_PUBLISH_CHANGES_ON_LINE_TYPE_KEY = "kuali.atp.milestone.PublishChangesOnLine";
-    public static final String MILESTONE_HOMECOMING_TYPE_KEY = "kuali.atp.milestone.Homecoming";
-    public static final String MILESTONE_BEGIN_PACKAGING_TYPE_KEY = "kuali.atp.milestone.BeginPackaging";
-    public static final String MILESTONE_GRADUATION_APPLICATION_DEADLINE_TYPE_KEY = "kuali.atp.milestone.GraduationApplicationDeadline";
-    public static final String MILESTONE_ALUMNI_DAY_TYPE_KEY = "kuali.atp.milestone.AlumniDay";
-    public static final String MILESTONE_BACCALAUREATE_TYPE_KEY = "kuali.atp.milestone.Baccalaureate";
-    public static final String MILESTONE_COMMENCEMENT_TYPE_KEY = "kuali.atp.milestone.Commencement";
-    public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
-    public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";
-    public static final String MILESTONE_MLK_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MLKDayObserved";
-    public static final String MILESTONE_SPRING_BREAK_TYPE_KEY = "kuali.atp.milestone.SpringBreak";
-    public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
-    public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
-    public static final String MILESTONE_LEAVE_OF_ABSENSE_BEGIN_TYPE_KEY = "kuali.atp.milestone.LeaveofAbsenseBegin";
-    public static final String MILESTONE_MOVE_IN_DATE_TYPE_KEY = "kuali.atp.milestone.Move-inDate";
-    public static final String MILESTONE_NEW_STUDENT_CONVOCATION_TYPE_KEY = "kuali.atp.milestone.NewStudentConvocation";
-    public static final String MILESTONE_REGISTRATION_BEGINS_TYPE_KEY = "kuali.atp.milestone.RegistrationBegins";
     public static final String MILESTONE_REGISTRATION_BEGINS_FOR_MBA_TYPE_KEY = "kuali.atp.milestone.RegistrationBeginsforMBA";
     public static final String MILESTONE_REGISTRATION_BEGINS_NON_DEGREE_TYPE_KEY = "kuali.atp.milestone.RegistrationBeginsNonDegree";
     public static final String MILESTONE_REGISTRATION_BEGINS_TRANSFER_TYPE_KEY = "kuali.atp.milestone.RegistrationBeginsTransfer";
-    public static final String MILESTONE_CLASSES_BEGIN_TYPE_KEY = "kuali.atp.milestone.ClassesBegin";
+    public static final String MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY = "kuali.atp.milestone.InstructionalPeriod";
     public static final String MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY = "kuali.atp.milestone.CourseSelectionPeriodEnd";
     public static final String MILESTONE_DROP_DEADLINE_WITHOUT_RECORD_TYPE_KEY = "kuali.atp.milestone.DropDeadlineWithoutRecord";
     public static final String MILESTONE_DROP_DATE_TYPE_KEY = "kuali.atp.milestone.DropDate";
     public static final String MILESTONE_POST_GRADES_MIDTERM_TYPE_KEY = "kuali.atp.milestone.PostGradesMidterm";
     public static final String MILESTONE_MAIL_PROGRESS_REPORTS_TYPE_KEY = "kuali.atp.milestone.MailProgressReports";
-    public static final String MILESTONE_CLASSES_END_TYPE_KEY = "kuali.atp.milestone.ClassesEnd";
+    public static final String MILESTONE_READING_PERIOD_TYPE_KEY = "kuali.atp.milestone.ReadingPeriod";
+    public static final String MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY = "kuali.atp.milestone.FinalExamPeriod";
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
+    // holidays
+    public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
+    public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
+    public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";
+    public static final String MILESTONE_MLK_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MLKDayObserved";
+    public static final String MILESTONE_SPRING_BREAK_TYPE_KEY = "kuali.atp.milestone.SpringBreak";
+    public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
+    public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
+    // events
+    public static final String MILESTONE_HOMECOMING_TYPE_KEY = "kuali.atp.milestone.Homecoming";
+    public static final String MILESTONE_FAMILY_WEEKEND_TYPE_KEY = "kuali.atp.milestone.FamilyWeekend";
+    // orientation
+    public static final String MILESTONE_MOVE_IN_DATE_TYPE_KEY = "kuali.atp.milestone.Move-inDate";
+    public static final String MILESTONE_NEW_STUDENT_CONVOCATION_TYPE_KEY = "kuali.atp.milestone.NewStudentConvocation";
+    public static final String MILESTONE_NEW_STUDENT_ORIENTATION_TYPE_KEY = "kuali.atp.milestone.NewStudentOrientation";
+    // admissions
+    public static final String MILESTONE_ADMISSIONS_APPLICATION_DUE_EARLY_CYCLE_TYPE_KEY = "kuali.atp.milestone.AdmissionsApplicationDueEarlyCycle";
+    // billing
+    public static final String MILESTONE_GENERATE_BILLS_TYPE_KEY = "kuali.atp.milestone.GenerateBills";
+    public static final String MILESTONE_DISBURSE_FUNDS_TYPE_KEY = "kuali.atp.milestone.DisburseFunds";
+    public static final String MILESTONE_PAYMENT_DUE_TYPE_KEY = "kuali.atp.milestone.PaymentDue";
+    public static final String MILESTONE_PROCESS_REFUNDS_TYPE_KEY = "kuali.atp.milestone.ProcessRefunds";
+    // fin aid
+    public static final String MILESTONE_FINANCIAL_AID_CENSUS_TYPE_KEY = "kuali.atp.milestone.FinancialAidCensus";
+    public static final String MILESTONE_BEGIN_PACKAGING_TYPE_KEY = "kuali.atp.milestone.BeginPackaging";
+    // curriculumn
+    public static final String MILESTONE_COORDINATORS_KICKOFF_MEETING_TYPE_KEY = "kuali.atp.milestone.CoordinatorsKickoffMeeting";
+    public static final String MILESTONE_CURRICULUM_COMMITTEE_MEETING_TYPE_KEY = "kuali.atp.milestone.CurriculumCommitteeMeeting";
+    public static final String MILESTONE_MAJOR_CHANGES_DEADLINE_TYPE_KEY = "kuali.atp.milestone.MajorChangesDeadline";
+    public static final String MILESTONE_MINOR_CHANGES_DEADLINE_TYPE_KEY = "kuali.atp.milestone.MinorChangesDeadline";
+    public static final String MILESTONE_PROPOSAL_PERIOD_TYPE_KEY = "kuali.atp.milestone.ProposalPeriod";
+    public static final String MILESTONE_REVIEW_PERIOD_TYPE_KEY = "kuali.atp.milestone.ReviewPeriod";
+    public static final String MILESTONE_LAST_MINUTE_PROPOSALS_DEADLINE_TYPE_KEY = "kuali.atp.milestone.LastMinuteProposalsDeadline";
+    public static final String MILESTONE_PUBLISH_CHANGES_ON_LINE_TYPE_KEY = "kuali.atp.milestone.PublishChangesOnLine";
+    // graduation
+    public static final String MILESTONE_GRADUATION_APPLICATION_DEADLINE_TYPE_KEY = "kuali.atp.milestone.GraduationApplicationDeadline";
+    public static final String MILESTONE_ALUMNI_DAY_TYPE_KEY = "kuali.atp.milestone.AlumniDay";
+    public static final String MILESTONE_BACCALAUREATE_TYPE_KEY = "kuali.atp.milestone.Baccalaureate";
+    public static final String MILESTONE_COMMENCEMENT_TYPE_KEY = "kuali.atp.milestone.Commencement";
+    public static final String MILESTONE_LEAVE_OF_ABSENSE_BEGIN_TYPE_KEY = "kuali.atp.milestone.LeaveofAbsenseBegin";
+    // Room scheduling
     public static final String MILESTONE_ROOM_SCHEDULING_BEGIN_TYPE_KEY = "kuali.atp.milestone.RoomSchedulingBegin";
+    // tuition calc
     public static final String MILESTONE_REFUND_100_TYPE_KEY = "kuali.atp.milestone.Refund100";
     public static final String MILESTONE_REFUND_80_TYPE_KEY = "kuali.atp.milestone.Refund80";
     public static final String MILESTONE_REFUND_60_TYPE_KEY = "kuali.atp.milestone.Refund60";
@@ -183,11 +199,11 @@ public class AtpConstants {
     /**
      * Milestone States
      */
-    public static final String MILESTONE_ACTUAL_STATE_KEY = "kuali.milestone.state.actual";
-    public static final String MILESTONE_TENTATIVE_STATE_KEY = "kuali.milestone.state.tentative";
+    public static final String MILESTONE_OFFICIAL_STATE_KEY = "kuali.milestone.state.Official";
+    public static final String MILESTONE_DRAFT_STATE_KEY = "kuali.milestone.state.Draft";
     /**
      * ATP States
      */
-    public static final String ATP_ACTUAL_STATE_KEY = "kuali.atp.state.actual";
-    public static final String ATP_TENTATIVE_STATE_KEY = "kuali.atp.state.tentative";
+    public static final String ATP_OFFICIAL_STATE_KEY = "kuali.atp.state.Official";
+    public static final String ATP_DRAFT_STATE_KEY = "kuali.atp.state.Draft";
 }

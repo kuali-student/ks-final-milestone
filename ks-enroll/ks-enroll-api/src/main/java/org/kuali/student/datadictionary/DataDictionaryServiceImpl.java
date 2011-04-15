@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.student.common.util.constants.CommonConstants;
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -73,7 +73,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
     }
 
     private String calcRefObjectURI (Class<?> objectClass) {
-     return CommonConstants.REF_OBJECT_URI_GLOBAL_PREFIX + this.serviceNamespaceSuffix + "/" + objectClass.getSimpleName();
+     return CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + this.serviceNamespaceSuffix + "/" + objectClass.getSimpleName();
     }
 
     @Override

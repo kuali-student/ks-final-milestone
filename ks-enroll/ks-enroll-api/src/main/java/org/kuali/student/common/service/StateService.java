@@ -12,6 +12,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.student.common.util.constants.StateServiceConstants;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -29,7 +30,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  *
  * @author kamal
  */
-@WebService(name = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")
+@WebService(name = "StateService", targetNamespace = StateServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StateService {
 

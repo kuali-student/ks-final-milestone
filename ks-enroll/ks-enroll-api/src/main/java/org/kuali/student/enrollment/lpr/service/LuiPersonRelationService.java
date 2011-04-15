@@ -23,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.service.StateService;
 import org.kuali.student.common.service.TypeService;
+import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -57,7 +58,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @Since Tue Mar 01 15:53:51 PST 2011
  * @See <a href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service">LuiPersonRelationService</>
  */
-@WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelation")
+@WebService(name = "LuiPersonRelationService", targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationService extends DataDictionaryService, TypeService, StateService {
 

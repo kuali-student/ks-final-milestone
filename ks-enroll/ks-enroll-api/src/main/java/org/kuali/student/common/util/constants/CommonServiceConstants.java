@@ -20,10 +20,11 @@ package org.kuali.student.common.util.constants;
  *
  * @author nwright
  */
-public class CommonConstants {
+public class CommonServiceConstants {
 
     /**
      * Reference Object URI's
      */
-    public static final String REF_OBJECT_URI_GLOBAL_PREFIX = "http://student.kuali.org/";  
+    public static final String REF_OBJECT_URI_GLOBAL_PREFIX = "http://student.kuali.org/wsdl/";
+
 }
