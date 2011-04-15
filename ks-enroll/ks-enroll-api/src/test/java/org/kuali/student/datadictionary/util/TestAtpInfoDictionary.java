@@ -24,7 +24,6 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import static org.junit.Assert.*;
 
-//@Ignore
 public class TestAtpInfoDictionary {
 
     @Test

@@ -58,12 +58,12 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
 
 
     public void setDictionaryLocations(List<String> locations) throws IOException {
+        studMap = new LinkedHashMap<String, DictionaryEntryInfo>();
+        riceMap = new LinkedHashMap<String, DataObjectEntry>();
         for (String location : locations) {
             ApplicationContext ac = new ClassPathXmlApplicationContext(location);
             Map<String, DataObjectEntry> beansOfType =
                     (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
-            studMap = new LinkedHashMap<String, DictionaryEntryInfo>();
-            riceMap = new LinkedHashMap<String, DataObjectEntry>();
             for (DataObjectEntry entry : beansOfType.values()) {
                 LOG.debug(entry.getObjectClass());
                 riceMap.put(entry.getFullClassName(), entry);

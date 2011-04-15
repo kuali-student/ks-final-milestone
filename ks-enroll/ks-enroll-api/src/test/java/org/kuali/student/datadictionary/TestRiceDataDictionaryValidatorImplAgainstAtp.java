@@ -29,7 +29,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
@@ -46,7 +45,6 @@ import org.springframework.context.ApplicationContext;
  *
  * @author nwright
  */
-@Ignore
 public class TestRiceDataDictionaryValidatorImplAgainstAtp {
 
     public TestRiceDataDictionaryValidatorImplAgainstAtp() {
@@ -147,7 +145,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
 
 
 
