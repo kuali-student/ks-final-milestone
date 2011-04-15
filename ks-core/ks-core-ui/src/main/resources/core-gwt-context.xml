@@ -184,6 +184,7 @@
 
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<property name="searchDispatcher" ref="searchDispatcher" />
+		<property name="cachingEnabled" value="true"/>
 	</bean>
 	<bean id="searchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
