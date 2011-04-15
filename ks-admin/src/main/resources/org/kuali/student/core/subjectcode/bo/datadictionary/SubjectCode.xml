@@ -52,6 +52,12 @@
 	  <property name="description" value="Subject Code"/>
 	  <property name="unique" value="true"/>
 	  <property name="forceUppercase" value="true"/>
+	  <property name="validationPattern">
+	  <bean class="org.kuali.rice.kns.datadictionary.validation.charlevel.CharsetValidationPattern">
+	  	<property name="validChars" value="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+	  	<property name="exactLength" value="4"/>
+	  </bean>
+	  </property>
 	</bean>
 
     <bean id="SubjectCode-state" parent="SubjectCode-state-parentBean" />

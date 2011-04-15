@@ -24,6 +24,7 @@
 				<value>code</value>
 			</list>
 		</property>
+        <property name="businessRulesClass" value="org.kuali.student.core.subjectcode.document.validation.impl.SubjectCodeRule"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
