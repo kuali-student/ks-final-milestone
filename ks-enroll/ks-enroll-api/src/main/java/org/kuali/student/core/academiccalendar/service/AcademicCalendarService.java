@@ -265,7 +265,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     public StatusInfo deleteAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Copy an Academic Calendar. The associated Terms and key datess
+     * Copy an Academic Calendar. The associated Terms and key dates
      * are also copied and related to this new calendar. This copy
      * operation allows for a calendar template to be created from an
      * existing calendar in which the dates of the Terms and
@@ -533,7 +533,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") List<String> academicCalendar, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list Terms nested inside the given Term.

@@ -348,15 +348,7 @@ public  abstract class AcademicCalendarServiceDecorator implements
 		return null;
 	}
 
-	@Override
-	public List<TermInfo> getTermsForAcademicCalendar(
-			List<String> academicCalendar, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<TermInfo> getTermsForTerm(List<String> termCalendar,
@@ -625,6 +617,16 @@ public  abstract class AcademicCalendarServiceDecorator implements
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TermInfo> getTermsForAcademicCalendar(
+			String academicCalendarKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}

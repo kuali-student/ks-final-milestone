@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.util.constants.AcademicCalendarConstants;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 
@@ -13,7 +14,6 @@ import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
-
 import org.kuali.student.core.academiccalendar.service.AcademicCalendarService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -34,9 +34,12 @@ import org.kuali.student.test.utilities.MockHelper;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
 
-	private Map<String, AcademicCalendarInfo> acCache = new HashMap<String, AcademicCalendarInfo>();
-	private Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
-	
+	private static Map<String, AcademicCalendarInfo> acCache = new HashMap<String, AcademicCalendarInfo>();
+	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
+	private static Map<String, TermInfo> termCache = new HashMap<String, TermInfo>();	
+	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();	
+
+
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 	throws OperationFailedException, MissingParameterException,
@@ -146,7 +149,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			PermissionDeniedException {
 		List<AcademicCalendarInfo> infos = new ArrayList<AcademicCalendarInfo>();
 		for (AcademicCalendarInfo info : this.acCache.values()) {
-			// TODO: consider speading up the list search by converting to a hashmap
+			// TODO: consider speeding up the list search by converting to a hashmap
 			if (academicCalendarKeyList.contains(info.getKey())) {
 				infos.add(info);
 			}
@@ -296,8 +299,22 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if(this.acCache.containsKey(academicCalendarKey)){
+			AcademicCalendarInfo dupCalendar = this.acCache.get(academicCalendarKey);
+
+			AcademicCalendarInfo.Builder acBuilder = new AcademicCalendarInfo.Builder(dupCalendar);
+			acBuilder.setEndDate(null);
+			acBuilder.setStartDate(null);
+			acBuilder.setKey(newAcademicCalendarKey);
+
+			AcademicCalendarInfo  copiedCalendar  = acBuilder.build();
+			acCache.put(newAcademicCalendarKey, copiedCalendar);
+			return copiedCalendar;
+		}else{
+			throw new DoesNotExistException(academicCalendarKey);
+		}
+
 	}
 
 	@Override
@@ -357,9 +374,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			String campusCalendarTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		List<String> campusCalendarKeys = new ArrayList<String>();
 
+		for (CampusCalendarInfo ccInfo : ccCache.values()){
+			if(ccInfo.getTypeKey().equals(campusCalendarTypeKey)){
+				campusCalendarKeys.add(ccInfo.getKey());
+			}
+		}
 
-		return null;
+		return campusCalendarKeys;
 	}
 
 	@Override
@@ -369,12 +392,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			PermissionDeniedException {
 
 		List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
-		for (AcademicCalendarInfo info : this.acCache.values()) {
-//			if (info.getCampusCalendar().getStartDate().getYear()==(year.intValue())) {
-//				campusCalendars.add(info.getCampusCalendar());
-//			}
+		for (CampusCalendarInfo info : this.ccCache.values()) {
+			if(info.getStartDate().getYear()== year.intValue()){
+				campusCalendars.add(info);
+			}
 		}
-		return null;
+
+		return campusCalendars;
 	}
 
 	@Override
@@ -393,8 +417,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws AlreadyExistsException, DataValidationErrorException,
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		CampusCalendarInfo.Builder newCampusCalendarBuilder = new CampusCalendarInfo.Builder(campusCalendarInfo);
+		newCampusCalendarBuilder.setKey(campusCalendarKey);
+		CampusCalendarInfo newCampusCalendar = newCampusCalendarBuilder.build();
+		ccCache.put(campusCalendarKey,newCampusCalendar);
+		return newCampusCalendar;
 	}
 
 	@Override
@@ -404,25 +431,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException,
 	VersionMismatchException {
-	
-		if(! campusCalendarInfo.getKey().equals(campusCalendarKey)){
-			throw new DataValidationErrorException(campusCalendarKey);
-		}
-		
-		for (AcademicCalendarInfo info : this.acCache.values()) {
-			if (info.getCampusCalendarKey().equals(campusCalendarKey)) {
-				
-				CampusCalendarInfo.Builder campusCalendarBuilder = new CampusCalendarInfo.Builder(campusCalendarInfo);
-				AcademicCalendarInfo.Builder acBuilder = new AcademicCalendarInfo.Builder(info);
-				acBuilder.setCampusCalendarKey(campusCalendarKey) ;
-				AcademicCalendarInfo newAcademicCalendar= acBuilder.build();
-				acCache.remove(info.getKey());
-				acCache.put(newAcademicCalendar.getKey(), newAcademicCalendar );
-				ccCache.remove(campusCalendarKey);
-				ccCache.put(campusCalendarKey, campusCalendarBuilder.build());
-				
-			}
-		}
+
+		CampusCalendarInfo.Builder campusCalendarBuilder = new CampusCalendarInfo.Builder(campusCalendarInfo);
+		campusCalendarBuilder.setKey(campusCalendarKey);
+		ccCache.remove(campusCalendarKey);
+		ccCache.put(campusCalendarKey, campusCalendarBuilder.build());
+
+
+
 		return campusCalendarInfo;
 	}
 
@@ -431,8 +447,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		StatusInfo.Builder statusInfo = new StatusInfo.Builder();
+		CampusCalendarInfo ccInfo=  ccCache.remove(campusCalendarKey);
+		statusInfo.setSuccess(ccInfo.equals(null));
+
+		return statusInfo.build();
+
 	}
 
 	@Override
@@ -440,8 +460,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,
 	PermissionDeniedException {
-		return null;
-		
+		return termCache.get(termKey);
+
 	}
 
 	@Override
@@ -449,19 +469,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
 		List<TermInfo> matchingTerms =  new ArrayList<TermInfo>();
-//		for (AcademicCalendarInfo info : this.acCache.values()) {
-//			 List<TermInfo>  terms = info.getTerms();
-//			 for (TermInfo termInfo : terms ) {
-//				
-//				 if ( termKeyList.contains(termInfo.getKey()) ){
-//					 matchingTerms.add (termInfo);
-//				}
-//			}
-//		}
-		
-		return null;
+		for (TermInfo termInfo : this.termCache.values()) {	
+			if ( termKeyList.contains(termInfo.getKey()) ){
+				matchingTerms.add (termInfo);
+			}
+		}
+
+		return matchingTerms;
 	}
 
 	@Override
@@ -469,20 +485,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-	
-		
 		List<String> matchingTermKeys =  new ArrayList<String>();
-//		for (AcademicCalendarInfo info : this.acCache.values()) {
-//			 List<TermInfo>  terms = info.getTerms();
-//			 for (TermInfo termInfo : terms ) {
-//				
-//				 if ( termInfo.getTypeKey().equals(termTypeKey) ){
-//					 matchingTermKeys.add(termInfo.getKey());
-//				}
-//			}
-//		}
-		
-		return null;
+		for (TermInfo termInfo : termCache.values() ) {
+			if ( termInfo.getTypeKey().equals(termTypeKey) ){
+				matchingTermKeys.add(termInfo.getKey());
+			}
+		}
+		return matchingTermKeys;
 	}
 
 	@Override
@@ -490,8 +499,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,
 	PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return keyDateCache.get(keyDateKey);
+
 	}
 
 	@Override
@@ -499,8 +508,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
+		for(String keyDate:keyDateKeyList){
+			if(keyDateCache.containsKey(keyDate)){
+				keyDates.add(keyDateCache.get(keyDate) );
+			}else{
+				throw new DoesNotExistException(keyDate);
+			}
+		}
+		return keyDates;
 	}
 
 	@Override
@@ -508,8 +524,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> keyDates = new ArrayList<String>();
+		for(KeyDateInfo keyDate:keyDateCache.values()){
+			if(keyDate.getTypeKey().equals(keyDateTypeKey) )
+				keyDates.add(keyDate.getKey());
+		}
+		return keyDates;
 	}
 
 	@Override
@@ -518,7 +538,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
+
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -527,7 +548,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -536,7 +557,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -545,7 +566,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			KeyDateInfo keyDateInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -555,7 +576,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws AlreadyExistsException, DataValidationErrorException,
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -565,7 +586,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws AlreadyExistsException, DataValidationErrorException,
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -576,7 +597,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException,
 	VersionMismatchException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -585,7 +606,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,
 	PermissionDeniedException {
-		// TODO Auto-generated method stub
+		// TODO implement after DateRange changes 
 		return null;
 	}
 
@@ -614,8 +635,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws AlreadyExistsException, DataValidationErrorException,
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO after gettimg Toms feedback
+		CampusCalendarInfo ccInfo = 	ccCache.get(campusCalendarKey);
+		CampusCalendarInfo.Builder ccBuilder = new CampusCalendarInfo.Builder(ccInfo);
+		return null;	
 	}
 
 	@Override
@@ -638,7 +661,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	
+
 
 	@Override
 	public Integer getInstructionalDaysForTerm(String termKey,
@@ -688,15 +711,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
-	@Override
-	public List<TermInfo> getTermsForAcademicCalendar(
-			List<String> academicCalendar, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public List<TermInfo> getTermsForTerm(List<String> termCalendar,
@@ -722,8 +737,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		TermInfo.Builder newTermInfoBuilder =  new TermInfo.Builder(termInfo);   
+		newTermInfoBuilder.setKey(termKey);
+		TermInfo newTermInfo = newTermInfoBuilder.build(); 
+		termCache.put(termKey, newTermInfo);
+		return newTermInfo;
+
+
+
 	}
 
 	@Override
@@ -732,20 +754,28 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	
+		TermInfo.Builder termInfoBuilder = new TermInfo.Builder(termInfo);
+		termInfoBuilder.setKey(termKey);
+		termCache.remove(termKey);
+		TermInfo newTerm = termInfoBuilder.build();
+		termCache.put(termKey, newTerm);
+		return newTerm;
 	}
 
 	@Override
 	public StatusInfo deleteTerm(String termKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	throws DoesNotExistException, InvalidParameterException,
+	MissingParameterException, OperationFailedException,
+	PermissionDeniedException {
+		termCache.remove(termKey);
+		
+		StatusInfo.Builder ssBuilder =  new StatusInfo.Builder();
+		ssBuilder.setSuccess(true);
+		return ssBuilder.build();
 	}
 
-	
+
 
 	@Override
 	public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey,
@@ -777,6 +807,20 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			PermissionDeniedException, VersionMismatchException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<TermInfo> getTermsForAcademicCalendar(
+			String academicCalendarKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		//TODO terms not there?
+		
+		AcademicCalendarInfo acInfo =  acCache.get(academicCalendarKey);
+		return null;
+		
 	}
 
 }
