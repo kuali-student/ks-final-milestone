@@ -716,12 +716,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				//When showing summary section make sure data gets validated in case there are warnings.
 				//TODO: Is it possible to cut down on this validation so it doesn't have to validate every time.
 				if (viewType == CourseSections.SUMMARY){
+					KSBlockingProgressIndicator.addTask(initializingTask);
 					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
 						@Override
 						public void onSuccess(List<ValidationResultInfo> result) {
 							Application.getApplicationContext().clearValidationWarnings();
 							Application.getApplicationContext().addValidationWarnings(result);
 							showWarnings();
+							KSBlockingProgressIndicator.removeTask(initializingTask);
 						}						
 					});					
 				} else {
