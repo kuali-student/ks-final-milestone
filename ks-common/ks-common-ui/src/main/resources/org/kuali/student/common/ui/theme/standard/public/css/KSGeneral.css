@@ -281,6 +281,10 @@ ul.ks-selected-list {
          width: 30em;
 }
 
+.ks-selected-list .ks-form-module-validation-warnings li{
+	border-style:none;
+}
+
 .ks-selected-list-value {
 display:block;
 min-height:25px;
