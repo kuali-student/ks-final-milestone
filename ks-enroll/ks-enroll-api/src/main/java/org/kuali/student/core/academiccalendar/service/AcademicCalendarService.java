@@ -1086,7 +1086,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws VersionMismatchException The action was attempted on an out of date 
      *         version.
      */
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "registrationDateGroup") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public RegistrationDateGroupInfo updateRegistrationDateGroup(@WebParam(name = "termKey") String termKey, @WebParam(name = "registrationDateGroupInfo") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
      * Calculates the number of instructional days for a Term. The
