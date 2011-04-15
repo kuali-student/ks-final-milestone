@@ -22,10 +22,11 @@ public class SubjectCodeRule extends MaintenanceDocumentRuleBase{
 	@Override
 	protected boolean isDocumentValidForSave(
 			MaintenanceDocument maintenanceDocument) {
-		SubjectCode subjectCode = (SubjectCode) super.getNewBo();
-		if(subjectCode!=null){
+		SubjectCode newSubjectCode = (SubjectCode) super.getNewBo();
+		SubjectCode oldSubjectCode = (SubjectCode) super.getOldBo();
+		if(newSubjectCode!=null && (oldSubjectCode==null||!newSubjectCode.getCode().equals(oldSubjectCode.getCode()))){
 			Map fieldValues = new HashMap();
-			fieldValues.put("code", subjectCode.getCode());
+			fieldValues.put("code", newSubjectCode.getCode());
 			Collection results = getBusinessObjectService().findMatching(SubjectCode.class, fieldValues);
 			if(results!=null&&results.size()>0){
 				putFieldError("code", "error.duplicate.entry", "Subject Code");

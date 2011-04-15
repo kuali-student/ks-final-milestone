@@ -171,21 +171,24 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
         
         //Create search results from the results of the BO search
 		for(SubjectCodeJoinOrg subjectCodeJoinOrg:subjectCodeJoinOrgs){
-        	SearchResultRow row = new SearchResultRow();
-        	row.addCell("subjectCode.resultColumn.code", subjectCodeJoinOrg.getSubjectCode().getCode());
-        	row.addCell("subjectCode.resultColumn.type", subjectCodeJoinOrg.getSubjectCode().getTypeId());
-        	row.addCell("subjectCode.resultColumn.activeFrom", subjectCodeJoinOrg.getActiveFromDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveFromDate().getTime())));
-        	row.addCell("subjectCode.resultColumn.activeTo", subjectCodeJoinOrg.getActiveToDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveToDate().getTime())));
-        	row.addCell("subjectCode.resultColumn.orgId", subjectCodeJoinOrg.getOrgId());
-        	//Get a mapping of the org id to this row so we can find it later and do all the org id searches in one call
-        	List<SearchResultRow> rowList = orgIdToRowMapping.get(subjectCodeJoinOrg.getOrgId());
-        	if(rowList==null){
-        		rowList = new ArrayList<SearchResultRow>();
-	        	orgIdToRowMapping.put(subjectCodeJoinOrg.getOrgId(), rowList);
-        	}
-        	rowList.add(row);
-
-        	searchResult.getRows().add(row);
+			//Only include active orgs if the search is not looking by org id
+			if(orgIdParam!=null || subjectCodeJoinOrg.isActive()){
+	        	SearchResultRow row = new SearchResultRow();
+	        	row.addCell("subjectCode.resultColumn.code", subjectCodeJoinOrg.getSubjectCode().getCode());
+	        	row.addCell("subjectCode.resultColumn.type", subjectCodeJoinOrg.getSubjectCode().getTypeId());
+	        	row.addCell("subjectCode.resultColumn.activeFrom", subjectCodeJoinOrg.getActiveFromDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveFromDate().getTime())));
+	        	row.addCell("subjectCode.resultColumn.activeTo", subjectCodeJoinOrg.getActiveToDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveToDate().getTime())));
+	        	row.addCell("subjectCode.resultColumn.orgId", subjectCodeJoinOrg.getOrgId());
+	        	//Get a mapping of the org id to this row so we can find it later and do all the org id searches in one call
+	        	List<SearchResultRow> rowList = orgIdToRowMapping.get(subjectCodeJoinOrg.getOrgId());
+	        	if(rowList==null){
+	        		rowList = new ArrayList<SearchResultRow>();
+		        	orgIdToRowMapping.put(subjectCodeJoinOrg.getOrgId(), rowList);
+	        	}
+	        	rowList.add(row);
+	
+	        	searchResult.getRows().add(row);
+			}
         }
 		
 		//Translate Org Id to name.  Make a searchRequest for mapping org ids to org longname/shortname
