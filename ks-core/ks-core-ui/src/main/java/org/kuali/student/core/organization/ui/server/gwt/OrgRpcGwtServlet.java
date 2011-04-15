@@ -35,6 +35,7 @@ import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
@@ -510,5 +511,10 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     protected String getDefaultWorkflowDocumentType() {
         return null;
     }
+
+	@Override
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException {
+		return null;
+	}
     
 }
