@@ -512,6 +512,11 @@
         MSG_ID="searchPanelCustomizeSearch"
         MSG_VALUE="Customize This Search"
         OBJ_ID="e9d38092-9b54-4957-be6d-e15d8241bc60" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="3c3da6ea-5678-41e0-919f-ddc093c8843f" LOCALE="en"
+        MSG_ID="validation.course.subjectAreaUsage.all"
+        MSG_VALUE="All organizations must be added for the given subject area."
+        OBJ_ID="8530c759-d973-44d0-8ef9-8c22da69e4d6" VER_NBR="5"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="3cc15761-d0ab-4119-9602-8ff8e8f4c344" LOCALE="en"
         MSG_ID="errorDescription"
@@ -990,6 +995,11 @@
         MSG_ID="kuali.lu.type.CreditCourse.submitted"
         MSG_VALUE="Submitted"
         OBJ_ID="e7b9a8ec-5bcd-4dfb-b4a1-b1a137597409" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="70e2915c-fc38-4171-8af9-7ce8579f9da3" LOCALE="en"
+        MSG_ID="validation.course.subjectAreaUsage.one"
+        MSG_VALUE="Only one organization can be added for the given subject area."
+        OBJ_ID="25d9395c-07df-44bb-9b9e-c09e61539d83" VER_NBR="5"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="7120c492-2855-4ccc-98bb-5630834bd1dc" LOCALE="es"
         MSG_ID="modify" MSG_VALUE="Modifiq?ese"
@@ -1375,15 +1385,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A0E7847DE1483E63E040C60AF05B5254" LOCALE="en"
+        ID="A0FC4329F6642765E040C60AF05B2DA6" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A0E7847DE1493E63E040C60AF05B5254" VER_NBR="1"/>
+        OBJ_ID="A0FC4329F6652765E040C60AF05B2DA6" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A0E7847DE14A3E63E040C60AF05B5254" LOCALE="en"
+        ID="A0FC4329F6662765E040C60AF05B2DA6" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A0E7847DE14B3E63E040C60AF05B5254" VER_NBR="1"/>
+        OBJ_ID="A0FC4329F6672765E040C60AF05B2DA6" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
