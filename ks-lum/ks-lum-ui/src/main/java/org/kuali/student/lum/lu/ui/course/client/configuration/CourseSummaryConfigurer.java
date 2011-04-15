@@ -239,7 +239,7 @@ public class CourseSummaryConfigurer implements
 										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
 
 										validationInfos = validationResult;
-			                        	if(isValid != ErrorLevel.ERROR){
+			                        	if(isValid == ErrorLevel.OK){
 			                				infoContainer1.showWarningLayout(false);
 			                				infoContainer2.showWarningLayout(false);
 			                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
