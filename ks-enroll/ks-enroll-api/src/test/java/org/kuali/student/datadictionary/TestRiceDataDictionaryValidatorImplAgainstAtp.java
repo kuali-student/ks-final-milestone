@@ -46,6 +46,7 @@ import org.springframework.context.ApplicationContext;
  *
  * @author nwright
  */
+@Ignore
 public class TestRiceDataDictionaryValidatorImplAgainstAtp {
 
     public TestRiceDataDictionaryValidatorImplAgainstAtp() {
