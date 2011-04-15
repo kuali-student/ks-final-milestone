@@ -281,8 +281,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		StatusInfo.Builder sBuilder = new StatusInfo.Builder();
-		if(this.acCache.containsKey(academicCalendarKey)){
-			this.acCache.remove(academicCalendarKey);
+		if(acCache.containsKey(academicCalendarKey)){
+			acCache.remove(academicCalendarKey);
 			sBuilder.setSuccess(Boolean.TRUE);
 		}else{
 			throw new DoesNotExistException(academicCalendarKey);

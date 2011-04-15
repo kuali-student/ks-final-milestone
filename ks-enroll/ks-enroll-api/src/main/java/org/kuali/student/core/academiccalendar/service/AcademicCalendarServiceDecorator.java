@@ -27,9 +27,10 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
 
-public  abstract class AcademicCalendarServiceDecorator implements
+public abstract class AcademicCalendarServiceDecorator implements
 		AcademicCalendarService {
 
+	
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 			throws OperationFailedException, MissingParameterException,

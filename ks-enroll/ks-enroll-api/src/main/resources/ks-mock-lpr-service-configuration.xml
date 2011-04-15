@@ -8,7 +8,7 @@
 
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 
-    <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockPersistenceImpl" />
+    <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockImpl" />
     <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
     <bean id="mockIdentityService" class="org.kuali.student.kim.identity.mock.IdentityServiceMockImpl" />
 
@@ -17,7 +17,7 @@
         <property name="lprService" ref="mockLprPersistenceService"/>
         <property name="validator" ref="validator"/>
     </bean>
-    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockPersistenceImpl">
+    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockImpl">
         <property name="lprService" ref="lprDataDictionaryService"/>
     </bean>
     <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">

@@ -43,7 +43,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author nwright
  */
-@Ignore
+
 public class TestLuiPersonRelationServiceSearchConformance {
 
     public TestLuiPersonRelationServiceSearchConformance() {

@@ -52,7 +52,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author nwright
  */
-@Ignore
+
 public class TestLuiPersonRelationServicePersistenceConformance {
 
 	public TestLuiPersonRelationServicePersistenceConformance() {
