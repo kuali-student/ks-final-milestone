@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
  
-//@Ignore
+@Ignore
 public class TestAcademicCalendarServiceConformance {
 	
 	
