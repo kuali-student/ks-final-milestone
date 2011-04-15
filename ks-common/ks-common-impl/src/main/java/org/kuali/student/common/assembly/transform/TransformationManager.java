@@ -156,6 +156,15 @@ public class TransformationManager {
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
 	}
+	
+	
+	public DataBeanMapper getMapper() {
+		return mapper;
+	}
+
+	public void setMapper(DataBeanMapper mapper) {
+		this.mapper = mapper;
+	}
 
 	public void addFilter(TransformFilter filter){
 		filterList.add(filter);
@@ -168,4 +177,5 @@ public class TransformationManager {
 	public void removeFilter(TransformFilter filter){
 		filterList.remove(filter);
 	}
+		
 }

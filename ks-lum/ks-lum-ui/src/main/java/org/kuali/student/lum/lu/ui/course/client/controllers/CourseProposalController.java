@@ -704,26 +704,43 @@ public class CourseProposalController extends MenuEditableSectionController impl
     // validation warnings after widget binding
     //This gets called twice which is not optimal
 	@Override
-	public <V extends Enum<?>> void showView(V viewType,
+	public <V extends Enum<?>> void showView(final V viewType,
 			final Callback<Boolean> onReadyCallback) {
 		Callback<Boolean> finalizeView = new Callback<Boolean>(){
 			public void exec(Boolean result) {
-				onReadyCallback.exec(result);
 				//Update cross constraints
 				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
-
-	        	//Clear existing warnings and re-display new ones if they exist
-				clearAllWarnings();
-				if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
-					isValid(Application.getApplicationContext().getValidationWarnings(), true);
-	        	}				
+				
+				//When showing summary section make sure data gets validated in case there are warnings.
+				//TODO: Is it possible to cut down on this validation so it doesn't have to validate every time.
+				if (viewType == CourseSections.SUMMARY){
+					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+						@Override
+						public void onSuccess(List<ValidationResultInfo> result) {
+							Application.getApplicationContext().clearValidationWarnings();
+							Application.getApplicationContext().addValidationWarnings(result);
+							showWarnings();
+						}						
+					});					
+				} else {
+					showWarnings();					
+				}
+				
+				onReadyCallback.exec(result);
 			}
         };
 		super.showView(viewType, finalizeView);
 	}
  
+	protected void showWarnings(){
+		clearAllWarnings();		
+		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
+			isValid(Application.getApplicationContext().getValidationWarnings(), true);
+    	}				
+	}
+	
    @Override
    public void showDefaultView(Callback<Boolean> onReadyCallback) {
 	   if(isNew){

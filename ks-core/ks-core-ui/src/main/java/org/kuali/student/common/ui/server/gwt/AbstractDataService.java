@@ -147,6 +147,23 @@ public abstract class AbstractDataService implements DataService{
 		
 		return saveResult;
 	}
+	
+	
+
+	@Override
+	public List<ValidationResultInfo> validateData(Data data) throws OperationFailedException {
+		List<ValidationResultInfo> validationResults;
+		
+		try {
+			Metadata metadata = transformationManager.getUnfilteredMetadata(getDtoClass().getName());
+			Object dto = transformationManager.getMapper().convertFromData(data, getDtoClass(), metadata);
+			validationResults = validate(dto);
+		} catch (Exception e) {
+			throw new OperationFailedException("Unable to validate data", e);
+		}
+
+		return validationResults;
+	}
 
 	@Override
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {

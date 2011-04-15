@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -71,6 +73,17 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
+	public List<ValidationResultInfo> validate(Data data)
+			throws OperationFailedException {
+		try{
+			return dataService.validateData(data);
+		} catch (Exception e) {
+			LOG.error("Could not validate data ", e);
+			throw new OperationFailedException("Failed to  data");
+		} 
+	}
+
+	@Override
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
 		return dataService.isAuthorized(type, attributes);
 	}
@@ -82,5 +95,6 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	public void setDataService(DataService dataService) {
 		this.dataService = dataService;
 	}
+
 
 }
