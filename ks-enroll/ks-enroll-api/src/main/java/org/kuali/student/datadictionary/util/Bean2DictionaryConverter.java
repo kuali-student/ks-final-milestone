@@ -26,7 +26,6 @@ import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
 
-
 public class Bean2DictionaryConverter {
 
     private Class<?> clazz;
@@ -104,7 +103,11 @@ public class Bean2DictionaryConverter {
         return pt;
     }
 
-    public static DataType calcDataType(Class<?> pt) {
+    private DataType calcDataType(Class<?> pt) {
+        return calcDataType(clazz, pt);
+    }
+
+    public static DataType calcDataType(Class<?> clazz, Class<?> pt) {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;
         } else if (long.class.equals(pt) || Long.class.equals(pt)) {
@@ -128,7 +131,7 @@ public class Bean2DictionaryConverter {
         } else if (pt.getName().startsWith("org.kuali.student.")) {
             return DataType.COMPLEX;
         } else {
-            throw new RuntimeException("unknown/unhandled type of object in bean " + pt.getName());
+            throw new RuntimeException("unknown/unhandled type of object in bean " + clazz.getSimpleName() + "." + pt.getName());
         }
     }
 }

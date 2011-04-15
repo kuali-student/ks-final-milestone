@@ -4,9 +4,35 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <!--THIS IS USED BY KS DATA DICTIONARY SERVICES CONFIGURATION-->
-    <bean id="lprDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-lui-person-relation-dictionary.xml" />
+    <!--LPR Service-->
+    <bean id="luiPersonRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiPersonRelationInfo-dictionary.xml" />
+    </bean>
+    <bean name="luiPersonRelationServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="luiPersonRelationInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+    <!--ATP Service-->
+    <bean id="atpInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AtpInfo-dictionary.xml" />
+    </bean>
+    <bean id="milestoneInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-MilestoneInfo-dictionary.xml" />
+    </bean>
+    <bean id="atpMilestoneRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AtpMilestoneRelationInfo-dictionary.xml" />
+    </bean>
+    <bean name="atpServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="atpInfoDictionaryLocation" />
+                <bean parent="milestoneInfoDictionaryLocation" />
+                <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
     </bean>
 
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
@@ -15,7 +41,10 @@
     <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <bean parent="lprDictionaryLocation" />
+                <bean parent="luiPersonRelationInfoDictionaryLocation" />
+                <bean parent="atpInfoDictionaryLocation" />
+                <bean parent="milestoneInfoDictionaryLocation" />
+                <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>

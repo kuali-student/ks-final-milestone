@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.common.dto.AmountInfo;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
@@ -31,6 +32,19 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ComparisonInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CriteriaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.SearchParamInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 /**
  *
@@ -63,16 +77,38 @@ public class TestDictionaryCreator {
     @Test
     public void testExecute() {
         System.out.println("execute");
-        new DictionaryCreator().execute(LuiPersonRelationInfo.class, "target/ks-lui-person-relation-dictinoary.xml");
-        new DictionaryCreator().execute(LuiInfo.class, "target/ks-lui-dictinoary.xml");
-        new DictionaryCreator().execute(LuiLuiRelationInfo.class, "target/ks-lui-lui-relation-dictinoary.xml");
-        new DictionaryCreator().execute(AtpInfo.class, "target/ks-atp-dictinoary.xml");
-        new DictionaryCreator().execute(MilestoneInfo.class, "target/ks-milestone-dictinoary.xml");
-        new DictionaryCreator().execute(AtpMilestoneRelationInfo.class, "target/ks-atp-milestone-relation-dictinoary.xml");        
-        new DictionaryCreator().execute(AcademicCalendarInfo.class, "target/ks-academic-calendar-dictinoary.xml");          
-        new DictionaryCreator().execute(CampusCalendarInfo.class, "target/ks-campus-calendar-dictinoary.xml");          
-        new DictionaryCreator().execute(RegistrationDateGroupInfo.class, "target/ks-enrollment-date-group-dictinoary.xml");   
-        new DictionaryCreator().execute(HolidayInfo.class, "target/ks-holiday-dictinoary.xml");   
-        new DictionaryCreator().execute(TermInfo.class, "target/ks-term-dictinoary.xml");           
+        new DictionaryCreator().execute(LuiPersonRelationInfo.class);
+        new DictionaryCreator().execute(LuiInfo.class);
+        new DictionaryCreator().execute(LuiLuiRelationInfo.class);
+        new DictionaryCreator().execute(AtpInfo.class);
+        new DictionaryCreator().execute(MilestoneInfo.class);
+        new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
+        new DictionaryCreator().execute(AcademicCalendarInfo.class);
+        new DictionaryCreator().execute(CampusCalendarInfo.class);
+        new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
+        new DictionaryCreator().execute(HolidayInfo.class);
+        new DictionaryCreator().execute(TermInfo.class);
+        // r2 common
+        new DictionaryCreator().execute(AttributeInfo.class);
+        new DictionaryCreator().execute(ComparisonInfo.class);
+        new DictionaryCreator().execute(ContextInfo.class);
+        new DictionaryCreator().execute(CriteriaInfo.class);
+        new DictionaryCreator().execute(MetaInfo.class);
+        new DictionaryCreator().execute(RichTextInfo.class);
+        new DictionaryCreator().execute(SearchParamInfo.class);
+        new DictionaryCreator().execute(StateInfo.class);
+        new DictionaryCreator().execute(StatusInfo.class);
+        new DictionaryCreator().execute(TimeAmountInfo.class);
+        new DictionaryCreator().execute(TypeInfo.class);
+        new DictionaryCreator().execute(TypeTypeRelationInfo.class);
+        new DictionaryCreator().execute(ValidationResultInfo.class);
+        // r1 common
+        new DictionaryCreator().execute(AmountInfo.class);               
+             
+           
+              
+
+
+
     }
 }

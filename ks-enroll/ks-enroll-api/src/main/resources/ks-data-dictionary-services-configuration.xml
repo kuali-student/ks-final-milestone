@@ -6,15 +6,17 @@
 
     <import resource="classpath:ks-dictionary-file-locations.xml"/>
 
+    <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
-        <property name="dictionaryLocations">
-            <list>
-                <bean parent="lprDictionaryLocation" />
-            </list>
-        </property>
+        <property name="dictionaryLocations" ref="luiPersonRelationServiceDictionaryLocations" />
     </bean>
-
+    <!--ATP Service-->
+    <bean id="dataDictionaryServiceForAtp" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="atp" />
+        <property name="dictionaryLocations" ref="atpServiceDictionaryLocations" />
+    </bean>
+    <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
         <property name="dictionaryLocations" ref="allDictionaryFileLocations" />

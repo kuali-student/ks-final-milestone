@@ -21,32 +21,32 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import static org.junit.Assert.*;
 
 @Ignore
-public class TestAtpDictionary {
+public class TestAtpInfoDictionary {
 
     @Test
     public void testAtpDictionary() {
-        System.out.println("testing ks-atp-dictionary dictionary");
-        String projectUrl = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources";
-        String className = AtpInfo.class.getName();
-        String contextFile = "ks-atp-dictionary";
-        String outFile = "target/" + contextFile + ".html";
-        DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
-                className, projectUrl, contextFile + ".xml");
-        List<String> errors = helper.doTest();
-        if (errors.size() > 0) {
-            fail("failed dictionary validation:\n" + formatAsString(errors));
-        }
+        runTestOnInfo(AtpInfo.class);
     }
 
-        @Test
+    @Test
     public void testMilestoneDictionary() {
-        System.out.println("testing ks-milestone-dictionary dictionary");
-        String projectUrl = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources";
-        String className = MilestoneInfo.class.getName();
-        String contextFile = "ks-milestone-dictionary";
+        runTestOnInfo(MilestoneInfo.class);
+    }
+
+    @Test
+    public void testAtpMilestoneRelationDictionary() {
+        runTestOnInfo(AtpMilestoneRelationInfo.class);
+    }
+
+    private void runTestOnInfo(Class<?> clazz) {
+        System.out.println("testing " + clazz.getSimpleName() + " dictionary");
+        String projectUrl = "https://test.kuali.org/svn/student/branches/ks-1.3/ks-enroll/ks-enroll-api/src/main/resources/";
+        String className = clazz.getName();
+        String contextFile = "ks-" + clazz.getSimpleName() + "-dictionary";
         String outFile = "target/" + contextFile + ".html";
         DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
                 className, projectUrl, contextFile + ".xml");

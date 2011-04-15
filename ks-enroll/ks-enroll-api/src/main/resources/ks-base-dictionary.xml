@@ -22,10 +22,10 @@
     <import resource="classpath:ks-base-dictionary-validchars.xml"/>
     <import resource="classpath:ks-base-dictionary-controls.xml"/>
 
-	<bean id="ComplexAttributeDefinition" class="org.kuali.rice.kns.datadictionary.ComplexAttributeDefinition"
+	<bean id="ComplexattributeDefinition" class="org.kuali.rice.kns.datadictionary.ComplexattributeDefinition"
 		abstract="true" />
         
-    <bean id="AttributeDefinition"
+    <bean id="attributeDefinition"
           class="org.kuali.rice.kns.datadictionary.AttributeDefinition"
           abstract="true" />
 
@@ -33,7 +33,7 @@
           class="org.kuali.rice.kns.datadictionary.DataObjectEntry"
           abstract="true" />
 
-    <bean id="baseKualiString" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiString" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="STRING" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -47,7 +47,7 @@
         <property name="validCharactersConstraint" ref="lineText" />
     </bean>
 
-    <bean id="baseKualiComplex" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiComplex" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="COMPLEX" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -58,16 +58,19 @@
         <property name="minLength" value="1" />
         <property name="maxLength" value="1999" />
         <property name="control">
-            <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60"/>
+            <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60" p:size="1999"/>
         </property>
         <property name="validCharactersConstraint" ref="multiLineText" />
     </bean>
 
     <bean id="baseKualiStringReallyLong" abstract="true" parent="baseKualiStringLong">
         <property name="maxLength" value="14000" />
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60" p:size="14000"/>
+        </property>
     </bean>
 
-    <bean id="baseKualiInteger" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiInteger" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="INTEGER" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -82,7 +85,7 @@
     </bean>
 
 
-    <bean id="baseKualiCurrency" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiCurrency" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="FLOAT" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -96,7 +99,7 @@
         <property name="validCharactersConstraint" ref="positive.integer" />
     </bean>
 
-    <bean id="baseKualiBoolean" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiBoolean" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="BOOLEAN" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -106,7 +109,7 @@
         </property>-->
     </bean>
 
-    <bean id="baseKualiDate" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiDate" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="TRUNCATED_DATE" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
@@ -118,7 +121,7 @@
         </property>
     </bean>
 
-    <bean id="baseKualiDateTime" abstract="true" parent="AttributeDefinition">
+    <bean id="baseKualiDateTime" abstract="true" parent="attributeDefinition">
         <property name="dataType" value="DATE" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />

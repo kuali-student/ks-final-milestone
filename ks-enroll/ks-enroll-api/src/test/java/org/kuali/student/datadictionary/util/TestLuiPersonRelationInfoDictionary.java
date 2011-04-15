@@ -15,20 +15,23 @@
  */
 package org.kuali.student.datadictionary.util;
 
-import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 import java.util.List;
 import org.junit.Test;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import static org.junit.Assert.*;
 
-public class TestLuiPersonRelationDictionary {
+public class TestLuiPersonRelationInfoDictionary {
 
     @Test
     public void testLuiPersonRelationDictionary() {
-        System.out.println("testing ks-lui-person-relation-dictionary dictionary");
-        String projectUrl = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources";
-        String className = LuiPersonRelationInfo.class.getName();
-        String contextFile = "ks-lui-person-relation-dictionary";
+        runTestOnInfo(LuiPersonRelationInfo.class);
+    }
+
+    private void runTestOnInfo(Class<?> clazz) {
+        System.out.println("testing " + clazz.getSimpleName() + " dictionary");
+        String projectUrl = "https://test.kuali.org/svn/student/branches/ks-1.3/ks-enroll/ks-enroll-api/src/main/resources/";
+        String className = clazz.getName();
+        String contextFile = "ks-" + clazz.getSimpleName() + "-dictionary";
         String outFile = "target/" + contextFile + ".html";
         DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
                 className, projectUrl, contextFile + ".xml");

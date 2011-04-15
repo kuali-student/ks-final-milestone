@@ -50,6 +50,11 @@ public class DictionaryCreator {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
+    public void execute(Class<?> clazz) {
+        String outputFileName = "target/ks-" + clazz.getSimpleName() + "-dictinoary.xml";
+        execute(clazz, outputFileName);
+    }
+
     public void execute(Class<?> clazz, String outputFileName) {
         // Create base dictionary object structure for DTOs that map to entities
         File file = new File(outputFileName);
@@ -202,7 +207,7 @@ public class DictionaryCreator {
             if (lowerName.equals("startdate")) {
                 return "48" + name;
             }
-            if (lowerName.equals ("enddate")) {
+            if (lowerName.equals("enddate")) {
                 return "49" + name;
             }
             return "50" + name;
@@ -274,7 +279,7 @@ public class DictionaryCreator {
 
     private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) {
         Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
-        DataType dataType = Bean2DictionaryConverter.calcDataType(actualClass);
+        DataType dataType = Bean2DictionaryConverter.calcDataType(clazz, actualClass);
         return dataType;
     }
 
