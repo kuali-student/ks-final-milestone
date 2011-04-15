@@ -9,6 +9,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -86,6 +87,7 @@ public class SummaryTableSection extends VerticalSection {
     @Override
     public ErrorLevel processValidationResults(
     		List<ValidationResultInfo> results) {
+    	
     	ErrorLevel status = ErrorLevel.OK;
     	for(int i = 0; i < results.size(); i++){
     		if(summaryTable.containsKey(results.get(i).getElement())){
@@ -98,6 +100,31 @@ public class SummaryTableSection extends VerticalSection {
         		}
     		}
     	}
+    	
+    	List<ValidationResultInfo> warnings = Application.getApplicationContext().getValidationWarnings();
+    	ValidationResultInfo tempVr = new ValidationResultInfo();
+    	tempVr.setElement("");
+    	for(int i = 0; i < warnings.size(); i++){
+    		//Reformat the validation element path based on how it can be referenced in sumaryTable rowMap
+    		String element = warnings.get(i).getElement();    		
+    		if (element.startsWith("/")){    			
+    			//Remove leading '/' since paths aren't stored this way in rowMap
+    			element = element.substring(1);
+    		} else if (element.matches(".*/[0-9]+")){
+    			//Validation warnings returns path to individual items of simple multiplicity, 
+    			//stripping of the item index to highlight the entire field. 
+    			element = element.substring(0, element.lastIndexOf("/")); 
+    		}
+    		
+    		if(summaryTable.containsKey(element)){
+    			if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
+    				status = warnings.get(i).getLevel();
+    			}
+    			
+       			summaryTable.highlightRow(element, "warning");
+    		}
+    	}
+    	
     	return status;
     }
     
