@@ -825,6 +825,7 @@
           </exclusion>
           
 		  <!-- JOTM -->
+		  <!-- 
           <exclusion>
             <groupId>xapool</groupId>
             <artifactId>xapool</artifactId>
@@ -833,6 +834,7 @@
             <groupId>jotm</groupId>
             <artifactId>jotm</artifactId>
           </exclusion>
+          -->
         </exclusions>
       </dependency>
       <dependency>
