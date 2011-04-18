@@ -20,7 +20,7 @@ import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
 import org.kuali.rice.kew.actionlist.DisplayParameters;
 import org.kuali.rice.kew.actions.ActionSet;
 //import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kns.UserSession;
+//import org.kuali.rice.kns.UserSession;
 
 public class CollaboratorRequestCustomActionListAttribute implements
 		CustomActionListAttribute {
