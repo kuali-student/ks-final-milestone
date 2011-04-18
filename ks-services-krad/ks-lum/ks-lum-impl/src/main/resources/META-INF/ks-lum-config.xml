@@ -39,13 +39,14 @@
 	<param name="ks.lum.datasource.username">kslum</param>
     <param name="ks.lum.datasource.password">kslum</param>
     
-    <param name="ks.lum.datasource.maxSize" override="false">10</param>
-    <param name="ks.lum.datasource.minSize" override="false">2</param>
-    <param name="ks.lum.datasource.maxWait" override="false">600</param>
+    <param name="ks.lum.datasource.maxSize" >10</param>
+    <param name="ks.lum.datasource.minSize" >2</param>
+    <param name="ks.lum.datasource.maxWait" >600</param>
     
     <param name="ks.lum.jpa.showSql">false</param>
     <param name="ks.lum.jpa.generateDdl">false</param>
-    <param name="ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param>
+    <param name="ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>
+<!--     <param name="ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param> -->
     <param name="ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
