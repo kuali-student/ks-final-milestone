@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.role.QualifierResolver;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.dto.OrgInfo;
