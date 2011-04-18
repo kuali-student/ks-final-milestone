@@ -125,6 +125,7 @@
 		<search:desc>Advanced criteria</search:desc>
 		<search:queryParams>
 			<ref bean="lu.queryParam.luOptionalId"/>
+<!--			<ref bean="lu.queryParam.luOptionalCluId"/> -->
 			<ref bean="lu.queryParam.luOptionalShortName"/>
 			<ref bean="lu.queryParam.luOptionalLongName"/>
 			<ref bean="lu.queryParam.luOptionalType"/>
@@ -145,6 +146,12 @@
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
+<!--	
+	<search:queryParam id="lu.queryParam.luOptionalCluId" parent="lu.queryParam.luOptionalCluId-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCluId-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.officialIdentifier.id.fd"/>
+	</search:queryParam>
+-->	
 	<search:queryParam id="lu.queryParam.luOptionalShortName" parent="lu.queryParam.luOptionalShortName-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalShortName-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.shortName.fd"/>
@@ -231,6 +238,7 @@
 			<ref bean="lu.resultColumn.luOptionalShortName"/>
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalDivision"/>
 			<ref bean="lu.resultColumn.luOptionalLevel"/>
 			<ref bean="lu.resultColumn.luOptionalDescr"/>
 			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
@@ -260,6 +268,11 @@
 		<search:desc>Lu code</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalDivision" parent="lu.resultColumn.luOptionalDivision-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalDivision-parent"  abstract="true">
+		<search:name>Division</search:name>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
 	<search:resultColumn id="lu.resultColumn.luOptionalLevel" parent="lu.resultColumn.luOptionalLevel-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalLevel-parent"  abstract="true">
 		<search:name>Level</search:name>
@@ -1358,7 +1371,7 @@
               xxxxx clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>
  -->
                     <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
-                    officialIdentifier.code, officialIdentifier.level,
+                    officialIdentifier.code, officialIdentifier.division, officialIdentifier.level,
                     cludesc.plain, clu.studySubjectArea, clu.state,
                     clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
                     FROM Clu clu
