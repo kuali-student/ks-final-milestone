@@ -79,7 +79,7 @@
  <bean id="org.kuali.student.lum.program.dto.MajorDisciplineInfo"
        parent="org.kuali.student.lum.program.dto.MajorDisciplineInfo-parent"/>
 
- <bean id="majorDisciplineInfo.intensity-parent" abstract="true" parent="amountInfo.unitType-parent">
+ <bean id="majorDisciplineInfo.intensity-parent" abstract="true" parent="amountInfo.intensity">
   <property name="name" value="intensity"/>
  </bean>
  <bean id="majorDisciplineInfo.intensity" parent="majorDisciplineInfo.intensity-parent"/>

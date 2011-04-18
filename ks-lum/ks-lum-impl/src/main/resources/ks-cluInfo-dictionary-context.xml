@@ -506,6 +506,30 @@
     </bean>
     <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent"/>
 
+    <bean id="constraint.lookup.intensity"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.enumeration.management.search.intensity">
+        <property name="id" value="all.unitTypes"/>
+    </bean>
+    
+    <bean id="amountInfo.intensity-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="unitType"/>
+        <property name="lookupDefinition" ref="constraint.lookup.intensity"/>
+    </bean>
+    <bean id="amountInfo.intensity" parent="amountInfo.intensity-parent"/>
+
+    <bean id="constraint.lookup.duration"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.enumeration.management.search.duration">
+        <property name="id" value="all.unitTypes"/>
+    </bean>
+    
+    <bean id="amountInfo.duration-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="unitType"/>
+        <property name="lookupDefinition" ref="constraint.lookup.duration"/>
+    </bean>
+    <bean id="amountInfo.duration" parent="amountInfo.duration-parent"/>
+
     <!-- AccreditationInfo-->
     <bean id="org.kuali.student.lum.lu.dto.AccreditationInfo-parent"
           abstract="true" parent="objectStructureDefinition">

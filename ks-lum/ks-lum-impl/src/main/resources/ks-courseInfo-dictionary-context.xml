@@ -1172,7 +1172,7 @@
  </bean>
  <bean id="activityInfo.contactHours-structure" parent="activityInfo.contactHours-structure-parent" />
 
- <bean id="activityInfo.contactHours.unitType-parent" abstract="true" parent="amountInfo.unitType-parent">
+ <bean id="activityInfo.contactHours.unitType-parent" abstract="true" parent="amountInfo.duration-parent">
  </bean>
  <bean id="activityInfo.contactHours.unitType" parent="activityInfo.contactHours.unitType-parent" />
 
@@ -1284,7 +1284,7 @@
  </bean>
  <bean id="courseInfo.outOfClassHours-structure" parent="courseInfo.outOfClassHours-structure-parent" />
 
- <bean id="courseInfo.outOfClassHours.unitType-parent" abstract="true" parent="amountInfo.unitType-parent">
+ <bean id="courseInfo.outOfClassHours.unitType-parent" abstract="true" parent="amountInfo.duration-parent">
   <property name="dynamic" value="true"/>
  </bean>
  <bean id="courseInfo.outOfClassHours.unitType" parent="courseInfo.outOfClassHours.unitType-parent" />
