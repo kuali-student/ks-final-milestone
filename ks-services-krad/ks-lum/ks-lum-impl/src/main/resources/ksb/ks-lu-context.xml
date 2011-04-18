@@ -53,7 +53,7 @@
 
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
+<!-- 
     <bean id="lumDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="lumDataSource" />
@@ -69,10 +69,11 @@
         </props>
     </property>
     </bean>
+-->
 
-<!--
     <bean id="lumDataSource"
-          class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+          class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource"> 
+<!-- 	<bean id="lumDataSource" class="org.kuali.rice.core.database.XAPoolDataSource"> --> 
         <property name="transactionManager" ref="userTransaction"/>
         <property name="driverClassName" value="${ks.lum.datasource.driver.name}"/>
         <property name="maxSize" value="${ks.lum.datasource.maxSize}"/>
@@ -83,7 +84,7 @@
         <property name="username" value="${ks.lum.datasource.username}"/>
         <property name="password" value="${ks.lum.datasource.password}"/>
     </bean>
--->
+
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="lumDefaultEntityManagerFactory" abstract="true"
