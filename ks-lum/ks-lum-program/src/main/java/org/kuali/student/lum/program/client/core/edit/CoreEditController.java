@@ -6,12 +6,14 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -241,7 +243,15 @@ public class CoreEditController extends CoreController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
+                //Clear warning states on field and any warnings stored in ApplicationContext;
+                clearAllWarnings();
+                Application.getApplicationContext().clearValidationWarnings();
+                
+                List<ValidationResultInfo> validationResults = result.getValidationResults();
+                Application.getApplicationContext().addValidationWarnings(validationResults);
+
+                if (ValidatorClientUtils.hasErrors(validationResults)) {
+
                     if (previousState != null) {
                         ProgramUtils.setStatus(programModel, previousState.getValue());
                     }
@@ -263,7 +273,14 @@ public class CoreEditController extends CoreController {
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
-                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
+
+                    if (ValidatorClientUtils.hasWarnings(validationResults)){
+	    				isValid(result.getValidationResults(), false, true);	    				
+    					KSNotifier.show("Saved with Warnings");
+    				} else {
+                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+    				}  				
+
                     okCallback.exec(true);
                 }
             }
