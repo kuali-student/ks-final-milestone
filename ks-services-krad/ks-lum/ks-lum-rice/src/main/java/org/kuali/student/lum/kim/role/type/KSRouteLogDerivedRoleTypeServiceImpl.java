@@ -27,7 +27,7 @@ import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;

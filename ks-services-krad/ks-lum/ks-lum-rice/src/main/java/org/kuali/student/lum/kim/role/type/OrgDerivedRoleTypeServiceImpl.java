@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
