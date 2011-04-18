@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.list.impl.KSLabelListImpl;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTable;
@@ -46,7 +47,7 @@ public class ExportUtils {
         ArrayList<ExportElement> subExportElements = new ArrayList<ExportElement>();
         String fieldValue = null;
         if (fieldWidget instanceof HasText) {
-            HasText itemHasTextValue = (HasText) fieldWidget;
+        	HasText itemHasTextValue = (HasText) fieldWidget;
             fieldValue = itemHasTextValue.getText();
             
         } else if (fieldWidget instanceof KSLabel) {
@@ -66,7 +67,7 @@ public class ExportUtils {
                 fieldValue = item.getText();
             } else if (picker.getInputWidget() instanceof KSLabelList) {
                 KSLabelList widget = (KSLabelList) picker.getInputWidget();
-                List<String> selected = widget.getSelectedItems();
+                List<String> selected = widget.getSelectedItemsForExport();
                 for (int j = 0; j <  selected.size(); j++) {
                     if (fieldValue == null) {
                         fieldValue = new String(selected.get(j));
@@ -74,7 +75,7 @@ public class ExportUtils {
                         fieldValue = fieldValue + ", " + selected.get(j);
                     }
                 }
-            }
+            } 
         } else if (fieldWidget instanceof ListBox) {
             ListBox listBox = (ListBox) fieldWidget;
             fieldValue = listBox.getItemText(listBox.getSelectedIndex());
@@ -241,8 +242,8 @@ public class ExportUtils {
             
         } else if (currentViewWidget instanceof ComplexPanel){
             ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
-            for (int i = 0; i < complexPanel .getWidgetCount(); i++) {
-                Widget child = complexPanel .getWidget(i);
+            for (int i = 0; i < complexPanel.getWidgetCount(); i++) {
+                Widget child = complexPanel.getWidget(i);
                 ExportElement exportItem = new ExportElement();
                 exportItem.setSectionName(sectionName);
                 exportItem.setViewName(viewName);
