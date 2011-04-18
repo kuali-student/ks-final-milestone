@@ -10,6 +10,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -124,36 +125,51 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(StateChangeEvent.TYPE, new StateChangeEvent.Handler() {
             @Override
             public void onEvent(final StateChangeEvent event) {
-                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
-                    @Override
-                    public void exec(List<ValidationResultInfo> result) {
-                        boolean isSectionValid = isValid(result, true);
-                        if (isSectionValid) {
-                            Callback<Boolean> callback = new Callback<Boolean>() {
-                                @Override
-                                public void exec(Boolean result) {
-                                    if (result) {
-                                        reloadMetadata = true;
-                                        loadMetadata(new Callback<Boolean>() {
-                                            @Override
-                                            public void exec(Boolean result) {
-                                                if (result) {
-                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
-                                                    HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), context);
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            };
-                            previousState = ProgramStatus.of(programModel);
-                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
-                            saveData(callback);
-                        } else {
-                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
-                        }
-                    }
-                });
+            	//FIXME: The proper way of doing this would be a single server side call to validate next state
+            	//which would retrieve warnings & required for next state, instead of re-validating warnings for
+            	//current state server side and validating required for next state client side.
+            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+					@Override
+					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
+		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+		                    @Override
+		                    public void exec(List<ValidationResultInfo> nextStateResults) {
+		                    	Application.getApplicationContext().clearValidationWarnings();
+		                    	Application.getApplicationContext().addValidationWarnings(currentStateResults);
+		                    	nextStateResults.addAll(currentStateResults);
+		                        boolean isSectionValid = isValid(nextStateResults, true) 
+		                        	&& Application.getApplicationContext().getValidationWarnings().isEmpty();
+		                        if (isSectionValid) {
+		                            Callback<Boolean> callback = new Callback<Boolean>() {
+		                                @Override
+		                                public void exec(Boolean result) {
+		                                    if (result) {
+		                                        reloadMetadata = true;
+		                                        loadMetadata(new Callback<Boolean>() {
+		                                            @Override
+		                                            public void exec(Boolean result) {
+		                                                if (result) {
+		                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
+		                                                    HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), context);
+		                                                }
+		                                            }
+		                                        });
+		                                    }
+		                                }
+		                            };
+		                            previousState = ProgramStatus.of(programModel);
+		                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
+		                            saveData(callback);
+		                        } else {
+		                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+		                        }
+		                    }
+		                });
+
+						
+					}
+            		
+            	});                
             }
         });
 
