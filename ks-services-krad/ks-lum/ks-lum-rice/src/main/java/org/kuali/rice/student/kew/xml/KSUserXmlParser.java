@@ -118,7 +118,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			affiliation.setEntityAffiliationId(""+affiliationId);
 			affiliation.setAffiliationTypeCode(affiliationTypeCode);
 			affiliation.setActive(true);
-			affiliation.setDefault(true);
+			affiliation.setDefaultValue(true);
 			affiliation.setEntityId(entity.getEntityId());
 			String campusCode = userElement.getChildTextTrim(CAMPUS_CD_ELEMENT, NAMESPACE);
 			if(!StringUtils.isBlank(campusCode)){
@@ -145,7 +145,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			name.setFirstName(firstName);
 			name.setMiddleName("");
 			name.setLastName(lastName);
-			name.setDefault(true);
+			name.setDefaultValue(true);
 			
 			entity.getNames().add(name);
 		}
@@ -163,7 +163,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			// must be in krim_email_typ_t.email_typ_cd:
 			email.setEmailTypeCode("WRK");
 			email.setEmailAddress(emailAddress);
-			email.setDefault(true);
+			email.setDefaultValue(true);
 			email.setEntityId(entity.getEntityId());
 			KNSServiceLocator.getBusinessObjectService().save(email);
 		}
