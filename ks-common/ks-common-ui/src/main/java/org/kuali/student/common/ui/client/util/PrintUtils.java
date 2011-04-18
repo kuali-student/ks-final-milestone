@@ -44,22 +44,4 @@ public class PrintUtils {
     	
     }-*/;
 
-//    public static void printJasper(UIObject uiObject) {
-//        System.out.println("Nina se jasperprint event...");
-//        String headTag = "";
-//        String styleTags = "";
-//        NodeList<com.google.gwt.dom.client.Element> head = Document.get().getElementsByTagName("head");
-//        if(head.getItem(0) != null){
-//            com.google.gwt.dom.client.Element e = head.getItem(0);
-//            NodeList<com.google.gwt.dom.client.Element> styles = e.getElementsByTagName("style");
-//            for(int i = 0; i < styles.getLength(); i++){
-//                styleTags = styleTags + styles.getItem(i).getString();
-//                
-//            }
-//        }
-//        headTag = "<HEAD><TITLE>Print - " + Window.getTitle() + "</TITLE>" + styleTags + "</HEAD>";
-//        String uiObjElement = uiObject.getElement().getString();
-////        openPrintWindow(uiObjElement, headTag, num);
-//        num++;
-//    }
 }

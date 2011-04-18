@@ -40,21 +40,21 @@ public class KSDocumentHeader extends Composite {
     Image printImage;
 
     @UiField
-    Image jasperImage;
+    Image exportImage;
 
     private boolean hasSeparator = true;
 
     public KSDocumentHeader() {
         initWidget(uiBinder.createAndBindUi(this));
         setupPrint();
-        setupJasperPrint();
+        setupExportPrint();
     }
 
     public KSDocumentHeader(boolean hasContentWidgetSeparator) {
         this.hasSeparator = hasContentWidgetSeparator;
         initWidget(uiBinder.createAndBindUi(this));
         setupPrint();
-        setupJasperPrint();
+        setupExportPrint();
     }
 
     private void setupPrint() {
@@ -68,10 +68,10 @@ public class KSDocumentHeader extends Composite {
         });
     }
 
-    private void setupJasperPrint() {
+    private void setupExportPrint() {
         exportDialog = new ReportExportDialog();
-        jasperImage.setVisible(false);
-        jasperImage.addClickHandler(new ClickHandler() {
+        exportImage.setVisible(false);
+        exportImage.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
@@ -124,11 +124,11 @@ public class KSDocumentHeader extends Composite {
      * 
      * @param show
      */
-    public void showJasper(boolean show) {
-        jasperImage.setVisible(show);
+    public void showExport(boolean show) {
+    	exportImage.setVisible(show);
     }
 
-    public Image getJasperImage() {
-        return jasperImage;
+    public Image getExportImage() {
+        return exportImage;
     }
 }

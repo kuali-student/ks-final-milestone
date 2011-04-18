@@ -72,7 +72,7 @@ public class TabMenuController extends LayoutController{
     }
 
     public void showExport(boolean show) {
-        header.showJasper(show);
+        header.showExport(show);
     }
 	/** 
 	 * This version of updateModel only updates from the currentView (since only one view is shown/accessed at a time).  

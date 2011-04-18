@@ -117,11 +117,10 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
     public void showPrint(boolean show) {
         header.showPrint(show);
-//        header.showJasper(show);
     }
     
     public void showExport(boolean show) {
-        header.showJasper(show);
+        header.showExport(show);
     }
 
     /**
