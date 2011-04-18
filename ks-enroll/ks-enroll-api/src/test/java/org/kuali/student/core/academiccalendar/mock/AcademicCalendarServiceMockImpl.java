@@ -1,6 +1,7 @@
 package org.kuali.student.core.academiccalendar.mock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
 	private static Map<String, TermInfo> termCache = new HashMap<String, TermInfo>();	
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();	
+	private static Map<String, HolidayInfo> holidaysCache = new HashMap<String, HolidayInfo>();	
 
 
 	@Override
@@ -616,8 +618,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+			
+			AcademicCalendarInfo acInfo = acCache.get(academicCalendarKey);
+			CampusCalendarInfo ccInfo =  ccCache.get(acInfo.getKey());
+			List <String> holidayKeys = ccInfo.getHolidayKeys();
+			List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
+			for(String holidayKey : holidayKeys){
+				holidayInfos.add(holidaysCache.get(holidayKey));
+			}
+			return holidayInfos;
 	}
 
 	@Override
@@ -637,8 +646,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	OperationFailedException, PermissionDeniedException {
 		//TODO after gettimg Toms feedback
 		CampusCalendarInfo ccInfo = 	ccCache.get(campusCalendarKey);
+		holidaysCache.put(holidayKey,holidayInfo );
 		CampusCalendarInfo.Builder ccBuilder = new CampusCalendarInfo.Builder(ccInfo);
-		return null;	
+		List holidayKeys = ccBuilder.getHolidayKeys();
+		holidayKeys.add(holidayKey);
+		ccBuilder.setHolidayKeys(holidayKeys);
+		CampusCalendarInfo newCcInfo =  ccBuilder.build();
+		ccCache.remove(campusCalendarKey);
+		ccCache.put(campusCalendarKey, newCcInfo);
+		return  holidayInfo;
 	}
 
 	@Override
@@ -648,8 +664,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException,
 	VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		holidaysCache.remove(holidayKey);
+		holidaysCache.put(holidayKey, holidayInfo);
+		return  holidayInfo;
 	}
 
 	@Override
@@ -657,8 +675,28 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,
 	PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		holidaysCache.remove(holidayKey);
+		
+		//removing from the lists that refer to that holiday key
+		Collection<CampusCalendarInfo> ccInfoList = ccCache.values();
+		
+		for(CampusCalendarInfo ccInfo:ccInfoList){
+			if(ccInfo.getHolidayKeys().contains(holidayKey)){
+				List <String> holidayKeys = ccInfo.getHolidayKeys();
+				holidayKeys.remove(holidayKey);
+				CampusCalendarInfo.Builder ccBuilder = new CampusCalendarInfo.Builder(ccInfo);
+				ccBuilder.setHolidayKeys(holidayKeys);
+				CampusCalendarInfo newCCInfo = ccBuilder.build();
+				ccCache.remove(ccInfo.getKey());
+				ccCache.put(newCCInfo.getKey(),newCCInfo);
+			
+			}
+		}
+		
+		StatusInfo.Builder statInfoBuilder = new StatusInfo.Builder();
+		statInfoBuilder.setSuccess(true);
+		return statInfoBuilder.build();
 	}
 
 
