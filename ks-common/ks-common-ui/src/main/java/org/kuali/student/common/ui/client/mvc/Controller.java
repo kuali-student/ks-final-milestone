@@ -62,8 +62,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		}
 	};
 	
-	// TODO Nina how do you do loggin in GWT?  
-//	final static Logger logger = Logger.getLogger(Controller.class);
     protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;

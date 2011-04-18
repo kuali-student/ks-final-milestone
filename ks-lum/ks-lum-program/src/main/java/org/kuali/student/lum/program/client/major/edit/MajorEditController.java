@@ -495,5 +495,6 @@ public class MajorEditController extends MajorController {
 		}else{
 			okToChangeCallback.exec(true);
 		}
+		this.showExport(isExportButtonActive());	// KSLAB-1916
 	}
 }
