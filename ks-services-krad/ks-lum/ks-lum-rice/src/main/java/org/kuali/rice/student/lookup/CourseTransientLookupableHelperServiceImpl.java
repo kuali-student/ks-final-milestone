@@ -45,8 +45,6 @@ public class CourseTransientLookupableHelperServiceImpl extends KualiLookupableH
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        setBackLocation((String) lookupForm.getFieldsForLookup().get(KNSConstants.BACK_LOCATION));
-        setDocFormKey((String) lookupForm.getFieldsForLookup().get(KNSConstants.DOC_FORM_KEY));
 
         Map<String, String> fieldValues = lookupForm.getFieldsForLookup();
 
@@ -108,6 +106,8 @@ public class CourseTransientLookupableHelperServiceImpl extends KualiLookupableH
     
     protected void formResultTable(LookupForm lookupForm, Collection resultTable, List<CourseTransient> displayList){
         boolean hasReturnableRow = false;
+          setBackLocation((String) lookupForm.getFieldsForLookup().get(KNSConstants.BACK_LOCATION));
+          setDocFormKey((String) lookupForm.getFieldsForLookup().get(KNSConstants.DOC_FORM_KEY));
 
           List returnKeys = getReturnKeys();
 
