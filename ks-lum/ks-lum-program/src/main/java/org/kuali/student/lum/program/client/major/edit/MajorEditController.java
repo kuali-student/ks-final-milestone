@@ -134,10 +134,12 @@ public class MajorEditController extends MajorController {
 		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
 		                    @Override
 		                    public void exec(List<ValidationResultInfo> nextStateResults) {
+		                    	//Update validation warnings and process for all screens
 		                    	Application.getApplicationContext().clearValidationWarnings();
 		                    	Application.getApplicationContext().addValidationWarnings(currentStateResults);
-		                    	nextStateResults.addAll(currentStateResults);
-		                        boolean isSectionValid = isValid(nextStateResults, true) 
+		                    	isValid(Application.getApplicationContext().getValidationWarnings(), false);
+		                        
+		                    	boolean isSectionValid = isValid(nextStateResults, true) 
 		                        	&& Application.getApplicationContext().getValidationWarnings().isEmpty();
 		                        if (isSectionValid) {
 		                            Callback<Boolean> callback = new Callback<Boolean>() {
