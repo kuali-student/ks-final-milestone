@@ -129,7 +129,7 @@ public class ExportUtils {
         ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
         exportElements = currentController.getExportElementsFromView();
         if (exportElements != null && exportElements.size() > 0) {
-            debutExportElementsArray(exportElements);
+// for debugging            debutExportElementsArray(exportElements);
             currentController.doReportExport(exportElements, format, reportTitle);
         }
     }
