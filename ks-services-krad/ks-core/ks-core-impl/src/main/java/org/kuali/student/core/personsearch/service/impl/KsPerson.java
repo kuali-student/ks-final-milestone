@@ -22,7 +22,8 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimEntityName;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kns.util.KualiDecimal;
+//import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.util.type.KualiDecimal;
 
 /**
  *
