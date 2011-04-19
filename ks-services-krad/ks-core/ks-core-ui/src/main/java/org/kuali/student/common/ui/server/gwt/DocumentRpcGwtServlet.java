@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.server.gwt;
 
 import java.util.List;
 
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
