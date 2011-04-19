@@ -14,8 +14,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
-    <artifactId>kuali</artifactId>
-    <version>79</version>
+    <artifactId>kuali-common</artifactId>
+    <version>10</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
@@ -104,10 +104,6 @@
     <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
-    <!-- Remove this property as soon as the devs are comfortable with Maven 3
--->
-    <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
-
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
@@ -214,6 +210,14 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+          </configuration>
+        </plugin>
+
         <!-- Codehaus GWT Maven Plugin Configuration -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -231,6 +235,20 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   <dependencyManagement>
     <dependencies>
