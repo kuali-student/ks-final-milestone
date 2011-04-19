@@ -136,7 +136,7 @@
         <executions>
           <execution>
             <id>luiPersonRelationService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.enrollment.lpr.service.LuiPersonRelationService</className>
               <genWsdl>true</genWsdl>
@@ -148,7 +148,7 @@
           </execution>
           <execution>
             <id>atpService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.core.atp.service.AtpService</className>
               <genWsdl>true</genWsdl>
@@ -160,7 +160,7 @@
           </execution>  
           <execution>
             <id>academicCalendarService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.core.academiccalendar.service.AcademicCalendarService</className>
               <genWsdl>true</genWsdl>
@@ -172,7 +172,7 @@
           </execution>            
           <execution>
             <id>luiService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.enrollment.lui.service.LuiService</className>
               <genWsdl>true</genWsdl>
