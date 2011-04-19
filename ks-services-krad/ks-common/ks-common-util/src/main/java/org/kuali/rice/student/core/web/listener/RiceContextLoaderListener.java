@@ -205,7 +205,7 @@ public class RiceContextLoaderListener implements ServletContextListener {
 			throw new IllegalStateException("Cannot set Rice Root WebApplication context because one is already present - " + "check whether you have other Spring ContextLoaderListeners in your web.xml!");
 		}
 
-		SpringResourceLoader springResourceLoader = RiceResourceLoaderFactory.getSpringResourceLoader();
+		SpringResourceLoader springResourceLoader = RiceResourceLoaderFactory.getSpringResourceLoaders().iterator().next();
 		ConfigurableApplicationContext rootContext = springResourceLoader.getContext();
 
 		RiceWebApplicationContextProxy webContext = new RiceWebApplicationContextProxy();
