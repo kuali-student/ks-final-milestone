@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
 import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.api.engine.Term;
@@ -89,8 +90,8 @@ public class KRMSTest {
 		engine.setContextProvider(contextProvider);
 		
 		// Set execution options to log execution
-		HashMap<String, String> xOptions = new HashMap<String, String>();
-		xOptions.put(ExecutionOptions.LOG_EXECUTION.toString(), Boolean.toString(true));
+		ExecutionOptions xOptions = new ExecutionOptions();
+		xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
 		
 		HashMap<Term, Object> execFacts = new HashMap<Term, Object>();
 		execFacts.put(new Term(studentId), new String("013005779"));

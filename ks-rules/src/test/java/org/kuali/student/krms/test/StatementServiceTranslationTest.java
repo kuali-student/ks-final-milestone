@@ -64,9 +64,6 @@ public class StatementServiceTranslationTest {
     
     @Before
     public void setUp() {
-        //appContext = new FileSystemXmlApplicationContext("file:///home/andy/src/kualiWorkspace/ks-r2-poc/ks-rules/src/test/resources/applicationContext.xml");
-        //statementService = (StatementService) appContext.getBean("statementService");
-        
         statementService = new DummyStatementService();
     }
 

@@ -1,15 +1,16 @@
 package org.kuali.student.krms.test;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.Proposition;
-import org.kuali.student.lum.lu.service.LuService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class ComparisonOverCourseSetProposition implements Proposition {
 
-    private String courseSetId;
+    private Term courseSetTerm;
     
     private final boolean checkAllCourses;
     
@@ -17,16 +18,13 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
     
     private Collection<String> courseIds;
     
-    @Autowired
-    protected LuService luService;
-    
     public ComparisonOverCourseSetProposition(String courseSetId) {
-        this.courseSetId = courseSetId;
+        this.courseSetTerm = new Term(Constants.courseSetTermSpec, Collections.singletonMap(Constants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
         this.checkAllCourses = true;
     }
     
     public ComparisonOverCourseSetProposition(String courseSetId, Integer numCourses) {
-        this.courseSetId = courseSetId;
+        this.courseSetTerm = new Term(Constants.courseSetTermSpec, Collections.singletonMap(Constants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
         this.checkAllCourses = false;
         this.expectedCompareCount = numCourses;
     }
@@ -36,8 +34,8 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
         
         if(courseIds == null) {
             try {
-                courseIds = luService.getAllCluIdsInCluSet(courseSetId);
-            } catch (Exception e) {
+                environment.resolveTerm(courseSetTerm);
+            } catch (TermResolutionException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -48,7 +46,7 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
         int trueComparisonCount = 0;
         
         for(String courseId : courseIds) {
-            singleCourseComparison = performSingleCourseComparison(courseId);
+            singleCourseComparison = performSingleCourseComparison(courseId, environment);
             
             if(singleCourseComparison) {
                 trueComparisonCount++;
@@ -72,7 +70,7 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
         
     }
 
-    protected abstract boolean performSingleCourseComparison(String courseId);
+    protected abstract boolean performSingleCourseComparison(String courseId, ExecutionEnvironment environment);
 
     protected void initializeComparisonTerm(ExecutionEnvironment environment) {
     }

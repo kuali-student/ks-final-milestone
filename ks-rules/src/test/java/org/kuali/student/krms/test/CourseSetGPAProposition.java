@@ -1,28 +1,37 @@
 package org.kuali.student.krms.test;
 
-import org.kuali.rice.krms.api.engine.TermSpecification;
+import java.util.Collections;
+
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 
 public class CourseSetGPAProposition extends ComparisonOverCourseSetProposition {
 
-    private String courseSetId;
     private Float gpa;
     private ComparisonOperator operator;
-    
-    private final TermSpecification creditsAsset = new TermSpecification("gpaInACourseAsset", "Float");
 
     public CourseSetGPAProposition(String courseSetId, Float gpa, ComparisonOperator operator) {
         super(courseSetId);
-        this.courseSetId = courseSetId;
         this.gpa = gpa;
         this.operator = operator;
     }
 
     @Override
-    protected boolean performSingleCourseComparison(String courseId) {
-        // TODO add hook here for fake value lookup
+    protected boolean performSingleCourseComparison(String courseId, ExecutionEnvironment environment) {
         
-        Float discoveredGpa = 1.0f;
+        Term term = new Term(Constants.gpaForCourseTermSpec, Collections.singletonMap(Constants.COURSE_ID_TERM_PROPERTY_NAME, courseId));
+        
+        Float discoveredGpa = null;
+        
+        try {
+            discoveredGpa = environment.resolveTerm(term);
+        } catch (TermResolutionException e) {
+            throw new RuntimeException(e);
+        }
+        
+        
         
         return operator.compare(discoveredGpa, gpa);
     }

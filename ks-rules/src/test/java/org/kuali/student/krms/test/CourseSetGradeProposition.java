@@ -1,6 +1,10 @@
 package org.kuali.student.krms.test;
 
+import java.util.Collections;
+
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.student.lum.lrc.dto.GradeInfo;
@@ -17,9 +21,6 @@ public class CourseSetGradeProposition extends ComparisonOverCourseSetPropositio
     private GradeTypeInfo gradeTypeInfo;
     private GradeInfo gradeInfo;
     
-    private final TermSpecification creditsAsset = new TermSpecification("gradeInACourseAsset", "GradeValue");
-    
-    @Autowired
     private LrcService lrcService;
 
     public CourseSetGradeProposition(String courseSetId, String gradeType, String gradeValue, Integer numCourses, ComparisonOperator operator) {
@@ -39,9 +40,16 @@ public class CourseSetGradeProposition extends ComparisonOverCourseSetPropositio
     }
 
     @Override
-    protected boolean performSingleCourseComparison(String courseId) {
-        // TODO add hook here for fake value lookup
+    protected boolean performSingleCourseComparison(String courseId, ExecutionEnvironment environment) {
         GradeInfo discoveredGrade = null;
+        
+        Term term = new Term(Constants.gradeForCourseTermSpec, Collections.singletonMap(Constants.COURSE_ID_TERM_PROPERTY_NAME, courseId));
+        
+        try {
+            discoveredGrade = environment.resolveTerm(term);
+        } catch (TermResolutionException e) {
+            throw new RuntimeException(e);
+        }
         
         // TODO also needs some way of comparing grades
         
