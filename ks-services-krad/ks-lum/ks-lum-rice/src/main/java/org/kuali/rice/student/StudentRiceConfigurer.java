@@ -21,6 +21,10 @@ import org.kuali.rice.core.config.ModuleConfigurer;
  * @author delyea
  *
  */
+public class StudentRiceConfigurer{
+	
+}
+/*
 public class StudentRiceConfigurer extends ModuleConfigurer {
 
     public StudentRiceConfigurer() {
@@ -29,3 +33,4 @@ public class StudentRiceConfigurer extends ModuleConfigurer {
     }
 
 }
+*/
