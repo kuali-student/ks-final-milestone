@@ -24,7 +24,7 @@ import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalTableCellPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -41,7 +41,7 @@ public class BrowseProgramView extends ViewComposite {
     protected MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	
     private VerticalFieldLayout container = new VerticalFieldLayout();
-	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
+	private HorizontalTableCellPanel layout = new HorizontalTableCellPanel();
 	protected KSFilterOptions dependencyFilter;
 	protected DataModelDefinition searchDefinition;
 	protected boolean initialized = false;
@@ -90,8 +90,9 @@ public class BrowseProgramView extends ViewComposite {
 		metaData = searchDefinition.getMetadata("search");
 		
 		browsePanel = new BrowsePanel(metaData.getInitialLookup(),400);
-		
+
 		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
+		
 		layout.add(browsePanel);
 
 		container.add(layout);
