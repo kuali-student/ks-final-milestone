@@ -690,8 +690,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
 
     /** 
      * Retrieves a list of key dates for an academic calendar. The
-     * dates include all key dates mapped to any terms, sub terms, or
-     * campus calendars.
+     * dates include all key dates mapped to any terms and sub terms.
      *
      * @param academicCalendarKey
      * @param context Context information containing the principalId
@@ -709,8 +708,7 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
     /** 
      * Retrieves a list of key dates for an academic calendar that 
      * fall within the given date range inclusive. The dates
-     * include all key dates mapped to any terms, sub terms, or
-     * campus calendars.
+     * include all key dates mapped to any terms and sub terms.
      *
      * @param academicCalendarKey
      * @param startDate the start of the date range
@@ -846,25 +844,6 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public KeyDateInfo createKeyDateForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Creates a new Key Date for a Campus Calendar.
-     *
-     * @param campusCalendarKey a key for a Term to which this key date is mapped
-     * @param keyDateKey the key of the Key Date to be created
-     * @param keyDateInfo Details of the Key Date to be created
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return the details of the Key Date just created
-     * @throws AlreadyExistsException the Key Date being created already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public KeyDateInfo createKeyDateForCampusCalendar(@WebParam(name = "campusCalendarKey") String campusCalendarKey, @WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates an existing Key Date.

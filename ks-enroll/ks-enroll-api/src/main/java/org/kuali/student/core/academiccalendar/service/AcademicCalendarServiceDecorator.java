@@ -501,7 +501,7 @@ public abstract class AcademicCalendarServiceDecorator implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+    /*
 	@Override
 	public KeyDateInfo createKeyDateForCampusCalendar(String campusCalendarKey,
 			String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
@@ -511,7 +511,7 @@ public abstract class AcademicCalendarServiceDecorator implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+    */
 	@Override
 	public KeyDateInfo updateKeyDate(String keyDateKey,
 			KeyDateInfo keyDateInfo, ContextInfo context)
