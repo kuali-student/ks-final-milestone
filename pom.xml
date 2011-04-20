@@ -47,6 +47,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
+        <module>ks-cfg-dbs</module>
         <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
@@ -66,9 +67,6 @@
         <module>ks-lum</module>
         <module>ks-enroll</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
     <profile>
       <id>skip-all-wars</id>
@@ -93,9 +91,6 @@
         <module>ks-core</module>
         <module>ks-lum</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
   </profiles>
   <scm>
@@ -161,7 +156,6 @@
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
     <ks.java2ws.phase>none</ks.java2ws.phase>
-    <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
   </properties>
   <build>
     <pluginManagement>
