@@ -52,7 +52,7 @@ public interface TypeService {
     /**
      * This method returns a list of TypeInfo that belong to a RefObjectURI. For e.g all types for CluInfo
      * 
-     * @param refObjectURI URI identifying the object e.g http://student.kuali.org/LuService/CluInfo
+     * @param refObjectURI URI identifying the object e.g http://student.kuali.org/wsdl/luService/CluInfo
      * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of TypeInfo objects associated with the object
      * @throws DoesNotExistException refObjectURI not found

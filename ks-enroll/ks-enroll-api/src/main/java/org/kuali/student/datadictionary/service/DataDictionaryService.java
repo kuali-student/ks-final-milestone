@@ -51,10 +51,10 @@ public interface DataDictionaryService {
      * Get the list of entry keys in this dictionary
      *
      * The list of keys is stored in the ref object URI strcture
-     * E.g http://stduent.kuali.org/LuService/CluInfo will be the objectTypeURI for the CluInfo structure
+     * E.g http://student.kuali.org/wsdl/luService/CluInfo will be the objectTypeURI for the CluInfo structure
      * The refObjectURI has three parts:<ol>
-     * <li>http://stduent.kuali.org/ -- which is fixed
-     * <li>LuService -- which should match the namespace of the service in which the object is defined
+     * <li>http://student.kuali.org/wsdl -- which is fixed
+     * <li>luService -- which should match the namespace of the service in which the object is defined
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
      *
