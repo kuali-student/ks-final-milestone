@@ -36,6 +36,7 @@ import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -78,7 +79,35 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 @WebService(name = "AcademicCalendarService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AcademicCalendarService extends DataDictionaryService, TypeService, StateService {
+public interface AcademicCalendarService extends DataDictionaryService, StateService {
+
+    /**
+     * This method returns the TypeInfo for a given academic calendar
+     * type key.
+     *
+     * @param academicCalendarTypeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException academicCalendarTypeKey not found
+     * @throws InvalidParameterException invalid academicCalendarTypeKey
+     * @throws MissingParameterException missing academicCalendarTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid academic calendar types.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid academic calendar Types
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getAcademicCalendarTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Academic Calendar by an
@@ -315,6 +344,35 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      */
     public String getAcademicCalendarData(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "calendarDataFormatTypeKey") String calendarDataFormatTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * This method returns the TypeInfo for a campus calendar type
+     * key.
+     *
+     * @param campusCalendarTypeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException  campusCalendarTypeKey not found
+     * @throws InvalidParameterException invalid campusCalendarTypeKey
+     * @throws MissingParameterException missing campusCalendarTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getCampusCalendarType(@WebParam(name = "campusCalendarTypeKey") String campusCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid campus calendar types.
+     *
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of valid campus calendar Types
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getCampusCalendarTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
     /** 
      * Retrieves the details of a single Campus Calendar by an
      * campus calendar key.
@@ -466,6 +524,34 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteCampusCalendar(@WebParam(name = "campusCalendarKey") String campusCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the TypeInfo for a given Term type key.
+     *
+     * @param teryTypeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException  termTypeKey not found
+     * @throws InvalidParameterException invalid termTypeKey
+     * @throws MissingParameterException missing termTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid Term types.
+     *
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of valid term Types
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getTermTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Term by a term key.
@@ -638,6 +724,37 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the TypeInfo for a given KeyDate type key.
+     *
+     * @param typeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException  keyDateTypeKey not found
+     * @throws InvalidParameterException invalid keyDateTypeKey
+     * @throws MissingParameterException missing keyDateTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getKeyDateType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid key date types for the given
+     * term type.
+     *
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @param campusCalendatTypeKey
+     * @return a list of valid key date Types
+     * @throws DoesNotExistException termTypeKey not found
+     * @throws InvalidParameterException invalid key or context
+     * @throws MissingParameterException missing key or context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getKeyDateTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single key date by a key date key.
@@ -883,6 +1000,37 @@ public interface AcademicCalendarService extends DataDictionaryService, TypeServ
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteKeyDate(@WebParam(name = "keyDateKey") String keyDateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the TypeInfo for a given holiday type key.
+     *
+     * @param holidayTypeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException holidayTypeKey not found
+     * @throws InvalidParameterException invalid holidayTypeKey
+     * @throws MissingParameterException missing holidayTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getHolidayType(@WebParam(name = "holidayTypeKey") String holidayTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid holiday types for the given
+     * campus calendar type.
+     *
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @param campusCalendatTypeKey
+     * @return a list of valid holiday Types
+     * @throws DoesNotExistException campusCalendarTypeKey not found
+     * @throws InvalidParameterException invalid key or context
+     * @throws MissingParameterException missing key or context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getHolidayTypesForCampusCalendarType(@WebParam(name = "campusCalendarTypeKey") String campusCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves a list of holidays for an academic calendar.
