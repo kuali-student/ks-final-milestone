@@ -43,11 +43,14 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
 public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private final Boolean isAllDay;
 
     @XmlElement
     private final Boolean isDateRange;
@@ -61,7 +64,8 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
-    private KeyDateInfo() {
+    protected KeyDateInfo() {
+        isAllDay = false;
         isDateRange = false;
         startDate = null;
         endDate = null;
@@ -75,10 +79,22 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
      */
     public KeyDateInfo(KeyDate keyDate) {
         super(keyDate);
+        this.isAllDay = keyDate.getIsAllDay();
         this.isDateRange = keyDate.getIsDateRange();
         this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
         this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
         _futureElements = null;
+    }
+
+    /**
+     * Tests if this key date is an all day event. An all-day event
+     * does not have a meaningful time component in the date.
+     *
+     * @return true if this is an all-day event, false otherwise
+     */
+    @Override
+    public Boolean getIsAllDay() {
+        return isAllDay;
     }
 
     /**
@@ -118,6 +134,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
 
+        private Boolean isAllDay;
         private Boolean isDateRange;
         private Date startDate;
         private Date endDate;
@@ -134,6 +151,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
          */
         public Builder(KeyDate keyDate) {
             super(keyDate);
+            this.isAllDay = keyDate.getIsAllDay();
             this.isDateRange = keyDate.getIsDateRange();
             this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
             this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
@@ -146,6 +164,27 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
          */
         public KeyDateInfo build() {
             return new KeyDateInfo(this);
+        }
+
+        /**
+         * Tests if this key date is an all day event. An all-day event
+         * does not have a meaningful time component in the date.
+         *
+         * @return true if this is an all-day event, false otherwise
+         */
+        @Override
+        public Boolean getIsAllDay() {
+            return isAllDay;
+        }
+
+        /**
+         * Sets the all-day flag.
+         *
+         * @param isAllDay true if this KeyDate is an all-day 
+         *        event, flase otherwise
+         */
+        public void setIsAllDay(Boolean isAllDay) {
+            this.isAllDay = isAllDay;
         }
 
         /**
@@ -167,7 +206,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
          *         start end end dates, false if this KeyDate
          *         represents a single date
          */
-        public void dateRange(Boolean isDateRange) {
+        public void setIsDateRange(Boolean isDateRange) {
             this.isDateRange = isDateRange;
         }
 

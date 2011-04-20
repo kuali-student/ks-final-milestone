@@ -27,4 +27,12 @@ import org.kuali.student.common.infc.KeyEntity;
  */ 
 
 public interface Holiday extends KeyDate {
+
+    /**
+     * Name: Is Instructional Day
+     * Tests if this holiday is an instructional day.
+     *
+     * @return true if this is an instructional day, false otherwise
+     */
+    public Boolean getIsInstructionalDay();
 }
