@@ -30,6 +30,15 @@ import org.kuali.student.common.infc.KeyEntity;
 public interface Milestone extends KeyEntity {
 
     /**
+     * Name: Is All Day
+     * Tests if this Milestone is an all day event. An all-day event
+     * does not have a meaningful time component in the date.
+     *
+     * @return true if this is an all-day event, false otherwise
+     */
+    public Boolean getIsAllDay();
+
+    /**
      * Name: Is Date Range
      * Tests if this milestone has a date range. 
      *

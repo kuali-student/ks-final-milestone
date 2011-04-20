@@ -42,11 +42,14 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
 public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private final Boolean isAllDay;
 
     @XmlElement
     private final Boolean isDateRange;
@@ -61,6 +64,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
     private final List<Element> _futureElements;  
 
     private MilestoneInfo() {
+	isAllDay = false;
 	isDateRange = false;
 	startDate = null;
 	endDate = null;
@@ -74,10 +78,21 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
      */
     public MilestoneInfo(Milestone milestone) {
         super(milestone);
+	this.isAllDay = milestone.getIsAllDay();
 	this.isDateRange = milestone.getIsDateRange();
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
 	_futureElements = null;
+    }
+
+    /**
+     * Tests if this Milestone is an all day event. An all-day event
+     * does not have a meaningful time component in the date.
+     *
+     * @return true if this is an all-day event, false otherwise
+     */
+    public Boolean getIsAllDay() {
+        return isAllDay;
     }
 
     /**
@@ -117,6 +132,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<MilestoneInfo>, Milestone {
 
+	private Boolean isAllDay;
 	private Boolean isDateRange;
         private Date startDate;
         private Date endDate;
@@ -133,6 +149,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 	 */
         public Builder(Milestone milestone) {
             super(milestone);
+	    this.isAllDay = milestone.getIsAllDay();
 	    this.isDateRange = milestone.getIsDateRange();
             this.startDate = milestone.getStartDate();
             this.endDate = milestone.getEndDate();
@@ -146,6 +163,26 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
         public MilestoneInfo build() {
             return new MilestoneInfo(this);
         }
+
+        /**
+         * Tests if this Milestone is an all day event. An all-day event
+         * does not have a meaningful time component in the date.
+         *
+         * @return true if this is an all-day event, false otherwise
+         */
+        public Boolean getIsAllDay() {
+            return isAllDay;
+        }
+
+	/**
+	 * Sets the is all day flag.
+	 *
+	 * @param isAllDay true if this Milestone is an all
+	 *        day event, false otherwise
+	 */
+	public void setIsAllDay(Boolean isAllDay) {
+	    this.isAllDay = isAllDay;
+	}
 
 	/**
 	 * Tests if this milestone has a date range. If true, the end date
@@ -166,7 +203,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 	 *         start end end dates, false if this Milestone
 	 *         represents a single date
 	 */
-	public void dateRange(Boolean isDateRange) {
+	public void setDateRange(Boolean isDateRange) {
 	    this.isDateRange = isDateRange;
 	}
 
