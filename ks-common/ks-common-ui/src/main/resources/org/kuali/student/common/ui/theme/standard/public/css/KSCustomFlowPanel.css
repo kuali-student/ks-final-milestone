@@ -13,6 +13,10 @@
  * permissions and limitations under the License.
  */
 
+.KS-Horizontal-Data-Cell{
+	display: table-cell;
+}
+
 .KS-Horizontal-Block-Flow{
 	/*Firefox and others*/
 	display: inline-block;
