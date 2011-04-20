@@ -418,12 +418,29 @@ position:relative;
 	/*padding: 5px 4px 5px 3px;*/
 }
 
+@if user.agent ie6 ie7 ie8 {
+	.ks-form-module-fields {
+		float: none;
+		/*padding: 5px 4px 5px 3px;*/
+}
+}
+
 .ks-form-module-elements {
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
     line-height: 1.4em;
 }
+
+@if user.agent ie6 ie7 ie8 {
+	.ks-form-module-elements {
+    	margin-bottom: 1px;
+    	float: none;
+    	margin-right: 20px;
+    	line-height: 1.4em;
+	}
+}
+
 .ks-form-required-for-submit {
 color:#999999;
 font-size:0.9em;
