@@ -114,7 +114,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public DataSaveResult saveData(Data data) throws OperationFailedException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException{
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
 		
@@ -137,10 +137,8 @@ public abstract class AbstractDataService implements DataService{
 			saveResult.setValue(persistedData);
 			saveResult.setValidationResults(validationResults);			
 		}catch (DataValidationErrorException dvee){
-			//This should only get thrown if service save call resulted in validation errors. These errors
-			//should be sent to the UI using DataSaveResult instead of throwing an exception.
-			//Sending null for data value, since UI should already have it and nothing changed.
-			saveResult.setValidationResults(dvee.getValidationResults());
+			//Throw the error, we need the the transaction to be rolled back when service throws an error.
+			throw dvee;
 		}catch (Exception e) {
 			throw new OperationFailedException("Unable to save",e);
 		}
