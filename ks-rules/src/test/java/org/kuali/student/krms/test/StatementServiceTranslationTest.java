@@ -34,12 +34,16 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.lum.lrc.dto.GradeInfo;
+import org.kuali.student.lum.lrc.service.LrcService;
 
 public class StatementServiceTranslationTest {
     
     private static final String COREQUISITE_STATMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
     
     private StatementService statementService;
+    
+    private LrcService lrcService;
 
     //private ApplicationContext appContext;
     
@@ -65,6 +69,7 @@ public class StatementServiceTranslationTest {
     @Before
     public void setUp() {
         statementService = new DummyStatementService();
+        lrcService = new DummyLrcService();
     }
 
     
@@ -263,7 +268,7 @@ public class StatementServiceTranslationTest {
             
             // get the expected test score and the tests
             Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
-            String testScore = fieldMap.get("kuali.reqComponent.field.type.test.score").getValue();
+            Float testScore = Float.parseFloat(fieldMap.get("kuali.reqComponent.field.type.test.score").getValue());
             String testSetId = fieldMap.get("kuali.reqComponent.field.type.test.cluSet.id").getValue();
             
             Proposition result = new TestScoreCompareProposition(ComparisonOperator.GREATER_THAN_EQUAL, testSetId, testScore);
@@ -377,13 +382,15 @@ public class StatementServiceTranslationTest {
             String gradeType = fieldMap.get("kuali.reqComponent.field.type.gradeType.id").getValue();
             String gradeValue = fieldMap.get("kuali.reqComponent.field.type.grade.id").getValue();
             
+            GradeInfo gradeInfo = null;
             
+            gradeInfo = lrcService.getGrade(gradeValue);
             
             if(hasNumCourses) {
-                result = new CourseSetGradeProposition(courseSetId, gradeType, gradeValue, numCourses, operator);
+                result = new CourseSetGradeProposition(courseSetId, gradeInfo, numCourses, operator);
             }
             else {
-                result = new CourseSetGradeProposition(courseSetId, gradeType, gradeValue, operator);
+                result = new CourseSetGradeProposition(courseSetId, gradeInfo, operator);
             }
         }
         

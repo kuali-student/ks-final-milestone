@@ -4,14 +4,10 @@ import java.util.Collection;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
 public abstract class CourseCompletionProposition implements Proposition {
-    
-    private final Term studentCompletedCoursesAsset = new Term(new TermSpecification("studentCompletedCourseIds", "Collection<String>"));
     
     protected final boolean checkForAllCompleted;
     
@@ -32,7 +28,7 @@ public abstract class CourseCompletionProposition implements Proposition {
         Collection<String> enrolledCourses = null;
         
         try {
-            enrolledCourses = environment.resolveTerm(studentCompletedCoursesAsset);
+            enrolledCourses = environment.resolveTerm(Constants.completedCourseIdsTerm);
         } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }

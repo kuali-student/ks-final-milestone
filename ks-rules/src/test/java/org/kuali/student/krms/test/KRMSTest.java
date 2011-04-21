@@ -126,7 +126,7 @@ public class KRMSTest {
 	};
 	
 
-	private static final TermSpecification studentId = new TermSpecification("gpa","String");
+	private static final TermSpecification studentId = new TermSpecification("studentId","String");
 	
 	private static final TermSpecification gpaAsset = new TermSpecification("gpa","Float");
 	

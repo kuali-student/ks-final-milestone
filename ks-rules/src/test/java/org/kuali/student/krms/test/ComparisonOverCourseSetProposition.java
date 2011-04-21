@@ -40,8 +40,6 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
             }
         }
         
-        initializeComparisonTerm(environment);
-        
         boolean singleCourseComparison;
         int trueComparisonCount = 0;
         
@@ -71,8 +69,5 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
     }
 
     protected abstract boolean performSingleCourseComparison(String courseId, ExecutionEnvironment environment);
-
-    protected void initializeComparisonTerm(ExecutionEnvironment environment) {
-    }
 
 }
