@@ -30,6 +30,22 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public abstract class AcademicCalendarServiceDecorator implements
 AcademicCalendarService {
 
+	@Override
+	public List<TypeInfo> getAcademicCalendarState(
+			String academicCalendarStateKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getTermState(String termStateKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context)
@@ -48,87 +64,7 @@ AcademicCalendarService {
         return null;
     }
 
-    /*
-	@Override
-	public TypeInfo getType(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-     */
-    @Override
-    public List<String> getProcessKeys(String typeKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey,
-            String currentStateKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
+          @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub

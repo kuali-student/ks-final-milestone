@@ -142,7 +142,7 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
 	 *
 	 * @param atpKey the ATP key
 	 */
-        public void atpKey(String atpKey) {
+        public void setAtpKey(String atpKey) {
             this.atpKey = atpKey;
         }
 

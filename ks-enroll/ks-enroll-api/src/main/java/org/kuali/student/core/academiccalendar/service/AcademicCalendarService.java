@@ -22,7 +22,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.service.TypeService;
+
 import org.kuali.student.common.service.StateService;
 import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
@@ -79,7 +79,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 @WebService(name = "AcademicCalendarService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AcademicCalendarService extends DataDictionaryService, StateService {
+public interface AcademicCalendarService extends DataDictionaryService {
 
     /**
      * This method returns the TypeInfo for a given academic calendar
@@ -109,6 +109,31 @@ public interface AcademicCalendarService extends DataDictionaryService, StateSer
      */
     public List<TypeInfo> getAcademicCalendarTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * This method returns the possible academic calendar state.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid academic calendar states
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getAcademicCalendarState(@WebParam(name = "academicCalendarStateKey") String academicCalendarStateKey,@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the possible term state.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid academic calendar states
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getTermState(@WebParam(name = "termStateKey") String termStateKey,@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    
     /** 
      * Retrieves the details of a single Academic Calendar by an
      * academic calendar key.

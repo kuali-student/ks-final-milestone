@@ -40,7 +40,7 @@ import org.kuali.student.core.academiccalendar.infc.CampusCalendar;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "holidayKeys", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
 public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,9 +54,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     @XmlElement
     private final String location;
     
-    @XmlElement
-    private final List<String> holidayKeys;
-
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
@@ -64,7 +61,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
         startDate = null;
         endDate = null;
         location = null;
-        holidayKeys = null; 
         _futureElements = null;
     }
 
@@ -79,7 +75,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
         this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
         this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
         this.location = campusCalendar.getLocation();
-        this.holidayKeys = campusCalendar.getHolidayKeys();
         _futureElements = null;
     }
 
@@ -124,13 +119,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     }
 
     /**
-     * The list of holidays (identifiers) for a campus calendar
-     */
-    @Override
-    public List<String> getHolidayKeys() {
-        return holidayKeys;
-    }
-    /**
      * The builder class for this CampusCalendarInfo.
      */
     public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<CampusCalendarInfo>, CampusCalendar {
@@ -138,8 +126,7 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
         private Date startDate;
         private Date endDate;
         private String location;
-        private List<String> holidayKeys;
-
+        
         /**
          * Constructs a new builder.
          */
@@ -153,7 +140,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
             this.startDate = campusCalendar.getStartDate();
             this.endDate = campusCalendar.getEndDate();
             this.location = campusCalendar.getLocation();
-            this.holidayKeys=campusCalendar.getHolidayKeys();
         }
 
         /**
@@ -216,17 +202,6 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
             this.location = location;
         }
         
-        /**
-         * List of holidays for the campus calendar
-         */
-        @Override
-        public List<String> getHolidayKeys() {
-            return holidayKeys;
-        }
-
-        public void setHolidayKeys(List<String> holidayKeys) {
-            this.holidayKeys = holidayKeys;
-        }
         
     }
 }

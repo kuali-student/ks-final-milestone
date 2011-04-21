@@ -59,7 +59,5 @@ public interface CampusCalendar extends KeyEntity {
      * The campus or location to which this calendar pertains.
      */
     public String getLocation();
-    
-    
-    public List<String> getHolidayKeys();
+ 
 }
