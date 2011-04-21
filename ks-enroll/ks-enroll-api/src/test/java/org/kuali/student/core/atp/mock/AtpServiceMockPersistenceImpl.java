@@ -15,27 +15,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.dto.AttributeInfo;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StateInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.TypeInfo;
-import org.kuali.student.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.AtpMilestoneRelationInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
-import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.enrollment.lpr.mock.MockHelper;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.test.utilities.MockHelper;
+
 
 /**
  * This is a mock memory based implementation for ATP service
@@ -477,5 +478,17 @@ public class AtpServiceMockPersistenceImpl implements AtpService {
         StatusInfo.Builder bldr = new StatusInfo.Builder();
         bldr.setSuccess(Boolean.TRUE);
         return bldr.build();
+    }
+
+    @Override
+    public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByIdList(List<String> atpMilestoneRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getAtpMilestoneRelationKeysByType(String atpMilestoneRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 }
