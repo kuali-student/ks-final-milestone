@@ -1,0 +1,107 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+    <!-- RegistrationDateGroupInfo-->
+    <bean id="registrationDateGroupInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="registrationDateGroupInfo"/>
+        <property name="objectClass" value="org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo"/>
+        <property name="objectLabel" value=""/>
+        <property name="objectDescription" value=""/>
+        <property name="primaryKeys">
+            <list>
+                <value>termKey</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="registrationDateGroupInfo.addDate"/>
+                <ref bean="registrationDateGroupInfo.classEndDate"/>
+                <ref bean="registrationDateGroupInfo.classStartDate"/>
+                <ref bean="registrationDateGroupInfo.dropDate"/>
+                <ref bean="registrationDateGroupInfo.finalExamEndDate"/>
+                <ref bean="registrationDateGroupInfo.finalExamStartDate"/>
+                <ref bean="registrationDateGroupInfo.gradingEndDate"/>
+                <ref bean="registrationDateGroupInfo.gradingStartDate"/>
+                <ref bean="registrationDateGroupInfo.registrationEndDate"/>
+                <ref bean="registrationDateGroupInfo.registrationStartDate"/>
+                <ref bean="registrationDateGroupInfo.termKey"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="registrationDateGroupInfo" parent="registrationDateGroupInfo-parent"/>
+
+    <bean id="registrationDateGroupInfo.addDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="addDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.addDate" parent="registrationDateGroupInfo.addDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.classEndDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="classEndDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.classEndDate" parent="registrationDateGroupInfo.classEndDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.classStartDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="classStartDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.classStartDate" parent="registrationDateGroupInfo.classStartDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.dropDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="dropDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.dropDate" parent="registrationDateGroupInfo.dropDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.finalExamEndDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="finalExamEndDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.finalExamEndDate" parent="registrationDateGroupInfo.finalExamEndDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.finalExamStartDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="finalExamStartDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.finalExamStartDate" parent="registrationDateGroupInfo.finalExamStartDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.gradingEndDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="gradingEndDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.gradingEndDate" parent="registrationDateGroupInfo.gradingEndDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.gradingStartDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="gradingStartDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.gradingStartDate" parent="registrationDateGroupInfo.gradingStartDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.registrationEndDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="registrationEndDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.registrationEndDate" parent="registrationDateGroupInfo.registrationEndDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.registrationStartDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="registrationStartDate"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.registrationStartDate" parent="registrationDateGroupInfo.registrationStartDate-parent"/>
+
+    <bean id="registrationDateGroupInfo.termKey-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="termKey"/>
+    </bean>
+    <bean id="registrationDateGroupInfo.termKey" parent="registrationDateGroupInfo.termKey-parent"/>
+</beans>

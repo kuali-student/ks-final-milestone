@@ -135,6 +135,20 @@
         </property>
     </bean>
 
+    <bean id="baseKualiName" abstract="true" parent="attributeDefinition">
+        <property name="dataType" value="STRING" />
+        <property name="required" value="false"/>
+<!--        <property name="minOccurs" value="0" />
+        <property name="maxOccurs" value="1" />-->
+        <property name="minLength" value="1" />
+        <property name="maxLength" value="255" />
+        <property name="forceUppercase" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="validCharactersConstraint" ref="lineText" />
+    </bean>
+
     <bean id="baseKualiCodeLoose" parent="baseKualiString" abstract="true">
         <property name="minLength" value="1" />
         <property name="maxLength" value="80" />

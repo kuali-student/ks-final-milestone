@@ -24,6 +24,7 @@ import org.kuali.student.common.dto.AmountInfo;
 import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -87,6 +88,7 @@ public class TestDictionaryCreator {
         new DictionaryCreator().execute(CampusCalendarInfo.class);
         new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
         new DictionaryCreator().execute(HolidayInfo.class);
+        new DictionaryCreator().execute(KeyDateInfo.class);
         new DictionaryCreator().execute(TermInfo.class);
         // r2 common
         new DictionaryCreator().execute(AttributeInfo.class);

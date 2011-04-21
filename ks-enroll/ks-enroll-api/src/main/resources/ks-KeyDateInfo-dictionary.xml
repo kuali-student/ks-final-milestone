@@ -1,0 +1,109 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+    <!-- KeyDateInfo-->
+    <bean id="keyDateInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="keyDateInfo"/>
+        <property name="objectClass" value="org.kuali.student.core.academiccalendar.dto.KeyDateInfo"/>
+        <property name="objectLabel" value=""/>
+        <property name="objectDescription" value=""/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>key</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="keyDateInfo.key"/>
+                <ref bean="keyDateInfo.typeKey"/>
+                <ref bean="keyDateInfo.stateKey"/>
+                <ref bean="keyDateInfo.name"/>
+                <ref bean="keyDateInfo.descr"/>
+                <ref bean="keyDateInfo.startDate"/>
+                <ref bean="keyDateInfo.endDate"/>
+                <ref bean="keyDateInfo.isAllDay"/>
+                <ref bean="keyDateInfo.isDateRange"/>
+                <ref bean="keyDateInfo.attributes"/>
+                <ref bean="keyDateInfo.metaInfo"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="keyDateInfo" parent="keyDateInfo-parent"/>
+
+    <bean id="keyDateInfo.key-parent" abstract="true" parent="baseKualiKey">
+        <property name="name" value="key"/>
+    </bean>
+    <bean id="keyDateInfo.key" parent="keyDateInfo.key-parent"/>
+
+    <bean id="keyDateInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="keyDateInfo.typeKey" parent="keyDateInfo.typeKey-parent"/>
+
+    <bean id="keyDateInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="keyDateInfo.stateKey" parent="keyDateInfo.stateKey-parent"/>
+
+    <bean id="keyDateInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="keyDateInfo.name" parent="keyDateInfo.name-parent"/>
+
+    <bean id="keyDateInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="keyDateInfo.descr" parent="keyDateInfo.descr-parent"/>
+
+    <bean id="keyDateInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="startDate"/>
+    </bean>
+    <bean id="keyDateInfo.startDate" parent="keyDateInfo.startDate-parent"/>
+
+    <bean id="keyDateInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="endDate"/>
+    </bean>
+    <bean id="keyDateInfo.endDate" parent="keyDateInfo.endDate-parent"/>
+
+    <bean id="keyDateInfo.isAllDay-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isAllDay"/>
+    </bean>
+    <bean id="keyDateInfo.isAllDay" parent="keyDateInfo.isAllDay-parent"/>
+
+    <bean id="keyDateInfo.isDateRange-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isDateRange"/>
+    </bean>
+    <bean id="keyDateInfo.isDateRange" parent="keyDateInfo.isDateRange-parent"/>
+
+    <bean id="keyDateInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+        <!--<property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="keyDateInfo.attributes" parent="keyDateInfo.attributes-parent"/>
+
+    <bean id="keyDateInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="metaInfo"/>
+    </bean>
+    <bean id="keyDateInfo.metaInfo" parent="keyDateInfo.metaInfo-parent"/>
+</beans>

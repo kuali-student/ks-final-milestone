@@ -17,28 +17,39 @@ package org.kuali.student.datadictionary.util;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import static org.junit.Assert.*;
 
-public class TestAtpInfoDictionary {
+public class TestAcademicCalendarServiceDictionary {
 
     @Test
-    public void testAtpDictionary() {
-        runTestOnInfo(AtpInfo.class);
+    public void testAcademicCalendarInfoDictionary() {
+        runTestOnInfo(AcademicCalendarInfo.class);
     }
 
     @Test
-    public void testMilestoneDictionary() {
-        runTestOnInfo(MilestoneInfo.class);
+    public void testTermInfoDictionary() {
+        runTestOnInfo(TermInfo.class);
     }
 
     @Test
-    public void testAtpMilestoneRelationDictionary() {
-        runTestOnInfo(AtpMilestoneRelationInfo.class);
+    public void testRegistrationDateGroupInfoDictionary() {
+        runTestOnInfo(RegistrationDateGroupInfo.class);
+    }
+
+    @Test
+    public void testHolidayInfoDictionary() {
+        runTestOnInfo(HolidayInfo.class);
+    }
+
+    @Test
+    public void testKeyDateInfoDictionary() {
+        runTestOnInfo(KeyDateInfo.class);
     }
 
     private void runTestOnInfo(Class<?> clazz) {

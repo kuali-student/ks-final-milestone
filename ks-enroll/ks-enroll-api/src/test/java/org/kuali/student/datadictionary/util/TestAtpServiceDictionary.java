@@ -16,15 +16,29 @@
 package org.kuali.student.datadictionary.util;
 
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import static org.junit.Assert.*;
 
-public class TestLuiPersonRelationInfoDictionary {
+public class TestAtpServiceDictionary {
 
     @Test
-    public void testLuiPersonRelationDictionary() {
-        runTestOnInfo(LuiPersonRelationInfo.class);
+    public void testAtpDictionary() {
+        runTestOnInfo(AtpInfo.class);
+    }
+
+    @Test
+    public void testMilestoneDictionary() {
+        runTestOnInfo(MilestoneInfo.class);
+    }
+
+    @Test
+    public void testAtpMilestoneRelationDictionary() {
+        runTestOnInfo(AtpMilestoneRelationInfo.class);
     }
 
     private void runTestOnInfo(Class<?> clazz) {

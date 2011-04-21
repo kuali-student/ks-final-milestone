@@ -51,7 +51,7 @@ public class DictionaryCreator {
     }
 
     public void execute(Class<?> clazz) {
-        String outputFileName = "target/ks-" + clazz.getSimpleName() + "-dictinoary.xml";
+        String outputFileName = "target/ks-" + clazz.getSimpleName() + "-dictionary.xml";
         execute(clazz, outputFileName);
     }
 
@@ -249,6 +249,11 @@ public class DictionaryCreator {
                 return Arrays.asList(initLower(pd.getName()));
             }
         }
+        for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
+            if (pd.getName().endsWith("Key")) {
+                return Arrays.asList(initLower(pd.getName()));
+            }
+        }
         return null;
     }
 
@@ -311,10 +316,16 @@ public class DictionaryCreator {
         if (lowerName.equals("key")) {
             return "baseKualiKey";
         }
-        if (lowerName.equals("typeKey")) {
+//        if (lowerName.equals("descr")) {
+//            return "baseKualiTypeDescr";
+//        }
+        if (lowerName.equals("name")) {
+            return "baseKualiName";
+        }
+        if (lowerName.equals("typekey")) {
             return "baseKualiTypeKey";
         }
-        if (lowerName.equals("stateKey")) {
+        if (lowerName.equals("statekey")) {
             return "baseKualiStateKey";
         }
         // to handle r1 services
