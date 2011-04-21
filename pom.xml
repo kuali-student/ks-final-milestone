@@ -125,13 +125,13 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.3.1-BX</kuali.rice.version>
+    <kuali.rice.version>2.0.0-m3</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>2.5.6</spring.version>
-    <spring.security.version>2.0.4</spring.security.version>
-    <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
+    <spring.version>3.0.5.RELEASE</spring.version>
+    <spring.security.version>3.0.5.RELEASE</spring.security.version>
+    <spring.security.javadoc.version>3.0.5.RELEASE</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
     <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
@@ -944,16 +944,6 @@
           <exclusion>
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>core</artifactId>
-          </exclusion>
-          
-		  <!-- JOTM -->
-          <exclusion>
-            <groupId>xapool</groupId>
-            <artifactId>xapool</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>jotm</groupId>
-            <artifactId>jotm</artifactId>
           </exclusion>
 	      
 	      <!-- itext -->

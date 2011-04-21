@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.assembly.data.AssemblyException;

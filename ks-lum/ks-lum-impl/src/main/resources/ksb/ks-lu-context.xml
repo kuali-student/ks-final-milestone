@@ -54,23 +54,7 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="lumDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
-    <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
-    <property name="uniqueName" value="lumDataSource" />
-    <property name="maxPoolSize" value="${ks.lum.datasource.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${ks.lum.datasource.validationQuery}" />
-    <property name="allowLocalTransactions" value="true" />
-    <property name="driverProperties">
-        <props>
-            <prop key="URL">${ks.lum.datasource.url}</prop>
-            <prop key="user">${ks.lum.datasource.username}</prop>
-            <prop key="password">${ks.lum.datasource.password}</prop>
-        </props>
-    </property>
-    </bean>
 
-<!--
     <bean id="lumDataSource"
           class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="userTransaction"/>
@@ -83,7 +67,6 @@
         <property name="username" value="${ks.lum.datasource.username}"/>
         <property name="password" value="${ks.lum.datasource.password}"/>
     </bean>
--->
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="lumDefaultEntityManagerFactory" abstract="true"

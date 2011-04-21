@@ -22,6 +22,8 @@ import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBElement;
@@ -32,7 +34,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xpath.XPathAPI;
 import org.jasig.cas.client.validation.Assertion;
 import org.kuali.student.security.exceptions.KSSecurityException;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenResponseType;
@@ -42,21 +43,29 @@ import org.kuali.student.security.trust.service.SecurityTokenService;
 import org.kuali.student.security.trust.service.SecurityTokenServiceImpl;
 import org.kuali.student.security.util.SamlUtils;
 import org.opensaml.SAMLAssertion;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.cas.CasAuthenticationToken;
-import org.springframework.security.ui.FilterChainOrder;
-import org.springframework.security.ui.SpringSecurityFilter;
+import org.springframework.security.cas.authentication.CasAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-public class ProxyTicketRetrieverFilterSTS extends SpringSecurityFilter {
+public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
     
     private String proxyTargetService = null;
     private SecurityTokenService stsClient;
     private boolean useCasProxyMechanism = false;
     
-    @Override
+
+    public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+			doFilterHttp((HttpServletRequest) request,
+					(HttpServletResponse) response, chain);
+		} else {
+			// TODO: handle this
+		}
+	}
+    
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -214,10 +223,11 @@ public class ProxyTicketRetrieverFilterSTS extends SpringSecurityFilter {
         return element;
     }
     
+    /* I don't think we need this anymore
     @Override
     public int getOrder() {
         return FilterChainOrder.CAS_PROCESSING_FILTER + 2;
-    }
+    }*/
 
     public String getProxyTargetService() {
         return proxyTargetService;

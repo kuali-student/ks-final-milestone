@@ -30,14 +30,14 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -122,7 +122,7 @@ public class KimQualificationHelper {
 		try {
 			DocumentDetailDTO docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
-			String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+			String documentNumber = qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
 			String proposalId = getProposalId(qualification);
 			if (StringUtils.isBlank(documentNumber)) {
 			    // if document number is not in qualification try to get it using proposal id qualification
@@ -139,7 +139,7 @@ public class KimQualificationHelper {
 				// document id does not exist so attempt lookup by Document Type Name and Application ID
 				String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 				if (StringUtils.isNotBlank(appId)) {
-					String documentTypeName = qualification.get( KimAttributes.DOCUMENT_TYPE_NAME );
+					String documentTypeName = qualification.get( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME );
 					if (StringUtils.isBlank(documentTypeName)) {
 						// could not find Document Type Name in qualification so check for KS Object Type
 						String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
@@ -174,8 +174,8 @@ public class KimQualificationHelper {
 	protected static void translateQualifications(DocumentDetailDTO docDetail, String proposalId, AttributeSet qualifications) {
 		if (docDetail != null) {
 			// add document id if necessary
-			if (!qualifications.containsKey(KimAttributes.DOCUMENT_NUMBER)) {
-				qualifications.put(KimAttributes.DOCUMENT_NUMBER, docDetail.getRouteHeaderId().toString());
+			if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
+				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getRouteHeaderId().toString());
 			}
 			// add KS proposal id if possible
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID) && StringUtils.isNotBlank(proposalId)) {
@@ -189,8 +189,8 @@ public class KimQualificationHelper {
 			if (docType != null) {
 				String documentTypeName = docType.getName();
 				// add document type name if necessary
-				if (!qualifications.containsKey(KimAttributes.DOCUMENT_TYPE_NAME)) {
-					qualifications.put(KimAttributes.DOCUMENT_TYPE_NAME, documentTypeName);
+				if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+					qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
 				}
 				// add KS object type code if necessary
 				if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
@@ -207,12 +207,12 @@ public class KimQualificationHelper {
 			LOG.warn("Could not find KEW document instance for qualifications: " + qualifications);
 			// add KS object type code if necessary
 			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) && 
-					qualifications.containsKey(KimAttributes.DOCUMENT_TYPE_NAME)) {
-				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimAttributes.DOCUMENT_TYPE_NAME)));
+					qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)));
 			}
-			else if ((!qualifications.containsKey(KimAttributes.DOCUMENT_TYPE_NAME)) && 
+			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) && 
 					qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
-				qualifications.put(KimAttributes.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
+				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
 			}
 		}
 	}

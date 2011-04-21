@@ -6,13 +6,9 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.role.QualifierResolver;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.dto.OrgInfo;

@@ -37,17 +37,17 @@ public class StudentIdentityConstants {
     public static final String QUALIFICATION_KEW_OBJECT_ID = "kualiStudentObjectWorkflowId";
     public static final String QUALIFICATION_KEW_OBJECT_TYPE = "kualiStudentObjectWorkflowType";
 
-    // this must be equal to Rice constant KimAttributes.DOCUMENT_NUMBER
+    // this must be equal to Rice constant KimConstants.AttributeConstants.DOCUMENT_NUMBER
     public static final String DOCUMENT_NUMBER = "documentNumber";
 
-    // this must be equal to Rice constant KimAttributes.DOCUMENT_TYPE_NAME
+    // this must be equal to Rice constant KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME
     // TODO: It seems wrong to include DOCUMENT_TYPE_NAME in an identity constants class
     public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
 
-    // this must be equal to Rice constant KimAttributes.ROUTE_STATUS_CODE
+    // this must be equal to Rice constant KimConstants.AttributeConstants.ROUTE_STATUS_CODE
     public static final String ROUTE_STATUS_CODE = "routeStatusCode";
 
-    // this must be equal to Rice constant KimAttributes.ROUTE_NODE_NAME
+    // this must be equal to Rice constant KimConstants.AttributeConstants.ROUTE_NODE_NAME
     public static final String ROUTE_NODE_NAME = "routeNodeName";
 
     public static final String KS_REFERENCE_TYPE_KEY = "ksReferenceTypeKey";

@@ -19,7 +19,7 @@ import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
 import org.kuali.rice.kew.actionlist.DisplayParameters;
 import org.kuali.rice.kew.actions.ActionSet;
-import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kns.UserSession;
 
 public class CollaboratorRequestCustomActionListAttribute implements
 		CustomActionListAttribute {
@@ -38,13 +38,13 @@ public class CollaboratorRequestCustomActionListAttribute implements
 	public CollaboratorRequestCustomActionListAttribute() {}
     
 	@Override
-    public ActionSet getLegalActions(UserSession userSession, ActionItem actionItem) throws Exception {
-    	return DEFAULT_LEGAL_ACTIONS;
+	public ActionSet getLegalActions(String principalId, ActionItem actionItem) throws Exception{
+	    return DEFAULT_LEGAL_ACTIONS;
 	}
-	
-	@Override
-    public DisplayParameters getDocHandlerDisplayParameters(UserSession userSession, ActionItem actionItem) throws Exception {
-		return null;
-	}
+
+    @Override
+    public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception{
+        return null;
+    }
 
 }

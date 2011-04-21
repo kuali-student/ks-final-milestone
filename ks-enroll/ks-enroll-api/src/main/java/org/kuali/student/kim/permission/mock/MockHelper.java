@@ -5,7 +5,7 @@
 package org.kuali.student.kim.permission.mock;
 
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 
 /**
  *

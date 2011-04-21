@@ -19,32 +19,47 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.ui.FilterChainOrder;
-import org.springframework.security.ui.SpringSecurityFilter;
+import org.springframework.web.filter.GenericFilterBean;
 
 /**
- * This is a description of what this class does - Rich don't forget to fill this in. 
+ * This is a description of what this class does - Rich don't forget to fill
+ * this in.
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
+ * 
  */
-public class AuthenticationGwtRpcFilter extends SpringSecurityFilter {
-    
-    public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException{
-        
-        String URI = request.getRequestURI();
-        
-        if(URI.endsWith(".html") && !URI.endsWith(".cache.html")){
-            response.setHeader("Cache-Control", "no-cache");
-            response.setHeader("Cache-Control", "no-store");
-        }
-        filterChain.doFilter(request, response);
-    }
+public class AuthenticationGwtRpcFilter extends GenericFilterBean {
 
-    public int getOrder(){
-        return FilterChainOrder.CAS_PROCESSING_FILTER + 1;
-    }
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+			doFilterHttp((HttpServletRequest) request,
+					(HttpServletResponse) response, chain);
+		} else {
+			// TODO: handle this
+		}
+	}
+
+	public void doFilterHttp(HttpServletRequest request,
+			HttpServletResponse response, FilterChain filterChain)
+			throws IOException, ServletException {
+
+		String URI = request.getRequestURI();
+
+		if (URI.endsWith(".html") && !URI.endsWith(".cache.html")) {
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Cache-Control", "no-store");
+		}
+		filterChain.doFilter(request, response);
+	}
+
+	/* I don't think we need this
+	public int getOrder() {
+		return FilterChainOrder.CAS_PROCESSING_FILTER + 1;
+	}*/
 }

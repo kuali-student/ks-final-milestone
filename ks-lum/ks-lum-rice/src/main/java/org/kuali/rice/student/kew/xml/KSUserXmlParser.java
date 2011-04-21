@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.kuali.rice.core.api.services.CoreApiServiceLocator;
 import org.kuali.rice.kew.xml.UserXmlParser;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityAffiliationImpl;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityEmailImpl;
@@ -118,7 +119,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			affiliation.setEntityAffiliationId(""+affiliationId);
 			affiliation.setAffiliationTypeCode(affiliationTypeCode);
 			affiliation.setActive(true);
-			affiliation.setDefault(true);
+			affiliation.setDefaultValue(true);
 			affiliation.setEntityId(entity.getEntityId());
 			String campusCode = userElement.getChildTextTrim(CAMPUS_CD_ELEMENT, NAMESPACE);
 			if(!StringUtils.isBlank(campusCode)){
@@ -145,7 +146,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			name.setFirstName(firstName);
 			name.setMiddleName("");
 			name.setLastName(lastName);
-			name.setDefault(true);
+			name.setDefaultValue(true);
 			
 			entity.getNames().add(name);
 		}
@@ -163,7 +164,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			// must be in krim_email_typ_t.email_typ_cd:
 			email.setEmailTypeCode("WRK");
 			email.setEmailAddress(emailAddress);
-			email.setDefault(true);
+			email.setDefaultValue(true);
 			email.setEntityId(entity.getEntityId());
 			KNSServiceLocator.getBusinessObjectService().save(email);
 		}
@@ -190,7 +191,7 @@ public class KSUserXmlParser extends UserXmlParser {
 		principal.setPrincipalName(principalName);
 		principal.setEntityId(entityId);
 		try {
-			principal.setPassword(KNSServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
+			principal.setPassword(CoreApiServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
 		} catch (GeneralSecurityException e) {
 			LOG.warn("Error hashing password.",e);
 		}

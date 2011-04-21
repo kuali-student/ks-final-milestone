@@ -29,6 +29,12 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
       <version>${project.version}</version>
     </dependency>

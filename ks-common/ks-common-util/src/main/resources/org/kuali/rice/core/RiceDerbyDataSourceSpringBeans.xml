@@ -19,47 +19,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-    <bean id="riceDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
-    <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
-    <property name="uniqueName" value="riceDataSource" />
-    <property name="maxPoolSize" value="${datasource.pool.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${datasource.pool.validationQuery}" />
-    <property name="allowLocalTransactions" value="true" />
-    <property name="driverProperties">
-        <props>
-            <prop key="URL">${datasource.url}</prop>
-            <prop key="user">${datasource.username}</prop>
-            <prop key="password">${datasource.password}</prop>
-        </props>
-    </property>
-    </bean>
-
-    <bean id="riceNonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${datasource.driver.name}"/>
-        <property name="url" value="${datasource.url}"/>
-        <property name="maxActive" value="${datasource.pool.maxActive}"/>
-        <property name="minIdle" value="${datasource.minIdle}" />
-        <property name="initialSize" value="${datasource.initialSize}"/>
-        <property name="validationQuery" value="${datasource.pool.validationQuery}"/>
-        <property name="username" value="${datasource.username}" />
-        <property name="password" value="${datasource.password}" />
-        <property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}"/>
-    </bean>
-
-<bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices">
-    <property name="serverId" value="spring-btm" />
-    <property name="disableJmx" value="true" />
-</bean>
-
-<bean id="jtaTransactionManager" factory-method="getTransactionManager"
-    class="bitronix.tm.TransactionManagerServices" depends-on="btmConfig" destroy-method="shutdown" />
-
-<alias name="jtaTransactionManager" alias="jtaUserTransaction"/>
-<alias name="jtaTransactionManager" alias="jotm"/>
-
-
-    <!-- bean id="riceDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+    <bean id="riceDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${datasource.driver.name}" />
         <property name="url" value="${datasource.url}" />
@@ -81,6 +41,6 @@
         <property name="username" value="${datasource.username}" />
         <property name="password" value="${datasource.password}" />
         <property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}"/>
-    </bean -->
+    </bean>
 
 </beans>

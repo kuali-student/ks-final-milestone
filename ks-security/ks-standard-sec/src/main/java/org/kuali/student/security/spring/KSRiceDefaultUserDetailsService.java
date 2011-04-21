@@ -15,18 +15,20 @@
 
 package org.kuali.student.security.spring;
 
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
+import java.util.List;
+
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.util.security.UserWithId;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.userdetails.User;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.security.util.AuthorityUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * This is a description of what this class does. 
@@ -46,8 +48,8 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
-    private GrantedAuthority[] authorities = 
-        AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
+    private List<GrantedAuthority> authorities = 
+        AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_KS_ADMIN, ROLE_KS_USER");
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if(username==null || username.equals("")){
@@ -117,7 +119,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     }
     
     public void setAuthorities(String[] roles) {
-        this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
+        this.authorities =  AuthorityUtils.createAuthorityList(roles);
     }
 
     public void setIdentityService(IdentityService identityService) {

@@ -24,9 +24,17 @@
       <param-name>log4j.config.file.location</param-name>
       <param-value>${user.home}/kuali/main/dev/ks-embedded-log4j.properties</param-value>
     </context-param>
+    
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:ks-spring-security.xml</param-value>
+<!-- 		<param-value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</param-value> -->
+	</context-param>
 
     <listener>
-      <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
+       <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
+<!--       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class> -->
+<!--        <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>       -->
     </listener>
     
     <filter>
@@ -116,9 +124,9 @@
     </filter-mapping>
 
 
-	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
-	</listener>
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class> -->
+<!-- 	</listener> -->
 
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>

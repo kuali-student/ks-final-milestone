@@ -40,6 +40,14 @@
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- This is a temp fix for spring-tx 2.5.6 being dragged in by rice-impl 1.0.3.1-BX -->
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-tx</artifactId>
+      <version>3.0.5.RELEASE</version>
+    </dependency>
+
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>

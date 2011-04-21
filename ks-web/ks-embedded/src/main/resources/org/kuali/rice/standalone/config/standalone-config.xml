@@ -104,7 +104,7 @@
 
     <!-- additional context files -->
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>
+    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},${ks.institutional.context}</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>

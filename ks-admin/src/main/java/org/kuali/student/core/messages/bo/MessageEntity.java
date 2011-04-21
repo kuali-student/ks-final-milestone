@@ -48,19 +48,19 @@ public class MessageEntity extends KsBusinessObjectBase {
     @Transient
     private transient EnumeratedValue groupNameEnumValue;
 
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-
-        map.put("locale", locale);
-        map.put("groupName", groupName);
-        map.put("messageId", messageId);
-
-        return map;
-
-    }
+// now handled with reflection    
+//    @Override
+//    protected LinkedHashMap<String, Object> toStringMapper() {
+//
+//        LinkedHashMap<String, Object> map = super.toStringMapper();
+//
+//        map.put("locale", locale);
+//        map.put("groupName", groupName);
+//        map.put("messageId", messageId);
+//
+//        return map;
+//
+//    }
     
     protected EnumeratedValue retrieveEnumeratedValue(String enumerationId, String enumerationCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();

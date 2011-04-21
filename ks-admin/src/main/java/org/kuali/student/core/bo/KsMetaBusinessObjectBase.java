@@ -55,8 +55,8 @@ public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements Ks
     }
     
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    public void prePersist() throws PersistenceBrokerException {
+        super.prePersist();
 
         if (StringUtils.isBlank(this.getCreateId())) {
             this.setCreateId(GlobalVariables.getUserSession().getPrincipalName());
@@ -68,8 +68,8 @@ public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements Ks
     }
 
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    public void preUpdate() {
+        super.preUpdate();
 
         this.setUpdateId(GlobalVariables.getUserSession().getPrincipalName());
         this.setUpdateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());

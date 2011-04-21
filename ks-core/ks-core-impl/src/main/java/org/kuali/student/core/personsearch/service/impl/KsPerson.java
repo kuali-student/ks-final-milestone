@@ -22,7 +22,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimEntityName;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.util.type.KualiDecimal;
 
 /**
  *
@@ -298,10 +298,11 @@ public class KsPerson implements Person {
         return false;
     }
 
-    @Override
-    public void prepareForWorkflow() {
-
-    }
+// deleted method
+//    @Override
+//    public void prepareForWorkflow() {
+//
+//    }
 
     @Override
     public void refresh() {

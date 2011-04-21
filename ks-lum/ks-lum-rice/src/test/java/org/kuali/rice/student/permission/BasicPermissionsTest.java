@@ -19,12 +19,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.student.StudentStandaloneTestBase;
 
 /**
@@ -49,10 +49,10 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		PermissionService permService = KIMServiceLocator.getPermissionService();
 		for (Map.Entry<String, Boolean> entry : existingPermissions.entrySet()) {
 			if ( (entry.getValue() != null) && (entry.getValue().booleanValue()) ) {
-				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER, ""+documentId)));
+				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, new AttributeSet(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
 			}
 			else {
-				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER, ""+documentId)));
+				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, new AttributeSet(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
 			}
 		}
 	}

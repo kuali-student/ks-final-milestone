@@ -49,24 +49,7 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="coreDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
-    <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
-    <property name="uniqueName" value="coreDataSource" />
-    <property name="maxPoolSize" value="${ks.core.datasource.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${ks.core.datasource.validationQuery}" />
-    <property name="allowLocalTransactions" value="true" />
-    <property name="driverProperties">
-        <props>
-            <prop key="URL">${ks.core.datasource.url}</prop>
-            <prop key="user">${ks.core.datasource.username}</prop>
-            <prop key="password">${ks.core.datasource.password}</prop>
-        </props>
-    </property>
-    </bean>
-
 	<!-- Default Datasource -->
-<!--
 	<bean id="coreDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="userTransaction" />
         <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
@@ -78,7 +61,6 @@
         <property name="username" value="${ks.core.datasource.username}" />
         <property name="password" value="${ks.core.datasource.password}" />
 	</bean>
--->
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="coreDefaultEntityManagerFactory" abstract="true"
