@@ -1185,6 +1185,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluInfo.lastAtp-parent">
+         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
          <property name="minOccurs" value="1" />
          <property name="errorLevel" value="WARN"/>
          <property name="labelKey" value="validation.variationEndTerm"/>         
@@ -1221,6 +1222,7 @@
          <property name="minOccurs" value="1" />
          <property name="errorLevel" value="WARN"/>
          <property name="labelKey" value="validation.variationEndTerm"/>
+         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endTerm"/>
         </bean>
        </property>
       </bean>
@@ -1311,6 +1313,7 @@
          <property name="minOccurs" value="1" />
          <property name="errorLevel" value="WARN"/>
          <property name="labelKey" value="validation.variationStartTerm"/>
+         <property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
         </bean>
        </property>
       </bean>
@@ -1323,6 +1326,8 @@
 
 
 <bean id="constraint.lookup.programVariation.endTerm-parent" parent="constraint.lookup.atp">
+ <property name="id" value="constraint.lookup.programVariation.endTerm"/>
+ <property name="errorLevel" value="WARN"/>
  <property name="params">
   <list merge="true">
    <bean parent="param">
@@ -1347,6 +1352,8 @@
 <bean id="constraint.lookup.programVariation.endTerm" parent="constraint.lookup.programVariation.endTerm-parent"/>
 
 <bean id="constraint.lookup.programVariation.endInstAdmitTerm-parent" parent="constraint.lookup.atp">
+ <property name="id" value="constraint.lookup.programVariation.endInstAdmitTerm"/>
+ <property name="errorLevel" value="WARN"/>
  <property name="params">
   <list merge="true">
    <bean parent="param">
@@ -1371,6 +1378,8 @@
 <bean id="constraint.lookup.programVariation.endInstAdmitTerm" parent="constraint.lookup.programVariation.endInstAdmitTerm-parent"/>
 
 <bean id="constraint.lookup.programVariation.endProgramEntryTerm-parent" parent="constraint.lookup.atp">
+ <property name="id" value="constraint.lookup.programVariation.endProgramEntryTerm"/>
+ <property name="errorLevel" value="WARN"/>
  <property name="params">
   <list merge="true">
    <bean parent="param">
@@ -1396,6 +1405,8 @@
 
 
 <bean id="constraint.lookup.programVariation.startTerm-parent" parent="constraint.lookup.atp">
+ <property name="id" value="constraint.lookup.programVariation.startTerm"/>
+ <property name="errorLevel" value="WARN"/>
  <property name="params">
   <list merge="true">
    <bean parent="param">
@@ -1557,7 +1568,7 @@
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.endInstAdmitTerm"/>
-    <property name="caseConstraint">
+  <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="HAS_VALUE"/>
     <property name="fieldPath" value="/endInstAdmitTerm"/>
@@ -1574,6 +1585,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluInfo.lastAtp-parent">
+         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endInstAdmitTerm"/>
          <property name="minOccurs" value="1" />
          <property name="errorLevel" value="WARN"/>
          <property name="labelKey" value="validation.variationEndTerm"/>
