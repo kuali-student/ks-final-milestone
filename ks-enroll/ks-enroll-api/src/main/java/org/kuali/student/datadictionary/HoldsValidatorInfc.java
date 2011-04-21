@@ -26,7 +26,7 @@ public interface HoldsValidatorInfc {
      * Get the validtor used to implement the dictionary service and validation
      * @return validator that has been configured
      */
-    public DataDictionaryValidatorInfc getValidator ();
+    public DataDictionaryValidator getValidator ();
 
 
     /**
@@ -34,6 +34,6 @@ public interface HoldsValidatorInfc {
      *
      * @param validator to use
      */
-    public void setValidator (DataDictionaryValidatorInfc validator);
+    public void setValidator (DataDictionaryValidator validator);
 
 }

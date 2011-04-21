@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.lpr.mock;
 import java.util.List;
 
 import org.kuali.student.common.infc.HoldsValidator;
-import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
+import org.kuali.student.datadictionary.DataDictionaryValidator;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
@@ -41,15 +41,15 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator
         implements LuiPersonRelationService, HoldsValidator {
 
-    private DataDictionaryValidatorInfc validator;
+    private DataDictionaryValidator validator;
 
     @Override
-    public DataDictionaryValidatorInfc getValidator() {
+    public DataDictionaryValidator getValidator() {
         return validator;
     }
 
     @Override
-    public void setValidator(DataDictionaryValidatorInfc validator) {
+    public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
     }
 
@@ -62,7 +62,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        return this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
+        return this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
             DataValidationErrorException,
             ReadOnlyException,
             PermissionDeniedException {
-        List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
+        List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
                 luiPersonRelationInfo, context);
         if (!vris.isEmpty()) {
             throw new DataValidationErrorException("Failed validation", vris);
@@ -99,7 +99,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
             OperationFailedException,
             PermissionDeniedException,
             VersionMismatchException {
-        List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
+        List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
                 luiPersonRelationInfo, context);
         if (!vris.isEmpty()) {
             throw new DataValidationErrorException("Failed validation", vris);

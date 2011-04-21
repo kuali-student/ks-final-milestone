@@ -19,6 +19,7 @@ import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.academiccalendar.dto.TermInfo;
 import org.kuali.student.core.academiccalendar.service.AcademicCalendarService;
 
+import org.kuali.student.datadictionary.DataDictionaryValidator;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -54,10 +55,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
 
 
-	private DataDictionaryService dataDictionaryService;
+	private DataDictionaryValidator dataDictionaryValidator;
 
 	private AtpService atpService;
-
+	
 	public AtpService getAtpService() {
 		return atpService;
 	}
@@ -71,13 +72,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	@Override
 	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
 	throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-		return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
+		return this.atpService.getDataDictionaryEntry(entryKey, context);
 	}
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 	throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-		return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
+		return this.atpService.getDataDictionaryEntryKeys(context);
 	}
 
 
@@ -179,8 +180,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),academicCalendarInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override
@@ -360,8 +366,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),campusCalendarInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override
@@ -509,8 +520,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			KeyDateInfo keyDateInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO implement after DateRange changes 
-		return null;
+	
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),keyDateInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override
@@ -562,8 +579,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			HolidayInfo holidayInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),holidayInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override
@@ -701,10 +723,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			TermInfo termInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		//get this from term info
-		AtpInfo atpInfo = null;
-		return this.atpService.validateAtp(validationType, atpInfo , context);
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),termInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override
@@ -769,8 +794,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
+		try {
+			validationResult = this.dataDictionaryValidator.validate(  DataDictionaryValidator.ValidationType.fromString(validationType),registrationDateGroupInfo, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		return validationResult;
 	}
 
 	@Override

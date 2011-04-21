@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  *
  * @author nwright
  */
-public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidatorInfc {
+public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RiceDataDictionaryValidatorImpl.class);
     private RiceDataDictionaryServiceInfc riceDataDictionaryService;
@@ -72,7 +72,7 @@ public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidatorI
         boolean doOptionalProcessing = true;
 //       @param doOptionalProcessing true if the validation should do optional validation
 //       (e.g. to check if empty values are required or not), false otherwise
-        if (validationType.equals(DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS)) {
+        if (validationType.equals(DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS)) {
             doOptionalProcessing = false;
         }
         String entryName = info.getClass().getName();

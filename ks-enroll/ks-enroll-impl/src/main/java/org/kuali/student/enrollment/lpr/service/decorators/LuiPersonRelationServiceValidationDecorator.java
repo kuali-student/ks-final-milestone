@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import java.util.*;
 
 import org.kuali.student.common.infc.HoldsValidator;
-import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
+import org.kuali.student.datadictionary.DataDictionaryValidator;
 
 /**
  * An example Validation decorator for the {@link LuiPersonRelationService}. Additional validations are performed for the validateLuiPersonRelation, createLuiPersonRelation and updateLuiPersonRelation
@@ -45,15 +45,15 @@ import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
  */
 public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator implements HoldsValidator{
 
-	private DataDictionaryValidatorInfc validator;
+	private DataDictionaryValidator validator;
 
     @Override
-    public DataDictionaryValidatorInfc getValidator() {
+    public DataDictionaryValidator getValidator() {
         return validator;
     }
 
     @Override
-    public void setValidator(DataDictionaryValidatorInfc validator) {
+    public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
     }
 
@@ -76,7 +76,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			OperationFailedException,
 			PermissionDeniedException {
 		
-	    this.validator.validate(DataDictionaryValidatorInfc.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
+	    this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
 		
 	    return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
 		
@@ -96,7 +96,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			DataValidationErrorException,
 			ReadOnlyException,
 			PermissionDeniedException {
-		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
+		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
 				luiPersonRelationInfo, context);
 		if (luiPersonRelationInfo.getId() != null) {
 			throw new ReadOnlyException("Id is not allowed to be supplied on a create");
@@ -122,7 +122,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 	OperationFailedException,
 	PermissionDeniedException,
 	VersionMismatchException {
-		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION.name(),
+		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
 				luiPersonRelationInfo, context);
 		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
 		

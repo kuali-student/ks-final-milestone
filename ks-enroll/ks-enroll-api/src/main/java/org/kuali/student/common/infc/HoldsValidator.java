@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.infc;
 
-import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
+import org.kuali.student.datadictionary.DataDictionaryValidator;
 
 /**
  * Holds the validator service
@@ -23,7 +23,7 @@ import org.kuali.student.datadictionary.DataDictionaryValidatorInfc;
  */
 public interface HoldsValidator {
 
-    public DataDictionaryValidatorInfc getValidator();
+    public DataDictionaryValidator getValidator();
 
-    public void setValidator (DataDictionaryValidatorInfc validator);
+    public void setValidator (DataDictionaryValidator validator);
 }

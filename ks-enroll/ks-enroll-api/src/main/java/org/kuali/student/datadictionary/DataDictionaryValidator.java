@@ -17,7 +17,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  *
  * @author nwright
  */
-public interface DataDictionaryValidatorInfc {
+public interface DataDictionaryValidator {
 
     public static enum ValidationType {
         FULL_VALIDATION, SKIP_REQUREDNESS_VALIDATIONS;

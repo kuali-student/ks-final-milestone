@@ -105,13 +105,13 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     private ContextInfo getContext1() {
         return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
     }
-    private DataDictionaryValidatorInfc validator;
+    private DataDictionaryValidator validator;
 
-    public DataDictionaryValidatorInfc getValidator()  {
+    public DataDictionaryValidator getValidator()  {
         if (validator == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
-            this.validator = (DataDictionaryValidatorInfc) appContext.getBean("validatorToTest");
+            this.validator = (DataDictionaryValidator) appContext.getBean("validatorToTest");
         }
         return validator;
     }
@@ -122,7 +122,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     @Test
     public void testValidate() throws Exception {
         System.out.println("validate");
-        DataDictionaryValidatorInfc.ValidationType validationType = DataDictionaryValidatorInfc.ValidationType.FULL_VALIDATION;
+        DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder();
         bldr.setPersonId("personId.1");
         bldr.setLuiId("luiId.1");
@@ -132,7 +132,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         Object info = bldr.build();
         ContextInfo context = getContext1();
 
-        DataDictionaryValidatorInfc intstance = this.getValidator();
+        DataDictionaryValidator intstance = this.getValidator();
 
         List<ValidationResultInfo> result = null;
 
@@ -151,7 +151,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
 
         bldr.setTypeKey(null);
         info = bldr.build();
-        validationType = DataDictionaryValidatorInfc.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
+        validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = intstance.validate(validationType, info, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
