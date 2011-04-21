@@ -303,7 +303,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
         Constraint caseConstraint = processCaseConstraint(valResults, field, objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
 
-        Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
+        Constraint constraint = (null != caseConstraint) ? caseConstraint : field;//FIXME This causes lookups to be incorrect!
 
         processBaseConstraints(valResults, constraint, field, value, elementStack);
         
