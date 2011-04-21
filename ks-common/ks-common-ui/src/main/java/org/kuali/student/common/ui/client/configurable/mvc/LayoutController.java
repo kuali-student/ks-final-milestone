@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
@@ -501,6 +502,16 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	}
 
+	/**
+	 * Shows warnings stored to the application context
+	 */
+	protected void showWarnings(){
+		clearAllWarnings();		
+		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
+			isValid(Application.getApplicationContext().getValidationWarnings(), true);
+    	}				
+	}
+	
 	@Override
 	public Widget asWidget() {
 		return this;

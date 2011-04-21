@@ -483,8 +483,13 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
 		//Validation results passed to selected list should be in the form foo/bar/1
 		String indexNumber=vr.getElement().substring(vr.getElement().lastIndexOf('/')+1);
-		KSItemLabel itemLabel = getSelectedItems().get(Integer.parseInt(indexNumber));
-		return itemLabel.processValidationResult(vr, vr.getElement().substring(0, vr.getElement().lastIndexOf('/')));
+		int index = Integer.parseInt(indexNumber);
+		if(index<getSelectedItems().size()){
+			KSItemLabel itemLabel = getSelectedItems().get(index);
+			return itemLabel.processValidationResult(vr, vr.getElement().substring(0, vr.getElement().lastIndexOf('/')));
+		}else{
+			return ErrorLevel.OK;
+		}
 	}
 
 	@Override

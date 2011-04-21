@@ -112,7 +112,7 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(SpecializationCreatedEvent event) {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
-                updateVariationWarnings();
+                showWarnings();
             }
         });
 
@@ -134,7 +134,7 @@ public class VariationEditController extends VariationController {
                 }
                 
                 //update with any new warnings that exist on specialization
-                updateVariationWarnings();
+                showWarnings();
             }
         });
 
@@ -286,18 +286,24 @@ public class VariationEditController extends VariationController {
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
 
-				updateVariationWarnings();
 		        onReadyCallback.exec(result);
 			}
         };
 		super.beforeShow(finalizeVariationView);
 	}
 
-	/**
-	 * This updates the warnings displayed for the current variation
-	 */
-	protected void updateVariationWarnings(){
-    	clearAllWarnings();		
-        isValid(ProgramRegistry.getVariationWarnings(), false, true);					
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        showWarnings();	
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
 	}
+	
 }

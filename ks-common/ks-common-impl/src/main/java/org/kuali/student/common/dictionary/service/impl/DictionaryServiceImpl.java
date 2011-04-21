@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,7 +17,8 @@ import org.springframework.util.StringUtils;
 public class DictionaryServiceImpl implements DictionaryService{
 	private String[] dictionaryContext;
 	private Map<String, ObjectStructureDefinition> objectStructures;
-
+    final static Logger LOG = Logger.getLogger(DictionaryServiceImpl.class);
+    
 	public DictionaryServiceImpl() {
 		super();
 	}
@@ -40,6 +43,9 @@ public class DictionaryServiceImpl implements DictionaryService{
 		Map<String, ObjectStructureDefinition> beansOfType = (Map<String, ObjectStructureDefinition>) ac.getBeansOfType(ObjectStructureDefinition.class);
 		objectStructures = new HashMap<String, ObjectStructureDefinition>();
 		for (ObjectStructureDefinition objStr : beansOfType.values()){
+			if(objectStructures.containsKey(objStr.getName())){
+				LOG.warn("There is already a dictionary structure with the name '"+objStr+"'.");
+			}
 			objectStructures.put(objStr.getName(), objStr);
 		}
 	}

@@ -484,6 +484,7 @@ public class MajorEditController extends MajorController {
 		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
+		        showWarnings();	
 			}
         };
 		super.showView(viewType, updateCrossConstraintsCallback);

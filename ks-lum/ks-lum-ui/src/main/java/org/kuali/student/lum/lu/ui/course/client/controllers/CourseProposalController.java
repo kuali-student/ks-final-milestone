@@ -75,7 +75,6 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
-import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
@@ -86,7 +85,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.program.client.ProgramSections;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -736,13 +734,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		super.showView(viewType, finalizeView);
 	}
  
-	protected void showWarnings(){
-		clearAllWarnings();		
-		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
-			isValid(Application.getApplicationContext().getValidationWarnings(), true);
-    	}				
-	}
-	
+
    @Override
    public void showDefaultView(Callback<Boolean> onReadyCallback) {
 	   if(isNew){
