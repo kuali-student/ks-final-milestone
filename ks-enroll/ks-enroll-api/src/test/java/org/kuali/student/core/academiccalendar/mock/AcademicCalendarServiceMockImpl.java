@@ -43,12 +43,15 @@ import org.kuali.student.test.utilities.MockHelper;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
 
+	//Mock caches, these are just convenient caches which act like databases for the mocks, please note that all of this might not map directly to tables,
+	// for example holidaysCache might be just a Milestone table in the DB
 	private static Map<String, AcademicCalendarInfo> acCache = new HashMap<String, AcademicCalendarInfo>();
 	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();	
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();	
 	private static Map<String, HolidayInfo> holidaysCache = new HashMap<String, HolidayInfo>();
 	private static Map<String,TypeTypeRelationInfo> typeTypeCache = new HashMap<String, TypeTypeRelationInfo>();
+	private static Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
 
 
 	private DataDictionaryService dataDictionaryService;
@@ -468,12 +471,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		List<String> keyDates = new ArrayList<String>();
-		for(KeyDateInfo keyDate:keyDateCache.values()){
-			if(keyDate.getTypeKey().equals(keyDateTypeKey) )
-				keyDates.add(keyDate.getKey());
-		}
-		return keyDates;
+
+		return  this.atpService.getMilestoneKeysByType(keyDateTypeKey, context);
+
 	}
 
 	@Override
@@ -522,17 +522,6 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO implement after DateRange changes 
 		return null;
 	}
-	/*
-	@Override
-	public KeyDateInfo createKeyDateForCampusCalendar(String campusCalendarKey,
-			String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
-	throws AlreadyExistsException, DataValidationErrorException,
-	InvalidParameterException, MissingParameterException,
-	OperationFailedException, PermissionDeniedException {
-		// TODO implement after DateRange changes 
-		return null;
-	}
-	 */
 	@Override
 	public KeyDateInfo updateKeyDate(String keyDateKey,
 			KeyDateInfo keyDateInfo, ContextInfo context)
@@ -805,8 +794,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 		//TODO terms not there?
 
-		AcademicCalendarInfo acInfo =  acCache.get(academicCalendarKey);
-		return null;
+		//Note that the typeType Cache might be simplified, its a many - many relation between terms and AC
+		TypeTypeRelationInfo acTermRelation =  typeTypeCache.get(academicCalendarKey)	;
+		TermInfo term =  this.termsCache.get(acTermRelation.getRelatedTypeKey());
+		List<TermInfo> relatedTerms =  new ArrayList<TermInfo>();
+		relatedTerms.add(term);
+		return relatedTerms;
 
 	}
 
@@ -815,15 +808,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		AcademicCalendarInfo acInfo = acCache.get(academicCalendarTypeKey);
+		return this.atpService.getType(acInfo.getTypeKey() , context);
+
 	}
 
 	@Override
 	public List<TypeInfo> getAcademicCalendarTypes(ContextInfo context)
 	throws InvalidParameterException, MissingParameterException,
 	OperationFailedException {
-		// TODO Auto-generated method stub
+
+		//return from DB
 		return null;
 	}
 
@@ -832,15 +827,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CampusCalendarInfo ccInfo = ccCache.get(campusCalendarTypeKey);
+		return this.atpService.getType(ccInfo.getTypeKey() , context);
+
 	}
 
 	@Override
 	public List<TypeInfo> getCampusCalendarTypes(ContextInfo context)
 	throws InvalidParameterException, MissingParameterException,
 	OperationFailedException {
-		// TODO Auto-generated method stub
+
+		//Return from DB
 		return null;
 	}
 
@@ -848,15 +846,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public TypeInfo getTermType(String termTypeKey, ContextInfo context)
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		TermInfo tInfo = termsCache.get(termTypeKey);
+		return this.atpService.getType(tInfo.getTypeKey() , context);
 	}
 
 	@Override
 	public List<TypeInfo> getTermTypes(ContextInfo context)
 	throws InvalidParameterException, MissingParameterException,
 	OperationFailedException {
-		// TODO Auto-generated method stub
+		//Return from DB
 		return null;
 	}
 
@@ -864,7 +862,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context)
 	throws DoesNotExistException, InvalidParameterException,
 	MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
@@ -905,8 +903,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 	@Override
 	public List<TypeInfo> getTermState(String termStateKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+	throws InvalidParameterException, MissingParameterException,
+	OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
