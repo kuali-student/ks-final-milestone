@@ -115,9 +115,9 @@
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
-    <cxf.version>2.2.9</cxf.version>
+    <cxf.version>2.3.3</cxf.version>
     <!-- For some reason the 2.2.9 javadocs for CXF weren't published -->
-    <ks.cxf.javadoc.version>2.2.8</ks.cxf.javadoc.version>
+    <ks.cxf.javadoc.version>2.3.3</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
     <gwt.version>2.0.4</gwt.version>
