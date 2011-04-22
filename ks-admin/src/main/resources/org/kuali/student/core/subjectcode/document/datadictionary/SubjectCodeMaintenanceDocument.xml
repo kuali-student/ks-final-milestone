@@ -40,7 +40,6 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="typeId"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="state" />
 			</list>
 		</property>
 	</bean>
