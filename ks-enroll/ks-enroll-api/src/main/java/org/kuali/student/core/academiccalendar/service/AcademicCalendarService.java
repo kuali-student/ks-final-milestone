@@ -22,8 +22,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
-import org.kuali.student.common.service.StateService;
 import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.datadictionary.service.DataDictionaryService;
 
@@ -37,6 +35,7 @@ import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -110,19 +109,21 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<TypeInfo> getAcademicCalendarTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the possible academic calendar state.
+     * This method returns the details on an academic calendar state.
      *
+     * @param academicCalendarStateKey a key for an academic calendar state
      * @param context Context information containing the principalId and 
      *        locale information about the caller of service operation
-     * @return a list of valid academic calendar states
+     * @return details on the academic calendar state
+     * @throws DoesNotExistException academicCalendarStateKey not found
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
      */
-    public List<TypeInfo> getAcademicCalendarState(@WebParam(name = "academicCalendarStateKey") String academicCalendarStateKey,@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public StateInfo getAcademicCalendarState(@WebParam(name = "academicCalendarStateKey") String academicCalendarStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the possible term state.
+     * This method returns the possible academic calendar states.
      *
      * @param context Context information containing the principalId and 
      *        locale information about the caller of service operation
@@ -131,9 +132,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
      */
-    public List<TypeInfo> getTermState(@WebParam(name = "termStateKey") String termStateKey,@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StateInfo> getAcademicCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
     /** 
      * Retrieves the details of a single Academic Calendar by an
      * academic calendar key.
@@ -398,6 +398,32 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public List<TypeInfo> getCampusCalendarTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * This method returns the details on a campus calendar state.
+     *
+     * @param campusCalendarStateKey a key for a campus calendar state
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return details on the campus calendar state
+     * @throws DoesNotExistException campusCalendarStateKey not found
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public StateInfo getCampusCalendarState(@WebParam(name = "campusCalendarStateKey") String campusCalendarStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the possible campus calendar states.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid campus calendar states
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<StateInfo> getCampusCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
     /** 
      * Retrieves the details of a single Campus Calendar by an
      * campus calendar key.
@@ -577,6 +603,32 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      */
     public List<TypeInfo> getTermTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the details on a term state.
+     *
+     * @param termStateKey a key for a term state
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return state info
+     * @throws DoesNotExistException  termTypeKey not found
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public StateInfo getTermState(@WebParam(name = "termStateKey") String termStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the possible term states.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid term states
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<StateInfo> getTermStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Term by a term key.

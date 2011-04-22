@@ -81,7 +81,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return this.atpService.getDataDictionaryEntryKeys(context);
 	}
 
+    @Override
+    public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
+    @Override
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	@Override
 	public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey,
@@ -292,6 +302,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return null;
 	}
 
+    @Override
+    public StateInfo getCampusCalendarState(String campusCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 	@Override
 	public CampusCalendarInfo getCampusCalendar(String campusCalendarKey,
 			ContextInfo context) throws DoesNotExistException,
@@ -415,6 +437,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return statusInfo.build();
 
 	}
+
+    @Override
+    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	@Override
 	public TermInfo getTerm(String termKey, ContextInfo context)
@@ -969,22 +1003,4 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<TypeInfo> getAcademicCalendarState(
-			String academicCalendarStateKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TypeInfo> getTermState(String termStateKey, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException,
-	OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

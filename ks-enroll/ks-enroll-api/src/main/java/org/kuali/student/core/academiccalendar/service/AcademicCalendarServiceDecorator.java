@@ -39,23 +39,16 @@ AcademicCalendarService {
     public void setNextDecorator(AcademicCalendarService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
-	@Override
-	public List<TypeInfo> getAcademicCalendarState(
-			String academicCalendarStateKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return this.nextDecorator.getAcademicCalendarState(academicCalendarStateKey, context);
-	}
 
-	@Override
-	public List<TypeInfo> getTermState(String termStateKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return this.nextDecorator.getTermState(termStateKey, context);
-		
-	}
+    @Override
+    public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getAcademicCalendarState(academicCalendarStateKey, context);
+    }
+
+    @Override
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getAcademicCalendarStates(context);
+    }
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context)
@@ -208,6 +201,16 @@ AcademicCalendarService {
     }
 
     @Override
+    public StateInfo getCampusCalendarState(String campusCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getCampusCalendarState(campusCalendarStateKey, context);
+    }
+
+    @Override
+    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getCampusCalendarStates(context);
+    }
+
+    @Override
     public CampusCalendarInfo getCampusCalendar(String campusCalendarKey,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -285,6 +288,16 @@ AcademicCalendarService {
     @Override
     public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	return this.nextDecorator.getTermTypes( context);
+    }
+
+    @Override
+    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getTermState(termStateKey, context);
+    }
+
+    @Override
+    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		return this.nextDecorator.getTermStates(context);
     }
 
     @Override

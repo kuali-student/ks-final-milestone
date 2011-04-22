@@ -105,7 +105,7 @@ public class IdentityServiceMockImpl implements IdentityService {
     private KimEntityNameInfo toKimEntityNameInfo(PersonEnum pers) {
         KimEntityNameInfo info = new KimEntityNameInfo();
         info.setActive(pers.isActive());
-        info.setDefault(true);
+        info.setDefaultValue(true);
         info.setEntityNameId(pers.getEntityId());
         info.setFirstName(pers.getFirstName());
         info.setFirstNameUnmasked(pers.getFirstName());
@@ -131,7 +131,7 @@ public class IdentityServiceMockImpl implements IdentityService {
         info.setActive(true);
         info.setAffiliationTypeCode(pers.getAffiliation());
         info.setCampusCode(null);
-        info.setDefault(true);
+        info.setDefaultValue(true);
         info.setEntityAffiliationId(pers.getEntityId());
         return info;
     }
@@ -139,7 +139,7 @@ public class IdentityServiceMockImpl implements IdentityService {
     private KimEntityEmailInfo toKimEntityEmailInfo(PersonEnum pers) {
         KimEntityEmailInfo info = new KimEntityEmailInfo();
         info.setActive(true);
-        info.setDefault(true);
+        info.setDefaultValue(true);
         info.setEmailAddress(pers.getPrincipalName());
         info.setEmailAddressUnmasked(pers.getPrincipalName());
         info.setEmailTypeCode(EmailTypeEnum.WORK.getCode());
@@ -157,7 +157,7 @@ public class IdentityServiceMockImpl implements IdentityService {
         info.setCityNameUnmasked(pers.getCity());
         info.setCountryCode("US");
         info.setCountryCodeUnmasked("US");
-        info.setDefault(true);
+        info.setDefaultValue(true);
         info.setEntityAddressId(pers.getEntityId());
         info.setEntityTypeCode(EntityTypeEnum.PERSON.getCode());
         info.setLine1(pers.getStreet());
