@@ -43,7 +43,7 @@ import org.kuali.student.test.utilities.MockHelper;
  * 
  * @author Kuali Student Team (Kamal)
  */
-public class AtpServiceMockPersistenceImpl implements AtpService {
+public class AtpServiceMockImpl implements AtpService {
 
     private Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();

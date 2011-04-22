@@ -315,7 +315,7 @@ AcademicCalendarService {
 
 
     @Override
-    public List<TermInfo> getTermsForTerm(List<String> termCalendar,
+    public List<TermInfo> getTermsForTerm(String termKey,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

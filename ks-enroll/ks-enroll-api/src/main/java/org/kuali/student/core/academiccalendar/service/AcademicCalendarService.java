@@ -665,7 +665,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getTermsForTerm(@WebParam(name = "termKey") List<String> termCalendar, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getTermsForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a term. Depending on the value of validationType,

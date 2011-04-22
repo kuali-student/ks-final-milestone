@@ -692,8 +692,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
 		List<MilestoneInfo> milestones =  this.atpService.getMilestonesByAtp(termKey, context);
 		for(MilestoneInfo milestoneInfo : milestones){
-			if(milestoneInfo.getStartDate().equals(startDate)&& milestoneInfo.getEndDate().equals(endDate)){
-				//convert milestone to keydate
+			if(milestoneInfo.getStartDate().after(startDate)&& milestoneInfo.getEndDate().before(endDate)){
+				//convert milestone to keydate and add it to this List
 				keyDates.add(null);
 			}
 		}
@@ -706,16 +706,51 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+
+		List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
+		
+		//Because KeyDates are Milestones
+		List<MilestoneInfo> milestones =  this.atpService.getMilestonesByAtp(termKey, context);
+		//Add subterm milestones
+		List<TermInfo> allTerms = getTermsForTerm(termKey, context) ;
+		for(TermInfo  subTerm: allTerms){
+			List<MilestoneInfo> subMilestones =  this.atpService.getMilestonesByAtp(subTerm.getKey(), context);
+			milestones.addAll(subMilestones);
+			
+		}
+		
+		for(MilestoneInfo milestoneInfo : milestones){
+			if(milestoneInfo.getStartDate().equals(startDate)&& milestoneInfo.getEndDate().equals(endDate)){
+				keyDates.add(null);
+			}
+		}
+		
+		return keyDates;
+
 	}
 
 	@Override
-	public List<TermInfo> getTermsForTerm(List<String> termCalendar,
+	public List<TermInfo> getTermsForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		TermInfo termInfo = termsCache.get(termKey);
+		List <TermInfo> termsToReturn = new ArrayList<TermInfo>();
+		List<TypeTypeRelationInfo> typesRelations  = this.atpService.getTypeRelationsByOwnerType(termInfo.getTypeKey(),"kuali.relationtype.contains" , context);
+		////Filter out types from typesRelations which are not campus calendars or dates etc
+		for(TypeTypeRelationInfo typeRelation:typesRelations){
+			
+			String relatedTypeKey =  typeRelation.getRelatedTypeKey();
+			List<TermInfo> termInfos = (List<TermInfo>) termsCache.values();
+			for(TermInfo relatedTermInfo :termInfos){
+				if(relatedTermInfo.getTypeKey().equals(relatedTypeKey)){
+					termsToReturn.add(relatedTermInfo);
+				}
+			}
+		}
+		
+		return termsToReturn;
 	}
 
 	@Override
@@ -822,14 +857,27 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		//TODO terms not there?
-
-		//Note that the typeType Cache might be simplified, its a many - many relation between terms and AC
-		TypeTypeRelationInfo acTermRelation =  typeTypeCache.get(academicCalendarKey)	;
-		TermInfo term =  this.termsCache.get(acTermRelation.getRelatedTypeKey());
-		List<TermInfo> relatedTerms =  new ArrayList<TermInfo>();
-		relatedTerms.add(term);
-		return relatedTerms;
+	
+		AcademicCalendarInfo acInfo =  this.acCache.get(academicCalendarKey);
+		List <TermInfo> termsToReturn = new ArrayList<TermInfo>();
+		String typeKey = acInfo.getTypeKey();
+		
+	
+		List<TypeTypeRelationInfo> typesRelations  = this.atpService.getTypeRelationsByOwnerType(typeKey,"kuali.relationtype.contains" , context);
+		//Filter out types from typesRelations which are not campus calendars or dates etc
+		for(TypeTypeRelationInfo typeRelation: typesRelations){
+		
+			String relatedTypeKey =  typeRelation.getRelatedTypeKey();
+			List<TermInfo> termInfos = (List<TermInfo>) termsCache.values();
+			for(TermInfo relatedTermInfo :termInfos){
+				if(relatedTermInfo.getTypeKey().equals(relatedTypeKey)){
+					termsToReturn.add(relatedTermInfo);
+				}
+			}
+		}
+		
+;
+		return termsToReturn;
 
 	}
 
