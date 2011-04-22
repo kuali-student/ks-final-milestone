@@ -26,15 +26,13 @@
     </context-param>
     
     <context-param>
-		<param-name>contextConfigLocation</param-name>
+		<param-name>web.bootstrap.spring.file</param-name>
 		<param-value>classpath:ks-spring-security.xml</param-value>
 <!-- 		<param-value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</param-value> -->
 	</context-param>
-
+	
     <listener>
        <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
-<!--       <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class> -->
-<!--        <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>       -->
     </listener>
     
     <filter>
@@ -134,7 +132,7 @@
 
 	<servlet>
 		<servlet-name>action</servlet-name>
-		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>		
         <init-param>
           <param-name>config</param-name>
           <param-value>/WEB-INF/struts-config.xml</param-value>
