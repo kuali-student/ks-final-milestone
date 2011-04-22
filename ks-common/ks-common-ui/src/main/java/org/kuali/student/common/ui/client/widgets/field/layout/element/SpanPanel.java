@@ -28,8 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 	
-	private String html;
-
 	public SpanPanel(){
 		setElement(DOM.createSpan());
 	}
@@ -68,11 +66,10 @@ public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 	  
 	  public void setHTML(String html){
 		  this.getElement().setInnerHTML(html);
-		  this.html = html;
 	  }
 
-	public String getHtml() {
-		return html;
+	public String getText() {
+		return this.getElement().getInnerText();
 	}
 
 	@Override
@@ -81,15 +78,14 @@ public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 		ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
 		//
 		ExportElement element = new ExportElement(viewName,sectionName);
-		element.setFieldValue(this.getHtml());
+		element.setFieldValue(this.getText());
 
 		//
-		if (this.getHtml() == null) {
+		if (this.getText() == null) {
 			returnItems = ExportUtils.getDetailsForWidget(this, returnItems, viewName, sectionName);
 		}
 		//
 		returnItems = ExportUtils.addElementToElementArray(returnItems, element);
 		return returnItems;
 	}
-
 }

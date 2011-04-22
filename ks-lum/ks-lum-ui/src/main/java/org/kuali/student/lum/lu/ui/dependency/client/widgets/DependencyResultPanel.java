@@ -245,15 +245,15 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
 			ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
 			//
 			ExportElement linkElement = new ExportElement(viewName, sectionName);
-			String htmlText = null;
+			String text = null;
 			for (int i = 0; i < this.linkPanel.getWidgetCount(); i++) {
 				Widget child = this.linkPanel.getWidget(i);
 				if (child instanceof SpanPanel) {
 					SpanPanel header = (SpanPanel) child;
-					htmlText = header.getHtml();
+					text = header.getText();
 				}
 			}
-			linkElement.setFieldValue(htmlText);
+			linkElement.setFieldValue(text);
 			ArrayList<ExportElement> linkElementSubItems = new ArrayList<ExportElement>();
 			for (CollapsablePanel depItem:dependencyItems){
 				ArrayList<ExportElement> subList = depItem.getExportElementsWidget(viewName, sectionName);

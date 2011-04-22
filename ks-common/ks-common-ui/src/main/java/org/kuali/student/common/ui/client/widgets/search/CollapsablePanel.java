@@ -247,15 +247,15 @@ public class CollapsablePanel extends Composite implements ReportExportWidget {
 		ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
 		// linkPanel
 		ExportElement linkElement = new ExportElement(viewName, sectionName);
-		String htmlText = null;
+		String text = null;
 		for (int i = 0; i < this.linkPanel.getWidgetCount(); i++) {
 			Widget child = this.linkPanel.getWidget(i);
 			if (child instanceof SpanPanel) {
 				SpanPanel header = (SpanPanel) child;
-				htmlText = header.getHtml();
+				text = header.getText();
 			}
 		}
-		linkElement.setFieldValue(htmlText);
+		linkElement.setFieldValue(text);
 		// content
 		ArrayList<ExportElement> subItems = new ArrayList<ExportElement>();
 		subItems = ExportUtils.getDetailsForWidget(this.content.getWidget(), subItems, viewName, sectionName);
