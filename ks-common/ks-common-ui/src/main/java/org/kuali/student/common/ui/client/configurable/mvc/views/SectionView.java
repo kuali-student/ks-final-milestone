@@ -266,4 +266,10 @@ public abstract class SectionView extends BaseSection implements View {
     public boolean isExportButtonActive() {
         return false;
     }
+
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }

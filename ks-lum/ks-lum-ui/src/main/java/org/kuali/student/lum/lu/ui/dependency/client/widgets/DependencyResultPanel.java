@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -18,7 +21,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DependencyResultPanel extends Composite{
+public class DependencyResultPanel extends Composite implements ReportExportWidget {
 
 	protected KSLabel headerLabel = new KSLabel();
 	
@@ -108,12 +111,20 @@ public class DependencyResultPanel extends Composite{
     	}
     }
 
-	public static class DependencySection extends VerticalFieldLayout{
+	public static class DependencySection extends VerticalFieldLayout {
 		protected FlowPanel header = new FlowPanel(); 
 
 		//List of dependency types within this section
 		List<DependencyTypeSection> dependencyTypeSections = new ArrayList<DependencyTypeSection>();
 		
+		public String getTitleTextFromTitleWidget() {
+			if (this.layoutTitle != null) {
+//				return this.layoutTitle.getTitleText();	
+				return this.layoutTitle.getElement().getInnerText();
+			}
+			return null;
+	    }
+	    
 		public DependencySection(String title){
 	    	SectionTitle sectionTitle = SectionTitle.generateH4Title(title);	    	
 	    	sectionTitle.addStyleName("ks-dependency-section-title");
@@ -226,6 +237,32 @@ public class DependencyResultPanel extends Composite{
 				depItem.close();
 			}			
 		}
+
+		@Override
+		public ArrayList<ExportElement> getExportElementsWidget(
+				String viewName, String sectionName) {
+
+			ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
+			//
+			ExportElement linkElement = new ExportElement(viewName, sectionName);
+			String htmlText = null;
+			for (int i = 0; i < this.linkPanel.getWidgetCount(); i++) {
+				Widget child = this.linkPanel.getWidget(i);
+				if (child instanceof SpanPanel) {
+					SpanPanel header = (SpanPanel) child;
+					htmlText = header.getHtml();
+				}
+			}
+			linkElement.setFieldValue(htmlText);
+			ArrayList<ExportElement> linkElementSubItems = new ArrayList<ExportElement>();
+			for (CollapsablePanel depItem:dependencyItems){
+				ArrayList<ExportElement> subList = depItem.getExportElementsWidget(viewName, sectionName);
+				linkElementSubItems.addAll(subList);
+			}
+			linkElement.setSubset(linkElementSubItems);
+			returnItems.add(linkElement);
+			return returnItems;
+		}
 	}
 
 	public void hide(String dependencySection, String dependencyType){		
@@ -262,6 +299,28 @@ public class DependencyResultPanel extends Composite{
 		for (DependencySection section:dependencySections.values()){
 			section.setVisible(section.dependencyTypeSections.size() > 0);
 		}		
+	}
+
+	public VerticalFieldLayout getDependencySectionContainer() {
+		return dependencySectionContainer;
+	}
+
+	@Override
+	public ArrayList<ExportElement> getExportElementsWidget(String viewName,
+			String sectionName) {
+		ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
+		//
+		if (this.getWidget() instanceof VerticalFieldLayout) {
+			VerticalFieldLayout verticalFieldLayoutWidget = (VerticalFieldLayout) this.getWidget();	
+			returnItems = ExportUtils.getDetailsForWidget(verticalFieldLayoutWidget.getVerticalLayout(), returnItems, viewName, sectionName);
+		}
+		//
+		for (DependencySection section : this.dependencySections.values()) {
+			ArrayList<ExportElement> returnSectionItems = new ArrayList<ExportElement>();
+			returnSectionItems = ExportUtils.getDetailsForWidget(section, returnSectionItems, viewName, sectionName);
+			returnItems.addAll(returnSectionItems);
+		}
+		return returnItems;
 	}
 
 }

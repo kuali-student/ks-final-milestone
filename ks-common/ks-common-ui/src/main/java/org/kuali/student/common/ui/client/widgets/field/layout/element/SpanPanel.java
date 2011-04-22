@@ -15,13 +15,21 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
+import java.util.ArrayList;
+
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpanPanel extends ComplexPanel{
+public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 	
+	private String html;
+
 	public SpanPanel(){
 		setElement(DOM.createSpan());
 	}
@@ -60,6 +68,28 @@ public class SpanPanel extends ComplexPanel{
 	  
 	  public void setHTML(String html){
 		  this.getElement().setInnerHTML(html);
+		  this.html = html;
 	  }
+
+	public String getHtml() {
+		return html;
+	}
+
+	@Override
+	public ArrayList<ExportElement> getExportElementsWidget(String viewName,
+			String sectionName) {
+		ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
+		//
+		ExportElement element = new ExportElement(viewName,sectionName);
+		element.setFieldValue(this.getHtml());
+
+		//
+		if (this.getHtml() == null) {
+			returnItems = ExportUtils.getDetailsForWidget(this, returnItems, viewName, sectionName);
+		}
+		//
+		returnItems = ExportUtils.addElementToElementArray(returnItems, element);
+		return returnItems;
+	}
 
 }

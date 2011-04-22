@@ -15,9 +15,15 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
+import java.util.ArrayList;
+
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -31,7 +37,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CollapsablePanel extends Composite {
+public class CollapsablePanel extends Composite implements ReportExportWidget {
 	protected KSButton label;
 	protected VerticalFlowPanel layout = new VerticalFlowPanel();
 	protected HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
@@ -233,6 +239,30 @@ public class CollapsablePanel extends Composite {
 	protected void setImageState(){
 		closedImage.setVisible(!isOpen);
 		openedImage.setVisible(isOpen);						
+	}
+
+	@Override
+	public ArrayList<ExportElement> getExportElementsWidget(String viewName,
+			String sectionName) {
+		ArrayList<ExportElement> returnItems = new ArrayList<ExportElement>();
+		// linkPanel
+		ExportElement linkElement = new ExportElement(viewName, sectionName);
+		String htmlText = null;
+		for (int i = 0; i < this.linkPanel.getWidgetCount(); i++) {
+			Widget child = this.linkPanel.getWidget(i);
+			if (child instanceof SpanPanel) {
+				SpanPanel header = (SpanPanel) child;
+				htmlText = header.getHtml();
+			}
+		}
+		linkElement.setFieldValue(htmlText);
+		// content
+		ArrayList<ExportElement> subItems = new ArrayList<ExportElement>();
+		subItems = ExportUtils.getDetailsForWidget(this.content.getWidget(), subItems, viewName, sectionName);
+		linkElement.setSubset(subItems);
+
+		returnItems.add(linkElement);
+		return returnItems;
 	}
 
 }

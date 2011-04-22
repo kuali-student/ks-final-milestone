@@ -494,12 +494,8 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		else{
 			okToChange.exec(true);
 		}
-        if(this instanceof MenuSectionController){
-            ((MenuSectionController)this).showExport(isExportButtonActive());
-        } else if(this instanceof TabMenuController){
-            ((TabMenuController)this).showExport(isExportButtonActive());
-        }
-
+	    
+	    this.showExport(isExportButtonActive());
 	}
 
 	/**
@@ -584,5 +580,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	public boolean isExportButtonActive() {
 	    return false;
+	}
+
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
 	}
 }

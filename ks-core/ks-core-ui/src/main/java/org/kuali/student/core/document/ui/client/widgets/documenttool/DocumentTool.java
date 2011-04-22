@@ -573,4 +573,11 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     public void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
     }
+    
+	   
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }

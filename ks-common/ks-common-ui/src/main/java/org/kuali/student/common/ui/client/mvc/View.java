@@ -85,5 +85,7 @@ public interface View extends HistorySupport, BreadcrumbSupport {
      */
     public boolean isExportButtonActive();
     
+    public void showExport(boolean show);
+    
     
 }

@@ -56,6 +56,9 @@ public class ExportElement implements Serializable {
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
+//        if (this.fieldValue != null && fieldValue.startsWith("CORE")) {
+//			System.out.println("Stop gou hier");
+//		}
     }
 
     public boolean isSub() {
@@ -125,6 +128,10 @@ public class ExportElement implements Serializable {
 
     public String printLine() {
         String output = new String();
+//        if (this.getFieldLabel() == null && this.fieldValue != null) {
+//			this.setFieldLabel(this.getFieldValue());
+//		}
+
         output = this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
         return output;
     }

@@ -56,6 +56,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController.DependencyViews;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcService;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcServiceAsync;
@@ -97,6 +98,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	protected HorizontalBlockFlowPanel resultContainer = new HorizontalBlockFlowPanel();
 	
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	
+	private KSDocumentHeader header;
 		
 	public DependencyAnalysisView(Controller controller) {
 		super(controller, "Dependency Analysis", DependencyViews.MAIN);
@@ -134,7 +137,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	}
 
 	protected void init(){		
-		KSDocumentHeader header = new KSDocumentHeader();
+		this.header = new KSDocumentHeader();
+		
         header.setTitle("Dependency Analysis");
 
         //Get search definition for dependency analysis trigger search and create trigger picker          
@@ -165,6 +169,7 @@ public class DependencyAnalysisView extends ViewComposite{
 	                resultContainer.setVisible(true);
 	                updateDependencyResults();
                 }
+                ((DependencyAnalysisController) DependencyAnalysisView.this.getController()).showExport(isExportButtonActive());
 			}
 			
 		});
@@ -540,5 +545,18 @@ public class DependencyAnalysisView extends ViewComposite{
             }
         }
     }
+
+	public KSDocumentHeader getHeader() {
+		return header;
+	}
+
+	@Override
+	public boolean isExportButtonActive() {
+		return true;
+	}
+
+	public DependencyResultPanel getDepResultPanel() {
+		return depResultPanel;
+	}
 
 }
