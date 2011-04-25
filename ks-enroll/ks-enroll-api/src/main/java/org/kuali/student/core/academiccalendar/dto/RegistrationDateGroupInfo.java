@@ -73,7 +73,7 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
     private final List<Element> _futureElements;  
 
     private RegistrationDateGroupInfo() {
-	registrationDateDerivationGroup = null;
+        registrationDateDerivationGroup = null;
         termKey = null;
         registrationDateRange = null;
         classDateRange = null;
@@ -91,7 +91,7 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
      * @param dateGroup the RegistrationDateGroup to copy
      */
     public RegistrationDateGroupInfo(RegistrationDateGroup dateGroup) {
-	this.registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
+        this.registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
         this.termKey = dateGroup.getTermKey();
         this.registrationDateRange = new DateRangeInfo(dateGroup.getRegistrationDateRange());
         this.classDateRange = new DateRangeInfo(dateGroup.getClassDateRange());
@@ -104,14 +104,13 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
 
     @Override
     public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
-	return registrationDateDerivationGroup;
+        return registrationDateDerivationGroup;
     }
 
     @Override
     public String getTermKey() {
         return termKey;
     }
-
 
     @Override
     public DateRangeInfo getRegistrationDateRange() {
@@ -147,7 +146,7 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
      * The builder class for this DateInfo.
      */
     public static class Builder implements ModelBuilder<RegistrationDateGroupInfo>, RegistrationDateGroup {
-	private RegistrationDateDerivationGroupInfo registrationDateDerivationGroup;
+        private RegistrationDateDerivationGroupInfo registrationDateDerivationGroup;
         private String termKey;
         private DateRangeInfo registrationDateRange;
         private DateRangeInfo classDateRange;
@@ -167,7 +166,7 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
          *  RegistrationDateGroup.
          */
         public Builder(RegistrationDateGroup dateGroup) {
-	    registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
+            registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
             termKey = dateGroup.getTermKey();
             registrationDateRange = new DateRangeInfo(dateGroup.getRegistrationDateRange());
             classDateRange =  new DateRangeInfo(dateGroup.getClassDateRange());
@@ -186,14 +185,14 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
             return new RegistrationDateGroupInfo(this);
         }
 
-	@Override
-	public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
-	    return registrationDateDerivationGroup;
-	}
+        @Override
+        public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
+            return registrationDateDerivationGroup;
+        }
 
-	public void setRegistrationDateDerivationGroup(RegistrationDateDerivationGroupInfo derivationGroup) {
-	    this.registrationDateDerivationGroup = registrationDateDerivationGroup;
-	}
+        public void setRegistrationDateDerivationGroup(RegistrationDateDerivationGroupInfo derivationGroup) {
+            this.registrationDateDerivationGroup = registrationDateDerivationGroup;
+        }
 
         @Override
         public String getTermKey() {

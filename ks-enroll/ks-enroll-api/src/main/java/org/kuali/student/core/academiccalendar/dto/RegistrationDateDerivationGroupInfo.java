@@ -78,16 +78,16 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
     private final List<Element> _futureElements;  
 
     private RegistrationDateDerivationGroupInfo() {
-	registrationStartDateTermKey = null;
-	registrationEndDateTermKey = null;
-	classStartDateTermKey = null;
-	classEndDateTermKey = null;
-	addDateTermKey = null;
-	dropDateTermKey = null;
+        registrationStartDateTermKey = null;
+        registrationEndDateTermKey = null;
+        classStartDateTermKey = null;
+        classEndDateTermKey = null;
+        addDateTermKey = null;
+        dropDateTermKey = null;
         finalExamStartDateTermKey = null;
-	finalExamEndDateTermKey = null;
+        finalExamEndDateTermKey = null;
         gradingStartDateTermKey = null;
-	gradingEndDateTermKey = null;
+        gradingEndDateTermKey = null;
         _futureElements = null;
     }
 
@@ -98,16 +98,16 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      * @param dateDerivationGroup the RegistrationDateDerivationGroup to copy
      */
     public RegistrationDateDerivationGroupInfo(RegistrationDateDerivationGroup dateDerivationGroup) {
-	registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
-	registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
-	classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
-	classEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
-	addDateTermKey = dateDerivationGroup.getAddDateTermKey();
-	dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
+        registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
+        registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+        classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
+        classEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+        addDateTermKey = dateDerivationGroup.getAddDateTermKey();
+        dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
         finalExamStartDateTermKey = dateDerivationGroup.getFinalExamStartDateTermKey();
-	finalExamEndDateTermKey = dateDerivationGroup.getFinalExamEndDateTermKey();
+        finalExamEndDateTermKey = dateDerivationGroup.getFinalExamEndDateTermKey();
         gradingStartDateTermKey = dateDerivationGroup.getGradingStartDateTermKey();
-	gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
+        gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
         _futureElements = null;
     }
 
@@ -120,7 +120,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getRegistrationStartDateTermKey() {
-	return registrationStartDateTermKey;
+        return registrationStartDateTermKey;
     }
 
     /**
@@ -132,7 +132,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getRegistrationEndDateTermKey() {
-	return registrationEndDateTermKey;
+        return registrationEndDateTermKey;
     }
 
     /**
@@ -144,7 +144,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getClassStartDateTermKey() {
-	return classStartDateTermKey;
+        return classStartDateTermKey;
     }
 
     /**
@@ -156,7 +156,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getClassEndDateTermKey() {
-	return classEndDateTermKey;
+        return classEndDateTermKey;
     }
 
     /**
@@ -167,7 +167,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getAddDateTermKey() {
-	return addDateTermKey;
+        return addDateTermKey;
     }
 
     /**
@@ -178,7 +178,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getDropDateTermKey() {
-	return dropDateTermKey;
+        return dropDateTermKey;
     }
 
     /**
@@ -190,7 +190,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getFinalExamStartDateTermKey() {
-	return finalExamStartDateTermKey;
+        return finalExamStartDateTermKey;
     }
 
     /**
@@ -202,7 +202,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getFinalExamEndDateTermKey() {
-	return finalExamEndDateTermKey;
+        return finalExamEndDateTermKey;
     }
 
     /**
@@ -214,7 +214,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getGradingStartDateTermKey() {
-	return gradingStartDateTermKey;
+        return gradingStartDateTermKey;
     }
 
     /**
@@ -226,7 +226,7 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      */
     @Override
     public String getGradingEndDateTermKey() {
-	return gradingEndDateTermKey;
+        return gradingEndDateTermKey;
     }
 
 
@@ -234,16 +234,16 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
      * The builder class for this DateInfo.
      */
     public static class Builder implements ModelBuilder<RegistrationDateDerivationGroupInfo>, RegistrationDateDerivationGroup {
-	private String registrationStartDateTermKey;
-	private String registrationEndDateTermKey;
-	private String classStartDateTermKey;
-	private String classEndDateTermKey;
-	private String addDateTermKey;
-	private String dropDateTermKey;
-	private String finalExamStartDateTermKey;
-	private String finalExamEndDateTermKey;
-	private String gradingStartDateTermKey;
-	private String gradingEndDateTermKey;
+        private String registrationStartDateTermKey;
+        private String registrationEndDateTermKey;
+        private String classStartDateTermKey;
+        private String classEndDateTermKey;
+        private String addDateTermKey;
+        private String dropDateTermKey;
+        private String finalExamStartDateTermKey;
+        private String finalExamEndDateTermKey;
+        private String gradingStartDateTermKey;
+        private String gradingEndDateTermKey;
 
         /**
          * Constructs a new builder.
@@ -256,16 +256,16 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
          *  RegistrationDateDerivationGroup.
          */
         public Builder(RegistrationDateDerivationGroup dateDerivationGroup) {
-	    registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
-	    registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
-	    classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
-	    classEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
-	    addDateTermKey = dateDerivationGroup.getAddDateTermKey();
-	    dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
-	    finalExamStartDateTermKey = dateDerivationGroup.getFinalExamStartDateTermKey();
-	    finalExamEndDateTermKey = dateDerivationGroup.getFinalExamEndDateTermKey();
-	    gradingStartDateTermKey = dateDerivationGroup.getGradingStartDateTermKey();
-	    gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
+            registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
+            registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+            classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
+            classEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+            addDateTermKey = dateDerivationGroup.getAddDateTermKey();
+            dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
+            finalExamStartDateTermKey = dateDerivationGroup.getFinalExamStartDateTermKey();
+            finalExamEndDateTermKey = dateDerivationGroup.getFinalExamEndDateTermKey();
+            gradingStartDateTermKey = dateDerivationGroup.getGradingStartDateTermKey();
+            gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
         }
 
         /**
@@ -273,167 +273,167 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
          *
          * @return a new RegistrationDateDerivationGroup
          */
-	@Override
+        @Override
         public RegistrationDateDerivationGroupInfo build() {
             return new RegistrationDateDerivationGroupInfo(this);
         }
 
-	/**
-	 * Gets the key of the Term from which the start of the
-	 * registration period is derived. If null, then the registration
-	 * start date needs to be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getRegistrationStartDateTermKey() {
-	    return registrationStartDateTermKey;
-	}
-	
-	public void setRegistrationStartDateTermKey(String termKey) {
-	    this.registrationStartDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the start of the
+         * registration period is derived. If null, then the registration
+         * start date needs to be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getRegistrationStartDateTermKey() {
+            return registrationStartDateTermKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the end of the registration
-	 * period is derived. If null, then the registration end date
-	 * needs to be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getRegistrationEndDateTermKey() {
-	    return registrationEndDateTermKey;
-	}
-	
-	public void setRegistrationEndDateTermKey(String termKey) {
-	    this.registrationEndDateTermKey = termKey;
-	}
+        public void setRegistrationStartDateTermKey(String termKey) {
+            this.registrationStartDateTermKey = termKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the start of the class
-	 * period is derived. If null, then the class start date needs to
-	 * be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getClassStartDateTermKey() {
-	    return classStartDateTermKey;
-	}
-	
-	public void setClassStartDateTermKey(String termKey) {
-	    this.classStartDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the end of the registration
+         * period is derived. If null, then the registration end date
+         * needs to be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getRegistrationEndDateTermKey() {
+            return registrationEndDateTermKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the end of the class period
-	 * is derived. If null, then the class end date needs to be
-	 * explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getClassEndDateTermKey() {
-	    return classEndDateTermKey;
-	}
-	
-	public void setClassEndDateTermKey(String termKey) {
-	    this.classEndDateTermKey = termKey;
-	}
+        public void setRegistrationEndDateTermKey(String termKey) {
+            this.registrationEndDateTermKey = termKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the add date is derived. If
-	 * null, then the add date needs to be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getAddDateTermKey() {
-	    return addDateTermKey;
-	}
-	
-	public void setAddDateTermKey(String termKey) {
-	    this.addDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the start of the class
+         * period is derived. If null, then the class start date needs to
+         * be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getClassStartDateTermKey() {
+            return classStartDateTermKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the drop date is derived. If
-	 * null, then the drop date needs to be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getDropDateTermKey() {
-	    return dropDateTermKey;
-	}
-	
-	public void setDropDateTermKey(String termKey) {
-	    this.dropDateTermKey = termKey;
-	}
+        public void setClassStartDateTermKey(String termKey) {
+            this.classStartDateTermKey = termKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the start of the final exam
-	 * period is derived. If null, then the class start date needs to
-	 * be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getFinalExamStartDateTermKey() {
-	    return finalExamStartDateTermKey;
-	}
-	
-	public void setFinalExamStartDateTermKey(String termKey) {
-	    this.finalExamStartDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the end of the class period
+         * is derived. If null, then the class end date needs to be
+         * explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getClassEndDateTermKey() {
+            return classEndDateTermKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the end of the final exam
-	 * period is derived. If null, then the class end date needs to be
-	 * explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getFinalExamEndDateTermKey() {
-	    return finalExamEndDateTermKey;
-	}
-	
-	public void setFinalExamEndDateTermKey(String termKey) {
-	    this.finalExamEndDateTermKey = termKey;
-	}
+        public void setClassEndDateTermKey(String termKey) {
+            this.classEndDateTermKey = termKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the start of the grading
-	 * period is derived. If null, then the class start date needs to
-	 * be explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getGradingStartDateTermKey() {
-	    return gradingStartDateTermKey;
-	}
-	
-	public void setGradingStartDateTermKey(String termKey) {
-	    this.gradingStartDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the add date is derived. If
+         * null, then the add date needs to be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getAddDateTermKey() {
+            return addDateTermKey;
+        }
 
-	/**
-	 * Gets the key of the Term from which the end of the grading
-	 * period is derived. If null, then the class end date needs to be
-	 * explicitly set.
-	 *
-	 * @return a term key
-	 */
-	@Override
-	public String getGradingEndDateTermKey() {
-	    return gradingEndDateTermKey;
-	}
+        public void setAddDateTermKey(String termKey) {
+            this.addDateTermKey = termKey;
+        }
 
-	public void setGradingEndDateTermKey(String termKey) {
-	    this.gradingEndDateTermKey = termKey;
-	}
+        /**
+         * Gets the key of the Term from which the drop date is derived. If
+         * null, then the drop date needs to be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getDropDateTermKey() {
+            return dropDateTermKey;
+        }
+
+        public void setDropDateTermKey(String termKey) {
+            this.dropDateTermKey = termKey;
+        }
+
+        /**
+         * Gets the key of the Term from which the start of the final exam
+         * period is derived. If null, then the class start date needs to
+         * be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getFinalExamStartDateTermKey() {
+            return finalExamStartDateTermKey;
+        }
+
+        public void setFinalExamStartDateTermKey(String termKey) {
+            this.finalExamStartDateTermKey = termKey;
+        }
+
+        /**
+         * Gets the key of the Term from which the end of the final exam
+         * period is derived. If null, then the class end date needs to be
+         * explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getFinalExamEndDateTermKey() {
+            return finalExamEndDateTermKey;
+        }
+
+        public void setFinalExamEndDateTermKey(String termKey) {
+            this.finalExamEndDateTermKey = termKey;
+        }
+
+        /**
+         * Gets the key of the Term from which the start of the grading
+         * period is derived. If null, then the class start date needs to
+         * be explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getGradingStartDateTermKey() {
+            return gradingStartDateTermKey;
+        }
+
+        public void setGradingStartDateTermKey(String termKey) {
+            this.gradingStartDateTermKey = termKey;
+        }
+
+        /**
+         * Gets the key of the Term from which the end of the grading
+         * period is derived. If null, then the class end date needs to be
+         * explicitly set.
+         *
+         * @return a term key
+         */
+        @Override
+        public String getGradingEndDateTermKey() {
+            return gradingEndDateTermKey;
+        }
+
+        public void setGradingEndDateTermKey(String termKey) {
+            this.gradingEndDateTermKey = termKey;
+        }
     }
 }
