@@ -65,7 +65,7 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
      * Constructs a new AtpMilestoneRelationInfo from another
      * AtpMilestoneRelation.
      *
-     * @param milestone the AtpMilestoneRelation to copy
+     * @param amr the AtpMilestoneRelation to copy
      */
     public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
         super(amr);
@@ -95,7 +95,7 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
     }
 
     /**
-     * The builder class for this AtpMilestonerelationInfo.
+     * The builder class for this AtpMilestoneRelationInfo.
      */
     public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpMilestoneRelationInfo>, AtpMilestoneRelation {
 
