@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.student.common.util.security.UserWithId;
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class AuthenticationServiceImpl implements AuthenticationService {
     

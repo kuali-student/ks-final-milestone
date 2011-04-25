@@ -22,12 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.student.StudentStandaloneTestBase;
 
 /**
