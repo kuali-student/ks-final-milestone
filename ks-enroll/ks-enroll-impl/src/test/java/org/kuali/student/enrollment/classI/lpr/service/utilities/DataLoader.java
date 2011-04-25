@@ -1,13 +1,13 @@
-package org.kuali.student.enrollment.lpr.service.utilities;
+package org.kuali.student.enrollment.classI.lpr.service.utilities;
 
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.DA_KEY_1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.DA_KEY_2;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.DA_VALUE_1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.DA_VALUE_2;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.LUI_ID1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.PERSON_ID1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.TEST_VALUE_1;
-import static org.kuali.student.enrollment.lpr.service.utilities.Constants.TEST_VALUE_2;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.DA_KEY_1;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.DA_KEY_2;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.DA_VALUE_1;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.DA_VALUE_2;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.LUI_ID1;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.PERSON_ID1;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.TEST_VALUE_1;
+import static org.kuali.student.enrollment.classI.lpr.service.utilities.Constants.TEST_VALUE_2;
 
 import java.util.ArrayList;
 import java.util.Calendar;

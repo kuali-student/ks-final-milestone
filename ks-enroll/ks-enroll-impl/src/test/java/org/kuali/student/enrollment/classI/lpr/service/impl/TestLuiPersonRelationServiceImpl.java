@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.impl;
+package org.kuali.student.enrollment.classI.lpr.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -35,8 +35,8 @@ import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lpr.service.utilities.Constants;
-import org.kuali.student.enrollment.lpr.service.utilities.DataLoader;
+import org.kuali.student.enrollment.classI.lpr.service.utilities.Constants;
+import org.kuali.student.enrollment.classI.lpr.service.utilities.DataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

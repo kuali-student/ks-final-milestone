@@ -29,7 +29,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.classI.lpr.dao.LprDao;
 import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.service.utilities.Constants;
+import org.kuali.student.enrollment.classI.lpr.service.utilities.Constants;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 @Ignore

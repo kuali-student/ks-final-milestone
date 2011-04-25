@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.service.utilities;
+package org.kuali.student.enrollment.classI.lpr.service.utilities;
 
 /**
  * @author Igor
