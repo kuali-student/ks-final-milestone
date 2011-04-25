@@ -469,7 +469,8 @@ public class MajorEditController extends MajorController {
 			Application.getApplicationContext().clearCrossConstraintMap(null);
 			Application.getApplicationContext().clearPathToFieldMapping(null);
 		}
-
+		//Clear the parent path again
+		Application.getApplicationContext().setParentPath("");
 		super.beforeShow(onReadyCallback);
 	}
 

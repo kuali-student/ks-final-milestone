@@ -696,6 +696,7 @@
 
  <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="divisionsContentOwner"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -714,6 +715,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner"/>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -725,8 +727,297 @@
  </bean>
  <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent">
  </bean>
+ 
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.relatedOrgIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="unitsContentOwner" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.relatedOrgIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="unitsStudentOversight" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.relatedOrgIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="unitsDeployment" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.relatedOrgIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="unitsFinancialResources" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.relatedOrgIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="unitsFinancialControl" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisions-parent"
+		parent="kuali.common.lookup.admin.departments.suggest" class="org.kuali.student.common.dictionary.dto.LookupConstraint">
+		<property name="errorLevel" value="WARN"/>
+		<property name="searchTypeId"
+			value="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" />
+		<property name="searchParamIdKey" value="org.queryParam.relOrgOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- limit search to department organizations for this UI context -->
+					<property name="key" value="org.queryParam.optionalOrgTypeList" />
+					<property name="name" value="Org Type" />
+					<property name="desc" value="Type of an organization." />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.org.College</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">   <!-- limit search to certain relationships -->
+					<property name="key" value="org.queryParam.optionalRelationType" />
+					<property name="name" value="Org Relation Type" />
+					<property name="desc" value="Type of an organization relation" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="kuali.org.Contain" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsContentOwner" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/unitsContentOwner"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/unitsStudentOversight"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsDeployment" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/unitsDeployment"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialResources" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/unitsFinancialResources"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialControl" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/unitsFinancialControl"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
+
+ <bean id="kuali.lu.lookup.programVariationInfo.units-parent" parent="kuali.common.lookup.admin.departments.suggest"
+ class="org.kuali.student.common.dictionary.dto.LookupConstraint">
+	<property name="errorLevel" value="WARN"/>
+	<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+	<property name="params">
+		<list>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.orgOptionalType" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.Department</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
+
+
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsContentOwner" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/divisionsContentOwner"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/divisionsStudentOversight"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsDeployment" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/divisionsDeployment"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/divisionsFinancialResources"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsFinancialControl" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">    <!-- suggest box entry definition -->
+					<property name="key" value="org.queryParam.orgOptionalIds" />
+					<property name="name" value="Organization Ids" />
+					<property name="desc" value="List of Organization Id constraints" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/divisionsFinancialControl"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+ <bean id="kuali.lu.lookup.programVariationInfo.divisions-parent" parent="kuali.common.lookup.admin.departments.suggest" 
+ class="org.kuali.student.common.dictionary.dto.LookupConstraint">
+ 	<property name="errorLevel" value="WARN"/>
+	<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+	<property name="params">
+		<list>
+			<bean parent="param">   <!--   limit search to department organizations for this UI context-->
+				<property name="key" value="org.queryParam.orgOptionalType" />
+				<property name="name" value="Org Type" />
+				<property name="desc" value="Type of an organization." />
+				<property name="writeAccess" value="NEVER" />
+				<property name="defaultValueList">
+					<list>
+						<value>kuali.org.College</value>
+					</list>
+				</property>
+				<property name="caseSensitive" value="true" />
+			</bean>
+		</list>
+	</property>
+ </bean>
  <bean id="majorDisciplineInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+  <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -745,6 +1036,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight"/>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -760,6 +1052,7 @@
 
  <bean id="majorDisciplineInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="divisionsDeployment"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -778,6 +1071,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment"/>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -789,8 +1083,11 @@
  </bean>
  <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.divisionsDeployment-parent"/>
 
+
+
  <bean id="majorDisciplineInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="divisionsFinancialResources"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -809,6 +1106,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources"/>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -823,6 +1121,7 @@
 
  <bean id="majorDisciplineInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="divisionsFinancialControl"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -841,6 +1140,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl"/>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1130,18 +1430,102 @@
  <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
   <property name="name" value="divisionsContentOwner"/>
   <property name="defaultValuePath" value="/divisionsContentOwner"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsContentOwner"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsContentOwner"/>
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>  
  </bean>
  <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
 
  <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="majorDisciplineInfo.divisionsDeployment-parent">
   <property name="name" value="divisionsDeployment"/>
   <property name="defaultValuePath" value="/divisionsDeployment"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsDeployment"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsDeployment"/>
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>    
  </bean>
  <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
  <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialControl-parent">
   <property name="name" value="divisionsFinancialControl"/>
   <property name="defaultValuePath" value="/divisionsFinancialControl"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialControl"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialControl"/>
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>     
  </bean>
  <bean id="programVariationInfo.divisionsFinancialControl"
        parent="programVariationInfo.divisionsFinancialControl-parent"/>
@@ -1149,6 +1533,34 @@
  <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialResources-parent">
   <property name="name" value="divisionsFinancialResources"/>
   <property name="defaultValuePath" value="/divisionsFinancialResources"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources"/>
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>   
  </bean>
  <bean id="programVariationInfo.divisionsFinancialResources"
        parent="programVariationInfo.divisionsFinancialResources-parent"/>
@@ -1156,6 +1568,34 @@
  <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
   <property name="defaultValuePath" value="/divisionsStudentOversight"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight"/>
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>   
  </bean>
  <bean id="programVariationInfo.divisionsStudentOversight"
        parent="programVariationInfo.divisionsStudentOversight-parent"/>
@@ -1445,22 +1885,106 @@
 
  <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true"
        parent="majorDisciplineInfo.unitsContentOwner-parent">
-  <property name="name" value="unitsContentOwner"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsContentOwner"/>
   <property name="defaultValuePath" value="/unitsContentOwner"/>
+  <property name="name" value="unitsContentOwner"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="minOccurs" value="1" />
+  		 <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsContentOwner"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
 
- <bean id="programVariationInfo.unitsDeployment-parent" abstract="true"
-       parent="majorDisciplineInfo.unitsDeployment-parent">
-  <property name="name" value="unitsDeployment"/>
-  <property name="defaultValuePath" value="/unitsDeployment"/>
- </bean>
+<bean id="programVariationInfo.unitsDeployment-parent" abstract="true"
+	parent="majorDisciplineInfo.unitsDeployment-parent">
+	<property name="defaultValuePath" value="/unitsDeployment" />
+	<property name="name" value="unitsDeployment" />
+	<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsDeployment"/>
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="baseKualiOrgIdRepeating">
+								<property name="minOccurs" value="1" />
+								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsDeployment"/>
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>
+</bean>
  <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
 
  <bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true"
        parent="majorDisciplineInfo.unitsFinancialControl-parent">
   <property name="name" value="unitsFinancialControl"/>
   <property name="defaultValuePath" value="/unitsFinancialControl"/>
+  	<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialControl"/>
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="baseKualiOrgIdRepeating">
+								<property name="minOccurs" value="1" />
+								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialControl"/>
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>
  </bean>
  <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
 
@@ -1468,6 +1992,34 @@
        parent="majorDisciplineInfo.unitsFinancialResources-parent">
   <property name="name" value="unitsFinancialResources"/>
   <property name="defaultValuePath" value="/unitsFinancialResources"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialResources"/>
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="baseKualiOrgIdRepeating">
+								<property name="minOccurs" value="1" />
+								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialResources"/>
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>
  </bean>
  <bean id="programVariationInfo.unitsFinancialResources"
        parent="programVariationInfo.unitsFinancialResources-parent"/>
@@ -1476,6 +2028,34 @@
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
   <property name="defaultValuePath" value="/unitsStudentOversight"/>
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsStudentOversight"/>
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="baseKualiOrgIdRepeating">
+								<property name="minOccurs" value="1" />
+								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsStudentOversight"/>
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>  
  </bean>
  <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
 

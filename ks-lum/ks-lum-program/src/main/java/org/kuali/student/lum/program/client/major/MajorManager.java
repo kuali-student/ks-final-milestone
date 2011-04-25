@@ -14,6 +14,7 @@ import org.kuali.student.lum.program.client.versions.ProgramVersionsController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -90,7 +91,11 @@ public class MajorManager {
         DataModel variationModel = new DataModel();
 //        variationModel.setDefinition(programModel.getDefinition());
         DataModelDefinition definition = new DataModelDefinition ();
-        definition.setMetadata (programModel.getDefinition ().getMetadata ("variations/*"));
+        //What if the program model is not ready yet??
+        if(programModel==null||programModel.getDefinition()==null){
+        	Window.alert("Debug: null programModel or definition (MajorManager.getVariationEditController()");
+        }
+        definition.setMetadata(programModel.getDefinition().getMetadata("variations/*"));
 //        KSErrorDialog.show (new NullPointerException
 //     ("metada for: "
 //     +  formatMetadata (definition.getMetadata (), "variations/*")));

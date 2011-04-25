@@ -235,21 +235,22 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         }
         if (!selectedItems.contains(item)) {
             selectedItems.add(item);
-        }
-        valuesPanel.add(item);
-        if (fireChangeListeners) {
-            selectionChanged();
-        }
-        if (config.canEdit && fireChangeListeners) {
-            item.setHighlighted(true);
-            new Timer() {
-                @Override
-                public void run() {
-                    item.setHighlighted(false);
-                }
-            }.schedule(5000);
-        } else {
-            item.removeHighlight();
+        
+	        valuesPanel.add(item);
+	        if (fireChangeListeners) {
+	            selectionChanged();
+	        }
+	        if (config.canEdit && fireChangeListeners) {
+	            item.setHighlighted(true);
+	            new Timer() {
+	                @Override
+	                public void run() {
+	                    item.setHighlighted(false);
+	                }
+	            }.schedule(5000);
+	        } else {
+	            item.removeHighlight();
+	        }
         }
     }
 

@@ -303,8 +303,12 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         }
                         //Strip out end indexes for collections of primitives to be handled by the element
                         vrElement = vrElement.replaceFirst("^(\\S+)/[0-9]+$", "$1");
-                                   
-						if(vrElement.equals(f.getFieldKey())){
+                        
+                        //Check the parent path (mostly for mapping validation to specializations)
+                        String parentPath = Application.getApplicationContext().getParentPath();
+                        parentPath = parentPath==null?"":parentPath;
+                        
+						if(vrElement.equals(parentPath+f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
