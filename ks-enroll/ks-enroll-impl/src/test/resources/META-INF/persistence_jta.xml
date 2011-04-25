@@ -10,10 +10,10 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationStateEntity</class>
-        <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationTypeEntity</class>
-        <class>org.kuali.student.enrollment.lpr.model.LuiPersonRelationAttributeEntity</class>
+        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity</class>
+        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity</class>
+        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationTypeEntity</class>
+        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

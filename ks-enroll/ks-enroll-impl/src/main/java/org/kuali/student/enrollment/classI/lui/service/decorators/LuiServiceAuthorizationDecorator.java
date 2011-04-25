@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lui.service.decorators;
+package org.kuali.student.enrollment.classI.lui.service.decorators;
 
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.infc.HoldsPermissionService;

@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lui.service.model;
+package org.kuali.student.enrollment.classI.lui.service.model;
 
 import org.kuali.student.r2.common.entity.MetaEntity;
 

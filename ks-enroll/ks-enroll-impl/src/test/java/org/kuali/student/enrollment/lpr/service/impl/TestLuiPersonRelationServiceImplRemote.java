@@ -44,9 +44,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Author sambit
  */
 
-@Daos( { @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql"),
-		 @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprStateDao"),
-		 @Dao(value = "org.kuali.student.enrollment.lpr.dao.LprTypeDao") } )
+@Daos( { @Dao(value = "org.kuali.student.enrollment.classI.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql"),
+		 @Dao(value = "org.kuali.student.enrollment.classI.lpr.dao.LprStateDao"),
+		 @Dao(value = "org.kuali.student.enrollment.classI.lpr.dao.LprTypeDao") } )
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 @Ignore
 public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest {

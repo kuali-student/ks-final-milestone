@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.model;
+package org.kuali.student.enrollment.classI.lpr.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

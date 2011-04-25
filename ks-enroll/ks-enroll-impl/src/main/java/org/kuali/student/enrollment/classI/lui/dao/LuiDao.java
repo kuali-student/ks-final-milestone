@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lui.dao;
+package org.kuali.student.enrollment.classI.lui.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 

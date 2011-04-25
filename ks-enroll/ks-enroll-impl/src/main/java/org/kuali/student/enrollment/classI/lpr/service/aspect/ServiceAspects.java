@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.service.aspect;
+package org.kuali.student.enrollment.classI.lpr.service.aspect;
 
 
 import java.util.List;

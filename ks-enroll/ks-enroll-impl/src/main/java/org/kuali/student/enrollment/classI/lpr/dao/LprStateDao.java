@@ -1,7 +1,7 @@
-package org.kuali.student.enrollment.lpr.dao;
+package org.kuali.student.enrollment.classI.lpr.dao;
 
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationStateEntity;
 
 /**
  * @author Igor

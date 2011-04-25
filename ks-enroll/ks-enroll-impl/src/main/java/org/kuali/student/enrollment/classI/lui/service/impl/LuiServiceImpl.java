@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lui.service.impl;
+package org.kuali.student.enrollment.classI.lui.service.impl;
 
 import java.util.List;
 

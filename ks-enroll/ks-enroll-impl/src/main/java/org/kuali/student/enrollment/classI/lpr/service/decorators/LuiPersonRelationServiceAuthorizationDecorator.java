@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.service.decorators;
+package org.kuali.student.enrollment.classI.lpr.service.decorators;
 
 import java.util.ArrayList;
 import java.util.List;

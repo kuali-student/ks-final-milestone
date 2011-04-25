@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lpr.service.decorators;
+package org.kuali.student.enrollment.classI.lpr.service.decorators;
 
 
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;

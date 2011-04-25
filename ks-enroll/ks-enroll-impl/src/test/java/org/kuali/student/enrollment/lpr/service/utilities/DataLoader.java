@@ -15,10 +15,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationAttributeEntity;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationStateEntity;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationTypeEntity;
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationAttributeEntity;
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity;
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

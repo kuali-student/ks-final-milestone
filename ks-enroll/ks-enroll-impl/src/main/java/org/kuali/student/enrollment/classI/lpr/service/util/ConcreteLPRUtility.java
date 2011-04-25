@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.lpr.service.util;
+package org.kuali.student.enrollment.classI.lpr.service.util;
 
 import java.util.Date;
 
