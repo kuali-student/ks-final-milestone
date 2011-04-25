@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.core.academiccalendar.infc.RegistrationDateGroup;
-
 
 
 /**
@@ -39,26 +39,23 @@ import org.kuali.student.core.academiccalendar.infc.RegistrationDateGroup;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationDateGroupInfo", propOrder = {"termKey", "registrationStartDate", "registrationEndDate", "classStartDate", "classEndDate", "addDate", "dropDate", "finalExamStartDate", "finalExamEndDate", "gradingStartDate", "gradingEndDate", "_futureElements"})
+@XmlType(name = "RegistrationDateGroupInfo", propOrder = {"registrationDateDerivationGroup", "termKey", "registrationDateRange", "classDateRange", "addDate", "dropDate", "finalExamDateRange", "gradingDateRange", "_futureElements"})
 
 public class RegistrationDateGroupInfo implements RegistrationDateGroup, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private final RegistrationDateDerivationGroupInfo registrationDateDerivationGroup;
+
+    @XmlElement
     private final String termKey;
 
     @XmlElement
-    private final Date registrationStartDate;
+    private final DateRangeInfo registrationDateRange;
 
     @XmlElement
-    private final Date registrationEndDate;
-
-    @XmlElement
-    private final Date classStartDate;
-
-    @XmlElement
-    private final Date classEndDate;
+    private final DateRangeInfo classDateRange;
 
     @XmlElement
     private final Date addDate;
@@ -67,32 +64,23 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
     private final Date dropDate;
 
     @XmlElement
-    private final Date finalExamStartDate;
+    private final DateRangeInfo finalExamDateRange;
 
     @XmlElement
-    private final Date finalExamEndDate;
-
-    @XmlElement
-    private final Date gradingStartDate;
-
-    @XmlElement
-    private final Date gradingEndDate;
+    private final DateRangeInfo gradingDateRange;
 
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
     private RegistrationDateGroupInfo() {
+	registrationDateDerivationGroup = null;
         termKey = null;
-        registrationStartDate = null;
-        registrationEndDate = null;
-        classStartDate = null;
-        classEndDate = null;
+        registrationDateRange = null;
+        classDateRange = null;
         addDate = null;
         dropDate = null;
-        finalExamStartDate = null;
-        finalExamEndDate = null;
-        gradingStartDate = null;
-        gradingEndDate = null;
+        finalExamDateRange = null;
+        gradingDateRange = null;
         _futureElements = null;
     }
 
@@ -103,20 +91,21 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
      * @param dateGroup the RegistrationDateGroup to copy
      */
     public RegistrationDateGroupInfo(RegistrationDateGroup dateGroup) {
+	this.registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
         this.termKey = dateGroup.getTermKey();
-        this.registrationStartDate = dateGroup.getRegistrationStartDate();
-        this.registrationEndDate = dateGroup.getRegistrationEndDate();
-        this.classStartDate = dateGroup.getClassStartDate();
-        this.classEndDate = dateGroup.getClassEndDate();
+        this.registrationDateRange = new DateRangeInfo(dateGroup.getRegistrationDateRange());
+        this.classDateRange = new DateRangeInfo(dateGroup.getClassDateRange());
         this.addDate = dateGroup.getAddDate();
         this.dropDate = dateGroup.getDropDate();
-        this.finalExamStartDate = dateGroup.getFinalExamStartDate();
-        this.finalExamEndDate = dateGroup.getFinalExamEndDate();
-        this.gradingStartDate = dateGroup.getGradingStartDate();
-        this.gradingEndDate = dateGroup.getGradingEndDate();
+        this.finalExamDateRange = new DateRangeInfo(dateGroup.getFinalExamDateRange());
+        this.gradingDateRange = new DateRangeInfo(dateGroup.getGradingDateRange());
         _futureElements = null;
     }
 
+    @Override
+    public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
+	return registrationDateDerivationGroup;
+    }
 
     @Override
     public String getTermKey() {
@@ -125,76 +114,47 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
 
 
     @Override
-    public Date getRegistrationStartDate() {
-        return registrationStartDate;
-    }
-
-    public Date getRegistrationEndDate() {
-        return registrationEndDate;
-    }
-
-
-    @Override
-    public Date getClassStartDate() {
-        return classStartDate;
+    public DateRangeInfo getRegistrationDateRange() {
+        return registrationDateRange;
     }
 
     @Override
-    public Date getClassEndDate() {
-        return classEndDate;
+    public DateRangeInfo getClassDateRange() {
+        return classDateRange;
     }
-
 
     @Override
     public Date getAddDate() {
         return addDate;
     }
 
-
     @Override
     public Date getDropDate() {
         return dropDate;
     }
 
-
     @Override
-    public Date getFinalExamStartDate() {
-        return finalExamStartDate;
+    public DateRangeInfo getFinalExamDateRange() {
+        return finalExamDateRange;
     }
 
-
     @Override
-    public Date getFinalExamEndDate() {
-        return finalExamEndDate;
-    }
-
-
-    @Override
-    public Date getGradingStartDate() {
-        return gradingStartDate;
-    }
-
-
-    @Override
-    public Date getGradingEndDate() {
-        return gradingEndDate;
+    public DateRangeInfo getGradingDateRange() {
+        return gradingDateRange;
     }
 
     /**
      * The builder class for this DateInfo.
      */
     public static class Builder implements ModelBuilder<RegistrationDateGroupInfo>, RegistrationDateGroup {
+	private RegistrationDateDerivationGroupInfo registrationDateDerivationGroup;
         private String termKey;
-        private Date registrationStartDate;
-        private Date registrationEndDate;
-        private Date classStartDate;
-        private Date classEndDate;
+        private DateRangeInfo registrationDateRange;
+        private DateRangeInfo classDateRange;
         private Date addDate;
         private Date dropDate;
-        private Date finalsStartDate;
-        private Date finalsEndDate;
-        private Date gradingStartDate;
-        private Date gradingEndDate;
+        private DateRangeInfo finalExamDateRange;
+        private DateRangeInfo gradingDateRange;
 
         /**
          * Constructs a new builder.
@@ -207,17 +167,14 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
          *  RegistrationDateGroup.
          */
         public Builder(RegistrationDateGroup dateGroup) {
+	    registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
             termKey = dateGroup.getTermKey();
-            registrationStartDate = dateGroup.getRegistrationStartDate();
-            registrationEndDate = dateGroup.getRegistrationStartDate();
-            classStartDate =  dateGroup.getClassStartDate();
-            classEndDate =  dateGroup.getClassStartDate();
+            registrationDateRange = new DateRangeInfo(dateGroup.getRegistrationDateRange());
+            classDateRange =  new DateRangeInfo(dateGroup.getClassDateRange());
             addDate =  dateGroup.getAddDate();
             dropDate =  dateGroup.getDropDate();
-            finalsStartDate =  dateGroup.getFinalExamStartDate();
-            finalsEndDate =  dateGroup.getFinalExamStartDate();
-            gradingStartDate =  dateGroup.getGradingStartDate();
-            gradingEndDate =  dateGroup.getGradingStartDate();
+            finalExamDateRange =  new DateRangeInfo(dateGroup.getFinalExamDateRange());
+            gradingDateRange =  new DateRangeInfo(dateGroup.getGradingDateRange());
         }
 
         /**
@@ -229,6 +186,15 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
             return new RegistrationDateGroupInfo(this);
         }
 
+	@Override
+	public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
+	    return registrationDateDerivationGroup;
+	}
+
+	public void setRegistrationDateDerivationGroup(RegistrationDateDerivationGroupInfo derivationGroup) {
+	    this.registrationDateDerivationGroup = registrationDateDerivationGroup;
+	}
+
         @Override
         public String getTermKey() {
             return termKey;
@@ -239,44 +205,22 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
         }
 
         @Override
-        public Date getRegistrationStartDate() {
-            return registrationStartDate;
+        public DateRangeInfo getRegistrationDateRange() {
+            return registrationDateRange;
         }
 
-        public void setRegistrationStartDate(Date date) {
-            this.registrationStartDate = date;
+        public void setRegistrationDateRange(DateRangeInfo dateRange) {
+            this.registrationDateRange = dateRange;
         }
-
 
         @Override
-        public Date getRegistrationEndDate() {
-            return registrationEndDate;
+        public DateRangeInfo getClassDateRange() {
+            return classDateRange;
         }
 
-        public void setRegistrationEndDate(Date date) {
-            this.registrationEndDate = date;
+        public void setClassDateRange(DateRangeInfo dateRange) {
+            this.classDateRange = dateRange;
         }
-
-
-        @Override
-        public Date getClassStartDate() {
-            return classStartDate;
-        }
-
-        public void setClassStartDate(Date date) {
-            this.classStartDate = date;
-        }
-
-
-        @Override
-        public Date getClassEndDate() {
-            return classEndDate;
-        }
-
-        public void setClassEndDate(Date date) {
-            this.classEndDate = date;
-        }
-
 
         @Override
         public Date getAddDate() {
@@ -287,7 +231,6 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
             this.addDate = date;
         }
 
-
         @Override
         public Date getDropDate() {
             return dropDate;
@@ -297,43 +240,22 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
             this.dropDate = date;
         }
 
-
         @Override
-        public Date getFinalExamStartDate() {
-            return finalsStartDate;
+        public DateRangeInfo getFinalExamDateRange() {
+            return finalExamDateRange;
         }
 
-        public void setFinalExamStartDate(Date date) {
-            this.finalsStartDate = date;
-        }
-
-
-        @Override
-        public Date getFinalExamEndDate() {
-            return finalsEndDate;
-        }
-
-        public void setFinalExamEndDate(Date date) {
-            this.finalsEndDate = date;
+        public void setFinalExamDateRange(DateRangeInfo dateRange) {
+            this.finalExamDateRange = dateRange;
         }
 
         @Override
-        public Date getGradingStartDate() {
-            return gradingStartDate;
+        public DateRangeInfo getGradingDateRange() {
+            return gradingDateRange;
         }
 
-        public void setGradingStartDate(Date date) {
-            this.gradingStartDate = date;
-        }
-
-
-        @Override
-        public Date getGradingEndDate() {
-            return gradingEndDate;
-        }
-
-        public void setGradingEndDate(Date date) {
-            this.gradingEndDate = date;
+        public void setGradingDateRange(DateRangeInfo dateRange) {
+            this.gradingDateRange = dateRange;
         }
     }
 }

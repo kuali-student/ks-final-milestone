@@ -16,6 +16,7 @@
 package org.kuali.student.core.academiccalendar.infc;
 
 import java.util.Date;
+import org.kuali.student.common.infc.DateRange;
 
 
 /**
@@ -42,51 +43,40 @@ import java.util.Date;
 public interface RegistrationDateGroup {
 
     /**
-     * Name: Term Key
+     * Name: Registration Date Derivation Group
+     * Gets the date derivation structure for the Registration
+     * dats.
      *
-     * The key identifying the term for this date group.
+     * @return the registratiob derivation date group
+     */
+    public RegistrationDateDerivationGroup getRegistrationDateDerivationGroup();
+
+    /**
+     * Name: Term Key
+     * Gets the key identifying the term for this date group.
      *
      * @return the term key
      */
     public String getTermKey();
 
     /**
-     * Name: Registration Start Date
+     * Name: Registration Date Range
+     * Gets the registration period.
      *
-     * The beginning of the registration period
-     *
-     * @return the registration start date
+     * @return the registration period
      */
-    public Date getRegistrationStartDate();
+    public DateRange getRegistrationDateRange();
 
     /**
-     * Name: Registration End Date
-     * Gets the registration end date.
+     * Name: Class Date Range
+     * Gets the instructional class period.
      *
-     * @return the registration end date
+     * @return the class period
      */
-    public Date getRegistrationEndDate();
-
-    /**
-     * Name: Classes Start Date
-     * Gets the class start date.
-     *
-     * @return the class start date
-     */
-    public Date getClassStartDate();
-
-    /**
-     * Name: Class End
-     *
-     * End of Classes
-     *
-     * @return the class end date
-     */
-    public Date getClassEndDate();
+    public DateRange getClassDateRange();
 
     /**
      * Name: Add Date
-     *
      * Last Date to Add a Course
      *
      * @return add date
@@ -95,7 +85,6 @@ public interface RegistrationDateGroup {
 
     /**
      * Name: Drop Date
-     *
      * Last date to drop a course
      *
      * @return drop date
@@ -103,38 +92,18 @@ public interface RegistrationDateGroup {
     public Date getDropDate();
 
     /**
-     * Name: Final Exam Start Date
+     * Name: Final Exam Date Range
+     * Gets the he Final Exam Period.
      *
-     * Beginning of the Final Exam Period
-     *
-     * @return the final exam start date
+     * @return the final exam period
      */
-    public Date getFinalExamStartDate();
+    public DateRange getFinalExamDateRange();
 
     /**
-     * Name: Final Exam End
+     * Name: Grading Date Range
+     * Gets the grading period.
      *
-     * The end of the final exam period
-     *
-     * @return the final exam end date
+     * @return the grading period
      */
-    public Date getFinalExamEndDate();
-
-    /**
-     * Name: Grading Start Date
-     *
-     * Beginnig of Grading period.
-     *
-     * @return the grading start date
-     */
-    public Date getGradingStartDate();
-
-    /**
-     * Name: Grading End Date
-     *
-     * Last day to submit grades without them being considered late.
-     *
-     * @return the grading end date
-     */
-    public Date getGradingEndDate();
+    public DateRange getGradingDateRange();
 }

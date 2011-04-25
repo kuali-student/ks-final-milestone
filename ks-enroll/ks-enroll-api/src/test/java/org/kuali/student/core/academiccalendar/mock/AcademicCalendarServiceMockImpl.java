@@ -40,6 +40,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.common.infc.DateRange;
 import org.kuali.student.test.utilities.MockHelper;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
@@ -685,21 +686,16 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-		Date classEndDate = getRegistrationDateGroup(termKey, context).getClassEndDate()  ;
-		Date classStartDate =getRegistrationDateGroup(termKey, context).getClassStartDate() ;
+		DateRange classDates = getRegistrationDateGroup(termKey, context).getClassDateRange();
 
-		Calendar startCalendar = new GregorianCalendar(classStartDate.getYear(), classStartDate.getMonth(), classStartDate.getDate());
-		Calendar endCalendar = new GregorianCalendar(classEndDate.getYear(), classEndDate.getMonth(), classEndDate.getDate());
+		Calendar startCalendar = new GregorianCalendar(classDates.getStart().getYear(), classDates.getStart().getMonth(), classDates.getStart().getDate());
+		Calendar endCalendar = new GregorianCalendar(classDates.getEnd().getYear(), classDates.getStart().getMonth(), classDates.getEnd().getDate());
 
 		//TODO Use some open source library like joda-time to compute these
 		// 
 		//TODO  Finally the calendar should remove weekend days, non-instructional holidays - any other days such as exams which are not instructional
 
 		return new Integer(0);
-
-
-
-
 	}
 
 	@Override
