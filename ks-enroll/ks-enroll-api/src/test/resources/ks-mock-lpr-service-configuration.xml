@@ -8,24 +8,24 @@
 
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 
-    <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockImpl" />
+    <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
     <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
     <bean id="mockIdentityService" class="org.kuali.student.kim.identity.mock.IdentityServiceMockImpl" />
 
     <bean id="mockLprService" parent="mockLprValidationService" />
-    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceValidationDecorator" >
+    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceValidationDecorator" >
         <property name="nextDecorator" ref="mockLprPersistenceService"/>
         <property name="validator" ref="validator"/>
     </bean>
-    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceMockImpl"/>
+    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceMockImpl"/>
         
 
-    <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">
+    <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">
         <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr"/>
         <property name="nextDecorator" ref="mockLprPersistenceService"/>
     </bean>
      <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl"/>
     
-    <bean id="lprUnimplementedService" class="org.kuali.student.enrollment.lpr.mock.LuiPersonRelationServiceUnimplemented"/>
+    <bean id="lprUnimplementedService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceUnimplemented"/>
 
 </beans>

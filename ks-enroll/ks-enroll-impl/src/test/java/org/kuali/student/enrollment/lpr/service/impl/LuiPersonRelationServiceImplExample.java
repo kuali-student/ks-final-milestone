@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.lpr.service.impl;
 
 import org.junit.Test;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

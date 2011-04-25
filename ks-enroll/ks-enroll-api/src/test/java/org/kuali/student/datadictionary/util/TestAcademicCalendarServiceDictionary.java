@@ -18,11 +18,12 @@ package org.kuali.student.datadictionary.util;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.core.academiccalendar.dto.TermInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
+
 import static org.junit.Assert.*;
 
 public class TestAcademicCalendarServiceDictionary {

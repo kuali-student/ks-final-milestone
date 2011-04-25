@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.infc;
 
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 
 /**
  * Holds LuiPersonRelationService

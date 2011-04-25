@@ -24,7 +24,7 @@
     <!-- MilestoneInfo-->
     <bean id="milestoneInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="milestoneInfo"/>
-        <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.MilestoneInfo"/>
+        <property name="objectClass" value="org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>

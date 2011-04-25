@@ -24,7 +24,7 @@
     <!-- RegistrationDateGroupInfo-->
     <bean id="registrationDateGroupInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="registrationDateGroupInfo"/>
-        <property name="objectClass" value="org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo"/>
+        <property name="objectClass" value="org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="primaryKeys">

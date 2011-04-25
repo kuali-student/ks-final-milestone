@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.dao.LprDao;
 import org.kuali.student.enrollment.lpr.dao.LprTypeDao;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -35,9 +37,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.lpr.dao.LprStateDao;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;

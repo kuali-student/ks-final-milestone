@@ -14,12 +14,12 @@
  */
 package org.kuali.student.common.util.constants;
 
-import org.kuali.student.core.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.core.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.core.academiccalendar.dto.TermInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
 
 /**
  * This class holds the constants used by the Academic Calendar service

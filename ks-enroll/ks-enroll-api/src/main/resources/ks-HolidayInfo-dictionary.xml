@@ -24,7 +24,7 @@
     <!-- HolidayInfo-->
     <bean id="holidayInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="holidayInfo"/>
-        <property name="objectClass" value="org.kuali.student.core.academiccalendar.dto.HolidayInfo"/>
+        <property name="objectClass" value="org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>

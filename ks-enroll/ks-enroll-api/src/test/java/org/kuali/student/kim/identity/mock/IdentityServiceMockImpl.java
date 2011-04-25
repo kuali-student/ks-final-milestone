@@ -46,7 +46,7 @@ import org.kuali.rice.kim.bo.reference.dto.EntityTypeInfo;
 import org.kuali.rice.kim.bo.reference.dto.ExternalIdentifierTypeInfo;
 import org.kuali.rice.kim.bo.reference.dto.PhoneTypeInfo;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.student.enrollment.lpr.mock.CriteriaMatcherInMemory;
+import org.kuali.student.enrollment.classI.lpr.mock.CriteriaMatcherInMemory;
 
 /**
  * @author nwright

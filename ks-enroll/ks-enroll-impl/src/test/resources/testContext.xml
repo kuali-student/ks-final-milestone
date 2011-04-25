@@ -7,9 +7,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<import resource="classpath:applicationContext.xml"/> 
     
     <bean id="lprServiceToTest" parent="lprServiceOnBus"/>
-     <bean id="academicCalendarServiceImpl" class="org.kuali.student.core.academiccalendar.mock.AcademicCalendarServiceMockImpl" />
+     <bean id="academicCalendarServiceImpl" class="org.kuali.student.core.classII.academiccalendar.mock.AcademicCalendarServiceMockImpl" />
    
-    <bean id="academicCalendarServiceToTest" class="org.kuali.student.core.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator" >
+    <bean id="academicCalendarServiceToTest" class="org.kuali.student.core.classII.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator" >
        <property name="nextDecorator" ref="academicCalendarServiceImpl"/>
     </bean>
     

@@ -19,9 +19,10 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
+
 import static org.junit.Assert.*;
 
 public class TestAtpServiceDictionary {

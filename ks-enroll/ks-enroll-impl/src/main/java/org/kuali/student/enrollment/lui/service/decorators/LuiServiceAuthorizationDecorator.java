@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.lui.service.decorators;
 
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.infc.HoldsPermissionService;
-import org.kuali.student.enrollment.lui.service.LuiServiceDecorator;
+import org.kuali.student.enrollment.classI.lui.service.LuiServiceDecorator;
 
 public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implements HoldsPermissionService {
 	

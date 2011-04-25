@@ -5,8 +5,8 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
-   <bean id="mockLuiService" class="org.kuali.student.enrollment.lui.mock.LuiServiceMockImpl" />
-    <bean id="academicCalendarServiceToTest" class= "org.kuali.student.core.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator"/>
+   <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
+    <bean id="academicCalendarServiceToTest" class= "org.kuali.student.core.classII.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator"/>
 
     <bean id="validatorToTest" parent="validator" />
 </beans>
