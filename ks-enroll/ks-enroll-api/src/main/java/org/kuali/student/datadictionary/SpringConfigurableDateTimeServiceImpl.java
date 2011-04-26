@@ -15,7 +15,8 @@
  */
 package org.kuali.student.datadictionary;
 
-import org.kuali.rice.core.impl.DateTimeServiceImpl;
+import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
+
 
 /**
  * Class that can be configured directly by spring instead of by the KNS configurer
