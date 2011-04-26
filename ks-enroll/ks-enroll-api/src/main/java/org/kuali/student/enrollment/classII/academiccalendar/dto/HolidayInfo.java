@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.classII.academiccalendar.dto;
+package org.kuali.student.enrollment.classII.academiccalendar.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,31 +23,29 @@ import org.w3c.dom.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
-import org.kuali.student.core.classII.academiccalendar.infc.KeyDate;
-
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.enrollment.classII.academiccalendar.infc.Holiday;
 
 
 /**
- * Information about a key date.
+ * Information about a holiday.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isInstructionalDay", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
-public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
-
+public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable {
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private final Boolean isInstructionalDay;
 
     @XmlElement
     private final Boolean isAllDay;
@@ -64,7 +62,8 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     @XmlAnyElement
     private final List<Element> _futureElements;  
 
-    protected KeyDateInfo() {
+    protected HolidayInfo() {
+        isInstructionalDay = false;
         isAllDay = false;
         isDateRange = false;
         startDate = null;
@@ -73,17 +72,28 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     /**
-     * Constructs a new KeyDateInfo from another KeyDate.
+     * Constructs a new HolidayInfo from another Holiday.
      *
-     * @param keyDate the KeyDate to copy
+     * @param holiday the Holiday to copy
      */
-    public KeyDateInfo(KeyDate keyDate) {
-        super(keyDate);
-        this.isAllDay = keyDate.getIsAllDay();
-        this.isDateRange = keyDate.getIsDateRange();
-        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+    public HolidayInfo(Holiday holiday) {
+        super(holiday);
+        this.isInstructionalDay = holiday.getIsInstructionalDay();
+        this.isAllDay = holiday.getIsAllDay();
+        this.isDateRange = holiday.getIsDateRange();
+        this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+        this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
         _futureElements = null;
+    }
+
+    /**
+     * Tests if this holiday is an instructional day.
+     *
+     * @return true if this is an instructional day, false otherwise
+     */
+    @Override
+    public Boolean getIsInstructionalDay() {
+        return isInstructionalDay;
     }
 
     /**
@@ -98,11 +108,11 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     /**
-     * Tests if this keyDate has a date range. If true, the end date
+     * Tests if this holiday has a date range. If true, the end date
      * value follows the start date.
      *
-     * @return true if this KeyDate has different start end end
-     *         dates, false if this KeyDate represents a single date
+     * @return true if this Holiday has different start end end
+     *         dates, false if this Holiday represents a single date
      */
     @Override
     public Boolean getIsDateRange() {
@@ -110,9 +120,9 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     /**
-     * Gets the start Date and time of the keyDate.
+     * Gets the start Date and time of the holiday.
      *
-     * @return the keyDate start
+     * @return the holiday start
      */
     @Override
     public Date getStartDate() {
@@ -120,20 +130,22 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     /**
-     * Gets the end Date and time of the keyDate.
+     * Gets the end Date and time of the holiday.
      *
-     * @return the keyDate end
+     * @return the holiday end
      */
     @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * The builder class for this KeyDateInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
 
+    /**
+     * The builder class for this HolidayInfo.
+     */
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, Holiday {
+
+        private Boolean isInstructionalDay;
         private Boolean isAllDay;
         private Boolean isDateRange;
         private Date startDate;
@@ -147,23 +159,45 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 
         /**
          *  Constructs a new builder initialized from another
-         *  KeyDate.
+         *  Holiday.
          */
-        public Builder(KeyDate keyDate) {
-            super(keyDate);
-            this.isAllDay = keyDate.getIsAllDay();
-            this.isDateRange = keyDate.getIsDateRange();
-            this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-            this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
+        public Builder(Holiday holiday) {
+            super(holiday);
+            this.isInstructionalDay = holiday.getIsInstructionalDay();
+            this.isAllDay = holiday.getIsAllDay();
+            this.isDateRange = holiday.getIsDateRange();
+            this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
+            this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
         }
 
         /**
-         * Builds the KeyDate.
+         * Builds the Holiday.
          *
-         * @return a new KeyDate
+         * @return a new Holiday
          */
-        public KeyDateInfo build() {
-            return new KeyDateInfo(this);
+        public HolidayInfo build() {
+            return new HolidayInfo(this);
+        }
+
+        /**
+         * Tests if this holiday is an instructional day.
+         *
+         * @return true if this is an instructional day, false
+         *         otherwise
+         */
+        @Override
+        public Boolean getIsInstructionalDay() {
+            return isInstructionalDay;
+        }
+
+        /**
+         * Sets the instructional day flag.
+         *
+         * @param isInstructionalDay true if this Holiday is an
+         *        instructional day, false if not an instructional day
+         */
+        public void setIsInstructionalDay(Boolean isInstructionalDay) {
+            this.isInstructionalDay = isInstructionalDay;
         }
 
         /**
@@ -180,7 +214,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         /**
          * Sets the all-day flag.
          *
-         * @param isAllDay true if this KeyDate is an all-day 
+         * @param isAllDay true if this Holiday is an all-day 
          *        event, flase otherwise
          */
         public void setIsAllDay(Boolean isAllDay) {
@@ -188,11 +222,11 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         }
 
         /**
-         * Tests if this keyDate has a date range. If true, the end date
+         * Tests if this holiday has a date range. If true, the end date
          * value follows the start date.
          *
-         * @return true if this KeyDate has different start end end
-         *         dates, false if this KeyDate represents a single date
+         * @return true if this Holiday has different start end end
+         *         dates, false if this Holiday represents a single date
          */
         @Override
         public Boolean getIsDateRange() {
@@ -202,8 +236,8 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         /**
          * Sets the date range flag.
          *
-         * @param isDateRange true if this KeyDate has different
-         *         start end end dates, false if this KeyDate
+         * @param isDateRange true if this Holiday has different
+         *         start end end dates, false if this Holiday
          *         represents a single date
          */
         public void setIsDateRange(Boolean isDateRange) {
@@ -213,7 +247,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         /**
          * Gets the start date.
          *
-         * @return the KeyDate start date
+         * @return the Holiday start date
          */
         @Override
         public Date getStartDate() {
@@ -221,7 +255,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         }
 
         /**
-         * Sets the KeyDate start date.
+         * Sets the Holiday start date.
          *
          * @param endDate the start date
          */
@@ -232,7 +266,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         /**
          * Gets the start date.
          *
-         * @return the KeyDate end date
+         * @return the Holiday end date
          */
         @Override
         public Date getEndDate() {
@@ -240,7 +274,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         }
 
         /**
-         * Sets the KeyDate end date.
+         * Sets the Holiday end date.
          *
          * @param endDate the end date
          */

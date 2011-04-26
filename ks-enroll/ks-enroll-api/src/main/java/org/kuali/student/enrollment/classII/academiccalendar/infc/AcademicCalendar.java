@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.classII.academiccalendar.infc;
+package org.kuali.student.enrollment.classII.academiccalendar.infc;
 
 import java.util.Date;
 import java.util.List;
@@ -22,17 +22,17 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
- * Information about a Campus Calendar.
+ * Information about an Academic Calendar.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface CampusCalendar extends KeyEntity {
+public interface AcademicCalendar extends KeyEntity {
 
     /**
      * Name: Start Date
-     * Date and time the campus calendar became effective. This
+     * Date and time the academic calendar became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this calendar, but instead indicates the
      * calendar proper. This is a similar concept to the effective
@@ -43,8 +43,8 @@ public interface CampusCalendar extends KeyEntity {
     public Date getStartDate();
 
     /**
-     * Name: Start Date
-     * Date and time the campus calendarexpires. This does not
+     * Name: End Date
+     * Date and time the academic calendar expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this calendar, but instead indicates the calendar
      * proper. If specified, this must be greater than or equal to the
@@ -55,9 +55,16 @@ public interface CampusCalendar extends KeyEntity {
     public Date getEndDate();
 
     /**
-     * Name: Location
-     * The campus or location to which this calendar pertains.
+     * Name: Campus Calendar 
+     * Gets the campus calendar key corresponding to this academic
+     * calendar.
      */
-    public String getLocation();
- 
+    public String getCampusCalendarKey();
+
+    /**
+     * Name: Credential Program Type Key
+     * Gets the credential program type key to which this calendar
+     * relates.
+     */
+    public String getCredentialProgramTypeKey();
 }

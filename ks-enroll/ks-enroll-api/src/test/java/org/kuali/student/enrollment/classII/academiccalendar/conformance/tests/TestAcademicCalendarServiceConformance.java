@@ -1,4 +1,4 @@
-package org.kuali.student.core.classII.academiccalendar.conformance.tests;
+package org.kuali.student.enrollment.classII.academiccalendar.conformance.tests;
 
 import static org.junit.Assert.assertNotNull;
 

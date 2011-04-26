@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.classII.academiccalendar.service;
+package org.kuali.student.enrollment.classII.academiccalendar.service;
 
 import java.util.Date;
 import java.util.List;
@@ -23,12 +23,12 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 
-import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
 
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;

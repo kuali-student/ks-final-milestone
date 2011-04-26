@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.classII.academiccalendar.infc;
+package org.kuali.student.enrollment.classII.academiccalendar.infc;
 
 import java.util.Date;
 import java.util.List;
@@ -28,14 +28,14 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface AcademicCalendar extends KeyEntity {
+public interface Term extends KeyEntity {
 
     /**
      * Name: Start Date
-     * Date and time the academic calendar became effective. This
+     * Date and time the term became effective. This
      * does not provide a bound on date ranges or milestones
-     * associated with this calendar, but instead indicates the
-     * calendar proper. This is a similar concept to the effective
+     * associated with this time period, but instead indicates the
+     * time period proper. This is a similar concept to the effective
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
@@ -44,27 +44,13 @@ public interface AcademicCalendar extends KeyEntity {
 
     /**
      * Name: End Date
-     * Date and time the academic calendar expires. This does not
+     * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
-     * this calendar, but instead indicates the calendar
+     * this time period, but instead indicates the time period
      * proper. If specified, this must be greater than or equal to the
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
-
-    /**
-     * Name: Campus Calendar 
-     * Gets the campus calendar key corresponding to this academic
-     * calendar.
-     */
-    public String getCampusCalendarKey();
-
-    /**
-     * Name: Credential Program Type Key
-     * Gets the credential program type key to which this calendar
-     * relates.
-     */
-    public String getCredentialProgramTypeKey();
 }

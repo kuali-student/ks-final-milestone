@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
-import org.kuali.student.core.classII.academiccalendar.service.AcademicCalendarService;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService;
 
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
