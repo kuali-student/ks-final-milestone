@@ -22,7 +22,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.util.constants.AtpServiceConstants;
 
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -39,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;

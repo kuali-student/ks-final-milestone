@@ -22,7 +22,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
 
 import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
@@ -46,6 +45,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 
 /**
  * Academic Calendar Service Description and Assumptions.

@@ -24,12 +24,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.kns.datadictionary.validation.DataType;
-import org.kuali.student.common.infc.Comparison;
-import org.kuali.student.common.infc.Criteria;
 import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.infc.Comparison;
+import org.kuali.student.r2.common.infc.Criteria;
 
 /**
  * A class that validates the criteria against the dictionary

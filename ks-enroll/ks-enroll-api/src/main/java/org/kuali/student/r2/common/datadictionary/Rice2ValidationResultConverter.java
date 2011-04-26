@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.infc.ValidationResult;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 import org.kuali.rice.kns.datadictionary.validation.ErrorLevel;
 import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;

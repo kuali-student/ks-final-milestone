@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.classI.atp.infc.AtpMilestoneRelation;
 
 

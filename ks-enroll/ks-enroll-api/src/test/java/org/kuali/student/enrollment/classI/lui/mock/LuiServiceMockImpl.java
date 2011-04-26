@@ -23,7 +23,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.kuali.student.common.infc.HoldsLuService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -39,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HoldsLuService;
 import org.kuali.student.test.utilities.MockHelper;
 
 /**

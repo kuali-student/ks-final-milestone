@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.core.classII.academiccalendar.infc.Term;
 
 

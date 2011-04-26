@@ -12,8 +12,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.HasAttributesAndMeta;
-import org.kuali.student.common.infc.Meta;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.Meta;
 
 @SuppressWarnings("serial")
 @XmlTransient

@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.core.classII.academiccalendar.infc.Holiday;
 
 

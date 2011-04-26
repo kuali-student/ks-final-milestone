@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.kuali.student.common.infc.HoldsLprService;
-import org.kuali.student.common.infc.HoldsLuiService;
-import org.kuali.student.common.infc.State;
-import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
@@ -51,6 +47,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HoldsLprService;
+import org.kuali.student.r2.common.infc.HoldsLuiService;
+import org.kuali.student.r2.common.infc.State;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.test.utilities.MockHelper;
 
 /**

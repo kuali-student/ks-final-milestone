@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classI.lui.infc.Lui;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 

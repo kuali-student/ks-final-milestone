@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.infc.HoldsPermissionService;
+import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationServiceDecorator;

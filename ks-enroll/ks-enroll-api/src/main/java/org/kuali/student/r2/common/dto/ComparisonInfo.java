@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.Comparison;
-import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.r2.common.infc.Comparison;
+import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

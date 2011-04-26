@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.KeyEntity;
 import org.kuali.student.r2.common.dto.EntityInfo;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 @SuppressWarnings("serial")
 @XmlTransient

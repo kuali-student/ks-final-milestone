@@ -18,7 +18,7 @@ package org.kuali.student.core.classII.academiccalendar.infc;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**

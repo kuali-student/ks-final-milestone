@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.HoldsValidator;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationServiceDecorator;
@@ -34,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HoldsValidator;
 
 /**
  * @author nwright

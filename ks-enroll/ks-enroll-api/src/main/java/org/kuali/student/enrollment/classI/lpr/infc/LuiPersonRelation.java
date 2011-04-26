@@ -16,8 +16,8 @@
 package org.kuali.student.enrollment.classI.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
-import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Detailed information about a single LUI to Person Relation.

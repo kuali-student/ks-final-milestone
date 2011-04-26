@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.classI.lui.mock;
 
 import java.util.List;
-import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.classI.lui.service.LuiService;
@@ -36,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HoldsLuiService;
 
 /**
  * Provides a wrapper for the LuiService so that layers that extend this 

@@ -15,8 +15,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.common.infc.HasAttributes;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 @SuppressWarnings("serial")
 @XmlTransient
