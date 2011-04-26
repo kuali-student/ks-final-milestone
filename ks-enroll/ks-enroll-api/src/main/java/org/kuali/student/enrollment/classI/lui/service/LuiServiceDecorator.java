@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.classI.lui.service;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -14,7 +15,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;

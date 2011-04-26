@@ -7,7 +7,7 @@
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-rice-dictionary-validation-service-configuration.xml"/>
     
-    <bean id="validator" class="org.kuali.student.datadictionary.RiceDataDictionaryValidatorImpl">
+    <bean id="validator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
         <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAllUsedByRice" />
         <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
     </bean>

@@ -14,9 +14,9 @@
  */
 package org.kuali.student.common.util.constants;
 
-import org.kuali.student.datadictionary.dto.AttributeDefinitionInfo;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.datadictionary.dto.ValidCharactersConstraintInfo;
+import org.kuali.student.r2.common.datadictionary.dto.AttributeDefinitionInfo;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintInfo;
 
 /**
  * This class holds the constants used by the Academic Calendar service

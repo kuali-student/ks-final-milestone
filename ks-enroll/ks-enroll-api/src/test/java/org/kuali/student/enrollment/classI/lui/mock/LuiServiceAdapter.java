@@ -17,10 +17,10 @@ package org.kuali.student.enrollment.classI.lui.mock;
 
 import java.util.List;
 import org.kuali.student.common.infc.HoldsLuiService;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.classI.lui.service.LuiService;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;

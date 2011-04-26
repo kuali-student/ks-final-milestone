@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.classI.lpr.service;
 import java.util.List;
 
 
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;

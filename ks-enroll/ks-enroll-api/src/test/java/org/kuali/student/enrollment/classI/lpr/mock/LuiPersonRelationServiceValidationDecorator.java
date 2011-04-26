@@ -18,10 +18,10 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 import java.util.List;
 
 import org.kuali.student.common.infc.HoldsValidator;
-import org.kuali.student.datadictionary.DataDictionaryValidator;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationServiceDecorator;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;

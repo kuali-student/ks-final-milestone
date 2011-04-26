@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.infc;
 
-import org.kuali.student.datadictionary.service.DataDictionaryService;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 /**
  * Holds the dictionary service

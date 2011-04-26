@@ -26,10 +26,10 @@ import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DictionaryObjectAttributeValueReader;
 import org.kuali.student.common.infc.Comparison;
 import org.kuali.student.common.infc.Criteria;
-import org.kuali.student.datadictionary.Student2RiceDictionaryEntryConverter;
-import org.kuali.student.datadictionary.infc.DictionaryEntry;
-import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
-import org.kuali.student.datadictionary.util.CriteriaValidatorParser.Operator;
+import org.kuali.student.r2.common.datadictionary.Student2RiceDictionaryEntryConverter;
+import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
+import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser;
+import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser.Operator;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 

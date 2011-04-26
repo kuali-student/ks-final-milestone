@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -75,7 +75,7 @@ public class AtpServiceMockImpl implements AtpService {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.common.service.TypeService#getAllowedTypesForType(java.lang.String, java.lang.String,
+     * @see org.kuali.student.r2.common.service.TypeService#getAllowedTypesForType(java.lang.String, java.lang.String,
      *      org.kuali.student.common.dto.ContextInfo)
      */
     @Override

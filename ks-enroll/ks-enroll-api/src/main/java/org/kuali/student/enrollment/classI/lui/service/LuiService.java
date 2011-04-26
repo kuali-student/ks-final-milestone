@@ -22,11 +22,10 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.service.TypeService;
 import org.kuali.student.common.util.constants.LuiServiceConstants;
-import org.kuali.student.datadictionary.service.DataDictionaryService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -40,6 +39,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.TypeService;
 
 
 /**

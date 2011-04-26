@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.infc;
 
-import org.kuali.student.datadictionary.DataDictionaryValidator;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 
 /**
  * Holds the validator service

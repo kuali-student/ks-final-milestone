@@ -23,7 +23,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
@@ -32,6 +31,7 @@ import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
 
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;

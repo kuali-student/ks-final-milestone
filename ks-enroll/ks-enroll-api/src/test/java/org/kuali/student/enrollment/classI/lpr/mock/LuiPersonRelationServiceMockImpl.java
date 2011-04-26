@@ -26,12 +26,13 @@ import org.kuali.student.common.infc.HoldsLprService;
 import org.kuali.student.common.infc.HoldsLuiService;
 import org.kuali.student.common.infc.State;
 import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.classI.lui.service.LuiService;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
+import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
@@ -51,7 +52,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.test.utilities.MockHelper;
-import org.kuali.student.datadictionary.util.CriteriaValidatorParser;
 
 /**
  * @author nwright

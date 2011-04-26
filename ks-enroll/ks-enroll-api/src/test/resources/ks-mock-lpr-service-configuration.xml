@@ -24,7 +24,7 @@
         <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr"/>
         <property name="nextDecorator" ref="mockLprPersistenceService"/>
     </bean>
-     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.datadictionary.DataDictionaryServiceImpl"/>
+     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl"/>
     
     <bean id="lprUnimplementedService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceUnimplemented"/>
 
