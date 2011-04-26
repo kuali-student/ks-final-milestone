@@ -1,12 +1,16 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -68,6 +72,7 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
         //get a handle to the add to list button, chain in adding to all fds 
         if(cou.getFieldWidget() instanceof KSSelectedList){
         	final KSSelectedList couWidget = (KSSelectedList)cou.getFieldWidget();
+        	
         	couWidget.getMainPanel().insert(unitCheckBox, 1);
         	couWidget.getAddItemButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
@@ -79,7 +84,26 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
 	                }
 				}
         	});
+        	
+        	//Also add a hook into the advanced search
+        	final Callback<List<SelectedResults>> originalAdvancedSearchCallback = couWidget.getPicker().getAdvancedSearchCallback();
+        	
+        	couWidget.getPicker().setAdvancedSearchCallback(new Callback<List<SelectedResults>>() {
+                public void exec(List<SelectedResults> results) {
+                	//Chain the original call and add the new item(s) to the rest of the selects
+                	originalAdvancedSearchCallback.exec(results);
+                    if (unitCheckBox.getValue() && results.size() > 0) {
+						for (SelectedResults res : results) {
+                            for(KSSelectedList select:unitSelects){
+    	                        select.addItem(res.getReturnKey(), res.getDisplayKey());
+                            }
+    	                }
+                    }
+                }
+            });
+        	
         }
+        
         if(cod.getFieldWidget() instanceof KSSelectedList){
         	final KSSelectedList codWidget = (KSSelectedList)cod.getFieldWidget();
         	codWidget.getMainPanel().insert(divisionCheckBox, 1);
@@ -94,6 +118,8 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
 				}
         	});
         }
+        
+
     }
 
 }

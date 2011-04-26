@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.assembly.data.Data.StringValue;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.application.Application;
@@ -53,9 +53,9 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -700,6 +700,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	public void reprocessWithUpdatedConstraints() {
         SearchUtils.initializeSearchRequest(config.lookupMeta, searchRequestWrapper);
         populateListWidget(searchRequestWrapper.getSearchRequest());
+	}
+
+	public Callback<List<SelectedResults>> getAdvancedSearchCallback() {
+		return advancedSearchCallback;
 	}
 
 }
