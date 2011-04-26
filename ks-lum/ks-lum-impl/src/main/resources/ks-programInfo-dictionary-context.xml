@@ -1715,8 +1715,73 @@
        parent="majorDisciplineInfo.resultOptions-parent">
   <property name="name" value="resultOptions"/>
   <property name="maxOccurs" value="1"/>
+  <property name="lookupDefinition" ref="kuali.common.lookup.programVariation.degree.types"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseStringRepeating">
+         <property name="minOccurs" value="1" />
+         <property name="lookupDefinition" ref="kuali.common.lookup.programVariation.degree.types"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
+
+ <bean id="kuali.common.lookup.programVariation.degree.types" class="org.kuali.student.common.dictionary.dto.LookupConstraint" parent="commonLookup-parent">
+	<property name="id" value="kuali.common.lookup.programVariation.degree.types"/>
+	<property name="searchTypeId" value="lrc.search.resultComponent"/>
+	<property name="name" value="Outcome"/>
+	<property name="desc" value="Search for program degree types"/>
+	<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+	<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id"/>
+	<property name="errorLevel" value="WARN"/>
+	<property name="params">
+      <list>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.id"/>
+              <property name="name" value="Result Component"/>
+              <property name="desc" value="Result Component Id"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="ALWAYS"/>
+          </bean>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>
+              <property name="name" value="Result Component ids"/>
+              <property name="desc" value="Result Component Id List"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="NEVER"/>
+              <property name="fieldPath" value="/resultOptions"/>
+          </bean>
+          <bean parent="param">
+              <property name="key" value="lrc.queryParam.resultComponent.type"/>
+              <property name="name" value="Result Component Type"/>
+              <property name="desc" value="Result Component Type"/>
+              <property name="dataType" value="STRING"/>
+              <property name="writeAccess" value="NEVER"/>
+              <property name="defaultValueString" value="kuali.resultComponentType.degree"/>
+          </bean>
+      </list>
+	</property>
+ </bean>
 
  <bean id="programVariationInfo.selectiveEnrollmentCode-parent" abstract="true"
        parent="majorDisciplineInfo.selectiveEnrollmentCode-parent">
