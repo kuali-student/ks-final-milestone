@@ -23,9 +23,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
-import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.infc.Attribute;
 
 
 @MappedSuperclass

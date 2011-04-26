@@ -32,10 +32,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HoldsValidator;
 
 import java.util.*;
 
-import org.kuali.student.common.infc.HoldsValidator;
 
 /**
  * An example Validation decorator for the {@link LuiPersonRelationService}. Additional validations are performed for the validateLuiPersonRelation, createLuiPersonRelation and updateLuiPersonRelation

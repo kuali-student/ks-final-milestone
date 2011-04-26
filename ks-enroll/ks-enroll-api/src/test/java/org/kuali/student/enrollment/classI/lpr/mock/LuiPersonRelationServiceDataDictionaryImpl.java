@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -26,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 
 /**
  * @author nwright

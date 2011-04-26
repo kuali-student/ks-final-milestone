@@ -15,12 +15,12 @@
  */
 package org.kuali.student.test.utilities;
 
-import org.kuali.student.common.infc.*;
 
 import java.util.Date;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.*;
 
 
 /**

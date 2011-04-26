@@ -3,10 +3,10 @@ package org.kuali.student.r2.common.entity;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.infc.Attribute;
 
 @MappedSuperclass
 public class BaseAttributeEntity extends BaseEntity {

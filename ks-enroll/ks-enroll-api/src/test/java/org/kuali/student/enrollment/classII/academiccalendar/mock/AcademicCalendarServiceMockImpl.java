@@ -9,15 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.util.constants.AcademicCalendarServiceConstants;
 
-import org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.core.classII.academiccalendar.dto.TermInfo;
-import org.kuali.student.core.classII.academiccalendar.service.AcademicCalendarService;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
+import org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService;
 
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -36,11 +35,12 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
-import org.kuali.student.common.infc.DateRange;
 import org.kuali.student.test.utilities.MockHelper;
 
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {

@@ -30,13 +30,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.common.infc.Comparison;
-import org.kuali.student.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ComparisonInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
+import org.kuali.student.r2.common.infc.Comparison;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

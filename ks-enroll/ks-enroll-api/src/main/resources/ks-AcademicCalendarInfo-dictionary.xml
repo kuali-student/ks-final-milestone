@@ -24,7 +24,7 @@
     <!-- AcademicCalendarInfo-->
     <bean id="academicCalendarInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="academicCalendarInfo"/>
-        <property name="objectClass" value="org.kuali.student.core.classII.academiccalendar.dto.AcademicCalendarInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>

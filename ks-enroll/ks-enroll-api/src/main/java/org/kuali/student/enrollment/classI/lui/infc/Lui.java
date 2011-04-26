@@ -16,11 +16,11 @@
 package org.kuali.student.enrollment.classI.lui.infc;
 
 
-import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.HasId;
-import org.kuali.student.common.infc.HasState;
-import org.kuali.student.common.infc.HasType;
-import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.HasState;
+import org.kuali.student.r2.common.infc.HasType;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 public interface Lui
         extends IdEntity,

@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.TimeAmount;
+import org.kuali.student.r2.common.infc.ModelBuilder;
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

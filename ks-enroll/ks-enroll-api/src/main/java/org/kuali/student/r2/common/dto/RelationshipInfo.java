@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.kuali.student.common.infc.IdEntity;
 
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Information about a Relationship.
