@@ -84,14 +84,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
     @Override
     public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        return this.atpService.getState(null , academicCalendarStateKey, context);
     }
 
     @Override
-    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+      
+    	return this.atpService.getStatesByProcess(null, context) ;
     }
 
 	@Override
@@ -99,6 +98,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		
 		AcademicCalendarInfo acObject = this.acCache.get(academicCalendarKey);
 		if (acObject == null) {
 			throw new DoesNotExistException(academicCalendarKey);
