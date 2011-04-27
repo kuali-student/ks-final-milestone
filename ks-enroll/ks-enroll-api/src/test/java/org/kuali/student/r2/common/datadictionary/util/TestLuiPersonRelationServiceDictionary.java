@@ -19,17 +19,20 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.datadictionary.util.DictionaryTesterHelper;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import static org.junit.Assert.*;
 
 public class TestLuiPersonRelationServiceDictionary {
 
     @Test
-    public void testLuiPersonRelationDictionary() {
+    public void testLuiPersonRelationDictionary() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         runTestOnInfo(LuiPersonRelationInfo.class);
     }
 
-    private void runTestOnInfo(Class<?> clazz) {
+    private void runTestOnInfo(Class<?> clazz) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         System.out.println("testing " + clazz.getSimpleName() + " dictionary");
         String projectUrl = "https://test.kuali.org/svn/student/branches/ks-1.3/ks-enroll/ks-enroll-api/src/main/resources/";
         String className = clazz.getName();

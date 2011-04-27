@@ -687,7 +687,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException {
 
 		DateRange classDates = getRegistrationDateGroup(termKey, context).getClassDateRange();
-
+		int numInstructionalDays = 0;
 		Calendar startCalendar = new GregorianCalendar(classDates.getStart().getYear(), classDates.getStart().getMonth(), classDates.getStart().getDate());
 		Calendar endCalendar = new GregorianCalendar(classDates.getEnd().getYear(), classDates.getStart().getMonth(), classDates.getEnd().getDate());
 
@@ -695,7 +695,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// 
 		//TODO  Finally the calendar should remove weekend days, non-instructional holidays - any other days such as exams which are not instructional
 
-		return new Integer(0);
+		return Integer.valueOf(numInstructionalDays);
 	}
 
 	@Override

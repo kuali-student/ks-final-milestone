@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintI
  */
 public class Rice2StudentAttributeDefinitionConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2StudentAttributeDefinitionConverter.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Rice2StudentAttributeDefinitionConverter.class);
 
     public AttributeDefinitionInfo convert(AttributeDefinition rice) {
         AttributeDefinitionInfo.Builder bldr = new AttributeDefinitionInfo.Builder();

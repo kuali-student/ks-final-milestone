@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  */
 public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RiceDataDictionaryValidatorImpl.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RiceDataDictionaryValidatorImpl.class);
     private RiceDataDictionaryServiceInfc riceDataDictionaryService;
     private DictionaryValidationService riceDictionaryValidationService;
 

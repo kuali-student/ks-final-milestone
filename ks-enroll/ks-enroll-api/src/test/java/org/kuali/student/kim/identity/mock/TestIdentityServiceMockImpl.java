@@ -72,7 +72,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetAddressType() {
-        System.out.println("getAddressType");
+    
         String code = AddressTypeEnum.HOME.getCode();
         IdentityServiceMockImpl instance = new IdentityServiceMockImpl();
         AddressTypeInfo result = instance.getAddressType(code);
@@ -84,7 +84,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetAffiliationType() {
-        System.out.println("getAffiliationType");
+    
         String code = AffiliationTypeEnum.STAFF.getCode();
         IdentityServiceMockImpl instance = new IdentityServiceMockImpl();
         AffiliationTypeInfo result = instance.getAffiliationType(code);
@@ -97,7 +97,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetCitizenshipStatus() {
-        System.out.println("getCitizenshipStatus");
+     
 //        String code = "";
 //        MockIdentityServiceImpl instance = new MockIdentityServiceImpl();
 //        CitizenshipStatusInfo expResult = null;
@@ -110,7 +110,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetDefaultNamesForEntityIds() {
-        System.out.println("getDefaultNamesForEntityIds");
+      
         List<String> entityIds = Arrays.asList(PersonEnum.STAFF1.getEntityId(), PersonEnum.STUDENT10.getEntityId());
         IdentityServiceMockImpl instance = new IdentityServiceMockImpl();
         Map result = instance.getDefaultNamesForEntityIds(entityIds);
@@ -122,7 +122,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetDefaultNamesForPrincipalIds() {
-        System.out.println("getDefaultNamesForPrincipalIds");
+      
         List<String> principalIds = Arrays.asList(PersonEnum.STAFF1.getPrincipalId(), PersonEnum.STUDENT10.getPrincipalId());
         IdentityServiceMockImpl instance = new IdentityServiceMockImpl();
         Map result = instance.getDefaultNamesForPrincipalIds(principalIds);
@@ -135,7 +135,7 @@ public class TestIdentityServiceMockImpl {
      */
     @Test
     public void testGetEmailType() {
-        System.out.println("getEmailType");
+      
         String code = EmailTypeEnum.HOME.getCode();
         IdentityServiceMockImpl instance = new IdentityServiceMockImpl();
         EmailTypeInfo result = instance.getEmailType(code);

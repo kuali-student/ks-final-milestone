@@ -60,11 +60,15 @@ public class TestAcademicCalendarServiceDictionary {
         String className = clazz.getName();
         String contextFile = "ks-" + clazz.getSimpleName() + "-dictionary";
         String outFile = "target/" + contextFile + ".html";
+        try{
         DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
                 className, projectUrl, contextFile + ".xml");
         List<String> errors = helper.doTest();
         if (errors.size() > 0) {
             fail("failed dictionary validation:\n" + formatAsString(errors));
+        }
+        }catch(Exception ex){
+        	fail(ex.getMessage());
         }
     }
 

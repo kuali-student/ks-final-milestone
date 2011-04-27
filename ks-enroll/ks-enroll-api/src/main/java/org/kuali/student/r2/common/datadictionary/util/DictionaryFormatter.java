@@ -34,6 +34,9 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 public class DictionaryFormatter {
 
@@ -49,7 +52,7 @@ public class DictionaryFormatter {
         this.outputFileName = outputFileName;
     }
 
-    public void formatForHtml() {
+    public void formatForHtml() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         File file = new File(this.outputFileName);
         OutputStream outputStream;
         try {
@@ -77,7 +80,7 @@ public class DictionaryFormatter {
         out.println("</html>");
     }
 
-    private void writeBody(PrintStream out) {
+    private void writeBody(PrintStream out) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         out.println("(!) This page was automatically generated on " + new Date());
         out.print(" and is a formatted view of ");
         writeLink(out, projectUrl + "/" + this.dictFileName, "this file");
@@ -394,11 +397,11 @@ public class DictionaryFormatter {
         return " ";
     }
 
-    private String calcSimpleName(String name) {
-        if (name.lastIndexOf(".") != -1) {
-            name = name.substring(name.lastIndexOf(".") + 1);
+    private String calcSimpleName(String simpleName) {
+        if (simpleName.lastIndexOf(".") != -1) {
+            simpleName = simpleName.substring(simpleName.lastIndexOf(".") + 1);
         }
-        return name;
+        return simpleName;
     }
 
     private String calcNotSoSimpleName(String name) {

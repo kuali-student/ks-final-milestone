@@ -40,7 +40,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDataDictionaryServiceInfc {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryServiceImpl.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DataDictionaryServiceImpl.class);
     private String serviceNamespaceSuffix;
     private Map<String, DictionaryEntryInfo> studMap;
     private Map<String, DataObjectEntry> riceMap;
@@ -65,7 +65,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
             Map<String, DataObjectEntry> beansOfType =
                     (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
             for (DataObjectEntry entry : beansOfType.values()) {
-                LOG.debug(entry.getObjectClass());
+                log.debug(entry.getObjectClass());
                 riceMap.put(entry.getFullClassName(), entry);
                 studMap.put(calcRefObjectURI (entry.getObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
             }

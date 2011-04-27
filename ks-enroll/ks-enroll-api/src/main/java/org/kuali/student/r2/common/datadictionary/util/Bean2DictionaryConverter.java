@@ -25,6 +25,9 @@ import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 public class Bean2DictionaryConverter {
 
@@ -36,19 +39,19 @@ public class Bean2DictionaryConverter {
         this.parents = parents;
     }
 
-    public DataObjectEntry convert() {
+    public DataObjectEntry convert() throws InvalidParameterException, MissingParameterException, ReadOnlyException{
         DataObjectEntry ode = new DataObjectEntry();
         ode.setObjectClass(clazz);
         addAttributeDefinitions(ode);
         return ode;
     }
 
-    public void addAttributeDefinitions(DataObjectEntry ode) {
+    public void addAttributeDefinitions(DataObjectEntry ode) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
         } catch (IntrospectionException ex) {
-            throw new RuntimeException(ex);
+            throw new InvalidParameterException(ex.getMessage());
         }
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             if (Class.class.equals(pd.getPropertyType())) {
@@ -66,7 +69,7 @@ public class Bean2DictionaryConverter {
         }
     }
 
-    private AttributeDefinition calcAttributeDefinition(Class<?> clazz, PropertyDescriptor pd, Class<?> actualClass) {
+    private AttributeDefinition calcAttributeDefinition(Class<?> clazz, PropertyDescriptor pd, Class<?> actualClass) throws InvalidParameterException {
         AttributeDefinition ad = new AttributeDefinition();
         ad.setName(calcName(pd.getName()));
         Class<?> pt = pd.getPropertyType();
@@ -95,7 +98,7 @@ public class Bean2DictionaryConverter {
         return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
 
-    public static Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
+    public static Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) throws MissingParameterException, InvalidParameterException, ReadOnlyException {
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
             pt = ComplexSubstructuresHelper.getActualClassFromList(clazz, pd.getName());
@@ -103,11 +106,11 @@ public class Bean2DictionaryConverter {
         return pt;
     }
 
-    private DataType calcDataType(Class<?> pt) {
+    private DataType calcDataType(Class<?> pt) throws InvalidParameterException {
         return calcDataType(clazz, pt);
     }
 
-    public static DataType calcDataType(Class<?> clazz, Class<?> pt) {
+    public static DataType calcDataType(Class<?> clazz, Class<?> pt) throws InvalidParameterException {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;
         } else if (long.class.equals(pt) || Long.class.equals(pt)) {
@@ -123,7 +126,7 @@ public class Bean2DictionaryConverter {
         } else if (String.class.equals(pt)) {
             return DataType.STRING;
         } else if (List.class.equals(pt)) {
-            throw new RuntimeException("Can't have a list of lists, List<List<?>>");
+            throw new InvalidParameterException("Can't have a list of lists, List<List<?>>");
         } else if (Enum.class.isAssignableFrom(pt)) {
             return DataType.STRING;
         } else if (Object.class.equals(pt)) {
@@ -131,7 +134,7 @@ public class Bean2DictionaryConverter {
         } else if (pt.getName().startsWith("org.kuali.student.")) {
             return DataType.COMPLEX;
         } else {
-            throw new RuntimeException("unknown/unhandled type of object in bean " + clazz.getSimpleName() + "." + pt.getName());
+            throw new InvalidParameterException ("unknown/unhandled type of object in bean " + clazz.getSimpleName() + "." + pt.getName());
         }
     }
 }

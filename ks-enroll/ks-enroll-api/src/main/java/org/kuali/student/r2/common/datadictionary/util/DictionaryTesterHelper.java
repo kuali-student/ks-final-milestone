@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -42,7 +45,7 @@ public class DictionaryTesterHelper {
     }
     private transient Map<String, DataObjectEntry> objectStructures;
 
-    public List<String> doTest() {
+    public List<String> doTest() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 "classpath:" + dictFileName);
         objectStructures = new HashMap();

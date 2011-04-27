@@ -15,6 +15,8 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -79,6 +81,7 @@ public class TestDictionaryCreator {
     @Test
     public void testExecute() {
         System.out.println("execute");
+        try{
         new DictionaryCreator().execute(LuiPersonRelationInfo.class);
         new DictionaryCreator().execute(LuiInfo.class);
         new DictionaryCreator().execute(LuiLuiRelationInfo.class);
@@ -108,7 +111,9 @@ public class TestDictionaryCreator {
         // r1 common
         new DictionaryCreator().execute(AmountInfo.class);               
              
-           
+        }catch(Exception ex){
+        	fail(ex.getMessage());
+        }
               
 
 

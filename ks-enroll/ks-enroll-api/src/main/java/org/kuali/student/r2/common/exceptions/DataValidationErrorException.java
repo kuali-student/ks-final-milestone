@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 @WebFault(faultBean="org.kuali.student.r2.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 
-	final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
+	private static final Logger log = Logger.getLogger(DataValidationErrorException.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -115,7 +115,7 @@ public class DataValidationErrorException extends Exception {
 	}
 
 	private void logValidationResults(){
-		LOG.debug(toString());	}
+		log.debug(toString());	}
 
 
 

@@ -321,8 +321,7 @@ AcademicCalendarService {
             ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getTermKeysByType(termTypeKey, context);
     }
 
 
@@ -332,8 +331,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getTermsForTerm(termKey, context);
     }
 
     @Override
@@ -341,8 +339,7 @@ AcademicCalendarService {
             TermInfo termInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.validateTerm(validationType,termInfo, context);
     }
 
     @Override
@@ -351,8 +348,7 @@ AcademicCalendarService {
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.createTerm(termKey,termInfo, context);
     }
 
     @Override
@@ -361,8 +357,7 @@ AcademicCalendarService {
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.updateTerm(termKey,termInfo, context);
     }
 
     @Override
@@ -370,20 +365,17 @@ AcademicCalendarService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.deleteTerm(termKey,context);
     }
 
     @Override
     public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDateType(keyDateTypeKey,context);
     }
 
     @Override
     public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDateTypesForTermType(termTypeKey,context);
     }
 
     @Override
@@ -391,8 +383,7 @@ AcademicCalendarService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDate(keyDateKey,context);
     }
 
     @Override
@@ -400,8 +391,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesByKeyList(keyDateKeyList,context);
     }
 
     @Override
@@ -409,8 +399,7 @@ AcademicCalendarService {
             ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDateKeysByType(keyDateTypeKey,context);
     }
 
     @Override
@@ -419,8 +408,7 @@ AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesForAcademicCalendar(academicCalendarKey,context);
     }
 
     @Override
@@ -429,8 +417,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesForAcademicCalendarByDate(academicCalendarKey,startDate,endDate, context);
     }
 
     @Override
@@ -438,8 +425,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesForTerm(termKey, context);
     }
 
     @Override
@@ -448,8 +434,7 @@ AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesForTermByDate(termKey,startDate, endDate, context);
     }
 
     @Override
@@ -457,8 +442,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getAllKeyDatesForTerm(termKey, context);
     }
 
     @Override
@@ -467,8 +451,7 @@ AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getKeyDatesForAllTermsByDate(termKey,startDate, endDate, context);
     }
 
     @Override
@@ -476,8 +459,7 @@ AcademicCalendarService {
             KeyDateInfo keyDateInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.validateKeyDate(validationType,keyDateInfo , context);
     }
 
     @Override
@@ -486,20 +468,9 @@ AcademicCalendarService {
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.createKeyDateForTerm(termKey,keyDateKey, keyDateInfo , context);
     }
-    /*
-	@Override
-	public KeyDateInfo createKeyDateForCampusCalendar(String campusCalendarKey,
-			String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-     */
+
     @Override
     public KeyDateInfo updateKeyDate(String keyDateKey,
             KeyDateInfo keyDateInfo, ContextInfo context)
@@ -507,8 +478,7 @@ AcademicCalendarService {
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.updateKeyDate(keyDateKey, keyDateInfo , context);
     }
 
     @Override
@@ -516,8 +486,7 @@ AcademicCalendarService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.deleteKeyDate(keyDateKey,  context);
     }
 
     @Override
@@ -527,8 +496,7 @@ AcademicCalendarService {
     InvalidParameterException, 
     MissingParameterException, 
     OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getHolidayType(holidayTypeKey,  context);
     }
 
     @Override
@@ -538,8 +506,7 @@ AcademicCalendarService {
             InvalidParameterException, 
             MissingParameterException, 
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getHolidayTypesForCampusCalendarType(campusCalendarTypeKey,  context);
     }
 
     @Override
@@ -548,8 +515,7 @@ AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getHolidaysForAcademicCalendar(academicCalendarKey,  context);
     }
 
     @Override
@@ -557,8 +523,7 @@ AcademicCalendarService {
             HolidayInfo holidayInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.validateHoliday(validationType,holidayInfo,  context);
     }
 
     @Override
@@ -567,8 +532,7 @@ AcademicCalendarService {
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+      	return this.nextDecorator.createHolidayForCampusCalendar(campusCalendarKey,holidayKey,holidayInfo,  context);
     }
 
     @Override
@@ -578,8 +542,7 @@ AcademicCalendarService {
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.updateHoliday(holidayKey,holidayInfo,  context);
     }
 
     @Override
@@ -587,8 +550,7 @@ AcademicCalendarService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.deleteHoliday(holidayKey,context);
     }
 
     @Override
@@ -596,8 +558,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getRegistrationDateGroup(termKey,context);
     }
 
     @Override
@@ -607,8 +568,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.validateRegistrationDateGroup(validationType,registrationDateGroupInfo, context);
     }
 
     @Override
@@ -619,8 +579,7 @@ AcademicCalendarService {
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.updateRegistrationDateGroup(termKey,registrationDateGroupInfo, context);
     }
 
     @Override
@@ -628,8 +587,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getInstructionalDaysForTerm(termKey, context);
     }
 
     @Override
@@ -638,8 +596,7 @@ AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return this.nextDecorator.getTermsForAcademicCalendar(academicCalendarKey, context);
     }
 
 

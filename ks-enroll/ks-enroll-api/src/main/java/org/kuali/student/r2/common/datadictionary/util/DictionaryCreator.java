@@ -34,6 +34,9 @@ import java.util.Set;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 
 import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 public class DictionaryCreator {
 
@@ -50,12 +53,12 @@ public class DictionaryCreator {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
-    public void execute(Class<?> clazz) {
+    public void execute(Class<?> clazz) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         String outputFileName = "target/ks-" + clazz.getSimpleName() + "-dictionary.xml";
         execute(clazz, outputFileName);
     }
 
-    public void execute(Class<?> clazz, String outputFileName) {
+    public void execute(Class<?> clazz, String outputFileName) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         // Create base dictionary object structure for DTOs that map to entities
         File file = new File(outputFileName);
         OutputStream os;
@@ -67,7 +70,6 @@ public class DictionaryCreator {
         StringBuffer s = new StringBuffer();
         addSpringHeaderOpen(s);
 
-        System.out.println(clazz.getName());
         addObjectStructure(clazz, s, new HashSet<Class<?>>());
 
         addSpringHeaderClose(s);
@@ -80,7 +82,7 @@ public class DictionaryCreator {
     }
 
     private void addObjectStructure(Class<?> clazz, StringBuffer s,
-            Set<Class<?>> processed) {
+            Set<Class<?>> processed) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         //Don't process if processed
         if (processed.contains(clazz)) {
             return;
@@ -258,7 +260,7 @@ public class DictionaryCreator {
     }
 
     private Set<Class<?>> addAttributeDefinition(Class<?> clazz, PropertyDescriptor pd,
-            StringBuffer s, Set<Class<?>> processed) {
+            StringBuffer s, Set<Class<?>> processed) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
 
         //Create the abstract field
@@ -282,7 +284,7 @@ public class DictionaryCreator {
         return dependantStructures;
     }
 
-    private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) {
+    private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
         DataType dataType = Bean2DictionaryConverter.calcDataType(clazz, actualClass);
         return dataType;
@@ -295,7 +297,7 @@ public class DictionaryCreator {
         return false;
     }
 
-    private boolean isComplex(Class<?> clazz, PropertyDescriptor pd) {
+    private boolean isComplex(Class<?> clazz, PropertyDescriptor pd) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         return isComplex(calcDataType(clazz, pd));
     }
 

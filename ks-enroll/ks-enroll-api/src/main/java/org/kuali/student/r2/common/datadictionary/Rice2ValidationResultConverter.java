@@ -32,7 +32,7 @@ import org.kuali.rice.kns.datadictionary.validation.result.ConstraintValidationR
  */
 public class Rice2ValidationResultConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2ValidationResultConverter.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Rice2ValidationResultConverter.class);
 
     public List<ValidationResultInfo> convert(DictionaryValidationResult riceResult) {
         List<ValidationResultInfo> vrs = new ArrayList<ValidationResultInfo>();
@@ -53,7 +53,7 @@ public class Rice2ValidationResultConverter {
                     vrBuilder.setError(cvr.getErrorKey());
                     vrs.add(vrBuilder.build());
                 case WARN:
-                    LOG.debug("Skipping warning " + cvr.getEntryName()
+                    log.debug("Skipping warning " + cvr.getEntryName()
                       + "." + cvr.getAttributeName() + " " +
                       cvr.getErrorKey() + " " + cvr.getConstraintName());
 //                    vr = new ValidationResultInfo();

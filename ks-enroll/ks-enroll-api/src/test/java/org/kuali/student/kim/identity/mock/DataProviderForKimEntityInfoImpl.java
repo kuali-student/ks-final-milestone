@@ -104,12 +104,12 @@ public class DataProviderForKimEntityInfoImpl implements DataProviderForKimEntit
     @Override
     public Object parseValue(String fieldKey, String value) throws IllegalArgumentException {
         DataType dt = this.getDataType(fieldKey);
-        switch (dt) {
-            case STRING:
-                return value.toLowerCase();
-            default:
-                throw new IllegalArgumentException("Search criteria " + fieldKey + " has a data type that is not supported");
+        
+        if(dt.equals(DataType.STRING)){
+            return value.toLowerCase();
+        }else{
+            throw new IllegalArgumentException("Search criteria " + fieldKey + " has a data type that is not supported");
         }
-
+        
     }
 }
