@@ -321,13 +321,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
+	    // why not just check the cache?
 		for (AcademicCalendarInfo info : this.acCache.values()) {
 
-			if (info.getCampusCalendarKey().equals(campusCalendarKey)) {
-
-				CampusCalendarInfo campusCalendar  =  ccCache.get(campusCalendarKey) ;
-				return campusCalendar;
-			}
+		    if ((info.getCampusCalendarKeys() != null) 
+			&& info.getCampusCalendarKeys().contains(campusCalendarKey)) {
+			CampusCalendarInfo campusCalendar = ccCache.get(campusCalendarKey);
+			return campusCalendar;
+		    }
 		}
 		throw new DoesNotExistException(campusCalendarKey);
 	}
@@ -339,16 +340,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
-		for (AcademicCalendarInfo info : this.acCache.values()) {
-
-			if (campusCalendarKeyList.contains(info.getCampusCalendarKey())    ) {
-
-				campusCalendars.add( ccCache.get(info.getCampusCalendarKey()) );
-
-			}
+	    List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
+	    for (AcademicCalendarInfo info : this.acCache.values()) {
+		for (String key : campusCalendarKeyList) {
+		    if ((info.getCampusCalendarKeys() != null) 
+			&& info.getCampusCalendarKeys().contains(key)) {
+			campusCalendars.add(ccCache.get(key));
+		    }
 		}
-		return campusCalendars;
+	    }
+	    
+	    return campusCalendars;
 	}
 
 	@Override
