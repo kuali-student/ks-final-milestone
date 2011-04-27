@@ -30,7 +30,7 @@ public interface AtpAtpRelation extends Relationship {
 
     /**
      *  Name: ATP Key
-     *  A unique identifier for the related ATP.
+     *  A unique identifier for the first ATP in the relation.
      * 
      *  @return the ATP key
      */
@@ -38,7 +38,7 @@ public interface AtpAtpRelation extends Relationship {
 
     /**
      *  Name: Related ATP Key
-     *  A unique identifier for the related ATP.
+     *  A unique identifier for the second ATP in the relation.
      *
      *  @return the ATP key
      */
