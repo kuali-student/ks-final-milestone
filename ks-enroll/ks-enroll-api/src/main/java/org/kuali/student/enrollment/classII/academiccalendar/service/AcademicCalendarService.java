@@ -579,7 +579,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /**
      * This method returns the TypeInfo for a given Term type key.
      *
-     * @param teryTypeKey Key of the type
+     * @param termTypeKey Key of the type
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
@@ -592,7 +592,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public TypeInfo getTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the valid Term types.
+     * This method returns all the valid Term types.
      *
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
@@ -603,6 +603,39 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      */
     public List<TypeInfo> getTermTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid Term types for an
+     * Academic Calendar Type. Only Terms of allowed Types
+     * can be mapped to an Academic Calendar.
+     *
+     * @param academicCalendarTypeKey a key of an academic calendar type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of valid term Types
+     * @throws DoesNotExistException  academicCalendarTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getTermTypesForAcademicCalendarType(@WebParam(name="academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid Term types for a Term Type. Only
+     * Terms of allowed Types can be nested inside another Term.
+     *
+     * @param termTypeKey a key of a term type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of valid term Types
+     * @throws DoesNotExistException  termTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getTermTypesForTermType(@WebParam(name="termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns the details on a term state.
@@ -680,7 +713,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<String> getTermKeysByType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Terms mapped to the given Academic Calendar.
+     * Retrieves a list Terms mapped to the given Academic Calendar
+     * sorted by Term start date.
      *
      * Mappings are managed through Type configuration and inferred by
      * the dates of the calendar and term so operations to manage the
@@ -700,7 +734,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Terms nested inside the given Term.
+     * Retrieves a list Terms nested inside the given Term sorted
+     * by Term start date,
      *
      * Mappings are managed through Type configuration and inferred by
      * the dates of the terms so operations to manage the mappings are
@@ -718,6 +753,22 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<TermInfo> getTermsForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Gets the parent of a nested Term.
+     *
+     * @param termKey a key for a Term
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the parent term or null if it is a root
+     * @throws DoesNotExistException the term is not found
+     * @throws InvalidParameterException invalid termKey
+     * @throws MissingParameterException missing termKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TermInfo getParentTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a term. Depending on the value of validationType,
@@ -802,6 +853,74 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public StatusInfo deleteTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Adds a Term to an AcademicCalendar.
+     *
+     * @param academicCalendarKey the key of an Academic Calendar
+     * @param termKey the key of Term to be added
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the status
+     * @throws DoesNotExistException the Term or Academic Calendar does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addTermToAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Removes a Term from an AcademicCalendar.
+     *
+     * @param academicCalendarKey the key of an Academic Calendar
+     * @param termKey the key of Term to be removed
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the status
+     * @throws DoesNotExistException the Term not part of Academic Calendar
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Adds a Term to a Term.
+     *
+     * @param parentTermKey the key of a Term
+     * @param termKey the key of Term to be added
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the status
+     * @throws DoesNotExistException a Term does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addTermToTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Removes a Term from a Term.
+     *
+     * @param parentTermKey the key of a Term
+     * @param termKey the key of Term to be removed
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the status
+     * @throws DoesNotExistException the Term is notnested inside the parent Term
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removeTermFromTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * This method returns the TypeInfo for a given KeyDate type key.
      *
@@ -883,8 +1002,9 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<String> getKeyDateKeysByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates for an academic calendar. The
-     * dates include all key dates mapped to any terms and sub terms.
+     * Retrieves a list of key dates for an academic calendar sorted
+     * by the date. The dates include all key dates mapped to any
+     * terms and sub terms.
      *
      * @param academicCalendarKey
      * @param context Context information containing the principalId
@@ -900,9 +1020,10 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<KeyDateInfo> getKeyDatesForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates for an academic calendar that 
-     * fall within the given date range inclusive. The dates
-     * include all key dates mapped to any terms and sub terms.
+     * Retrieves a list of key dates for an academic calendar that
+     * fall within the given date range inclusive. The dates include
+     * all key dates mapped to any terms and sub terms and are sorted
+     * by date.
      *
      * @param academicCalendarKey
      * @param startDate the start of the date range
@@ -920,7 +1041,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates immediately mapped to a Term.
+     * Retrieves a list of key dates immediately mapped to a Term
+     * sorted by date.
      *
      * @param termKey
      * @param context Context information containing the principalId
@@ -936,8 +1058,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates for a given Term that 
-     * fall within the given date range inclusive. The dates
+     * Retrieves a list of key dates for a given Term that fall within
+     * the given date range inclusive sorted by date. The dates
      * include only those dates immediate mapped to the Term.
      *
      * @param termKey unique key for a Term
@@ -956,8 +1078,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates for a Term. The dates
-     * include all key dates mapped to any nested terms.
+     * Retrieves a list of key dates for a Term sorted by date. The
+     * dates include all key dates mapped to any nested terms.
      *
      * @param termKey unique key for a Term
      * @param context Context information containing the principalId
@@ -973,9 +1095,9 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<KeyDateInfo> getAllKeyDatesForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of key dates for a given Term that 
-     * fall within the given date range inclusive. The dates
-     * include all key dates mapped to any nested terms.
+     * Retrieves a list of key dates for a given Term that fall within
+     * the given date range inclusive. The dates include all key dates
+     * mapped to any nested terms and are sorted by date.
      *
      * @param termKey unique key for a Term
      * @param startDate start of date range
@@ -1110,7 +1232,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<TypeInfo> getHolidayTypesForCampusCalendarType(@WebParam(name = "campusCalendarTypeKey") String campusCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves a list of holidays for an academic calendar.
+     * Retrieves a list of holidays for an academic calendar sorted by
+     * date.
      *
      * @param academicCalendarKey
      * @param context Context information containing the principalId

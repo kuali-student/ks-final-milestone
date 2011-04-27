@@ -783,6 +783,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return termsToReturn;
 	}
 
+    @Override
+    public TermInfo getParentTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
+
 	@Override
 	public List<ValidationResultInfo> validateTerm(String validationType,
 			TermInfo termInfo, ContextInfo context)
@@ -841,7 +847,29 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return ssBuilder.build();
 	}
 
+    @Override
+    public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
 
+    @Override
+    public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws  DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public StatusInfo addTermToTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public StatusInfo removeTermFromTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
 
 	@Override
 	public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey,
@@ -965,6 +993,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		//Return from DB
 		return null;
 	}
+
+    @Override
+    public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+	return null;
+    }
 
 	@Override
 	public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context)
