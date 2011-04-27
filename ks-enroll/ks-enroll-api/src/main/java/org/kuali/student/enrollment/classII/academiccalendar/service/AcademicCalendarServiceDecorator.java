@@ -287,19 +287,17 @@ AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getTermTypes( context);
+    	return this.nextDecorator.getTermTypes(context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.getTermTypesForAcademicCalendarType(academicCalendarTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.getTermTypesForTermType(termTypeKey, context);
     }
 
     @Override
@@ -336,8 +334,6 @@ AcademicCalendarService {
     	return this.nextDecorator.getTermKeysByType(termTypeKey, context);
     }
 
-
-
     @Override
     public List<TermInfo> getTermsForTerm(String termKey,
             ContextInfo context) throws DoesNotExistException,
@@ -348,8 +344,7 @@ AcademicCalendarService {
 
     @Override
     public TermInfo getParentTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.getParentTerm(termKey, context);
     }
 
     @Override
@@ -388,26 +383,22 @@ AcademicCalendarService {
 
     @Override
     public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.addTermToAcademicCalendar(academicCalendarKey, termKey, context);
     }
 
     @Override
     public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws  DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.removeTermFromAcademicCalendar(academicCalendarKey, termKey, context);
     }
 
     @Override
     public StatusInfo addTermToTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.addTermToTerm(parentTermKey, termKey, context);
     }
 
     @Override
     public StatusInfo removeTermFromTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-	return null;
+    	return this.nextDecorator.removeTermFromTerm(parentTermKey, termKey, context);
     }
 				    
     @Override
