@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -72,7 +73,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();
 	private static Map<String, HolidayInfo> holidaysCache = new HashMap<String, HolidayInfo>();
-
+	private static Map<String, AtpAtpRelationInfo> atpRelationInfoCache = new HashMap<String, AtpAtpRelationInfo>();
+	
 	private DataDictionaryValidator dataDictionaryValidator;
 
 	private AtpService atpService;
@@ -348,10 +350,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	/**
-	 * A simplified mock impl For real impl: 1. Get the Atp by using the acKey
+	 * A simplified mock impl 
+	 * 
+	 * For real impl: 1. Get the Atp by using the acKey
 	 * and calling getAcademicCalendar() 2. Delete the Atp first by invoking
 	 * AtpService.deleteAtp() 3. Delete any AtpAtpRelation for CampusCalendar,
 	 * terms, CredentialProgram etc in the AcademicCalendar
+	 * 
 	 */
 	@Override
 	public StatusInfo deleteAcademicCalendar(String academicCalendarKey,
@@ -537,6 +542,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 	
 	/**
+	 * Simplified mock Impl of createCampusCalendar()
+	 * 
+	 *  For real Impl : 
+	 *  
+	 * Impl: 1. Transform and create ATPInfo out of the CampusCalendarInfo
+	 * 		 2. Go through the AtpService.createAtp() to create an Atp for the AcademicCalendar
 	 * 
 	 */
 	@Override
@@ -552,7 +563,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		ccCache.put(campusCalendarKey, newCampusCalendar);
 		return newCampusCalendar;
 	}
-
+	
+	/**
+	 * A simplified Impl of updateCampusCalendar() 
+	 * 
+	 * Then for impl: 1. Transform and create ATPInfo out of the CampusCalendarInfo
+	 * 2. Invoke the AtpService.updateAtp() to update an Atp for the
+	 * AcademicCalendar
+	 * 
+	 */
 	@Override
 	public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey,
 			CampusCalendarInfo campusCalendarInfo, ContextInfo context)
@@ -568,7 +587,19 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		ccCache.put(campusCalendarKey, campusCalendarBuilder.build());
 		return campusCalendarInfo;
 	}
-
+	
+	/**
+	 * A simplified Impl of deleteCampusCalendar() 
+	 * 
+	 *  for real impl: 
+	 * 
+	 * 1. lookup, the AtpInfo by the campusCalendarKey
+	 * 2. Go through the AtpService.deleteAtp() to delete the campus calendar
+	 * 3. Make sure all AtpAtpRelationInfo is deleted as well when
+	 *  the campus calendar is related to other AcademicCalendar Info
+	 * 4. Delete all AtpMilestone relations to delete CampusCalendar-KeyDate relation 
+	 *  
+	 */
 	@Override
 	public StatusInfo deleteCampusCalendar(String campusCalendarKey,
 			ContextInfo context) throws DoesNotExistException,
@@ -581,23 +612,42 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return statusInfo.build();
 
 	}
-
+	
+	
+	/**
+	 * A simplified Impl of deleteCampusCalendar() 
+	 *  for real impl: 
+	 * 
+	 * 1. lookup, the AtpInfo by the campusCalendarKey
+	 * 2. Go through the AtpService.deleteAtp() to delete the campus calendar
+	 * 3. Make sure all AtpAtpRelationInfo is deleted as well when
+	 *  the campus calendar is related to other AcademicCalendar Info
+	 * 4. Delete all AtpMilestone relations to delete CampusCalendar-KeyDate relation 
+	 */
 	@Override
 	public StateInfo getTermState(String termStateKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String termProcessKey = null;
+		return this.atpService.getState(termProcessKey, termStateKey, context);
 	}
 
+	
+	
 	@Override
 	public List<StateInfo> getTermStates(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+			OperationFailedException, DoesNotExistException {
+		String termProcessKey = null;
+		return this.atpService.getStatesByProcess(termProcessKey, context);
 	}
-
+	
+	
+	
+	/**
+	 * For real impl - call AtpSerive.getAtp () then convert to TermInfo
+	 */
 	@Override
 	public TermInfo getTerm(String termKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -606,7 +656,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return termsCache.get(termKey);
 
 	}
-
+	
+	/**
+	 * For real impl - for each key in the list 
+	 * call getTerm() 
+	 */
 	@Override
 	public List<TermInfo> getTermsByKeyList(List<String> termKeyList,
 			ContextInfo context) throws DoesNotExistException,
@@ -1094,7 +1148,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/** 
+	 * This is a simplified mock Impl
+	 * For a real impl:
+	 * 1.Lookup the AtAtpRelationInfo table and find related atpKey for 
+	 * all the AtpAtpRelationInfo with atpKey equals academicCalendarKey
+	 * 2. Call getTerm() for the list of related keys
+	 *  
+	 * 
+	 */
 	@Override
 	public List<TermInfo> getTermsForAcademicCalendar(
 			String academicCalendarKey, ContextInfo context)
@@ -1102,27 +1164,19 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		AcademicCalendarInfo acInfo = this.acCache.get(academicCalendarKey);
+		
 		List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
-		String typeKey = acInfo.getTypeKey();
+		
+		List <AtpAtpRelationInfo > termACRelationInfos =  (List<AtpAtpRelationInfo>) this.atpRelationInfoCache.values();
+		
+		for (AtpAtpRelationInfo termACRelationInfo : termACRelationInfos) {
 
-		List<TypeTypeRelationInfo> typesRelations = this.atpService
-				.getTypeRelationsByOwnerType(typeKey,
-						"kuali.relationtype.contains", context);
-		// Filter out types from typesRelations which are not campus calendars
-		// or dates etc
-		for (TypeTypeRelationInfo typeRelation : typesRelations) {
-
-			String relatedTypeKey = typeRelation.getRelatedTypeKey();
-			List<TermInfo> termInfos = (List<TermInfo>) termsCache.values();
-			for (TermInfo relatedTermInfo : termInfos) {
-				if (relatedTermInfo.getTypeKey().equals(relatedTypeKey)) {
-					termsToReturn.add(relatedTermInfo);
-				}
-			}
+			String relatedTypeKey =termACRelationInfo.getAtpKey();
+			TermInfo termInfo = termsCache.get(relatedTypeKey);
+			termsToReturn.add(termInfo);
 		}
 
-		;
+		
 		return termsToReturn;
 
 	}

@@ -661,8 +661,9 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
+     * @throws DoesNotExistException 
      */
-    public List<StateInfo> getTermStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StateInfo> getTermStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException;
 
     /** 
      * Retrieves the details of a single Term by a term key.
