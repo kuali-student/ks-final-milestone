@@ -421,8 +421,9 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
+     * @throws DoesNotExistException 
      */
-    public List<StateInfo> getCampusCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StateInfo> getCampusCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException;
 
     /** 
      * Retrieves the details of a single Campus Calendar by an
