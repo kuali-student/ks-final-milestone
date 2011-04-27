@@ -42,7 +42,7 @@ import org.kuali.student.enrollment.classII.academiccalendar.infc.AcademicCalend
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKey", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKeys", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
 
 public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendar, Serializable {
 
@@ -55,7 +55,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private final Date endDate;
 
     @XmlElement
-    private final String campusCalendarKey;
+    private final List<String> campusCalendarKeys;
 
     @XmlElement 
     private final String credentialProgramTypeKey;
@@ -66,7 +66,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private AcademicCalendarInfo() {
         startDate = null;
         endDate = null;
-        campusCalendarKey = null;
+        campusCalendarKeys = null;
         credentialProgramTypeKey = null;
         _futureElements = null;
     }
@@ -82,7 +82,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 
         this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
         this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-        this.campusCalendarKey = academicCalendar.getCampusCalendarKey();
+        this.campusCalendarKeys = academicCalendar.getCampusCalendarKeys();
         this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
 
         _futureElements = null;
@@ -121,12 +121,13 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     /**
-     * Gets the campus calendar key corresponding to this academic
-     * calendar.
+     * Gets the campus calendars key corresponding to this academic
+     * calendar. A multi-year academic calendar may have more than one
+     * campus calendar.
      */
     @Override
-    public String getCampusCalendarKey() {
-        return campusCalendarKey;
+    public List<String> getCampusCalendarKeys() {
+        return campusCalendarKeys;
     }
 
     /**
@@ -144,7 +145,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 
         private Date startDate;
         private Date endDate;
-        private String campusCalendarKey;
+        private List<String> campusCalendarKeys;
         private String credentialProgramTypeKey;
 
 
@@ -161,7 +162,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
 
             this.startDate = academicCalendar.getStartDate();
             this.endDate = academicCalendar.getEndDate();
-            this.campusCalendarKey =  academicCalendar.getCampusCalendarKey();
+            this.campusCalendarKeys =  academicCalendar.getCampusCalendarKeys();
             this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
         }
 
@@ -214,15 +215,20 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         }
 
         /**
-         * Gets the campus calendar key corresponding to this academic
-         * calendar.
+         * Gets the campus calendar keys corresponding to this
+         * academic calendar. A multi-year academic calendar may have
+         * more than one campus calendar.
          */
-        public String getCampusCalendarKey() {
-            return campusCalendarKey;
+        public List<String> getCampusCalendarKeys() {
+            return campusCalendarKeys;
         }
 
-        public void setCampusCalendarKey(String campusCalendarKey) {
-            this.campusCalendarKey = campusCalendarKey;
+        public void setCampusCalendarKeys(List<String> campusCalendarKeys) {
+            this.campusCalendarKeys = campusCalendarKeys;
+        }
+
+        public void addCampusCalendarKey(String campusCalendarKey) {
+            this.campusCalendarKeys.add(campusCalendarKey);
         }
 
         /**

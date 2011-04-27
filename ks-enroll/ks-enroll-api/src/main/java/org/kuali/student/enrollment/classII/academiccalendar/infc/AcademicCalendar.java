@@ -57,9 +57,10 @@ public interface AcademicCalendar extends KeyEntity {
     /**
      * Name: Campus Calendar 
      * Gets the campus calendar key corresponding to this academic
-     * calendar.
+     * calendar. A multi-year academic calendar may have more than one
+     * campus calendar.
      */
-    public String getCampusCalendarKey();
+    public List<String> getCampusCalendarKeys();
 
     /**
      * Name: Credential Program Type Key
