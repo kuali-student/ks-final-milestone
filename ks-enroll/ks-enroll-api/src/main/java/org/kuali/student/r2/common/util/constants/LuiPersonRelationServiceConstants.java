@@ -68,20 +68,31 @@ public class LuiPersonRelationServiceConstants {
     public static final String TEMPORARY_ABSENCE_STATE_KEY = "kuali.lpr.state.temp.absence";
     public static final String WITHDRAWN_STATE_KEY = "kuali.lpr.state.withdrawn";
     public static final String PROBATION_STATE_KEY = "kuali.lpr.state.probation";
+    // advisor states
+    public static final String ACTIVE_STATE_KEY = "kuali.lpr.state.active";
+    public static final String INACTIVE_STATE_KEY = "kuali.lpr.state.inactive";
     /**
      * States used for isntructors of courses
      */
-    public static final String[] COURSE_INSTRUCTOR_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY, UNASSIGNED_STATE_KEY};
+    public static final String INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY = "kuali.lpr.process.instructor.course.assignment";
+    public static final String[] INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY, UNASSIGNED_STATE_KEY};
     /**
-     * Types used for students in courses
+     * States  used for students in courses
      */
-    public static final String[] COURSE_STUDENT_STATE_KEYS = {PLANNED_STATE_KEY, REGISTERED_STATE_KEY, WAITLISTED_STATE_KEY, DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
+    public static final String STUDENT_COURSE_REGISTRATION_PROCESS_KEY = "kuali.lpr.process.student.course.registration";
+    public static final String[] STUDENT_COURSE_REGISTRATION_STATE_KEYS = {PLANNED_STATE_KEY, REGISTERED_STATE_KEY, WAITLISTED_STATE_KEY, DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
     /**
      * States used for instructors of PROGRAMS
      */
-    public static final String[] PROGRAM_ADVISOR_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY, UNASSIGNED_STATE_KEY};
+    public static final String PROGRAM_ADVISOR_ASSIGNMENT_PROCESS_KEY = "kuali.lpr.process.program.advisor.assignment";
+    public static final String[] PROGRAM_ADVISOR_ASSIGNMENT_STATE_KEYS = {ACTIVE_STATE_KEY, INACTIVE_STATE_KEY};
     /**
      * Types used for students in PROGRAMS
      */
-    public static final String[] PROGRAM_STUDENT_STATE_KEYS = {PLANNED_STATE_KEY, INQUIRED_STATE_KEY, APPLIED_STATE_KEY, WAITLISTED_STATE_KEY, DENIED_STATE_KEY, CONFIRMED_STATE_KEY, CANCELED_STATE_KEY, DEFERED_STATE_KEY, ENROLLED_STATE_KEY, TEMPORARY_ABSENCE_STATE_KEY, WITHDRAWN_STATE_KEY, PROBATION_STATE_KEY};
+    public static final String STUDENT_PROGRAM_ENROLLMENT_PROCESS_KEY = "kuali.lpr.process.student.program.enrollment";
+    public static final String[] STUDENT_PROGRAM_ENROLLMENT_STATE_KEYS = {PLANNED_STATE_KEY, INQUIRED_STATE_KEY, APPLIED_STATE_KEY, WAITLISTED_STATE_KEY, DENIED_STATE_KEY, CONFIRMED_STATE_KEY, CANCELED_STATE_KEY, DEFERED_STATE_KEY, ENROLLED_STATE_KEY, TEMPORARY_ABSENCE_STATE_KEY, WITHDRAWN_STATE_KEY, PROBATION_STATE_KEY};
+    /**
+     * All process keys
+     */
+    public static final String[] LPR_PROCESS_KEYS = {STUDENT_COURSE_REGISTRATION_PROCESS_KEY, INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY, STUDENT_PROGRAM_ENROLLMENT_PROCESS_KEY, PROGRAM_ADVISOR_ASSIGNMENT_PROCESS_KEY};
 }
