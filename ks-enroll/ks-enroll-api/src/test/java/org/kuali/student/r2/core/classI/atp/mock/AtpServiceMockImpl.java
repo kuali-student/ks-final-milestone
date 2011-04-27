@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -384,6 +385,54 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
+    public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(List<String> atpAtpRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	// TODO
+	return null;
+    }
+
+    @Override
+    public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	// TODO
+	return null;
+    }
+
+    @Override
     public AtpMilestoneRelationInfo getAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpMilestoneRelationInfo atpM = atpMilestoneRltnCache.get(atpMilestoneRelationId);
         if (null == atpM) {
@@ -487,7 +536,7 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<String> getAtpMilestoneRelationKeysByType(String atpMilestoneRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getAtpMilestoneRelationIdsByType(String atpMilestoneRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

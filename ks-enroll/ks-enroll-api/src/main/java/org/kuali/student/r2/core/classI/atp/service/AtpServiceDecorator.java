@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -357,6 +358,46 @@ public class AtpServiceDecorator implements AtpService {
 		return this.nextDecorator.deleteMilestone(milestoneKey, context);
 	}
 
+    @Override
+    public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.getAtpAtpRelation(atpAtpRelationId, context);
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(List<String> atpAtpRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.getAtpAtpRelationsByIdList(atpAtpRelationIdList, context);
+    }
+
+    @Override
+    public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.getAtpAtpRelationsByAtp(atpKey, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	return this.nextDecorator.validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.createAtpAtpRelation(atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	return this.nextDecorator.updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return this.nextDecorator.deleteAtpAtpRelation(atpAtpRelationId, context);
+    }
+
 	@Override
 	public AtpMilestoneRelationInfo getAtpMilestoneRelation(
 			String atpMilestoneRelationId, ContextInfo context)
@@ -380,13 +421,13 @@ public class AtpServiceDecorator implements AtpService {
 	}
 
 	@Override
-	public List<String> getAtpMilestoneRelationKeysByType(
+	public List<String> getAtpMilestoneRelationIdsByType(
 			String atpMilestoneRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException,
 			MissingParameterException,
 			OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelationKeysByType(atpMilestoneRelationTypeKey, context);
+		return this.nextDecorator.getAtpMilestoneRelationIdsByType(atpMilestoneRelationTypeKey, context);
 	}
 
 	@Override
