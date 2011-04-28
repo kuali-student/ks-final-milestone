@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.datadictionary.infc.ValidCharactersConstraint
  */
 public class Student2RiceValidCharactersConstraintConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Student2RiceValidCharactersConstraintConverter.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Student2RiceValidCharactersConstraintConverter.class);
 
     public ValidCharactersConstraint convert(ValidCharactersConstraintInfc student) {
        ValidCharactersConstraint rice = new ValidCharactersConstraint ();

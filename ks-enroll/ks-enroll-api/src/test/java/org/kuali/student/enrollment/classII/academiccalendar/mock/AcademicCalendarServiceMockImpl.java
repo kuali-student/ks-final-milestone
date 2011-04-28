@@ -989,8 +989,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<TypeTypeRelationInfo> typesRelations = this.atpService
 				.getTypeRelationsByOwnerType(termInfo.getTypeKey(),
 						"kuali.relationtype.contains", context);
-		// //Filter out types from typesRelations which are not campus calendars
-		// or dates etc
+	
 		for (TypeTypeRelationInfo typeRelation : typesRelations) {
 
 			String relatedTypeKey = typeRelation.getRelatedTypeKey();

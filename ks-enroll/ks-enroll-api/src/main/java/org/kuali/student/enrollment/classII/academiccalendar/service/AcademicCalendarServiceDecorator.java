@@ -206,7 +206,7 @@ AcademicCalendarService {
     }
 
     @Override
-    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
 		return this.nextDecorator.getCampusCalendarStates(context);
     }
 
@@ -306,7 +306,7 @@ AcademicCalendarService {
     }
 
     @Override
-    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
 		return this.nextDecorator.getTermStates(context);
     }
 

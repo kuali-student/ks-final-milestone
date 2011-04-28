@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintI
  */
 public class Rice2StudentValidCharactersConstraintConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Rice2StudentValidCharactersConstraintConverter.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Rice2StudentValidCharactersConstraintConverter.class);
 
     public ValidCharactersConstraintInfo convert(ValidCharactersConstraint rice) {
        ValidCharactersConstraintInfo.Builder bldr = new ValidCharactersConstraintInfo.Builder();

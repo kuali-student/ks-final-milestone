@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
  */
 public class Student2RiceDictionaryEntryConverter {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Student2RiceDictionaryEntryConverter.class);
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Student2RiceDictionaryEntryConverter.class);
 
     public DataObjectEntry convert(DictionaryEntry student) {
         DataObjectEntry rice = new DataObjectEntry ();
