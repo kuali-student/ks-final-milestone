@@ -36,6 +36,8 @@ public class AtpServiceConstants {
     /**
      * ATP Types
      */
+    
+    public static final String ATP_KEY_PREFIX = "kuali.atp.key";
     public static final String ATP_ACADEMIC_CALENDAR_TYPE_KEY = "kuali.atp.type.AcademicCalendar";
     public static final String ATP_CAMPUS_CALENDAR_TYPE_KEY = "kuali.atp.type.CampusCalendar";
     // reporting groups

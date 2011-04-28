@@ -32,6 +32,7 @@ public class LuiPersonRelationServiceConstants {
     /**
      * Types and knowns groups of types
      */
+    public static final String LPR_KEY_PREFIX = "kuali.lpr";
     public static final String INSTRUCTOR_MAIN_TYPE_KEY = "kuali.lpr.type.instructor.main";
     public static final String INSTRUCTOR_ASSISTANT_TYPE_KEY = "kuali.lpr.type.instructor.assistant";
     public static final String INSTRUCTOR_SUPPORT_TYPE_KEY = "kuali.lpr.type.instructor.support";
