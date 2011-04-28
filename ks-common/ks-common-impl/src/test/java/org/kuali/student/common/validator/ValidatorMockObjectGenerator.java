@@ -67,4 +67,35 @@ public class ValidatorMockObjectGenerator {
 
     	return person;
     }
+
+    public static ConstraintMockPerson buildTestPerson4() {
+    	ConstraintMockPerson person = new ConstraintMockPerson();
+    	
+    	person.setFirstName("first");
+    	person.setLastName("last");
+    	person.setEmail("first@test.com");
+    	person.setType("STUDENT");
+    	person.setState("CREATE");
+    	person.setId("P1");
+    	ServerDateParser dp = new ServerDateParser();    	
+    	person.setDob(dp.parseDate("1978-01-01"));
+    	
+    	ConstraintMockAddress address = new ConstraintMockAddress();
+    	address.setState("DRAFT");
+    	address.setType("MAILING");
+    	address.setId("A1");
+    	address.setCity("TLH");
+    	address.setStateCode("");
+    	address.setCountry("CAN");
+    	address.setLine1("linevalue");
+    	address.setLine2("linevalue");
+    	address.setPostalCode("56722");
+    	    	
+    	List<ConstraintMockAddress> addressL = new ArrayList<ConstraintMockAddress>();
+    	addressL.add(address);
+    	
+    	person.setAddress(addressL);
+
+    	return person;
+    }
 }

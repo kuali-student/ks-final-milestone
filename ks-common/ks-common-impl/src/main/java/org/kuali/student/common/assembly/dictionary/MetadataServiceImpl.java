@@ -379,7 +379,7 @@ public class MetadataServiceImpl {
                         if (constraint.getErrorLevel() == ErrorLevel.ERROR){
 	                        // Set the required for next state flag
 	                        if (values.contains(nextState)) {
-	                            if (constraint.getMinOccurs() > 0) {
+	                            if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
 	                                constraintMetadata.setRequiredForNextState(true);
 	                                constraintMetadata.setNextState(nextState);
 	                            }

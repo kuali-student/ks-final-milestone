@@ -90,6 +90,7 @@
    <list>
     <ref bean="line1" />
     <ref bean="line2" />
+    <ref bean="country" />    
     <ref bean="province" />
     <ref bean="postalCode" />
     <ref bean="address.type" />
@@ -213,17 +214,74 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="3" />
   <property name="minLength" value="2" />
-  <property name="minOccurs" value="1" />
+  <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
+  <property name="caseConstraint">
+   <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="country"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
+       <property name="values">
+        <list>
+         <value>CAN</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
+         <property name="caseConstraint">
+          <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
+           <property name="operator" value="EQUALS"/>
+           <property name="fieldPath" value="state"/>
+           <property name="caseSensitive" value="false"/>
+           <property name="whenConstraint">
+            <list>
+             <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
+              <property name="values">
+               <list>
+                <value>ACTIVE</value>
+               </list>
+              </property>
+              <property name="constraint">
+               <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
+                <property name="maxLength" value="3" />
+                <property name="minLength" value="2" />
+                <property name="minOccurs" value="1" />
+               </bean>
+              </property>
+             </bean>
+            </list>
+           </property>
+          </bean>
+         </property>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
 
+
+ <bean id="country"
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
+  <property name="name" value="country" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="6" />
+  <property name="minLength" value="1" />
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="1" />  
+ </bean>
 
  <bean id="postalCode"
        class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="postalCode" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="6" />
-  <property name="minLength" value="6" />
+  <property name="minLength" value="1" />
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />  
  </bean>
@@ -234,7 +292,7 @@
   <property name="name" value="type" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="60" />
-  <property name="minLength" value="60" />
+  <property name="minLength" value="1" />
   <property name="minOccurs" value="1" />
   <property name="maxOccurs" value="1" />
  </bean>
@@ -244,7 +302,7 @@
   <property name="name" value="state" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="60" />
-  <property name="minLength" value="60" />
+  <property name="minLength" value="1" />
   <property name="minOccurs" value="1" />
  </bean>
 
