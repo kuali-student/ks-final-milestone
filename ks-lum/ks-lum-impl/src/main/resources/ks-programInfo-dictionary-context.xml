@@ -1610,28 +1610,90 @@
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
-    <property name="operator" value="HAS_VALUE"/>
-    <property name="fieldPath" value="/endProgramEntryTerm"/>
-    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationEndTerm"/>
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>true</value>
+         <value>DRAFT</value>
         </list>
        </property>
        <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluInfo.lastAtp-parent">
-         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
-         <property name="minOccurs" value="1" />
-         <property name="errorLevel" value="WARN"/>
-         <property name="labelKey" value="validation.variationEndTerm"/>         
+        <bean parent="constraint">
+          <property name="caseConstraint">
+			   <bean parent="caseConstraint">
+			    <property name="operator" value="HAS_VALUE"/>
+			    <property name="fieldPath" value="/endProgramEntryTerm"/>
+			    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationEndTerm"/>
+			    <property name="caseSensitive" value="false"/>
+			    <property name="whenConstraint">
+			     <list>
+			      <bean parent="whenConstraint">
+			       <property name="values">
+			        <list>
+			         <value>true</value>
+			        </list>
+			       </property>
+			       <property name="constraint">
+			        <!--Copy all the properties from above adding minOccurs = 1-->
+			        <bean parent="cluInfo.lastAtp-parent">
+			         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
+			         <property name="minOccurs" value="1" />
+			         <property name="errorLevel" value="WARN"/>
+			         <property name="labelKey" value="validation.variationEndTerm"/>         
+			        </bean>
+			       </property>
+			      </bean>
+			     </list>
+			    </property>
+			   </bean>
+          </property>                   
         </bean>
        </property>
       </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="constraint">
+          <property name="caseConstraint">
+			   <bean parent="caseConstraint">
+			    <property name="operator" value="HAS_VALUE"/>
+			    <property name="fieldPath" value="/endProgramEntryTerm"/>
+			    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationEndTerm"/>
+			    <property name="caseSensitive" value="false"/>
+			    <property name="whenConstraint">
+			     <list>
+			      <bean parent="whenConstraint">
+			       <property name="values">
+			        <list>
+			         <value>true</value>
+			        </list>
+			       </property>
+			       <property name="constraint">
+			        <!--Copy all the properties from above adding minOccurs = 1-->
+			        <bean parent="cluInfo.lastAtp-parent">
+			         <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
+			         <property name="minOccurs" value="1" />
+			         <property name="errorLevel" value="ERROR"/>
+			         <property name="labelKey" value="validation.variationEndTerm"/>         
+			        </bean>
+			       </property>
+			      </bean>
+			     </list>
+			    </property>
+			   </bean>
+          </property>                   
+        </bean>
+       </property>
+      </bean>      
      </list>
     </property>
    </bean>
