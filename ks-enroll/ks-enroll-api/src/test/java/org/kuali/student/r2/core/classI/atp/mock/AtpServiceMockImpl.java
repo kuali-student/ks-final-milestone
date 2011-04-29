@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -38,7 +39,6 @@ import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
 import org.kuali.student.test.utilities.MockHelper;
 
-
 /**
  * This is a mock memory based implementation for ATP service
  * 
@@ -49,6 +49,7 @@ public class AtpServiceMockImpl implements AtpService {
     private Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
     private Map<String, AtpMilestoneRelationInfo> atpMilestoneRltnCache = new HashMap<String, AtpMilestoneRelationInfo>();
+    private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
@@ -386,50 +387,104 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        AtpAtpRelationInfo atpRltn = atpAtpRltnCache.get(atpAtpRelationId);
+        if (null == atpRltn) {
+            throw new DoesNotExistException("No atp atp relationship found for: " + atpAtpRelationId);
+        }
+
+        return atpRltn;
     }
 
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(List<String> atpAtpRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        List<AtpAtpRelationInfo> atpRltnList = new ArrayList<AtpAtpRelationInfo>();
+
+        for (String id : atpAtpRelationIdList) {
+            atpRltnList.add(this.getAtpAtpRelation(id, context));
+        }
+
+        return atpRltnList;
     }
 
     @Override
     public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        List<String> atpRltnList = new ArrayList<String>();
+
+        Set<String> atpRltnIds = atpAtpRltnCache.keySet();
+
+        for (String id : atpRltnIds) {
+            AtpAtpRelationInfo rltn = atpAtpRltnCache.get(id);
+            if (rltn.getTypeKey().equalsIgnoreCase(atpAtpRelationTypeKey)) {
+                atpRltnList.add(id);
+            }
+        }
+
+        return atpRltnList;
     }
 
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        List<AtpAtpRelationInfo> atpRltnList = new ArrayList<AtpAtpRelationInfo>();
+
+        Set<String> atpRltnIds = atpAtpRltnCache.keySet();
+
+        for (String id : atpRltnIds) {
+            AtpAtpRelationInfo rltn = atpAtpRltnCache.get(id);
+            if (rltn.getAtpKey().equalsIgnoreCase(atpKey) || rltn.getRelatedAtpKey().equalsIgnoreCase(atpKey)) {
+                atpRltnList.add(rltn);
+            }
+        }
+
+        return atpRltnList;
     }
 
     @Override
     public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	// TODO
-	return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        MockHelper helper = new MockHelper();
+        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder(atpAtpRelationInfo);
+        builder.setMetaInfo(helper.createMeta(context));
+        builder.setId(UUIDHelper.genStringUUID());
+        AtpAtpRelationInfo copy = builder.build();
+        this.atpAtpRltnCache.put(copy.getId(), copy);
+        return copy;
     }
 
     @Override
     public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-	// TODO
-	return null;
+        AtpAtpRelationInfo existing = this.atpAtpRltnCache.get(atpAtpRelationId);
+        if (existing == null) {
+            throw new DoesNotExistException(atpAtpRelationId);
+        }
+        if (!atpAtpRelationInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
+            throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
+        }
+        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder(atpAtpRelationInfo);
+        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        // update attributes in order to be different than that in luiPersonRelationInfo
+        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        for (AttributeInfo att : atpAtpRelationInfo.getAttributes()) {
+            atts.add(new AttributeInfo.Builder(att).build());
+        }
+        builder.setAttributes(atts);
+        AtpAtpRelationInfo copy = builder.build();
+        this.atpAtpRltnCache.put(atpAtpRelationId, copy);
+
+        return copy;
     }
 
     @Override
     public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	// TODO
-	return null;
+        if (this.atpAtpRltnCache.remove(atpAtpRelationId) == null) {
+            throw new DoesNotExistException(atpAtpRelationId);
+        }
+        StatusInfo.Builder bldr = new StatusInfo.Builder();
+        bldr.setSuccess(Boolean.TRUE);
+        return bldr.build();
     }
 
     @Override
@@ -531,13 +586,28 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByIdList(List<String> atpMilestoneRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<AtpMilestoneRelationInfo> atpRltnList = new ArrayList<AtpMilestoneRelationInfo>();
+
+        for (String id : atpMilestoneRelationIdList) {
+            atpRltnList.add(this.getAtpMilestoneRelation(id, context));
+        }
+
+        return atpRltnList;
     }
 
     @Override
     public List<String> getAtpMilestoneRelationIdsByType(String atpMilestoneRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> atpRltnList = new ArrayList<String>();
+
+        Set<String> atpRltnIds = atpMilestoneRltnCache.keySet();
+
+        for (String id : atpRltnIds) {
+            AtpMilestoneRelationInfo rltn = atpMilestoneRltnCache.get(id);
+            if (rltn.getTypeKey().equalsIgnoreCase(atpMilestoneRelationTypeKey)) {
+                atpRltnList.add(id);
+            }
+        }
+
+        return atpRltnList;
     }
 }
