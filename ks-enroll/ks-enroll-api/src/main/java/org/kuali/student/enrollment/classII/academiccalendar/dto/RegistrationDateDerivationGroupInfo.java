@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
  */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationDateDerivationGroupInfo", propOrder = {"registrationStartDateTermKey", "registrationEndDateTermKey", "classStartDateTermKey", "classEndDateTermKey", "addDateTermKey", "dropDateTermKey", "finalExamStartDateTermKey", "finalExamEndDateTermKey", "gradingStartDateTermKey", "gradingEndDateTerKey", "_futureElements"})
+@XmlType(name = "RegistrationDateDerivationGroupInfo", propOrder = {"registrationStartDateTermKey", "registrationEndDateTermKey", "classStartDateTermKey", "classEndDateTermKey", "addDateTermKey", "dropDateTermKey", "finalExamStartDateTermKey", "finalExamEndDateTermKey", "gradingStartDateTermKey", "gradingEndDateTermKey", "_futureElements"})
 
 public class RegistrationDateDerivationGroupInfo implements RegistrationDateDerivationGroup, Serializable {
 
