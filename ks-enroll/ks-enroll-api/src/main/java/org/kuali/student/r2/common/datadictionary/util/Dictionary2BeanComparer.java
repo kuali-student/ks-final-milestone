@@ -21,10 +21,6 @@ import java.util.List;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-
 
 public class Dictionary2BeanComparer {
 
@@ -36,7 +32,7 @@ public class Dictionary2BeanComparer {
         this.osDict = osDict;
     }
 
-    public List<String> compare() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    public List<String> compare() {
         if (className == null) {
             return Arrays.asList(osDict.getFullClassName() + " does not have a corresponding java class");
         }

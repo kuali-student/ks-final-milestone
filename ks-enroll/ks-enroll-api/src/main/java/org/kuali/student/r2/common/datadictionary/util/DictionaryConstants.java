@@ -15,11 +15,9 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
-
 public class DictionaryConstants {
 
     public static final int UNBOUNDED = 999999999;
     public static final int SINGLE = 1;
-
 }
 

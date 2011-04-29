@@ -1,0 +1,96 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+
+<import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- AtpAtpRelationInfo-->
+<bean id="atpAtpRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+<property name="name" value="atpAtpRelationInfo"/>
+<property name="objectClass" value="org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo"/>
+<property name="objectLabel" value=""/>
+<property name="objectDescription" value=""/>
+<property name="primaryKeys">
+<list>
+<value>id</value>
+</list>
+</property>
+<property name="attributes">
+<list>
+<ref bean="atpAtpRelationInfo.id"/>
+<ref bean="atpAtpRelationInfo.typeKey"/>
+<ref bean="atpAtpRelationInfo.stateKey"/>
+<ref bean="atpAtpRelationInfo.effectiveDate"/>
+<ref bean="atpAtpRelationInfo.expirationDate"/>
+<ref bean="atpAtpRelationInfo.atpKey"/>
+<ref bean="atpAtpRelationInfo.relatedAtpKey"/>
+<ref bean="atpAtpRelationInfo.attributes"/>
+<ref bean="atpAtpRelationInfo.metaInfo"/>
+</list>
+</property>
+</bean>
+<bean id="atpAtpRelationInfo" parent="atpAtpRelationInfo-parent"/>
+
+<bean id="atpAtpRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+<property name="name" value="id"/>
+</bean>
+<bean id="atpAtpRelationInfo.id" parent="atpAtpRelationInfo.id-parent"/>
+
+<bean id="atpAtpRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+<property name="name" value="typeKey"/>
+</bean>
+<bean id="atpAtpRelationInfo.typeKey" parent="atpAtpRelationInfo.typeKey-parent"/>
+
+<bean id="atpAtpRelationInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+<property name="name" value="stateKey"/>
+</bean>
+<bean id="atpAtpRelationInfo.stateKey" parent="atpAtpRelationInfo.stateKey-parent"/>
+
+<bean id="atpAtpRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+<property name="name" value="effectiveDate"/>
+</bean>
+<bean id="atpAtpRelationInfo.effectiveDate" parent="atpAtpRelationInfo.effectiveDate-parent"/>
+
+<bean id="atpAtpRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+<property name="name" value="expirationDate"/>
+</bean>
+<bean id="atpAtpRelationInfo.expirationDate" parent="atpAtpRelationInfo.expirationDate-parent"/>
+
+<bean id="atpAtpRelationInfo.atpKey-parent" abstract="true" parent="baseKualiString">
+<property name="name" value="atpKey"/>
+</bean>
+<bean id="atpAtpRelationInfo.atpKey" parent="atpAtpRelationInfo.atpKey-parent"/>
+
+<bean id="atpAtpRelationInfo.relatedAtpKey-parent" abstract="true" parent="baseKualiString">
+<property name="name" value="relatedAtpKey"/>
+</bean>
+<bean id="atpAtpRelationInfo.relatedAtpKey" parent="atpAtpRelationInfo.relatedAtpKey-parent"/>
+
+<bean id="atpAtpRelationInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+<property name="name" value="attributes"/>
+<!--<property name="maxOccurs" value="999999999"/>-->
+</bean>
+<bean id="atpAtpRelationInfo.attributes" parent="atpAtpRelationInfo.attributes-parent"/>
+
+<bean id="atpAtpRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+<property name="name" value="metaInfo"/>
+</bean>
+<bean id="atpAtpRelationInfo.metaInfo" parent="atpAtpRelationInfo.metaInfo-parent"/>
+</beans>

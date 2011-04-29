@@ -27,21 +27,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-
 public class ComplexSubstructuresHelper {
 
-    public Set<String> getComplexStructures(String className) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    public Set<String> getComplexStructures(String className) {
         Set<String> complexStructures = new LinkedHashSet<String>();
         loadComplexStructures(className, complexStructures);
         return complexStructures;
     }
 
     private void loadComplexStructures(String className,
-            Set<String> complexStructures) throws InvalidParameterException, MissingParameterException, ReadOnlyException{
-        if (!complexStructures.add(className))   {
+            Set<String> complexStructures) {
+        if (!complexStructures.add(className)) {
             return;
         }
         BeanInfo beanInfo;
@@ -49,13 +45,13 @@ public class ComplexSubstructuresHelper {
         try {
             clazz = Class.forName(className);
         } catch (ClassNotFoundException ex) {
-        	throw new InvalidParameterException("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: "+ className);
-           
+            System.out.println("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: " + className);
+            return;
         }
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
         } catch (IntrospectionException ex) {
-            throw new InvalidParameterException(ex.getMessage());
+            throw new RuntimeException(ex);
         }
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             Class<?> subClass = pd.getPropertyType();
@@ -81,7 +77,7 @@ public class ComplexSubstructuresHelper {
         }
     }
 
-    public static Class<?> getActualClassFromList(Class<?> classToCheck, String fieldName) throws MissingParameterException, InvalidParameterException, ReadOnlyException {
+    public static Class<?> getActualClassFromList(Class<?> classToCheck, String fieldName) {
         // recursively check super classes for field if not declared on this class
         while (true) {
             try {
@@ -93,13 +89,13 @@ public class ComplexSubstructuresHelper {
             } catch (NoSuchFieldException ex) {
                 classToCheck = classToCheck.getSuperclass();
                 if (classToCheck == null) {
-                    throw new MissingParameterException(ex.getMessage());
+                    throw new RuntimeException(ex);
                 }
                 if (classToCheck.equals(Object.class)) {
-                    throw new InvalidParameterException(ex.getMessage());
+                    throw new RuntimeException(ex);
                 }
             } catch (SecurityException ex) {
-                throw new ReadOnlyException(ex.getMessage());
+                throw new RuntimeException(ex);
             }
         }
     }

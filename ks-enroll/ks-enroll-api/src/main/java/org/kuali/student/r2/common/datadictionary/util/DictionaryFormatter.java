@@ -34,9 +34,6 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 public class DictionaryFormatter {
 
@@ -52,35 +49,37 @@ public class DictionaryFormatter {
         this.outputFileName = outputFileName;
     }
 
-    public void formatForHtml() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    public void formatForHtml() {
         File file = new File(this.outputFileName);
         OutputStream outputStream;
         try {
             outputStream = new FileOutputStream(file, false);
         } catch (FileNotFoundException ex) {
-            throw new IllegalArgumentException(ex);
+            throw new IllegalArgumentException(this.outputFileName, ex);
         }
         PrintStream out = new PrintStream(outputStream);
-        writeHeader(out);
+        writeHeader(out, dictFileName);
         writeBody(out);
         writeFooter(out);
         out.close();
     }
 
-    private void writeHeader(PrintStream out) {
+    public static void writeHeader(PrintStream out, String title) {
         out.println("<html>");
         out.println("<head>");
-        writeTag(out, "title", dictFileName);
+        writeTag(out, "title", title);
         out.println("</head>");
         out.println("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
     }
 
-    private void writeFooter(PrintStream out) {
+    public static void writeFooter(PrintStream out) {
         out.println("</body>");
         out.println("</html>");
     }
 
-    private void writeBody(PrintStream out) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    private void writeBody(PrintStream out) {
+        out.println("<a href=\"index.html\">home</a>");
+        out.println ("<br>");
         out.println("(!) This page was automatically generated on " + new Date());
         out.print(" and is a formatted view of ");
         writeLink(out, projectUrl + "/" + this.dictFileName, "this file");
@@ -193,8 +192,9 @@ public class DictionaryFormatter {
         out.println("<h1>Field Definitions</h1>");
         // check for discrepancies first
         List<String> discrepancies = new Dictionary2BeanComparer(ode.getFullClassName(), ode).compare();
-        out.println("No discrepancies were found between the dictionary definition and the java object");
-        if (discrepancies.size() > 0) {
+        if (discrepancies.isEmpty()) {
+            out.println("No discrepancies were found between the dictionary definition and the java object");
+        } else {
             out.println("<b>" + discrepancies.size() + " discrepancie(s) were found between the dictionary definition and the java object" + "</b>");
             out.println("<ol>");
             for (String discrepancy : discrepancies) {
@@ -397,11 +397,11 @@ public class DictionaryFormatter {
         return " ";
     }
 
-    private String calcSimpleName(String simpleName) {
-        if (simpleName.lastIndexOf(".") != -1) {
-            simpleName = simpleName.substring(simpleName.lastIndexOf(".") + 1);
+    private String calcSimpleName(String name) {
+        if (name.lastIndexOf(".") != -1) {
+            name = name.substring(name.lastIndexOf(".") + 1);
         }
-        return simpleName;
+        return name;
     }
 
     private String calcNotSoSimpleName(String name) {
@@ -851,11 +851,11 @@ public class DictionaryFormatter {
         return str;
     }
 
-    public void writeTag(PrintStream out, String tag, String value) {
+    public static void writeTag(PrintStream out, String tag, String value) {
         writeTag(out, tag, null, value);
     }
 
-    public void writeTag(PrintStream out, String tag, String modifiers, String value) {
+    public static void writeTag(PrintStream out, String tag, String modifiers, String value) {
         if (value == null) {
             return;
         }
@@ -872,7 +872,7 @@ public class DictionaryFormatter {
         out.println("");
     }
 
-    public String escapeXML(String s) {
+    public static String escapeXML(String s) {
         StringBuffer sb = new StringBuffer();
         int n = s.length();
         for (int i = 0; i < n; i++) {

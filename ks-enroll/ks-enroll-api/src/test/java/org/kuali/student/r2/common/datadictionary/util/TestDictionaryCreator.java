@@ -35,7 +35,6 @@ import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
-import org.kuali.student.r2.common.datadictionary.util.DictionaryCreator;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ComparisonInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -49,6 +48,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 
 /**
  *
@@ -88,6 +88,7 @@ public class TestDictionaryCreator {
         new DictionaryCreator().execute(AtpInfo.class);
         new DictionaryCreator().execute(MilestoneInfo.class);
         new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
+        new DictionaryCreator().execute(AtpAtpRelationInfo.class);
         new DictionaryCreator().execute(AcademicCalendarInfo.class);
         new DictionaryCreator().execute(CampusCalendarInfo.class);
         new DictionaryCreator().execute(RegistrationDateGroupInfo.class);

@@ -16,57 +16,46 @@
 package org.kuali.student.r2.common.datadictionary.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DictionaryTesterHelper {
 
     private String outputFileName;
-    private String className;
     private String dictFileName;
     private String projectUrl;
 
     public DictionaryTesterHelper(String outputFileName,
-            String className,
             String projectUrl,
             String dictFileName) {
         this.outputFileName = outputFileName;
-        this.className = className;
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
     }
-    private transient Map<String, DataObjectEntry> objectStructures;
 
-    public List<String> doTest() throws InvalidParameterException, MissingParameterException, ReadOnlyException {
-        ApplicationContext ac = new ClassPathXmlApplicationContext(
-                "classpath:" + dictFileName);
-        objectStructures = new HashMap();
+    public List<String> doTest() {
+//        if (!new File(dictFileName).exists()) {
+//            throw new IllegalArgumentException(dictFileName + " does not exist");
+//        }
+//        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
+        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
         Map<String, DataObjectEntry> beansOfType =
                 (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
-        for (DataObjectEntry objStr : beansOfType.values()) {
-            objectStructures.put(objStr.getFullClassName(), objStr);
-            System.out.println("Loading object structure: " + objStr.getFullClassName());
+        for (DataObjectEntry doe : beansOfType.values()) {
+            System.out.println("Loading object structure: " + doe.getFullClassName());
+            DictionaryValidator validator = new DictionaryValidator(doe, new HashSet());
+            List<String> errors = validator.validate();
+            if (errors.size() > 0) {
+                return errors;
+            }
+            DictionaryFormatter formatter = new DictionaryFormatter(doe, projectUrl, dictFileName, outputFileName);
+            formatter.formatForHtml();
+            return new ArrayList<String>();
         }
-        DataObjectEntry ode = null;
-        ode = objectStructures.get(className);
-        if (ode == null) {
-            throw new RuntimeException("className is not defined in dictionary: " + className);
-        }
-        DictionaryValidator validator = new DictionaryValidator(ode, new HashSet());
-        List<String> errors = validator.validate();
-        if (errors.size() > 0) {
-            return errors;
-        }
-        DictionaryFormatter formatter = new DictionaryFormatter(ode, projectUrl, dictFileName, outputFileName);
-        formatter.formatForHtml();
-        return new ArrayList<String>();
+        return null;
     }
 }

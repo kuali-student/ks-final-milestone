@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
@@ -32,9 +31,6 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
-
-
-
 
 public class DictionaryValidator {
 
@@ -55,7 +51,7 @@ public class DictionaryValidator {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     public List<String> validate() {
         List<String> errors = new ArrayList();
         if (ode.getFullClassName() == null) {
@@ -64,7 +60,7 @@ public class DictionaryValidator {
         if (ode.getEntryClass() == null) {
             errors.add("The entry class should not be left null");
         }
-        if ( ! ode.getEntryClass().getName ().equals(ode.getFullClassName())) {
+        if (!ode.getEntryClass().getName().equals(ode.getFullClassName())) {
             errors.add("The entry class should match the full class name");
         }
 
