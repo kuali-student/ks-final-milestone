@@ -155,6 +155,7 @@
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
     <ks.java2ws.phase>none</ks.java2ws.phase>
+    <ks.contractdoc.phase>site</ks.contractdoc.phase>
   </properties>
   <build>
     <pluginManagement>
