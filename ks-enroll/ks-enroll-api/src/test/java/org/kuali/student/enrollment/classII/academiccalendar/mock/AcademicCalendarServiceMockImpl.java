@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
@@ -33,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -723,32 +725,61 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 	}
 
+	/**
+	 * 
+	 * Real impl:
+	 * 
+	 * 1. Academic Calendars contain campusCalendar (Get AcademicCalendar from ATPService and then find the linked campus calendar)
+	 * 2.CampusCalendar contains key dates (Get key dates from campus calendar by calling getMilestonesByAtp())
+	 * 
+	 *  
+	 */
 	@Override
 	public List<KeyDateInfo> getKeyDatesForAcademicCalendar(
 			String academicCalendarKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-
-		return null;
+		
+		AcademicCalendarInfo acInfo = this.acCache.get(academicCalendarKey);
+		
+		List<MilestoneInfo> milestoneInfoDates =  this.atpService.getMilestonesByAtp(academicCalendarKey, context);
+		//map milestone to keydateinfo
+		List <KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
+		
+		return keyDates;
+		 
+		
 	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public List<KeyDateInfo> getKeyDatesForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO implement after DateRange changes
-		return null;
+		List<MilestoneInfo> termMilestones  = this.atpService.getMilestonesByAtp(termKey, context);
+		//convert milstones to keydates
+		List<KeyDateInfo> keyDatesForTerm = new ArrayList<KeyDateInfo>();
+		
+		return keyDatesForTerm;
 	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO implement after DateRange changes
-		return null;
+		
+		List <KeyDateInfo> initialKeyDates = getKeyDatesForTerm(termKey, context);
+		List<TermInfo> allTermsForTerm = getTermsForTerm(termKey, context);
+		for(TermInfo subTerm : allTermsForTerm){
+			initialKeyDates.addAll(getKeyDatesForTerm(subTerm.getKey(), context));
+		}
+		return initialKeyDates;
 	}
 
 	@Override
