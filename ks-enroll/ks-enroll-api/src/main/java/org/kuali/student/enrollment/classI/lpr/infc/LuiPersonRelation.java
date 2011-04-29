@@ -16,11 +16,14 @@
 package org.kuali.student.enrollment.classI.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Detailed information about a single LUI to Person Relation.
+ * 
+ * This is used to link together a learning unit instance and a person in such widely defined
+ * domains as a student registering in a course or an instructor being assigned
+ * to advise students in a particular program.
  *
  * @Author KSContractMojo
  * @Author Kamal

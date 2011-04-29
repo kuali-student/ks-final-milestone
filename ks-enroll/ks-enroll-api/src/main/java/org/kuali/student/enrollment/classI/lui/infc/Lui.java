@@ -17,48 +17,36 @@ package org.kuali.student.enrollment.classI.lui.infc;
 
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
-import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.common.infc.HasState;
-import org.kuali.student.r2.common.infc.HasType;
 import org.kuali.student.r2.common.infc.IdEntity;
 
+/**
+ * Detailed information about a single LUI.
+ */
 public interface Lui
         extends IdEntity,
         HasEffectiveDates {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
+     * Name: Lui Code
      * Code identifier/name for the LUI. This is typically used
      * human readable form (e.g. ENGL 100 section 123).
      */
     public String getLuiCode();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for a Canonical Learning Unit (CLU).
+     * Name: Clu Id
+     * Unique identifier for the Canonical Learning Unit (CLU) of which this is an instance.
      */
     public String getCluId();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * Unique identifier for an Academic Time Period (ATP).
+     * Name: ATP Key
+     * Unique identifier for the Academic Time Period (ATP) for which this instance is offered.
      */
     public String getAtpKey();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Integer
-     * <p/>
+     * Name: Maximum Seats
      * Maximum number of "seats" that the LUI will hold for registration.
      */
     public Integer getMaxSeats();

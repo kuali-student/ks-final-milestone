@@ -16,13 +16,14 @@
 package org.kuali.student.enrollment.classII.academiccalendar.infc;
 
 import java.util.Date;
-import java.util.List;
 
 import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
- * Information about an Academic Calendar.
+ * Information about a Term.
+ *
+ * A term is the time period in which a  course may be offered.
  *
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011

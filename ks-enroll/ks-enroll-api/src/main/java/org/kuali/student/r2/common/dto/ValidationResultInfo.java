@@ -51,31 +51,17 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         this._futureElements = null;
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.OK
-     */
+
     @Override
     public boolean isOk() {
         return getLevel() == ErrorLevel.OK.getLevel();
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.WARN
-     */
     @Override
     public boolean isWarn() {
         return getLevel() == ErrorLevel.WARN.getLevel();
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.ERROR
-     */
     @Override
     public boolean isError() {
         return getLevel() == ErrorLevel.ERROR.getLevel();
@@ -127,7 +113,8 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         public ValidationResultInfo build() {
             return new ValidationResultInfo(this);
         }              
-        
+
+        @Override
         public String getElement() {
             return element;
         }
@@ -136,6 +123,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
             this.element = element;
         }
 
+        @Override
         public Integer getLevel() {
             return level;
         }
@@ -144,6 +132,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
             this.level = level;
         }
 
+        @Override
         public String getMessage() {
             return message;
         }
@@ -152,6 +141,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
             this.message = message;
         }
 
+        @Override
         public Object getInvalidData() {
             return invalidData;
         }

@@ -39,67 +39,57 @@ public interface ValidationResult {
         }
     }
 
-
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Message explaining this validation result
+     *
+     * If an error it is an an error message.
+     *
+     * TODO: decide if this is a key that then gets resolved into a real localized message using the message service or the final localized message itself
      */
     public String getMessage();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * Name: Element
+     *
+     * Identifies the element (field) that is the focus of the validation.
+     * Uses xpath (dot) notation to navigate to the field, for example:
+     * officialIdentifier.code
+     *
+     * TODO: find out how repeating substructures are handled in this notation, with [n] occurrence brackets?
      */
     public String getElement();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * Returns the ValidationResult's error level
+     * Name: Level
+     *
+     * Indicates the serverity of the validation error
+     *
+     * 0=OK
+     * 1=WARN
+     * 2=ERROR
      */
     public Integer getLevel();
 
     /**
-     * 
-     * Invalid data causing the error or warning
-     * <p/>
-     * Type: Object
-     * <p/>
-     * @return data causing the error or warning
+     * Name: Invalid Data
+     *
+     * The actual data that caused the error or warning.  Used to help debug problems.
+     *
+     * Note: Since this is an "Object" it should be flagged as transient and os not remoted through the web servce
      */
     public Object getInvalidData();
-    
+
     /**
-     * Get ????
-     * <p/>
-     * Type: boolean
-     * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
      */
     public boolean isOk();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: boolean
-     * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
      */
     public boolean isWarn();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: boolean
-     * <p/>
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
      */
     public boolean isError();

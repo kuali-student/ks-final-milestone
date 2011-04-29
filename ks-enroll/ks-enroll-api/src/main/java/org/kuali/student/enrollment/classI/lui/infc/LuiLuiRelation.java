@@ -18,6 +18,9 @@ package org.kuali.student.enrollment.classI.lui.infc;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
+/**
+ * Detailed information about a LUI to LUI relationship.
+ */
 public interface LuiLuiRelation
 		extends IdEntity,
         HasEffectiveDates {

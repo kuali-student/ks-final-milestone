@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation 
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -32,9 +32,6 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 
-/**
- * Detailed information about a LUI to LUI relationship.
- */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiLuiRelationInfo", propOrder = {"id","typeKey","stateKey", "name", "descr", "luiId", "relatedLuiId", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})

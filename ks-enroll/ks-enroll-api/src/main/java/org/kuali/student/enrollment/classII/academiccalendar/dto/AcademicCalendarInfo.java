@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -34,12 +34,6 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classII.academiccalendar.infc.AcademicCalendar;
 
 
-/**
- * Information about an academic calendar.
- *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
- */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKeys", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
@@ -88,52 +82,25 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         _futureElements = null;
     }
 
-    /**
-     * Date and time the academic calendar becomes effective. This
-     * does not provide a bound on date ranges or milestones
-     * associated with this time calendar, but instead indicates the
-     * calendar proper. This is a similar concept to the effective
-     * date on enumerated values. When an end date has been specified,
-     * this field must be less than or equal to the end date.
-     *
-     * @return the Academic Calendar start date
-     */
+
     @Override
     public Date getStartDate() {
         return startDate;
     }
 
-    /**
-     * Date and time the academic calendar becomes
-     * ineffective. This does not provide a bound on date ranges or
-     * milestones associated with this calendar, but instead
-     * indicates the calendar proper. If specified, this must be
-     * greater than or equal to the start date. If this field is not
-     * specified, then no end date has been currently defined
-     * and should automatically be considered greater than the
-     * effective date.
-     *
-     * @return the Academic Calendar end date
-     */
+
     @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * Gets the campus calendars key corresponding to this academic
-     * calendar. A multi-year academic calendar may have more than one
-     * campus calendar.
-     */
+
     @Override
     public List<String> getCampusCalendarKeys() {
         return campusCalendarKeys;
     }
 
-    /**
-     * Gets the credential program type key to which this calendar
-     * relates.
-     */
+    @Override
     public String getCredentialProgramTypeKey() {
         return credentialProgramTypeKey;
     }
@@ -166,59 +133,35 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
             this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
         }
 
-        /**
-         * Builds the AcademicCalendar.
-         *
-         * @return a new AcademicCalendar
-         */
+ 
         public AcademicCalendarInfo build() {
             return new AcademicCalendarInfo(this);
         }
 
-        /**
-         * Gets the start date.
-         *
-         * @return the Academic Calendar start date
-         */
+
         @Override
         public Date getStartDate() {
             return startDate;
         }
 
-        /**
-         * Sets the Academic Calendar start date.
-         *
-         * @param startDate the start date for the Academic Calendar
-         */
+
         public void setStartDate(Date startDate) {
             this.startDate = startDate;
         }
 
-        /**
-         * Gets the start date.
-         *
-         * @return the Academic Calendar end date
-         */
+  
         @Override
         public Date getEndDate() {
             return endDate;
         }
 
-        /**
-         * Sets the Academic Calendar end date.
-         *
-         * @param endDate the end date for the Academic Calendar
-         */
 
         public void setEndDate(Date endDate) {
             this.endDate = endDate;
         }
 
-        /**
-         * Gets the campus calendar keys corresponding to this
-         * academic calendar. A multi-year academic calendar may have
-         * more than one campus calendar.
-         */
+
+        @Override
         public List<String> getCampusCalendarKeys() {
             return campusCalendarKeys;
         }
@@ -231,10 +174,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
             this.campusCalendarKeys.add(campusCalendarKey);
         }
 
-        /**
-         * Gets the credential program type key to which this calendar
-         * relates.
-         */
+        @Override
         public String getCredentialProgramTypeKey() {
             return credentialProgramTypeKey;
         }

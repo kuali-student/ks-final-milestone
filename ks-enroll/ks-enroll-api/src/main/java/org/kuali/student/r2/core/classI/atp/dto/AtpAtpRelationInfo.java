@@ -13,7 +13,6 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.classI.atp.dto;
 
 import java.io.Serializable;
@@ -31,34 +30,22 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.classI.atp.infc.AtpAtpRelation;
 
-
-/**
- * Information about an ATP-ATP Relationship.
- *
- * @Author tom
- * @Since Tue Apr 23 14:22:34 EDT 2011
- */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpAtpRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "relatedAtpKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
-
 public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private final String atpKey;
-
     @XmlElement
     private final String relatedAtpKey;
-
     @XmlAnyElement
-    private final List<Element> _futureElements;  
+    private final List<Element> _futureElements;
 
     private AtpAtpRelationInfo() {
         atpKey = null;
         relatedAtpKey = null;
-	_futureElements = null;
+        _futureElements = null;
     }
 
     /**
@@ -71,24 +58,14 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelati
         super(atpr);
         this.atpKey = atpr.getAtpKey();
         this.relatedAtpKey = atpr.getRelatedAtpKey();
-	_futureElements = null;
+        _futureElements = null;
     }
 
-    /**
-     * Gets the ATP key in this relationship.
-     *
-     * @return the ATP key
-     */
     @Override
     public String getAtpKey() {
         return atpKey;
     }
 
-    /**
-     * Gets the related ATP key in this relationship.
-     *
-     * @return the related ATP key
-     */
     @Override
     public String getRelatedAtpKey() {
         return relatedAtpKey;
@@ -102,66 +79,45 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelati
         private String atpKey;
         private String relatedAtpKey;
 
-	/**
-	 * Constructs a new builder.
-	 */
+        /**
+         * Constructs a new builder.
+         */
         public Builder() {
         }
 
-	/**
-	 *  Constructs a new builder initialized from another
-	 *  AtpAtpRelation.
-	 */
+        /**
+         *  Constructs a new builder initialized from another
+         *  AtpAtpRelation.
+         */
         public Builder(AtpAtpRelation atprInfo) {
             super(atprInfo);
             this.atpKey = atprInfo.getAtpKey();
             this.relatedAtpKey = atprInfo.getRelatedAtpKey();
         }
 
-	/**
-	 * Builds the AtpAtpRelation.
-	 *
-	 * @return a new AtpAtpRelation
-	 */
+        @Override
         public AtpAtpRelationInfo build() {
             return new AtpAtpRelationInfo(this);
         }
 
-	/**
-	 * Gets the ATP key in this relation.
-	 *
-	 * @return the ATP key
-	 */
+
         @Override
         public String getAtpKey() {
             return atpKey;
         }
 
-	/**
-	 * Sets the ATP key in this relation.
-	 *
-	 * @param atpKey the ATP key
-	 */
+
         public void setAtpKey(String atpKey) {
             this.atpKey = atpKey;
         }
 
-	/**
-	 * Gets the related ATP key in this relation.
-	 *
-	 * @return the related ATP key
-	 */
+
         @Override
         public String getRelatedAtpKey() {
             return relatedAtpKey;
         }
 
-	/**
-	 * Sets the related Atp key in this relation.
-	 *
-	 * @param relatedAtpKey the related Atp key
-	 */
-
+ 
         public void setRelatedAtpKey(String relatedAtpKey) {
             this.relatedAtpKey = relatedAtpKey;
         }

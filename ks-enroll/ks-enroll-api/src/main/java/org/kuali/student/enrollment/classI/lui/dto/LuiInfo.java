@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation 
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -27,15 +27,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.classI.lui.infc.Lui;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 
-/**
- * Detailed information about a single LUI.
- */
+
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
@@ -87,58 +84,32 @@ public class LuiInfo extends IdEntityInfo
 		this._futureElements = null;
 	}
 
-    /**
-     * Code identifier/name for the LUI. This is typically used in
-     * human readable form (e.g. ENGL 100 section 123).
-     */
     @Override
     public String getLuiCode() {
         return luiCode;
     }
 
-    /**
-     * Unique identifier for a Canonical Learning Unit (CLU).
-     */
     @Override
     public String getCluId() {
         return cluId;
     }
 
-    /**
-     * Unique identifier for an Academic Time Period (ATP).
-     */
     @Override
     public String getAtpKey() {
         return atpKey;
     }
 
-    /**
-     * Maximum number of "seats" that the LUI will hold for registration.
-     */
     @Override
     public Integer getMaxSeats() {
         return maxSeats;
     }
 
-    /**
-     * Date and time that this LUI became effective. This is a similar
-     * concept to the effective date on enumerated values. When an
-     * expiration date has been specified, this field must be less
-     * than or equal to the expiration date.
-     */
+
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    /**
-     * Date and time that this LUI expires. This is a similar concept
-     * to the expiration date on enumerated values. If specified, this
-     * should be greater than or equal to the effective date. If this
-     * field is not specified, then no expiration date has been
-     * currently defined and should automatically be considered
-     * greater than the effective date.
-     */
     @Override
     public Date getExpirationDate() {
         return expirationDate;

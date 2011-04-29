@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -30,13 +30,6 @@ import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classII.academiccalendar.infc.RegistrationDateGroup;
 
-
-/**
- * A cluster of hardened dates pertinent to an academic term.
- *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
- */ 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationDateGroupInfo", propOrder = {"registrationDateDerivationGroup", "termKey", "registrationDateRange", "classDateRange", "addDate", "dropDate", "finalExamDateRange", "gradingDateRange", "_futureElements"})

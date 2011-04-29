@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.classII.academiccalendar.infc;
 
 import java.util.Date;
-import java.util.List;
 
 import org.kuali.student.r2.common.infc.KeyEntity;
 
