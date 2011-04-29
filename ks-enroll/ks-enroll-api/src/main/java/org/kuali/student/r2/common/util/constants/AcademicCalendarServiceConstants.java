@@ -54,4 +54,12 @@ public class AcademicCalendarServiceConstants {
     // TODO: Map to Grading Start Date periods
     // public static final String GRADING_PERIOD_START_TYPE_KEY = ????
     public static final String GRADING_PERIOD_END_TYPE_KEY = AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY;
+
+    /**
+     * Academic Calendard Process
+     */
+    public static final String ACADEMIC_CALENDAR_PROCESS_KEY = AtpServiceConstants.ATP_PROCESS_KEY;
+    public static final String ACADEMIC_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
+    public static final String ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
+    public static final String[] ACADEMIC_CALENDAR_PROCESS_STATE_KEYS = {ACADEMIC_CALENDAR_DRAFT_STATE_KEY, ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY};
 }

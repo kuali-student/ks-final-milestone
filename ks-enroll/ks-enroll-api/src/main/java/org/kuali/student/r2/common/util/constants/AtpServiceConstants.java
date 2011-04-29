@@ -28,7 +28,6 @@ public class AtpServiceConstants {
     /**
      * Reference Object URI's
      */
-
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "atp";
     public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
@@ -203,9 +202,37 @@ public class AtpServiceConstants {
      */
     public static final String MILESTONE_OFFICIAL_STATE_KEY = "kuali.milestone.state.Official";
     public static final String MILESTONE_DRAFT_STATE_KEY = "kuali.milestone.state.Draft";
+    public static final String MILESTONE_PROCESS_KEY = "kuali.milestone.process";
+    public static final String[] MILESTONE_PROCESS_STATE_KEYS = {MILESTONE_DRAFT_STATE_KEY, MILESTONE_OFFICIAL_STATE_KEY};
     /**
      * ATP States
      */
-    public static final String ATP_OFFICIAL_STATE_KEY = "kuali.atp.state.Official";
     public static final String ATP_DRAFT_STATE_KEY = "kuali.atp.state.Draft";
+    public static final String ATP_OFFICIAL_STATE_KEY = "kuali.atp.state.Official";
+    public static final String ATP_PROCESS_KEY = "kuali.atp.process";
+    public static final String[] ATP_PROCESS_STATE_KEYS = {ATP_DRAFT_STATE_KEY, ATP_OFFICIAL_STATE_KEY};
+    /**
+     * ATP ATP Relation Types
+     */
+    public static final String ATP_ATP_RELATION_CONTAINS_TYPE_KEY = "kuali.atp.atp.relation.contains";
+    public static final String ATP_ATP_RELATION_PRECEDES_TYPE_KEY = "kuali.atp.atp.relation.precedes";
+    /**
+     * ATP ATP Relation States
+     */
+    public static final String ATP_ATP_RELATION_ACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.active";
+    public static final String ATP_ATP_RELATION_INACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.inactive";
+    public static final String ATP_ATP_RELATION_PROCESS_KEY = "kuali.atp.atp.relation.process";
+    public static final String[] ATP_ATP_RELATION_PROCESS_STATE_KEYS = {ATP_ATP_RELATION_ACTIVE_STATE_KEY, ATP_ATP_RELATION_INACTIVE_STATE_KEY};
+    /**
+     * ATP Milestone Relation Types
+     */
+    public static final String ATP_MILESTONE_RELATION_OWNS_TYPE_KEY = "kuali.atp.milestone.relation.owns";
+    public static final String ATP_MILESTONE_RELATION_REUSES_TYPE_KEY = "kuali.atp.milestone.relation.reuses";
+    /**
+     * ATP ATP Relation States
+     */
+    public static final String ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.active";
+    public static final String ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.inactive";
+    public static final String ATP_MILESTONE_RELATION_PROCESS_KEY = "kuali.atp.milestone.relation.process";
+    public static final String[] ATP_MILESTONE_RELATION_pROCESS_STATE_KEYS = {ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY};
 }
