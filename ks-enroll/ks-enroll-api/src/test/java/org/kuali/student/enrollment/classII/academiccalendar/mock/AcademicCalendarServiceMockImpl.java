@@ -16,7 +16,7 @@ import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
 import org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
+
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -54,8 +53,9 @@ import org.kuali.student.test.utilities.MockHelper;
  * mock implementations with consistent data
  * 
  *  The suggestion on how to implement each of these methods/operations are 
- *  documented on the top of each method wherever applicable
- * 
+ *  documented in the javadoc for each method (wherever applicable)
+ *  
+ *  
  * Version: 1.0 (Dev)
  *
  * @Author sambit
@@ -75,9 +75,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();
 	private static Map<String, HolidayInfo> holidaysCache = new HashMap<String, HolidayInfo>();
-	private static Map<String, AtpAtpRelationInfo> atpRelationInfoCache = new HashMap<String, AtpAtpRelationInfo>();
+	private static Map<String, AtpMilestoneRelationInfo> atpMilestoneCache = new HashMap<String, AtpMilestoneRelationInfo>();
+	private static Map<String, AtpAtpRelationInfo > atpAtpCache = new HashMap<String, AtpAtpRelationInfo>();
 	
-	private DataDictionaryValidator dataDictionaryValidator;
+	
+
 
 	private AtpService atpService;
 
@@ -240,9 +242,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 	/**
 	 * Simplified mock impl of getAcademicCalendarsByCredentialProgramType().
-	 * For the real impl: 1. Get ATPs for the particular year 1. filter ATPs of
-	 * AC type 2. Get the ACInfo object by getting id of each ATP and calling
-	 * getAcademicCalendar() 3. Filter the ACs of the particular
+	 * For the real impl: 
+	 * 1. Get ATPs for the particular year 
+	 * 2. filter ATPs of AC type 
+	 * 3. Get the ACInfo object by getting id of each ATP and calling
+	 * getAcademicCalendar() 
+	 * 4. Filter the ACs of the particular
 	 * credentialProgramTypeKey
 	 */
 	@Override
@@ -263,7 +268,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	/**
-	 * Real impl
+	 * Real impl should:
+	 * 
+	 * 1. Use Validation decorator 
+	 * 2. implement the logic for this method in the decor
+	 * 3. let this method  be just a pass-through 
 	 * 
 	 */
 	@Override
@@ -273,14 +282,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType), academicCalendarInfo,
-					context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+		
 		return validationResult;
 	}
 
@@ -419,7 +421,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		for (AcademicCalendarInfo info : this.acCache.values()) {
 
 			if (info.getKey().equals(academicCalendarKey)) {
-
+				
 			}
 		}
 		return null;
@@ -523,7 +525,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 	
 	/**
-	 * Real impl
+	 *	1. Use Validation decorator 
+	 * 2. implement the logic for this method in the decor
+	 * 3. let this method  be just a pass-through 
 	 */
 	@Override
 	public List<ValidationResultInfo> validateCampusCalendar(
@@ -532,14 +536,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType), campusCalendarInfo,
-					context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+	
 		return validationResult;
 	}
 	
@@ -636,7 +633,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	
-	
+	/**
+	 * 
+	 */
 	@Override
 	public List<StateInfo> getTermStates(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
@@ -676,7 +675,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		}
 		return matchingTerms;
 	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public List<String> getTermKeysByType(String termTypeKey,
 			ContextInfo context) throws InvalidParameterException,
@@ -752,7 +753,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		
 	}
 	/**
-	 * 
+	 * 1. 
 	 */
 	@Override
 	public List<KeyDateInfo> getKeyDatesForTerm(String termKey,
@@ -762,6 +763,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<MilestoneInfo> termMilestones  = this.atpService.getMilestonesByAtp(termKey, context);
 		//convert milstones to keydates
 		List<KeyDateInfo> keyDatesForTerm = new ArrayList<KeyDateInfo>();
+		
 		
 		return keyDatesForTerm;
 	}
@@ -781,7 +783,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		}
 		return initialKeyDates;
 	}
-
+	/**
+	 * 	   1. Use Validation decorator 
+		 * 2. implement the logic for this method in the decor
+		 * 3. let this method  be just a pass-through 
+	 */
 	@Override
 	public List<ValidationResultInfo> validateKeyDate(String validationType,
 			KeyDateInfo keyDateInfo, ContextInfo context)
@@ -789,13 +795,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException {
 
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType), keyDateInfo, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+		
 		return validationResult;
 	}
 
@@ -805,8 +805,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO implement after DateRange changes
-		return null;
+		
+		AtpMilestoneRelationInfo.Builder  atpMileRelBuilder = new AtpMilestoneRelationInfo.Builder();
+		atpMileRelBuilder.setAtpKey(termKey);
+		atpMileRelBuilder.setMilestoneKey(keyDateKey);
+		AtpMilestoneRelationInfo atpInfo =	atpMileRelBuilder.build();
+		AtpMilestoneRelationInfo atpMilestoneInfo =  this.atpService.createAtpMilestoneRelation(atpInfo, context);
+		// convert atpMilestoneInfo to KeyDateInfo
+		KeyDateInfo.Builder builder = new KeyDateInfo.Builder();
+		builder.setKey(atpMilestoneInfo.getMilestoneKey());
+		return builder.build();
+		
+		
 	}
 
 	@Override
@@ -816,8 +826,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO implement after DateRange changes
-		return null;
+		
+		MilestoneInfo.Builder keyDate = new MilestoneInfo.Builder();
+		keyDate.setKey(keyDate.getKey());
+		keyDate.setName(keyDate.getName());
+		keyDate.setDateRange(keyDateInfo.getIsDateRange()); 
+		this.atpService.updateMilestone(keyDateKey, keyDate.build(), context);
+		return keyDateInfo;
 	}
 
 	@Override
@@ -825,8 +840,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO implement after DateRange changes
-		return null;
+		return this.atpService.deleteMilestone(keyDateKey, context);
+		
 	}
 
 	@Override
@@ -841,23 +856,21 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<MilestoneInfo> milestonesForAtp = this.atpService
 				.getMilestonesByAtp(ccInfo.getKey(), context);
 		List<HolidayInfo> holidays = new ArrayList<HolidayInfo>();
-		// TODO convert milestonesForAtp to HolidayInfo list
 		return holidays;
 	}
-
+	/**
+	 * 
+	 * 1. Use Validation decorator 
+	 * 2. implement the logic for this method in the decor
+	 * 3. let this method  be just a pass-through 
+	 */
 	@Override
 	public List<ValidationResultInfo> validateHoliday(String validationType,
 			HolidayInfo holidayInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType), holidayInfo, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+		
 		return validationResult;
 	}
 
@@ -868,21 +881,25 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-		if (!holidaysCache.containsKey(holidayKey)) {
-			holidaysCache.put(holidayKey, holidayInfo);
-		}
-
-		CampusCalendarInfo ccInfo = ccCache.get(campusCalendarKey);
-
 		AtpMilestoneRelationInfo.Builder atpMilestoneRelationInfoBuilder = new AtpMilestoneRelationInfo.Builder();
 		atpMilestoneRelationInfoBuilder.setMilestoneKey(holidayKey);
 		atpMilestoneRelationInfoBuilder.setAtpKey(campusCalendarKey);
-
-		AtpMilestoneRelationInfo newAtpInfo = this.atpService
-				.createAtpMilestoneRelation(
-						atpMilestoneRelationInfoBuilder.build(), context);
-
-		return holidaysCache.get(newAtpInfo.getMilestoneKey());
+		
+		AtpMilestoneRelationInfo atMileInfo = atpMilestoneRelationInfoBuilder.build();
+		this.atpService.createAtpMilestoneRelation(atMileInfo, context);
+		
+		MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
+		
+		MilestoneInfo mInfoNew =  this.atpService.createMilestone(holidayKey, mInfo, context);
+		
+		HolidayInfo.Builder hBuilder =new HolidayInfo.Builder();
+		hBuilder.setAttributes(mInfoNew.getAttributes());
+		hBuilder.setDescr(mInfoNew.getDescr());
+		hBuilder.setIsDateRange(mInfo.getIsDateRange());
+		hBuilder.setKey(mInfo.getKey());
+		
+		return  hBuilder.build();
+		
 	}
 
 	@Override
@@ -893,9 +910,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 
-		holidaysCache.remove(holidayKey);
-		holidaysCache.put(holidayKey, holidayInfo);
-		return holidayInfo;
+			MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
+			
+			
+			MilestoneInfo returnMInfo = this.atpService.updateMilestone(holidayKey, mInfo, context);
+			HolidayInfo.Builder hInfo = new HolidayInfo.Builder(); 
+			hInfo.setAttributes(returnMInfo.getAttributes());
+			hInfo.setName(returnMInfo.getName());
+			hInfo.setDescr (returnMInfo.getDescr());
+			hInfo.setIsAllDay(returnMInfo.getIsAllDay());
+			hInfo.setKey (returnMInfo.getKey());
+			return hInfo.build();
 	}
 
 	@Override
@@ -904,7 +929,6 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		holidaysCache.remove(holidayKey);
 
 		List<AtpMilestoneRelationInfo> atpMilestoneRelations = this.atpService
 				.getAtpMilestoneRelationsByMilestone(holidayKey, context);
@@ -914,9 +938,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 					atpMilestoneRelation.getId(), context);
 		}
 
-		StatusInfo.Builder statInfoBuilder = new StatusInfo.Builder();
-		statInfoBuilder.setSuccess(true);
-		return statInfoBuilder.build();
+		return  this.atpService.deleteMilestone(holidayKey, context);
 	}
 
 	@Override
@@ -1043,20 +1065,19 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 
+	 * 1. Use Validation decorator 
+	 * 2. implement the logic for this method in the decor
+	 * 3. let this method  be just a pass-through 
+	 */
 	@Override
 	public List<ValidationResultInfo> validateTerm(String validationType,
 			TermInfo termInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType), termInfo, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+
 		return validationResult;
 	}
 
@@ -1147,7 +1168,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 1. Use Validation decorator 
+	 * 2. implement the logic for this method in the decor
+	 * 3. let this method  be just a pass-through 
+	 */
 	@Override
 	public List<ValidationResultInfo> validateRegistrationDateGroup(
 			String validationType,
@@ -1156,14 +1181,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		try {
-			validationResult = this.dataDictionaryValidator.validate(
-					DataDictionaryValidator.ValidationType
-							.fromString(validationType),
-					registrationDateGroupInfo, context);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
+
 		return validationResult;
 	}
 
@@ -1197,7 +1215,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		
 		List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
 		
-		List <AtpAtpRelationInfo > termACRelationInfos =  (List<AtpAtpRelationInfo>) this.atpRelationInfoCache.values();
+		List <AtpAtpRelationInfo > termACRelationInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
 		
 		for (AtpAtpRelationInfo termACRelationInfo : termACRelationInfos) {
 
@@ -1316,5 +1334,16 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private MilestoneInfo createMilestoneFromHoliday(HolidayInfo holidayInfo){
+		MilestoneInfo.Builder mInfo = new MilestoneInfo.Builder();
+		mInfo.setAttributes(holidayInfo.getAttributes());
+		mInfo.setName(holidayInfo.getName());
+		mInfo.setDateRange(holidayInfo.getIsDateRange() );
+		mInfo.setDescr(holidayInfo.getDescr());
+		mInfo.setKey(holidayInfo.getKey());
+		
+		return mInfo.build();
 	}
 }

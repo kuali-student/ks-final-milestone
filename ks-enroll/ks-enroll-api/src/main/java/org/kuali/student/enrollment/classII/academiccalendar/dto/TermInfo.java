@@ -22,11 +22,10 @@ import org.w3c.dom.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
+
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classII.academiccalendar.infc.Term;
 
 @XmlAccessorType(XmlAccessType.FIELD)
