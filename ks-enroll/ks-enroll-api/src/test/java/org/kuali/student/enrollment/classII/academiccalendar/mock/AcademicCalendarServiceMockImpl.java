@@ -74,9 +74,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();
-	private static Map<String, HolidayInfo> holidaysCache = new HashMap<String, HolidayInfo>();
-	private static Map<String, AtpMilestoneRelationInfo> atpMilestoneCache = new HashMap<String, AtpMilestoneRelationInfo>();
-	private static Map<String, AtpAtpRelationInfo > atpAtpCache = new HashMap<String, AtpAtpRelationInfo>();
+	
 	
 	
 
@@ -1127,9 +1125,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public StatusInfo addTermToAcademicCalendar(String academicCalendarKey,
 			String termKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+		AtpAtpRelationInfo.Builder atpAtpRelation = new AtpAtpRelationInfo.Builder();
+		atpAtpRelation.setAtpKey(termKey);
+		atpAtpRelation.setAtpKey(academicCalendarKey);
+		AtpAtpRelationInfo atpAtpInfo =  this.atpService.createAtpAtpRelation(atpAtpRelation.build(), context);
+		return new StatusInfo.Builder().build();
 	}
 
 	@Override
@@ -1138,8 +1139,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AtpAtpRelationInfo> atpRelInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
+		for(AtpAtpRelationInfo atpRelInfo : atpRelInfos){
+			if(atpRelInfo.getRelatedAtpKey().equals(termKey)){ 
+				this.atpService.deleteAtpAtpRelation(atpRelInfo.getId(), context);
+			}
+		}
+		
+		return new StatusInfo.Builder().build();
 	}
 
 	@Override
@@ -1280,8 +1288,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public List<TypeInfo> getTermTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// Return from DB
-		return null;
+		return	null;
 	}
 
 	@Override
@@ -1307,7 +1314,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-		return null;
+		return	this.atpService.getType(keyDateTypeKey, context);
 	}
 
 	@Override
@@ -1323,8 +1330,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return	this.atpService.getType(holidayTypeKey, context);
 	}
 
 	@Override
