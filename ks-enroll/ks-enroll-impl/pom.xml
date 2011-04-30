@@ -32,13 +32,13 @@
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-test</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-impl</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -86,6 +86,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>3.2.0.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>1.5.4</version>
@@ -113,6 +118,12 @@
             <groupId>com.atomikos</groupId>
             <artifactId>transactions-hibernate3</artifactId>
             <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.7</version>
+						<scope>test</scope>
         </dependency>
     </dependencies>
 </project>

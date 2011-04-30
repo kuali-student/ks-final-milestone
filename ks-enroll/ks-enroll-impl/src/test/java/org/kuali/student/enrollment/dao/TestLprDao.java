@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.classI.lpr.service.utilities.Constants;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
-@Ignore
 public class TestLprDao extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.enrollment.classI.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql")
 	private LprDao dao;

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -563,7 +562,6 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	}
 	
 	@Test
-	@Ignore
 	public void testValidate(){
 		enumService.setEnumDAO(enumerationManagementDAO);
 		
