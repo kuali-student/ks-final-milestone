@@ -15,13 +15,11 @@
 
 package org.kuali.student.enrollment.classI.hold.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
 
 import org.kuali.student.enrollment.classI.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.classI.hold.dto.HoldCategoryInfo;
@@ -185,12 +183,11 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws MissingParameterException missing validationTypeKey, holdInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateHold(@WebParam(name = "validationType") String validationType, @WebParam(name = "holdInfo") HoldInfo HoldInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateHold(@WebParam(name = "validationType") String validationType, @WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a new Hold.
      *
-     * @param holdId the Id of the Hold to be created
      * @param holdInfo Details of the Hold to be created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -280,7 +277,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
 
     /** 
      * Retrieves a list Hold Categories corresponding to a list of
-     * hold category keys.
+     * hold category Ids.
      *
      * @param holdCategoryIdList list of unique Ids of the
      *        Hold Category to be retrieved
@@ -359,7 +356,6 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     /** 
      * Creates a new Hold Category.
      *
-     * @param holdCategoryId the id of the Hold Category to be created
      * @param holdCategoryInfo Details of the Hold Category to be created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -372,7 +368,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public HoldCategoryInfo createHoldCategory(@WebParam(name = "holdCategoryId") String holdCategoryId, @WebParam(name = "holdCategoryInfo") HoldCategoryInfo holdCategoryInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HoldCategoryInfo createHoldCategory(@WebParam(name = "holdCategoryInfo") HoldCategoryInfo holdCategoryInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates an existing Hold Category.
