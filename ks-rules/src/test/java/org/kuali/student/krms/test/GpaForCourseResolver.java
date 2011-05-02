@@ -23,16 +23,16 @@ public class GpaForCourseResolver implements TermResolver<Float> {
         
         // student 2: 3.0 in course 2, 0.4 in course 3
         Map<String, Float> student2Gpas = new HashMap<String, Float>();
-        student1Gpas.put("2", 3.0f);
-        student1Gpas.put("3", 0.4f);
+        student2Gpas.put("2", 3.0f);
+        student2Gpas.put("3", 0.4f);
         
         gpas.put("2", student2Gpas);
         
         // student 3: 3.5 in courses 1,2,3
         Map<String, Float> student3Gpas = new HashMap<String, Float>();
-        student1Gpas.put("1", 3.5f);
-        student1Gpas.put("2", 3.5f);
-        student1Gpas.put("3", 3.5f);
+        student3Gpas.put("1", 3.5f);
+        student3Gpas.put("2", 3.5f);
+        student3Gpas.put("3", 3.5f);
         
         gpas.put("3", student3Gpas);
     }
@@ -69,7 +69,7 @@ public class GpaForCourseResolver implements TermResolver<Float> {
             }
         }
 
-        throw new TermResolutionException("Could not find gpa for student id: " + studentId + " and course id: " + courseId);
+        return null;
     }
 
 }

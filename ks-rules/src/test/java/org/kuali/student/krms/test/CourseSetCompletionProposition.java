@@ -1,15 +1,13 @@
 package org.kuali.student.krms.test;
 
 import java.util.Collection;
+import java.util.Collections;
 
-import org.kuali.student.lum.lu.service.LuService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
 
 public class CourseSetCompletionProposition extends CourseCompletionProposition {
 
-    @Autowired
-    private LuService luService;
-    
     private String courseSetId;
     
     private Collection<String> courseIds;
@@ -25,11 +23,14 @@ public class CourseSetCompletionProposition extends CourseCompletionProposition 
     }
 
     @Override
-    protected Collection<String> getTermCourseIds() {
+    protected Collection<String> getTermCourseIds(ExecutionEnvironment environment) {
         
         if(courseIds == null) {
+            
+            Term term = new Term(Constants.courseSetTermSpec, Collections.singletonMap(Constants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
+            
             try {
-                courseIds = luService.getAllCluIdsInCluSet(courseSetId);
+                courseIds = environment.resolveTerm(term);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

@@ -31,7 +31,9 @@ public class CourseSetGPAProposition extends ComparisonOverCourseSetProposition 
             throw new RuntimeException(e);
         }
         
-        
+        if(discoveredGpa == null) {
+            return false;
+        }
         
         return operator.compare(discoveredGpa, gpa);
     }

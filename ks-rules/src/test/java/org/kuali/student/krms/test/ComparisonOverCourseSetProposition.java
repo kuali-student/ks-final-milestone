@@ -34,7 +34,7 @@ public abstract class ComparisonOverCourseSetProposition implements Proposition 
         
         if(courseIds == null) {
             try {
-                environment.resolveTerm(courseSetTerm);
+                courseIds = environment.resolveTerm(courseSetTerm);
             } catch (TermResolutionException e) {
                 throw new RuntimeException(e);
             }

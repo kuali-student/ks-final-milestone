@@ -30,10 +30,11 @@ public abstract class CourseCompletionProposition implements Proposition {
         try {
             enrolledCourses = environment.resolveTerm(Constants.completedCourseIdsTerm);
         } catch (TermResolutionException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         
-        Collection<String> termCourses = getTermCourseIds();
+        Collection<String> termCourses = getTermCourseIds(environment);
         
         if(checkForAllCompleted) {
             return enrolledCourses.containsAll(termCourses);
@@ -43,6 +44,6 @@ public abstract class CourseCompletionProposition implements Proposition {
         }
     }
     
-    protected abstract Collection<String> getTermCourseIds();
+    protected abstract Collection<String> getTermCourseIds(ExecutionEnvironment environment);
     
 }

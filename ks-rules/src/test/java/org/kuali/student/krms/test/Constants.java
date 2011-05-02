@@ -42,6 +42,7 @@ public class Constants {
     
     public static final String PASS_GRADE_ID = "1";
     public static final String FAIL_GRADE_ID = "2";
+    public static final String STATEMENT_EVENT_NAME = "statementEvent";
     
     
 }

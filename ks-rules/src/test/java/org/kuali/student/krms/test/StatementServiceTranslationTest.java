@@ -151,7 +151,8 @@ public class StatementServiceTranslationTest {
         
         AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
         
-        Agenda result = new BasicAgenda("statementAgenda", null, agendaTree);
+        Map<String, String> emptyStringMap = Collections.emptyMap();
+        Agenda result = new BasicAgenda(Constants.STATEMENT_EVENT_NAME, emptyStringMap, agendaTree);
         
         return result;
         
