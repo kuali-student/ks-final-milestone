@@ -49,7 +49,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 /**
  * Hold Service Description and Assumptions.
  *
- * Version: 1.0 (Dev)
+ * Version: DRAFT - NOT READY FOR RELEASE.
  *
  * @Author tom
  * @Since Sun May 1 14:22:34 EDT 2011
