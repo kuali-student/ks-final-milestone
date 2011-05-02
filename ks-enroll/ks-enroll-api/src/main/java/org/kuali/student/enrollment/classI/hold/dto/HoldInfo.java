@@ -31,13 +31,16 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classI.hold.infc.Hold;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "personId", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
 
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private final String personId;
+
+    @XmlElement
+    private final String holdCategoryId;
 
     @XmlElement
     private final Date effectiveDate;
@@ -50,6 +53,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
     private HoldInfo() {
 	personId = null;
+	holdCategoryId = null;
         effectiveDate = null;
         expirationDate = null;
         _futureElements = null;
@@ -64,6 +68,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         super(hold);
 
 	this.personId = hold.getPersonId();
+	this.holdCategoryId = hold.getHoldCategoryId();
         this.effectiveDate = null != hold.getEffectiveDate() ? new Date(hold.getEffectiveDate().getTime()) : null;
         this.expirationDate = null != hold.getExpirationDate() ? new Date(hold.getExpirationDate().getTime()) : null;
 
@@ -73,6 +78,11 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     @Override
     public String getPersonId() {
         return personId;
+    }
+
+    @Override
+    public String getHoldCategoryId() {
+        return holdCategoryId;
     }
 
     @Override
@@ -91,6 +101,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<HoldInfo>, Hold {
 
         private String personId;
+        private String holdCategoryId;
         private Date effectiveDate;
         private Date expirationDate;
 
@@ -107,6 +118,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         public Builder(Hold hold) {
             super(hold);
 	    this.personId = hold.getPersonId();
+	    this.holdCategoryId = hold.getHoldCategoryId();
             this.effectiveDate = hold.getEffectiveDate();
             this.effectiveDate = hold.getExpirationDate();
         }
@@ -123,6 +135,15 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
         public void setPersonId(String personId) {
             this.personId = personId;
+        }
+
+        @Override
+        public String getHoldCategoryId() {
+            return holdCategoryId;
+        }
+
+        public void setHoldCategoryId(String holdCategoryId) {
+            this.holdCategoryId = holdCategoryId;
         }
 
         @Override

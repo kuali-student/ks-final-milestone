@@ -22,24 +22,17 @@ import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a Hold.
+ * Information about a Hold Category.
  *
  * @Author tom
  * @Since Sun May 1 14:22:34 EDT 2011
  */ 
 
-public interface Hold extends IdEntity, HasEffectiveDates {
+public interface HoldCategory extends IdEntity {
 
     /**
-     * Name: Hold Category Id
-     * The kind of Hold.
+     * Name: Organization Id
+     * The organization related to this hold category.
      */
-    public String getHoldCategoryId();
-
-
-    /**
-     * Name: Person Id
-     * The Id of the Person.
-     */
-    public String getPersonId();
+    public String getOrganizationId();
 }
