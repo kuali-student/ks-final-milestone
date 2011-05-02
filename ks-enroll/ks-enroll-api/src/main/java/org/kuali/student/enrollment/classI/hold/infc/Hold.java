@@ -36,10 +36,16 @@ public interface Hold extends IdEntity, HasEffectiveDates {
      */
     public String getHoldCategoryId();
 
-
     /**
      * Name: Person Id
      * The Id of the Person.
      */
     public String getPersonId();
+
+    /**
+     * Name: Is Warning
+     * Indicates whether this hold is a warning or
+     * should result in a block.
+     */
+    public Boolean getIsWarning();
 }
