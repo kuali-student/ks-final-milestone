@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.classI.hold.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 
@@ -28,7 +27,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @Since Sun May 1 14:22:34 EDT 2011
  */ 
 
-public interface Hold extends IdEntity, HasEffectiveDates {
+public interface Hold extends IdEntity {
 
     /**
      * Name: Hold Category Id
@@ -48,4 +47,17 @@ public interface Hold extends IdEntity, HasEffectiveDates {
      * should result in a block.
      */
     public Boolean getIsWarning();
+
+    /**
+     * Name: Effective Date
+     * The date this hold becomes effective.
+     */
+    public Date getEffectiveDate();
+
+    /**
+     * Name: Released Date
+     * The date this hold was released, of null if
+     * not yet released.
+     */
+    public Date getReleasedDate();
 }

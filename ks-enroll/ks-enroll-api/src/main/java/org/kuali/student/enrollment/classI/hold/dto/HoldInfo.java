@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classI.hold.infc.Hold;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
 
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private final Date effectiveDate;
 
     @XmlElement
-    private final Date expirationDate;
+    private final Date releasedDate;
 
     @XmlAnyElement
     private final List<Element> _futureElements;
@@ -59,7 +59,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	isWarning = false;
 	holdCategoryId = null;
         effectiveDate = null;
-        expirationDate = null;
+        releasedDate = null;
         _futureElements = null;
     }
 
@@ -76,7 +76,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	this.isWarning = hold.getIsWarning();
 
         this.effectiveDate = null != hold.getEffectiveDate() ? new Date(hold.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != hold.getExpirationDate() ? new Date(hold.getExpirationDate().getTime()) : null;
+        this.releasedDate = null != hold.getReleasedDate() ? new Date(hold.getReleasedDate().getTime()) : null;
 
         _futureElements = null;
     }
@@ -102,8 +102,8 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     }
 
     @Override
-    public Date getExpirationDate() {
-        return expirationDate;
+    public Date getReleasedDate() {
+        return releasedDate;
     }
 
     /**
@@ -115,7 +115,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         private String holdCategoryId;
         private Boolean isWarning;
         private Date effectiveDate;
-        private Date expirationDate;
+        private Date releasedDate;
 
         /**
          * Constructs a new builder.
@@ -133,7 +133,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	    this.holdCategoryId = hold.getHoldCategoryId();
 	    this.isWarning = hold.getIsWarning();
             this.effectiveDate = hold.getEffectiveDate();
-            this.effectiveDate = hold.getExpirationDate();
+            this.effectiveDate = hold.getReleasedDate();
         }
 
         @Override
@@ -178,12 +178,12 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         }
 
         @Override
-        public Date getExpirationDate() {
-            return expirationDate;
+        public Date getReleasedDate() {
+            return releasedDate;
         }
 
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
+        public void setReleasedDate(Date releasedDate) {
+            this.releasedDate = releasedDate;
         }
     }
 }
