@@ -31,14 +31,17 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classII.academiccalendar.infc.Term;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
-public class TermInfo extends KeyEntityInfo implements Term, Serializable {
+@XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
 
+public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private final Date startDate;
+
     @XmlElement
     private final Date endDate;
+
     @XmlAnyElement
     private final List<Element> _futureElements;
 
@@ -52,7 +55,7 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
      * Constructs a new TermInfo from another
      * Term.
      *
-     * @paramterm the Term to copy
+     * @param term the Term to copy
      */
     public TermInfo(Term term) {
         super(term);

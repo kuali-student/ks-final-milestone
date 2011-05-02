@@ -33,8 +33,6 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 
 import org.kuali.student.enrollment.classII.academiccalendar.infc.AcademicCalendar;
 
-
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKeys", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
 
