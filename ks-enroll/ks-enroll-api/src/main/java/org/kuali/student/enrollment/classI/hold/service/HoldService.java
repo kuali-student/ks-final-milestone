@@ -44,7 +44,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-/*import org.kuali.student.r2.common.util.constants.HoldServiceConstants;*/
+import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
 /**
  * Hold Service Description and Assumptions.
@@ -55,7 +55,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @Since Sun May 1 14:22:34 EDT 2011
  */
 
-/*@WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)*/
+@WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface HoldService extends DataDictionaryService, StateService, TypeService {
 
