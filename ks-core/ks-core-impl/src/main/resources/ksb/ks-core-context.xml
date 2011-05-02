@@ -30,6 +30,7 @@
 
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
+<!-- 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
 	</bean>
@@ -47,11 +48,12 @@
 		<property name="arguments">
 			<list><ref bean="bootstrapConfig"/></list>
 		</property>
-	</bean>
-    
-	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+	</bean>    
+	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSCoreContext"/>
 	</bean>
+-->	
+
 
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
@@ -305,7 +307,7 @@
         <property name="persistenceUnitName" value="Statement"/>
         <property name="persistenceXmlLocation"
                   value="classpath:META-INF/statement-persistence.xml"/>
-        <property name="dataSource" ref="lumDataSource"/>
+        <property name="dataSource" ref="coreDataSource"/>
     </bean>
 
     <bean id="statementEntityManager"
@@ -334,10 +336,10 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
-		<property name="validatorFactory" ref="lumValidatorFactory"/>
-        <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
+		<property name="validatorFactory" ref="lumValidatorFactory"/>	
+        <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> --> 
     </bean>
 
     <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -495,14 +497,14 @@
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
-			value="org.kuali.student.core.exceptions.OperationFailedException" />
+			value="org.kuali.student.common.exceptions.OperationFailedException" />
 		<property name="exceptionMapping">
 			<map>
 				<entry key="javax.persistence.EntityExistsException"
-					value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+					value="org.kuali.student.common.exceptions.AlreadyExistsException" />
 				<entry
 					key="org.hibernate.exception.ConstraintViolationException"
-					value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+					value="org.kuali.student.common.exceptions.AlreadyExistsException" />
 			</map>
 		</property>
 	</bean>

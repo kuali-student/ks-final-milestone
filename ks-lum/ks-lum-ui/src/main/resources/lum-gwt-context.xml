@@ -28,7 +28,7 @@
 		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
-
+	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
 	</bean>
@@ -48,6 +48,10 @@
 		</property>
 	</bean>
 
+	<bean id="transactionManager" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="transactionManager" />
+	</bean>
+	
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Spring to GWT servlet mapping -->

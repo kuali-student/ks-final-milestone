@@ -328,6 +328,12 @@
         <artifactId>hibernate-entitymanager</artifactId>
         <version>3.4.0.GA</version>
       </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>3.3.0.SP1</version>
+      </dependency>
+
 
       <!-- Hibernate Transitive Dependencies -->
       <dependency>
@@ -338,7 +344,7 @@
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
-        <version>3.2</version>
+        <version>3.2.1</version>
       </dependency>
       <dependency>
         <groupId>antlr</groupId>
@@ -690,12 +696,12 @@
       <dependency>
         <groupId>org.apache.ws.security</groupId>
         <artifactId>wss4j</artifactId>
-        <version>1.5.8</version>
+        <version>1.5.10</version>
       </dependency>
       <dependency>
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.4</version>
       </dependency>
 
 
@@ -741,12 +747,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.6.0</version>
+        <version>1.6.1</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.0</version>
+        <version>1.6.1</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -967,7 +973,7 @@
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.3</version>
       </dependency>
       <dependency>
         <groupId>xalan</groupId>

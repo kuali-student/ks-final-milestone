@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    Copyright 2010 The Kuali Foundation Licensed under the
-    Educational Community License, Version 2.0 (the "License"); you may
-    not use this file except in compliance with the License. You may
-    obtain a copy of the License at
-
-    http://www.osedu.org/licenses/ECL-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an "AS IS"
-    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-    or implied. See the License for the specific language governing
-    permissions and limitations under the License.
-
--->
-
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>Kuali Rice Standalone</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Standalone</display-name>
 
     <context-param>
-      <param-name>log4j.config.file.location</param-name>
-      <param-value>${user.home}/kuali/main/dev/ks-embedded-log4j.properties</param-value>
+      <param-name>environment</param-name>
+      <param-value>dev</param-value>
     </context-param>
-    
+  
+    <!-- Change this if you want to use a different Spring file -->
     <context-param>
-		<param-name>web.bootstrap.spring.file</param-name>
+      <param-name>web.bootstrap.spring.file</param-name>
+      <param-value>classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</param-value>
+    </context-param>
+	 
+	<!-- KS Spring Security Config - Begin -->
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:ks-spring-security.xml</param-value>
-<!-- 		<param-value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</param-value> -->
-	</context-param>
-	
-    <listener>
-       <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
-    </listener>
+  	</context-param>
+
+	<listener>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
     
     <filter>
 	  	<filter-name>springSecurityFilterChain</filter-name>
@@ -44,17 +33,7 @@
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-    <context-param>
-      <param-name>environment</param-name>
-      <param-value>dev</param-value>
-    </context-param>
-
-    <!-- Change this if you want to use a different Spring file -->
-    <context-param>
-      <param-name>kew.bootstrap.spring.file</param-name>
-      <param-value>${bootstrap.spring.file}</param-value>
-    </context-param>
+	<!-- KS Spring Security Config - End -->	
 
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
@@ -66,14 +45,19 @@
 		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
 	</filter>
 
-  <filter>
-    <filter-name>BootstrapFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
-  </filter>
-
 	<filter>
+	  <filter-name>BootstrapFilter</filter-name>
+	  <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+	</filter>
+  
+  	<filter>
 		<filter-name>UserLoginFilter</filter-name>
 		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+	</filter>
+  
+  	<filter>
+		<filter-name>UserPreferencesFilter</filter-name>
+		<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -90,41 +74,70 @@
       <filter-name>BootstrapFilter</filter-name>
       <servlet-name>action</servlet-name>
     </filter-mapping>
+    
+    <filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+       <servlet-name>action</servlet-name>
+    </filter-mapping>
 
     <filter-mapping>
       <filter-name>BootstrapFilter</filter-name>
       <servlet-name>notification</servlet-name>
     </filter-mapping>
-
-	<filter-mapping>
+    
+   	<filter-mapping>
 		<filter-name>UserLoginFilter</filter-name>
-		<servlet-name>action</servlet-name>
+		<servlet-name>notification</servlet-name>
 	</filter-mapping>
-
+    
     <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>notification</servlet-name>
+        <filter-name>UserPreferencesFilter</filter-name>
+       <servlet-name>notification</servlet-name>
     </filter-mapping>
-
+    
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
         <servlet-name>kcb</servlet-name>
     </filter-mapping>
+    
+   	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>kcb</servlet-name>
+	</filter-mapping>
+    
     <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>kcb</servlet-name>
+        <filter-name>UserPreferencesFilter</filter-name>
+       <servlet-name>kcb</servlet-name>
     </filter-mapping>
-
+    
     <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
+        <filter-name>BootstrapFilter</filter-name>
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
+    
+    <filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>edoclite</servlet-name>
+	</filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+       <servlet-name>edoclite</servlet-name>
+    </filter-mapping>
 
-
-<!-- 	<listener> -->
-<!-- 		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class> -->
-<!-- 	</listener> -->
+    <listener>
+      <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
+    </listener>
+    
+    <listener>
+	  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
 
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
@@ -132,10 +145,14 @@
 
 	<servlet>
 		<servlet-name>action</servlet-name>
-		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>		
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
         <init-param>
           <param-name>config</param-name>
           <param-value>/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <init-param>
+          <param-name>config/core</param-name>
+          <param-value>/core/WEB-INF/struts-config.xml</param-value>
         </init-param>
 		<init-param>
 			<param-name>debug</param-name>
@@ -211,7 +228,7 @@
 
 	<servlet>
 		<servlet-name>export</servlet-name>
-		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
+		<servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -226,12 +243,12 @@
 
 	<servlet>
 		<servlet-name>edoclite</servlet-name>
-		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
+		<servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
-		<url-pattern>/services/*</url-pattern>
+		<url-pattern>/remoting/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
@@ -273,7 +290,41 @@
 		<servlet-name>edoclite</servlet-name>
 		<url-pattern>/kew/EDocLite</url-pattern>
 	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 	
+	<!-- only need to include this for the kuali tlds
+	     since tld file will only be searched from within other jars -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
+		</taglib>
+		
+		<!-- customized struts tags -->
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+	<!-- GWT Dispatcher Servlets & Mappings -->
 	<servlet>
 		<servlet-name>GWT-CORE</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -292,6 +343,7 @@
 			<param-value>classpath:lum-gwt-context.xml</param-value>
 		</init-param>		
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/*</url-pattern>
@@ -328,14 +380,6 @@
    			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
    	 </servlet-mapping>  
 	<!-- HTTP Servlet end -->
-
-	<session-config>
-		<session-timeout>60</session-timeout>
-	</session-config>
-
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-
+	
 </web-app>
 

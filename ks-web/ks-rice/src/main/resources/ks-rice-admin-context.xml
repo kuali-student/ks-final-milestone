@@ -16,7 +16,7 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="ksAdminDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
+    <bean id="ksAdminDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="coreDataSource" />
     <property name="maxPoolSize" value="${ks.core.datasource.pool.maxSize}" />

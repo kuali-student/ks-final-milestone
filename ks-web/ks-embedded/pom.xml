@@ -45,8 +45,14 @@
         <artifactId>tomcat-maven-plugin</artifactId>
         <version>1.0-beta-1</version>
         <configuration>
+
           <path>/ks-embedded-dev</path>
           <port>8081</port>
+<!--           
+          <path>/kr-dev</path>
+          <port>8080</port>
+-->          
+
         </configuration>
         <dependencies>
           <dependency>
@@ -80,9 +86,22 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-sampleapp</artifactId>
+      <version>${kuali.rice.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-edl-impl</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.kuali.student.admin</groupId>
       <artifactId>ks-admin</artifactId>
@@ -210,5 +229,11 @@
       <groupId>net.sf.jsr107cache</groupId>
       <artifactId>jsr107cache</artifactId>
     </dependency>
+    
+     <dependency>
+       <groupId>antlr</groupId>
+       <artifactId>antlr</artifactId>
+     </dependency>
+    
   </dependencies>
 </project>

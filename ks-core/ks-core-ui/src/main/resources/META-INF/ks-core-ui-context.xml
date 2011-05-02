@@ -56,7 +56,7 @@
 		</property>
 	</bean>
 
-	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSCoreUIContext"/>	
 	</bean>
 	

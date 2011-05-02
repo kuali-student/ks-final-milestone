@@ -25,18 +25,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="kimIdentityService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
-
-	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
-		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionService">
-				<property name="busSecurity" value="${ks.core.bus.security}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
+    <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />	
 
 	<bean id="studentRiceModule" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
 		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />

@@ -23,9 +23,9 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-    
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
@@ -91,20 +91,26 @@
     <!--
         Setting this property allows selective loading lum or core project or both
     -->
+    <!-- 
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
         classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
 	</param>
+	 -->
   
     <!--
       this property allows switching between the ks-embedded-admin-context which loads
       the ks admin app into rice the old ks-embedded-context.xml which skips ks admin
       and loads a mock messageservice impl
     -->
-    <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param>
+    <!-- <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param> -->
 
     <!-- additional context files -->
+    <!-- 
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
     <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},${ks.institutional.context}</param>
+	-->
+	
+	<param name="rice.KIM.additionalSpringFiles">classpath:ks-kim-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>

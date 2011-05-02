@@ -382,7 +382,7 @@ AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException{
     	return this.nextDecorator.addTermToAcademicCalendar(academicCalendarKey, termKey, context);
     }
 

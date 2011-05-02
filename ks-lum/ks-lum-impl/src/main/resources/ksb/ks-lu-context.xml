@@ -33,6 +33,7 @@
     <import resource="classpath:statement-context.xml"/>
     <import resource="classpath:program-context.xml"/>
 
+<!-- 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
 	</bean>
@@ -52,10 +53,10 @@
 		</property>
 	</bean>
 
-    <bean
-            class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KSLumContext"/>
     </bean>
+-->    
 
     <bean id="ks.messageServiceMock"
           class="org.kuali.student.core.messages.service.impl.MessageServiceMock">

@@ -35,7 +35,7 @@ import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
-    private final String MESSAGE_SERVICE_MOCK = "ks.messageServiceMock";
+    private final String MESSAGE_SERVICE_MOCK = "ks.messageService";
 	private final String MESSAGE_SERVICE = "{http://student.kuali.org/wsdl/messages}MessageService";
     
     MessageService messageService;

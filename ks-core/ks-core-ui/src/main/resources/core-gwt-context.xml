@@ -92,7 +92,10 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
-
+    
+	<bean id="transactionManager" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="transactionManager" />
+	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
