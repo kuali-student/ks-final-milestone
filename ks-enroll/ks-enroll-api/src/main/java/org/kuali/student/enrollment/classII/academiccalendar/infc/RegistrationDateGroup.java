@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.infc.DateRange;
  * Terms by default and does not explicitly need to be created.
  *
  * The dates in this group map to KeyDates. If a KeyDate does not
- * exist, then the return valueis null. An update of this structure
+ * exist, then the return value is null. An update of this structure
  * will update the corresponding KeyDate if it exists, or create one
  * of the appropriate Type if it does not exist.
  *

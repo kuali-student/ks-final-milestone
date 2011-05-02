@@ -397,11 +397,11 @@ public class DictionaryFormatter {
         return " ";
     }
 
-    private String calcSimpleName(String name) {
-        if (name.lastIndexOf(".") != -1) {
-            name = name.substring(name.lastIndexOf(".") + 1);
+    private String calcSimpleName(String simpleName) {
+        if (simpleName.lastIndexOf(".") != -1) {
+            simpleName = simpleName.substring(simpleName.lastIndexOf(".") + 1);
         }
-        return name;
+        return simpleName;
     }
 
     private String calcNotSoSimpleName(String name) {

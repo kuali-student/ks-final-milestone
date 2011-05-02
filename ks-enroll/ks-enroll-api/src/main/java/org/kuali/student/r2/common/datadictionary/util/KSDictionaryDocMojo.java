@@ -113,17 +113,17 @@ public class KSDictionaryDocMojo
         DictionaryFormatter.writeFooter(out);
     }
 
-    private String replaceXmlWithHtml(String name) {
+    private String replaceXmlWithHtml(String dictFileName) {
         // strip off .xml
-        if (name.endsWith(".xml")) {
-            name = name.substring(0, name.length() - ".xml".length());
+        if (dictFileName.endsWith(".xml")) {
+            dictFileName = dictFileName.substring(0, dictFileName.length() - ".xml".length());
         }
-        name = name + ".html";
-        int i = name.lastIndexOf("/");
+        dictFileName = dictFileName + ".html";
+        int i = dictFileName.lastIndexOf("/");
         if (i != -1) {
-            name = name.substring(i + 1);
+            dictFileName = dictFileName.substring(i + 1);
         }
-        return name;
+        return dictFileName;
     }
 
     private String formatAsString(List<String> errors) {

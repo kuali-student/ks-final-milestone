@@ -33,6 +33,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
@@ -74,7 +76,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();
-	
+	private static Map<String, RegistrationDateGroupInfo> registrationDateGroupInfoCache =  new HashMap<String, RegistrationDateGroupInfo>();
 	
 	
 
@@ -1154,9 +1156,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public StatusInfo addTermToTerm(String parentTermKey, String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+		AtpAtpRelationInfo.Builder atpBuilder =  new AtpAtpRelationInfo.Builder();
+		atpBuilder.setAtpKey(parentTermKey);
+		atpBuilder.setRelatedAtpKey(termKey);
+		atpBuilder.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_CONTAINS_TYPE_KEY);
+		AtpAtpRelationInfo atpAtpRelationInfo = atpBuilder.build();
+		this.atpService.createAtpAtpRelation(atpAtpRelationInfo, context);
+		return new StatusInfo.Builder().build();
 	}
 
 	@Override
@@ -1164,8 +1171,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AtpAtpRelationInfo> atpAtpRelations = this.atpService.getAtpAtpRelationsByAtp(parentTermKey, context);
+		String atpAtpRelationId = null;
+		for(AtpAtpRelationInfo atpRelationInfo : atpAtpRelations){
+			if(atpRelationInfo.getRelatedAtpKey().equals(termKey)){
+				atpAtpRelationId= atpRelationInfo.getId();
+			}
+		}
+		
+		this.atpService.deleteAtpAtpRelation(atpAtpRelationId, context);
+		return new StatusInfo.Builder().build();
 	}
 
 	@Override
@@ -1173,8 +1189,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.registrationDateGroupInfoCache.get(termKey);
 	}
 	/**
 	 * 1. Use Validation decorator 
@@ -1201,8 +1216,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		 this.registrationDateGroupInfoCache.remove(termKey);
+		 this.registrationDateGroupInfoCache.put(termKey, registrationDateGroupInfo);
+		 return registrationDateGroupInfo;
 	}
 	/** 
 	 * This is a simplified mock Impl
@@ -1252,8 +1268,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		// return from DB
-		return null;
+		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+		TypeInfo.Builder typeBuilder = new TypeInfo.Builder();
+		typeBuilder.setKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+		types.add(typeBuilder.build());
+		return types;
 	}
 
 	@Override
@@ -1272,8 +1291,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		// Return from DB
-		return null;
+		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+		TypeInfo.Builder typeBuilder = new TypeInfo.Builder();
+		typeBuilder.setKey(AcademicCalendarServiceConstants.CAMPUS_CALENDAR_TYPE_KEY);
+		types.add(typeBuilder.build());
+		return types;
 	}
 
 	@Override
@@ -1288,7 +1310,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public List<TypeInfo> getTermTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return	null;
+		
+		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+		TypeInfo.Builder typeBuilder1 = new TypeInfo.Builder();
+		typeBuilder1.setKey(AtpServiceConstants.SEASON_TERM_1_TYPE_KEY );
+		types.add(typeBuilder1.build());
+		TypeInfo.Builder typeBuilder2 = new TypeInfo.Builder();
+		typeBuilder2.setKey(AtpServiceConstants.SEASON_TERM_2_TYPE_KEY );
+		types.add(typeBuilder2.build());
+		return types;
 	}
 
 	@Override
@@ -1296,8 +1326,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			String academicCalendarTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return getTermTypes(context);
 	}
 
 	@Override
@@ -1305,8 +1335,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return getTermTypes(context);
 	}
 
 	@Override
@@ -1322,8 +1352,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.atpService.getAllowedTypesForType(termTypeKey, AtpServiceConstants.REF_OBJECT_URI_ATP, context);
 	}
 
 	@Override
