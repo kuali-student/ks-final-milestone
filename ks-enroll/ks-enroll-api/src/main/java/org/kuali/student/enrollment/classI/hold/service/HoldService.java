@@ -228,10 +228,27 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     public HoldInfo updateHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing Hold.
+     * Releases a Hold. A release preserves the record and marks the
+     * State as released and sets the released date. A Hold should be
+     * released instead of deleted when the record needs to be
+     * preserved.
      *
-     * @param holdId the Id of the Hold to
-     *        be deleted
+     * @param holdId a hold
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the modified HoldInfo
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Deletes an existing Hold record.
+     *
+     * @param holdId the Id of the Hold to be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
