@@ -864,14 +864,14 @@ public interface AcademicCalendarService extends DataDictionaryService {
      *                and locale information about the caller of service
      *                operation
      * @return the status
+     * @throws AlreadyExistsException term already related to academic calendar
      * @throws DoesNotExistException the Term or Academic Calendar does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws AlreadyExistsException 
      */
-    public StatusInfo addTermToAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException;
+    public StatusInfo addTermToAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Removes a Term from an AcademicCalendar.
@@ -899,14 +899,14 @@ public interface AcademicCalendarService extends DataDictionaryService {
      *                and locale information about the caller of service
      *                operation
      * @return the status
+     * @throws AlreadyExistsException term relation already exists
      * @throws DoesNotExistException a Term does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws AlreadyExistsException 
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException;
+    public StatusInfo addTermToTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Removes a Term from a Term.
