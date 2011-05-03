@@ -52,4 +52,8 @@ public interface LumClientBundle extends ClientBundleWithLookup{
 	@CssResource.NotStrict
 	public ImageResource proposeCurriculumImage();
 
+	@Source("org/kuali/student/lum/ui/theme/standard/public/css/PagingScrollTable.css")
+	@CssResource.NotStrict
+	public CssResource pagingScrollTableCss();
+
 }
