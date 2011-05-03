@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -132,6 +133,8 @@ public class BrowsePanel extends Composite {
 		// layout.addStyleName (Style.BROWSE.getStyle ());
 		searchBackedTable = new SearchBackedTable(tableHeight);
 		searchBackedTable.addStyleName("KS-Advanced-Search-Results-Table");
+		searchBackedTable.setTableStyleName("gwt-PagingScrollTable");
+		searchBackedTable.setSelectionPolicy(SelectionPolicy.ONE_ROW);
 		KSButton selectButton = new KSButton("Select",
 				new SelectButtonClickHandler(this.onSelectectedCallback,
 						this.searchBackedTable));
