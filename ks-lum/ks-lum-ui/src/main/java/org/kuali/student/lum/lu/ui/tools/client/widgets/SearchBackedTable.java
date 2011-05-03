@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefini
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -55,6 +56,9 @@ public class SearchBackedTable extends Composite {
 	private CachingSearchService searchRpcServiceAsync = CachingSearchService
 			.getSearchService();
 	private int defaultHeight = 200;
+
+	private SelectionPolicy selectionPolicy = SelectionPolicy.MULTI_ROW;
+	private String tableStyleName = "";
 
 	public SearchBackedTable() {
 		super();
@@ -136,6 +140,7 @@ public class SearchBackedTable extends Composite {
 		this.resultIdColumnKey = resultIdKey;
 		builder = new PagingScrollTableBuilder<ResultRow>();
 		builder.tablePixelSize(900, defaultHeight); // width, height
+		builder.setSelectionPolicy(selectionPolicy);
 
 		columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
 		for (LookupResultMetadata r : listResultMetadata) {
@@ -159,7 +164,9 @@ public class SearchBackedTable extends Composite {
 	public void redraw() {
 		tableModel.setRows(resultRows);
 		pagingScrollTable = builder.build(tableModel);
-		pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+		pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);		
+		if(tableStyleName != "")
+			pagingScrollTable.setStyleName(tableStyleName);
 		layout.clear();
 		layout.add(pagingScrollTable);
 		pagingScrollTable.fillWidth();
@@ -219,4 +226,11 @@ public class SearchBackedTable extends Composite {
 		this.defaultHeight = defaultHeight;
 	}
 
+    public void setSelectionPolicy(SelectionPolicy selectionPolicy){
+    	this.selectionPolicy = selectionPolicy;
+    }
+
+    public void setTableStyleName(String tableStyleName){
+    	this.tableStyleName = tableStyleName;
+    }
 }
