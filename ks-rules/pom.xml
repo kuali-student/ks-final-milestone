@@ -19,7 +19,7 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-impl</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+      <version>2.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
@@ -38,6 +38,11 @@
       <artifactId>ks-core-impl</artifactId>
       <version>1.2-SNAPSHOT</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-krms-api</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
