@@ -163,37 +163,37 @@ public class TestScreenReport {
 
         byte[] bytes = processor.createPdf(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataMap.pdf");
+        printToFile(bytes, "ks-common-ui/target/dataMap.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataMap.doc");
+        printToFile(bytes, "ks-common-ui/target/dataMap.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataMap.xls");
+        printToFile(bytes, "ks-common-ui/target/dataMap.xls");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createPdf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataList.pdf");
+        printToFile(bytes, "ks-common-ui/target/dataList.pdf");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createPdf(dataList, "proposal.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataList2.pdf");
+        printToFile(bytes, "ks-common-ui/target/dataList2.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataList.doc");
+        printToFile(bytes, "ks-common-ui/target/dataList.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "c:\\dataList.xls");
+        printToFile(bytes, "ks-common-ui/target/dataList.xls");
         Assert.assertTrue(bytes.length > 0);
 
     }
