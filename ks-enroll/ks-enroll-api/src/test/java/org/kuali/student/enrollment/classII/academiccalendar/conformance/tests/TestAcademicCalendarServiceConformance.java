@@ -42,7 +42,7 @@ public class TestAcademicCalendarServiceConformance {
 		if (service == null) {
 			ApplicationContext appContext =
                 new ClassPathXmlApplicationContext(new String[]{ "classpath:testContext.xml"});
-			service = (AcademicCalendarService) appContext.getBean("academicCalendarServiceToTest");
+			service = (AcademicCalendarService) appContext.getBean("mockAcademicCalendarService");
             }
 		return service;
 	}
