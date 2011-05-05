@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.enroll</groupId>
-			<artifactId>ks-enroll-impl</artifactId>
+			<artifactId>ks-enroll-api</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
