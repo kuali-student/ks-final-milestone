@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.enrollment.classI.hold.dto.HoldCategoryInfo;
+
 import org.kuali.student.enrollment.classI.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.classI.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.classI.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.classI.hold.service.HoldService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,7 +28,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public class HoldServiceMockImpl implements HoldService {
 	
 	private static Map<String, HoldInfo> holdCache = new HashMap<String, HoldInfo>();
-	
+
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 			throws OperationFailedException, MissingParameterException,
@@ -124,6 +126,43 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
+	public Boolean isPersonRestricted(String restrictionKey, String personId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRestrictedPersons(String restrictionKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey,
+			String personId, ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HoldInfo> getActiveHoldsByRestrictionForPerson(
+			String restrictionKey, String personId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public HoldInfo getHold(String holdId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -142,10 +181,9 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<HoldInfo> getHoldsByCategory(String holdCategoryId,
-			ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+	public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -159,7 +197,16 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<HoldInfo> getHoldsByCategoryForPerson(String holdCategoryId,
+	public List<HoldInfo> getActiveHoldsForPerson(String personId,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HoldInfo> getHoldsByIssueForPerson(String issueId,
 			String personId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -168,8 +215,8 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<HoldInfo> getActiveHoldsByCategoryForPerson(
-			String holdCategoryId, String personId, ContextInfo context)
+	public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId,
+			String personId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
@@ -177,7 +224,7 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateHold(String validationType,
+	public List<ValidationResultInfo> validateHold(String validationTypeKey,
 			HoldInfo holdInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -222,17 +269,7 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public HoldCategoryInfo getHoldCategory(String holdCategoryId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<HoldCategoryInfo> getHoldCategoriesByIdList(
-			List<String> holdCategoryIdList, ContextInfo context)
+	public IssueInfo getIssue(String issueId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -241,36 +278,70 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<String> getHoldCategoryIdsByType(String holdCategoryTypeKey,
-			ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<HoldCategoryInfo> getHoldCategoriesByOrg(String organizationId,
-			ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ValidationResultInfo> validateHoldCategory(
-			String validationType, HoldCategoryInfo holdCategoryInfo,
+	public List<IssueInfo> getIssuesByIdList(List<String> issueIdList,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public HoldCategoryInfo createHoldCategory(
-			HoldCategoryInfo holdCategoryInfo, ContextInfo context)
+	public List<String> getIssueIdsByType(String issueTypeKey,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IssueInfo> getIssuesByOrg(String organizationId,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IssueInfo> getIssuesByRestriction(String restrictionKey,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo addIssueToRestriction(String restrictionKey,
+			String issueId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo removeIssueFromRestriction(String restrictionKey,
+			String issueId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateIssue(String validationTypeKey,
+			IssueInfo issueInfo, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IssueInfo createIssue(IssueInfo issueInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -279,8 +350,75 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public HoldCategoryInfo updateHoldCategory(String holdCategoryId,
-			HoldCategoryInfo holdCategoryInfo, ContextInfo context)
+	public IssueInfo updateIssue(String issueId, IssueInfo issueInfo,
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteIssue(String issueId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestrictionInfo getRestriction(String restrictionKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RestrictionInfo> getRestrictionsByKeyList(
+			List<String> restrictionKeyList, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRestrictionKeysByType(String restrictionTypeKey,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateRestriction(
+			String validationTypeKey, RestrictionInfo restrictionInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestrictionInfo createRestriction(String restrictionKey,
+			RestrictionInfo restrictionInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestrictionInfo updateRestriction(String restrictionKey,
+			RestrictionInfo restrictionInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -290,12 +428,14 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public StatusInfo deleteHoldCategory(String holdCategoryId,
+	public StatusInfo deleteRestriction(String restrictionKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
 
 }
