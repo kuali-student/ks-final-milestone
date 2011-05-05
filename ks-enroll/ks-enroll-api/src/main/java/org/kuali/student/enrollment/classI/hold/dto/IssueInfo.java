@@ -28,12 +28,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.classI.hold.infc.HoldCategory;
+import org.kuali.student.enrollment.classI.hold.infc.Issue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "organizationId", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "IssueInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "organizationId", "metaInfo", "attributes", "_futureElements"})
 
-public class HoldCategoryInfo extends IdEntityInfo implements HoldCategory, Serializable {
+public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
@@ -42,19 +42,19 @@ public class HoldCategoryInfo extends IdEntityInfo implements HoldCategory, Seri
     @XmlAnyElement
     private final List<Element> _futureElements;
 
-    private HoldCategoryInfo() {
+    private IssueInfo() {
 	organizationId = null;
         _futureElements = null;
     }
 
     /**
-     * Constructs a new HoldCategoryInfo from another HoldCategory.
+     * Constructs a new IssueInfo from another Issue.
      *
-     * @param holdCategory the HoldCategory to copy
+     * @param issue the Issue to copy
      */
-    public HoldCategoryInfo(HoldCategory holdCategory) {
-        super(holdCategory);
-	this.organizationId = holdCategory.getOrganizationId();
+    public IssueInfo(Issue issue) {
+        super(issue);
+	this.organizationId = issue.getOrganizationId();
         _futureElements = null;
     }
 
@@ -65,9 +65,9 @@ public class HoldCategoryInfo extends IdEntityInfo implements HoldCategory, Seri
 
 
     /**
-     * The builder class for this HoldCategoryInfo.
+     * The builder class for this IssueInfo.
      */
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<HoldCategoryInfo>, HoldCategory {
+    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<IssueInfo>, Issue {
 
         private String organizationId;
 
@@ -79,16 +79,16 @@ public class HoldCategoryInfo extends IdEntityInfo implements HoldCategory, Seri
 
         /**
          * Constructs a new builder initialized from another 
-	 * HoldCategory.
+	 * Issue.
          */
-        public Builder(HoldCategory holdCategory) {
-            super(holdCategory);
-	    this.organizationId = holdCategory.getOrganizationId();
+        public Builder(Issue issue) {
+            super(issue);
+	    this.organizationId = issue.getOrganizationId();
         }
 
         @Override
-        public HoldCategoryInfo build() {
-            return new HoldCategoryInfo(this);
+        public IssueInfo build() {
+            return new IssueInfo(this);
         }
 
         @Override

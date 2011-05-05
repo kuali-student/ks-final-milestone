@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.classI.hold.infc.Hold;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "isOverridable", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
 
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,6 +46,9 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private final Boolean isWarning;
 
     @XmlElement
+    private final Boolean isOverridable;
+
+    @XmlElement
     private final Date effectiveDate;
 
     @XmlElement
@@ -57,6 +60,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private HoldInfo() {
 	personId = null;
 	isWarning = false;
+	isOverridable = false;
 	holdCategoryId = null;
         effectiveDate = null;
         releasedDate = null;
@@ -74,6 +78,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	this.personId = hold.getPersonId();
 	this.holdCategoryId = hold.getHoldCategoryId();
 	this.isWarning = hold.getIsWarning();
+	this.isOverridable = hold.getIsOverridable();
 
         this.effectiveDate = null != hold.getEffectiveDate() ? new Date(hold.getEffectiveDate().getTime()) : null;
         this.releasedDate = null != hold.getReleasedDate() ? new Date(hold.getReleasedDate().getTime()) : null;
@@ -97,6 +102,11 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     }
 
     @Override
+    public Boolean getIsOverridable() {
+	return isOverridable;
+    }
+
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -114,6 +124,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         private String personId;
         private String holdCategoryId;
         private Boolean isWarning;
+        private Boolean isOverridable;
         private Date effectiveDate;
         private Date releasedDate;
 
@@ -132,6 +143,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	    this.personId = hold.getPersonId();
 	    this.holdCategoryId = hold.getHoldCategoryId();
 	    this.isWarning = hold.getIsWarning();
+	    this.isOverridable = hold.getIsOverridable();
             this.effectiveDate = hold.getEffectiveDate();
             this.effectiveDate = hold.getReleasedDate();
         }
@@ -166,6 +178,15 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
         public void setIsWarning(Boolean isWarning) {
             this.isWarning = isWarning;
+        }
+
+	@Override
+	public Boolean getIsOverridable() {
+	    return isOverridable;
+	}
+
+        public void setIsOverridable(Boolean isOverridable) {
+            this.isOverridable = isOverridable;
         }
 
         @Override

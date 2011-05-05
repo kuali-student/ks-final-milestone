@@ -43,10 +43,16 @@ public interface Hold extends IdEntity {
 
     /**
      * Name: Is Warning
-     * Indicates whether this hold is a warning or
-     * should result in a block.
+     * Indicates whether this hold is a warning or should result in a
+     * block.
      */
     public Boolean getIsWarning();
+
+    /**
+     * Name: Is Overridable
+     * Indicates whether an exception can override this hold.
+     */
+    public Boolean getIsOverridable();
 
     /**
      * Name: Effective Date
@@ -56,8 +62,7 @@ public interface Hold extends IdEntity {
 
     /**
      * Name: Released Date
-     * The date this hold was released, of null if
-     * not yet released.
+     * The date this hold was released, of null if not yet released.
      */
     public Date getReleasedDate();
 }

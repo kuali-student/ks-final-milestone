@@ -18,7 +18,8 @@ package org.kuali.student.enrollment.classI.hold.service;
 import java.util.List;
 
 import org.kuali.student.enrollment.classI.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.classI.hold.dto.HoldCategoryInfo;
+import org.kuali.student.enrollment.classI.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.classI.hold.dto.RestrictionInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -49,6 +50,26 @@ public class HoldServiceDecorator implements HoldService {
     public void setService(HoldService service) {
         this.service = service;
     }
+
+    @Override
+    public Boolean isPersonRestricted(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().isPersonRestricted(restrictionKey, personId, context);
+    }
+
+    @Override
+    public List<String> getRestrictedPersons(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getRestrictedPersons(restrictionKey, context);
+    }
+
+    @Override
+    public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getHoldsByRestrictionForPerson(restrictionKey, personId, context);
+    }
+		
+    @Override					 
+    public List<HoldInfo> getActiveHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getActiveHoldsByRestrictionForPerson(restrictionKey, personId, context);
+    }	       
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
@@ -116,8 +137,8 @@ public class HoldServiceDecorator implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getHoldsByCategory(String holdCategoryId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldsByCategory(holdCategoryId, context);
+    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getHoldsByIssue(issueId, context);
     }
 
     @Override
@@ -126,18 +147,23 @@ public class HoldServiceDecorator implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getHoldsByCategoryForPerson(String holdCategoryId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldsByCategoryForPerson(holdCategoryId, personId, context);
+    public List<HoldInfo> getActiveHoldsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getActiveHoldsForPerson(personId, context);
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByCategoryForPerson(String holdCategoryId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getActiveHoldsByCategoryForPerson(holdCategoryId, personId, context);
+    public List<HoldInfo> getHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getHoldsByIssueForPerson(issueId, personId, context);
     }
 
     @Override
-    public List<ValidationResultInfo> validateHold(String validationType, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	return getHoldService().validateHold(validationType, holdInfo, context);
+    public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getActiveHoldsByIssueForPerson(issueId, personId, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	return getHoldService().validateHold(validationTypeKey, holdInfo, context);
     }
 
     @Override
@@ -161,42 +187,92 @@ public class HoldServiceDecorator implements HoldService {
     }
 
     @Override
-    public HoldCategoryInfo getHoldCategory(String holdCategoryId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldCategory(holdCategoryId, context);
+    public IssueInfo getIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getIssue(issueId, context);
     }
 
     @Override
-    public List<HoldCategoryInfo> getHoldCategoriesByIdList(List<String> holdCategoryIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldCategoriesByIdList(holdCategoryIdList, context);
+    public List<IssueInfo> getIssuesByIdList(List<String> issueIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getIssuesByIdList(issueIdList, context);
     }
 
     @Override
-    public List<String> getHoldCategoryIdsByType(String holdCategoryTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldCategoryIdsByType(holdCategoryTypeKey, context);
+    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getIssueIdsByType(issueTypeKey, context);
     }
 
     @Override
-    public List<HoldCategoryInfo> getHoldCategoriesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getHoldCategoriesByOrg(organizationId, context);
+    public List<IssueInfo> getIssuesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getIssuesByOrg(organizationId, context);
     }
 
     @Override
-    public List<ValidationResultInfo> validateHoldCategory(String validationType, HoldCategoryInfo holdCategoryInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	return getHoldService().validateHoldCategory(validationType, holdCategoryInfo, context);
+    public List<IssueInfo> getIssuesByRestriction(String restrictionKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getIssuesByRestriction(restrictionKey, context);
     }
 
     @Override
-    public HoldCategoryInfo createHoldCategory(HoldCategoryInfo holdCategoryInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().createHoldCategory(holdCategoryInfo, context);
+    public StatusInfo addIssueToRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().addIssueToRestriction(restrictionKey, issueId, context);
     }
 
     @Override
-    public HoldCategoryInfo updateHoldCategory(String holdCategoryId, HoldCategoryInfo holdCategoryInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-	return getHoldService().updateHoldCategory(holdCategoryId, holdCategoryInfo, context);
+    public StatusInfo removeIssueFromRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().removeIssueFromRestriction(restrictionKey, issueId, context);
     }
 
     @Override
-    public StatusInfo deleteHoldCategory(String holdCategoryId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().deleteHoldCategory(holdCategoryId, context);
+    public List<ValidationResultInfo> validateIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	return getHoldService().validateIssue(validationTypeKey, issueInfo, context);
+    }
+
+    @Override
+    public IssueInfo createIssue(IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().createIssue(issueInfo, context);
+    }
+
+    @Override
+    public IssueInfo updateIssue(String issueId, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	return getHoldService().updateIssue(issueId, issueInfo, context);
+    }
+
+    @Override
+    public StatusInfo deleteIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().deleteIssue(issueId, context);
+    }
+
+    @Override
+    public RestrictionInfo getRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getRestriction(restrictionKey, context);
+    }
+
+    @Override
+    public List<RestrictionInfo> getRestrictionsByKeyList(List<String> restrictionKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getRestrictionsByKeyList(restrictionKeyList, context);
+    }
+
+    @Override
+    public List<String> getRestrictionKeysByType(String restrictionTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getRestrictionKeysByType(restrictionTypeKey, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRestriction(String validationTypeKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	return getHoldService().validateRestriction(validationTypeKey, restrictionInfo, context);
+    }
+
+    @Override
+    public RestrictionInfo createRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().createRestriction(restrictionKey, restrictionInfo, context);
+    }
+
+    @Override
+    public RestrictionInfo updateRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	return getHoldService().updateRestriction(restrictionKey, restrictionInfo, context);
+    }
+
+    @Override
+    public StatusInfo deleteRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().deleteRestriction(restrictionKey, context);
     }
 }
