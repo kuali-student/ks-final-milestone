@@ -19,10 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
@@ -39,7 +37,6 @@ public class CourseDataService extends AbstractDataService {
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
-	
 
 	@Override
 	protected Object get(String id) throws Exception {
@@ -107,17 +104,6 @@ public class CourseDataService extends AbstractDataService {
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
 	}
-
-	public Data createNewCourseVersion(String courseId, String versionComment) throws OperationFailedException {
-		try {
-			//FIXME calling getData after createNewCourseVersion is inefficient, but we need to have the transformations/filters be applied
-			CourseInfo course = this.courseService.createNewCourseVersion(courseId, versionComment);
-			return getData(course.getId());
-		} catch (Exception e) {
-			throw new OperationFailedException("Error getting data",e);
-		} 
-		
-	}	
 
 
 	/**

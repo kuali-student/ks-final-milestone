@@ -8,7 +8,7 @@ public class IdAttributes {
 	
 	public enum IdType {
 		//	TODO: OBJECT_ID has no references
-		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.DOCUMENT_NUMBER), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
+		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.DOCUMENT_NUMBER), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId"), COPY_OF_KS_KEW_OBJECT_ID("copyOfKualiStudentObjectWorkflowId");
         
 		final String stringValue;
 

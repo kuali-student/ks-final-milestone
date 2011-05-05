@@ -124,7 +124,9 @@ public class WorkflowUtilities{
     private KSMenuItemData wfBlanketApproveItem;
 	
 	private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-	    
+	private final List<KSMenuItemData> additionalItems = new ArrayList<KSMenuItemData>();
+
+	
     SaveActionEvent approveSaveActionEvent;
     SaveActionEvent startWorkflowSaveActionEvent;
     
@@ -148,8 +150,18 @@ public class WorkflowUtilities{
     private final KSLabel workflowStatusLabel = new KSLabel("");
     
     private final LayoutController parentController;
+
+	private String dropDownLabel = "Workflow Actions";
 	
 	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
+		this.parentController = parentController;
+		this.proposalPath = proposalPath;
+		setupWFButtons();
+		setupDialog();
+	}
+	
+	public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel) {
+		this.dropDownLabel = dropDownLabel;
 		this.parentController = parentController;
 		this.proposalPath = proposalPath;
 		setupWFButtons();
@@ -239,7 +251,7 @@ public class WorkflowUtilities{
 	
 	public Widget getWorkflowActionsWidget(){
 		//InfoMessage infoContainer = new InfoMessage();
-		StylishDropDown workflowActionsDropDown = new StylishDropDown("Workflow Actions");
+		StylishDropDown workflowActionsDropDown = new StylishDropDown(dropDownLabel );
 		workflowActionsDropDown.makeAButtonWhenOneItem(true);
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
@@ -346,6 +358,10 @@ public class WorkflowUtilities{
                 items.add(wfWithdrawItem);
             }
 		}
+
+		//Add in any other custom items you want in this dropdown.
+		items.addAll(additionalItems);
+		
 		for(StylishDropDown widget: workflowWidgets){
 			
 			widget.setItems(items);
@@ -980,5 +996,9 @@ public class WorkflowUtilities{
 	public void addSubmitCallback(Callback<Boolean> callback) {
 		this.submitCallback = callback;
 		
+	}
+
+	public List<KSMenuItemData> getAdditionalItems() {
+		return additionalItems;
 	}
 }

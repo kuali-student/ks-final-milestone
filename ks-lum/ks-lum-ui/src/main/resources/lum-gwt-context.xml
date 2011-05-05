@@ -262,6 +262,17 @@
     <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="dataService" ref="CourseProposalDataService"/>
+        <property name="copyCourseService" ref="CopyCourseService"/>
+    </bean>
+    
+    <bean id="CopyCourseService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CopyCourseServiceImpl">
+    	<property name="courseService" ref="courseClient"/>
+	    <property name="statementService" ref="statementServiceClient"/>
+	    <!-- Use the proposal data service so we can make new proposals -->
+	    <property name="courseProposalDataService" ref="CourseProposalDataService"/>
+	    <property name="courseDataService" ref="CourseDataService"/>
+	    <property name="luService" ref="luClient"/>
+	    <property name="proposalService" ref="proposalClient"/>
     </bean>
     
     <bean id="CourseDataService"

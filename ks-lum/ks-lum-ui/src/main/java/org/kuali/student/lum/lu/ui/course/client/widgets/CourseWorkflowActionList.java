@@ -42,6 +42,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	private KSMenuItemData activateCourseActionItem;
 	private KSMenuItemData inactivateCourseActionItem;
 	private KSMenuItemData retireCourseActionItem;
+	private KSMenuItemData copyCourseActionItem;
 	
 	private final KSLightBox activateDialog = new KSLightBox();
     private VerticalSection activateSection = new VerticalSection();
@@ -92,6 +93,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
 			        }
 
+					HistoryManager.navigate(modifyPath, viewContext);
+				}
+			});
+	    	copyCourseActionItem = new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
+				@Override
+				public void onClick(ClickEvent event) {
+			    	if(viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty()){
+			    		viewContext.setId((String)model.get(CreditCourseConstants.ID));
+						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+						viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+			        }
 					HistoryManager.navigate(modifyPath, viewContext);
 				}
 			});
@@ -237,7 +249,9 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	} else if (cluState.equals(DtoConstants.STATE_INACTIVE)) {
     		items.add(activateCourseActionItem);
     	}
-		
+    	
+		items.add(copyCourseActionItem);
+
     	setItems(items);
     		
     }

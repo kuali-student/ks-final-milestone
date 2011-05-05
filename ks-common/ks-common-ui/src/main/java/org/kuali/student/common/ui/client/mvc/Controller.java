@@ -131,7 +131,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 					 boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
 						
 				        if (requiresAuthz){
-				        	ViewContext tempContext = new ViewContext();
+				        	ViewContext tempContext;
 				        	if(view instanceof LayoutController){
 				        		tempContext = ((LayoutController) view).getViewContext();
 				        	}                 

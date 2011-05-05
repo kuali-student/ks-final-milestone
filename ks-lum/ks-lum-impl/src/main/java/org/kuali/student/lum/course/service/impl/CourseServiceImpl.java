@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
@@ -31,13 +31,10 @@ import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -45,10 +42,8 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
@@ -381,7 +376,7 @@ public class CourseServiceImpl implements CourseService {
 			courseAssembler.assemble(newVersionClu, originalCourse, true);
 
 			//Clear Ids from the original course
-			resetIds(originalCourse);
+			CourseServiceUtils.resetIds(originalCourse);
 
 			//Disassemble the new course
 			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
@@ -389,14 +384,10 @@ public class CourseServiceImpl implements CourseService {
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
-			//copy statements
-			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
-			
-			clearStatementTreeViewIds(statementTreeViews);
-			
-			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
-			}
+			// copy statements
+			CourseServiceUtils.copyStatements(currentVersion.getId(), results
+					.getBusinessDTORef().getId(), results.getBusinessDTORef().getState(), statementService, luService,
+					this);
 			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
@@ -417,69 +408,8 @@ public class CourseServiceImpl implements CourseService {
 
 	}
 
-	private void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews) throws OperationFailedException {
-		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView);
-		}
-	}
 
-	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
-		statementTreeView.setId(null);
-		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
-			reqComp.setId(null);
-			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
-				field.setId(null);
-				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
-				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
-				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
-					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
-						cluSet.setId(null);
-						//Clear clu ids if membership info exists, they will be re-added based on membership info 
-						if (cluSet.getMembershipQuery() != null){
-							cluSet.getCluIds().clear();
-							cluSet.getCluSetIds().clear();
-						}
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
-						field.setValue(cluSet.getId());
-					} catch (Exception e) {
-						throw new OperationFailedException("Error copying clusets.", e);
-					}
-				}
-				
-			}
-		}
-		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child);
-		}
-	}
 
-	private void resetIds(CourseInfo course) {
-		//Clear/Reset Joint info ids
-		for(CourseJointInfo joint:course.getJoints()){
-			joint.setRelationId(null);
-		}
-		//Clear Los
-		for(LoDisplayInfo lo:course.getCourseSpecificLOs()){
-			resetLoRecursively(lo);
-		}
-		//Clear format/activity ids
-		for(FormatInfo format:course.getFormats()){
-			format.setId(null);
-			for(ActivityInfo activity:format.getActivities()){
-				activity.setId(null);
-			}
-		}
-	}
-
-	private void resetLoRecursively(LoDisplayInfo lo){
-		lo.getLoInfo().setId(null);
-		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
-			resetLoRecursively(nestedLo);
-		}
-	}
 
 	@Override
 	@Transactional(readOnly=false)

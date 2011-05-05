@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -102,6 +103,19 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         return rule;
     }
 
+	@Override
+	public DataSaveResult createCopyCourse(String originalCluId)
+			throws Exception {
+		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
+	}
+
+	@Override
+	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+			throws Exception {
+		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
+	}
+
+    
     public StatusInfo changeState(String courseId, String newState) throws Exception {
     	return changeState(courseId, newState, null);
     }

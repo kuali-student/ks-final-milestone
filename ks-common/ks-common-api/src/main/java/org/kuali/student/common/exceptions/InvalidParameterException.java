@@ -33,4 +33,7 @@ public class InvalidParameterException extends Exception {
         super(message);
     }
 
+    public InvalidParameterException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

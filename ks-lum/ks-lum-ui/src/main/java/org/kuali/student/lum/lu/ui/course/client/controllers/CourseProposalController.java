@@ -64,6 +64,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -77,6 +78,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavCont
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -125,6 +127,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private static final String MODIFY_TYPE = "kuali.proposal.type.course.modify";
 	public static final String CREATE_TYPE = "kuali.proposal.type.course.create";
 	public static final String INITIAL_SAVE_VERSION = "1";
+    private static final String MSG_GROUP = "course";
+	
 	private String currentDocType = CREATE_TYPE;
 	private String proposalPath = "";
 	private String currentTitle;
@@ -149,7 +153,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public void setViewContext(ViewContext viewContext) {
     	super.setViewContext(viewContext);
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID){
+    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
     			viewContext.setPermissionType(PermissionType.OPEN);
     		}
     		else{
@@ -165,8 +169,20 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private void initialize() {
     	//TODO get from messages
    		proposalPath = cfg.getProposalPath();
-   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
+   		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
 
+   		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+		    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+		    		getViewContext().setId((String)cluProposalModel.get(CreditCourseConstants.ID));
+		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+		        }
+				HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", getViewContext());
+			}
+		}));
+   		
    		super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
@@ -225,7 +241,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-            createModifyCluProposalModel("versionComment", callback, workCompleteCallback);
+        	if("kuali.proposal.type.course.modify".equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
+        		createModifyCluProposalModel("versionComment", callback, workCompleteCallback);
+        	}else{
+        		createCopyCourseModel(getViewContext().getId(), callback, workCompleteCallback);
+        	}
+        } else if (getViewContext().getIdType() == IdType.COPY_OF_KS_KEW_OBJECT_ID){
+        	createCopyCourseProposalModel(getViewContext().getId(), callback, workCompleteCallback);
         } else{
             createNewCluProposalModel(callback, workCompleteCallback);
         }
@@ -531,6 +553,66 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		});
     }
 
+    @SuppressWarnings("unchecked")
+    private void createCopyCourseModel(String originalCluId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+
+    	cluProposalRpcServiceAsync.createCopyCourse(originalCluId, new AsyncCallback<DataSaveResult>() {
+			public void onSuccess(DataSaveResult result) {
+				cluProposalModel.setRoot(result.getValue());
+				
+				//Add in a blank proposal placeholder
+		        Data proposalData = new Data();
+		        cluProposalModel.getRoot().set(new Data.StringKey("proposal"), proposalData);
+		        
+		        isNew = true;
+				setProposalHeaderTitle();
+		        setLastUpdated();
+
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
+			}
+			
+			public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+caught.getMessage());
+                createNewCluProposalModel(callback, workCompleteCallback);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+			}
+		});
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void createCopyCourseProposalModel(String originalProposalId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+
+    	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, new AsyncCallback<DataSaveResult>() {
+			public void onSuccess(DataSaveResult result) {
+				cluProposalModel.setRoot(result.getValue());
+		        setProposalHeaderTitle();
+		        setLastUpdated();
+		        //add to recently viewed now that we know the id of proposal
+		        ViewContext docContext = new ViewContext();
+		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
+		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
+		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
+		        		+ "/SUMMARY");
+		        
+		        // We need to update the current view context so that if the user clicks the back button it doesn't 
+		        // create a duplicate course proposal. 
+		        getViewContext().setIdType(docContext.getIdType());
+		        getViewContext().setId(docContext.getId());
+		        
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
+			}
+			
+			public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+caught.getMessage());
+                createNewCluProposalModel(callback, workCompleteCallback);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+			}
+		});
+    }
+    
     public void doSaveAction(final SaveActionEvent saveActionEvent){
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
@@ -1025,4 +1107,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
         }
             
     }  
+    
+    public String getMessage(String courseMessageKey) {
+    	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    	if (msg == null) {
+    		msg = courseMessageKey;
+    	}
+    	return msg;
+    }
 }

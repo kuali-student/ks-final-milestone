@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -32,6 +33,8 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
 
 	private static final long serialVersionUID = 1L;
+	private CopyCourseServiceImpl copyCourseService;
+	
 
     @Override
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
@@ -66,4 +69,32 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
     	return null;
     }
+
+	@Override
+	public DataSaveResult createCopyCourse(String originalCluId)
+			throws Exception {
+		try {
+			return copyCourseService.createCopyCourse(originalCluId);
+		} catch (Exception e) {
+			LOG.error("Error copying course with id:" + originalCluId, e);
+			throw e;
+		}
+	}
+
+	@Override
+	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+			throws Exception {
+		try {
+			return copyCourseService.createCopyCourse(originalProposalId);
+		} catch (Exception e) {
+			LOG.error("Error copying proposal with id:" + originalProposalId, e);
+			throw e;
+		}
+
+	}
+
+	public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
+		this.copyCourseService = copyCourseService;
+	}
+	
 }

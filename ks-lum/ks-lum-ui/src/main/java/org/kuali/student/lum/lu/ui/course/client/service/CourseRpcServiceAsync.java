@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 
@@ -33,7 +34,10 @@ public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAs
     public void createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
     public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatusInfo> callback);
     public void updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    
     public void changeState(String courseId, String newState, AsyncCallback<StatusInfo> callback);
     public void changeState(String courseId, String newState, Date currentVersionStart, AsyncCallback<StatusInfo> callback);
-   
+	
+    public void createCopyCourse(String originalCluId, AsyncCallback<DataSaveResult> asyncCallback);
+	public void createCopyCourseProposal(String originalProposalId, AsyncCallback<DataSaveResult> asyncCallback);
 }
