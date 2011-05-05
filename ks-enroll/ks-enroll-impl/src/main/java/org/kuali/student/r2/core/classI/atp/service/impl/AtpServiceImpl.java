@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -20,10 +21,16 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.classI.atp.dao.AtpDao;
+import org.kuali.student.r2.core.classI.atp.dao.AtpRichTextDao;
+import org.kuali.student.r2.core.classI.atp.dao.AtpStateDao;
+import org.kuali.student.r2.core.classI.atp.dao.AtpTypeDao;
 import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.classI.atp.model.AtpEntity;
+import org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +38,43 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AtpServiceImpl implements AtpService{
 
+    private AtpDao atpDao;
+    private AtpTypeDao atpTypeDao;
+    private AtpStateDao atpStateDao;
+    private AtpRichTextDao atpRichTextdao;
     
+    public AtpDao getAtpDao() {
+        return atpDao;
+    }
+
+    public void setAtpDao(AtpDao atpDao) {
+        this.atpDao = atpDao;
+    }
+
+    public AtpTypeDao getAtpTypeDao() {
+        return atpTypeDao;
+    }
+
+    public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
+        this.atpTypeDao = atpTypeDao;
+    }
+
+    public AtpStateDao getAtpStateDao() {
+        return atpStateDao;
+    }
+
+    public void setAtpStateDao(AtpStateDao atpStateDao) {
+        this.atpStateDao = atpStateDao;
+    }
+
+    public AtpRichTextDao getAtpRichTextdao() {
+        return atpRichTextdao;
+    }
+
+    public void setAtpRichTextdao(AtpRichTextDao atpRichTextdao) {
+        this.atpRichTextdao = atpRichTextdao;
+    }
+
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
@@ -117,8 +160,8 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpEntity atp = atpDao.find(atpKey);
+        return null != atp ? atp.toDto() : null;
     }
 
     @Override
@@ -205,11 +248,24 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpEntity atp = new AtpEntity(atpInfo);
+        if (null != atpInfo.getStateKey()) {
+            atp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
+        }
+        if (null != atpInfo.getTypeKey()) {
+            atp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
+        }
+        if (null != atpInfo.getDescr()) {
+            atp.setDescr(new AtpRichTextEntity(atpInfo.getDescr()));
+        }
+        
+        atpDao.persist(atp);
+        return atpInfo;
     }
 
     @Override

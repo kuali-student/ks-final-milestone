@@ -63,11 +63,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.setName(atp.getName());
         this.setStartDate(atp.getStartDate());
         this.setEndDate(atp.getEndDate());
-
-        AtpRichTextEntity atpDesc = new AtpRichTextEntity();
-        atpDesc.setPlain(atp.getDescr().getPlain());
-        atpDesc.setFormatted(atp.getDescr().getFormatted());
-        this.setDescr(atpDesc);
+        this.setDescr(new AtpRichTextEntity(atp.getDescr()));
         
         //TODO: atpType
         
@@ -149,12 +145,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         builder.setTypeKey(atpType.getId());
         builder.setStateKey(atpState.getId());
         builder.setMetaInfo(super.toDTO());
-        
-        RichTextInfo.Builder rtiBuilder = new RichTextInfo.Builder();
-        rtiBuilder.setPlain(descr.getPlain());
-        rtiBuilder.setFormatted(descr.getFormatted());
-        RichTextInfo atpDesc = rtiBuilder.build();
-        builder.setDescr(atpDesc);
+        builder.setDescr(descr.toDto());
 
         List<Attribute> atts = new ArrayList<Attribute>();
         for (AtpAttributeEntity att : getAttributes()) {
