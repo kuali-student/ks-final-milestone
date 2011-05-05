@@ -87,7 +87,7 @@ public abstract class SectionView extends BaseSection implements View {
 
                 @Override
                 public void onRequestFail(Throwable cause) {
-                    Window.alert("Failed to get model: " + getName());
+                    Window.alert("Failed to get model: "  + modelId + " for SectionView " + getName());
                     onReadyCallback.exec(false);
                 }
 

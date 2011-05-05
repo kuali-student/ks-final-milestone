@@ -3,6 +3,7 @@ package org.kuali.student.lum.common.client.configuration;
 public enum LUMViews {
     DEFAULT,
     COURSE_PROPOSAL,
+    COURSE_ADMIN,
     VIEW_COURSE,
     PROGRAM_VIEW,
     PROGRAM_EDIT,

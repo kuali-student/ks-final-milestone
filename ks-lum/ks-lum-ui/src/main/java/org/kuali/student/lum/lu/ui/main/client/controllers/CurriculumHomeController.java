@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.lu.ui.browseprogram.client.controllers.BrowseProgramController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
@@ -57,6 +58,7 @@ public class CurriculumHomeController extends LayoutController {
     private final SpanPanel panel = new SpanPanel();
 
     private CourseProposalController courseProposalController;
+    private CourseAdminController courseAdminController;
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
@@ -99,6 +101,14 @@ public class CurriculumHomeController extends LayoutController {
                     @Override
                     public void onSuccess() {
                         callback.exec(getCourseProposalController());
+                    }
+                });
+                break;
+            case COURSE_ADMIN:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(getCourseAdminController());
                     }
                 });
                 break;
@@ -289,6 +299,11 @@ public class CurriculumHomeController extends LayoutController {
     private CourseProposalController getCourseProposalController() {
         courseProposalController = new CourseProposalController();
         return courseProposalController;
+    }
+
+    private CourseAdminController getCourseAdminController() {
+        courseAdminController = new CourseAdminController();
+        return courseAdminController;
     }
 
     private LayoutController getViewCourseController() {

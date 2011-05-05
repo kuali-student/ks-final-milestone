@@ -25,6 +25,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
@@ -113,11 +114,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final DataModel cluProposalModel = new DataModel("Proposal");
 	private final DataModel comparisonModel = new DataModel("Original Course");
 
-	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
+	CourseConfigurer cfg;
 	
 	private WorkQueue modelRequestQueue;
 
-    private WorkflowUtilities workflowUtil;
+    protected WorkflowUtilities workflowUtil;
 
 	private boolean initialized = false;
 	private boolean isNew = false;
@@ -129,24 +130,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	public static final String INITIAL_SAVE_VERSION = "1";
     private static final String MSG_GROUP = "course";
 	
-	private String currentDocType = CREATE_TYPE;
-	private String proposalPath = "";
-	private String currentTitle;
+	protected String currentDocType = CREATE_TYPE;
+	protected String proposalPath = "";
+	protected String currentTitle;
 
 	private final DateFormat df = DateFormat.getInstance();
 
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
-    final CourseRequirementsDataModel reqDataModel;
-    final CourseRequirementsDataModel reqDataModelComp;
+
+	protected CourseRequirementsDataModel reqDataModel;
+	protected CourseRequirementsDataModel reqDataModelComp;
    
     public CourseProposalController(){
         super();
-        reqDataModel = new CourseRequirementsDataModel(this);
-        reqDataModelComp = new CourseRequirementsDataModel(this);
-        initialize();
-        addStyleName("courseProposal");
+        initializeController();
     }
 
     @Override
@@ -155,8 +154,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
     		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
     			viewContext.setPermissionType(PermissionType.OPEN);
-    		}
-    		else{
+    		} else{
     			//they are trying to make a modification
     			viewContext.setPermissionType(PermissionType.INITIATE);
     		}
@@ -166,8 +164,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     }
 
-    private void initialize() {
-    	//TODO get from messages
+    protected void initializeController() {
+    	cfg = GWT.create(CourseConfigurer.class);
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
 
@@ -184,7 +182,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		}));
    		
    		super.setDefaultModelId(cfg.getModelId());
-        super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
+   		registerModelsAndHandlers();
+   		
+        addStyleName("courseProposal");
+    }
+    
+    protected void registerModelsAndHandlers(){
+        reqDataModel = new CourseRequirementsDataModel(this);
+        reqDataModelComp = new CourseRequirementsDataModel(this);
+    	
+        super.registerModel(super.getDefaultModelId(), new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -196,7 +203,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         if (cluProposalModel.getRoot() == null || initialized == false){
-                            initModel(callback, workCompleteCallback);
+                            populateModel(callback, workCompleteCallback);
                         } else {
                             callback.onModelReady(cluProposalModel);
                             workCompleteCallback.exec(true);
@@ -227,15 +234,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			}        	
         });
 
-        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
+        super.addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
                 GWT.log("CluProposalController received save action request.", null);
                 doSaveAction(saveAction);
             }
-        });
+        });    	
     }
 
-    private void initModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
+    /**
+     * Used to populate the proposal model based on the view context.  
+     * 
+     * @param callback
+     * @param workCompleteCallback
+     */
+    private void populateModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
             getCluProposalFromWorkflowId(callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
@@ -260,15 +273,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
         		getCluProposalFromProposalId(id, callback, workCompleteCallback);
         	}
         	else{
-        		initModel(callback, workCompleteCallback);
+        		populateModel(callback, workCompleteCallback);
         	}
     	}
     	else{
-    		initModel(callback, workCompleteCallback);
+    		populateModel(callback, workCompleteCallback);
     	}
     }
 
-    private void init(final Callback<Boolean> onReadyCallback) {
+    private void intializeView(final Callback<Boolean> onReadyCallback) {
     	if (initialized) {
     		onReadyCallback.exec(true);
     	} else {
@@ -298,7 +311,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    			currentDocType = MODIFY_TYPE;
 		    		}
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
-
+		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());
+		    		
 		    		//Get metadata and complete initializing the screen
 		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
 						@Override
@@ -341,7 +355,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
-        workflowUtil.requestAndSetupModel();
+    	if (workflowUtil != null){
+    		workflowUtil.requestAndSetupModel();	
+    	}
 
         CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
 
@@ -439,7 +455,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			@Override
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
-		        setProposalHeaderTitle();
+		        setHeaderTitle();
 		        setLastUpdated();
                 reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
                     @Override
@@ -504,7 +520,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluProposalModel.setRoot(new Data());
         isNew = true;
-        setProposalHeaderTitle();
+        setHeaderTitle();
         setLastUpdated();
         callback.onModelReady(cluProposalModel);
         workCompleteCallback.exec(true);
@@ -527,7 +543,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
-				setProposalHeaderTitle();
+				setHeaderTitle();
 		        setLastUpdated();
 		        //add to recently viewed now that we know the id of proposal
 		        ViewContext docContext = new ViewContext();
@@ -565,7 +581,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        cluProposalModel.getRoot().set(new Data.StringKey("proposal"), proposalData);
 		        
 		        isNew = true;
-				setProposalHeaderTitle();
+				setHeaderTitle();
 		        setLastUpdated();
 
 		        callback.onModelReady(cluProposalModel);
@@ -586,7 +602,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
-		        setProposalHeaderTitle();
+		        setHeaderTitle();
 		        setLastUpdated();
 		        //add to recently viewed now that we know the id of proposal
 		        ViewContext docContext = new ViewContext();
@@ -727,11 +743,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				//Ensure workflow doc status gets updated from draft, only done on intial save
 	    				//to reduce workflow rpc calls.
 	    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
-	    				if (INITIAL_SAVE_VERSION.equals(proposalVersion)){
+	    				if (INITIAL_SAVE_VERSION.equals(proposalVersion) && workflowUtil != null){
 	    					workflowUtil.refresh();
 	    				}
 	    				
-	    				setProposalHeaderTitle();
+	    				setHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
                 		if(isNew){
@@ -777,7 +793,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	Application.getApplicationContext().clearPathToFieldMapping(null);
     	Application.getApplicationContext().setParentPath("");
     	   	
-    	init(onReadyCallback);
+    	intializeView(onReadyCallback);
 	}
 
     //Before show is called before the model is bound to the widgets. We need to update cross constraints and re-display 
@@ -873,7 +889,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		throw new UnsupportedOperationException();
 	}
 
-    protected void setProposalHeaderTitle(){
+    protected void setHeaderTitle(){
     	String title;
     	if (cluProposalModel.get(cfg.getProposalTitlePath()) != null){
     		title = getProposalTitle();

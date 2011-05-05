@@ -78,7 +78,7 @@ CreditCourseLearningResultsConstants
     private static final String STATEMENTS_PATH = "statements";
     private static final String ID_TRANSLATION = "id-translation";
     
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
+    public static final String CLU_PROPOSAL_MODEL = "courseProposalModel";
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
     private String type = "Course";

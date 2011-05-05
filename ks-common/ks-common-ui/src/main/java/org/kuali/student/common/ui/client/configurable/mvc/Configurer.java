@@ -22,7 +22,7 @@ public abstract class Configurer {
     protected String type = "";
     protected String state = "";
     protected String groupName = "";
-//    public abstract void configure(ConfigurableLayout layout);
+
     /**
      * Sets the modelDefinition which is the metadata backing the fields to be configured,
      * this needs to be set before adding any fields in the configurer
@@ -289,4 +289,19 @@ public abstract class Configurer {
         section.addField(fd);
         return fd;
     }
+
+    /**
+     * The initial state of the objects for the screen
+     * 
+     * @return
+     */
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+    
+    
 }

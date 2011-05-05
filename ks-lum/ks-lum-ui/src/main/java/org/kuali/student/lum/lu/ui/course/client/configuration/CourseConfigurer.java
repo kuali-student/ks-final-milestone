@@ -117,25 +117,19 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
-    protected DocumentTool documentTool;
-    //
-    CourseSummaryConfigurer summaryConfigurer;
+   
 
-    //Override paths for course and proposal so they are root
-    public static final String PROPOSAL = "";
+    protected DocumentTool documentTool;    
+    protected CourseSummaryConfigurer summaryConfigurer;
+
+    protected List<StatementTypeInfo> stmtTypes;
+    
     public static final String COURSE = "";
 
     public enum CourseSections {
         CLU_BEGIN, PEOPLE_PERMISSONS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS,DECISIONS, DOCUMENTS,
         PROGRAM_INFO, ASSEMBLER_TEST
-    }
-
-    protected List<StatementTypeInfo> stmtTypes;
-
-    public void setModelDefinition(DataModelDefinition modelDefinition) {
-        super.modelDefinition = modelDefinition;
     }
 
     public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
@@ -161,7 +155,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
 
             layout.addMenu(sections);
-
+            
+            
             //Course Content
             layout.addMenuItem(sections, generateCourseInfoSection());
             layout.addMenuItem(sections, generateGovernanceSection());
@@ -176,7 +171,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, generateFinancialsSection());
             
             //Authors & Collaborators
-            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS,CLU_PROPOSAL_MODEL));
+            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS,COURSE_PROPOSAL_MODEL));
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -184,7 +179,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -199,7 +194,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -290,12 +285,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUUIConstants.SHORT_TITLE_LABEL_KEY));
         section.addSection(generateCourseNumberSection());
-        FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY));
+    	FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY));
         instructorsFd.setWidgetBinding(new KeyListModelWigetBinding("personId"));
-        section.addSection(generateDescriptionRationaleSection());
 
+        section.addSection(generateDescriptionRationaleSection());
+        
         return section;
     }
+            
 
     protected GroupSection generateCourseNumberSection() {
 
@@ -841,7 +838,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSectionView initSectionView(Enum<?> viewEnum, String labelKey) {
-        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), COURSE_PROPOSAL_MODEL);
         section.addStyleName(LUUIConstants.STYLE_SECTION);
         return section;
     }

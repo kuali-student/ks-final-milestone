@@ -46,6 +46,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(CREATE_DESC));
         create.addNavLinkWidget(getMessage(CREATE_COURSE), AppLocations.Locations.COURSE_PROPOSAL.getLocation());
         create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+        create.addNavLinkWidget("Create a Course (Admin)", AppLocations.Locations.COURSE_ADMIN.getLocation());        
 
 
         //View + Modify

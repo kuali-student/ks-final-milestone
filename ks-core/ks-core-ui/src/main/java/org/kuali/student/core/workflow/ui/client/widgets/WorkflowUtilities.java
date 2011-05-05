@@ -679,16 +679,15 @@ public class WorkflowUtilities{
                                 required.setText("Please enter the decision rationale");
                             } else {
                                 addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
-
                                 workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
                                     @Override
                                     public void handleFailure(Throwable caught) {
-                                        submitSuccessDialog.hide();
+                                    		submitSuccessDialog.hide();
                                         Window.alert("Error blanket approving Proposal");
                                     }
 
                                     public void onSuccess(Boolean result) {
-                                        submitSuccessDialog.hide();
+                                    		submitSuccessDialog.hide();
                                         if (result) {
                                             // KSLAB-1828; we get "B" back from workflowRpcServiceAsync.getActionsRequested()
                                             // even though we just successfully submitted blanket approval to workflow,
@@ -705,7 +704,7 @@ public class WorkflowUtilities{
                                             Window.alert("Error blanket approving Proposal");
                                         }
                                     }
-                                });
+                                });    	
                             }
                         } else {
                             submitSuccessDialog.hide();
@@ -734,6 +733,25 @@ public class WorkflowUtilities{
         return wfBlanketApproveItem;
     }
 
+    public void blanketApprove(){
+   		updateWorkflowIdFromModel(dataModel);
+        workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+            @Override
+            public void handleFailure(Throwable caught) {
+                Window.alert("Error blanket approving Proposal");
+            }
+
+            public void onSuccess(Boolean result) {
+                if (result) {
+                    // Notify the user that the document was approved
+                    KSNotifier.add(new KSNotification("Proposal will be blanket approved", false));
+                } else {
+                    Window.alert("Error blanket approving Proposal");
+                }
+            }
+        });    	
+    }
+    
     protected KSDropDown setUpReturnToPreviousDropDown(String workflowId) {
 //        nodeNameList.clear();
         final KSDropDown nodeNameDropDown = new KSDropDown();

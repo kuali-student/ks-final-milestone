@@ -16,7 +16,7 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     public static final String COURSE_RULES_MODEL_ID = "courseRulesModelId";
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";    
+    public static final String COURSE_PROPOSAL_MODEL = "courseProposalModel";    
 
     private CourseRequirementsSummaryView preview;
 
@@ -39,7 +39,7 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), CLU_PROPOSAL_MODEL,
+        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), COURSE_PROPOSAL_MODEL,
                                                 new CourseRequirementsDataModel(this), isReadOnly);
         super.addView(preview);
 

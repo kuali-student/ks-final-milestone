@@ -82,7 +82,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized()) {
-            rules.retrieveCourseRequirements(AbstractCourseConfigurer.CLU_PROPOSAL_MODEL, new Callback<Boolean>() {
+            rules.retrieveCourseRequirements(AbstractCourseConfigurer.COURSE_PROPOSAL_MODEL, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
                     if (result) {
@@ -373,7 +373,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void storeRules(final boolean storeRules, final Callback<Boolean> callback) {
-        parentController.requestModel(CourseRequirementsViewController.CLU_PROPOSAL_MODEL, new ModelRequestCallback() {
+        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback() {
             @Override
             public void onRequestFail(Throwable cause) {
                 Window.alert(cause.getMessage());

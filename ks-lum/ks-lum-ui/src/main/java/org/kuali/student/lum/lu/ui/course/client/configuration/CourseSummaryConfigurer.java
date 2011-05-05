@@ -11,8 +11,8 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
@@ -30,7 +30,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
@@ -76,7 +75,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CourseSummaryConfigurer implements
+public class CourseSummaryConfigurer extends Configurer implements
 	CreditCourseProposalConstants,
 	CreditCourseProposalInfoConstants,
 	CreditCourseConstants,
@@ -95,21 +94,18 @@ public class CourseSummaryConfigurer implements
     public static final String PROPOSAL = "";
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    
+    private static final String OPTIONAL = "o";
+    
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
-    private static final String OPTIONAL = "o";
 
-    protected String type = "course";
-    protected String state = DtoConstants.STATE_DRAFT;
-    protected String groupName;
-    protected DataModelDefinition modelDefinition;
     private List<StatementTypeInfo> stmtTypes;
 
     private Controller controller;
     private SummaryTableSection tableSection;
     private String modelId;
 
-	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
     
     private class EditHandler implements ClickHandler{
 
@@ -142,15 +138,11 @@ public class CourseSummaryConfigurer implements
         section.addStyleName(LUUIConstants.STYLE_SECTION);
         return section;
     }
-    protected String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
-    }
-    protected MessageKeyInfo generateMessageInfo(String labelKey) {
-        return new MessageKeyInfo(groupName, type, state, labelKey);
-    }
+
     protected SummaryTableFieldRow getFieldRow(String fieldKey, MessageKeyInfo messageKey) {
         return getFieldRow(fieldKey, messageKey, null, null, null, null, false);
     }
+    
     protected SummaryTableFieldRow getFieldRow(String fieldKey, MessageKeyInfo messageKey, boolean optional) {
         return getFieldRow(fieldKey, messageKey, null, null, null, null, optional);
     }
@@ -193,7 +185,7 @@ public class CourseSummaryConfigurer implements
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
         
-        if(controller instanceof WorkflowEnhancedNavController){
+        if(controller instanceof WorkflowEnhancedNavController && ((WorkflowEnhancedNavController)controller).getWfUtilities() != null){
 	        final WarnContainer infoContainer1;
 	        final WarnContainer infoContainer2;
 
