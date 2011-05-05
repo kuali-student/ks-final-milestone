@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.classII.academiccalendar.infc;
+package org.kuali.student.enrollment.classII.acal.infc;
 
 import java.util.Date;
 

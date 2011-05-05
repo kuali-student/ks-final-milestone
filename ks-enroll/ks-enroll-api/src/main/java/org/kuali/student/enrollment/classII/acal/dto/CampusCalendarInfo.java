@@ -12,79 +12,81 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.classII.academiccalendar.dto;
+package org.kuali.student.enrollment.classII.acal.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.classII.acal.infc.CampusCalendar;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.classII.academiccalendar.infc.Term;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
+public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar, Serializable {
 
-public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private final Date startDate;
-
     @XmlElement
     private final Date endDate;
-
+    @XmlElement
+    private final String location;
     @XmlAnyElement
     private final List<Element> _futureElements;
 
-    private TermInfo() {
+    private CampusCalendarInfo() {
         startDate = null;
         endDate = null;
+        location = null;
         _futureElements = null;
     }
 
     /**
-     * Constructs a new TermInfo from another
-     * Term.
+     * Constructs a new CampusCalendarInfo from another
+     * CampusCalendar.
      *
-     * @param term the Term to copy
+     * @param campusCalendar the Campus Calendar to copy
      */
-    public TermInfo(Term term) {
-        super(term);
-
-        this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
-        this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
-
+    public CampusCalendarInfo(CampusCalendar campusCalendar) {
+        super(campusCalendar);
+        this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
+        this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
+        this.location = campusCalendar.getLocation();
         _futureElements = null;
     }
-
 
     @Override
     public Date getStartDate() {
         return startDate;
     }
 
-
     @Override
     public Date getEndDate() {
         return endDate;
     }
 
+    @Override
+    public String getLocation() {
+        return location;
+    }
+
     /**
-     * The builder class for this TermInfo.
+     * The builder class for this CampusCalendarInfo.
      */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<TermInfo>, Term {
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<CampusCalendarInfo>, CampusCalendar {
 
         private Date startDate;
         private Date endDate;
+        private String location;
 
         /**
          * Constructs a new builder.
@@ -93,17 +95,18 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         }
 
         /**
-         * Constructs a new builder initialized from another Term
+         * Constructs a new builder initialized from another CampusCalendar
          */
-        public Builder(Term term) {
-            super(term);
-            this.startDate = term.getStartDate();
-            this.startDate = term.getEndDate();
+        public Builder(CampusCalendar campusCalendar) {
+            super(campusCalendar);
+            this.startDate = campusCalendar.getStartDate();
+            this.endDate = campusCalendar.getEndDate();
+            this.location = campusCalendar.getLocation();
         }
 
         @Override
-        public TermInfo build() {
-            return new TermInfo(this);
+        public CampusCalendarInfo build() {
+            return new CampusCalendarInfo(this);
         }
 
         @Override
@@ -122,6 +125,15 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
 
         public void setEndDate(Date endDate) {
             this.endDate = endDate;
+        }
+
+        @Override
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classII.academiccalendar.conformance.tests;
+package org.kuali.student.enrollment.classII.acal.conformance.tests;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService;
+import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.service.AcademicCalendarService;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

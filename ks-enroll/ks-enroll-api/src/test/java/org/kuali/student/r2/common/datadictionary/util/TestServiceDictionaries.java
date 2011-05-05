@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
+import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.acal.dto.TermInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;

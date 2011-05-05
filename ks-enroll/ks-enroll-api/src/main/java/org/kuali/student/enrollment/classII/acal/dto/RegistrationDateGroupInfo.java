@@ -13,12 +13,11 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.classII.academiccalendar.dto;
+package org.kuali.student.enrollment.classII.acal.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,9 +25,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.classII.acal.infc.RegistrationDateGroup;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.classII.academiccalendar.infc.RegistrationDateGroup;
+import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)

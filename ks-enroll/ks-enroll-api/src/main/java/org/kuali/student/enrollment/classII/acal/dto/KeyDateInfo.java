@@ -12,12 +12,11 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.classII.academiccalendar.dto;
+package org.kuali.student.enrollment.classII.acal.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,17 +24,16 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.classII.acal.infc.KeyDate;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.infc.ModelBuilder;
-import org.kuali.student.enrollment.classII.academiccalendar.infc.Holiday;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isInstructionalDay", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
-public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable {
+@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlElement
-    private final Boolean isInstructionalDay;
     @XmlElement
     private final Boolean isAllDay;
     @XmlElement
@@ -47,8 +45,7 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     @XmlAnyElement
     private final List<Element> _futureElements;
 
-    protected HolidayInfo() {
-        isInstructionalDay = false;
+    protected KeyDateInfo() {
         isAllDay = false;
         isDateRange = false;
         startDate = null;
@@ -57,23 +54,17 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     }
 
     /**
-     * Constructs a new HolidayInfo from another Holiday.
+     * Constructs a new KeyDateInfo from another KeyDate.
      *
-     * @param holiday the Holiday to copy
+     * @param keyDate the KeyDate to copy
      */
-    public HolidayInfo(Holiday holiday) {
-        super(holiday);
-        this.isInstructionalDay = holiday.getIsInstructionalDay();
-        this.isAllDay = holiday.getIsAllDay();
-        this.isDateRange = holiday.getIsDateRange();
-        this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-        this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+    public KeyDateInfo(KeyDate keyDate) {
+        super(keyDate);
+        this.isAllDay = keyDate.getIsAllDay();
+        this.isDateRange = keyDate.getIsDateRange();
+        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
         _futureElements = null;
-    }
-
-    @Override
-    public Boolean getIsInstructionalDay() {
-        return isInstructionalDay;
     }
 
     @Override
@@ -97,11 +88,10 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     }
 
     /**
-     * The builder class for this HolidayInfo.
+     * The builder class for this KeyDateInfo.
      */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, Holiday {
+    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
 
-        private Boolean isInstructionalDay;
         private Boolean isAllDay;
         private Boolean isDateRange;
         private Date startDate;
@@ -115,29 +105,19 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
 
         /**
          *  Constructs a new builder initialized from another
-         *  Holiday.
+         *  KeyDate.
          */
-        public Builder(Holiday holiday) {
-            super(holiday);
-            this.isInstructionalDay = holiday.getIsInstructionalDay();
-            this.isAllDay = holiday.getIsAllDay();
-            this.isDateRange = holiday.getIsDateRange();
-            this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-            this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
+        public Builder(KeyDate keyDate) {
+            super(keyDate);
+            this.isAllDay = keyDate.getIsAllDay();
+            this.isDateRange = keyDate.getIsDateRange();
+            this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
+            this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
         }
 
         @Override
-        public HolidayInfo build() {
-            return new HolidayInfo(this);
-        }
-
-        @Override
-        public Boolean getIsInstructionalDay() {
-            return isInstructionalDay;
-        }
-
-        public void setIsInstructionalDay(Boolean isInstructionalDay) {
-            this.isInstructionalDay = isInstructionalDay;
+        public KeyDateInfo build() {
+            return new KeyDateInfo(this);
         }
 
         @Override

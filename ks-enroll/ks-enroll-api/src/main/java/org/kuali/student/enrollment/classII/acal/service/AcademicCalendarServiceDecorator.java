@@ -1,21 +1,19 @@
-package org.kuali.student.enrollment.classII.academiccalendar.service;
+package org.kuali.student.enrollment.classII.acal.service;
 
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
+import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.acal.dto.TermInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;

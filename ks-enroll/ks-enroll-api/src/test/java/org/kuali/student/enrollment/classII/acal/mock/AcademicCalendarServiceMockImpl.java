@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classII.academiccalendar.mock;
+package org.kuali.student.enrollment.classII.acal.mock;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,15 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.kuali.student.enrollment.classII.academiccalendar.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.HolidayInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo;
-import org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService;
-
+import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.classII.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.classII.acal.dto.TermInfo;
+import org.kuali.student.enrollment.classII.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
