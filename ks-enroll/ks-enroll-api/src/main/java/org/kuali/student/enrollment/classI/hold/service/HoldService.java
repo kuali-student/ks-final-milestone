@@ -30,8 +30,6 @@ import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -93,9 +91,9 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
 
     /** 
      * Retrieves a list of Holds that pertain to the
-     * given year.
+     * given hold category.
      *
-     * @param year 
+     * @param holdCategoryId 
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -108,10 +106,9 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     public List<HoldInfo> getHoldsByCategory(@WebParam(name = "holdCategoryId") String holdCategoryId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Holds that pertain to the
-     * given year.
+     * Retrieves a list of Holds that pertain to a person based on id.
      *
-     * @param year 
+     * @param personId 
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -124,8 +121,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     public List<HoldInfo> getHoldsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Holds mapped to a credential
-     * program type and pertains to the given year.
+     * Retrieves a list of Holds for a person and of a given category.
      *
      * @param holdCategoryId a hold Category
      * @param personId Id of a person
@@ -141,9 +137,8 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     public List<HoldInfo> getHoldsByCategoryForPerson(@WebParam(name = "holdCategoryId") String holdCategoryId, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Holds mapped to a credential
-     * program type and pertains to the given year.
-     *
+     * Retrieves the active Holds for a person and of a given category.
+     * 
      * @param holdCategoryId a hold Category
      * @param personId Id of a person
      * @param context Context information containing the principalId
