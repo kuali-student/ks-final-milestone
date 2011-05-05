@@ -168,7 +168,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cfg = GWT.create(CourseConfigurer.class);
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
-
+   		
+   		//Add an extra menu item to copy the proposal to a new proposal.
    		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
