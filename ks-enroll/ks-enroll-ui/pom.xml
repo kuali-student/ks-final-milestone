@@ -14,7 +14,12 @@
 			<groupId>org.kuali.student.enroll</groupId>
 			<artifactId>ks-enroll-api</artifactId>
 			<version>${project.version}</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope> -->
 		</dependency>
+		<dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+			<version>${kuali.rice.version}</version>
+        </dependency>
 	</dependencies>
 </project>
