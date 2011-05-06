@@ -12,4 +12,19 @@
 
     <bean id="lprStateDao" class="org.kuali.student.enrollment.classI.lpr.dao.LprStateDao"/>
 
+    <bean id="atpDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="atpTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="AtpStateDao" class="org.kuali.student.r2.core.classI.atp.dao.atpStateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpRichTextdao" class="org.kuali.student.r2.core.classI.atp.dao.AtpRichTextDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
 </beans>

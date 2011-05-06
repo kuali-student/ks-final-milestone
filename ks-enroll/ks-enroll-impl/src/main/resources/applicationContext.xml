@@ -28,7 +28,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
  
     <bean id="lprUtility" class="org.kuali.student.enrollment.classI.lpr.service.util.ConcreteLPRUtility"/>
-
+    
+    <bean id="atpService" class="org.kuali.student.r2.core.classI.atp.service.impl.AtpServiceImpl">
+    	<property name="atpDao" ref="atpDao"/>
+    	<property name="atpTypeDao" ref="atpTypeDao"/>
+    	<property name="atpStateDao" ref="atpStateDao"/>
+    	<property name="atpRichTextdao" ref="atpRichTextdao"/>
+    </bean>
+    
     <!-- declare impls here -->
     <!--  declare all service exceptions here or in KS core -->
     <bean id="kualiInvalidParamException" class="org.kuali.student.r2.common.exceptions.InvalidParameterException" />
