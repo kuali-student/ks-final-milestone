@@ -158,17 +158,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             
             //Course Content
-            layout.addMenuItem(sections, generateCourseInfoSection());
-            layout.addMenuItem(sections, generateGovernanceSection());
-            layout.addMenuItem(sections, generateCourseLogisticsSection());
+            layout.addMenuItem(sections, (SectionView)generateCourseInfoSection(initSectionView(CourseSections.COURSE_INFO, LUUIConstants.INFORMATION_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView)generateGovernanceSection(initSectionView(CourseSections.GOVERNANCE, LUUIConstants.GOVERNANCE_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView)generateCourseLogisticsSection(initSectionView(CourseSections.COURSE_LOGISTICS, LUUIConstants.LOGISTICS_LABEL_KEY)));
             layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
             layout.addMenuItem(sections, generateCourseRequisitesSection(layout));
 
             //Administrative
-            layout.addMenuItem(sections, generateActiveDatesSection());
-            layout.addMenuItem(sections, generateFinancialsSection());
+            layout.addMenuItem(sections, (SectionView)generateActiveDatesSection(initSectionView(CourseSections.ACTIVE_DATES, LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView)generateFinancialsSection(initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY)));
             
             //Authors & Collaborators
             layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS,COURSE_PROPOSAL_MODEL));
@@ -248,8 +248,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false);
     }
 
-    protected SectionView generateActiveDatesSection() {
-        VerticalSectionView section = initSectionView(CourseSections.ACTIVE_DATES, LUUIConstants.ACTIVE_DATES_LABEL_KEY);
+    protected Section generateActiveDatesSection(Section section) {
 
         addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
         addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
@@ -270,8 +269,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return startDate;
     }
 
-    protected SectionView generateGovernanceSection() {
-        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUUIConstants.GOVERNANCE_LABEL_KEY);
+    protected Section generateGovernanceSection(Section section) {
         addField(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUUIConstants.CAMPUS_LOCATION_LABEL_KEY));
         addField(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUUIConstants.ACADEMIC_SUBJECT_ORGS_KEY));
         addField(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUUIConstants.ADMIN_ORG_LABEL_KEY));
@@ -279,8 +277,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
-    public SectionView generateCourseInfoSection() {
-        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUUIConstants.INFORMATION_LABEL_KEY);
+    public Section generateCourseInfoSection(Section section) {
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSAL_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUUIConstants.SHORT_TITLE_LABEL_KEY));
@@ -481,9 +478,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return description;
     }
 
-    public SectionView generateCourseLogisticsSection() {
-        VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUUIConstants.LOGISTICS_LABEL_KEY);
-        section.setInstructions(getLabel(LUUIConstants.LOGISTICS_LABEL_KEY + "-instruct") + "<br><br>");
+    public Section generateCourseLogisticsSection(Section section) {
+    	if (section instanceof SectionView){
+    		((SectionView)section).setInstructions(getLabel(LUUIConstants.LOGISTICS_LABEL_KEY + "-instruct") + "<br><br>");
+    	}
 
         section.addSection(generateSchedulingSection());
         section.addSection(generateDurationSection());
@@ -862,8 +860,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
 
-    protected SectionView generateFinancialsSection() {
-        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY);
+    protected Section generateFinancialsSection(Section section) {
 
         VerticalSection justiFee = initSection(getH3Title(LUUIConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
         SpanPanel courseFeeInstruction = new SpanPanel();

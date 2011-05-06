@@ -3,10 +3,13 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import java.util.ArrayList;
 
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 /**
@@ -47,20 +50,23 @@ public class CourseAdminConfigurer extends CourseConfigurer{
         section.addStyleName(LUUIConstants.STYLE_SECTION);
 
                 
-        section.addSection(generateCourseInfoSection());
-        section.addSection(generateGovernanceSection());
-        section.addSection(generateCourseLogisticsSection());
-        section.addSection(generateGradesAssessmentsSection());
-        section.addSection(generateStudentRegistrationOptionsSection());
-        section.addSection(generateFinalExamSection());
-        section.addSection(generateOutcomesSection());
-        section.addSection(generateLearningObjectivesNestedSection());
-        section.addSection(generateActiveDatesSection());
-        section.addSection(generateFinancialsSection());
+        section.addSection(generateCourseInfoSection(initSection(LUUIConstants.INFORMATION_LABEL_KEY)));
+        section.addSection(generateGovernanceSection(initSection(LUUIConstants.GOVERNANCE_LABEL_KEY)));
+        section.addSection(generateCourseLogisticsSection(initSection(LUUIConstants.LOGISTICS_LABEL_KEY)));
+        
+        //Add learning objective section
+        Section loSection = initSection(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        loSection.addSection(generateLearningObjectivesNestedSection());        
+        section.addSection(loSection);
+        
+        section.addSection(generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
+        section.addSection(generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY)));
                 
 
         return section;
 	}
-		
-	
+    
+    protected Section initSection(String labelKey){
+    	return initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);	    
+    }
 }

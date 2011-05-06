@@ -26,7 +26,6 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
