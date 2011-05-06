@@ -24,7 +24,7 @@
     <!-- KeyDateInfo-->
     <bean id="keyDateInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="keyDateInfo"/>
-        <property name="objectClass" value="org.kuali.student.enrollment.classII.academiccalendar.dto.KeyDateInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>

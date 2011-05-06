@@ -6,7 +6,7 @@
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
-    <bean id="mockAcademicCalendarService" class= "org.kuali.student.enrollment.classII.academiccalendar.mock.AcademicCalendarServiceMockImpl">
+    <bean id="mockAcademicCalendarService" class= "org.kuali.student.enrollment.classII.acal.mock.AcademicCalendarServiceMockImpl">
         <property name="atpService" ref="mockAtpService"/>
     </bean>
     <bean id="validatorToTest" parent="validator" />

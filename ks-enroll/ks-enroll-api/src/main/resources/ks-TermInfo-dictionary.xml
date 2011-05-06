@@ -24,7 +24,7 @@
     <!-- TermInfo-->
     <bean id="termInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="termInfo"/>
-        <property name="objectClass" value="org.kuali.student.enrollment.classII.academiccalendar.dto.TermInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.classII.acal.dto.TermInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>
