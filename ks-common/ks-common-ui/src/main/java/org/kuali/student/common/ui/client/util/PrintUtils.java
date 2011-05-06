@@ -33,9 +33,15 @@ public class PrintUtils {
     	var win = $wnd.open("", num, "width=900,height=600,scrollbars=1");
     	var doc = win.document;
     	doc.open("text/html", "replace");
-    	doc.write("<HTML style='overflow: visible;'>");
-    	doc.write(headTag);
-    	doc.write("<BODY style='overflow: visible;'>");
+    	if(navigator.appName == "Microsoft Internet Explorer"){
+    	    doc.write("<HTML style='overflow: auto;'>");
+    	    doc.write(headTag);
+    	    doc.write("<BODY style='overflow: auto;'>");
+    	} else {
+    	    doc.write("<HTML style='overflow: inherit;'>");
+            doc.write(headTag);
+            doc.write("<BODY style='overflow: inherit;'>");
+    	}
     	doc.write("<a class='ks-button-primary' style='cursor: pointer;' onClick='print();'>Print</a>");
     	doc.write("<DIV class='printPage'>");
     	doc.writeln(html);
