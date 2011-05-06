@@ -31,9 +31,14 @@
 }
 
 .printPage .ks-menu-layout-rightColumn{
-	padding: 0;
+	display:block;
+	padding:0;
 }
 
 .printPage .sectionEditLink{
+	display: none;
+}
+
+.printPage .ks-customDropDown-titlePanel{
 	display: none;
 }
