@@ -24,7 +24,7 @@ public class GpaForCourseResolver implements TermResolver<Float> {
         // student 2: 3.0 in course 2, 0.4 in course 3
         Map<String, Float> student2Gpas = new HashMap<String, Float>();
         student2Gpas.put("2", 3.0f);
-        student2Gpas.put("3", 0.4f);
+        student2Gpas.put("3", 2.0f);
         
         gpas.put("2", student2Gpas);
         

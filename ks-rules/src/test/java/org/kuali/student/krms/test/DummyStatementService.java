@@ -36,13 +36,13 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public class DummyStatementService implements StatementService {
     
     private Map<String, StatementTreeViewInfo> statementTreeMap;
+    
+    public DummyStatementService() {
+        buildStatementTreeMap();
+    }
 
     @Override
     public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // Build our static StatementTree objects if not already done so
-        if(statementTreeMap == null) {
-            buildStatementTreeMap();
-        }
         
         if(statementId == null) {
             throw new MissingParameterException("statementId parameter is missing but required.");
@@ -137,10 +137,10 @@ public class DummyStatementService implements StatementService {
         statement.setType("kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
         statement.setOperator(StatementOperatorTypeKey.AND);
         
-        // first requirement component: Completed 5 credits from (course set with id 1)
+        // first requirement component: Completed 5 credits from (course set with id 2)
         ReqComponentInfo req1 = buildReqComponentInfo("kuali.reqComponent.type.course.courseset.credits.completed.nof");
         req1.getReqCompFields().add(buildReqCompFieldInfo("kuali.reqComponent.field.type.value.positive.integer", "5"));
-        req1.getReqCompFields().add(buildReqCompFieldInfo("kuali.reqComponent.field.type.course.cluSet.id", "1"));
+        req1.getReqCompFields().add(buildReqCompFieldInfo("kuali.reqComponent.field.type.course.cluSet.id", "2"));
         
         // second requirement component: Must have earned a minimum score of 80 on (test set with id 1)
         ReqComponentInfo req2 = buildReqComponentInfo("kuali.reqComponent.type.course.test.score.min");

@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
@@ -41,17 +40,17 @@ public class RulesExecutionTest {
     
     private static final ResultLogger LOG = ResultLogger.getInstance();
 
-    private List<TermResolver<?>> termResolvers;
-    private StatementServiceTranslationTest statementTranslator;
-    private SelectionCriteria selectionCriteria;
-    private Agenda agenda1;
-    private Agenda agenda2;
-    private Agenda agenda3;
+    private static List<TermResolver<?>> termResolvers;
+    private static StatementServiceTranslationTest statementTranslator;
+    private static SelectionCriteria selectionCriteria;
+    private static Agenda agenda1;
+    private static Agenda agenda2;
+    private static Agenda agenda3;
 
-    private ExecutionOptions xOptions;
+    private static ExecutionOptions xOptions;
     
-    @Before
-    public void setUp() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    @BeforeClass
+    public static void setUp() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         termResolvers = new ArrayList<TermResolver<?>>();
         
         termResolvers.add(new CourseSetResolver());
@@ -78,11 +77,6 @@ public class RulesExecutionTest {
         agenda3 = statementTranslator.translateStatement("3");
         
         LOG.init();
-    }
-    
-    @After
-    public void tearDown() {
-        
     }
     
     private ProviderBasedEngine buildEngine(Agenda agenda) {
@@ -146,6 +140,11 @@ public class RulesExecutionTest {
     
     @Test
     public void executeStatementsForStudent3() {
+        
+        // change permission propositions to return false
+        OrgPermissionProposition.setHasPermission(false);
+        InstructorPermissionProposition.setHasPermission(false);
+        
         HashMap<Term, Object> execFacts = buildExecFacts("3");
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
@@ -162,6 +161,10 @@ public class RulesExecutionTest {
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 3");
         printEngineResults(results3);
+        
+        // revert permission propositions
+        OrgPermissionProposition.setHasPermission(true);
+        InstructorPermissionProposition.setHasPermission(true);
     }
     
     @Test
@@ -195,6 +198,7 @@ public class RulesExecutionTest {
             System.out.println("Source object is of type: " + result.getSource().getClass().toString());
             System.out.println(result.getTimestamp());
             System.out.println(result.getResult());
+            System.out.println();
         }
         System.out.println("---------------------------");
         System.out.println();
