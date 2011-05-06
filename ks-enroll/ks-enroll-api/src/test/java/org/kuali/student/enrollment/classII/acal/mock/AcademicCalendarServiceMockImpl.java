@@ -1158,7 +1158,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		AtpAtpRelationInfo.Builder atpBuilder =  new AtpAtpRelationInfo.Builder();
 		atpBuilder.setAtpKey(parentTermKey);
 		atpBuilder.setRelatedAtpKey(termKey);
-		atpBuilder.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_CONTAINS_TYPE_KEY);
+		atpBuilder.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
 		AtpAtpRelationInfo atpAtpRelationInfo = atpBuilder.build();
 		this.atpService.createAtpAtpRelation(atpAtpRelationInfo, context);
 		return new StatusInfo.Builder().build();

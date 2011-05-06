@@ -214,7 +214,7 @@ public class AtpServiceConstants {
     /**
      * ATP ATP Relation Types
      */
-    public static final String ATP_ATP_RELATION_CONTAINS_TYPE_KEY = "kuali.atp.atp.relation.contains";
+    public static final String ATP_ATP_RELATION_INCLUDES_TYPE_KEY = "kuali.atp.atp.relation.includes";
     public static final String ATP_ATP_RELATION_PRECEDES_TYPE_KEY = "kuali.atp.atp.relation.precedes";
     /**
      * ATP ATP Relation States
