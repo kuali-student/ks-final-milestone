@@ -14,6 +14,11 @@ public class AtpRichTextEntity extends RichTextEntity{
 
     public AtpRichTextEntity(){}
     
+    public AtpRichTextEntity(String plain, String formatted){
+        this.setFormatted(formatted);
+        this.setPlain(plain);
+    }
+    
     public AtpRichTextEntity(RichText rt){
         this.setFormatted(rt.getFormatted());
         this.setPlain(rt.getPlain());

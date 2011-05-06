@@ -14,6 +14,12 @@
         <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity</class>
         <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationTypeEntity</class>
         <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationAttributeEntity</class>
+        
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpStateEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpTypeEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpAttributeEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

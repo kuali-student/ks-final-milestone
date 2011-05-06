@@ -5,11 +5,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.InheritanceType;
 
+import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.entity.KSEntityConstants;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RichTextEntity {
+public class RichTextEntity extends BaseEntity{
     @Column(name = "PLAIN",length=KSEntityConstants.LONG_TEXT_LENGTH)
     private String plain;
     

@@ -10,6 +10,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.classI.atp.dao.AtpDao;
 import org.kuali.student.r2.core.classI.atp.model.AtpEntity;
+import org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestAtpDao extends AbstractTransactionalDaoTest{
@@ -23,5 +24,19 @@ public class TestAtpDao extends AbstractTransactionalDaoTest{
         assertNotNull(atp);
         assertEquals("testAtp1", atp.getName());         
         assertEquals("Desc", atp.getDescr().getPlain());   
+    }
+    
+    @Ignore 
+    @Test
+    public void testCreateAtp() 
+    {
+        AtpEntity atp = new AtpEntity();
+        atp.setName("atpTest");
+        atp.setDescr(new AtpRichTextEntity("plain", "formatted"));
+        dao.persist(atp);
+        assertNotNull(atp.getId());
+        AtpEntity atp2 = dao.find(atp.getId());
+        assertEquals("atpTest", atp2.getName());         
+        assertEquals("plain", atp2.getDescr().getPlain());   
     }
 }

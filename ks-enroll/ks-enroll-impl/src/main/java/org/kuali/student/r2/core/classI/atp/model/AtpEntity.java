@@ -15,11 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationAttributeEntity;
-import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity;
-import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationTypeEntity;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
