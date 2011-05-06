@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
@@ -168,6 +169,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cfg = GWT.create(CourseConfigurer.class);
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
+   		cfg.setState(DtoConstants.STATE_DRAFT);
    		
    		//Add an extra menu item to copy the proposal to a new proposal.
    		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
