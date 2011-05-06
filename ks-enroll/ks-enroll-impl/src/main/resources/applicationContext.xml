@@ -19,6 +19,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<bean id="lprServiceOnBus" parent="lprServiceAuthorization"/>
     <bean id="luiServiceOnBus" parent="luiServiceValidation"/>
+    <bean id="atpServiceOnBus" parent="atpServiceValidation"/>
 
     <!-- declare beans here -->
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.classI.lpr.service.impl.LuiPersonRelationServiceImpl">
@@ -66,6 +67,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     </bean>
     
+    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.classI.atp.service.decorators.AtpServiceValidationDecorator">
+      <property name="nextDecorator" ref="atpService"/>
+    </bean>
     <!-- end of decorators -->
     
     
