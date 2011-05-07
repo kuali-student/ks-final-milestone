@@ -252,7 +252,7 @@ public class AtpServiceImpl implements AtpService{
     public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         AtpEntity atp = new AtpEntity(atpInfo);
         if (null != atpInfo.getStateKey()) {
             atp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
