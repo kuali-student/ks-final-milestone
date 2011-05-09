@@ -8,7 +8,10 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -28,6 +31,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
@@ -44,7 +48,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         LinkContentBlock create = new LinkContentBlock(
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
-        create.addNavLinkWidget(getMessage(CREATE_COURSE), AppLocations.Locations.COURSE_PROPOSAL.getLocation());
+        create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
         create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
         create.addNavLinkWidget("Create a Course (Admin)", AppLocations.Locations.COURSE_ADMIN.getLocation());        
 
@@ -181,6 +185,114 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return searchWidget;
     }
 
+    protected ClickHandler getCreateCourseClickHandler() {
+    	return new ClickHandler(){
+    		
+			@Override
+			public void onClick(ClickEvent event) {
+	            
+	            final KSLightBox dialog = new KSLightBox("Propose New Credit Course");
+	            VerticalPanel layout = new VerticalPanel();
+	            layout.addStyleName("ks-form-module-fields");
+	            
+	            final KSButton startProposalButton = new KSButton("Start Proposal");
+	            dialog.addButton(startProposalButton);
+	            layout.add(new KSLabel("How would you like to start the proposal?"));
+	            
+	            final CopyCourseSearchPanel copyCourseSearchPanel = new CopyCourseSearchPanel(searchMetadata, new Callback<Boolean>(){
+					public void exec(Boolean result) {
+						if(result){
+							startProposalButton.setEnabled(true);
+						}else{
+							startProposalButton.setEnabled(false);
+						}
+					}
+	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Copurse Code", "Select by Course Title"}, new String[]{"approvedCourses", "approvedCourses"});
+	            
+
+	            final CopyCourseSearchPanel copyProposalSearchPanel = new CopyCourseSearchPanel(searchMetadata, new Callback<Boolean>(){
+					public void exec(Boolean result) {
+						if(result){
+							startProposalButton.setEnabled(true);
+						}else{
+							startProposalButton.setEnabled(false);
+						}
+					}
+	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"approvedCourses", "approvedCourses"});
+	           
+	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", "Start a blank proposal");
+	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy an approved course");
+	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy a proposed course");
+
+	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+					public void onValueChange(ValueChangeEvent<Boolean> event) {
+						if(event.getValue()){
+							copyCourseSearchPanel.setVisible(false);
+							copyProposalSearchPanel.setVisible(false);
+							startProposalButton.setEnabled(true);
+						}
+					}
+	            });
+	            radioOptionBlank.setValue(true);
+	            
+	            radioOptionCopyCourse.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+					public void onValueChange(ValueChangeEvent<Boolean> event) {
+						if(event.getValue()){
+							copyCourseSearchPanel.setVisible(true);
+							copyProposalSearchPanel.setVisible(false);
+							copyCourseSearchPanel.clear();
+							copyProposalSearchPanel.clear();
+							startProposalButton.setEnabled(false);
+						}
+					}
+	            });
+	            
+	            radioOptionCopyProposal.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+					public void onValueChange(ValueChangeEvent<Boolean> event) {
+						if(event.getValue()){
+							copyCourseSearchPanel.setVisible(false);
+							copyProposalSearchPanel.setVisible(true);
+							copyCourseSearchPanel.clear();
+							copyProposalSearchPanel.clear();
+							startProposalButton.setEnabled(false);
+						}
+					}
+	            });
+	            
+	            
+	            layout.add(radioOptionBlank);
+	            layout.add(radioOptionCopyCourse);
+	            layout.add(copyCourseSearchPanel);
+	            layout.add(radioOptionCopyProposal);
+	            layout.add(copyProposalSearchPanel);
+	            
+	            startProposalButton.addClickHandler(new ClickHandler(){
+					public void onClick(ClickEvent event) {
+						if(radioOptionBlank.getValue()){
+							Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());
+						}else if(radioOptionCopyCourse.getValue()){
+		                    ViewContext viewContext = new ViewContext();
+		                    viewContext.setId(copyCourseSearchPanel.getValue());
+		                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+		                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+							
+						}else if(radioOptionCopyProposal.getValue()){
+		                    ViewContext viewContext = new ViewContext();
+		                    viewContext.setId(copyProposalSearchPanel.getValue());
+		                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+		                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+						}
+						dialog.hide();
+					}
+				});
+	            
+	            
+	            dialog.setWidget(layout);
+	            dialog.show();			
+    		}
+   		};
+    }
+    
     protected Widget getFindMajorsWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {

@@ -179,7 +179,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
 		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
 		        }
-				HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", getViewContext());
+				HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL/COURSE_INFO", getViewContext());
 			}
 		}));
    		
@@ -612,7 +612,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
 		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
-		        		+ "/SUMMARY");
+		        		+ "/COURSE_INFO");
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
 		        // create a duplicate course proposal. 
