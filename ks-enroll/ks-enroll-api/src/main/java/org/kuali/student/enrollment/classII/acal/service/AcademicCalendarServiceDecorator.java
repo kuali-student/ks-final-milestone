@@ -333,16 +333,16 @@ AcademicCalendarService {
     }
 
     @Override
-    public List<TermInfo> getTermsForTerm(String termKey,
+    public List<TermInfo> getIncludedTermsInTerm(String termKey,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getTermsForTerm(termKey, context);
+    	return this.nextDecorator.getIncludedTermsInTerm(termKey, context);
     }
 
     @Override
-    public TermInfo getParentTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getParentTerm(termKey, context);
+    public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return this.nextDecorator.getContainingTerms(termKey, context);
     }
 
     @Override
@@ -390,13 +390,13 @@ AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo addTermToTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-    	return this.nextDecorator.addTermToTerm(parentTermKey, termKey, context);
+    public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+    	return this.nextDecorator.addTermToTerm(termKey, includedTermKey, context);
     }
 
     @Override
-    public StatusInfo removeTermFromTerm(String parentTermKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.removeTermFromTerm(parentTermKey, termKey, context);
+    public StatusInfo removeTermFromTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return this.nextDecorator.removeTermFromTerm(termKey, includedTermKey, context);
     }
 				    
     @Override

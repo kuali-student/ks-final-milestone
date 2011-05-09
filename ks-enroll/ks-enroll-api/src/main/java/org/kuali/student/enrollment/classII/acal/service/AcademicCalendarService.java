@@ -60,7 +60,7 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
  * Terms may be nested at this level. A Term may contain another Term
  * and each of these sub-Terms may have their own key
  * dates. Convenience service methods exist to query all the key dates
- * for an Academic Calendar or parent Term.
+ * for an Academic Calendar or Term.
  *
  * An Academic Calendar also has a Campus Calendar. The Campus
  * Calendar has a campus location, and include the key dates and
@@ -751,10 +751,13 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getTermsForTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Gets the parent of a nested Term.
+     * Gets the containing terms of a given term. A term may be
+     * "nested" inside other terms using addTermToTerm(). This method
+     * returns the list of terms that the given term has been placed
+     * inside.
      *
      * @param termKey a key for a Term
      * @param context Context information containing the principalId
@@ -767,7 +770,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public TermInfo getParentTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getContainingTerms(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a term. Depending on the value of validationType,
@@ -888,10 +891,10 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Adds a Term to a Term.
+     * Adds a Term as an included term within another Term.
      *
-     * @param parentTermKey the key of a Term
-     * @param termKey the key of Term to be added
+     * @param termKey the key of a Term
+     * @param includedTermKey the key of Term to be included
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -903,24 +906,24 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "includedTermKey") String includedTermKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Removes a Term from a Term.
+     * Removes an included Term from a Term.
      *
-     * @param parentTermKey the key of a Term
-     * @param termKey the key of Term to be removed
+     * @param termKey the key of a Term
+     * @param includedTermKey the key of Term to be removed
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return the status
-     * @throws DoesNotExistException the Term is notnested inside the parent Term
+     * @throws DoesNotExistException includedTerm is not included in the Term
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromTerm(@WebParam(name = "parentTermKey") String parentTermKey, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromTerm(@WebParam(name = "termKey") String termKey, @WebParam(name = "includedTermKey") String includedTermKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns the TypeInfo for a given KeyDate type key.

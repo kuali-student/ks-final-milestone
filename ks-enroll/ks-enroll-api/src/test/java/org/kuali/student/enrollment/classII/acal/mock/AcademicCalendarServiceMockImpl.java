@@ -775,7 +775,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException {
 		
 		List <KeyDateInfo> initialKeyDates = getKeyDatesForTerm(termKey, context);
-		List<TermInfo> allTermsForTerm = getTermsForTerm(termKey, context);
+		List<TermInfo> allTermsForTerm = getIncludedTermsInTerm(termKey, context);
 		for(TermInfo subTerm : allTermsForTerm){
 			initialKeyDates.addAll(getKeyDatesForTerm(subTerm.getKey(), context));
 		}
@@ -1010,7 +1010,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<MilestoneInfo> milestones = this.atpService.getMilestonesByAtp(
 				termKey, context);
 		// Add subterm milestones
-		List<TermInfo> allTerms = getTermsForTerm(termKey, context);
+		List<TermInfo> allTerms = getIncludedTermsInTerm(termKey, context);
 		for (TermInfo subTerm : allTerms) {
 			List<MilestoneInfo> subMilestones = this.atpService
 					.getMilestonesByAtp(subTerm.getKey(), context);
@@ -1030,7 +1030,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public List<TermInfo> getTermsForTerm(String termKey, ContextInfo context)
+	public List<TermInfo> getIncludedTermsInTerm(String termKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -1056,7 +1056,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public TermInfo getParentTerm(String termKey, ContextInfo context)
+	public List<TermInfo> getContainingTerms(String termKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -1151,13 +1151,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public StatusInfo addTermToTerm(String parentTermKey, String termKey,
+	public StatusInfo addTermToTerm(String termKey, String includedTermKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 		AtpAtpRelationInfo.Builder atpBuilder =  new AtpAtpRelationInfo.Builder();
-		atpBuilder.setAtpKey(parentTermKey);
-		atpBuilder.setRelatedAtpKey(termKey);
+		atpBuilder.setAtpKey(termKey);
+		atpBuilder.setRelatedAtpKey(includedTermKey);
 		atpBuilder.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
 		AtpAtpRelationInfo atpAtpRelationInfo = atpBuilder.build();
 		this.atpService.createAtpAtpRelation(atpAtpRelationInfo, context);
@@ -1165,15 +1165,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public StatusInfo removeTermFromTerm(String parentTermKey, String termKey,
+	public StatusInfo removeTermFromTerm(String termKey, String includedTermKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		
-		List<AtpAtpRelationInfo> atpAtpRelations = this.atpService.getAtpAtpRelationsByAtp(parentTermKey, context);
+		List<AtpAtpRelationInfo> atpAtpRelations = this.atpService.getAtpAtpRelationsByAtp(termKey, context);
 		String atpAtpRelationId = null;
 		for(AtpAtpRelationInfo atpRelationInfo : atpAtpRelations){
-			if(atpRelationInfo.getRelatedAtpKey().equals(termKey)){
+			if(atpRelationInfo.getRelatedAtpKey().equals(includedTermKey)){
 				atpAtpRelationId= atpRelationInfo.getId();
 			}
 		}
