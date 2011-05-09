@@ -17,7 +17,6 @@ public class TestAtpDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.classI.atp.dao.AtpDao", testSqlFile = "classpath:ks-atp.sql")
     private AtpDao dao;
     
-    @Ignore
     @Test
     public void testGetAtp() {
         AtpEntity atp = dao.find("testAtpId1");
@@ -26,7 +25,6 @@ public class TestAtpDao extends AbstractTransactionalDaoTest{
         assertEquals("Desc", atp.getDescr().getPlain());   
     }
     
-    @Ignore 
     @Test
     public void testCreateAtp() 
     {

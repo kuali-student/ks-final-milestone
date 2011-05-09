@@ -35,7 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     	<property name="atpDao" ref="atpDao"/>
     	<property name="atpTypeDao" ref="atpTypeDao"/>
     	<property name="atpStateDao" ref="atpStateDao"/>
-    	<property name="atpRichTextdao" ref="atpRichTextdao"/>
+    	<property name="atpRichTextDao" ref="atpRichTextDao"/>
     </bean>
  
      <bean id="acalService" class="org.kuali.student.enrollment.classII.acal.service.impl.AcademicCalendarServiceImpl">

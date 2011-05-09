@@ -41,7 +41,7 @@ public class AtpServiceImpl implements AtpService{
     private AtpDao atpDao;
     private AtpTypeDao atpTypeDao;
     private AtpStateDao atpStateDao;
-    private AtpRichTextDao atpRichTextdao;
+    private AtpRichTextDao atpRichTextDao;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -67,12 +67,12 @@ public class AtpServiceImpl implements AtpService{
         this.atpStateDao = atpStateDao;
     }
 
-    public AtpRichTextDao getAtpRichTextdao() {
-        return atpRichTextdao;
+    public AtpRichTextDao getAtpRichTextDao() {
+        return atpRichTextDao;
     }
 
-    public void setAtpRichTextdao(AtpRichTextDao atpRichTextdao) {
-        this.atpRichTextdao = atpRichTextdao;
+    public void setAtpRichTextDao(AtpRichTextDao atpRichTextDao) {
+        this.atpRichTextDao = atpRichTextDao;
     }
 
     @Override

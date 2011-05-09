@@ -49,7 +49,7 @@ public class ServiceAspects<T>  {
 	public void handleExceptions(Throwable ex) throws OperationFailedException{
 
 		if (!includeThrowableClassList.contains(ex)) {
-			throw new OperationFailedException(ex.getMessage());
+			throw new OperationFailedException(ex.getMessage(), ex);
 		}
 	}
 
