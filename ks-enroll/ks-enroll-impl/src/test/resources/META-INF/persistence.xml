@@ -20,7 +20,9 @@
         <class>org.kuali.student.r2.core.classI.atp.model.AtpTypeEntity</class>
         <class>org.kuali.student.r2.core.classI.atp.model.AtpAttributeEntity</class>
         <class>org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity</class>
-        
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationTypeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
