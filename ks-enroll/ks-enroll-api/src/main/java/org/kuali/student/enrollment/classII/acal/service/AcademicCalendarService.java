@@ -48,9 +48,7 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
  * Academic Calendar Service Description and Assumptions.
  *
  * This service manages Academic Calendars. An Academic Calendar is
- * related to a credential program type and contains Terms. The Terms
- * are managed as nested objects inside the Academic Calendar at this
- * level.
+ * related to a credential program type and contains Terms. 
  *
  * Key Dates are mapped to Terms but are managed through the service
  * independent of the Term. This is to allow a reference to a Term
@@ -58,7 +56,7 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
  * to the Term.
  *
  * Terms may be nested at this level. A Term may contain another Term
- * and each of these sub-Terms may have their own key
+ * and each of these included Terms may have their own key
  * dates. Convenience service methods exist to query all the key dates
  * for an Academic Calendar or Term.
  *
@@ -621,7 +619,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
 
     /**
      * This method returns the valid Term types for a Term Type. Only
-     * Terms of allowed Types can be nested inside another Term.
+     * Terms of allowed Types can be included inside another Term.
      *
      * @param termTypeKey a key of a term type
      * @param context Context information containing the principalId
@@ -733,7 +731,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Terms nested inside the given Term sorted
+     * Retrieves a list Terms included inside the given Term sorted
      * by Term start date,
      *
      * Mappings are managed through Type configuration and inferred by
@@ -755,9 +753,9 @@ public interface AcademicCalendarService extends DataDictionaryService {
 
     /** 
      * Gets the containing terms of a given term. A term may be
-     * "nested" inside other terms using addTermToTerm(). This method
-     * returns the list of terms that the given term has been placed
-     * inside.
+     * "included" inside other terms using addTermToTerm(). This
+     * method returns the list of terms that the given term has been
+     * placed inside.
      *
      * @param termKey a key for a Term
      * @param context Context information containing the principalId
@@ -1083,7 +1081,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
 
     /** 
      * Retrieves a list of key dates for a Term sorted by date. The
-     * dates include all key dates mapped to any nested terms.
+     * dates include all key dates mapped to any included terms.
      *
      * @param termKey unique key for a Term
      * @param context Context information containing the principalId
@@ -1101,7 +1099,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /** 
      * Retrieves a list of key dates for a given Term that fall within
      * the given date range inclusive. The dates include all key dates
-     * mapped to any nested terms and are sorted by date.
+     * mapped to any included terms and are sorted by date.
      *
      * @param termKey unique key for a Term
      * @param startDate start of date range
