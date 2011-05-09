@@ -76,7 +76,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
       <property name="nextDecorator" ref="atpService"/>
     </bean>
     
-    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarServiceDecorator.AcademicCalendarServiceValidationDecorator">
+    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.classII.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
       <property name="nextDecorator" ref="acalService"/>
     </bean>
     <!-- end of decorators -->
