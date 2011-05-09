@@ -134,8 +134,8 @@ public abstract class AbstractTransactionalDaoTest {
 	@Autowired
 	private JtaTransactionManager jtaTxManager;	
 	
-	
-	private static boolean preloadedData=false;
+	private boolean preloadedData=false;
+
 	/**
 	 * Loads the application context defined in the &#064;Dao testDataFile
 	 * attribute. Then uses the EntityManager em to persist the beans in
