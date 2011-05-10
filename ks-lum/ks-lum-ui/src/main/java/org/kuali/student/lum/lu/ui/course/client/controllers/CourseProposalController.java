@@ -111,8 +111,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);
 	//Models
-	private final DataModel cluProposalModel = new DataModel("Proposal");
-	private final DataModel comparisonModel = new DataModel("Original Course");
+	protected final DataModel cluProposalModel = new DataModel("Proposal");
+	protected final DataModel comparisonModel = new DataModel("Original Course");
 
 	CourseConfigurer cfg;
 	

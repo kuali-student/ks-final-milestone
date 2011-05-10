@@ -733,7 +733,11 @@ public class WorkflowUtilities{
         return wfBlanketApproveItem;
     }
 
-    public void blanketApprove(){
+    /**
+     * Call this method to blanked approve 
+     * @param onSuccessCallback
+     */
+    public void blanketApprove(final Callback<Boolean> onSuccessCallback){
    		updateWorkflowIdFromModel(dataModel);
         workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
             @Override
@@ -743,8 +747,7 @@ public class WorkflowUtilities{
 
             public void onSuccess(Boolean result) {
                 if (result) {
-                    // Notify the user that the document was approved
-                    KSNotifier.add(new KSNotification("Proposal will be blanket approved", false));
+                	onSuccessCallback.exec(true);
                 } else {
                     Window.alert("Error blanket approving Proposal");
                 }
