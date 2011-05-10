@@ -264,23 +264,47 @@ public class AtpServiceImpl implements AtpService{
             atp.setDescr(new AtpRichTextEntity(atpInfo.getDescr()));
         }
         
-        atpDao.persist(atp);
+        AtpEntity existing = atpDao.find(atpKey);
+        if( existing != null)
+            atpDao.update(atp);
+
+        else
+            atpDao.persist(atp);
+
         return atpInfo;
     }
 
     @Override
+    @Transactional(readOnly=false)
     public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        AtpEntity atp = atpDao.find(atpKey);
+        if( null != atp){
+            atpDao.update(new AtpEntity(atpInfo));
+        }
+        else
+            throw new DoesNotExistException(atpKey);
+        return atpInfo;
     }
 
     @Override
+    @Transactional(readOnly=false)
     public StatusInfo deleteAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        StatusInfo.Builder bldr = new StatusInfo.Builder();
+        bldr.setSuccess(Boolean.TRUE);
+        
+        AtpEntity atp = atpDao.find(atpKey);
+        if( null != atp){
+            atpDao.remove(atp);
+        }
+        else
+            bldr.setSuccess(Boolean.FALSE);
+        
+        return bldr.build();
     }
 
     @Override

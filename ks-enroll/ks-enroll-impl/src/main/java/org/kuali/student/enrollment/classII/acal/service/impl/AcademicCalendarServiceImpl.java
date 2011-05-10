@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.classII.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
@@ -26,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,6 +143,26 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+        AtpInfo atp = buildAtpInfo(academicCalendarKey, academicCalendarInfo, context);
+        
+        try {
+                atpService.getAtp(academicCalendarKey, context);
+            try {
+                atpService.updateAtp(academicCalendarKey, atp, context);
+            } catch (VersionMismatchException e) {
+                atpService.createAtp(academicCalendarKey, atp, context);
+            }
+        } catch (DoesNotExistException e1) {
+            atpService.createAtp(academicCalendarKey, atp, context);
+        }
+        
+        return academicCalendarInfo;
+    }
+
+    private AtpInfo buildAtpInfo(String academicCalendarKey,
+            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException{
         AtpInfo.Builder atp = new AtpInfo.Builder();
         //TODO: check key existence, if exist, updateAtp
         atp.setKey(academicCalendarKey);
@@ -154,18 +176,69 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         atp.setMetaInfo(academicCalendarInfo.getMetaInfo());
         Map<String,String> attributes = (Map<String, String>) (null != academicCalendarInfo.getAttributes()? academicCalendarInfo.getAttributes(): new HashMap<String,String>());
         attributes.put("CredentialProgramType", academicCalendarInfo.getCredentialProgramTypeKey());
-        //TODO: campusCalendarKeys is stored as AtpAtpRelations of type kuali.atp.atp.relation.includes.
-        atpService.createAtp(academicCalendarKey, atp.build(), context);
-        return academicCalendarInfo;
+        
+       if(academicCalendarInfo.getCampusCalendarKeys() != null && !academicCalendarInfo.getCampusCalendarKeys().isEmpty()){
+           buildAtpAtpRelations(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
+       }        
+       
+       return atp.build();
     }
+    
+    private void buildAtpAtpRelations(String atpKey, List<String> relatedAtpKeys, ContextInfo context) throws AlreadyExistsException,
+    DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException {
+        
+        try {
+            List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
+            
+            for (String relatedKey : relatedAtpKeys){
+                for(AtpAtpRelationInfo atpRelInfo : atpRels){
+                    if(!relatedKey.equals(atpRelInfo.getRelatedAtpKey())){
+                      //if not exist, creat relations
+                        createAtpAtpRelations(atpKey, relatedKey, context);
+                    }
+                }   
+            }
 
+        } catch (DoesNotExistException e) {
+            //if not exist, creat relations
+            for (String relatedKey : relatedAtpKeys){
+                createAtpAtpRelations(atpKey, relatedKey, context);
+            }
+    }
+    }
+    
+    private void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
+    DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException {
+        AtpAtpRelationInfo.Builder atpRel = new AtpAtpRelationInfo.Builder();
+        atpRel.setId(UUIDHelper.genStringUUID());
+        atpRel.setAtpKey(atpKey);
+        atpRel.setRelatedAtpKey(relatedAtpKey);
+        atpRel.setTypeKey("kuali.atp.atp.relation.includes");
+        atpService.createAtpAtpRelation(atpRel.build(), context);        
+    }
+    
     @Override
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        try{
+            atpService.getAtp(academicCalendarKey, context);
+            AtpInfo atp;
+            try {
+                atp = buildAtpInfo(academicCalendarKey, academicCalendarInfo, context);
+                atpService.updateAtp(academicCalendarKey, atp, context);
+            } catch (AlreadyExistsException e) {
+                return null;
+            }           
+        } catch (DoesNotExistException e1) {
+            return null;
+        }
+        
+        return academicCalendarInfo;
     }
 
     @Override
