@@ -700,13 +700,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param field
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, CaseConstraint crossConstraint, Constraint constraint, Object value, ErrorLevel errorLevel){
-    	if (ErrorLevel.WARN == errorLevel && (value == null || "".equals(value.toString().trim()))) {
+    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && (value == null || "".equals(value.toString().trim()))) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
 
 	            String crossFieldPath = crossConstraint.getFieldPath();
 	            String crossFieldMessageId = crossConstraint.getFieldPathMessageId() == null ? 
 	            		"validation.required":crossConstraint.getFieldPathMessageId();            
-	            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
+	            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
             }
     	}
     }
@@ -719,11 +719,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param field
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field){
-    	if (ErrorLevel.WARN == errorLevel && requiredConstraint != null){
+    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && requiredConstraint != null){
             String crossFieldPath = requiredConstraint.getFieldPath();
             String crossFieldMessageId = requiredConstraint.getFieldPathMessageId() == null ? 
             		"validation.required":requiredConstraint.getFieldPathMessageId();
-            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
     	}
     }
 
@@ -734,19 +734,19 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param lookupConstraint
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, ErrorLevel errorLevel){
-    	if (ErrorLevel.WARN == errorLevel && lookupConstraint != null){
+    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && lookupConstraint != null){
     		for(CommonLookupParam param:lookupConstraint.getParams()){
     			if(param.getFieldPath()!=null && !param.getFieldPath().isEmpty()){
 		            String crossFieldPath = param.getFieldPath();
 		            String crossFieldMessageId = param.getFieldPathMessageId() == null ? 
 		            		"validation.lookup.cause":param.getFieldPathMessageId();
-		            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId));
+		            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
     			}
     		}
     	}
     }
     
-    protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message){
+    protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message, ErrorLevel errorLevel){
     	//Check to see if the exact same validation message already exists on referenced field
     	boolean warnAlreadyExists = false;
     	for (ValidationResultInfo vr:valResults){
@@ -759,7 +759,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     	if (!warnAlreadyExists){
 	    	ValidationResultInfo val = new ValidationResultInfo(crossFieldPath, null);
 			val.setMessage(message);
-	        val.setLevel(ErrorLevel.WARN);
+	        val.setLevel(errorLevel);
 	        valResults.add(val);
     	}
     }
