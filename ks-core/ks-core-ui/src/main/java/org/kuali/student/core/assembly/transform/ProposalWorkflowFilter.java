@@ -32,6 +32,7 @@ import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
 import org.kuali.student.common.assembly.transform.FilterException;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -157,7 +158,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {	
-		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), "SAVED");
+		String dtoState = (String)filterProperties.get(DtoConstants.DTO_STATE);
+		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), dtoState);
 				
 		Map<String, Metadata> properties = metadata.getProperties();
 		properties.put("proposal", proposalMetadata);		

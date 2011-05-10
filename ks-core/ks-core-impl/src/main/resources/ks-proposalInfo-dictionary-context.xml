@@ -109,6 +109,7 @@
 	      <property name="values">
 	       <list>
 	        <value>ENROUTE</value>
+	        <value>APPROVED</value>
 	       </list>
 	      </property>
 	      <property name="constraint">
