@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
  * @author sambit
  */
 
-public interface ResultValue  {
+public interface ResultValue extends Serializable {
 
 	/**
 	 * Result Value Name string Name of the result value. This is likely related

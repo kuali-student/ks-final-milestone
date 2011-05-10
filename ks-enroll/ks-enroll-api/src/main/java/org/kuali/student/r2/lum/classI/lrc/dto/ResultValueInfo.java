@@ -8,21 +8,51 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.w3c.dom.Element;
 import org.kuali.student.r2.lum.classI.lrc.ResultValue;
 
-public class ResultValueInfo extends KeyEntityInfo implements ResultValue, Serializable {
+public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
+		Serializable {
 
-	private  String name;
+	
+	private static final long serialVersionUID = 1L;
 
-	private  String value;
+	private String name;
 
-	private  String rank;
+	private String value;
 
-	private  Date effectiveDate;
+	private String rank;
 
-	private  Date expirationDate;
+	private Date effectiveDate;
 
-	private List<Element> futureElements; 
+	private Date expirationDate;
 
-	private  String id;
+	private List<Element> _futureElements;
+
+	private String id;
+
+	public ResultValueInfo() {
+
+	}
+
+	public ResultValueInfo(String name, String value, String rank,
+			Date effectiveDate, Date expirationDate,
+			List<Element> futureElements, String id) {
+		super();
+		this.name = name;
+		this.value = value;
+		this.rank = rank;
+		this.effectiveDate = effectiveDate;
+		this.expirationDate = expirationDate;
+		this._futureElements = futureElements;
+		this.id = id;
+	}
+
+	public static ResultValueInfo createNewResultValueInfoFromResultValueInfo(
+			ResultValueInfo resultValueInfo) {
+		return new ResultValueInfo(resultValueInfo.getName(),
+				resultValueInfo.getValue(), resultValueInfo.getRank(),
+				resultValueInfo.getEffectiveDate(),
+				resultValueInfo.getEffectiveDate(),
+				resultValueInfo.get_futureElements(), resultValueInfo.getId());
+	}
 
 	public String getName() {
 		return name;
@@ -51,8 +81,8 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue, Seria
 
 	@Override
 	public List<Element> get_futureElements() {
-	
-		return futureElements;
+
+		return _futureElements;
 	}
 
 }

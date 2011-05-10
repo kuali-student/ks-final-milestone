@@ -12,7 +12,7 @@ public interface ResultValueGroup extends Serializable {
 	/**
 	 * Narrative description of the result component
 	 */
-	public RichTextInfo getDesc();
+	public String getDesc();
 
 	/**
 	 * List of result values
@@ -39,14 +39,7 @@ public interface ResultValueGroup extends Serializable {
 	/**
 	 * Unique identifier for a result component type.
 	 */
-	public String getType();
-
-	/**
-	 * The current status of the result component. The values for this field are
-	 * constrained to those in the state enumeration. A separate setup operation
-	 * does not exist for retrieval of the meta data around this value.
-	 */
-	public String getState();
+	public ResultValueGroupType getType();
 
 	/**
 	 * Unique identifier for a result component. This is optional, due to the

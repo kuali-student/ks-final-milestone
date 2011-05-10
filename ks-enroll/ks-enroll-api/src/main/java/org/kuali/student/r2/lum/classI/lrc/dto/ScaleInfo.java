@@ -17,97 +17,123 @@ package org.kuali.student.r2.lum.classI.lrc.dto;
 
 import java.util.Date;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.dto.RichTextInfo;
+
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.classI.lrc.Scale;
 
 /**
  * Detailed information about a result scale.
- *
+ * 
  * @Author sambit
- * @Since 
-
- *
+ * @Since
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ScaleInfo extends KeyEntityInfo implements  Scale {
+public class ScaleInfo extends KeyEntityInfo implements Scale {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String name;
+	@XmlElement
+	private String name;
 
-    @XmlElement
-    private RichTextInfo desc;
+	@XmlElement
+	private String desc;
 
-    @XmlElement
-    private Date effectiveDate;
+	@XmlElement
+	private Date effectiveDate;
 
-    @XmlElement
-    private Date expirationDate;
+	@XmlElement
+	private Date expirationDate;
 
-  
-    @XmlAttribute(name="key")
-    private String id;
+	@XmlAttribute(name = "key")
+	private String id;
 
-    /**
-     * Name of the scale.
-     */
-    public String getName() {
-        return name;
-    }
+	public ScaleInfo() {
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	}
 
-    /**
-     * Description of the scale.
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
+	public ScaleInfo(String name, String desc, Date effectiveDate,
+			Date expirationDate, String id) {
+		super();
+		this.name = name;
+		this.desc = desc;
+		this.effectiveDate = effectiveDate;
+		this.expirationDate = expirationDate;
+		this.id = id;
+	}
 
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
+	public ScaleInfo createNewScaleInfoFromScaleInfo(ScaleInfo scaleInfo) {
 
-    /**
-     * Date and time that this scale became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+		return new ScaleInfo(scaleInfo.getName(), scaleInfo.getDesc(),
+				scaleInfo.getEffectiveDate(), scaleInfo.getExpirationDate(),
+				scaleInfo.getId());
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	/**
+	 * Name of the scale.
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Date and time that this scale expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	/**
+	 * Description of the scale.
+	 */
+	public String getDesc() {
+		return desc;
+	}
 
-    /**
-     * Unique identifier for a scale.
-     */
-    public String getId() {
-        return id;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	/**
+	 * Date and time that this scale became effective. This is a similar concept
+	 * to the effective date on enumerated values. When an expiration date has
+	 * been specified, this field must be less than or equal to the expiration
+	 * date.
+	 */
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	/**
+	 * Date and time that this scale expires. This is a similar concept to the
+	 * expiration date on enumerated values. If specified, this should be
+	 * greater than or equal to the effective date. If this field is not
+	 * specified, then no expiration date has been currently defined and should
+	 * automatically be considered greater than the effective date.
+	 */
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * Unique identifier for a scale.
+	 */
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

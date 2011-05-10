@@ -3,17 +3,11 @@ package org.kuali.student.r2.lum.classI.lrc;
 import java.io.Serializable;
 import java.util.Date;
 
-public interface ResultValueGroupType extends Serializable {
-	/**
-	 * Friendly name of the result component type
-	 */
-	public String getName();
+import org.kuali.student.r2.common.infc.Type;
 
-	/**
-	 * Narrative description of the result component type
-	 */
-	public String getDesc();
 
+public interface ResultValueGroupType extends Type, Serializable {
+	
 	/**
 	 * Date and time that this result component type became effective. This is a
 	 * similar concept to the effective date on enumerated values. When an

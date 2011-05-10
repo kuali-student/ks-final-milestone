@@ -1,8 +1,9 @@
 package org.kuali.student.r2.lum.classI.lrc;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public interface ResultValueRange {
+public interface ResultValueRange extends Serializable{
 	
 
 	/**

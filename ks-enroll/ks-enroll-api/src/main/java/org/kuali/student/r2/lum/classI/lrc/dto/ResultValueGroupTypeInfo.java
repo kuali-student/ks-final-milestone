@@ -15,105 +15,141 @@
 
 package org.kuali.student.r2.lum.classI.lrc.dto;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Type;
 import org.kuali.student.r2.lum.classI.lrc.ResultValueGroupType;
 
 /**
  * Detailed information about a single result component type.
- *
- 
- * @Author lindholm
- * @Since 
+ * 
+ * 
+ * @Author sambit
+ * @Since
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ResultValueGroupTypeInfo extends KeyEntityInfo implements ResultValueGroupType, Serializable {
+public class ResultValueGroupTypeInfo implements ResultValueGroupType {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String name;
+	private String name;
 
-    @XmlElement
-    private String desc;
+	private String key;
 
-    @XmlElement
-    private Date effectiveDate;
+	private String descr;
 
-    @XmlElement
-    private Date expirationDate;
+	private String id;
 
+	private List<? extends Attribute> attributes;
 
-    @XmlAttribute(name="key")
-    private String id;
+	private Date effectiveDate;
 
-    /**
-     * Friendly name of the result component type
-     */
-    public String getName() {
-        return name;
-    }
+	private Date expirationDate;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private String refObjectURI;
 
-    /**
-     * Narrative description of the result component type
-     */
-    public String getDesc() {
-        return desc;
-    }
+	public ResultValueGroupTypeInfo() {
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public ResultValueGroupTypeInfo(String name, String key, String descr,
+			String id, List<? extends Attribute> list, Date effectiveDate,
+			Date expirationDate, String refObjectURI) {
+		
+		this.name = name;
+		this.key = key;
+		this.descr = descr;
+		this.id = id;
+		this.attributes = list;
+		this.effectiveDate = effectiveDate;
+		this.expirationDate = expirationDate;
+		this.refObjectURI = refObjectURI;
+	}
 
-    /**
-     * Date and time that this result component type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public static ResultValueGroupTypeInfo createNewResultValueGroupTypeInfoFromResultValueGroupTypeInfo(
+			ResultValueGroupTypeInfo resultValueGroupTypeInfo) {
+		
+		return new ResultValueGroupTypeInfo(resultValueGroupTypeInfo.getName(),resultValueGroupTypeInfo.getKey(), 
+				resultValueGroupTypeInfo.getDescr(), resultValueGroupTypeInfo.getId(), resultValueGroupTypeInfo.getAttributes(),
+				resultValueGroupTypeInfo.getEffectiveDate(),resultValueGroupTypeInfo.getExpirationDate(), resultValueGroupTypeInfo.getRefObjectURI());
+	
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Date and time that this result component type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public void setKey(String key) {
+		this.key = key;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
 
-   
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    /**
-     * Unique identifier for a result component type.
-     */
-    public String getId() {
-        return id;
-    }
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public void setRefObjectURI(String refObjectURI) {
+		this.refObjectURI = refObjectURI;
+	}
+
+	@Override
+	public String getRefObjectURI() {
+
+		return this.refObjectURI;
+	}
+
+	@Override
+	public String getKey() {
+		return this.key;
+	}
+
+	@Override
+	public List<? extends Attribute> getAttributes() {
+		return this.attributes;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public String getDescr() {
+		return this.descr;
+	}
+
+	@Override
+	public Date getEffectiveDate() {
+		return this.effectiveDate;
+	}
+
+	@Override
+	public Date getExpirationDate() {
+		return this.expirationDate;
+	}
+
+	@Override
+	public String getId() {
+		return this.id;
+	}
+
 }

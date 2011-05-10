@@ -15,7 +15,6 @@
 
 package org.kuali.student.r2.lum.classI.lrc.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -23,124 +22,123 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.classI.lrc.ResultOption;
 
-
 /**
  * Information about a result option.
- *
+ * 
  * @author Sambit
- * @since 
- *
+ * @since
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class  ResultOptionInfo extends KeyEntityInfo implements ResultOption {
+public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private RichTextInfo desc;
+	@XmlElement
+	private String desc;
 
-    @XmlElement
-    private String resultUsageTypeKey;
+	@XmlElement
+	private String resultUsageTypeKey;
 
-    @XmlElement
-    private String resultComponentId;
+	@XmlElement
+	private String resultComponentId;
 
-    @XmlElement
-    private Date effectiveDate;
+	@XmlElement
+	private Date effectiveDate;
 
-    @XmlElement
-    private Date expirationDate;
+	@XmlElement
+	private Date expirationDate;
 
-  
-    @XmlAttribute
-    private String state;
+	@XmlAttribute
+	private String state;
 
-    @XmlAttribute
-    private String id;
-    
-    @XmlAttribute
-    private String type;
-    /**
-     * Narrative description of the result option.
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
+	@XmlAttribute
+	private String id;
+	
+	public ResultOptionInfo() {
+	
+	}
+	
+	public ResultOptionInfo(String desc, String resultUsageTypeKey,
+			String resultComponentId, Date effectiveDate, Date expirationDate,
+			String state, String id) {
+		this.desc = desc;
+		this.resultUsageTypeKey = resultUsageTypeKey;
+		this.resultComponentId = resultComponentId;
+		this.effectiveDate = effectiveDate;
+		this.expirationDate = expirationDate;
+		this.state = state;
+		this.id = id;
+	}
 
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
+	public static ResultOptionInfo createNewResultInfoFromResultInfo (ResultOptionInfo resultOptionInfo) {
+		return new ResultOptionInfo(resultOptionInfo.getDesc(), resultOptionInfo.getResultUsageTypeKey(),
+				resultOptionInfo.getResultComponentId(), resultOptionInfo.getEffectiveDate(),
+				resultOptionInfo.getExpirationDate(), resultOptionInfo.getState(),
+				resultOptionInfo.getId());
+	}
+	
+	public String getDesc() {
+		return desc;
+	}
 
-    /**
-     * Unique identifier for a result usage type.
-     */
-    public String getResultUsageTypeKey() {
-        return resultUsageTypeKey;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public void setResultUsageTypeKey(String resultUsageTypeKey) {
-        this.resultUsageTypeKey = resultUsageTypeKey;
-    }
+	public String getResultUsageTypeKey() {
+		return resultUsageTypeKey;
+	}
 
-    /**
-     * Unique identifier for a result component.
-     */
-    public String getResultComponentId() {
-        return resultComponentId;
-    }
+	public void setResultUsageTypeKey(String resultUsageTypeKey) {
+		this.resultUsageTypeKey = resultUsageTypeKey;
+	}
 
-    public void setResultComponentId(String resultComponentId) {
-        this.resultComponentId = resultComponentId;
-    }
+	/**
+	 * Unique identifier for a result component.
+	 */
+	public String getResultComponentId() {
+		return resultComponentId;
+	}
 
-    /**
-     * Date and time that this result option became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public void setResultComponentId(String resultComponentId) {
+		this.resultComponentId = resultComponentId;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
 
-    /**
-     * Date and time that this result option expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-   
-    /**
-     * The current status of the result option. The values for this field are constrained to those in the resultOptionState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    /**
-     * Unique identifier for a result option. This is optional, due to the identifier being set at the time of creation. Once the result option has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

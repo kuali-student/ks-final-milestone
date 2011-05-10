@@ -15,7 +15,7 @@ public interface Scale extends Serializable {
     /**
      * Description of the scale.
      */
-    public RichTextInfo getDesc() ;
+    public String getDesc() ;
 
     /**
      * Date and time that this scale became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
