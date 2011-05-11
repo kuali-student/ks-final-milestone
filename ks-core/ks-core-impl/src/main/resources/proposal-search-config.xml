@@ -45,6 +45,7 @@
         <search:queryParams>
             <ref bean="proposal.queryParam.proposalId"/>
             <ref bean="proposal.queryParam.proposalOptionalName"/>
+            <ref bean="proposal.queryParam.proposalOptionalType"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -61,6 +62,12 @@
         <ref bean="field.proposalInfo.name.fd" />
     </search:queryParam>
 
+    <search:queryParam id="proposal.queryParam.proposalOptionalType" parent="proposal.queryParam.proposalOptionalType-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalType-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+
     <search:searchResultTypeInfo id="proposal.result.generic" parent="proposal.result.generic-parent"/>
 	<search:searchResultTypeInfo id="proposal.result.generic-parent"  abstract="true">
         <search:name>CourseProposalResult</search:name>
@@ -68,7 +75,7 @@
         <search:resultColumns>
             <ref bean="proposal.resultColumn.proposalId" />
             <ref bean="proposal.resultColumn.proposalOptionalName" />
-            <ref bean="proposal.resultColumn.proposalType" />
+            <ref bean="proposal.resultColumn.proposalOptionalType" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -80,14 +87,14 @@
     </search:resultColumn>
 
     <search:resultColumn id="proposal.resultColumn.proposalOptionalName" parent="proposal.resultColumn.proposalOptionalName-parent"/>
-	<search:resultColumn id="proposal.resultColumn.proposalOptionalName-parent"  abstract="true">
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalName-parent" abstract="true" >
         <search:name>Proposal Name</search:name>
         <search:desc>Name of the proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
-    <search:resultColumn id="proposal.resultColumn.proposalType" parent="proposal.resultColumn.proposalType-parent"/>
-	<search:resultColumn id="proposal.resultColumn.proposalType-parent"  abstract="true">
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalType" parent="proposal.resultColumn.proposalOptionalType-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalType-parent" abstract="true" >
         <search:name>Proposal Type</search:name>
         <search:desc>Type of the proposal</search:desc>
         <search:dataType>string</search:dataType>
@@ -102,8 +109,8 @@
                 <entry key="proposal.queryParam.proposalOptionalName">
                     <value>proposal.name</value>
                 </entry>
-                <entry key="proposal.queryParam.proposalType">
-                    <value>proposal.type.id</value>
+                <entry key="proposal.queryParam.proposalOptionalType">
+                    <value>proposal.type.id IN(:proposal_queryParam_proposalOptionalType)</value>
                 </entry>
             </map>
 		</property>

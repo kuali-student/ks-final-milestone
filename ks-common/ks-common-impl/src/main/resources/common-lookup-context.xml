@@ -1440,6 +1440,39 @@
 		</property>
 		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
 	</bean>
+
+	<bean id="kuali.common.lookup.basic.proposedCoursesByTitle" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.basic.proposedCoursesByTitle" />
+		<property name="name" value="Course Proposals" />
+		<property name="searchTypeId" value="proposal.search.generic" />
+		<property name="desc" value="Search for course Proposals" />
+		<property name="searchParamIdKey" value="proposal.resultColumn.proposalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="proposal.queryParam.proposalOptionalName" />
+					<property name="name" value="Proposal Title" />
+					<property name="desc" value="Proposal Title" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">   <!-- limit search to credit course for this UI context -->
+					<property name="key" value="proposal.queryParam.proposalOptionalType" />
+					<property name="name" value="Proposal Type" />
+					<property name="desc" value="Type of a Proposal" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.proposal.type.course.modify</value>
+							<value>kuali.proposal.type.course.create</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
+	</bean>		
 	
 	<bean id="kuali.common.lookup.basic.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.basic.approvedCourses" />
@@ -1482,6 +1515,24 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>	
 	
+	<bean id="kuali.common.lookup.basic.approvedCoursesByTitle" parent="kuali.common.lookup.basic.approvedCourses">
+		<property name="id" value="kuali.common.lookup.basic.approvedCoursesByTitle" />
+		<property name="name" value="Approved Courses By Title" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalLongName" />
+					<property name="name" value="Title" />
+					<property name="desc" value="Course title." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+		
 	<bean id="kuali.common.lookup.advanced.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.advanced.approvedCourses" />
 		<property name="searchTypeId" value="lu.search.mostCurrent.union" />		

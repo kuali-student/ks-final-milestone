@@ -85,7 +85,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public DataSaveResult createCopyCourseProposal(String originalProposalId)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourse(originalProposalId);
+			return copyCourseService.createCopyCourseProposal(originalProposalId);
 		} catch (Exception e) {
 			LOG.error("Error copying proposal with id:" + originalProposalId, e);
 			throw e;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
@@ -61,9 +62,11 @@ public class CopyCourseServiceImpl {
 		//Copy the proposal and use the data service to return
 		ProposalInfo copiedProposal = copyProposal(originalProposalId);
 		
-		DataSaveResult result = new DataSaveResult();
-		result.setValue(courseProposalDataService.getData(copiedProposal.getId()));
-		return result;
+		//Grab the data object so it is transformed
+		Data data = courseProposalDataService.getData(copiedProposal.getId());
+		
+		//Save it so that it goes through the filters and creates workflow
+		return courseProposalDataService.saveData(data);
 	}
 	
 	private CourseInfo copyCourse(String originalCluId) throws Exception{
@@ -86,8 +89,10 @@ public class CopyCourseServiceImpl {
 			originalProposal.setId(null);
 			originalProposal.setWorkflowId(null);
 			originalProposal.setState(defaultState);
-			originalProposal.setType(null);
+			originalProposal.setType(defaultDocumentType);
 			originalProposal.getProposalReference().set(0, copiedCourse.getId());
+			originalProposal.getProposerOrg().clear();
+			originalProposal.getProposerPerson().clear();
 			
 			//Create the proposal
 			ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal);

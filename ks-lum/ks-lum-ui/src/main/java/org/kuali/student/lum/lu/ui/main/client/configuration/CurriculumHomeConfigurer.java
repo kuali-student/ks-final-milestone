@@ -144,7 +144,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	                    SelectedResults value = result.get(0);
 	                    ViewContext viewContext = new ViewContext();
 	                    viewContext.setId(value.getResultRow().getId());
-	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalOptionalType"));
 	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 	                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
 	                    ((KSPicker) searchWidget).getSearchWindow().hide();
@@ -207,7 +207,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							startProposalButton.setEnabled(false);
 						}
 					}
-	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Copurse Code", "Select by Course Title"}, new String[]{"approvedCourses", "approvedCourses"});
+	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Copurse Code", "Select by Course Title"}, new String[]{"approvedCourses", "approvedCoursesByTitle"});
 	            
 
 	            final CopyCourseSearchPanel copyProposalSearchPanel = new CopyCourseSearchPanel(searchMetadata, new Callback<Boolean>(){
@@ -218,7 +218,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							startProposalButton.setEnabled(false);
 						}
 					}
-	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"approvedCourses", "approvedCourses"});
+	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"proposedCoursesByTitle", "approvedCourses"});
 	           
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", "Start a blank proposal");
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy an approved course");
@@ -280,6 +280,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 		                    ViewContext viewContext = new ViewContext();
 		                    viewContext.setId(copyProposalSearchPanel.getValue());
 		                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+		                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
 		                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
 						}
 						dialog.hide();

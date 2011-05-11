@@ -2,6 +2,7 @@ package org.kuali.student.core.rice.authorization;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,11 @@ public class CollaboratorHelper implements Serializable {
     }
     
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
-		try{
+		//Check if there is no doc id
+    	if(docId==null){
+			return Collections.<WorkflowPersonInfo>emptyList();
+		}
+    	try{
 			LOG.info("Getting collaborators for docId: "+docId);
 
 	        if(getWorkflowUtilityService()==null){
