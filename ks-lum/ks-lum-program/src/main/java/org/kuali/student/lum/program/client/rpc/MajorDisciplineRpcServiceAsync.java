@@ -2,8 +2,10 @@ package org.kuali.student.lum.program.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -17,4 +19,5 @@ public interface MajorDisciplineRpcServiceAsync extends BaseDataOrchestrationRpc
     public void deleteProgramRequirement(String programRequirementId, AsyncCallback<StatusInfo> callback);
     public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
     public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
+	public void updateState(Data data, String state, AsyncCallback<DataSaveResult> callback);
 }

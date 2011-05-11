@@ -64,36 +64,7 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENTRY_TERM, previousVersionMajorInfo.getEndProgramEntryTerm());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENROLL_TERM, previousVersionMajorInfo.getEndTerm());
 				previousVersionData.set(ProgramConstants.STATE, previousVersionMajorInfo.getState());
-			} else {
-				//This is a save operation. Check state field change for previous version state, indicating an "Activate" action,
-				//which requires updating previous program with new states and end terms and setting activated program
-				//to be the current version.
-				
-				String state = previousVersionData.get(ProgramConstants.STATE);
-				if (state!= null && !state.equals(previousVersionMajorInfo.getState())){
-					//Update previous program version with new state and terms
-					String endEntryTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
-					String endEnrollTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-
-					previousVersionMajorInfo.setState(state);
-					previousVersionMajorInfo.setEndProgramEntryTerm(endEntryTerm);
-					previousVersionMajorInfo.setEndTerm(endEnrollTerm);
-					
-					//Update states on all variations for this program
-			        List<ProgramVariationInfo> variationList = previousVersionMajorInfo.getVariations();
-			        for (ProgramVariationInfo variation:variationList){
-			        	variation.setState(state);			        	
-			        }
-
-					programService.updateMajorDiscipline(previousVersionMajorInfo);
-				
-			        
-					//Set "activated" program to be the current version
-					String activatedMajorId = data.get(ProgramConstants.ID);
-					programService.setCurrentMajorDisciplineVersion(activatedMajorId, null);
-				}
-
-			}
+			}  
 			
 			data.set(PREVIOUS_VERSION_INFO, previousVersionData);
 		}		

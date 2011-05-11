@@ -14,6 +14,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -211,7 +212,11 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 relation.setLoId(loDisplay.getLoInfo().getId());
                 relation.setRelatedLoId(loNode.getNodeData().getId());
                 relation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
-                relation.setState(loDisplay.getLoInfo().getState());
+                
+                // Relations can only have states of Active or Inactive
+                // DO NOT use states like Approve, Draft, etc on relations
+                // Will default to Active
+                relation.setState(DtoConstants.STATE_ACTIVE);
                 
 
                 BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo>(

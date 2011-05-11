@@ -17,9 +17,11 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -132,26 +134,39 @@ public class CourseStateChangeServiceImpl {
     	}
 
     }
+    
+    
 
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
 	}
 	
-	public void statementTreeViewInfoStateSetter(String courseState, Iterator<StatementTreeViewInfo> itr) {
-		while(itr.hasNext()) {
-			StatementTreeViewInfo statementTreeViewInfo = (StatementTreeViewInfo)itr.next();
-			statementTreeViewInfo.setState(courseState);
-	        List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
-	        for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-	        	it.next().setState(courseState);
-
-	        statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
-	    }
-	} 
-	
+	/**
+	 * This method will load all the statements in a course from the course web service,
+	 * recursively update the state of each statement in the statement tree,
+	 * and save the update statements back to the web service.
+	 * 
+	 * 
+	 * @param courseInfo The course to update (call setState() in this object to set the state)
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws DataValidationErrorException
+	 * @throws CircularReferenceException
+	 * @throws VersionMismatchException
+	 */
 	public void updateStatementTreeViewInfoState(CourseInfo courseInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+		
+		// Call course web service to get all requirements/statements for this course 
 		List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
-		statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+		
+		// Recursively update state on all requirements/statements in the tree
+		for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+			StatementUtil.updateStatementTreeViewInfoState(courseInfo.getState(), it.next());
+	 
+		// Call the course web service and update the requirement/statement tree with the new state
 		for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
 			courseService.updateCourseStatement(courseInfo.getId(), it.next());	
 	}

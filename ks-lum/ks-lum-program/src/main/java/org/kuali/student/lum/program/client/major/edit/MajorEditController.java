@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -67,8 +67,7 @@ public class MajorEditController extends MajorController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
 
-    private ProgramStatus previousState;
-
+ 
     /**
      * Constructor.
      *
@@ -159,9 +158,7 @@ public class MajorEditController extends MajorController {
 		                                    }
 		                                }
 		                            };
-		                            previousState = ProgramStatus.of(programModel);
-		                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
-		                            saveData(callback);
+		                            updateState(event.getProgramStatus().getValue(), callback);
 		                        } else {
 		                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
 		                        }
@@ -282,11 +279,9 @@ public class MajorEditController extends MajorController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                programModel.setRoot(result.getValue());
+                refreshModelAndView(result);
                 viewContext.setId(ProgramUtils.getProgramId(programModel));
-                viewContext.setIdType(IdType.OBJECT_ID);
-                setHeaderTitle();
-                setStatus();
+                viewContext.setIdType(IdType.OBJECT_ID);                
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
@@ -349,9 +344,6 @@ public class MajorEditController extends MajorController {
                 List<ValidationResultInfo> validationResults = result.getValidationResults();
                 Application.getApplicationContext().addValidationWarnings(validationResults);
                 if (ValidatorClientUtils.hasErrors(validationResults)) {
-                    if (previousState != null) {
-                        ProgramUtils.setStatus(programModel, previousState.getValue());
-                    }
                     ProgramUtils.retrofitValidationResults(validationResults);
                     isValid(validationResults, false, true);
                     ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
@@ -373,13 +365,7 @@ public class MajorEditController extends MajorController {
                     
                     okCallback.exec(false);
                 } else {
-                    Data data = result.getValue();
-                    if (data != null) {
-                        programModel.setRoot(result.getValue());
-                    }
-                    previousState = null;
-                    setHeaderTitle();
-                    setStatus();
+                    refreshModelAndView(result);
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();

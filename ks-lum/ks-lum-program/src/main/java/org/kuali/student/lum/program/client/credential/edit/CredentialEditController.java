@@ -151,9 +151,7 @@ public class CredentialEditController extends CredentialController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel);
-                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
-                            saveData(callback);
+                            updateState(event.getProgramStatus().getValue(), callback);
                         } else {
                             KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
@@ -212,20 +210,14 @@ public class CredentialEditController extends CredentialController {
                 Application.getApplicationContext().addValidationWarnings(validationResults);
 
                 if (ValidatorClientUtils.hasErrors(validationResults)) {
-                    if (previousState != null) {
-                        ProgramUtils.setStatus(programModel, previousState.getValue());
-                    }
-                    isValid(result.getValidationResults(), false, true);
+                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
                         msg.append(vri.getMessage());
                     }
                     okCallback.exec(false);
                 } else {
-                    previousState = null;
-                    programModel.setRoot(result.getValue());
-                    setHeaderTitle();
-                    setStatus();
+                    refreshModelAndView(result);
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {

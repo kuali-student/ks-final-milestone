@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -14,6 +17,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
@@ -23,11 +27,53 @@ import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
+    public static final String PREVIOUS_VERSION_INFO = "previousVersionInfo";
+    
+    final Logger LOG = Logger.getLogger(MajorDisciplineRpcServlet.class);
+    
     private static final long serialVersionUID = 1L;
 
     private ProgramService programService;
     private StatementService statementService;
-
+    protected StateChangeService stateChangeService;
+ 
+    /**
+     * 
+     * This method will update the state of a major discipline. 
+     * 
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateStatus(org.kuali.student.common.assembly.data.Data, java.lang.String)
+     */
+	public DataSaveResult updateState(Data data, String state ) throws Exception {
+ 	    try {
+    	    // Pull program ID from model
+    	    String programId = data.get(ProgramConstants.ID);
+    	    
+    	    // Pull endEntryTerm and endEnrollTerm from model
+    	    // These are set using drop downs when a program is activated
+      	    Data previousVersionInfo = data.query(PREVIOUS_VERSION_INFO);
+      	    String endEntryTerm = null;
+      	    String endEnrollTerm = null;
+     	    if (previousVersionInfo != null) {
+     	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
+              endEnrollTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
+              stateChangeService.changeState(endEntryTerm, endEnrollTerm,  programId, state);
+     	    }
+     	    else{
+     	       // previousVersionInfo is null if this is the first version 
+     	       stateChangeService.changeState( programId, state);  
+     	    }
+          
+    
+    	    // Return updates to view
+    		DataSaveResult result = new DataSaveResult();
+    		result.setValue(data);
+    		return result;
+ 	    } catch(Exception e){
+ 	        e.printStackTrace(); // needed or exception will be swallowed
+ 	        throw e;
+ 	    }
+	         
+	}
     public List<ProgramRequirementInfo> getProgramRequirements(List<String> programRequirementIds) throws Exception {
 
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
@@ -139,4 +185,9 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }
+
+    public void setStateChangeService(StateChangeService stateChangeService) {
+        this.stateChangeService = stateChangeService;
+    }
+    
 }

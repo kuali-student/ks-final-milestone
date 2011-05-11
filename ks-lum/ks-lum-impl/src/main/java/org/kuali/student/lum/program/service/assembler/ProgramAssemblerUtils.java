@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.program.service.assembler;
 
+import static org.apache.commons.lang.StringUtils.isEmpty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -99,6 +101,8 @@ public class ProgramAssemblerUtils {
             clu.setType(program.getType());
         }
         clu.setId(UUIDHelper.genStringUUID(program.getId()));
+        
+        // Default 
         clu.setState(program.getState());
         clu.setMetaInfo(program.getMetaInfo());
         clu.setAttributes(program.getAttributes());
@@ -130,7 +134,7 @@ public class ProgramAssemblerUtils {
 
             if (requirements != null && !requirements.isEmpty()) {
             	if (stateChanged){
-            		addUpdateRequirementStateNodes(requirements, clu.getState(), result);
+            		addUpdateRequirementStateNodes(requirements, program.getState(), result);
             	}
             	
                	Map<String, String> currentRelations = null;
@@ -243,8 +247,7 @@ public class ProgramAssemblerUtils {
         official.setCode(program.getCode());
         official.setLongName(program.getLongTitle());
         official.setShortName(program.getShortTitle());
-        String existingState = program.getState();
-        official.setState((null != existingState && existingState.length() > 0) ? existingState : DtoConstants.STATE_ACTIVE);
+        official.setState(program.getState());
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
 
@@ -262,15 +265,17 @@ public class ProgramAssemblerUtils {
             CluIdentifierInfo cluIdentifier = iter.next();
             if (ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getType())) {
                 diplomaInfo = cluIdentifier;
+                diplomaInfo.setState(program.getState());
             } else if (ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getType())) {
                 transcriptInfo = cluIdentifier;
+                transcriptInfo.setState(program.getState());
             }
         }
 
         if (program.getDiplomaTitle() != null) {
             if (diplomaInfo == null) {
                 diplomaInfo = new CluIdentifierInfo();
-                diplomaInfo.setState(DtoConstants.STATE_ACTIVE);
+                diplomaInfo.setState(program.getState());
                 clu.getAlternateIdentifiers().add(diplomaInfo);
             }
             diplomaInfo.setCode(official.getCode());
@@ -281,7 +286,7 @@ public class ProgramAssemblerUtils {
         if (program.getTranscriptTitle() != null) {
             if (transcriptInfo == null) {
                 transcriptInfo = new CluIdentifierInfo();
-                transcriptInfo.setState(DtoConstants.STATE_ACTIVE);
+                transcriptInfo.setState(program.getState());
                 clu.getAlternateIdentifiers().add(transcriptInfo);
             }
             transcriptInfo.setCode(official.getCode());
@@ -608,7 +613,7 @@ public class ProgramAssemblerUtils {
                          || (NodeOperation.UPDATE == operation && currentPubInfo == null )) {
                      // the description does not exist, so create
                      CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), ProgramAssemblerConstants.CATALOG);
-
+                     pubInfo.setState(program.getState());
                      FieldInfo variant = new FieldInfo();
                      variant.setId(ProgramAssemblerConstants.CATALOG_DESCR);
                      variant.setValue(program.getCatalogDescr() .getPlain());
@@ -624,7 +629,7 @@ public class ProgramAssemblerUtils {
                          && currentPubInfo != null) {
 
                      CluPublicationInfo pubInfo = currentPubInfo;
-
+                     pubInfo.setState(program.getState());
                      for (FieldInfo fieldInfo : pubInfo.getVariants()) {
                          if (fieldInfo.getId().equals(ProgramAssemblerConstants.CATALOG_DESCR)) {
                              fieldInfo.setValue(program.getCatalogDescr() .getPlain());
@@ -673,6 +678,7 @@ public class ProgramAssemblerUtils {
     public CluInfo disassemblePublications(CluInfo clu, ProgramPublicationAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
 
         clu.setReferenceURL(program.getReferenceURL());
+        clu.setState(program.getState());
 
         List<BaseDTOAssemblyNode<?, ?>> targetResults = disassemblePublicationTargets(program, operation);
         if (targetResults != null && targetResults.size()> 0) {
@@ -735,6 +741,8 @@ public class ProgramAssemblerUtils {
             relation.setCluId(program.getCredentialProgramId());
             relation.setRelatedCluId(program.getId());
             relation.setType(relationType);
+            // We are hard coding this to active since relations can only be active/inactive
+            // DO NOT propagate states such as DRAFT etc to the relations.
             relation.setState(DtoConstants.STATE_ACTIVE);
 
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
@@ -900,6 +908,10 @@ public class ProgramAssemblerUtils {
         relation.setCluId(cluId);
         relation.setRelatedCluId(relatedCluId);
         relation.setType(relationType);
+        
+        // Relations can only be in state Active or Inactive
+        // DO NOT set state on relations to Draft, Approved, etc
+        // We will default to Active
         relation.setState(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
@@ -969,6 +981,7 @@ public class ProgramAssemblerUtils {
             try {
                 List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(program.getId());
                 for(CluPublicationInfo cluPub : cluPubs){
+                    cluPub.setState(program.getState());
                     if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
                         currentPubs.put(cluPub.getType(), cluPub);                        
                     }
@@ -986,7 +999,9 @@ public class ProgramAssemblerUtils {
                         || (NodeOperation.UPDATE == operation && !currentPubs.containsKey(publicationType) )) {
                     // the publication does not exist, so create
                     CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), publicationType);
-
+                    
+                    // Set the publication type state to match the program state.
+                    pubInfo.setState(program.getState());
                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
                             null);
                     pubNode.setNodeData(pubInfo);
@@ -995,10 +1010,17 @@ public class ProgramAssemblerUtils {
                     results.add(pubNode);
                 } else if (NodeOperation.UPDATE == operation
                         && currentPubs.containsKey(publicationType)) {
-                    //Only types are exposed to the user so don't need to do anything here
-
-                    currentPubs.remove(publicationType);
-                } else if (NodeOperation.DELETE == operation
+                    // Update the state of an existing pub info to the
+                    // program state. To do this we need to remove the publication
+                    // type and create a new node with the update operation
+                    CluPublicationInfo pubInfo = currentPubs.remove(publicationType);
+                    pubInfo.setState(program.getState());
+                    BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                               null);
+                    pubNode.setNodeData(pubInfo);
+                    pubNode.setOperation(NodeOperation.UPDATE);
+                    results.add(pubNode);
+                 } else if (NodeOperation.DELETE == operation
                         && currentPubs.containsKey(publicationType))  {
 
                     CluPublicationInfo pubToDelete = new CluPublicationInfo();
@@ -1029,7 +1051,6 @@ public class ProgramAssemblerUtils {
         CluPublicationInfo pubInfo = new CluPublicationInfo();
         pubInfo.setType(publicationType);
         pubInfo.setCluId(programId);
-        pubInfo.setState(DtoConstants.STATE_ACTIVE);
 
         return pubInfo;
     }
@@ -1060,4 +1081,5 @@ public class ProgramAssemblerUtils {
         }
         return credentialProgramIDs.get(0);
     }
+   
 }

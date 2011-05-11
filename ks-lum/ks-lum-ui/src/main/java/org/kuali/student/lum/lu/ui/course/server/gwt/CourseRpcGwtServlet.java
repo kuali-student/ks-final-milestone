@@ -28,6 +28,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -82,7 +83,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
@@ -96,7 +97,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);

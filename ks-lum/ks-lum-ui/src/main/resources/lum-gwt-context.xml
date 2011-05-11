@@ -259,6 +259,16 @@
 		<property name="courseService" ref="courseClient"/>
 	</bean>
 	
+	<bean id="majorDisciplineStateChangeService" class="org.kuali.student.lum.program.server.MajorDisciplineStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	<bean id="coreProgramStateChangeService" class="org.kuali.student.lum.program.server.CoreProgramStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	<bean id="credentialProgramStateChangeService" class="org.kuali.student.lum.program.server.CredentialProgramStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	
     <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="dataService" ref="CourseProposalDataService"/>
@@ -339,19 +349,22 @@
     <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
 		<property name="dataService" ref="majorDisciplineDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
-    </bean>
+        <property name="statementService" ref="statementServiceClient"/>      
+        <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
+     </bean>
 
     <bean id="credentialProgramRpcServlet" class="org.kuali.student.lum.program.server.CredentialProgramRpcServlet">
 		<property name="dataService" ref="credentialProgramDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
+        <property name="statementService" ref="statementServiceClient"/>  
+		<property name="stateChangeService" ref="credentialProgramStateChangeService"/>     
     </bean>
 
     <bean id="coreProgramRpcServlet" class="org.kuali.student.lum.program.server.CoreProgramRpcServlet">
 		<property name="dataService" ref="coreProgramDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
+        <property name="statementService" ref="statementServiceClient"/>       
+        <property name="stateChangeService" ref="coreProgramStateChangeService"/> 
     </bean>
 
     <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">

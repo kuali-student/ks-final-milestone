@@ -51,7 +51,6 @@ public class CoreEditController extends CoreController {
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
-    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -151,10 +150,8 @@ public class CoreEditController extends CoreController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel);
-                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
-                            saveData(callback);
-                        } else {
+                            updateState(event.getProgramStatus().getValue(), callback);
+                         } else {
                             KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
@@ -193,11 +190,9 @@ public class CoreEditController extends CoreController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                programModel.setRoot(result.getValue());
                 viewContext.setIdType(IdType.OBJECT_ID);
                 viewContext.setId(getStringProperty(ProgramConstants.ID));
-                setHeaderTitle();
-                setStatus();
+                refreshModelAndView(result);
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
@@ -252,9 +247,6 @@ public class CoreEditController extends CoreController {
 
                 if (ValidatorClientUtils.hasErrors(validationResults)) {
 
-                    if (previousState != null) {
-                        ProgramUtils.setStatus(programModel, previousState.getValue());
-                    }
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
@@ -262,10 +254,7 @@ public class CoreEditController extends CoreController {
                     }
                     okCallback.exec(false);
                 } else {
-                    previousState = null;
-                    programModel.setRoot(result.getValue());
-                    setHeaderTitle();
-                    setStatus();
+                    refreshModelAndView(result);
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
                         processBeforeShow = false;
                         showView(getCurrentViewEnum());

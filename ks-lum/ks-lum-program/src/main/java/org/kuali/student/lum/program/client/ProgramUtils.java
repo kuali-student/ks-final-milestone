@@ -70,26 +70,7 @@ public class ProgramUtils {
         return newSpecializationData;
     }
 
-    public static void setStatus(DataModel dataModel, String status) {
-        QueryPath statePath = new QueryPath();
-        statePath.add(new Data.StringKey(ProgramConstants.STATE));
-        dataModel.set(statePath, status);
-        setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
-    }
 
-    public static void setPreviousStatus(DataModel dataModel, String status) {
-        QueryPath statePath = QueryPath.parse(ProgramConstants.PREV_STATE);
-        dataModel.set(statePath, status);
-    }
-
-    private static void setStatus(Data inputData, String status) {
-        if (inputData != null) {
-            for (Data.Property property : inputData) {
-                Data data = property.getValue();
-                data.set(new Data.StringKey(ProgramConstants.STATE), status);
-            }
-        }
-    }
 
     public static void retrofitValidationResults(List<ValidationResultInfo> validationResults) {
         for (ValidationResultInfo validationResult : validationResults) {

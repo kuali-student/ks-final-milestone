@@ -295,6 +295,9 @@ public class ProgramServiceImpl implements ProgramService {
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
 	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+	        
+	        // Relations can only be ACTIVE or INACTIVE
+	        // We will set to ACTIVE for now
 	        relation.setState(DtoConstants.STATE_ACTIVE);
 			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
 	        

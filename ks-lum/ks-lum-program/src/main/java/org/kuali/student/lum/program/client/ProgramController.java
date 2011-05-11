@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -408,6 +409,55 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected void doSave() {
     }
+    
+    
+    /**
+     * Update the state of the program and all of its statements.
+     * <p>
+     * This is only called when the state change event fires.
+     * <p>
+     * There are several types of programs (majorDiscipline, core, credential).  The
+     * state of each program changes when buttons are pressed.  For example, pressing
+     * the  activate button may change the state of the program from draft to active.
+     * <p>
+     * This method is triggered when the state changes.  It will pass the 
+     * new state to the controller servlet, which will then use it to update the state
+     * by calling the web services.
+     * <p>
+     * Note that state and status are different.
+     * <p>
+     * It is placed in ProgramController so core, credential, etc all have access it.
+     * <p>
+     * 
+     * 
+     * @param programModel a map containing data representing the program
+     * @param state the state we changed to
+     * @param callback will return true if update succeeded
+     */
+     protected void updateState(String state, final Callback<Boolean> okCallback) {
+
+       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+                @Override
+                public void onSuccess(DataSaveResult result) {
+                    super.onSuccess(result);
+                    okCallback.exec(true);
+                    refreshModelAndView(result);
+               }
+            }); 
+    	 
+     }
+     /**
+      * This method will refresh the model and view with the data sent back from
+      * the server.
+      *
+      */
+     public void refreshModelAndView(DataSaveResult result){
+         if (result != null) {
+              programModel.setRoot(result.getValue());
+         }
+         setHeaderTitle();
+         setStatus();
+     }
 
     public DataModel getProgramModel() {
         return programModel;
