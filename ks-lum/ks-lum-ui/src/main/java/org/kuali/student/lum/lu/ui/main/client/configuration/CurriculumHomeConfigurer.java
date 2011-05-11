@@ -286,14 +286,21 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 		                    ViewContext viewContext = new ViewContext();
 		                    viewContext.setId(copyCourseSearchPanel.getValue());
 		                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-		                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-							
+		                    if (adminOptionCheckbox.getValue()){
+		                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+		                    } else {
+		                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+		                    }
 						}else if(radioOptionCopyProposal.getValue()){
 		                    ViewContext viewContext = new ViewContext();
 		                    viewContext.setId(copyProposalSearchPanel.getValue());
 		                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
 		                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-		                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+		                    if (adminOptionCheckbox.getValue()){
+		                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+		                    } else {
+		                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+		                    }
 						}
 						dialog.hide();
 					}
