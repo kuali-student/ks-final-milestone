@@ -152,7 +152,7 @@ public class TestValidator {
 		p.getAddress().get(0).setState("ACTIVE");
 		results = val.validateObject(p, o1);
 		
-		assertEquals(2, results.size());
+		assertEquals(4, results.size());
 	}
 		
 
@@ -193,7 +193,7 @@ public class TestValidator {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
 					+ " " + vri.getMessage());
 		}
-		assertEquals(2, results.size());
+		assertEquals(3, results.size());
 
 		p.getAddress().get(0).setLine2("notrightlookupvalue");
 		results = val.validateObject(p, o);
@@ -202,7 +202,7 @@ public class TestValidator {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
 					+ " " + vri.getMessage());
 		}
-		assertEquals(1, results.size());
+		assertEquals(2, results.size());
 		assertEquals(results.get(0).getErrorLevel(),
 				ValidationResultInfo.ErrorLevel.ERROR);
 		assertEquals(results.get(0).getMessage(), "validation.lookup");
