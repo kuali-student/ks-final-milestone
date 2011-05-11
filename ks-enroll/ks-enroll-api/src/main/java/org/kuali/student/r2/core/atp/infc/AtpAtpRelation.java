@@ -35,6 +35,7 @@ public interface AtpAtpRelation extends Relationship {
      *  @return the ATP key
      */
     public String getAtpKey();
+    public void setAtpKey(String atpKey);
 
     /**
      *  Name: Related ATP Key
@@ -43,4 +44,5 @@ public interface AtpAtpRelation extends Relationship {
      *  @return the ATP key
      */
     public String getRelatedAtpKey();
+    public void setRelatedAtpKey(String relatedAtpKey);
 }

@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.KeyDate;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,17 +34,26 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final Boolean isAllDay;
+    private Boolean isAllDay;
     @XmlElement
-    private final Boolean isDateRange;
+    private Boolean isDateRange;
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
-    protected KeyDateInfo() {
+
+    public static KeyDateInfo newInstance() {
+        return new KeyDateInfo();
+    }
+    
+    public static KeyDateInfo getInstance(KeyDate keyDate) {
+        return new KeyDateInfo(keyDate);
+    }
+    
+    private KeyDateInfo() {
         isAllDay = false;
         isDateRange = false;
         startDate = null;
@@ -58,23 +66,33 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
      *
      * @param keyDate the KeyDate to copy
      */
-    public KeyDateInfo(KeyDate keyDate) {
+    private KeyDateInfo(KeyDate keyDate) {
         super(keyDate);
-        this.isAllDay = keyDate.getIsAllDay();
-        this.isDateRange = keyDate.getIsDateRange();
+        this.isAllDay = keyDate.isAllDay();
+        this.isDateRange = keyDate.isDateRange();
         this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
         this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
         _futureElements = null;
     }
 
     @Override
-    public Boolean getIsAllDay() {
+    public Boolean isAllDay() {
         return isAllDay;
     }
 
     @Override
-    public Boolean getIsDateRange() {
+    public void setAllDay(boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean isDateRange() {
         return isDateRange;
+    }
+
+    @Override
+    public void setDateRange(boolean isDateRange) {
+        this.isDateRange = isDateRange;
     }
 
     @Override
@@ -83,77 +101,17 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = new Date(startDate.getTime());
+    }
+
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * The builder class for this KeyDateInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<KeyDateInfo>, KeyDate {
-
-        private Boolean isAllDay;
-        private Boolean isDateRange;
-        private Date startDate;
-        private Date endDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  KeyDate.
-         */
-        public Builder(KeyDate keyDate) {
-            super(keyDate);
-            this.isAllDay = keyDate.getIsAllDay();
-            this.isDateRange = keyDate.getIsDateRange();
-            this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-            this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
-        }
-
-        @Override
-        public KeyDateInfo build() {
-            return new KeyDateInfo(this);
-        }
-
-        @Override
-        public Boolean getIsAllDay() {
-            return isAllDay;
-        }
-
-        public void setIsAllDay(Boolean isAllDay) {
-            this.isAllDay = isAllDay;
-        }
-
-        @Override
-        public Boolean getIsDateRange() {
-            return isDateRange;
-        }
-
-        public void setIsDateRange(Boolean isDateRange) {
-            this.isDateRange = isDateRange;
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = new Date(startDate.getTime());
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = new Date(endDate.getTime());
-        }
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = new Date(endDate.getTime());
     }
 }

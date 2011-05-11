@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.common.infc.KeyEntity;
 import org.w3c.dom.Element;
 
 /**
  * @author sambit
  */
 
-public interface ResultValue extends Serializable {
+public interface ResultValue extends KeyEntity, Serializable {
 
 	/**
 	 * Result Value Name string Name of the result value. This is likely related

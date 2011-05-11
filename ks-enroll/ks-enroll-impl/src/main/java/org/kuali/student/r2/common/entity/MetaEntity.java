@@ -112,12 +112,12 @@ public abstract class MetaEntity extends BaseEntity{
 	}
 
 	public MetaInfo toDTO() {
-		MetaInfo.Builder miBuilder = new MetaInfo.Builder();
-		miBuilder.setCreateId(getCreateId());
-		miBuilder.setCreateTime(getCreateTime());
-		miBuilder.setUpdateId(getUpdateId());
-		miBuilder.setUpdateTime(getUpdateTime());
+		MetaInfo miInfo = MetaInfo.newInstance();
+		miInfo.setCreateId(getCreateId());
+		miInfo.setCreateTime(getCreateTime());
+		miInfo.setUpdateId(getUpdateId());
+		miInfo.setUpdateTime(getUpdateTime());
 		// TODO: what about versionInd?
-		return miBuilder.build();
+		return miInfo;
 	}
 }

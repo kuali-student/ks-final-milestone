@@ -3,8 +3,6 @@ package org.kuali.student.r2.core.atp.service;
 import java.util.Date;
 import java.util.List;
 
-
-
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -24,7 +22,6 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 
 
 public class AtpServiceDecorator implements AtpService {

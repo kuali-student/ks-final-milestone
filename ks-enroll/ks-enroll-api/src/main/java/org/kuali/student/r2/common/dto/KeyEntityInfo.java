@@ -14,14 +14,12 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 
 @SuppressWarnings("serial")
 @XmlTransient
@@ -34,38 +32,24 @@ public abstract class KeyEntityInfo extends EntityInfo implements KeyEntity, Ser
         key = null;
     }
 
-    protected KeyEntityInfo(KeyEntity builder) {
-        super(builder);
-        this.key = builder.getKey();
+    protected KeyEntityInfo(KeyEntity kEntity) {
+        super(kEntity);
+        if (null != kEntity) {
+	        this.key = kEntity.getKey();
+        }
+    }
+
+    protected KeyEntityInfo(String name, RichText descr, String typeKey, String stateKey, Meta meta) {
+        super(name, descr, typeKey, stateKey, meta);
     }
 
     @Override
     public String getKey() {
         return key;
     }
-
-    /**
-     * The builder class for this abstract EntityInfo.
-     */
-
-    public static class Builder extends EntityInfo.Builder implements  KeyEntity {
-
-        private String key;
-
-        public Builder() {}
-
-        public Builder(KeyEntity entity) {
-            super(entity);
-            this.key = entity.getKey();
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
+    
+    @Override
+    public void setKey(String key) {
+        this.key = key;
     }
 }

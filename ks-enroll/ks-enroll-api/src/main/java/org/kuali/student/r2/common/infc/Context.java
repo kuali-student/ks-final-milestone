@@ -44,6 +44,7 @@ public interface Context extends HasAttributes {
      * Used for authorization checking.
      */
     public String getPrincipalId();
+    public void setPrincipalId(String principalId);
 
     /**
      * Name: Locale Language
@@ -51,6 +52,7 @@ public interface Context extends HasAttributes {
      * Laguage portion of the locale information used in this context
      */
     public String getLocaleLanguage();
+    public void setLocaleLanguage(String localeLanguage);
 
     /**
      * Name: Locale Language Variant
@@ -58,6 +60,7 @@ public interface Context extends HasAttributes {
      * Laguage variant portion of the locale information to be used in this context
      */
     public String getLocaleVariant();
+    public void setLocaleVariant(String localeVariant);
 
     /**
      * Name: Locale Region
@@ -65,6 +68,7 @@ public interface Context extends HasAttributes {
      * Laguage Region portion of the locale information to be used in this context
      */
     public String getLocaleRegion();
+    public void setLocaleRegion(String localeRegion);
 
     /**
      * Name: Locale Script
@@ -72,6 +76,7 @@ public interface Context extends HasAttributes {
      * Laguage Script to be used in this context
      */
     public String getLocaleScript();
+    public void setLocaleScript(String localeScript);
 
     /**
      * Name: Tim Zone
@@ -79,5 +84,6 @@ public interface Context extends HasAttributes {
      * The time zone to be used in this context
      */
     public String getTimeZone();
+    public void setTimeZone(String timeZone);
 }
 

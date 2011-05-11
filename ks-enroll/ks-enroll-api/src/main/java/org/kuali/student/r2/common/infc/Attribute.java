@@ -31,6 +31,7 @@ public interface Attribute {
      * The internally assigned id to this key/value pair
      */
     public String getId();
+    public void setId(String id);
 
     /**
      * Name: Attribute Type Key
@@ -38,6 +39,7 @@ public interface Attribute {
      * The key that identifies the name of the dynamic attribute
      */
     public String getKey();
+    public void setKey(String key);
 
     /**
      * Name: Attribute Value
@@ -45,5 +47,6 @@ public interface Attribute {
      * The value of the dynamic attribute
      */
     public String getValue();
+    public void setValue(String value);
 }
 

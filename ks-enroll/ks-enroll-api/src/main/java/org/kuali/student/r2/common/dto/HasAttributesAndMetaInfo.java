@@ -20,49 +20,30 @@ import org.kuali.student.r2.common.infc.Meta;
 public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo implements HasAttributesAndMeta, Serializable {
 
     @XmlElement
-    private final MetaInfo metaInfo;
+    private MetaInfo metaInfo;
 
     protected HasAttributesAndMetaInfo() {
         metaInfo = null;
     }
 
-    protected HasAttributesAndMetaInfo(HasAttributesAndMeta builder) {
-        super(builder);
-        this.metaInfo = null != builder.getMetaInfo() ? new MetaInfo.Builder(builder.getMetaInfo()).build() : null;
+    protected HasAttributesAndMetaInfo(HasAttributesAndMeta hasAttsAndMeta) {
+        super(hasAttsAndMeta);
+        if (null != hasAttsAndMeta) {
+	        this.metaInfo = null != hasAttsAndMeta.getMetaInfo() ? MetaInfo.getInstance(hasAttsAndMeta.getMetaInfo()) : null;
+        }
+    }
+
+    protected HasAttributesAndMetaInfo(Meta meta) {
+        this.metaInfo = null != meta ? MetaInfo.getInstance(meta) : null;
     }
 
     @Override
-    public MetaInfo getMetaInfo() {
+    public Meta getMetaInfo() {
         return metaInfo;
     }
-
-    public static class Builder extends HasAttributesInfo.Builder implements HasAttributesAndMeta {
-
-        private Meta metaInfo;
-
-        public Builder() {}
-
-        public Builder(HasAttributesAndMeta hasAMInfo) {
-            super(hasAMInfo);
-            
-            if (null != hasAMInfo.getMetaInfo()) {
-	            MetaInfo.Builder builder = new MetaInfo.Builder();
-	            builder.setCreateId(hasAMInfo.getMetaInfo().getCreateId());
-	            builder.setCreateTime(hasAMInfo.getMetaInfo().getCreateTime());
-	            builder.setUpdateId(hasAMInfo.getMetaInfo().getUpdateId());
-	            builder.setUpdateTime(hasAMInfo.getMetaInfo().getUpdateTime());
-	            builder.setVersionInd(hasAMInfo.getMetaInfo().getVersionInd());
-	            this.metaInfo = builder.build();
-            }
-        }
-
-        @Override
-        public Meta getMetaInfo() {
-            return metaInfo;
-        }
-
-        public void setMetaInfo(Meta metaInfo) {
-            this.metaInfo = metaInfo;
-        }
+    
+    @Override
+    public void setMetaInfo(Meta metaInfo) {
+        this.metaInfo = MetaInfo.getInstance(metaInfo);
     }
 }

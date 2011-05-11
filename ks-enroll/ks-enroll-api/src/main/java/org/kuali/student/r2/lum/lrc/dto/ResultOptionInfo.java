@@ -17,14 +17,12 @@ package org.kuali.student.r2.lum.lrc.dto;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.lrc.ResultOption;
 
@@ -58,27 +56,31 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 	@XmlAttribute
 	private String id;
 	
+	
+	public static ResultOptionInfo getInstance(String name, RichText descr, String typeKey, String stateKey, Meta metaInfo, String resultUsageTypeKey, String resultComponentId, Date effectiveDate, Date expirationDate, String id) {
+        return new ResultOptionInfo(name, descr, typeKey, stateKey, metaInfo, resultUsageTypeKey, resultComponentId, effectiveDate, expirationDate, id);
+    }
 
-	public ResultOptionInfo() {
+	private ResultOptionInfo() {
 
 	}
 
-	public ResultOptionInfo(String name, RichText descr, String typeKey,
-			String stateKey, MetaInfo metaInfo, String resultUsageTypeKey,
+	private ResultOptionInfo(String name, RichText descr, String typeKey,
+			String stateKey, Meta meta, String resultUsageTypeKey,
 			String resultComponentId, Date effectiveDate, Date expirationDate,
 			String id) {
 		// TODO - after devs create new constructor
-		super();
+		super(name, descr, typeKey, stateKey, meta);
 		this.resultUsageTypeKey = resultUsageTypeKey;
 		this.resultComponentId = resultComponentId;
-		this.effectiveDate = effectiveDate;
-		this.expirationDate = expirationDate;
+		this.effectiveDate = new Date(effectiveDate.getTime());
+		this.expirationDate = new Date(expirationDate.getTime());
 		this.id = id;
 	}
 
 	public static ResultOptionInfo createNewResultInfoFromResultInfo(
 			ResultOptionInfo resultOptionInfo) {
-		return new ResultOptionInfo(resultOptionInfo.getName(),
+		return ResultOptionInfo.getInstance(resultOptionInfo.getName(),
 				resultOptionInfo.getDescr(), resultOptionInfo.getTypeKey(),
 				resultOptionInfo.getStateKey(), resultOptionInfo.getMetaInfo(),
 				resultOptionInfo.getResultUsageTypeKey(),
@@ -87,7 +89,7 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 				resultOptionInfo.getExpirationDate(), resultOptionInfo.getId());
 	}
 
-	public String getResultUsageTypeKey() {
+    public String getResultUsageTypeKey() {
 		return resultUsageTypeKey;
 	}
 

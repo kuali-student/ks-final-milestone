@@ -11,6 +11,7 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -112,5 +113,40 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
         } catch (ParseException ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    @Override
+    public void setKey(String key) {
+        // TODO jimt - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
+    @Override
+    public void setAttributes(List<? extends Attribute> attributes) {
+        this.attributes = new ArrayList<Attribute>(attributes);
+    }
+
+    @Override
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = new Date(effectiveDate.getTime());
+    }
+
+    @Override
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = new Date(expirationDate.getTime());
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    @Override
+    public void setRefObjectURI(String refObjectURI) {
     }
 }

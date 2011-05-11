@@ -131,23 +131,22 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     }
 
     public AtpAtpRelationInfo toDto() {
-        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder();
-        builder.setAtpKey(atpKey.getId());
-        builder.setRelatedAtpKey(relatedAtpKey.getId());
-        builder.setEffectiveDate(effectiveDate);
-        builder.setExpirationDate(expirationDate);
-        builder.setStateKey(atpState.getId());
-        builder.setTypeKey(atpAtpRelationType.getId());
-        builder.setMetaInfo(super.toDTO());
+        AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.newInstance();
+        aarInfo.setAtpKey(atpKey.getId());
+        aarInfo.setRelatedAtpKey(relatedAtpKey.getId());
+        aarInfo.setEffectiveDate(effectiveDate);
+        aarInfo.setExpirationDate(expirationDate);
+        aarInfo.setStateKey(atpState.getId());
+        aarInfo.setTypeKey(atpAtpRelationType.getId());
+        aarInfo.setMetaInfo(super.toDTO());
         
         List<Attribute> atts = new ArrayList<Attribute>();
         for (AtpAtpRelationAttributeEntity att : getAttributes()) {
             Attribute attInfo = att.toDto();
             atts.add(attInfo);
         }
-        builder.setAttributes(atts);
+        aarInfo.setAttributes(atts);
         
-        AtpAtpRelationInfo info = builder.build();
-        return info;
+        return aarInfo;
     }
 }

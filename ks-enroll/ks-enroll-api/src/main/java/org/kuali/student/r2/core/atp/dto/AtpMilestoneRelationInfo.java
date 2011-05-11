@@ -17,18 +17,16 @@ package org.kuali.student.r2.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "milestoneKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
@@ -36,11 +34,19 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String atpKey;
+    private String atpKey;
     @XmlElement
-    private final String milestoneKey;
+    private String milestoneKey;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static AtpMilestoneRelationInfo newInstance() {
+        return new AtpMilestoneRelationInfo();
+    }
+
+    public static AtpMilestoneRelationInfo getInstance(AtpMilestoneRelation amRelation) {
+        return new AtpMilestoneRelationInfo(amRelation);
+    }
 
     private AtpMilestoneRelationInfo() {
         atpKey = null;
@@ -67,55 +73,17 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMil
     }
 
     @Override
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
+    }
+
+    @Override
     public String getMilestoneKey() {
         return milestoneKey;
     }
 
-    /**
-     * The builder class for this AtpMilestoneRelationInfo.
-     */
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpMilestoneRelationInfo>, AtpMilestoneRelation {
-
-        private String atpKey;
-        private String milestoneKey;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  AtpMilestoneRelation.
-         */
-        public Builder(AtpMilestoneRelation amrInfo) {
-            super(amrInfo);
-            this.atpKey = amrInfo.getAtpKey();
-            this.milestoneKey = amrInfo.getMilestoneKey();
-        }
-
-        @Override
-        public AtpMilestoneRelationInfo build() {
-            return new AtpMilestoneRelationInfo(this);
-        }
-
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
-
-        public void setAtpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
-
-        @Override
-        public String getMilestoneKey() {
-            return milestoneKey;
-        }
-
-        public void setMilestoneKey(String milestoneKey) {
-            this.milestoneKey = milestoneKey;
-        }
+    @Override
+    public void setMilestoneKey(String milestoneKey) {
+        this.milestoneKey = milestoneKey;
     }
 }

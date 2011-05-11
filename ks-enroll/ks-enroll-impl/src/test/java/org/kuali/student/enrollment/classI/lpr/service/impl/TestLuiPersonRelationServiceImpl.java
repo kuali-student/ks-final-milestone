@@ -54,7 +54,7 @@ public class TestLuiPersonRelationServiceImpl {
 	public LuiPersonRelationService lprService;
     public ApplicationContext appContext;
     public static String principalId = "123";
-    public ContextInfo callContext = new ContextInfo.Builder().build();
+    public ContextInfo callContext = ContextInfo.newInstance();
 
     private DataLoader dataLoader;
 
@@ -68,7 +68,8 @@ public class TestLuiPersonRelationServiceImpl {
         principalId = "123";
         appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml", "testContext.xml"});
         lprService = (LuiPersonRelationService) appContext.getBean("lprPersistenceService");
-        callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
+        callContext = ContextInfo.getInstance(callContext);
+        callContext.setPrincipalId(principalId);
         dataLoader = (DataLoader) appContext.getBean("dataLoader");
         dataLoader.load();
     }
@@ -83,7 +84,7 @@ public class TestLuiPersonRelationServiceImpl {
 
     @Test
     public void testFindLuiPersonRelationsForLui() throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.PermissionDeniedException, OperationFailedException {
-        List<LuiPersonRelationInfo> personRelationInfos = lprService.findLuiPersonRelationsForLui(Constants.LUI_ID1, new ContextInfo.Builder().build());
+        List<LuiPersonRelationInfo> personRelationInfos = lprService.findLuiPersonRelationsForLui(Constants.LUI_ID1, ContextInfo.newInstance());
         assertNotNull(personRelationInfos);
         assertEquals(personRelationInfos.size(), 1);
 
@@ -100,7 +101,7 @@ public class TestLuiPersonRelationServiceImpl {
             List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId,
                     new ArrayList<String>(),
                     "", "",
-                    new LuiPersonRelationInfo.Builder().build(),
+                    LuiPersonRelationInfo.newInstance(),
                     callContext);
             assertNotNull(createResults);
             assertEquals(1, createResults.size());
@@ -114,7 +115,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testCreateBulkRelationshipsForPersonExceptions() {
         try {
-            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "", new LuiPersonRelationInfo.Builder().build(), callContext);
+            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "", LuiPersonRelationInfo.newInstance(), callContext);
 
         } catch (Throwable ex) {
             // ex.printStackTrace();

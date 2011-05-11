@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.atp.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.atp.infc.Milestone;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
@@ -35,15 +34,23 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final Boolean isAllDay;
+    private Boolean isAllDay;
     @XmlElement
-    private final Boolean isDateRange;
+    private Boolean isDateRange;
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static MilestoneInfo newInstance() {
+        return new MilestoneInfo();
+    }
+
+    public static MilestoneInfo getInstance(Milestone ms) {
+        return new MilestoneInfo(ms);
+    }
 
     private MilestoneInfo() {
         isAllDay = false;
@@ -58,23 +65,33 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
      *
      * @param milestone the Milestone to copy
      */
-    public MilestoneInfo(Milestone milestone) {
+    private MilestoneInfo(Milestone milestone) {
         super(milestone);
-        this.isAllDay = milestone.getIsAllDay();
-        this.isDateRange = milestone.getIsDateRange();
+        this.isAllDay = milestone.isAllDay();
+        this.isDateRange = milestone.isDateRange();
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
         _futureElements = null;
     }
 
     @Override
-    public Boolean getIsAllDay() {
+    public Boolean isAllDay() {
         return isAllDay;
     }
 
     @Override
-    public Boolean getIsDateRange() {
+    public void setAllDay(boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean isDateRange() {
         return isDateRange;
+    }
+
+    @Override
+    public void setDateRange(boolean isDateRange) {
+        this.isDateRange = isDateRange;
     }
 
     @Override
@@ -83,77 +100,17 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
     }
 
     @Override
-    public Date getEndDate() {
-        return endDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    /**
-     * The builder class for this MilestoneInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<MilestoneInfo>, Milestone {
+    @Override
+    public Date getEndDate() {
+        return new Date(endDate.getTime());
+    }
 
-        private Boolean isAllDay;
-        private Boolean isDateRange;
-        private Date startDate;
-        private Date endDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  Milestone.
-         */
-        public Builder(Milestone milestone) {
-            super(milestone);
-            this.isAllDay = milestone.getIsAllDay();
-            this.isDateRange = milestone.getIsDateRange();
-            this.startDate = milestone.getStartDate();
-            this.endDate = milestone.getEndDate();
-        }
-
-        @Override
-        public MilestoneInfo build() {
-            return new MilestoneInfo(this);
-        }
-
-        @Override
-        public Boolean getIsAllDay() {
-            return isAllDay;
-        }
-
-        public void setIsAllDay(Boolean isAllDay) {
-            this.isAllDay = isAllDay;
-        }
-
-        @Override
-        public Boolean getIsDateRange() {
-            return isDateRange;
-        }
-
-        public void setDateRange(Boolean isDateRange) {
-            this.isDateRange = isDateRange;
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = new Date(startDate.getTime());
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = new Date(endDate.getTime());
-        }
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = new Date(endDate.getTime());
     }
 }

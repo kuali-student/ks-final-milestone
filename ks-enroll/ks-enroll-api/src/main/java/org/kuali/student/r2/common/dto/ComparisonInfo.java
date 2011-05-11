@@ -17,7 +17,6 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +28,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Comparison;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,20 +36,28 @@ public class ComparisonInfo implements Comparison, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String fieldKey;
+    private String fieldKey;
     
     @XmlElement
-    private final String operator;
+    private String operator;
     
     @XmlElementWrapper(name="values")
     @XmlElement(name="value")
-    private final List<String> values;
+    private List<String> values;
     
     @XmlElement
-    private final boolean ignoreCase;
+    private boolean ignoreCase;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static ComparisonInfo newInstance() {
+        return new ComparisonInfo();
+    }
+    
+    public static ComparisonInfo getInstance(Comparison infc) {
+        return new ComparisonInfo(infc);
+    }
     
     private ComparisonInfo() {
         this.fieldKey = null;
@@ -80,9 +86,17 @@ public class ComparisonInfo implements Comparison, Serializable {
         return fieldKey;
     }
 
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
+
     @Override
     public String getOperator() {
         return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
     @Override
@@ -90,78 +104,16 @@ public class ComparisonInfo implements Comparison, Serializable {
         return values;
     }
 
+    public void setValues(List<String> values) {
+        this.values = new ArrayList<String>(values);
+    }
+
     @Override
-    public boolean isIgnoreCase() {
+    public Boolean isIgnoreCase() {
         return this.ignoreCase;
     }
 
-    public static class Builder implements ModelBuilder<ComparisonInfo>, Comparison {
-
-        private String fieldKey;
-        private String operator;
-        private List<String> values;
-        private boolean ignoreCase;
-
-        public Builder() {
-        }
-
-        public Builder(Comparison infc) {
-            this.fieldKey = infc.getFieldKey();
-            this.operator = infc.getOperator();
-            if (infc.getValues() != null) {
-                this.values = new ArrayList<String>(infc.getValues());
-            }
-        }
-
-        public ComparisonInfo build() {
-            return new ComparisonInfo(this);
-        }
-
-        @Override
-        public String getFieldKey() {
-            return fieldKey;
-        }
-
-        @Override
-        public String getOperator() {
-            return operator;
-        }
-
-        @Override
-        public List<String> getValues() {
-            return values;
-        }
-
-        @Override
-        public boolean isIgnoreCase() {
-            return this.ignoreCase;
-        }
-
-        public Builder setFieldKey(String fieldKey) {
-            this.fieldKey = fieldKey;
-            return this;
-        }
-
-        public Builder setOperator(String operator) {
-            this.operator = operator;
-            return this;
-        }
-
-        /**
-         * convenience method
-         * @param value
-         * @return
-         */
-        public void setValue(String value) {
-            this.setValues(Arrays.asList(value));
-        }
-
-        public void setValues(List<String> values) {
-            this.values = values;
-        }
-
-        public void setIgnoreCase(boolean ignoreCase) {
-            this.ignoreCase = ignoreCase;
-        }
+    public void setIgnoreCase(boolean ignoreCase) {
+        this.ignoreCase = ignoreCase;
     }
 }

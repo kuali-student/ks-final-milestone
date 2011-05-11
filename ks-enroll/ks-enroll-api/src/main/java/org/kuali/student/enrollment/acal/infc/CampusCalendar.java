@@ -40,6 +40,7 @@ public interface CampusCalendar extends KeyEntity {
      * expiration date.
      */
     public Date getStartDate();
+    public void setStartDate(Date startDate);
 
     /**
      * Name: Start Date
@@ -52,11 +53,12 @@ public interface CampusCalendar extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+    public void setEndDate(Date endDate);
 
     /**
      * Name: Location
      * The campus or location to which this calendar pertains.
      */
     public String getLocation();
- 
+    public void setLocation(String location);
 }

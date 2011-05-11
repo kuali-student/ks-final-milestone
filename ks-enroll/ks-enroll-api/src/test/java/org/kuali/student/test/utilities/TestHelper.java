@@ -6,10 +6,10 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 @Ignore
 public class TestHelper {
 	  public static ContextInfo getContext1() {
-			return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
+			return ContextInfo.getInstance("principalId.1", "en", "us");
 		}
 
 	    public static ContextInfo getContext2() {
-			return new ContextInfo.Builder().principalId("principalId.2").localeLanguage("fr").localeRegion("ca").build();
+			return ContextInfo.getInstance("principalId.2", "fr", "ca");
 		}
 }

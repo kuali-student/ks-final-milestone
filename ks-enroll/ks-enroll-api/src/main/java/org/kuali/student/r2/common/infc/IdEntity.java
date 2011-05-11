@@ -23,7 +23,5 @@ package org.kuali.student.r2.common.infc;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-public interface IdEntity
-    extends HasId,
-	    Entity {
+public interface IdEntity extends HasId, Entity {
 }

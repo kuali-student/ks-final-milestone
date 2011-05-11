@@ -133,23 +133,22 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     }
     
     public LuiPersonRelationInfo toDto() {
-    	LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder();
-    	builder.setId(getId());
-    	builder.setLuiId(luiId);
-    	builder.setPersonId(personId);
-    	builder.setEffectiveDate(effectiveDate);
-    	builder.setExpirationDate(expirationDate);
-    	builder.setTypeKey(personRelationType.getId());
-    	builder.setStateKey(personRelationState.getId());
-    	builder.setMetaInfo(super.toDTO());
+    	LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
+    	lprInfo.setId(getId());
+    	lprInfo.setLuiId(luiId);
+    	lprInfo.setPersonId(personId);
+    	lprInfo.setEffectiveDate(effectiveDate);
+    	lprInfo.setExpirationDate(expirationDate);
+    	lprInfo.setTypeKey(personRelationType.getId());
+    	lprInfo.setStateKey(personRelationState.getId());
+    	lprInfo.setMetaInfo(super.toDTO());
     	List<Attribute> atts = new ArrayList<Attribute>();
     	for (LuiPersonRelationAttributeEntity att : getAttributes()) {
     		Attribute attInfo = att.toDto();
     		atts.add(attInfo);
     	}
-		builder.setAttributes(atts);
+		lprInfo.setAttributes(atts);
     	
-    	LuiPersonRelationInfo info = builder.build();
-    	return info;
+    	return lprInfo;
     }
 }

@@ -63,10 +63,10 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        TypeInfo.Builder typeBldr = new TypeInfo.Builder();
-        typeBldr.setKey(typeKey);
-        typeBldr.setName(typeKey);
-        return typeBldr.build();
+        TypeInfo typeInfo = TypeInfo.newInstance();
+        typeInfo.setKey(typeKey);
+        typeInfo.setName(typeKey);
+        return typeInfo;
     }
 
     @Override
@@ -226,7 +226,7 @@ public class AtpServiceMockImpl implements AtpService {
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
 
-            if (milestone.getIsDateRange()) {
+            if (milestone.isDateRange()) {
                 if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate())) && (endDate.after(milestone.getEndDate()) || endDate.equals(milestone.getEndDate()))) {
                     milestoneList.add(milestone);
                 }
@@ -295,11 +295,10 @@ public class AtpServiceMockImpl implements AtpService {
         }
 
         MockHelper helper = new MockHelper();
-        AtpInfo.Builder builder = new AtpInfo.Builder(atpInfo);
-        builder.setMetaInfo(helper.createMeta(context));
-        AtpInfo copy = builder.build();
-        this.atpCache.put(atpKey, copy);
-        return copy;
+        AtpInfo atp = new AtpInfo(atpInfo);
+        atp.setMetaInfo(helper.createMeta(context));
+        this.atpCache.put(atpKey, atp);
+        return atp;
     }
 
     @Override
@@ -311,18 +310,17 @@ public class AtpServiceMockImpl implements AtpService {
         if (!atpInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
         }
-        AtpInfo.Builder builder = new AtpInfo.Builder(atpInfo);
-        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        AtpInfo atp = new AtpInfo(atpInfo);
+        atp.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpInfo.getAttributes()) {
-            atts.add(new AttributeInfo.Builder(att).build());
+            atts.add(AttributeInfo.getInstance(att));
         }
-        builder.setAttributes(atts);
-        AtpInfo copy = builder.build();
-        this.atpCache.put(atpKey, copy);
+        atp.setAttributes(atts);
+        this.atpCache.put(atpKey, atp);
 
-        return copy;
+        return atp;
     }
 
     @Override
@@ -330,9 +328,9 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpCache.remove(atpKey) == null) {
             throw new DoesNotExistException(atpKey);
         }
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
-        return bldr.build();
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
@@ -348,11 +346,10 @@ public class AtpServiceMockImpl implements AtpService {
         }
 
         MockHelper helper = new MockHelper();
-        MilestoneInfo.Builder builder = new MilestoneInfo.Builder(milestoneInfo);
-        builder.setMetaInfo(helper.createMeta(context));
-        MilestoneInfo copy = builder.build();
-        this.milestoneCache.put(milestoneKey, copy);
-        return copy;
+        MilestoneInfo mInfo = MilestoneInfo.getInstance(milestoneInfo);
+        mInfo.setMetaInfo(helper.createMeta(context));
+        this.milestoneCache.put(milestoneKey, mInfo);
+        return mInfo;
     }
 
     @Override
@@ -364,12 +361,11 @@ public class AtpServiceMockImpl implements AtpService {
         if (!milestoneInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
         }
-        MilestoneInfo.Builder builder = new MilestoneInfo.Builder(milestoneInfo);
-        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
-        MilestoneInfo copy = builder.build();
-        this.milestoneCache.put(milestoneKey, copy);
+        MilestoneInfo mInfo = MilestoneInfo.getInstance(milestoneInfo);
+        mInfo.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        this.milestoneCache.put(milestoneKey, mInfo);
 
-        return copy;
+        return mInfo;
     }
 
     @Override
@@ -380,9 +376,9 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.milestoneCache.remove(milestoneKey) == null) {
             throw new DoesNotExistException(milestoneKey);
         }
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
-        return bldr.build();
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
@@ -446,12 +442,11 @@ public class AtpServiceMockImpl implements AtpService {
     @Override
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MockHelper helper = new MockHelper();
-        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder(atpAtpRelationInfo);
-        builder.setMetaInfo(helper.createMeta(context));
-        builder.setId(UUIDHelper.genStringUUID());
-        AtpAtpRelationInfo copy = builder.build();
-        this.atpAtpRltnCache.put(copy.getId(), copy);
-        return copy;
+        AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.getInstance(atpAtpRelationInfo);
+        aarInfo.setMetaInfo(helper.createMeta(context));
+        aarInfo.setId(UUIDHelper.genStringUUID());
+        this.atpAtpRltnCache.put(aarInfo.getId(), aarInfo);
+        return aarInfo;
     }
 
     @Override
@@ -463,18 +458,17 @@ public class AtpServiceMockImpl implements AtpService {
         if (!atpAtpRelationInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
         }
-        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder(atpAtpRelationInfo);
-        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        AtpAtpRelationInfo aari = AtpAtpRelationInfo.getInstance(atpAtpRelationInfo);
+        aari.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpAtpRelationInfo.getAttributes()) {
-            atts.add(new AttributeInfo.Builder(att).build());
+            atts.add(AttributeInfo.getInstance(att));
         }
-        builder.setAttributes(atts);
-        AtpAtpRelationInfo copy = builder.build();
-        this.atpAtpRltnCache.put(atpAtpRelationId, copy);
+        aari.setAttributes(atts);
+        this.atpAtpRltnCache.put(atpAtpRelationId, aari);
 
-        return copy;
+        return aari;
     }
 
     @Override
@@ -482,9 +476,9 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpAtpRltnCache.remove(atpAtpRelationId) == null) {
             throw new DoesNotExistException(atpAtpRelationId);
         }
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
-        return bldr.build();
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
@@ -542,11 +536,10 @@ public class AtpServiceMockImpl implements AtpService {
         }
 
         MockHelper helper = new MockHelper();
-        AtpMilestoneRelationInfo.Builder builder = new AtpMilestoneRelationInfo.Builder(atpMilestoneRelationInfo);
-        builder.setMetaInfo(helper.createMeta(context));
-        AtpMilestoneRelationInfo copy = builder.build();
-        this.atpMilestoneRltnCache.put(atpMilestoneRelationInfo.getId(), copy);
-        return copy;
+        AtpMilestoneRelationInfo amrInfo = AtpMilestoneRelationInfo.getInstance(atpMilestoneRelationInfo);
+        amrInfo.setMetaInfo(helper.createMeta(context));
+        this.atpMilestoneRltnCache.put(amrInfo.getId(), amrInfo);
+        return amrInfo;
     }
 
     @Override
@@ -558,18 +551,17 @@ public class AtpServiceMockImpl implements AtpService {
         if (!atpMilestoneRelationInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
         }
-        AtpMilestoneRelationInfo.Builder builder = new AtpMilestoneRelationInfo.Builder(atpMilestoneRelationInfo);
-        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        AtpMilestoneRelationInfo amri = new AtpMilestoneRelationInfo(atpMilestoneRelationInfo);
+        amri.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpMilestoneRelationInfo.getAttributes()) {
-            atts.add(new AttributeInfo.Builder(att).build());
+            atts.add(AttributeInfo.getInstance(att));
         }
-        builder.setAttributes(atts);
-        AtpMilestoneRelationInfo copy = builder.build();
-        this.atpMilestoneRltnCache.put(atpMilestoneRelationId, copy);
+        amri.setAttributes(atts);
+        this.atpMilestoneRltnCache.put(atpMilestoneRelationId, amri);
 
-        return copy;
+        return amri;
     }
 
     @Override
@@ -579,9 +571,9 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpMilestoneRltnCache.remove(atpMilestoneRelationId) == null) {
             throw new DoesNotExistException(atpMilestoneRelationId);
         }
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
-        return bldr.build();
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override

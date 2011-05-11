@@ -37,9 +37,9 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     @XmlAttribute
     private String stateKey;
     @XmlElement
-    private final Date effectiveDate;
+    private Date effectiveDate;
     @XmlElement
-    private final Date expirationDate;
+    private Date expirationDate;
 
     protected RelationshipInfo() {
         id = null;
@@ -49,13 +49,13 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         expirationDate = null;
     }
 
-    protected RelationshipInfo(Relationship builder) {
-        super(builder);
-        this.id = builder.getId();
-        this.typeKey = builder.getTypeKey();
-        this.stateKey = builder.getStateKey();        
-        this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
+    protected RelationshipInfo(Relationship relationship) {
+        super(relationship);
+        this.id = relationship.getId();
+        this.typeKey = relationship.getTypeKey();
+        this.stateKey = relationship.getStateKey();        
+        this.effectiveDate = null != relationship.getEffectiveDate() ? new Date(relationship.getEffectiveDate().getTime()) : null;
+        this.expirationDate = null != relationship.getExpirationDate() ? new Date(relationship.getExpirationDate().getTime()) : null;
     }
 
     
@@ -65,8 +65,18 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     }
 
     @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getTypeKey() {
         return typeKey;
+    }
+
+    @Override
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 
     @Override
@@ -75,8 +85,18 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     }
     
     @Override
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
+    }
+
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
+    }
+
+    @Override
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     @Override
@@ -84,68 +104,8 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return expirationDate;
     }
 
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements Relationship {
-
-        private String id;
-        private String typeKey;
-        private String stateKey;        
-        private Date effectiveDate;
-        private Date expirationDate;
-        
-        public Builder() {
-        }
-
-        public Builder(Relationship amrInfo) {
-            super(amrInfo);
-            this.id = amrInfo.getId();            
-            this.typeKey = amrInfo.getTypeKey();
-            this.stateKey = amrInfo.getStateKey();             
-            this.effectiveDate = amrInfo.getEffectiveDate();
-            this.expirationDate = amrInfo.getExpirationDate();
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        @Override
-        public String getTypeKey() {
-            return typeKey;
-        }
-
-        public void setTypeKey(String typeKey) {
-            this.typeKey = typeKey;
-        }
-
-        @Override
-        public String getStateKey() {
-            return stateKey;
-        }
-
-        public void setStateKey(String stateKey) {
-            this.stateKey = stateKey;
-        }
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        @Override
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
+    @Override
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

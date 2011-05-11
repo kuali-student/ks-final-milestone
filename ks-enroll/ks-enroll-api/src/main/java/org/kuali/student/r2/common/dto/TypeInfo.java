@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.infc.Type;
 import org.w3c.dom.Element;
 
@@ -36,26 +35,35 @@ import org.w3c.dom.Element;
 public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
 	
     @XmlAttribute
-	private final String key;
+	private String key;
 	
 	@XmlElement
-	private final String name;
+	private String name;
 	
 	@XmlElement
-	private final String descr;
+	private String descr;
 
 	@XmlElement
-	private final Date effectiveDate;
+	private Date effectiveDate;
 	
 	@XmlElement
-	private final Date expirationDate;
+	private Date expirationDate;
 	
 	@XmlElement
-	private final String refObjectURI;
+	private String refObjectURI;
 	
     @XmlAnyElement
-    private final List<Element> _futureElements;    
+    private List<Element> _futureElements;    
 	
+
+    public static TypeInfo newInstance() {
+        return new TypeInfo();
+    }
+    
+    public static TypeInfo getInstance(TypeInfo typeInfo) {
+        return new TypeInfo(typeInfo);
+    }
+    
 	private TypeInfo() {
 		key = null;
 		name = null;
@@ -66,127 +74,74 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
 		_futureElements = null;
 	}
 		
-	public TypeInfo(Type builder) {
-		super(builder);
-		this.key = builder.getKey();
-		this.name = builder.getName();
-		this.descr = builder.getDescr();
-    	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-    	this.refObjectURI = builder.getRefObjectURI();
+	public TypeInfo(Type type) {
+		super(type);
+		this.key = type.getKey();
+		this.name = type.getName();
+		this.descr = type.getDescr();
+    	this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
+    	this.refObjectURI = type.getRefObjectURI();
     	this._futureElements = null;
 	}
 	
-    /**
-     * @return the key
-     */
+	@Override
     public String getKey() {
         return key;
     }
 
-    /**
-     * @return the name
-     */
+	@Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+	@Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @return the descr
-     */
+	@Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+	@Override
     public String getDescr() {
         return descr;
     }
 
-    /**
-     * @return the effectiveDate
-     */
+	@Override
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+	@Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    /**
-     * @return the expirationDate
-     */
+	@Override
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+	@Override
     public Date getExpirationDate() {
         return expirationDate;
     }
     
+	@Override
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     @Override
     public String getRefObjectURI() {
         return refObjectURI;
     }
-    
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<TypeInfo>, Type {
-    	private String key;
-		private String name;
-		private String descr;
-		private Date effectiveDate;
-		private Date expirationDate;
-		private String refObjectURI;
 
-		public Builder() {}
-    	
-    	public Builder(Type typeInfo) {
-    		super(typeInfo);
-    		this.key = typeInfo.getKey();
-    		this.name = typeInfo.getName();
-    		this.descr = typeInfo.getDescr();
-    		this.effectiveDate = typeInfo.getEffectiveDate();
-    		this.expirationDate = typeInfo.getExpirationDate();
-    		this.refObjectURI = typeInfo.getRefObjectURI();
-    	}
-
-        public TypeInfo build() {
-            return new TypeInfo(this);
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescr() {
-            return descr;
-        }
-
-        public void setDescr(String descr) {
-            this.descr = descr;
-        }
-
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
-
-        public String getRefObjectURI() {
-            return refObjectURI;
-        }
-
-        public void setRefObjectURI(String refObjectURI) {
-            this.refObjectURI = refObjectURI;
-        }         
+	@Override
+    public void setRefObjectURI(String refObjectURI) {
+        this.refObjectURI = refObjectURI;
     }
 }

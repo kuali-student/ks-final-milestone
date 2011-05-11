@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -317,17 +316,17 @@ public class AtpServiceImpl implements AtpService{
     public StatusInfo deleteAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
         
         AtpEntity atp = atpDao.find(atpKey);
         if( null != atp){
             atpDao.remove(atp);
         }
         else
-            bldr.setSuccess(Boolean.FALSE);
+            status.setSuccess(Boolean.FALSE);
         
-        return bldr.build();
+        return status;
     }
 
     @Override
@@ -454,16 +453,16 @@ public class AtpServiceImpl implements AtpService{
     public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
         
         AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
         if (atpRel != null)
             atpRelDao.remove(atpRel);
         else
-            bldr.setSuccess(Boolean.FALSE);
+            status.setSuccess(Boolean.FALSE);
         
-        return bldr.build();
+        return status;
     }
 
     @Override

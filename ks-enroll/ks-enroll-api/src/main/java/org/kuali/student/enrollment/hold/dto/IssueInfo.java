@@ -15,20 +15,17 @@
 package org.kuali.student.enrollment.hold.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.hold.infc.Issue;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IssueInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "organizationId", "metaInfo", "attributes", "_futureElements"})
@@ -37,7 +34,7 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private final String organizationId;
+    private String organizationId;
 
     @XmlAnyElement
     private final List<Element> _futureElements;
@@ -63,41 +60,8 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
         return organizationId;
     }
 
-
-    /**
-     * The builder class for this IssueInfo.
-     */
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<IssueInfo>, Issue {
-
-        private String organizationId;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another 
-	 * Issue.
-         */
-        public Builder(Issue issue) {
-            super(issue);
-	    this.organizationId = issue.getOrganizationId();
-        }
-
-        @Override
-        public IssueInfo build() {
-            return new IssueInfo(this);
-        }
-
-        @Override
-        public String getOrganizationId() {
-            return organizationId;
-        }
-
-        public void setOrganizationId(String organizationId) {
-            this.organizationId = organizationId;
-        }
+    @Override
+    public void setOrganizationId(String orgId) {
+        this.organizationId = orgId;
     }
 }

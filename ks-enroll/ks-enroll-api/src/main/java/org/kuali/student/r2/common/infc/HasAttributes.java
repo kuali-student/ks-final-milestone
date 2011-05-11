@@ -34,4 +34,5 @@ public interface HasAttributes {
      */
 
     public List<? extends Attribute> getAttributes();
+    public void setAttributes(List<? extends Attribute> attributes);
 }

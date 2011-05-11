@@ -15,20 +15,16 @@
 package org.kuali.student.enrollment.hold.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.hold.infc.Restriction;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RestrictionInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "metaInfo", "attributes", "_futureElements"})
@@ -51,31 +47,5 @@ public class RestrictionInfo extends KeyEntityInfo implements Restriction, Seria
     public RestrictionInfo(Restriction restriction) {
         super(restriction);
         _futureElements = null;
-    }
-
-
-    /**
-     * The builder class for this RestrictionInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<RestrictionInfo>, Restriction {
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another 
-	 * Restriction.
-         */
-        public Builder(Restriction restriction) {
-            super(restriction);
-        }
-
-        @Override
-        public RestrictionInfo build() {
-            return new RestrictionInfo(this);
-        }
     }
 }

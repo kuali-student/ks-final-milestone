@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Comparison;
 import org.kuali.student.r2.common.infc.Criteria;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -48,11 +47,15 @@ public class CriteriaInfo implements Criteria, Serializable {
     
     @XmlElementWrapper(name="comparisons")
     @XmlElement(name="comparison")
-    private final List<ComparisonInfo> comparisons;
+    private List<ComparisonInfo> comparisons;
     @XmlElement
-    private final Integer maxResults;
+    private Integer maxResults;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static CriteriaInfo newIntance() {
+        return new CriteriaInfo();
+    }
     
     private CriteriaInfo() {
         comparisons = null;
@@ -65,9 +68,21 @@ public class CriteriaInfo implements Criteria, Serializable {
         return this.comparisons;
     }
 
+    public void setComparisons(List<? extends Comparison> comparisons) {
+        this.comparisons = new ArrayList<ComparisonInfo>();
+        for (Comparison comparison : comparisons) {
+            this.comparisons.add(ComparisonInfo.getInstance(comparison));
+        }
+    }
+
     @Override
     public Integer getMaxResults() {
         return this.maxResults;
+    }
+
+    @Override
+    public void setMaxResults(int maxResults) {
+        this.maxResults = maxResults;
     }
 
     private CriteriaInfo(Criteria builder) {
@@ -76,47 +91,11 @@ public class CriteriaInfo implements Criteria, Serializable {
         } else {
             List<ComparisonInfo> list = new ArrayList(builder.getComparisons().size());
             for (Comparison infc : builder.getComparisons()) {
-                list.add(new ComparisonInfo.Builder(infc).build());
+                list.add(ComparisonInfo.getInstance(infc));
             }
             this.comparisons = Collections.unmodifiableList(list);
         }
         this.maxResults = builder.getMaxResults();
         this._futureElements = null;
-    }
-
-    public static class Builder implements ModelBuilder<CriteriaInfo>, Criteria {
-
-        private List<? extends Comparison> comparisons;
-        private Integer maxResults;
-
-        public Builder() {
-        }
-
-        public Builder(Criteria info) {
-            this.comparisons = info.getComparisons();
-            this.maxResults = info.getMaxResults();
-        }
-
-        public CriteriaInfo build() {
-            return new CriteriaInfo(this);
-        }
-
-        @Override
-        public List<? extends Comparison> getComparisons() {
-            return this.comparisons;
-        }
-
-        @Override
-        public Integer getMaxResults() {
-            return this.maxResults;
-        }
-
-        public void setComparisons(List<? extends Comparison> comparisons) {
-            this.comparisons = comparisons;
-        }
-
-        public void setMaxResults(Integer maxResults) {
-            this.maxResults = maxResults;
-        }
     }
 }

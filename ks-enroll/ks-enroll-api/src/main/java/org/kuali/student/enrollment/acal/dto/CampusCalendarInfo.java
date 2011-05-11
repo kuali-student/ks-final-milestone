@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.CampusCalendar;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,13 +34,17 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
     @XmlElement
-    private final String location;
+    private String location;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static CampusCalendarInfo getInstance(CampusCalendarInfo campusCalendarInfo) {
+        return new CampusCalendarInfo(campusCalendarInfo);
+    }
 
     private CampusCalendarInfo() {
         startDate = null;
@@ -70,8 +73,18 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
     }
 
     @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @Override
     public Date getEndDate() {
         return endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override
@@ -79,61 +92,8 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
         return location;
     }
 
-    /**
-     * The builder class for this CampusCalendarInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<CampusCalendarInfo>, CampusCalendar {
-
-        private Date startDate;
-        private Date endDate;
-        private String location;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another CampusCalendar
-         */
-        public Builder(CampusCalendar campusCalendar) {
-            super(campusCalendar);
-            this.startDate = campusCalendar.getStartDate();
-            this.endDate = campusCalendar.getEndDate();
-            this.location = campusCalendar.getLocation();
-        }
-
-        @Override
-        public CampusCalendarInfo build() {
-            return new CampusCalendarInfo(this);
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
-
-        @Override
-        public String getLocation() {
-            return location;
-        }
-
-        public void setLocation(String location) {
-            this.location = location;
-        }
+    @Override
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

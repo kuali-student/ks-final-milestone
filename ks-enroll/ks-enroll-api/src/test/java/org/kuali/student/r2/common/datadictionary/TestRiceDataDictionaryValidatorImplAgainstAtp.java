@@ -103,7 +103,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
     }
 
     private ContextInfo getContext1() {
-        return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
+        return ContextInfo.getInstance("principalId.1", "en", "us");
     }
     private DataDictionaryValidator validator;
 
@@ -123,26 +123,24 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
     public void testValidate() throws Exception {
         System.out.println("validate ATP");
         DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
-        AtpInfo.Builder bldr = new AtpInfo.Builder();
-        bldr.setKey ("org.kuali.test.atp");
-        bldr.setName("test atp");
-        bldr.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        bldr.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        bldr.setStartDate(parseDate("2010-01-01"));
-        bldr.setEndDate(parseDate ("2010-06-30"));
-        Object info = bldr.build();
+        AtpInfo atp = AtpInfo.newInstance();
+        atp.setKey ("org.kuali.test.atp");
+        atp.setName("test atp");
+        atp.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        atp.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        atp.setStartDate(parseDate("2010-01-01"));
+        atp.setEndDate(parseDate ("2010-06-30"));
         ContextInfo context = getContext1();
 
         DataDictionaryValidator intstance = this.getValidator();
 
         List<ValidationResultInfo> result = null;
 
-        result = intstance.validate(validationType, info, context);
+        result = intstance.validate(validationType, atp, context);
         assertEquals(0, result.size());
 
-        bldr.setTypeKey(null);
-        info = bldr.build();
-        result = intstance.validate(validationType, info, context);
+        atp.setTypeKey(null);
+        result = intstance.validate(validationType, atp, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
@@ -150,22 +148,19 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
 
 
 
-        bldr.setTypeKey(null);
-        info = bldr.build();
+        atp.setTypeKey(null);
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
-        result = intstance.validate(validationType, info, context);
+        result = intstance.validate(validationType, atp, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(0, result.size());
 
-        bldr.setTypeKey(" this has \n an embedded return");
-        info = bldr.build();
-        result = intstance.validate(validationType, info, context);
+        atp.setTypeKey(" this has \n an embedded return");
+        result = intstance.validate(validationType, atp, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(1, result.size());
-//        assertEquals (0, 0);
     }
 }

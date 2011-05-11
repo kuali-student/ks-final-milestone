@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.atp.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.atp.infc.Atp;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
@@ -35,12 +34,20 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
+    public static AtpInfo newInstance() {
+        return new AtpInfo();
+    }
+    
+    public static AtpInfo getInstance(Atp atp) {
+        return new AtpInfo(atp);
+    }
+    
     private AtpInfo() {
         startDate = null;
         endDate = null;
@@ -54,65 +61,28 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
      */
     public AtpInfo(Atp atp) {
         super(atp);
-        this.startDate = atp.getStartDate();
-        this.endDate = atp.getEndDate();
+        this.startDate = new Date(atp.getStartDate().getTime());
+        this.endDate = new Date(atp.getEndDate().getTime());
         _futureElements = null;
     }
 
     @Override
     public Date getStartDate() {
-        return startDate;
+        return new Date(startDate.getTime());
+    }
+
+    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = new Date(startDate.getTime());
     }
 
     @Override
     public Date getEndDate() {
-        return endDate;
+        return new Date(endDate.getTime());
     }
 
-    /**
-     * The builder class for this AtpInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AtpInfo>, Atp {
-
-        private Date startDate;
-        private Date endDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another ATP.
-         */
-        public Builder(Atp atp) {
-            super(atp);
-            this.startDate = atp.getStartDate();
-            this.startDate = atp.getEndDate();
-        }
-
-        @Override
-        public AtpInfo build() {
-            return new AtpInfo(this);
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = new Date(endDate.getTime());
     }
 }

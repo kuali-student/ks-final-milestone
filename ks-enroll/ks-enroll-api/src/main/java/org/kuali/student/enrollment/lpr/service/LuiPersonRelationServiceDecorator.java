@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.lpr.service;
 
 import java.util.List;
 
-
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -37,8 +36,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
-
 
 
 

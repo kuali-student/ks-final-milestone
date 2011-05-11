@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,20 +37,29 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
 
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
 
     @XmlElement
-    private final List<String> campusCalendarKeys;
+    private List<String> campusCalendarKeys;
 
     @XmlElement 
-    private final String credentialProgramTypeKey;
+    private String credentialProgramTypeKey;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;  
+    private List<Element> _futureElements;  
 
+
+    public static AcademicCalendarInfo getInstance(AcademicCalendarInfo academicCalendarInfo) {
+        return new AcademicCalendarInfo(academicCalendarInfo);
+    }
+    
+    public static AcademicCalendarInfo newInstance() {
+        return new AcademicCalendarInfo();
+    }
+    
     private AcademicCalendarInfo() {
         startDate = null;
         endDate = null;
@@ -66,14 +74,15 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
      *
      * @param academicCalendar the Academic Calendar to copy
      */
-    public AcademicCalendarInfo(AcademicCalendar academicCalendar) {
+    private AcademicCalendarInfo(AcademicCalendar academicCalendar) {
         super(academicCalendar);
-
-        this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
-        this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-        this.campusCalendarKeys = academicCalendar.getCampusCalendarKeys();
-        this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
-
+        if (null != academicCalendar) {
+	
+	        this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
+	        this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
+	        this.campusCalendarKeys = academicCalendar.getCampusCalendarKeys();
+	        this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
+        }
         _futureElements = null;
     }
 
@@ -83,12 +92,20 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         return startDate;
     }
 
+    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     @Override
     public Date getEndDate() {
         return endDate;
     }
 
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     @Override
     public List<String> getCampusCalendarKeys() {
@@ -96,86 +113,17 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     }
 
     @Override
+    public void setCampusCalendarKeys(List<String> campusCalendarKeys) {
+        this.campusCalendarKeys = campusCalendarKeys;
+    }
+
+    @Override
     public String getCredentialProgramTypeKey() {
         return credentialProgramTypeKey;
     }
 
-    /**
-     * The builder class for this AcademicCalendarInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<AcademicCalendarInfo>, AcademicCalendar {
-
-        private Date startDate;
-        private Date endDate;
-        private List<String> campusCalendarKeys;
-        private String credentialProgramTypeKey;
-
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {}
-
-        /**
-         * Constructs a new builder initialized from another AcademicCalendar
-         */
-        public Builder(AcademicCalendar academicCalendar) {
-            super(academicCalendar);
-
-            this.startDate = academicCalendar.getStartDate();
-            this.endDate = academicCalendar.getEndDate();
-            this.campusCalendarKeys =  academicCalendar.getCampusCalendarKeys();
-            this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
-        }
-
- 
-        public AcademicCalendarInfo build() {
-            return new AcademicCalendarInfo(this);
-        }
-
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-  
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
-
-
-        @Override
-        public List<String> getCampusCalendarKeys() {
-            return campusCalendarKeys;
-        }
-
-        public void setCampusCalendarKeys(List<String> campusCalendarKeys) {
-            this.campusCalendarKeys = campusCalendarKeys;
-        }
-
-        public void addCampusCalendarKey(String campusCalendarKey) {
-            this.campusCalendarKeys.add(campusCalendarKey);
-        }
-
-        @Override
-        public String getCredentialProgramTypeKey() {
-            return credentialProgramTypeKey;
-        }
-
-        public void setCredentialProgramTypeKey(String credentialProgramTypeKey) {
-            this.credentialProgramTypeKey = credentialProgramTypeKey;
-        }
+    @Override
+    public void setCredentialProgramTypeKey(String credentialProgramTypeKey) {
+        this.credentialProgramTypeKey = credentialProgramTypeKey;
     }
 }

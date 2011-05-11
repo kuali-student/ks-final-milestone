@@ -166,7 +166,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             OperationFailedException, PermissionDeniedException{
         
         
-        AtpInfo.Builder atp = new AtpInfo.Builder();
+        AtpInfo atp = AtpInfo.newInstance();
         //TODO: check key existence, if exist, updateAtp
         atp.setKey(academicCalendarKey);
         atp.setName(academicCalendarInfo.getName());
@@ -184,7 +184,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
            buildAtpAtpRelations(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
        }        
        
-       return atp.build();
+       return atp;
     }
     
     private void buildAtpAtpRelations(String atpKey, List<String> relatedAtpKeys, ContextInfo context) throws AlreadyExistsException,
@@ -214,12 +214,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     private void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-        AtpAtpRelationInfo.Builder atpRel = new AtpAtpRelationInfo.Builder();
+        AtpAtpRelationInfo atpRel = AtpAtpRelationInfo.newInstance();
         atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpKey(atpKey);
         atpRel.setRelatedAtpKey(relatedAtpKey);
         atpRel.setTypeKey("kuali.atp.atp.relation.includes");
-        atpService.createAtpAtpRelation(atpRel.build(), context);        
+        atpService.createAtpAtpRelation(atpRel, context);        
     }
     
     @Override
@@ -249,8 +249,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
         
          AtpInfo atp =  atpService.getAtp(academicCalendarKey, context);
             
@@ -266,7 +266,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
                }              
            }
         
-        return bldr.build();
+        return status;
     }
 
     @Override

@@ -35,6 +35,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -114,12 +115,11 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		luiIdList.add("luiId3");
 		String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
 		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
-		LuiPersonRelationInfo.Builder lprBldr = new LuiPersonRelationInfo.Builder();
-		lprBldr.setEffectiveDate(parseDate("2010-01-01"));		
-		LuiPersonRelationInfo luiPersonRelationInfo = lprBldr.build();
+		LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
+		lprInfo.setEffectiveDate(parseDate("2010-01-01"));		
 		ContextInfo context = TestHelper.getContext1();
 
-		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, luiPersonRelationInfo, context);
+		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, lprInfo, context);
 		assertEquals(3, lprIds.size());
 		Set<String> unique = new HashSet<String>(lprIds.size());
 		for (String lprId : lprIds) {
@@ -139,32 +139,31 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
 
-		LuiPersonRelationInfo.Builder orig = new LuiPersonRelationInfo.Builder();
+		LuiPersonRelationInfo orig = (LuiPersonRelationInfo) LuiPersonRelationInfo.newInstance();
         orig.setPersonId(personId);
         orig.setTypeKey(luiPersonRelationType);
         orig.setLuiId(luiId);
         orig.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
         orig.setEffectiveDate(parseDate("2010-01-01"));
-		AttributeInfo.Builder da = new AttributeInfo.Builder();
-		List<AttributeInfo> das = new ArrayList<AttributeInfo>();
-		da.setKey("dynamic.attribute.key.1");
-        da.setValue("dynamic attribute value 1");
-		das.add(da.build());
-		da = new AttributeInfo.Builder();
-        da.setKey("dynamic.attribute.key.2");
-        da.setValue("dynamic attribute value 2a");
-		das.add(da.build());
-		da = new AttributeInfo.Builder();
-        da.setKey("dynamic.attribute.key.2");
-        da.setValue("dynamic attribute value 2b");
-		das.add(da.build());
-		orig.setAttributes(das);
-		// orig.setAttributes(das);
+		Attribute attInfo = AttributeInfo.newInstance();
+		ArrayList<Attribute> attInfos = new ArrayList<Attribute>();
+		attInfo.setKey("dynamic.attribute.key.1");
+        attInfo.setValue("dynamic attribute value 1");
+		attInfos.add(attInfo);
+		attInfo = AttributeInfo.newInstance();
+        attInfo.setKey("dynamic.attribute.key.2");
+        attInfo.setValue("dynamic attribute value 2a");
+		attInfos.add(attInfo);
+		attInfo = AttributeInfo.newInstance();
+        attInfo.setKey("dynamic.attribute.key.2");
+        attInfo.setValue("dynamic attribute value 2b");
+		attInfos.add(attInfo);
+		orig.setAttributes(attInfos);
 		ContextInfo context = TestHelper.getContext1();
 		Date beforeCreate = new Date();
         String lprId = null;
         try {
-		 lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig.build (), context);
+		 lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
         } catch (DataValidationErrorException ex) {
             System.out.println (ex.getValidationResults().size() + " validation errors found");
           for (ValidationResult vri : ex.getValidationResults()) {
@@ -215,56 +214,53 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		}
 
 		// update method
-		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(fetched);
-		builder.setPersonId("personId.2");
-		builder.setLuiId("luiId.2");
-		builder.setStateKey(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY);
-		builder.setEffectiveDate(parseDate("2010-01-01"));
-		builder.setExpirationDate(parseDate("2010-02-01"));
-		fetched = builder.build();
-		AttributeInfo.Builder aBldr = new AttributeInfo.Builder();
-		aBldr.setKey("dynamic.attribute.key.3");
-		aBldr.setValue("dynamic.attribute.value.3");
-	    AttributeInfo newDa = aBldr.build();
-		das = new ArrayList<AttributeInfo> (fetched.getAttributes());
-		das.add(newDa);
-		AttributeInfo.Builder a1bldr = new AttributeInfo.Builder(das.get(1));
-		a1bldr.setValue("dynamic.attribute.value.2C");
-		das.set(1, a1bldr.build());
-		das.remove(0);
-		LuiPersonRelationInfo.Builder lfbldr = new LuiPersonRelationInfo.Builder(fetched);
-		lfbldr.setAttributes(das);
-		fetched = lfbldr.build();
+		LuiPersonRelation lpr = LuiPersonRelationInfo.getInstance(fetched);
+		lpr.setPersonId("personId.2");
+		lpr.setLuiId("luiId.2");
+		lpr.setStateKey(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY);
+		lpr.setEffectiveDate(parseDate("2010-01-01"));
+		lpr.setExpirationDate(parseDate("2010-02-01"));
+		attInfo = AttributeInfo.newInstance();
+		attInfo.setKey("dynamic.attribute.key.3");
+		attInfo.setValue("dynamic.attribute.value.3");
+		attInfos = new ArrayList<Attribute>(lpr.getAttributes());
+		attInfos.add(attInfo);
+		AttributeInfo attInfo2 = AttributeInfo.getInstance(attInfos.get(1));
+		attInfo2.setValue("dynamic.attribute.value.2C");
+		attInfos.set(1, attInfo2);
+		attInfos.remove(0);
+		LuiPersonRelationInfo lpri = LuiPersonRelationInfo.getInstance(lpr);
+		lpri.setAttributes(attInfos);
 		context = TestHelper.getContext2();
 
 		Date beforeUpdate = new Date();
-		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(fetched.getId(), fetched, context);
+		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(lpri.getId(), lpri, context);
 		Date afterUpdate = new Date();
-		assertNotSame(fetched, updated);
-		assertEquals(fetched.getId(), updated.getId());
-		assertEquals(fetched.getPersonId(), updated.getPersonId());
-		assertEquals(fetched.getLuiId(), updated.getLuiId());
-		assertEquals(fetched.getTypeKey(), updated.getTypeKey());
-		assertEquals(fetched.getPersonId(), updated.getPersonId());
-		assertEquals(fetched.getLuiId(), updated.getLuiId());
-		assertEquals(fetched.getTypeKey(), updated.getTypeKey());
-		assertEquals(fetched.getStateKey(), updated.getStateKey());
-		assertEquals(fetched.getEffectiveDate(), updated.getEffectiveDate());
-		assertEquals(fetched.getExpirationDate(), updated.getExpirationDate());
-		assertEquals(fetched.getAttributes().size(), updated.getAttributes().size());
-		assertNotSame(fetched.getAttributes(), updated.getAttributes());
+		assertNotSame(lpri, updated);
+		assertEquals(lpri.getId(), updated.getId());
+		assertEquals(lpri.getPersonId(), updated.getPersonId());
+		assertEquals(lpri.getLuiId(), updated.getLuiId());
+		assertEquals(lpri.getTypeKey(), updated.getTypeKey());
+		assertEquals(lpri.getPersonId(), updated.getPersonId());
+		assertEquals(lpri.getLuiId(), updated.getLuiId());
+		assertEquals(lpri.getTypeKey(), updated.getTypeKey());
+		assertEquals(lpri.getStateKey(), updated.getStateKey());
+		assertEquals(lpri.getEffectiveDate(), updated.getEffectiveDate());
+		assertEquals(lpri.getExpirationDate(), updated.getExpirationDate());
+		assertEquals(lpri.getAttributes().size(), updated.getAttributes().size());
+		assertNotSame(lpri.getAttributes(), updated.getAttributes());
 
-		for (AttributeInfo fetchedDa : fetched.getAttributes()) {
-			AttributeInfo updateDa = findMatching(fetchedDa, updated.getAttributes());
+		for (AttributeInfo lpriDa : lpri.getAttributes()) {
+			AttributeInfo updateDa = findMatching(lpriDa, updated.getAttributes());
 			assertNotNull(updateDa);
-			assertNotSame(fetchedDa, updateDa);
-			assertEquals(fetchedDa.getKey(), updateDa.getKey());
-			assertEquals(fetchedDa.getValue(), updateDa.getValue());
+			assertNotSame(lpriDa, updateDa);
+			assertEquals(lpriDa.getKey(), updateDa.getKey());
+			assertEquals(lpriDa.getValue(), updateDa.getValue());
 		}
 		assertNotNull(updated.getMetaInfo());
 		assertEquals(context.getPrincipalId(), updated.getMetaInfo().getUpdateId());
-		assertEquals(fetched.getMetaInfo().getCreateId(), updated.getMetaInfo().getCreateId());
-		assertEquals(fetched.getMetaInfo().getCreateTime(), updated.getMetaInfo().getCreateTime());
+		assertEquals(lpri.getMetaInfo().getCreateId(), updated.getMetaInfo().getCreateId());
+		assertEquals(lpri.getMetaInfo().getCreateTime(), updated.getMetaInfo().getCreateTime());
 		if (updated.getMetaInfo().getUpdateTime().before(beforeUpdate)) {
 			fail("Update time before call to create");
 		}

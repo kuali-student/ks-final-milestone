@@ -23,21 +23,25 @@ import org.kuali.student.r2.common.infc.HasAttributes;
 public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 
     @XmlElement
-    protected final List<AttributeInfo> attributes;
+    private List<AttributeInfo> attributes;
 
     protected HasAttributesInfo() {
         attributes = null;
     }
-
-    protected HasAttributesInfo(HasAttributes builder) {
-        attributes = new ArrayList<AttributeInfo>();
-
-        AttributeInfo.Builder attBuilder = new AttributeInfo.Builder();
-        for (Attribute att : builder.getAttributes()) {
-            attBuilder.setKey(att.getKey());
-            attBuilder.setValue(att.getValue());
-            attBuilder.setId(att.getId());
-            attributes.add(attBuilder.build());
+    
+    protected HasAttributesInfo(HasAttributes hasAtts) {
+        if (null != hasAtts) {
+	        attributes = new ArrayList<AttributeInfo>();
+	
+	        if (null != hasAtts.getAttributes()) {
+		        for (Attribute att : hasAtts.getAttributes()) {
+			        AttributeInfo attributeInfo = AttributeInfo.newInstance();
+		            attributeInfo.setKey(att.getKey());
+		            attributeInfo.setValue(att.getValue());
+		            attributeInfo.setId(att.getId());
+		            attributes.add(attributeInfo);
+		        }
+	        }
         }
     }
 
@@ -49,22 +53,12 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
         return attributes;
     }
 
-    public static class Builder implements HasAttributes {
-        private List<? extends Attribute> attributes = new ArrayList<AttributeInfo>();
-
-        public Builder() {}
-
-        public Builder(HasAttributes hasAtts) {
-            this.attributes = hasAtts.getAttributes();
-        }
-
-        @Override
-        public List<? extends Attribute> getAttributes() {
-            return attributes;
-        }
-
-        public void setAttributes(List<? extends Attribute> attributes) {
-            this.attributes = attributes;
+    @Override
+    public void setAttributes(List<? extends Attribute> attributes) {
+        this.attributes = new ArrayList<AttributeInfo>();
+        for (Attribute att : attributes) {
+            AttributeInfo attInfo = AttributeInfo.getInstance(att);
+            this.attributes.add(attInfo);
         }
     }
 }

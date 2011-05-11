@@ -104,7 +104,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     }
 
     private ContextInfo getContext1() {
-        return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
+        return ContextInfo.getInstance("principalId.1", "en", "us");
     }
     private DataDictionaryValidator validator;
 
@@ -124,25 +124,23 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     public void testValidate() throws Exception {
         System.out.println("validate");
         DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
-        LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder();
-        bldr.setPersonId("personId.1");
-        bldr.setLuiId("luiId.1");
-        bldr.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
-        bldr.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
-        bldr.setEffectiveDate(parseDate("2010-01-01"));
-        Object info = bldr.build();
+        LuiPersonRelationInfo lpri = LuiPersonRelationInfo.newInstance();
+        lpri.setPersonId("personId.1");
+        lpri.setLuiId("luiId.1");
+        lpri.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
+        lpri.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
+        lpri.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
 
         DataDictionaryValidator intstance = this.getValidator();
 
         List<ValidationResultInfo> result = null;
 
-        result = intstance.validate(validationType, info, context);
+        result = intstance.validate(validationType, lpri, context);
         assertEquals(0, result.size());
 
-        bldr.setTypeKey(null);
-        info = bldr.build();
-        result = intstance.validate(validationType, info, context);
+        lpri.setTypeKey(null);
+        result = intstance.validate(validationType, lpri, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
@@ -150,18 +148,16 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
 
 
 
-        bldr.setTypeKey(null);
-        info = bldr.build();
+        lpri.setTypeKey(null);
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
-        result = intstance.validate(validationType, info, context);
+        result = intstance.validate(validationType, lpri, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
         assertEquals(0, result.size());
 
-        bldr.setTypeKey(" this has \n an embedded return");
-        info = bldr.build();
-        result = intstance.validate(validationType, info, context);
+        lpri.setTypeKey(" this has \n an embedded return");
+        result = intstance.validate(validationType, lpri, context);
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }

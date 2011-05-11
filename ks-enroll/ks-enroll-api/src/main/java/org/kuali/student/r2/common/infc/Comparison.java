@@ -29,6 +29,7 @@ public interface Comparison  {
      * Dot path notation to identity the name of field to be compared
      */
     public String getFieldKey();
+    public void setFieldKey(String fieldKey);
 
     /**
      * Name: Operator
@@ -57,6 +58,7 @@ public interface Comparison  {
      *
      */
     public String getOperator();
+    public void setOperator(String operator);
 
     /**
      * Name: Criteria Value(s)
@@ -64,6 +66,7 @@ public interface Comparison  {
      * Value to be compared
      */
     public List<String> getValues();
+    public void setValues(List<String> values);
 
     /**
      * Name: Ignore Case?
@@ -72,5 +75,6 @@ public interface Comparison  {
      * Default is false
      * If true then the case of both the specified comparison value(s) and the data value from the field should be ignored
      */
-    public boolean isIgnoreCase ();
+    public Boolean isIgnoreCase ();
+    public void setIgnoreCase(boolean ignoreCase);
 }

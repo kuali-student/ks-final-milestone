@@ -48,10 +48,10 @@ public class Rice2ValidationResultConverter {
                 case INAPPLICABLE:
                     continue;
                 case ERROR:
-                    ValidationResultInfo.Builder vrBuilder = new ValidationResultInfo.Builder();
-                    vrBuilder.setElement(cvr.getAttributeName());
-                    vrBuilder.setError(cvr.getErrorKey());
-                    vrs.add(vrBuilder.build());
+                    ValidationResultInfo vrInfo= ValidationResultInfo.newInstance();
+                    vrInfo.setElement(cvr.getAttributeName());
+                    vrInfo.setError(cvr.getErrorKey());
+                    vrs.add(vrInfo);
                 case WARN:
                     log.debug("Skipping warning " + cvr.getEntryName()
                       + "." + cvr.getAttributeName() + " " +

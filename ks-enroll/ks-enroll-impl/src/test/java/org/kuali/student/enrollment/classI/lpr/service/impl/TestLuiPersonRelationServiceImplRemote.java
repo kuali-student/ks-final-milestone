@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -54,7 +53,7 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 	public LuiPersonRelationService lprService;
 	public ApplicationContext appContext;
 	public static String principalId = "123";
-	public ContextInfo callContext = new ContextInfo.Builder().build();
+	public ContextInfo callContext = ContextInfo.newInstance();
     private static String LUIID2 = "testLuiId2";
     private static String PERSONID2 = "testPersonId2";
  
@@ -62,7 +61,8 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 	public void setUp() {
 		principalId = "123";
 		appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
-		callContext = new ContextInfo.Builder(callContext).principalId(principalId).build();
+		callContext = ContextInfo.getInstance(callContext);
+		callContext.setPrincipalId(principalId);
 	}
 
 	@Test
@@ -80,17 +80,17 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 
 	@Test
 	public void testCreateLuiPersonRelation() {
-		LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder();
-		builder.setLuiId(LUIID2);
-		builder.setPersonId(PERSONID2);
-		builder.setTypeKey("kuali.lpr.type.registrant");
-		builder.setStateKey("kuali.lpr.state.registered");
-		builder.setEffectiveDate(new Date());
-		builder.setExpirationDate(DateUtils.addYears(new Date(), 20));
+		LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
+		lprInfo.setLuiId(LUIID2);
+		lprInfo.setPersonId(PERSONID2);
+		lprInfo.setTypeKey("kuali.lpr.type.registrant");
+		lprInfo.setStateKey("kuali.lpr.state.registered");
+		lprInfo.setEffectiveDate(new Date());
+		lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
 		String lprId = null;
 		LuiPersonRelationInfo lpr2 = null;
 		try {
-			lprId = lprService.createLuiPersonRelation(PERSONID2, LUIID2, "kuali.lpr.type.registrant", builder.build(), callContext);
+			lprId = lprService.createLuiPersonRelation(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
 			assertNotNull(lprId);
 			lpr2 = lprService.fetchLuiPersonRelation(lprId, callContext);
 		} catch (Exception e) {
@@ -103,7 +103,7 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
 		try {
-			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo.Builder().build(), callContext);
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", LuiPersonRelationInfo.newInstance(), callContext);
 			assertNotNull(createResults);
 			assertEquals(1, createResults.size());
 		} catch (Exception ex) {

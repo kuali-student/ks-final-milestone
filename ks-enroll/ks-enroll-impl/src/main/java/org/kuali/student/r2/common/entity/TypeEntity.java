@@ -57,22 +57,22 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 	}
 
 	public TypeInfo toDto() {
-		TypeInfo.Builder builder = new TypeInfo.Builder();
-		builder.setName(this.getName());
-		builder.setKey(this.getId());
+		TypeInfo typeInfo = TypeInfo.newInstance();
+		typeInfo.setName(this.getName());
+		typeInfo.setKey(this.getId());
 		// TODO: what about RefObjId?
-		builder.setDescr(this.getDescr());
-		builder.setEffectiveDate(this.getEffectiveDate());
-		builder.setExpirationDate(this.getExpirationDate());
-		builder.setAttributes(new ArrayList<Attribute>());
+		typeInfo.setDescr(this.getDescr());
+		typeInfo.setEffectiveDate(this.getEffectiveDate());
+		typeInfo.setExpirationDate(this.getExpirationDate());
+		typeInfo.setAttributes(new ArrayList<Attribute>());
 		// TODO - refactor this into a central place; probably Igor's Converter
-		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+		List<Attribute> atts = new ArrayList<Attribute>();
 		for (BaseAttributeEntity att : this.getAttributes()) {
 			atts.add(att.toDto());
 		}
 		// end refactor
-		builder.setAttributes(atts);
+		typeInfo.setAttributes(atts);
 		
-		return builder.build();
+		return typeInfo;
 	}
 }

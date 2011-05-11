@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,17 +33,25 @@ public class MetaInfo implements Meta, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String versionInd;
+    private String versionInd;
     @XmlElement
-    private final Date createTime;
+    private Date createTime;
     @XmlElement
-    private final String createId;
+    private String createId;
     @XmlElement
-    private final Date updateTime;
+    private Date updateTime;
     @XmlElement
-    private final String updateId;
+    private String updateId;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static MetaInfo newInstance() {
+        return new MetaInfo();
+    }
+    
+    public static MetaInfo getInstance(Meta metaInfo) {
+        return new MetaInfo(metaInfo);
+    }
     
     private MetaInfo() {
         versionInd = null;
@@ -55,12 +62,12 @@ public class MetaInfo implements Meta, Serializable {
         _futureElements = null;
     }
 
-    private MetaInfo(Meta builder) {
-        this.versionInd = builder.getVersionInd();
-        this.createTime = null != builder.getCreateTime() ? new Date(builder.getCreateTime().getTime()) : null;
-        this.createId = builder.getCreateId();
-        this.updateTime = null != builder.getUpdateTime() ? new Date(builder.getUpdateTime().getTime()) : null;
-        this.updateId = builder.getUpdateId();
+    private MetaInfo(Meta meta) {
+        this.versionInd = meta.getVersionInd();
+        this.createTime = null != meta.getCreateTime() ? new Date(meta.getCreateTime().getTime()) : null;
+        this.createId = meta.getCreateId();
+        this.updateTime = null != meta.getUpdateTime() ? new Date(meta.getUpdateTime().getTime()) : null;
+        this.updateId = meta.getUpdateId();
         this._futureElements = null;
     }
 
@@ -69,9 +76,19 @@ public class MetaInfo implements Meta, Serializable {
         return versionInd;
     }
 
+    public void setVersionInd(String versionInd) {
+        this.versionInd = versionInd;
+    }
+
     @Override
     public Date getCreateTime() {
         return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        if (null != createTime) {
+	        this.createTime = new Date(createTime.getTime());
+        }
     }
 
     @Override
@@ -79,9 +96,19 @@ public class MetaInfo implements Meta, Serializable {
         return createId;
     }
 
+    public void setCreateId(String createId) {
+        this.createId = createId;
+    }
+
     @Override
     public Date getUpdateTime() {
         return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        if (null != updateTime) {
+	        this.updateTime = new Date(updateTime.getTime());
+        }
     }
 
     @Override
@@ -89,74 +116,7 @@ public class MetaInfo implements Meta, Serializable {
         return updateId;
     }
 
-    public static class Builder implements ModelBuilder<MetaInfo>, Meta {
-
-        private String versionInd;
-        private Date createTime;
-        private String createId;
-        private Date updateTime;
-        private String updateId;
-
-        public Builder() {
-        }
-
-        public Builder(Meta metaInfo) {
-            if (null != metaInfo) {
-                this.versionInd = metaInfo.getVersionInd();
-                this.createTime = metaInfo.getCreateTime();
-                this.createId = metaInfo.getCreateId();
-                this.updateTime = metaInfo.getUpdateTime();
-                this.updateId = metaInfo.getUpdateId();
-            }
-        }
-
-        public MetaInfo build() {
-            return new MetaInfo(this);
-        }
-
-        @Override
-        public String getVersionInd() {
-            return versionInd;
-        }
-
-        @Override
-        public Date getCreateTime() {
-            return createTime;
-        }
-
-        @Override
-        public String getCreateId() {
-            return createId;
-        }
-
-        @Override
-        public Date getUpdateTime() {
-            return updateTime;
-        }
-
-        @Override
-        public String getUpdateId() {
-            return updateId;
-        }
-
-        public void setVersionInd(String versionInd) {
-            this.versionInd = versionInd;
-        }
-
-        public void setCreateTime(Date createTime) {
-            this.createTime = createTime;
-        }
-
-        public void setCreateId(String createId) {
-            this.createId = createId;
-        }
-
-        public void setUpdateTime(Date updateTime) {
-            this.updateTime = updateTime;
-        }
-
-        public void setUpdateId(String updateId) {
-            this.updateId = updateId;
-        }  
+    public void setUpdateId(String updateId) {
+        this.updateId = updateId;
     }
 }

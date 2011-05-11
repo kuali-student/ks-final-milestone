@@ -80,11 +80,11 @@ public class TestLuiPersonRelationServiceSearchConformance {
     }
 
     private ContextInfo getContext1() {
-        return new ContextInfo.Builder().principalId("principalId.1").localeLanguage("en").localeRegion("us").build();
+        return ContextInfo.getInstance("principalId.1", "en", "us");
     }
 
     private ContextInfo getContext2() {
-        return new ContextInfo.Builder().principalId("principalId.2").localeLanguage("fr").localeRegion("ca").build();
+        return ContextInfo.getInstance("principalId.2", "fr", "ca");
     }
 
     private Date parseDate(String str) {
@@ -109,14 +109,14 @@ public class TestLuiPersonRelationServiceSearchConformance {
         luiIdList.add("luiId6");
         String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
         String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
-        LuiPersonRelationInfo.Builder lpr = new LuiPersonRelationInfo.Builder();
+        LuiPersonRelationInfo lpr = LuiPersonRelationInfo.newInstance();
         lpr.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
         getService().createBulkRelationshipsForPerson(personId,
                 luiIdList,
                 relationState,
                 luiPersonRelationType,
-                lpr.build(), context);
+                lpr, context);
     }
 
     private static final int ALL_COUNT = 6;
@@ -128,25 +128,25 @@ public class TestLuiPersonRelationServiceSearchConformance {
     public void testSearch() throws Exception {
         this.loadData();
         ContextInfo context = getContext1();
-        CriteriaInfo.Builder criteria = null;
-        ComparisonInfo.Builder comparison = null;
+        CriteriaInfo criteria = null;
+        ComparisonInfo comparison = null;
         List<Comparison> comparisons = null;
         List<String> lprIds = null;
 
-        criteria = new CriteriaInfo.Builder();
+        criteria = CriteriaInfo.newIntance();
         comparisons = new ArrayList<Comparison>();
         criteria.setComparisons(comparisons);
-        lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
+        lprIds = getService().searchForLuiPersonRelationIds(criteria, context);
         assertEquals(ALL_COUNT, lprIds.size());
 
         // max results
         criteria.setMaxResults(3);
-        lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
+        lprIds = getService().searchForLuiPersonRelationIds(criteria, context);
         assertEquals(3, lprIds.size());
 
         // max results
         criteria.setMaxResults(100);
-        lprIds = getService().searchForLuiPersonRelationIds(criteria.build(), context);
+        lprIds = getService().searchForLuiPersonRelationIds(criteria, context);
         assertEquals(ALL_COUNT, lprIds.size());
 
         // all should have this type

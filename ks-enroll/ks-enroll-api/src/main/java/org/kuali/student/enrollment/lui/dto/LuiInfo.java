@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 
@@ -36,31 +35,34 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
-public class LuiInfo extends IdEntityInfo
-  implements Serializable, Lui {
+public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
  
     @XmlElement
-    private final String luiCode;
+    private String luiCode;
 
     @XmlElement
-    private final String cluId;
+    private String cluId;
 
     @XmlElement
-    private final String atpKey;
+    private String atpKey;
 
     @XmlElement
-    private final Integer maxSeats;
+    private Integer maxSeats;
 
     @XmlElement
-    private final Date effectiveDate;
+    private Date effectiveDate;
 
     @XmlElement
-    private final Date expirationDate;
+    private Date expirationDate;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;    
+    private List<Element> _futureElements;    
+
+    public static LuiInfo getInstance(LuiInfo luiInfo) {
+        return new LuiInfo(luiInfo);
+    }
     
     private LuiInfo() {
         super ();
@@ -73,14 +75,14 @@ public class LuiInfo extends IdEntityInfo
     	_futureElements = null;
     }
     
-    private LuiInfo(Lui builder) {
-		super(builder);
-		this.luiCode = builder.getLuiCode();
-		this.cluId = builder.getCluId();
-		this.atpKey = builder.getAtpKey();
-		this.maxSeats =builder.getMaxSeats();
-    	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
+    private LuiInfo(Lui lui) {
+		super(lui);
+		this.luiCode = lui.getLuiCode();
+		this.cluId = lui.getCluId();
+		this.atpKey = lui.getAtpKey();
+		this.maxSeats =lui.getMaxSeats();
+    	this.effectiveDate = null != lui.getEffectiveDate()? new Date(lui.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != lui.getExpirationDate()? new Date(lui.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
 	}
 
@@ -89,9 +91,17 @@ public class LuiInfo extends IdEntityInfo
         return luiCode;
     }
 
+    public void setLuiCode(String luiCode) {
+        this.luiCode = luiCode;
+    }
+
     @Override
     public String getCluId() {
         return cluId;
+    }
+
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
     }
 
     @Override
@@ -99,15 +109,27 @@ public class LuiInfo extends IdEntityInfo
         return atpKey;
     }
 
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
+    }
+
     @Override
     public Integer getMaxSeats() {
         return maxSeats;
     }
 
+    @Override
+    public void setMaxSeats(int maxSeats) {
+        this.maxSeats = maxSeats;
+    }
 
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = new Date(effectiveDate.getTime());
     }
 
     @Override
@@ -115,86 +137,7 @@ public class LuiInfo extends IdEntityInfo
         return expirationDate;
     }
 
-   
-
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
-
-		private String luiCode;
-		private String cluId;
-		private String atpKey;
-		private Integer maxSeats;
-		private Date effectiveDate;
-		private Date expirationDate;
-		
-		public Builder() {}
-		
-		public Builder(Lui luiInfo) {
-			super(luiInfo);
-			this.luiCode = luiInfo.getLuiCode();
-			this.cluId = luiInfo.getCluId();
-			this.atpKey = luiInfo.getAtpKey();
-			this.maxSeats = luiInfo.getMaxSeats();
-			this.effectiveDate = luiInfo.getEffectiveDate();
-			this.expirationDate = luiInfo.getExpirationDate();
-		}
-
-        @Override
-		public LuiInfo build() {
-			return new LuiInfo(this);
-		}
-
-        @Override
-        public String getLuiCode() {
-            return luiCode;
-        }
-
-        public void setLuiCode(String luiCode) {
-            this.luiCode = luiCode;
-        }
-
-        @Override
-        public String getCluId() {
-            return cluId;
-        }
-
-        public void setCluId(String cluId) {
-            this.cluId = cluId;
-        }
-
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
-
-        public void setAtpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
-
-        @Override
-        public Integer getMaxSeats() {
-            return maxSeats;
-        }
-
-        public void setMaxSeats(Integer maxSeats) {
-            this.maxSeats = maxSeats;
-        }
-
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        @Override
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = new Date(expirationDate.getTime());
     }
 }

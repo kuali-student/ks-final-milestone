@@ -17,18 +17,16 @@ package org.kuali.student.r2.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpAtpRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "relatedAtpKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
@@ -36,11 +34,19 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelati
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String atpKey;
+    private String atpKey;
     @XmlElement
-    private final String relatedAtpKey;
+    private String relatedAtpKey;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static AtpAtpRelationInfo newInstance() {
+        return new AtpAtpRelationInfo();
+    }
+
+    public static AtpAtpRelationInfo getInstance(AtpAtpRelation atpAtpRelation) {
+        return new AtpAtpRelationInfo(atpAtpRelation);
+    }
 
     private AtpAtpRelationInfo() {
         atpKey = null;
@@ -54,7 +60,7 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelati
      *
      * @param atpr the AtpAtpRelation to copy
      */
-    public AtpAtpRelationInfo(AtpAtpRelation atpr) {
+    private AtpAtpRelationInfo(AtpAtpRelation atpr) {
         super(atpr);
         this.atpKey = atpr.getAtpKey();
         this.relatedAtpKey = atpr.getRelatedAtpKey();
@@ -67,59 +73,17 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelati
     }
 
     @Override
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
+    }
+
+    @Override
     public String getRelatedAtpKey() {
         return relatedAtpKey;
     }
 
-    /**
-     * The builder class for this AtpAtpRelationInfo.
-     */
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpAtpRelationInfo>, AtpAtpRelation {
-
-        private String atpKey;
-        private String relatedAtpKey;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  AtpAtpRelation.
-         */
-        public Builder(AtpAtpRelation atprInfo) {
-            super(atprInfo);
-            this.atpKey = atprInfo.getAtpKey();
-            this.relatedAtpKey = atprInfo.getRelatedAtpKey();
-        }
-
-        @Override
-        public AtpAtpRelationInfo build() {
-            return new AtpAtpRelationInfo(this);
-        }
-
-
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
-
-
-        public void setAtpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
-
-
-        @Override
-        public String getRelatedAtpKey() {
-            return relatedAtpKey;
-        }
-
- 
-        public void setRelatedAtpKey(String relatedAtpKey) {
-            this.relatedAtpKey = relatedAtpKey;
-        }
+    @Override
+    public void setRelatedAtpKey(String relatedAtpKey) {
+        this.relatedAtpKey = relatedAtpKey;
     }
 }

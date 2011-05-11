@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -50,14 +49,14 @@ public class TestAcademicCalendarServiceConformance {
 	public void testCreateAcademicCalendar() throws Exception {
 	
 		
-		AcademicCalendarInfo.Builder academicCalendarBuilder =  new AcademicCalendarInfo.Builder();
+		AcademicCalendarInfo academicCalendarInfo =  AcademicCalendarInfo.newInstance();
 		
 
-		academicCalendarBuilder.setEndDate(new Date(2010,12,01 )) ;
-		academicCalendarBuilder.setStartDate(new Date(2010,01,01 ) );
-		academicCalendarBuilder.setName("First AC");
+		academicCalendarInfo.setEndDate(new Date(2010,12,01 )) ;
+		academicCalendarInfo.setStartDate(new Date(2010,01,01 ) );
+		academicCalendarInfo.setName("First AC");
 		
-		AcademicCalendarInfo createdAC  = getService().createAcademicCalendar("test1AC", academicCalendarBuilder.build(), TestHelper.getContext1());
+		AcademicCalendarInfo createdAC  = getService().createAcademicCalendar("test1AC", academicCalendarInfo, TestHelper.getContext1());
 		assertNotNull(createdAC);
 		assertNotNull(createdAC.getKey());
 	}
@@ -70,7 +69,4 @@ public class TestAcademicCalendarServiceConformance {
 		assertNotNull(retrievedAC);
 		assertNotNull(retrievedAC.getKey());
 	}
-	
-	
-	
 }

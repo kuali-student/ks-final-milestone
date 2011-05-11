@@ -15,9 +15,6 @@
 
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.student.r2.common.dto.RichTextInfo;
-
-
 /**
  * A common interface pattern for service entities.
  *
@@ -39,6 +36,7 @@ public interface Entity
      */
 
     public String getName();
+    public void setName(String name);
 
 
     /**
@@ -48,5 +46,6 @@ public interface Entity
      * @return the entity description
      */
 
-    public RichTextInfo getDescr();
+    public RichText getDescr();
+    public void setDescr(RichText richText);
 }

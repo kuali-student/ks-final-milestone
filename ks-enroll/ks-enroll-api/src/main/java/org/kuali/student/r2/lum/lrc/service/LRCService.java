@@ -21,7 +21,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
@@ -31,8 +30,6 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-
-
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;

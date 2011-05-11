@@ -85,9 +85,8 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             PermissionDeniedException {
         List<String> lprIds = new ArrayList<String>(luiIdList.size());
         for (String luiId : luiIdList) {
-            LuiPersonRelationInfo.Builder bldr = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
-            bldr.setLuiId(luiId);
-            LuiPersonRelationInfo lprInfo = bldr.build();
+            LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
+            lprInfo.setLuiId(luiId);
 
             String lprId = this.createLuiPersonRelation(personId,
                     luiId,
@@ -112,15 +111,14 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             OperationFailedException,
             PermissionDeniedException {
         MockHelper helper = new MockHelper();
-        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
-        builder.setId(UUID.randomUUID().toString());
-        builder.setPersonId(personId);
-        builder.setLuiId(luiId);
-        builder.setTypeKey(luiPersonRelationType);
-        builder.setMetaInfo(helper.createMeta(context));
-        LuiPersonRelationInfo copy = builder.build();
-        this.lprCache.put(copy.getId(), copy);
-        return copy.getId();
+        LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
+        lprInfo.setId(UUID.randomUUID().toString());
+        lprInfo.setPersonId(personId);
+        lprInfo.setLuiId(luiId);
+        lprInfo.setTypeKey(luiPersonRelationType);
+        lprInfo.setMetaInfo(helper.createMeta(context));
+        this.lprCache.put(lprInfo.getId(), lprInfo);
+        return lprInfo.getId();
     }
 
     @Override
@@ -133,9 +131,9 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         if (this.lprCache.remove(luiPersonRelationId) == null) {
             throw new DoesNotExistException(luiPersonRelationId);
         }
-        StatusInfo.Builder bldr = new StatusInfo.Builder();
-        bldr.setSuccess(Boolean.TRUE);
-        return bldr.build();
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
@@ -224,28 +222,28 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         if (isInstructorType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
             for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                states.add(new StateInfo.Builder(state).build());
+                states.add(StateInfo.getInstance(state));
             }
             return states;
         }
         if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
             for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                states.add(new StateInfo.Builder(state).build());
+                states.add(StateInfo.getInstance(state));
             }
             return states;
         }
         if (isStudentCourseType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
             for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                states.add(new StateInfo.Builder(state).build());
+                states.add(StateInfo.getInstance(state));
             }
             return states;
         }
         if (isStudentProgramType(processKey)) {
             List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
             for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                states.add(new StateInfo.Builder(state).build());
+                states.add(StateInfo.getInstance(state));
             }
             return states;
         }
@@ -479,18 +477,16 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
                     + existing.getMetaInfo().getUpdateId() + " with version of "
                     + existing.getMetaInfo().getVersionInd());
         }
-        LuiPersonRelationInfo.Builder builder = new LuiPersonRelationInfo.Builder(luiPersonRelationInfo);
-        builder.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
+        lprInfo.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : luiPersonRelationInfo.getAttributes()) {
-            atts.add(new AttributeInfo.Builder(att).build());
+            atts.add(AttributeInfo.getInstance(att));
         }
-        builder.setAttributes(atts);
-        LuiPersonRelationInfo copy = builder.build();
-        this.lprCache.put(luiPersonRelationId, copy);
-        // mirroring what was done before immutable DTO's; why returning copy of copy?
-        return new LuiPersonRelationInfo.Builder(copy).build();
+        lprInfo.setAttributes(atts);
+        this.lprCache.put(luiPersonRelationId, lprInfo);
+        return lprInfo;
     }
 
     @Override
@@ -535,22 +531,22 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
         if (isInstructorType(processKey)) {
             for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
+                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
             }
         }
         if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
             for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
+                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
             }
         }
         if (isStudentCourseType(processKey)) {
             for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
+                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
             }
         }
         if (isStudentProgramType(processKey)) {
             for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                if(state.getKey().equals(stateKey)) return (new StateInfo.Builder(state).build());
+                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
             }
         }
         

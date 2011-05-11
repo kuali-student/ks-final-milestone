@@ -40,29 +40,9 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
     public String getId() {
         return id;
     }
-
-    /**
-     * The builder class for this abstract EntityInfo.
-     */
-
-    public static class Builder extends EntityInfo.Builder implements IdEntity {
-
-        private String id;
-
-        public Builder() {}
-
-        public Builder(IdEntity entity) {
-            super(entity);
-            this.id = entity.getId();
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }

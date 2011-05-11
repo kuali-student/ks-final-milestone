@@ -115,7 +115,8 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         return this.expirationDate;
     }
 
-    private void setAttributes(List<? extends Attribute> attributes) {
+    @Override
+    public void setAttributes(List<? extends Attribute> attributes) {
         this.attributes = attributes;
     }
 
@@ -139,5 +140,31 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         } catch (ParseException ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = new Date(effectiveDate.getTime());
+        
+    }
+
+    @Override
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = new Date(expirationDate.getTime());
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 }

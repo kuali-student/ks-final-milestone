@@ -2,9 +2,14 @@ package org.kuali.student.enrollment.lui.service;
 
 import java.util.List;
 
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -15,12 +20,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 public abstract class LuiServiceDecorator implements LuiService {
 	

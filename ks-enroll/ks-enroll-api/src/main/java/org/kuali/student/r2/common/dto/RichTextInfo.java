@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
@@ -35,24 +34,35 @@ public class RichTextInfo implements RichText, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private final String plain;
+    private String plain;
 
     @XmlElement
-    private final String formatted;
+    private String formatted;
     
     @XmlAnyElement
-    private final List<Element> _futureElements;    
+    private List<Element> _futureElements;    
 
+
+    public static RichTextInfo newInstance() {
+        return new RichTextInfo();
+    }
+
+    public static RichTextInfo getInstance(RichText descr) {
+        return new RichTextInfo(descr);
+    }
+    
     private RichTextInfo() {
     	plain = null;
     	formatted = null;
     	_futureElements=null;
     }
     
-    private RichTextInfo(RichText builder) {
-    	this.plain = builder.getPlain();
-    	this.formatted = builder.getFormatted();
-    	this._futureElements=null;
+    private RichTextInfo(RichText richText) {
+        if (null != richText) {
+	    	this.plain = richText.getPlain();
+	    	this.formatted = richText.getFormatted();
+	    	this._futureElements=null;
+    	}
     }
     
     @Override
@@ -61,44 +71,22 @@ public class RichTextInfo implements RichText, Serializable {
     }
 
     @Override
+    public void setPlain(String plain) {
+        this.plain = plain;
+    }
+
+    @Override
     public String getFormatted() {
         return formatted;
     }
 
     @Override
+    public void setFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    @Override
     public String toString() {
     	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
-    }
-    
-    public static class Builder implements ModelBuilder<RichTextInfo>, RichText {
-    	private String plain;
-		private String formatted;
-
-		public Builder() {}
-    	
-    	public Builder(RichText rtInfo) {
-    		this.plain = rtInfo.getPlain();
-    		this.formatted = rtInfo.getFormatted();
-    	}
-    	
-    	public RichTextInfo build() {
-    		return new RichTextInfo(this);
-    	}
-
-        public String getPlain() {
-            return plain;
-        }
-
-        public void setPlain(String plain) {
-            this.plain = plain;
-        }
-
-        public String getFormatted() {
-            return formatted;
-        }
-
-        public void setFormatted(String formatted) {
-            this.formatted = formatted;
-        }
     }
 }

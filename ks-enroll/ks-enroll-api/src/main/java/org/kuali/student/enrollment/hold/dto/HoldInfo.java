@@ -17,18 +17,16 @@ package org.kuali.student.enrollment.hold.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.hold.infc.Hold;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "isOverridable", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
@@ -37,25 +35,25 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private final String personId;
+    private String personId;
 
     @XmlElement
-    private final String holdCategoryId;
+    private String holdCategoryId;
 
     @XmlElement
-    private final Boolean isWarning;
+    private Boolean isWarning;
 
     @XmlElement
-    private final Boolean isOverridable;
+    private Boolean isOverridable;
 
     @XmlElement
-    private final Date effectiveDate;
+    private Date effectiveDate;
 
     @XmlElement
-    private final Date releasedDate;
+    private Date releasedDate;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
     private HoldInfo() {
 	personId = null;
@@ -77,8 +75,8 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
 	this.personId = hold.getPersonId();
 	this.holdCategoryId = hold.getHoldCategoryId();
-	this.isWarning = hold.getIsWarning();
-	this.isOverridable = hold.getIsOverridable();
+	this.isWarning = hold.isWarning();
+	this.isOverridable = hold.isOverridable();
 
         this.effectiveDate = null != hold.getEffectiveDate() ? new Date(hold.getEffectiveDate().getTime()) : null;
         this.releasedDate = null != hold.getReleasedDate() ? new Date(hold.getReleasedDate().getTime()) : null;
@@ -91,19 +89,37 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         return personId;
     }
 
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
     @Override
     public String getHoldCategoryId() {
         return holdCategoryId;
     }
 
+    public void setHoldCategoryId(String holdCategoryId) {
+        this.holdCategoryId = holdCategoryId;
+    }
+
     @Override
-    public Boolean getIsWarning() {
+    public Boolean isWarning() {
         return isWarning;
     }
 
     @Override
-    public Boolean getIsOverridable() {
+    public void setWarning(boolean isWarning) {
+        this.isWarning = isWarning;
+    }
+
+    @Override
+    public Boolean isOverridable() {
 	return isOverridable;
+    }
+
+    @Override
+    public void setOverridable(boolean isOverridable) {
+        this.isOverridable = isOverridable;
     }
 
     @Override
@@ -111,100 +127,16 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         return effectiveDate;
     }
 
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = new Date(effectiveDate.getTime());
+    }
+
     @Override
     public Date getReleasedDate() {
         return releasedDate;
     }
 
-    /**
-     * The builder class for this HoldInfo.
-     */
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<HoldInfo>, Hold {
-
-        private String personId;
-        private String holdCategoryId;
-        private Boolean isWarning;
-        private Boolean isOverridable;
-        private Date effectiveDate;
-        private Date releasedDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another 
-	 * Hold.
-         */
-        public Builder(Hold hold) {
-            super(hold);
-	    this.personId = hold.getPersonId();
-	    this.holdCategoryId = hold.getHoldCategoryId();
-	    this.isWarning = hold.getIsWarning();
-	    this.isOverridable = hold.getIsOverridable();
-            this.effectiveDate = hold.getEffectiveDate();
-            this.effectiveDate = hold.getReleasedDate();
-        }
-
-        @Override
-        public HoldInfo build() {
-            return new HoldInfo(this);
-        }
-
-        @Override
-        public String getPersonId() {
-            return personId;
-        }
-
-        public void setPersonId(String personId) {
-            this.personId = personId;
-        }
-
-        @Override
-        public String getHoldCategoryId() {
-            return holdCategoryId;
-        }
-
-        public void setHoldCategoryId(String holdCategoryId) {
-            this.holdCategoryId = holdCategoryId;
-        }
-
-        @Override
-        public Boolean getIsWarning() {
-            return isWarning;
-        }
-
-        public void setIsWarning(Boolean isWarning) {
-            this.isWarning = isWarning;
-        }
-
-	@Override
-	public Boolean getIsOverridable() {
-	    return isOverridable;
-	}
-
-        public void setIsOverridable(Boolean isOverridable) {
-            this.isOverridable = isOverridable;
-        }
-
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        @Override
-        public Date getReleasedDate() {
-            return releasedDate;
-        }
-
-        public void setReleasedDate(Date releasedDate) {
-            this.releasedDate = releasedDate;
-        }
+    public void setReleasedDate(Date releasedDate) {
+        this.releasedDate = new Date(releasedDate.getTime());
     }
 }

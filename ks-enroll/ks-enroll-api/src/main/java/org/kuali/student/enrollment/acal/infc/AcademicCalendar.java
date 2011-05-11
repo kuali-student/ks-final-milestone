@@ -41,6 +41,7 @@ public interface AcademicCalendar extends KeyEntity {
      * expiration date.
      */
     public Date getStartDate();
+    public void setStartDate(Date startDate);
 
     /**
      * Name: End Date
@@ -53,6 +54,7 @@ public interface AcademicCalendar extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+    public void setEndDate(Date endDate);
 
     /**
      * Name: Campus Calendar 
@@ -61,6 +63,7 @@ public interface AcademicCalendar extends KeyEntity {
      * campus calendar.
      */
     public List<String> getCampusCalendarKeys();
+    public void setCampusCalendarKeys(List<String> campusKeys);
 
     /**
      * Name: Credential Program Type Key
@@ -68,4 +71,5 @@ public interface AcademicCalendar extends KeyEntity {
      * relates.
      */
     public String getCredentialProgramTypeKey();
+    public void setCredentialProgramTypeKey(String credendialProgramTypeKey);
 }

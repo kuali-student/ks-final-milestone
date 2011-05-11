@@ -34,35 +34,41 @@ public interface Hold extends IdEntity {
      * The kind of Hold.
      */
     public String getHoldCategoryId();
+    public void setHoldCategoryId(String holdCategoryId);
 
     /**
      * Name: Person Id
      * The Id of the Person.
      */
     public String getPersonId();
+    public void setPersonId(String personId);
 
     /**
      * Name: Is Warning
      * Indicates whether this hold is a warning or should result in a
      * block.
      */
-    public Boolean getIsWarning();
-
+    public Boolean isWarning();
+    public void setWarning(boolean isWarning);
+    
     /**
      * Name: Is Overridable
      * Indicates whether an exception can override this hold.
      */
-    public Boolean getIsOverridable();
+    public Boolean isOverridable();
+    public void setOverridable(boolean isOverridable);
 
     /**
      * Name: Effective Date
      * The date this hold becomes effective.
      */
     public Date getEffectiveDate();
+    public void setEffectiveDate(Date effectiveDate);
 
     /**
      * Name: Released Date
      * The date this hold was released, of null if not yet released.
      */
     public Date getReleasedDate();
+    public void setReleasedDate(Date releasedDate);
 }

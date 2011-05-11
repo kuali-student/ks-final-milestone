@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.RegistrationDateGroup;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 
@@ -133,121 +132,5 @@ public class RegistrationDateGroupInfo implements RegistrationDateGroup, Seriali
     @Override
     public DateRangeInfo getGradingDateRange() {
         return gradingDateRange;
-    }
-
-    /**
-     * The builder class for this DateInfo.
-     */
-    public static class Builder implements ModelBuilder<RegistrationDateGroupInfo>, RegistrationDateGroup {
-        private RegistrationDateDerivationGroupInfo registrationDateDerivationGroup;
-        private String termKey;
-        private DateRangeInfo registrationDateRange;
-        private DateRangeInfo classDateRange;
-        private Date addDate;
-        private Date dropDate;
-        private DateRangeInfo finalExamDateRange;
-        private DateRangeInfo gradingDateRange;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  RegistrationDateGroup.
-         */
-        public Builder(RegistrationDateGroup dateGroup) {
-            registrationDateDerivationGroup = new RegistrationDateDerivationGroupInfo(dateGroup.getRegistrationDateDerivationGroup());
-            termKey = dateGroup.getTermKey();
-            registrationDateRange = new DateRangeInfo(dateGroup.getRegistrationDateRange());
-            classDateRange =  new DateRangeInfo(dateGroup.getClassDateRange());
-            addDate =  dateGroup.getAddDate();
-            dropDate =  dateGroup.getDropDate();
-            finalExamDateRange =  new DateRangeInfo(dateGroup.getFinalExamDateRange());
-            gradingDateRange =  new DateRangeInfo(dateGroup.getGradingDateRange());
-        }
-
-        /**
-         * Builds the RegistrationDateGroup.
-         *
-         * @return a new RegistrationDateGroup
-         */
-        public RegistrationDateGroupInfo build() {
-            return new RegistrationDateGroupInfo(this);
-        }
-
-        @Override
-        public RegistrationDateDerivationGroupInfo getRegistrationDateDerivationGroup() {
-            return registrationDateDerivationGroup;
-        }
-
-        public void setRegistrationDateDerivationGroup(RegistrationDateDerivationGroupInfo derivationGroup) {
-            this.registrationDateDerivationGroup = registrationDateDerivationGroup;
-        }
-
-        @Override
-        public String getTermKey() {
-            return termKey;
-        }
-
-        public void setTermKey(String termKey) {
-            this.termKey = termKey;
-        }
-
-        @Override
-        public DateRangeInfo getRegistrationDateRange() {
-            return registrationDateRange;
-        }
-
-        public void setRegistrationDateRange(DateRangeInfo dateRange) {
-            this.registrationDateRange = dateRange;
-        }
-
-        @Override
-        public DateRangeInfo getClassDateRange() {
-            return classDateRange;
-        }
-
-        public void setClassDateRange(DateRangeInfo dateRange) {
-            this.classDateRange = dateRange;
-        }
-
-        @Override
-        public Date getAddDate() {
-            return addDate;
-        }
-
-        public void setAddDate(Date date) {
-            this.addDate = date;
-        }
-
-        @Override
-        public Date getDropDate() {
-            return dropDate;
-        }
-
-        public void setDropDate(Date date) {
-            this.dropDate = date;
-        }
-
-        @Override
-        public DateRangeInfo getFinalExamDateRange() {
-            return finalExamDateRange;
-        }
-
-        public void setFinalExamDateRange(DateRangeInfo dateRange) {
-            this.finalExamDateRange = dateRange;
-        }
-
-        @Override
-        public DateRangeInfo getGradingDateRange() {
-            return gradingDateRange;
-        }
-
-        public void setGradingDateRange(DateRangeInfo dateRange) {
-            this.gradingDateRange = dateRange;
-        }
     }
 }

@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.infc.State;
 import org.w3c.dom.Element;
 
@@ -29,22 +28,26 @@ import org.w3c.dom.Element;
 public class StateInfo extends HasAttributesInfo implements State, Serializable {
 
     @XmlAttribute
-    private final String key;
+    private String key;
 
     @XmlElement
-    private final String name;
+    private String name;
 
     @XmlElement
-    private final String descr;
+    private String descr;
 
     @XmlElement
-    private final Date effectiveDate;
+    private Date effectiveDate;
 
     @XmlElement
-    private final Date expirationDate;
+    private Date expirationDate;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static StateInfo getInstance(State state) {
+        return new StateInfo(state);
+    }
 
     private StateInfo() {
         key = null;
@@ -55,13 +58,13 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         _futureElements = null;
     }
 
-    private StateInfo(State builder) {
-        super(builder);
-        this.key = builder.getKey();
-        this.name = builder.getName();
-        this.descr = builder.getDescr();
-        this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
+    private StateInfo(State sInfo) {
+        super(sInfo);
+        this.key = sInfo.getKey();
+        this.name = sInfo.getName();
+        this.descr = sInfo.getDescr();
+        this.effectiveDate = null != sInfo.getEffectiveDate() ? new Date(sInfo.getEffectiveDate().getTime()) : null;
+        this.expirationDate = null != sInfo.getExpirationDate() ? new Date(sInfo.getExpirationDate().getTime()) : null;
         this._futureElements = null;
     }
 
@@ -71,8 +74,18 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
     }
 
     @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -81,8 +94,18 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
     }
 
     @Override
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
+    }
+
+    @Override
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = new Date(effectiveDate.getTime());
     }
 
     @Override
@@ -90,66 +113,8 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return expirationDate;
     }
 
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<StateInfo>, State {
-        private String key;
-        private String name;
-        private String descr;
-        private Date effectiveDate;
-        private Date expirationDate;
-
-        public Builder() {}
-
-        public Builder(State stateInfo) {
-            this.key = stateInfo.getKey();
-            this.name = stateInfo.getName();
-            this.descr = stateInfo.getDescr();
-            this.effectiveDate = stateInfo.getEffectiveDate();
-            this.expirationDate = stateInfo.getExpirationDate();
-        }
-
-        public StateInfo build() {
-            return new StateInfo(this);
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescr() {
-            return descr;
-        }
-
-        public void setDescr(String descr) {
-            this.descr = descr;
-        }
-
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
-
+    @Override
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = new Date(expirationDate.getTime());
     }
 }

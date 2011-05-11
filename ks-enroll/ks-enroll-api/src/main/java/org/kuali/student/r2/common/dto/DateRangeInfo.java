@@ -22,12 +22,10 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.DateRange;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
@@ -70,39 +68,5 @@ public class DateRangeInfo implements DateRange, Serializable {
     @Override
     public Date getEnd() {
         return end;
-    }
-    
-    public static class Builder implements ModelBuilder<DateRangeInfo>, DateRange {
-		private Date start;
-		private Date end;
-
-		public Builder() {}
-    	
-    	public Builder(DateRange dateRange) {
-                this.start = dateRange.getStart();
-                this.end = dateRange.getEnd();
-    	}
-
-        public DateRangeInfo build() {
-            return new DateRangeInfo(this);
-        }
-
-        @Override
-        public Date getStart() {
-            return start;
-        }
-
-        public void setStart(Date start) {
-            this.start = start;
-        }
-
-        @Override
-        public Date getEnd() {
-            return end;
-        }
-
-        public void setEnd(Date end) {
-            this.end = end;
-        }
     }
 }

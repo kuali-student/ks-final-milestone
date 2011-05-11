@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 
 @SuppressWarnings("serial")
 @XmlTransient
@@ -45,12 +47,22 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         stateKey = null;
     }
 
-    protected EntityInfo(Entity builder) {
-        super(builder);
-        this.name = builder.getName();
-        this.descr = builder.getDescr();
-        this.typeKey = builder.getTypeKey();
-        this.stateKey = builder.getStateKey();
+    protected EntityInfo(Entity entity) {
+        super(entity);
+        if (null != entity) {
+	        this.name = entity.getName();
+	        this.descr = RichTextInfo.getInstance(entity.getDescr());
+	        this.typeKey = entity.getTypeKey();
+	        this.stateKey = entity.getStateKey();
+        }
+    }
+
+    protected EntityInfo(String name, RichText descr, String typeKey, String stateKey, Meta meta) {
+        super(meta);
+        this.name = name; 
+        this.descr = RichTextInfo.getInstance(descr);
+        this.typeKey = typeKey;
+        this.stateKey = stateKey;
     }
 
     @Override
@@ -58,9 +70,18 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
-    public RichTextInfo getDescr() {
+    public RichText getDescr() {
         return descr;
+    }
+
+    @Override
+    public void setDescr(RichText descr) {
+        this.descr = RichTextInfo.getInstance(descr);
     }
 
     @Override
@@ -68,66 +89,16 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         return typeKey;
     }
 
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
     @Override
     public String getStateKey() {
         return stateKey;
     }
 
-    /**
-     * The builder class for this abstract EntityInfo.
-     */
-
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements Entity {
-
-        private String name;
-        private RichTextInfo descr;
-        private String typeKey;
-        private String stateKey;
-
-        public Builder() {}
-
-        public Builder(Entity entity) {
-            super(entity);
-            this.name = entity.getName();
-            this.descr = entity.getDescr();
-            this.typeKey = entity.getTypeKey();
-            this.stateKey = entity.getStateKey();
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public RichTextInfo getDescr() {
-            return descr;
-        }
-
-        public void setDescr(RichTextInfo descr) {
-            this.descr = descr;
-        }
-
-        @Override
-        public String getTypeKey() {
-            return typeKey;
-        }
-
-        public void setTypeKey(String typeKey) {
-            this.typeKey = typeKey;
-        }
-
-        @Override
-        public String getStateKey() {
-            return stateKey;
-        }
-
-        public void setStateKey(String stateKey) {
-            this.stateKey = stateKey;
-        }
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
     }
 }

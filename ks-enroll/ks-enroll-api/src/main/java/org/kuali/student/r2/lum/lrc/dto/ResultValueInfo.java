@@ -39,11 +39,11 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	@XmlAttribute
 	private String id;
 
-	public ResultValueInfo() {
+	private ResultValueInfo() {
 
 	}
 
-	public ResultValueInfo(String name, String value, String rank,
+	private ResultValueInfo(String name, String value, String rank,
 			String typeKey, String stateKey, MetaInfo metaInfo, RichText descr,
 			Date effectiveDate, Date expirationDate,
 			List<Element> futureElements, String id) {
@@ -56,18 +56,6 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 		this._futureElements = futureElements;
 		this.id = id;
 	}
-
-	public static ResultValueInfo createNewResultValueInfoFromResultValueInfo(
-			ResultValueInfo resultValueInfo) {
-		return new ResultValueInfo(resultValueInfo.getName(),
-				resultValueInfo.getValue(), resultValueInfo.getRank(),
-				resultValueInfo.getTypeKey(), resultValueInfo.getStateKey(),
-				resultValueInfo.getMetaInfo(), resultValueInfo.getDescr(),
-				resultValueInfo.getEffectiveDate(),
-				resultValueInfo.getEffectiveDate(),
-				resultValueInfo.get_futureElements(), resultValueInfo.getId());
-	}
-
 
 	@Override
 	public String getValue() {

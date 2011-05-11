@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,6 +42,14 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
 
     @XmlAnyElement
     private final List<Element> _futureElements;
+
+    public static TermInfo newInstance() {
+        return new TermInfo();
+    }
+
+    public static TermInfo getInstance(Term term) {
+        return new TermInfo(term);
+    }
 
     private TermInfo() {
         startDate = null;
@@ -75,52 +82,5 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     @Override
     public Date getEndDate() {
         return endDate;
-    }
-
-    /**
-     * The builder class for this TermInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<TermInfo>, Term {
-
-        private Date startDate;
-        private Date endDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Constructs a new builder initialized from another Term
-         */
-        public Builder(Term term) {
-            super(term);
-            this.startDate = term.getStartDate();
-            this.startDate = term.getEndDate();
-        }
-
-        @Override
-        public TermInfo build() {
-            return new TermInfo(this);
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
     }
 }

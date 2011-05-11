@@ -37,8 +37,8 @@ public interface KeyDate extends KeyEntity {
      *
      * @return true if this is an all-day event, false otherwise
      */
-    public Boolean getIsAllDay();
-
+    public Boolean isAllDay();
+    public void setAllDay(boolean allDay);
     /**
      * Name: Is Date Range
      * Tests if this key date has a date range. 
@@ -46,7 +46,8 @@ public interface KeyDate extends KeyEntity {
      * @return true if the end date is different than the start date,
      *         false if the start end end date ar ethe same
      */
-    public Boolean getIsDateRange();
+    public Boolean isDateRange();
+    public void setDateRange(boolean dateRange);
 
     /**
      * Name: Start Date
@@ -55,6 +56,7 @@ public interface KeyDate extends KeyEntity {
      * @return the key date start date 
      */
     public Date getStartDate();
+    public void setStartDate(Date startDate);
 
     /**
      * Name: End Date 
@@ -64,4 +66,5 @@ public interface KeyDate extends KeyEntity {
      * @return the key date end date
      */
     public Date getEndDate();
+    public void setEndDate(Date endDate);
 }

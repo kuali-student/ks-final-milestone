@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Holiday;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,19 +34,28 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final Boolean isInstructionalDay;
+    private Boolean isInstructionalDay;
     @XmlElement
-    private final Boolean isAllDay;
+    private Boolean isAllDay;
     @XmlElement
-    private final Boolean isDateRange;
+    private Boolean isDateRange;
     @XmlElement
-    private final Date startDate;
+    private Date startDate;
     @XmlElement
-    private final Date endDate;
+    private Date endDate;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
-    protected HolidayInfo() {
+
+    public static HolidayInfo newInstance() {
+        return new HolidayInfo();
+    }
+    
+    public static HolidayInfo getInstance(Holiday holiday) {
+        return new HolidayInfo(holiday);
+    }
+    
+    private HolidayInfo() {
         isInstructionalDay = false;
         isAllDay = false;
         isDateRange = false;
@@ -61,29 +69,44 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
      *
      * @param holiday the Holiday to copy
      */
-    public HolidayInfo(Holiday holiday) {
+    private HolidayInfo(Holiday holiday) {
         super(holiday);
-        this.isInstructionalDay = holiday.getIsInstructionalDay();
-        this.isAllDay = holiday.getIsAllDay();
-        this.isDateRange = holiday.getIsDateRange();
+        this.isInstructionalDay = holiday.isInstructionalDay();
+        this.isAllDay = holiday.isAllDay();
+        this.isDateRange = holiday.isDateRange();
         this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
         this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
         _futureElements = null;
     }
 
     @Override
-    public Boolean getIsInstructionalDay() {
+    public Boolean isInstructionalDay() {
         return isInstructionalDay;
     }
 
     @Override
-    public Boolean getIsAllDay() {
+    public void setInstructionalDay(boolean isInstructionalDay) {
+        this.isInstructionalDay = isInstructionalDay;
+    }
+
+    @Override
+    public Boolean isAllDay() {
         return isAllDay;
     }
 
     @Override
-    public Boolean getIsDateRange() {
+    public void setAllDay(boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean isDateRange() {
         return isDateRange;
+    }
+
+    @Override
+    public void setDateRange(boolean isDateRange) {
+        this.isDateRange = isDateRange;
     }
 
     @Override
@@ -91,89 +114,16 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
         return startDate;
     }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = new Date(startDate.getTime());
+    }
+
     @Override
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * The builder class for this HolidayInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<HolidayInfo>, Holiday {
-
-        private Boolean isInstructionalDay;
-        private Boolean isAllDay;
-        private Boolean isDateRange;
-        private Date startDate;
-        private Date endDate;
-
-        /**
-         * Constructs a new builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         *  Constructs a new builder initialized from another
-         *  Holiday.
-         */
-        public Builder(Holiday holiday) {
-            super(holiday);
-            this.isInstructionalDay = holiday.getIsInstructionalDay();
-            this.isAllDay = holiday.getIsAllDay();
-            this.isDateRange = holiday.getIsDateRange();
-            this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-            this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
-        }
-
-        @Override
-        public HolidayInfo build() {
-            return new HolidayInfo(this);
-        }
-
-        @Override
-        public Boolean getIsInstructionalDay() {
-            return isInstructionalDay;
-        }
-
-        public void setIsInstructionalDay(Boolean isInstructionalDay) {
-            this.isInstructionalDay = isInstructionalDay;
-        }
-
-        @Override
-        public Boolean getIsAllDay() {
-            return isAllDay;
-        }
-
-        public void setIsAllDay(Boolean isAllDay) {
-            this.isAllDay = isAllDay;
-        }
-
-        @Override
-        public Boolean getIsDateRange() {
-            return isDateRange;
-        }
-
-        public void setIsDateRange(Boolean isDateRange) {
-            this.isDateRange = isDateRange;
-        }
-
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = new Date(startDate.getTime());
-        }
-
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = new Date(endDate.getTime());
-        }
+    public void setEndDate(Date endDate) {
+        this.endDate = new Date(endDate.getTime());
     }
 }

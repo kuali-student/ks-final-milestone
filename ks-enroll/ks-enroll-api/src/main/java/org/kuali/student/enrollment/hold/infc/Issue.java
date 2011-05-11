@@ -32,4 +32,5 @@ public interface Issue extends IdEntity {
      * The organization related to this hold category.
      */
     public String getOrganizationId();
+    public void setOrganizationId(String orgId);
 }

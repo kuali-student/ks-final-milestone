@@ -29,6 +29,7 @@ public interface Criteria {
      * TODO: Decide if null or empty list is ok?  I.e. can you get ALL?
      */
     public List<? extends Comparison> getComparisons();
+    public void setComparisons(List<? extends Comparison> comparisons);
 
     /**
      * Name: Maximum Results
@@ -38,4 +39,5 @@ public interface Criteria {
      * Specify Null if do not want to limit the results
      */
     public Integer getMaxResults();
+    public void setMaxResults(int maxResults);
 }

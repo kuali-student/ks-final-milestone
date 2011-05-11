@@ -47,12 +47,12 @@ public class BaseAttributeEntity extends BaseEntity {
         this.value = value;
     }
 
-	public AttributeInfo toDto() {
-		AttributeInfo.Builder builder = new AttributeInfo.Builder();
-		builder.setId(this.getId());
-		builder.setKey(this.getKey());
-		builder.setValue(this.getValue());
-		return builder.build();
+	public Attribute toDto() {
+	    AttributeInfo attributeInfo = AttributeInfo.newInstance();
+		attributeInfo.setId(this.getId());
+		attributeInfo.setKey(this.getKey());
+		attributeInfo.setValue(this.getValue());
+		return attributeInfo;
 	}
 
 }

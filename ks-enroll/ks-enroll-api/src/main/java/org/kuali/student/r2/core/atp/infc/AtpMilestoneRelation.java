@@ -36,6 +36,7 @@ public interface AtpMilestoneRelation extends Relationship {
      *  @return the ATP key
      */
     public String getAtpKey();
+    public void setAtpKey(String atpKey);
 
     /**
      *  Name: Milestone Key
@@ -44,4 +45,5 @@ public interface AtpMilestoneRelation extends Relationship {
      *  @return the Milestone key
      */
     public String getMilestoneKey();
+    public void setMilestoneKey(String milestoneKey);
 }

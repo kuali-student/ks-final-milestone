@@ -22,12 +22,10 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -39,7 +37,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;

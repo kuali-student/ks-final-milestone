@@ -31,4 +31,5 @@ public interface HasType  {
      */
 
     public String getTypeKey();
+    public void setTypeKey(String typeKey);
 }

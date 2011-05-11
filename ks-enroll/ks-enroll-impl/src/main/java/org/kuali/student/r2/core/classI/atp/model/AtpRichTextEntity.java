@@ -6,11 +6,10 @@ import javax.persistence.Table;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.RichTextEntity;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-
+ 
 @Entity
 @Table(name = "KSEN_RICH_TEXT_T")
-public class AtpRichTextEntity extends RichTextEntity{
+public class AtpRichTextEntity extends RichTextEntity {
 
     public AtpRichTextEntity(){}
     
@@ -24,11 +23,10 @@ public class AtpRichTextEntity extends RichTextEntity{
         this.setPlain(rt.getPlain());
     }
     
-    public RichTextInfo toDto() {
-        RichTextInfo.Builder rtiBuilder = new RichTextInfo.Builder();
-        rtiBuilder.setPlain(getPlain());
-        rtiBuilder.setFormatted(getFormatted());
-        RichTextInfo atpDesc = rtiBuilder.build();
-        return atpDesc;
+    public RichText toDto() {
+        RichTextInfo rti = RichTextInfo.newInstance();
+        rti.setPlain(getPlain());
+        rti.setFormatted(getFormatted());
+        return rti;
     }
 }

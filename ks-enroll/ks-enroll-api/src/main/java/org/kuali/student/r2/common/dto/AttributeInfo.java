@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.ModelBuilder;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,16 +26,24 @@ public final class AttributeInfo implements Attribute, Serializable {
     private static final long serialVersionUID = 1L;
     
     @XmlElement
-    private final String id;
+    private String id;
     
     @XmlElement
-    private final String key;
+    private String key;
     
     @XmlElement
-    private final String value;
+    private String value;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
+
+    public static AttributeInfo newInstance() {
+        return new AttributeInfo();
+    }
+
+    public static AttributeInfo getInstance(Attribute att) {
+        return new AttributeInfo(att);
+    }
     
     private AttributeInfo() {
         this.id = null;
@@ -45,10 +52,10 @@ public final class AttributeInfo implements Attribute, Serializable {
         this._futureElements = null;
     }
 
-    private AttributeInfo(Attribute builder) {
-        this.id = builder.getId();
-        this.key = builder.getKey();
-        this.value = builder.getValue();
+    private AttributeInfo(Attribute attribute) {
+        this.id = attribute.getId();
+        this.key = attribute.getKey();
+        this.value = attribute.getValue();
         this._futureElements = null;
     }
 
@@ -57,63 +64,28 @@ public final class AttributeInfo implements Attribute, Serializable {
         return id;
     }
 
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public String getKey() {
         return key;
     }
 
+    @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     @Override
     public String getValue() {
         return value;
     }
 
-    
-    public static class Builder implements ModelBuilder<AttributeInfo>, Attribute {
-
-        private String id;
-        private String value;
-        private String key;
-
-        public Builder() {
-        }
-
-        public Builder(Attribute attInfo) {
-            this.id = attInfo.getId();
-            this.key = attInfo.getKey();
-            this.value = attInfo.getValue();
-        }
-
-        public AttributeInfo build() {
-            return new AttributeInfo(this);
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        @Override
-        public String getValue() {
-            return value;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public void setValue(String val) {
-            this.value = val;
-        }
+    @Override
+    public void setValue(String value) {
+        this.value = value;
     }
 }
