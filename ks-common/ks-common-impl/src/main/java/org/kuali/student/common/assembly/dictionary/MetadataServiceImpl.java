@@ -368,7 +368,7 @@ public class MetadataServiceImpl {
 
         	// Defaults for state and nextState
         	state = (state == null ? DtoState.DRAFT.toString():state);
-        	nextState = (nextState == null ? DtoState.getNextStateAsString(state):nextState);
+        	nextState = (nextState == null || nextState.length() <=0 ? DtoState.getNextStateAsString(state):nextState);
 
             if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
                 for (WhenConstraint whenConstraint : whenConstraints) {

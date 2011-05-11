@@ -314,6 +314,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		}
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
 		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());
+		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
 		    		
 		    		//Get metadata and complete initializing the screen
 		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){

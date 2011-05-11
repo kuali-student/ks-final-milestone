@@ -21,6 +21,7 @@ public abstract class Configurer {
     protected ModelDefinition modelDefinition;
     protected String type = "";
     protected String state = "";
+    protected String nextState = "";
     protected String groupName = "";
 
     /**
@@ -302,6 +303,12 @@ public abstract class Configurer {
 	public void setState(String state) {
 		this.state = state;
 	}
-    
-    
+
+	public String getNextState() {
+		return nextState;
+	}
+
+	public void setNextState(String nextState) {
+		this.nextState = nextState;
+	}       
 }

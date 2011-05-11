@@ -3,13 +3,12 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import java.util.ArrayList;
 
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 /**
@@ -28,14 +27,19 @@ public class CourseAdminConfigurer extends CourseConfigurer{
      */
     public void configure(final CourseProposalController layout) {
     	type = "course";
-        state = DtoConstants.STATE_APPROVED;
+        state = DtoConstants.STATE_DRAFT;
+        nextState = DtoConstants.STATE_APPROVED;
+        
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
     	if (modelDefinition.getMetadata().isCanEdit()) {
             String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
             layout.addMenu(sections);            
             layout.addMenuItem(sections, generateCourseAdminSection());
-            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, layout.getSaveButton(), new ArrayList<Enum<?>>());
+            ArrayList<Enum<?>> excludedSections = new ArrayList<Enum<?>>();
+            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedSections);
+            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, ((CourseAdminController)layout).getApproveButton(), excludedSections);
+            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, ((CourseAdminController)layout).getApproveAndActivateButton(), excludedSections);            
     	}
     }
 
