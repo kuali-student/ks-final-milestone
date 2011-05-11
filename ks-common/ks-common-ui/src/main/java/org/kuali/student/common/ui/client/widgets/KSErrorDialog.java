@@ -16,10 +16,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.logging.Logger;
@@ -126,20 +122,8 @@ public class KSErrorDialog {
 
     private static String getErrorDescription(Throwable error) {
         // TODO maybe retrieve more error info
-        return getStackTrace(error);
+        return error.getMessage();
     }
-    
-    protected static String getStackTrace(Throwable aThrowable) {
-        final Writer result = new StringWriter();
-        final PrintWriter printWriter = new PrintWriter(result);
-        if(aThrowable != null){
-        	aThrowable.printStackTrace(printWriter);
-        	return result.toString();
-        }else{
-        	return "Throwable is null. No stack trace provided.";
-        }
-        
-      }
 
     private static void sendReport(final Throwable error/*, final String actionDescription*/) {
         // TODO actually gather client context info, such as browser version, user id, etc
