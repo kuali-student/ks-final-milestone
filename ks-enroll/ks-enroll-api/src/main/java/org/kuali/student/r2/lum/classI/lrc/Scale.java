@@ -7,16 +7,7 @@ import java.util.Map;
 import org.kuali.student.common.dto.RichTextInfo;
 
 public interface Scale extends Serializable {
-	 /**
-     * Name of the scale.
-     */
-    public String getName() ;
-
-    /**
-     * Description of the scale.
-     */
-    public String getDesc() ;
-
+	
     /**
      * Date and time that this scale became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */

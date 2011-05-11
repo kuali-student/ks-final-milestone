@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.classI.lrc.Scale;
 
 /**
@@ -40,29 +40,22 @@ public class ScaleInfo extends KeyEntityInfo implements Scale {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String name;
-
-	@XmlElement
-	private String desc;
-
-	@XmlElement
 	private Date effectiveDate;
 
 	@XmlElement
 	private Date expirationDate;
 
-	@XmlAttribute(name = "key")
+	@XmlAttribute
 	private String id;
 
 	public ScaleInfo() {
 
 	}
 
-	public ScaleInfo(String name, String desc, Date effectiveDate,
-			Date expirationDate, String id) {
+	public ScaleInfo(String name, RichText descr, String key, String typeKey,
+			String stateKey, Date effectiveDate, Date expirationDate, String id) {
+		// TODO once devs make objects mutable
 		super();
-		this.name = name;
-		this.desc = desc;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
 		this.id = id;
@@ -70,31 +63,10 @@ public class ScaleInfo extends KeyEntityInfo implements Scale {
 
 	public ScaleInfo createNewScaleInfoFromScaleInfo(ScaleInfo scaleInfo) {
 
-		return new ScaleInfo(scaleInfo.getName(), scaleInfo.getDesc(),
-				scaleInfo.getEffectiveDate(), scaleInfo.getExpirationDate(),
-				scaleInfo.getId());
-	}
-
-	/**
-	 * Name of the scale.
-	 */
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Description of the scale.
-	 */
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
+		return new ScaleInfo(scaleInfo.getName(), scaleInfo.getDescr(),
+				scaleInfo.getKey(), scaleInfo.getTypeKey(),
+				scaleInfo.getStateKey(), scaleInfo.getEffectiveDate(),
+				scaleInfo.getExpirationDate(), scaleInfo.getId());
 	}
 
 	/**

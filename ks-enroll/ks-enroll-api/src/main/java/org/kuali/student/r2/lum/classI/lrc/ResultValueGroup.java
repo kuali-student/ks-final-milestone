@@ -7,13 +7,7 @@ import java.util.List;
 import org.kuali.student.common.dto.RichTextInfo;
 
 public interface ResultValueGroup extends Serializable {
-	public String getName();
-
-	/**
-	 * Narrative description of the result component
-	 */
-	public String getDesc();
-
+	
 	/**
 	 * List of result values
 	 */

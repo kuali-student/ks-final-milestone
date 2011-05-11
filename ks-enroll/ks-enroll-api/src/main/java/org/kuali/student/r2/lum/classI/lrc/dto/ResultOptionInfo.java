@@ -21,8 +21,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.classI.lrc.ResultOption;
 
 /**
@@ -32,18 +35,18 @@ import org.kuali.student.r2.lum.classI.lrc.ResultOption;
  * @since
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ResultOptionInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "resultUsageTypeKey", "resultComponentId",
+		"effectiveDate", "expirationDate", "id", "metaInfo", "attributes",
+		"_futureElements" })
 public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private String desc;
-
-	@XmlElement
+	@XmlAttribute
 	private String resultUsageTypeKey;
 
-	@XmlElement
+	@XmlAttribute
 	private String resultComponentId;
 
 	@XmlElement
@@ -53,40 +56,35 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 	private Date expirationDate;
 
 	@XmlAttribute
-	private String state;
-
-	@XmlAttribute
 	private String id;
 	
+
 	public ResultOptionInfo() {
-	
+
 	}
-	
-	public ResultOptionInfo(String desc, String resultUsageTypeKey,
+
+	public ResultOptionInfo(String name, RichText descr, String typeKey,
+			String stateKey, MetaInfo metaInfo, String resultUsageTypeKey,
 			String resultComponentId, Date effectiveDate, Date expirationDate,
-			String state, String id) {
-		this.desc = desc;
+			String id) {
+		// TODO - after devs create new constructor
+		super();
 		this.resultUsageTypeKey = resultUsageTypeKey;
 		this.resultComponentId = resultComponentId;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
-		this.state = state;
 		this.id = id;
 	}
 
-	public static ResultOptionInfo createNewResultInfoFromResultInfo (ResultOptionInfo resultOptionInfo) {
-		return new ResultOptionInfo(resultOptionInfo.getDesc(), resultOptionInfo.getResultUsageTypeKey(),
-				resultOptionInfo.getResultComponentId(), resultOptionInfo.getEffectiveDate(),
-				resultOptionInfo.getExpirationDate(), resultOptionInfo.getState(),
-				resultOptionInfo.getId());
-	}
-	
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public static ResultOptionInfo createNewResultInfoFromResultInfo(
+			ResultOptionInfo resultOptionInfo) {
+		return new ResultOptionInfo(resultOptionInfo.getName(),
+				resultOptionInfo.getDescr(), resultOptionInfo.getTypeKey(),
+				resultOptionInfo.getStateKey(), resultOptionInfo.getMetaInfo(),
+				resultOptionInfo.getResultUsageTypeKey(),
+				resultOptionInfo.getResultComponentId(),
+				resultOptionInfo.getEffectiveDate(),
+				resultOptionInfo.getExpirationDate(), resultOptionInfo.getId());
 	}
 
 	public String getResultUsageTypeKey() {
@@ -108,7 +106,6 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 		this.resultComponentId = resultComponentId;
 	}
 
-
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -117,21 +114,12 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 		this.effectiveDate = effectiveDate;
 	}
 
-
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 
 	public String getId() {

@@ -1,46 +1,55 @@
 package org.kuali.student.r2.lum.classI.lrc.dto;
 
-
 import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.classI.lrc.ResultValueRange;
 
+@XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
+		"resultTypeKey", "minValue", "maxValue", "increment", "scaleKey",
+		"rank", "metaInfo", "effectiveDate", "expirationDate", "attributes" })
 public class ResultValueRangeInfo extends KeyEntityInfo implements
 		ResultValueRange {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlAttribute
 	private String resultTypeKey;
-
+	@XmlAttribute
 	private String id;
-
-	private String name;
-
+	@XmlAttribute
 	private String minValue;
-
+	@XmlAttribute
 	private String maxValue;
-
+	@XmlAttribute
 	private float increment;
-
+	@XmlAttribute
 	private String scaleKey;
-
+	@XmlAttribute
 	private String rank;
-
+	@XmlElement
 	private Date effectiveDate;
-
+	@XmlElement
 	private Date expirationDate;
 
-	
 	public ResultValueRangeInfo() {
 	}
 
-	
-	public ResultValueRangeInfo(String resultTypeKey, String id, String name,
+	public ResultValueRangeInfo(String key, String name, RichText descr, String typeKey, String stateKey, 
+			String resultTypeKey, String id,
 			String minValue, String maxValue, float increment, String scaleKey,
-			String rank, Date effectiveDate, Date expirationDate) {
+			String rank, Date effectiveDate, Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
+		super();
 		this.resultTypeKey = resultTypeKey;
 		this.id = id;
-		this.name = name;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 		this.increment = increment;
@@ -49,23 +58,26 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
 	}
-	
-	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(ResultValueRangeInfo resultValueRangeInfo) {
-		return new ResultValueRangeInfo(resultValueRangeInfo.getResultTypeKey(),resultValueRangeInfo.getId(),
-				resultValueRangeInfo.getName(),resultValueRangeInfo.getMinValue(),resultValueRangeInfo.getMaxValue(),
-				resultValueRangeInfo.getIncrement(), resultValueRangeInfo.getScaleKey(), resultValueRangeInfo.getRank(),
-				resultValueRangeInfo.getEffectiveDate(),resultValueRangeInfo.getExpirationDate());
-	}
-	
-	
-	@Override
-	public String getName() {
-		return name;
+
+	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(
+			ResultValueRangeInfo resultValueRangeInfo) {
+		return new ResultValueRangeInfo(resultValueRangeInfo.getKey(),
+				resultValueRangeInfo.getName(),resultValueRangeInfo.getDescr(),
+				resultValueRangeInfo.getTypeKey(),resultValueRangeInfo.getStateKey(),
+				resultValueRangeInfo.getResultTypeKey(),
+				resultValueRangeInfo.getId(), 
+				resultValueRangeInfo.getMinValue(),
+				resultValueRangeInfo.getMaxValue(),
+				resultValueRangeInfo.getIncrement(),
+				resultValueRangeInfo.getScaleKey(),
+				resultValueRangeInfo.getRank(),
+				resultValueRangeInfo.getEffectiveDate(),
+				resultValueRangeInfo.getExpirationDate(),
+				resultValueRangeInfo.getMetaInfo(),
+				resultValueRangeInfo.getAttributes());
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+
 
 	@Override
 	public String getMinValue() {

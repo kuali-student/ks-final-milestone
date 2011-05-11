@@ -20,8 +20,14 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.Type;
 import org.kuali.student.r2.lum.classI.lrc.ResultValueGroupType;
 
@@ -32,71 +38,53 @@ import org.kuali.student.r2.lum.classI.lrc.ResultValueGroupType;
  * @Author sambit
  * @Since
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ResultValueGroupTypeInfo implements ResultValueGroupType {
+@XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey",
+		"stateKey", "name", "descr", "effectiveDate", "expirationDate", "id",
+		"metaInfo", "attributes" })
+public class ResultValueGroupTypeInfo extends KeyEntityInfo implements
+		ResultValueGroupType {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-
-	private String key;
-
-	private String descr;
-
 	private String id;
-
-	private List<? extends Attribute> attributes;
 
 	private Date effectiveDate;
 
 	private Date expirationDate;
 
-	private String refObjectURI;
-
 	public ResultValueGroupTypeInfo() {
 	}
 
-	public ResultValueGroupTypeInfo(String name, String key, String descr,
-			String id, List<? extends Attribute> list, Date effectiveDate,
-			Date expirationDate, String refObjectURI) {
-		
-		this.name = name;
-		this.key = key;
-		this.descr = descr;
+	public ResultValueGroupTypeInfo(String name, String key, RichText descr,
+			String typeKey, String stateKey, String id,
+			List<? extends Attribute> list, Date effectiveDate,
+			Date expirationDate, Meta metaInfo) {
+		//TODO once devs make objects mutable
+		super();
 		this.id = id;
-		this.attributes = list;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
-		this.refObjectURI = refObjectURI;
+
 	}
 
 	public static ResultValueGroupTypeInfo createNewResultValueGroupTypeInfoFromResultValueGroupTypeInfo(
 			ResultValueGroupTypeInfo resultValueGroupTypeInfo) {
-		
-		return new ResultValueGroupTypeInfo(resultValueGroupTypeInfo.getName(),resultValueGroupTypeInfo.getKey(), 
-				resultValueGroupTypeInfo.getDescr(), resultValueGroupTypeInfo.getId(), resultValueGroupTypeInfo.getAttributes(),
-				resultValueGroupTypeInfo.getEffectiveDate(),resultValueGroupTypeInfo.getExpirationDate(), resultValueGroupTypeInfo.getRefObjectURI());
-	
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+		return new ResultValueGroupTypeInfo(resultValueGroupTypeInfo.getName(),
+				resultValueGroupTypeInfo.getKey(),
+				resultValueGroupTypeInfo.getDescr(),
+				resultValueGroupTypeInfo.getTypeKey(),
+				resultValueGroupTypeInfo.getStateKey(),
+				resultValueGroupTypeInfo.getId(),
+				resultValueGroupTypeInfo.getAttributes(),
+				resultValueGroupTypeInfo.getEffectiveDate(),
+				resultValueGroupTypeInfo.getExpirationDate(),
+				resultValueGroupTypeInfo.getMetaInfo());
 
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public void setDescr(String descr) {
-		this.descr = descr;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public void setAttributes(List<Attribute> attributes) {
-		this.attributes = attributes;
 	}
 
 	public void setEffectiveDate(Date effectiveDate) {
@@ -105,36 +93,6 @@ public class ResultValueGroupTypeInfo implements ResultValueGroupType {
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public void setRefObjectURI(String refObjectURI) {
-		this.refObjectURI = refObjectURI;
-	}
-
-	@Override
-	public String getRefObjectURI() {
-
-		return this.refObjectURI;
-	}
-
-	@Override
-	public String getKey() {
-		return this.key;
-	}
-
-	@Override
-	public List<? extends Attribute> getAttributes() {
-		return this.attributes;
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public String getDescr() {
-		return this.descr;
 	}
 
 	@Override

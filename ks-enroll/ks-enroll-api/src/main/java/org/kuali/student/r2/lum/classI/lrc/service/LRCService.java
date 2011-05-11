@@ -52,19 +52,19 @@ import org.kuali.student.r2.lum.classI.lrc.dto.ResultValueInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LRCService extends DataDictionaryService, TypeService, StateService {
     /**
-     * Retrieves information on all credential types.
-     * @return list of credential type information
+     * Retrieves information on all result types.
+     * @return list of result type information
      * @throws OperationFailedException unable to complete request
 	 */
     public List<ResultValueGroupTypeInfo> getResultTypes() throws OperationFailedException;
 
     /**
-     * Retrieves information on a specific credential type.
+     * Retrieves information on a specific result type.
      * @param credentialTypeKey identifier for the credential type
      * @return information about a credential type
-     * @throws DoesNotExistException credentialTypeKey not found
-     * @throws InvalidParameterException invalid credentialTypeKey
-     * @throws MissingParameterException missing credentialTypeKey
+     * @throws DoesNotExistException resultTypeKey not found
+     * @throws InvalidParameterException invalid resultTypeKey
+     * @throws MissingParameterException missing resultTypeKey
      * @throws OperationFailedException unable to complete request
 	 */
     public ResultValueGroupTypeInfo getResultType(@WebParam(name="resultTypeKey")String resultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;

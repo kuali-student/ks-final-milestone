@@ -3,10 +3,10 @@ package org.kuali.student.r2.lum.classI.lrc;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.Type;
 
 
-public interface ResultValueGroupType extends Type, Serializable {
+
+public interface ResultValueGroupType extends Serializable {
 	
 	/**
 	 * Date and time that this result component type became effective. This is a

@@ -5,10 +5,7 @@ import java.util.Date;
 
 
 public interface ResultOption extends Serializable {
-	/**
-	 * Narrative description of the result option.
-	 */
-	public String getDesc();
+	
 
 	/**
 	 * Unique identifier for a result usage type.
@@ -37,14 +34,7 @@ public interface ResultOption extends Serializable {
 	 */
 	public Date getExpirationDate();
 
-	/**
-	 * The current status of the result option. The values for this field are
-	 * constrained to those in the resultOptionState enumeration. A separate
-	 * setup operation does not exist for retrieval of the meta data around this
-	 * value.
-	 */
-	public String getState();
-
+	
 	/**
 	 * Unique identifier for a result option. This is optional, due to the
 	 * identifier being set at the time of creation. Once the result option has

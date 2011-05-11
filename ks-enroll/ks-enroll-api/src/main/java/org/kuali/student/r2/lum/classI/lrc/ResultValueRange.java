@@ -7,13 +7,6 @@ public interface ResultValueRange extends Serializable{
 	
 
 	/**
-	 * Result Value Range Name string Name of the result value range. This is
-	 * likely related to the resultTypeKey, value and/or scale, but this is not
-	 * required.
-	 */
-	public String getName();
-	
-	/**
 	 * Min Result Value string Lower end of the value range. Typically
 	 * corresponds with the short coded form of the result(ex. "1.0", "25.0"
 	 * etc.) Should the data resultTypeKey of values (min/max) be numbers and

@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.classI.lrc.ResultValueGroup;
@@ -35,17 +36,12 @@ import org.kuali.student.r2.lum.classI.lrc.ResultValueGroupType;
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ResultValueGroupInfo extends KeyEntityInfo implements
-		ResultValueGroup {
+@XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "resultValues", "type",
+		"effectiveDate", "expirationDate", "id", "metaInfo", "attributes" })
+public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGroup {
 
 	private static final long serialVersionUID = 1L;
-
-	@XmlElement
-	private String name;
-
-	@XmlElement
-	private String desc;
 
 	@XmlElement
 	private List<String> resultValues;
@@ -66,12 +62,9 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 
 	}
 
-	public ResultValueGroupInfo(String id, String name, String desc,
-			List<String> resultValues, Date effectiveDate, Date expirationDate,
+	public ResultValueGroupInfo(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
 			ResultValueGroupType type) {
-
-		this.name = name;
-		this.desc = desc;
+		super();
 		this.resultValues = resultValues;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
@@ -82,34 +75,12 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 	public static ResultValueGroupInfo createNewResultValueGroupInfoFromResultValueGroupInfo(
 			ResultValueGroupInfo resultValueGroupInfo) {
 		return new ResultValueGroupInfo(resultValueGroupInfo.getId(),
-				resultValueGroupInfo.getName(), resultValueGroupInfo.getDesc(),
 				resultValueGroupInfo.getResultValues(),
 				resultValueGroupInfo.getEffectiveDate(),
 				resultValueGroupInfo.getExpirationDate(),
 				resultValueGroupInfo.getType());
 	}
 
-	/**
-	 * Friendly name of the result component
-	 */
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Narrative description of the result component
-	 */
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
 
 	/**
 	 * List of result values
