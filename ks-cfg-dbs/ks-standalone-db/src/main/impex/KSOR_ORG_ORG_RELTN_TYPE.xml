@@ -60,6 +60,14 @@
         TYPE_DESC="The headquarters of an administrative office for a larger division"
         TYPE_KEY="kuali.org.HQ" VER_NBR="0"/>
     <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="is Curriculum Parent of"
+        OBJ_ID="A301B7CC05B234DCE040C60AF05B101A"
+        ORG_HIRCHY="kuali.org.hierarchy.Curriculum"
+        REV_DESCR="Indicates that this organization is the Child of another organization in the Curriculum Hierarchy"
+        REV_NAME="is Curriculum Child of"
+        TYPE_DESC="Indicates that this organization is the Parent of another organization in the Curriculum Hierarchy"
+        TYPE_KEY="kuali.org.Parent2CurriculumChild" VER_NBR="0"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
         NAME="has Subcommittee of"
         OBJ_ID="E31F023B1587468C8CB9D959CDFA6452"
         ORG_HIRCHY="kuali.org.hierarchy.Main"
