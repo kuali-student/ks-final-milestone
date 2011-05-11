@@ -159,7 +159,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {	
 		String dtoState = (String)filterProperties.get(DtoConstants.DTO_STATE);
-		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), dtoState);
+		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
+		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), dtoState, nextState);
 				
 		Map<String, Metadata> properties = metadata.getProperties();
 		properties.put("proposal", proposalMetadata);		
