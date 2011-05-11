@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.classI.atp.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,11 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.classI.atp.infc.Atp;
+import org.kuali.student.r2.core.classI.atp.infc.AtpAtpRelation;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN")
@@ -47,6 +53,23 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     @OneToMany(cascade = CascadeType.ALL)
     private List<AtpAtpRelationAttributeEntity> attributes;
 
+   public AtpAtpRelationEntity(){}
+    
+    public AtpAtpRelationEntity(AtpAtpRelation atpAtpRelation){
+        this.setAtpKey(atpKey);
+        this.setAtpAtpRelationType(atpAtpRelationType);
+        this.setAtpState(atpState);
+        this.setRelatedAtpKey(relatedAtpKey);
+        this.setEffectiveDate(effectiveDate);
+        this.setExpirationDate(expirationDate);
+        
+        this.setAttributes(new ArrayList<AtpAtpRelationAttributeEntity>());
+        if (null != atpAtpRelation.getAttributes()) {
+            for (Attribute att : atpAtpRelation.getAttributes()) {
+                this.getAttributes().add(new AtpAtpRelationAttributeEntity(att));
+            }
+        }
+    }
     
     public AtpEntity getAtpKey() {
         return atpKey;
@@ -107,4 +130,24 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         return attributes;
     }
 
+    public AtpAtpRelationInfo toDto() {
+        AtpAtpRelationInfo.Builder builder = new AtpAtpRelationInfo.Builder();
+        builder.setAtpKey(atpKey.getId());
+        builder.setRelatedAtpKey(relatedAtpKey.getId());
+        builder.setEffectiveDate(effectiveDate);
+        builder.setExpirationDate(expirationDate);
+        builder.setStateKey(atpState.getId());
+        builder.setTypeKey(atpAtpRelationType.getId());
+        builder.setMetaInfo(super.toDTO());
+        
+        List<Attribute> atts = new ArrayList<Attribute>();
+        for (AtpAtpRelationAttributeEntity att : getAttributes()) {
+            Attribute attInfo = att.toDto();
+            atts.add(attInfo);
+        }
+        builder.setAttributes(atts);
+        
+        AtpAtpRelationInfo info = builder.build();
+        return info;
+    }
 }

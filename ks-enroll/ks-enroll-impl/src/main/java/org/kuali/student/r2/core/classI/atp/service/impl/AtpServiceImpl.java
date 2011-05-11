@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.classI.atp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationDao;
+import org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationTypeDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpRichTextDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpStateDao;
@@ -29,6 +32,7 @@ import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.classI.atp.service.AtpService;
@@ -42,6 +46,8 @@ public class AtpServiceImpl implements AtpService{
     private AtpTypeDao atpTypeDao;
     private AtpStateDao atpStateDao;
     private AtpRichTextDao atpRichTextDao;
+    private AtpAtpRelationDao atpRelDao;
+    private AtpAtpRelationTypeDao atpRelTypeDao;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -73,6 +79,23 @@ public class AtpServiceImpl implements AtpService{
 
     public void setAtpRichTextDao(AtpRichTextDao atpRichTextDao) {
         this.atpRichTextDao = atpRichTextDao;
+    }
+
+    
+    public AtpAtpRelationDao getAtpRelDao() {
+        return atpRelDao;
+    }
+
+    public void setAtpRelDao(AtpAtpRelationDao atpRelDao) {
+        this.atpRelDao = atpRelDao;
+    }
+
+    public AtpAtpRelationTypeDao getAtpRelTypeDao() {
+        return atpRelTypeDao;
+    }
+
+    public void setAtpRelTypeDao(AtpAtpRelationTypeDao atpRelTypeDao) {
+        this.atpRelTypeDao = atpRelTypeDao;
     }
 
     @Override
@@ -366,8 +389,15 @@ public class AtpServiceImpl implements AtpService{
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<AtpAtpRelationEntity> relEntities = atpRelDao.getAtpAtpRelationsByAtp(atpKey);
+        List<AtpAtpRelationInfo> relInfos = new ArrayList<AtpAtpRelationInfo>();
+        for(AtpAtpRelationEntity relEntity : relEntities){
+            AtpAtpRelationInfo relInfo = relEntity.toDto();
+            relInfos.add(relInfo);
+        }
+        
+        return relInfos;
     }
 
     @Override
@@ -379,26 +409,61 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional(readOnly=false)
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
+        if (null != atpAtpRelationInfo.getStateKey()) {
+            atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+        }
+        if (null != atpAtpRelationInfo.getTypeKey()) {
+            atpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+        }
+        if (null != atpAtpRelationInfo.getAtpKey()) {
+            atpRel.setAtpKey(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+        }
+        if(null != atpAtpRelationInfo.getRelatedAtpKey()) {
+            atpRel.setRelatedAtpKey(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+        }
+               
+        atpRelDao.persist(atpRel);
+        
+        return atpAtpRelationInfo;
+
     }
 
     @Override
+    @Transactional(readOnly=false)
     public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
+        if( null != atpRel){
+            atpRelDao.update(new AtpAtpRelationEntity(atpAtpRelationInfo));
+        }
+        else
+            throw new DoesNotExistException(atpAtpRelationId);
+        return atpAtpRelationInfo;
     }
 
     @Override
+    @Transactional(readOnly=false)
     public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        StatusInfo.Builder bldr = new StatusInfo.Builder();
+        bldr.setSuccess(Boolean.TRUE);
+        
+        AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
+        if (atpRel != null)
+            atpRelDao.remove(atpRel);
+        else
+            bldr.setSuccess(Boolean.FALSE);
+        
+        return bldr.build();
     }
 
     @Override

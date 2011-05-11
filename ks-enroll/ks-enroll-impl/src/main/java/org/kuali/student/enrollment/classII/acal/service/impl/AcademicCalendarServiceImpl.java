@@ -84,7 +84,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
+        AtpInfo atp = atpService.getAtp(academicCalendarKey, context);
+        //TODO: convert AtpInfo to AcademicCalendarInfo
         return null;
     }
 
@@ -155,7 +156,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         } catch (DoesNotExistException e1) {
             atpService.createAtp(academicCalendarKey, atp, context);
         }
-        
+       
         return academicCalendarInfo;
     }
 
@@ -163,6 +164,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException{
+        
+        
         AtpInfo.Builder atp = new AtpInfo.Builder();
         //TODO: check key existence, if exist, updateAtp
         atp.setKey(academicCalendarKey);
@@ -245,8 +248,25 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public StatusInfo deleteAcademicCalendar(String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        StatusInfo.Builder bldr = new StatusInfo.Builder();
+        bldr.setSuccess(Boolean.TRUE);
+        
+         AtpInfo atp =  atpService.getAtp(academicCalendarKey, context);
+            
+           if(atp != null){
+               //delete atp/acal
+               atpService.deleteAtp(academicCalendarKey, context);
+               
+               //delete atpatpRelation
+               List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
+               
+               for(AtpAtpRelationInfo atpRelInfo : atpRels){
+                       atpService.deleteAtpAtpRelation(atpRelInfo.getId(), context);
+               }              
+           }
+        
+        return bldr.build();
     }
 
     @Override
