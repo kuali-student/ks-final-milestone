@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
@@ -49,8 +50,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
         create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
-        create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-        create.addNavLinkWidget("Create a Course (Admin)", AppLocations.Locations.COURSE_ADMIN.getLocation());        
+        create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());        
 
 
         //View + Modify
@@ -223,7 +223,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", "Start a blank proposal");
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy an approved course");
 	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy a proposed course");
-
+	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
 						if(event.getValue()){
@@ -259,17 +259,29 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 					}
 	            });
 	            
+	            //FIXME: This should check permissions for admin functionality rather than just admin user
+	            final KSCheckBox adminOptionCheckbox = new KSCheckBox("Use curriculum review process for the course");
+	            if ("admin".equals(Application.getApplicationContext().getUserId())){
+	            	adminOptionCheckbox.setValue(false);
+	            	adminOptionCheckbox.setVisible(true);
+	            } else {
+	            	adminOptionCheckbox.setValue(true);
+	            	adminOptionCheckbox.setVisible(false);	            	
+	            }
 	            
 	            layout.add(radioOptionBlank);
 	            layout.add(radioOptionCopyCourse);
 	            layout.add(copyCourseSearchPanel);
 	            layout.add(radioOptionCopyProposal);
 	            layout.add(copyProposalSearchPanel);
+	            layout.add(adminOptionCheckbox);
 	            
 	            startProposalButton.addClickHandler(new ClickHandler(){
 					public void onClick(ClickEvent event) {
-						if(radioOptionBlank.getValue()){
+						if(radioOptionBlank.getValue() && adminOptionCheckbox.getValue()){
 							Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());
+						} else if (radioOptionBlank.getValue()){
+							Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());
 						}else if(radioOptionCopyCourse.getValue()){
 		                    ViewContext viewContext = new ViewContext();
 		                    viewContext.setId(copyCourseSearchPanel.getValue());
