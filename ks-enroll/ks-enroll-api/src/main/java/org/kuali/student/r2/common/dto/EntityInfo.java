@@ -79,7 +79,7 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         return descr;
     }
 
-    @Override
+   
     public void setDescr(RichText descr) {
         this.descr = RichTextInfo.getInstance(descr);
     }

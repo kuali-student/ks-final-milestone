@@ -91,7 +91,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		}
 		return resultValues;
 	}
-
+	
 	public void setResultValues(List<String> resultValues) {
 		this.resultValues = resultValues;
 	}

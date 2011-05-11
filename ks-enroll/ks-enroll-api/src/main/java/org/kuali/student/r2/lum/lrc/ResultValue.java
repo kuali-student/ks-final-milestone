@@ -4,21 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
 import org.w3c.dom.Element;
 
 /**
  * @author sambit
  */
 
-public interface ResultValue extends KeyEntity, Serializable {
+public interface ResultValue extends Serializable {
 
-	/**
-	 * Result Value Name string Name of the result value. This is likely related
-	 * to the type, value and/or scale, but this is not required.
-	 */
-	public String getName();
-
+	public String getId();
+	
 	/**
 	 * Result Value string Value of the result. Typically corresponds with the
 	 * short coded form of the result(ex. "A", "4.0", "97.0", "B.S" etc.)
@@ -50,9 +45,14 @@ public interface ResultValue extends KeyEntity, Serializable {
 	 * date.
 	 */
 	public Date getExpirationDate();
-
+	
+	
+	public ResultValueGroup getResultValueGroup();
+	
 	public List<Element> get_futureElements();
 
-	public String getId();
+	
+
+
 
 }
