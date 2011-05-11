@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.2-M2-SNAPSHOT</version>
+    <version>1.2-M3-SNAPSHOT</version>
   </parent>
   <artifactId>ks-rice-db</artifactId>
   <name>KS Rice Impex</name>
