@@ -328,6 +328,11 @@
         OBJ_ID="6aab1ff7-b0c5-4255-b0cd-5ff9f3351c13"
         SHRT_NAME="ADV LAW ENFOR ADMN" ST="Superseded" SUFX_CD="444"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="HIST313" DIV="HIST"
+        ID="14ea3c44-eebd-433c-950d-e5e28b4086a2"
+        OBJ_ID="39d81a90-eb79-4e87-9850-3075e076ddfa" ST="Active"
+        SUFX_CD="313"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="BSCI483" DIV="BSCI"
         ID="15853b69-da89-4ee5-a530-f4b601bd4720"
         LNG_NAME="Medical and Veterinary Entomology" LVL="400"
@@ -2794,6 +2799,16 @@
         OBJ_ID="2142522a-d091-4afe-90d0-697ac96d868b"
         SHRT_NAME="AP French Language" ST="Active" SUFX_CD="FRENCH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="AASP234" DIV="AASP"
+        ID="a8dff7a1-6773-46d6-9e0d-393111067efc"
+        OBJ_ID="45fe58cf-7e39-4c19-be2e-ff500798f27a" ST="Active"
+        SUFX_CD="234"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="5"/>
+    <KSLU_CLU_IDENT CD="AASP122" DIV="AASP"
+        ID="a8dff7a1-6773-46d6-9e0d-393111067efd"
+        OBJ_ID="45fe58cf-7e39-4c19-be2e-ff500798f279" ST="Active"
+        SUFX_CD="122"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="CHEM271" DIV="CHEM"
         ID="a9676c5a-9b0e-4403-a164-9997a7bee8a2"
         LNG_NAME="General Chemistry and Energetics" LVL="200"

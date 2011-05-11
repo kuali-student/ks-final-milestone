@@ -8,6 +8,12 @@
         OBJ_ID="26674089-c501-4473-96d8-42072bea3046" REUSABLE="1"
         RT_DESCR_ID="ae3da6d2-0a07-430d-ba13-45e6eae541b7" ST="active"
         TYPE="kuali.cluSet.type.Test" UPDATETIME="20101210172149" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="00ad0bf1-6891-4408-8700-d0c10759d47a" NAME="AdHock"
+        OBJ_ID="efa546b2-1f14-4c0c-aa42-fe4a85b97d67" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATETIME="20101210172146" EFF_DT="20000101000000"
         ID="01b9897c-5624-4cb4-82b4-0b078de83c7f" NAME="SAT Composite"
         OBJ_ID="39d54598-c016-4330-97a2-7ad7abff2b70" REUSABLE="1"
@@ -48,6 +54,12 @@
         OBJ_ID="ce7c3f12-1b26-4e21-877e-050fd3a81335" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Program"
         UPDATEID="earl" UPDATETIME="20101214102414" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="08cae8cc-86af-41b5-a332-5e3b9d3cf19d" NAME="AdHock"
+        OBJ_ID="b04ab41e-bd42-41f0-8197-724c831614e5" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATEID="earl" CREATETIME="20101213153325"
         EFF_DT="22000101040000"
         ID="0a356612-4639-442e-9789-ab78cc6c2b55" NAME="AdHock"
@@ -98,6 +110,12 @@
         REUSABLE="1" RT_DESCR_ID="b179a70e-996b-4245-b98e-9bcdb7b6f9d0"
         ST="active" TYPE="kuali.cluSet.type.CreditCourse"
         UPDATEID="admin" UPDATETIME="20101213104928" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="12ff806e-938c-4f2a-977b-cb2dabea78f7" NAME="AdHock"
+        OBJ_ID="71a95a16-b5c0-47ee-a1e7-f5d926e2a47d" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATETIME="20101210172147" EFF_DT="20000101000000"
         ID="131bf78e-2769-4ecd-8d19-45199b945fd5"
         NAME="AP German Language"
@@ -163,6 +181,12 @@
         OBJ_ID="e861eed7-c30d-4dae-8b20-efb59d065276" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
         UPDATEID="admin" UPDATETIME="20101213144001" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="1ea8dd3b-669c-4ab6-948d-dfb511f89815" NAME="AdHock"
+        OBJ_ID="c14f8e08-80ca-44b7-b258-b6adfaa6d738" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATEID="admin" CREATETIME="20101213165234"
         EFF_DT="22000101010000"
         ID="1f65d236-a417-4696-999d-1c4738a11c21" NAME="AdHock"
@@ -568,6 +592,12 @@
         OBJ_ID="f62fd01f-6356-4b8d-97d6-3c8ab8415627" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
         UPDATEID="admin" UPDATETIME="20101214095804" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="6037ecc6-3746-4aee-9c0b-a198d6f0684d" NAME="AdHock"
+        OBJ_ID="50451597-52cc-4ae7-a66c-3628c233e16f" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATEID="admin" CREATETIME="20101214102758"
         EFF_DT="22000101010000"
         ID="60ba3f8e-d7fd-4d2e-86b0-78cfaacfae4c" NAME="AdHock"
@@ -626,6 +656,12 @@
         OBJ_ID="22de9933-eb84-4268-b9d4-6cab617c6b57" REUSABLE="1"
         RT_DESCR_ID="9c449e31-06dc-4ac7-8b6c-32bef19259a1" ST="active"
         TYPE="kuali.cluSet.type.Test" UPDATETIME="20101210172149" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="6a7bfd53-54df-4c0c-ba89-f81d539d5cda" NAME="AdHock"
+        OBJ_ID="7e19492c-aeb9-4155-a407-8dead612f686" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATETIME="20101210172149" EFF_DT="20000101000000"
         ID="6ad4ff3f-5910-4bff-a1d6-28bb9174bd5e"
         NAME="GRE Subject Test in Enconomics"
@@ -686,6 +722,12 @@
         OBJ_ID="6f48c071-e5e8-4ec6-a07b-8efa5de958ff" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
         UPDATEID="earl" UPDATETIME="20101213205841" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="750ae9d6-f65a-4af1-b101-a79f81338c45" NAME="AdHock"
+        OBJ_ID="2d5a5f52-6268-42d8-bd72-05e9e2c39c90" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATEID="admin" CREATETIME="20101214113959"
         EFF_DT="22000101010000"
         ID="7560ec21-2025-47b8-810d-50f2062f0a30" NAME="AdHock"
@@ -1084,6 +1126,12 @@
         OBJ_ID="81c880c2-3e04-4c92-84d9-febbbd86f688" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
         UPDATEID="admin" UPDATETIME="20101213214434" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="bb33b0a4-289e-4589-b63e-e08186781c36" NAME="AdHock"
+        OBJ_ID="b1d91293-dc60-4576-9fdc-33890ecdac82" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATETIME="20101210172148" EFF_DT="20000101000000"
         ID="bc39582d-9231-4eba-af35-b2ccdfa78c75" NAME="AP U.S. History"
         OBJ_ID="05e1c679-3071-4062-825a-c9697ab22622" REUSABLE="1"
@@ -1145,6 +1193,12 @@
         OBJ_ID="19908f12-2165-4de1-b1e7-ed330281f766" REFERENCEABLE="0"
         REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Program"
         UPDATEID="earl" UPDATETIME="20101214102301" VER_NBR="0"/>
+    <KSLU_CLU_SET CREATEID="admin" CREATETIME="20110420000000"
+        EFF_DT="22000101000000"
+        ID="c6d4d85b-7a71-4fee-826a-52e497a1b201" NAME="AdHock"
+        OBJ_ID="77a7505d-ccb8-4e19-8c94-e5fd269c061f" REFERENCEABLE="0"
+        REUSABLE="0" ST="active" TYPE="kuali.cluSet.type.Course"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSLU_CLU_SET CREATETIME="20101210172150" EFF_DT="20000101000000"
         ID="c75db49c-f6be-4eff-a7ca-6c2663465055"
         NAME="GRE Subject Test in Political Science"

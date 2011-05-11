@@ -50,6 +50,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="29126ab8-1f52-446f-9a40-1e590b64c1a2" UPDATEID="admin"
         UPDATETIME="20101214100026" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="0c5f0a99-bb9b-4ca2-9524-96e2bf783dcc"
+        OBJ_ID="078d8dcc-eae5-4175-8451-100e94ccf413"
+        REF_OBJ_ID="REFERENCECOURSEMATH113"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="3bca92da-8ead-4779-8089-0447b337b0e7" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214113623"
         ID="0c982169-d356-48c7-b884-5ad8cd67f359"
         OBJ_ID="a9a85cd2-b0a0-49d1-97f9-352b735e78ca"
@@ -122,6 +130,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="70ef9638-efb1-4e67-b4b9-bb67d8e2289c" UPDATEID="earl"
         UPDATETIME="20101213194445" VER_NBR="1"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="1b8e9711-9d8a-4198-8c23-a0ab2804b248"
+        OBJ_ID="9781b969-2dc9-4341-a1e1-90e353af0b1c"
+        REF_OBJ_ID="REFERENCECOURSEMATH140"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="5472d9fe-0bbb-4070-84e2-190014d73495" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214092710"
         ID="1e6fcb63-1550-4ee1-a6cd-314497f7021c"
         OBJ_ID="2a8b9c4c-8407-47b0-a663-aa12e7251590"
@@ -458,6 +474,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="eae5ec9d-bbbf-4218-a4e3-62fd7b4dd55b" UPDATEID="earl"
         UPDATETIME="20101213154633" VER_NBR="1"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="5fe401fb-609e-4fbf-a358-bfe01e87b76f"
+        OBJ_ID="064cfc49-0c50-4f38-9220-2f2625c1d5e8"
+        REF_OBJ_ID="REFERENCECOURSEMATH220"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="9062f9ec-aab0-4955-b4b7-0f029ba3e0e5" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101213160351"
         ID="60fc9893-96c1-4195-a7c1-555e66cda04d"
         OBJ_ID="ca767045-b316-4360-a6fb-2010194a2d0d"
@@ -586,6 +610,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="003bf11b-543d-4828-8c9f-355b932e43e9" UPDATEID="admin"
         UPDATETIME="20101214093706" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="779ce664-190e-4c0b-b68a-1cbeba3e18d7"
+        OBJ_ID="2ac1362e-d682-4ce8-9a33-fb8addc47a7c"
+        REF_OBJ_ID="REFERENCECOURSEMATH115"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="90500693-ca86-4543-8b26-0bd42449d900" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101213183527"
         ID="79700d3f-a82a-44a5-bb89-2dce00f2462f"
         OBJ_ID="28631977-eaa5-44ce-8c03-f3879d864348"
@@ -642,6 +674,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="7ecafd83-b39b-4da4-ba91-32b94bfcc111" UPDATEID="admin"
         UPDATETIME="20101213155800" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="8057355e-324d-4931-8da9-95b667f45db5"
+        OBJ_ID="f357f9fa-f583-482e-aeab-0562455201aa"
+        REF_OBJ_ID="REFERENCECOURSEMATH110"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="0046913f-a3d3-4280-afe4-6cfc2d909892" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101213170800"
         ID="84d26012-ccc7-4ea6-920b-cfa6ef0d3238"
         OBJ_ID="75c346db-3d50-4bbe-a676-a8db04eb3011"
@@ -770,6 +810,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="51ebad33-a8f5-4e06-b187-9e8c47ab938f" UPDATEID="admin"
         UPDATETIME="20101213163737" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="9533f999-7aa6-40d2-8356-d3c979b44fc5"
+        OBJ_ID="f43ef1dd-a064-484d-8f3f-9926531cf36e"
+        REF_OBJ_ID="7740bb42-fd33-48cf-bbb0-854c4f8d673c"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="bc96e55f-24f8-4e89-8915-3e6cb3578cf4" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101213183733"
         ID="966d681c-790a-4e78-b2f1-4b1283d966b1"
         OBJ_ID="86dc1c63-ba84-450c-91e0-b687508cf19d"
@@ -850,6 +898,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="ba8398a2-77e8-493f-adee-d1f1532e617c" UPDATEID="admin"
         UPDATETIME="20101214091958" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="acf1e72b-56ff-4d70-ab77-0db2df3a3c53"
+        OBJ_ID="4e252f2b-dc57-4eab-b996-979573fb58fe"
+        REF_OBJ_ID="REFERENCECOURSEMATH130"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="5010fb83-97e6-423e-834e-bd7d1293e43d" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214092757"
         ID="b15cbe58-f1b1-4eb7-ae51-24a437b58b0d"
         OBJ_ID="2b83b9d4-bcd4-418e-97fc-f714ffec076d"
@@ -898,6 +954,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="89a0c93f-05bd-4cfb-90b9-24cfb3700b85" UPDATEID="admin"
         UPDATETIME="20101214095610" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="b85eb0fb-ea9b-4e4e-aafe-e431c540a64f"
+        OBJ_ID="f90733a6-6a63-47b1-b475-fc3dbaf7882d"
+        REF_OBJ_ID="REFERENCECOURSEMATH112"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="e234d801-af40-415a-97d4-df684d117f85" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214111142"
         ID="b92083ea-5d82-4e32-9a93-337df7cf14f4"
         OBJ_ID="cc26f0b2-bdef-4767-809d-4c16e28d847c"
@@ -954,6 +1018,14 @@
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="c78efd2b-bf71-44f3-a999-ad1f49ffb460" UPDATEID="admin"
         UPDATETIME="20101213134655" VER_NBR="0"/>
+    <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20110420000000"
+        ID="c98c8a1e-4cde-45fd-b5a2-ece326aca8e8"
+        OBJ_ID="cbd4c3ef-0f67-417a-afe6-00952c65b924"
+        REF_OBJ_ID="aefb4696-2dae-4b9e-b494-99db7bfe71d9"
+        REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+        REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
+        STMT_ID="a250038b-9fa3-4945-9ac3-b2fb8ba535f5" UPDATEID="admin"
+        UPDATETIME="20110420000000" VER_NBR="0"/>
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214095452"
         ID="ca5f34ee-31e1-44a0-91d2-e07ef8ec159e"
         OBJ_ID="78bf77ee-f851-4a29-85e0-45ae30891e8b"

@@ -8,6 +8,12 @@
         RT_DESCR_ID="72791a1b-09e1-4b34-8256-0e0725bec875" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         UPDATEID="admin" UPDATETIME="20101214093706" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="0046913f-a3d3-4280-afe4-6cfc2d909892"
+        OBJ_ID="706dbe87-29f9-45b9-b061-07eae67d7e68" OPERATOR="AND"
+        RT_DESCR_ID="f4970695-88fa-4023-a4da-b85029f07f0c" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101213160351"
         ID="005e98d1-aa7a-4778-b3b2-1863afcf84fe"
         OBJ_ID="e9766892-b49d-441e-b73c-366cd2c1ae10" OPERATOR="AND"
@@ -122,6 +128,12 @@
         ST="Active"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         UPDATEID="admin" UPDATETIME="20101214084153" VER_NBR="2"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="1c46c811-3234-48e0-a35a-8a79ad34076b"
+        OBJ_ID="c74ef46c-894b-4d1b-a859-9352de6b769a" OPERATOR="AND"
+        RT_DESCR_ID="c9061b10-bd41-4df2-9532-b3240377b4de" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101213144103"
         ID="206cfe3e-b2ab-4901-ad12-3348722ba896"
         OBJ_ID="2c56f3ea-6364-42b6-b492-2fdced9c93d9" OPERATOR="AND"
@@ -236,6 +248,12 @@
         RT_DESCR_ID="bda2126e-8484-49ff-8946-261562044918" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         UPDATEID="admin" UPDATETIME="20101214091854" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="3bca92da-8ead-4779-8089-0447b337b0e7"
+        OBJ_ID="299cbf6a-685e-4c0c-9b83-79adfec26d20" OPERATOR="AND"
+        RT_DESCR_ID="7df89324-42c7-4763-b905-0f536d684eee" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101214095500"
         ID="3bcc2613-6561-499d-83bf-808c02123625"
         OBJ_ID="6f4115bb-6754-4e4a-938e-4edce29de9ed" OPERATOR="AND"
@@ -332,6 +350,12 @@
         RT_DESCR_ID="44852348-87cd-4af1-ab18-f9a5e7cf50d4" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress"
         UPDATEID="earl" UPDATETIME="20101213214938" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="5010fb83-97e6-423e-834e-bd7d1293e43d"
+        OBJ_ID="82dda6a9-96ec-444e-b10f-c9b7de7d3cb2" OPERATOR="AND"
+        RT_DESCR_ID="f7f5ed64-4cbf-4da7-8ac9-c27e22553313" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101214102802"
         ID="507c5e1b-c948-49cd-b5cc-62684c043b67"
         OBJ_ID="50561c30-b030-4280-81e1-13678ef1052e" OPERATOR="AND"
@@ -362,6 +386,12 @@
         RT_DESCR_ID="e6f100f1-a467-461d-b1fb-7af114c90963" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         UPDATEID="admin" UPDATETIME="20101214113835" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="5472d9fe-0bbb-4070-84e2-190014d73495"
+        OBJ_ID="5b2110e7-7968-4842-a287-9e4617b087d4" OPERATOR="AND"
+        RT_DESCR_ID="174ab86a-851d-4e4b-bb7c-32921f9e0ed5" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101214101508"
         ID="583bae69-518e-4f2b-8815-c72fa6059f96"
         OBJ_ID="0d079641-d037-4672-aceb-f08a1392730b" OPERATOR="AND"
@@ -560,6 +590,18 @@
         RT_DESCR_ID="ecdf6fd8-df4b-4860-a1d3-b0983b81fac4" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.program.completion"
         UPDATEID="admin" UPDATETIME="20101213095820" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="90500693-ca86-4543-8b26-0bd42449d900"
+        OBJ_ID="2819e8e3-b9bc-47ad-9dc5-a918f3f5b3c3" OPERATOR="AND"
+        RT_DESCR_ID="ac4e66ce-5da7-45af-95f2-eeac502c2957" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="9062f9ec-aab0-4955-b4b7-0f029ba3e0e5"
+        OBJ_ID="28806242-06c2-4e12-865e-4e14bac834a0" OPERATOR="AND"
+        RT_DESCR_ID="ff49ea51-2edc-4c52-bf44-2c404149cf0f" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101213113126"
         ID="90e70880-47dc-4ae1-bcb0-d1a121c3d2fa"
         OBJ_ID="5f12bb91-a26c-431e-aa52-4077e507906f" OPERATOR="AND"
@@ -638,6 +680,12 @@
         RT_DESCR_ID="baac8795-4880-4abf-8fc6-07275556fdec" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.program.completion"
         UPDATEID="fred" UPDATETIME="20101213151945" VER_NBR="2"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="a250038b-9fa3-4945-9ac3-b2fb8ba535f5"
+        OBJ_ID="1052bce7-a1cd-4515-ae5c-c00db0a2ee60" OPERATOR="AND"
+        RT_DESCR_ID="68f5bd77-4948-47c9-970b-2f76029e4652" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101214110622"
         ID="a2ac65dc-72be-41fd-a0c9-441a5e3ac641"
         OBJ_ID="bfc9b310-f632-437d-853b-c85f2b198e64" OPERATOR="AND"
@@ -800,6 +848,12 @@
         RT_DESCR_ID="74e78bf4-1689-4882-858a-8e5278777417" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.program.completion"
         UPDATEID="earl" UPDATETIME="20101213151038" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="bc96e55f-24f8-4e89-8915-3e6cb3578cf4"
+        OBJ_ID="831e28ec-149e-498a-bcc6-b9347f7b0910" OPERATOR="AND"
+        RT_DESCR_ID="21d455bf-4845-42cc-915e-ce5abfcd9767" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="earl" CREATETIME="20101213154634"
         ID="be2f7061-0391-4a74-ac85-716312fc838e"
         OBJ_ID="3ae320d4-36b6-496c-a10c-c56fd0870525" OPERATOR="AND"
@@ -944,6 +998,12 @@
         RT_DESCR_ID="9ec3bbd9-09fd-4357-b529-53e8cf1234b8" ST="Active"
         STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         UPDATEID="admin" UPDATETIME="20101213171656" VER_NBR="1"/>
+    <KSST_STMT CREATEID="admin" CREATETIME="20110420000000"
+        ID="e234d801-af40-415a-97d4-df684d117f85"
+        OBJ_ID="8c8a95e0-3530-49b7-a98f-0c7d88fc9221" OPERATOR="AND"
+        RT_DESCR_ID="9149bb81-cda6-4800-b52a-2e7d76b8a94b" ST="Active"
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        UPDATEID="admin" UPDATETIME="20110420000000" VER_NBR="4"/>
     <KSST_STMT CREATEID="admin" CREATETIME="20101213215045"
         ID="e39d3424-8624-486e-a7ba-b97603dc99fc"
         OBJ_ID="43a94c5f-edd9-47f9-9d7f-cd2e7de9c8af" OPERATOR="AND"

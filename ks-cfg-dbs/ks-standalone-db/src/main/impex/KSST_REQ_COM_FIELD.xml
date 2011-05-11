@@ -146,6 +146,10 @@
         OBJ_ID="dedfdf71-8542-4616-af0e-f12fe1001c1a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
         VALUE="2572469d-c39c-4cf8-b2f7-41a9bb75757f" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="167ccec9-13f1-4876-9e75-0b86eb3d3b5f"
+        OBJ_ID="f32b764e-f31c-451c-9b69-af902da7ccbe"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="00ad0bf1-6891-4408-8700-d0c10759d47a" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="16aaa3e0-22ef-4ae2-9f97-8257a91d096b"
         OBJ_ID="d5e32f8a-a5b9-4600-b4d2-e2c9f8e2f753"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -266,6 +270,10 @@
         OBJ_ID="078a307d-8262-40e3-b2bb-3a02ff5f152b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
         VALUE="cfff5b07-4dd4-4ad8-8295-1bed0bd6648e" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="30b007e7-d7cc-4e73-aaff-1cbc1404f0a8"
+        OBJ_ID="fcfbc8c2-5db1-472e-9f65-32dd34f9b7bd"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
+        VALUE="1" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="31021082-c278-40cd-ab2d-0f4b7321ffcd"
         OBJ_ID="d62b08b8-2d9a-46e4-baf7-8d64e4d6c5ce"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -334,6 +342,10 @@
         OBJ_ID="d4895c5d-8737-4715-8ea1-6087db43f0ae"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
         VALUE="8df91968-9e50-4790-859c-996827130c8c" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="3d476905-34a8-44c3-b828-bfca9b738e1d"
+        OBJ_ID="abccd089-8d38-45cf-a2cd-bc1ad837c7bf"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="750ae9d6-f65a-4af1-b101-a79f81338c45" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="3dbe42ea-c93c-473b-b4d5-0ccdba5910f6"
         OBJ_ID="3ffb0a8c-5fd5-4326-9c8e-40b9bc810648"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -578,6 +590,10 @@
         OBJ_ID="d2fa2ff7-a090-491e-8d30-0901bbe2fcfc"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
         VALUE="12" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="6f07ef5c-a186-4bd3-8843-fb2dae9812ad"
+        OBJ_ID="fad03773-56bc-42e8-98a0-9d2a82f3a258"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="6037ecc6-3746-4aee-9c0b-a198d6f0684d" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="6febdca0-a8cc-4840-906b-e39fc9832524"
         OBJ_ID="73cb32ab-54fb-4a0f-9faa-9513ac6cf571"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.program.cluSet.id"
@@ -590,6 +606,10 @@
         OBJ_ID="df521056-4256-416b-9a89-6eba560a0d91"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
         VALUE="1" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="72b75bd3-02d0-4cab-96e3-caa7c4eb28b9"
+        OBJ_ID="81262de9-0230-478d-8147-25c305a6fdfc"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="12ff806e-938c-4f2a-977b-cb2dabea78f7" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="7352c5b4-5aee-4763-9ce8-9a454d608068"
         OBJ_ID="779b9ee9-5a8d-4619-8ee3-022f2d8ba256"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.gpa"
@@ -754,6 +774,10 @@
         OBJ_ID="42a43d26-ee61-4acf-84fa-4ec364ae3b8d"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
         VALUE="aff9dc05-bca3-435f-a65b-41b9e6845f71" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="89475ed3-3127-45f1-a285-22f58f654eed"
+        OBJ_ID="d7c3e214-d445-4058-a0fd-b300e7d4b9e5"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="08cae8cc-86af-41b5-a332-5e3b9d3cf19d" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="895f8711-d5d5-4f2c-a970-cda2ef7865a4"
         OBJ_ID="034514af-df2c-449b-b7d0-1be68e58715e"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -978,6 +1002,10 @@
         OBJ_ID="25f950fb-bad0-4ab3-be2c-957a6770b7f7"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
         VALUE="7a2da288-609f-488f-903f-489040a68325" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="aa4320ce-91b5-4275-bf86-f6ad5e79166b"
+        OBJ_ID="9bebcb91-00dd-4b89-96b0-41337b75bf8b"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="6a7bfd53-54df-4c0c-ba89-f81d539d5cda" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ac31ee94-6464-47b6-a79a-86baa43133d0"
         OBJ_ID="687f99d0-e889-4e31-8208-5083e92a72f9"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1182,6 +1210,10 @@
         OBJ_ID="79968239-d3bd-44f4-93de-fa587b9d2321"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
         VALUE="53" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="d1e6a1a0-37a5-4f06-b690-985af6377e37"
+        OBJ_ID="a9fc01e9-2434-4fc3-a15f-7ff057f7329a"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="1ea8dd3b-669c-4ab6-948d-dfb511f89815" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="d22eb9cc-b96c-4bbc-b333-29bb18799a86"
         OBJ_ID="ccd761c5-fd1f-4f43-b2ff-b1b6a6d99352"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1282,6 +1314,10 @@
         OBJ_ID="3314308f-23e8-4d14-9222-0c9b307bb6ee"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
         VALUE="1b262ae8-9d1f-4758-a943-db4f89b66587" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="e40ab432-0419-4222-8a10-96015754081c"
+        OBJ_ID="2066bc1b-63bf-484e-9bd5-c1240e1e1de2"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
+        VALUE="c4c52302-e533-4cb1-9cbd-1cd8bea58cf0" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="e5821f3f-e960-4c00-83f9-7c8227a06909"
         OBJ_ID="5fdfd98a-4768-477a-b8bb-082a71a6f0e3"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1342,6 +1378,10 @@
         OBJ_ID="0bb56a21-aac5-46b1-b5c5-511add84600b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
         VALUE="214" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="ec95f748-d2d3-48c9-a4d1-b85a59435b24"
+        OBJ_ID="724ef374-2324-4a16-b888-c604c9157a3a"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="bb33b0a4-289e-4589-b63e-e08186781c36" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ecd3ca07-4ceb-434c-adeb-e240dc3afb2b"
         OBJ_ID="466a6be8-775b-4721-97c6-a7c49fab2357"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1370,6 +1410,10 @@
         OBJ_ID="f2d290b5-e61d-48a1-9e50-ff12c3cd1357"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
         VALUE="60ba3f8e-d7fd-4d2e-86b0-78cfaacfae4c" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="ef3c3f58-e5f4-4af7-92de-11fefc14af72"
+        OBJ_ID="9883d4a0-16ca-47f1-8399-15e3f9a4e9a0"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
+        VALUE="1" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="efb2f86e-dc84-408b-82b8-735c643ed49a"
         OBJ_ID="b89c3083-8d3f-4a31-be24-78ef40f6c522"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1442,6 +1486,10 @@
         OBJ_ID="db78a13f-c1e8-4048-bbfa-2d04a0f8acda"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
         VALUE="C" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD ID="fcb93f49-2b32-4a63-acbc-64b5fa50b1dc"
+        OBJ_ID="54286d6d-2e82-49bd-98a7-f90232a01af6"
+        REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
+        VALUE="c6d4d85b-7a71-4fee-826a-52e497a1b201" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="fcf27d45-cf4c-41eb-9d46-caf203ab738d"
         OBJ_ID="5ca424eb-cc4d-4288-ad33-786bb7c65449"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"

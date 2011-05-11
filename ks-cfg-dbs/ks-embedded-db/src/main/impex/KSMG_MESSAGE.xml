@@ -1385,15 +1385,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A2F2AD62E3BFA02FE040C60AF05B610A" LOCALE="en"
+        ID="A30258224EA524C3E040C60AF05B1210" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A2F2AD62E3C0A02FE040C60AF05B610A" VER_NBR="1"/>
+        OBJ_ID="A30258224EA624C3E040C60AF05B1210" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A2F2AD62E3C1A02FE040C60AF05B610A" LOCALE="en"
+        ID="A30258224EA724C3E040C60AF05B1210" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A2F2AD62E3C2A02FE040C60AF05B610A" VER_NBR="1"/>
+        OBJ_ID="A30258224EA824C3E040C60AF05B1210" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
@@ -1544,6 +1544,10 @@
         ID="b07aa879-1323-4e4b-8ef6-d50b7cc5cf47" LOCALE="en"
         MSG_ID="cluCrosslistedItem" MSG_VALUE="Course Listing"
         OBJ_ID="466bdb41-04d5-451a-a744-4fb1be53802e" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="b07aa879-1323-4e4b-8ef6-d50b7cc5cf48" LOCALE="en"
+        MSG_ID="cluCopyItem" MSG_VALUE="Copy to a New Course Proposal"
+        OBJ_ID="466bdb41-04d5-451a-a744-4fb1be53802f" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="org"
         ID="b0d1bb46-d1ef-4290-9f57-df98ad56316b" LOCALE="en"
         MSG_ID="orgSearchAdvanced" MSG_VALUE="Advanced Search"
