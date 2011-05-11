@@ -18,10 +18,10 @@ import javax.persistence.TemporalType;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.classI.atp.infc.Atp;
-import org.kuali.student.r2.core.classI.atp.infc.AtpAtpRelation;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
+import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN")

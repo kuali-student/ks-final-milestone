@@ -24,7 +24,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <!-- AtpMilestoneRelationInfo-->
     <bean id="atpMilestoneRelationInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="atpMilestoneRelationInfo"/>
-        <property name="objectClass" value="org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo"/>
+        <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
         <property name="primaryKeys">

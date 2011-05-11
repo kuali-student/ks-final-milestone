@@ -15,8 +15,8 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.classI.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 
 /**
  * This is a description of what this class does - Kamal don't forget

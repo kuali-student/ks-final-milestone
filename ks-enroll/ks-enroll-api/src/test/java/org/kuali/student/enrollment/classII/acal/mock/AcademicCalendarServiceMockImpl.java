@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.acal.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.classII.acal.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.classII.acal.dto.TermInfo;
-import org.kuali.student.enrollment.classII.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -33,10 +33,10 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.classI.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.test.utilities.MockHelper;
 
 

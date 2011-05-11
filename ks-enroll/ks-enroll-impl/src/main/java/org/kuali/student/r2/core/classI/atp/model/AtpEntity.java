@@ -18,8 +18,8 @@ import javax.persistence.TemporalType;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.classI.atp.infc.Atp;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
 
 @Entity
 @Table(name = "KSEN_ATP")

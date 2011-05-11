@@ -23,7 +23,7 @@
 
     <bean id="luiPersonRelationInfo-parent" abstract="true" parent="dataObjectEntry">
 
-        <property name="objectClass" value="org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
         <property name="name" value="luiPersonRelationInfo"/>
         <property name="objectLabel" value="LPR"/>
         <property name="objectDescription" value="Learning Unit Instance Person Relationship"/>

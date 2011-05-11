@@ -14,9 +14,9 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.classI.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.classI.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.classI.hold.dto.RestrictionInfo;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 
 /**
  * This class holds the constants used by the Hold service

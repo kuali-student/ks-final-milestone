@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.classII.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.classII.acal.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.classII.acal.dto.TermInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
 public class TestServiceDictionaries {
 

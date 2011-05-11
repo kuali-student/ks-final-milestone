@@ -11,8 +11,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.classI.atp.service.AtpServiceDecorator;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator  implements HoldsValidator{
     private DataDictionaryValidator validator;

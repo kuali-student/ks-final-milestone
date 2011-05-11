@@ -32,11 +32,11 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
-import org.kuali.student.r2.core.classI.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.classI.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.test.utilities.MockHelper;
 
 /**

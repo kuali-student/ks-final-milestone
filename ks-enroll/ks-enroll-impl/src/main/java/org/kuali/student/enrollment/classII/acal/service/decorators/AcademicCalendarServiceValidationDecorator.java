@@ -2,8 +2,8 @@ package org.kuali.student.enrollment.classII.acal.service.decorators;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.classII.acal.service.AcademicCalendarServiceDecorator;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;

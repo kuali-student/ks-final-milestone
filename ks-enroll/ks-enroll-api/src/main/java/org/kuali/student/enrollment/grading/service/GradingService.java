@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.lum.classI.lrc.dto.ResultValueGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupInfo;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE.

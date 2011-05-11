@@ -24,7 +24,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <!-- AtpAtpRelationInfo-->
 <bean id="atpAtpRelationInfo-parent" abstract="true" parent="dataObjectEntry">
 <property name="name" value="atpAtpRelationInfo"/>
-<property name="objectClass" value="org.kuali.student.r2.core.classI.atp.dto.AtpAtpRelationInfo"/>
+<property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo"/>
 <property name="objectLabel" value=""/>
 <property name="objectDescription" value=""/>
 <property name="primaryKeys">

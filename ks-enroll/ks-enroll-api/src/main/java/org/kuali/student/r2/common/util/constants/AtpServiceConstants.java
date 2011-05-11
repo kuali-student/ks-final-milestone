@@ -16,7 +16,7 @@ package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.classI.atp.dto.AtpMilestoneRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 
 /**
  * This class holds the constants used by the ATP service

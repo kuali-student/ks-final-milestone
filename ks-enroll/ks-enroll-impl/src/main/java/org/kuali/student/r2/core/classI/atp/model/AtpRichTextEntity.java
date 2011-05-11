@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.RichTextEntity;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.core.classI.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 @Entity
 @Table(name = "KSEN_RICH_TEXT_T")

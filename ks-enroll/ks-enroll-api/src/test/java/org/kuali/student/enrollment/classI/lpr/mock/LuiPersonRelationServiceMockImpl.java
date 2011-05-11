@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.classI.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.classI.lui.service.LuiService;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser;

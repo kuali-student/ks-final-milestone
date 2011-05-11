@@ -17,8 +17,8 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.classI.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.classI.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;

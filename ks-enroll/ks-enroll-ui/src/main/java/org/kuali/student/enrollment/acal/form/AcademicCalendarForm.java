@@ -16,7 +16,7 @@ package org.kuali.student.enrollment.acal.form;
 
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
 
-import org.kuali.student.enrollment.classII.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
 
 public class AcademicCalendarForm extends UifFormBase {

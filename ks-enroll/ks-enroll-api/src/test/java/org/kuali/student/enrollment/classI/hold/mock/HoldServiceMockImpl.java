@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.kuali.student.enrollment.classI.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.classI.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.classI.hold.dto.RestrictionInfo;
-import org.kuali.student.enrollment.classI.hold.service.HoldService;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
+import org.kuali.student.enrollment.hold.service.HoldService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
