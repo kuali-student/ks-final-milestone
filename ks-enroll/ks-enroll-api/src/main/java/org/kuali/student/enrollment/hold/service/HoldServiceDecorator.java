@@ -257,6 +257,11 @@ public class HoldServiceDecorator implements HoldService {
     }
 
     @Override
+    public List<RestrictionInfo> getRestrictionsByIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getRestrictionsByIssue(issueId, context);
+    }
+
+    @Override
     public List<ValidationResultInfo> validateRestriction(String validationTypeKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	return getHoldService().validateRestriction(validationTypeKey, restrictionInfo, context);
     }

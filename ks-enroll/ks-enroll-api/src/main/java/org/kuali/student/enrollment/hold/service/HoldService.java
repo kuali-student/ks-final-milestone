@@ -616,6 +616,22 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
     public List<String> getRestrictionKeysByType(@WebParam(name = "restrictionTypeKey") String restrictionTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves a list Restrictions mapped to an Issue.
+     *
+     * @param issueId a unique Id of an Issue
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Restrictions
+     * @throws DoesNotExistException issueId does not exist
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RestrictionInfo> getRestrictionsByIssue(@WebParam(name = "issueId") String issueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Validates a restriction. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * object and its directly contained subobjects or expanded to
