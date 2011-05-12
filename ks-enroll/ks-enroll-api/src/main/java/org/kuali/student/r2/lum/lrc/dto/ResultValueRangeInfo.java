@@ -11,7 +11,7 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.lrc.ResultValueRange;
+import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
 @XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
 		"resultTypeKey", "minValue", "maxValue", "increment", "scaleKey",

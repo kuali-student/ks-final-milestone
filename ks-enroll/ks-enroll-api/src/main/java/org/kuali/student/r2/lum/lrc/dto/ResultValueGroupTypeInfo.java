@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.Type;
-import org.kuali.student.r2.lum.lrc.ResultValueGroupType;
+import org.kuali.student.r2.lum.lrc.infc.ResultValueGroupType;
 
 /**
  * Detailed information about a single result component type.

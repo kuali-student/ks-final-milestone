@@ -12,8 +12,8 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
-import org.kuali.student.r2.lum.lrc.ResultValue;
-import org.kuali.student.r2.lum.lrc.ResultValueGroup;
+import org.kuali.student.r2.lum.lrc.infc.ResultValue;
+import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
 @XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "effectiveDate", "expirationDate", "value",

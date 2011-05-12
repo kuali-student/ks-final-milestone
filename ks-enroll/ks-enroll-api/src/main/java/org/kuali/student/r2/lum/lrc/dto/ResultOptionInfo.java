@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.lrc.ResultOption;
+import org.kuali.student.r2.lum.lrc.infc.ResultOption;
 
 /**
  * Information about a result option.

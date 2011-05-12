@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.lum.lrc.ResultValueGroup;
-import org.kuali.student.r2.lum.lrc.ResultValueGroupType;
+import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
+import org.kuali.student.r2.lum.lrc.infc.ResultValueGroupType;
 
 /**
  * Detailed information about a result component.

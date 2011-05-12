@@ -1,4 +1,4 @@
-package org.kuali.student.r2.lum.lrc;
+package org.kuali.student.r2.lum.lrc.infc;
 
 import java.io.Serializable;
 import java.util.Date;
