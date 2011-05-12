@@ -388,6 +388,16 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
+	public List<RestrictionInfo> getRestrictionsByIssue(
+			String issueId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<String> getRestrictionKeysByType(String restrictionTypeKey,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
