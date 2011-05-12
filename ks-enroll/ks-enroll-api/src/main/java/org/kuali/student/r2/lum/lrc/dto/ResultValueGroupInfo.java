@@ -38,7 +38,7 @@ import org.kuali.student.r2.lum.lrc.ResultValueGroupType;
 
 @XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "resultValues", "type",
-		"effectiveDate", "expirationDate", "id", "metaInfo", "attributes" })
+		"effectiveDate", "expirationDate", "id","resultValueRangeInfo", "metaInfo", "attributes" })
 public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGroup {
 
 	private static final long serialVersionUID = 1L;
@@ -58,18 +58,23 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 	@XmlAttribute
 	private String id;
 
+	@XmlElement
+	private ResultValueRangeInfo resultValueRangeInfo; 
+
+	
 	public ResultValueGroupInfo() {
 
 	}
 
 	public ResultValueGroupInfo(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
-			ResultValueGroupType type) {
+			ResultValueGroupType type,ResultValueRangeInfo resultValueRangeInfo ) {
 		super();
 		this.resultValues = resultValues;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
 		this.type = type;
 		this.id = id;
+		this.resultValueRangeInfo = resultValueRangeInfo;
 	}
 
 	public static ResultValueGroupInfo createNewResultValueGroupInfoFromResultValueGroupInfo(
@@ -78,7 +83,8 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 				resultValueGroupInfo.getResultValues(),
 				resultValueGroupInfo.getEffectiveDate(),
 				resultValueGroupInfo.getExpirationDate(),
-				resultValueGroupInfo.getType());
+				resultValueGroupInfo.getType(),
+				resultValueGroupInfo.getResultValueRangeInfo());
 	}
 
 
@@ -96,12 +102,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.resultValues = resultValues;
 	}
 
-	/**
-	 * Date and time that this result component became effective. This is a
-	 * similar concept to the effective date on enumerated values. When an
-	 * expiration date has been specified, this field must be less than or equal
-	 * to the expiration date.
-	 */
+
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -110,13 +111,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.effectiveDate = effectiveDate;
 	}
 
-	/**
-	 * Date and time that this result component expires. This is a similar
-	 * concept to the expiration date on enumerated values. If specified, this
-	 * should be greater than or equal to the effective date. If this field is
-	 * not specified, then no expiration date has been currently defined and
-	 * should automatically be considered greater than the effective date.
-	 */
+
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -125,9 +120,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.expirationDate = expirationDate;
 	}
 
-	/**
-	 * Unique identifier for a result component type.
-	 */
+
 	public ResultValueGroupType getType() {
 		return type;
 	}
@@ -136,11 +129,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.type = type;
 	}
 
-	/**
-	 * Unique identifier for a result component. This is optional, due to the
-	 * identifier being set at the time of creation. Once the result component
-	 * has been created, this should be seen as required.
-	 */
+
 	public String getId() {
 		return id;
 	}
@@ -148,5 +137,14 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public ResultValueRangeInfo getResultValueRangeInfo() {
+		return resultValueRangeInfo;
+	}
+
+	public void setResultValueRangeInfo(ResultValueRangeInfo resultValueRangeInfo) {
+		this.resultValueRangeInfo = resultValueRangeInfo;
+	}
+
 
 }

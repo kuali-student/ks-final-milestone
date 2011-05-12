@@ -64,7 +64,9 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 *             unable to complete request
 	 */
 	public List<ResultValueGroupTypeInfo> getResultValueGroupTypes()
-			throws OperationFailedException;
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;;
 
 	/**
 	 * Retrieves information on a specific result type.
@@ -84,10 +86,11 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public ResultValueGroupTypeInfo getResultValueGroupType(
 			@WebParam(name = "resultTypeKey") String resultValueGroupTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;;
 
 	/**
-	 * Retrieves existing result group by an  identifier.
+	 * Retrieves existing result group by an identifier.
 	 * 
 	 * @param resultValueGroupKey
 	 *            identifiers for resultValueGroup to be retrieved
@@ -104,7 +107,8 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public ResultValueGroupInfo getResultValueGroup(
 			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;;
 
 	/**
 	 * Retrieves a list of existing results by a list of identifiers.
@@ -124,11 +128,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public List<ResultValueGroupInfo> getResultValueGroupList(
 			@WebParam(name = "resultValueGroupKeyList") List<String> resultValueGroupKeyList)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;;
 
-	
 	/**
-	 * Retrieves a list of existing result value groups that a result value is tied to. 
+	 * Retrieves a list of existing result value groups that a result value is
+	 * tied to.
 	 * 
 	 * @param resultValueKey
 	 *            identifier for result value to be retrieved
@@ -145,10 +150,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public List<ResultValueGroupInfo> getResultValueGroupByResultValue(
 			@WebParam(name = "resultValueKey") String resultValueKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
 	/**
-	 * Retrieves a list of result values identifiers for a specified result type.
+	 * Retrieves a list of result values identifiers for a specified result
+	 * type.
 	 * 
 	 * @param resultTypeKey
 	 *            identifier for the result type
@@ -165,12 +172,11 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public List<String> getResultValueKeysByResultType(
 			@WebParam(name = "resultTypeKey") String resultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-
-
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
 	/**
-	 * Retrieves information on a specific result group based on key 
+	 * Retrieves information on a specific result group based on key
 	 * 
 	 * @param resultValueGroupId
 	 *            result component identifier
@@ -188,10 +194,11 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public ResultValueGroupInfo getResultValueGroupByKey(
 			@WebParam(name = "resultGroupKey") String resultGroupKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
 	/**
-	 * Retrieves information on a specific result group based on identifier 
+	 * Retrieves information on a specific result group based on identifier
 	 * 
 	 * @param resultValueGroupId
 	 *            result component identifier
@@ -208,7 +215,8 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public ResultValueGroupInfo getResultValueGroupById(
 			@WebParam(name = "resultGroupId") String resultGroupId)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
 	/**
 	 * Retrieves a list of result group identifiers for a specified result
@@ -229,12 +237,13 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	public List<String> getResultValueGroupIdsByResultGroupType(
 			@WebParam(name = "resultGroupTypeKey") String resultValueGroupTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
 	/**
-	 * Retrieves a list of result group identifiers for a specified result.
-	 * The result group  type is specified as well to provide an indication
-	 * of the id space.
+	 * Retrieves a list of result group identifiers for a specified result. The
+	 * result group type is specified as well to provide an indication of the id
+	 * space.
 	 * 
 	 * @param resultValueId
 	 *            identifier for the result value
@@ -254,13 +263,51 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			@WebParam(name = "resultValueId") String resultValueId,
 			@WebParam(name = "resultGroupTypeKey") String resultGroupTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
+	/**
+	 * Gets all the result value ranges for a result value group.
+	 * 
+	 * 
+	 * @return ResultValueGroupTypeInfo which are tied to a particular ResultValuegroup
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+
+	public List<ResultValueGroupTypeInfo> getResultValueRangesForResultValueGroupById(
+			@WebParam(name = "resultValueGroupId") String resultValueGroupId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+	
+	/**
+	 * Gets all the result value ranges for a result value group.
+	 * 
+	 * 
+	 * @return ResultValueGroupTypeInfo which are tied to a particular ResultValuegroup
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+
+	public List<ResultValueGroupTypeInfo> getResultValueRangesForResultValueGroup(
+			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+	
 	/**
 	 * Creates a new result group.
 	 * 
 	 * @param resultValueGroupKey
-	 *            identifier of the result group 
+	 *            identifier of the result group
 	 * @param resultValueGroupInfo
 	 *            information about the result value group being created
 	 * @return create result group information
@@ -340,7 +387,53 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
-	
+
+	/**
+	 * Retrieves a list of result value objects for a specified result value
+	 * group id.
+	 * 
+	 * @param resultValueId
+	 *            identifier for the result value
+	 * @param resultComponentTypeKey
+	 *            identifier for the result group type
+	 * @return list of result group identifiers
+	 * @throws DoesNotExistException
+	 *             resultValueId, resultGroupTypeKey not found
+	 * @throws InvalidParameterException
+	 *             invalid resultValueId, resultGroupTypeKey
+	 * @throws MissingParameterException
+	 *             missing resultValueId, resultGroupTypeKey
+	 * @throws OperationFailedException
+	 *             unable to complete request
+	 */
+	public List<ResultValueInfo> getResultValuesForResultValueGroupById(
+			@WebParam(name = "resultValueGroupId") String resultValueGroupId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	/**
+	 * Retrieves a list of result value objects for a specified result value
+	 * group key.
+	 * 
+	 * @param resultValueId
+	 *            identifier for the result value
+	 * @param resultComponentTypeKey
+	 *            identifier for the result group type
+	 * @return list of result group identifiers
+	 * @throws DoesNotExistException
+	 *             resultValueId, resultGroupTypeKey not found
+	 * @throws InvalidParameterException
+	 *             invalid resultValueId, resultGroupTypeKey
+	 * @throws MissingParameterException
+	 *             missing resultValueId, resultGroupTypeKey
+	 * @throws OperationFailedException
+	 *             unable to complete request
+	 */
+	public List<ResultValueInfo> getResultValuesForResultValueGroup(
+			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
 	/**
 	 * 
 	 * @param resultValueKey
@@ -361,6 +454,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
+
 	/**
 	 * 
 	 * @param resultValueId
@@ -397,6 +491,5 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
-	
 
 }

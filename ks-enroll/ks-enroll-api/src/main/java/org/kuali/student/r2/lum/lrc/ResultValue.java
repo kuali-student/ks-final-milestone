@@ -22,13 +22,6 @@ public interface ResultValue extends Serializable {
 	public String getValue();
 
 	/**
-	 * Rank string Rank of the result value within the scale. Standards around
-	 * uniqueness and meaning of value are described in the information about
-	 * the scale.
-	 */
-	public String getRank();
-
-	/**
 	 * Effective Date dateTime Date and time that this result value became
 	 * effective. This is a similar concept to the effective date on enumerated
 	 * values. When an expiration date has been specified, this field must be
@@ -46,8 +39,6 @@ public interface ResultValue extends Serializable {
 	 */
 	public Date getExpirationDate();
 	
-	
-	public String getResultValueGroupKey();
 	
 	public List<Element> get_futureElements();
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
+
 public interface ResultValueGroup extends Serializable {
 	
 	/**
@@ -39,4 +41,10 @@ public interface ResultValueGroup extends Serializable {
 	 * has been created, this should be seen as required.
 	 */
 	public String getId();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ResultValueRangeInfo getResultValueRangeInfo();
 }

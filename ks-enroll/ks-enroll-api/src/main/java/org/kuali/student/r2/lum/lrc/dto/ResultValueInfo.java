@@ -16,7 +16,7 @@ import org.kuali.student.r2.lum.lrc.ResultValue;
 import org.kuali.student.r2.lum.lrc.ResultValueGroup;
 
 @XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "effectiveDate", "expirationDate", "value", "rank",
+		"name", "descr", "effectiveDate", "expirationDate", "value",
 		"metaInfo", "attributes", "_futureElements" })
 public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 
@@ -25,17 +25,11 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	@XmlAttribute
 	private String value;
 
-	@XmlAttribute
-	private String rank;
-
 	@XmlElement
 	private Date effectiveDate;
 
 	@XmlElement
 	private Date expirationDate;
-
-	@XmlElement
-	private String resultValueGroupKey;
 
 	@XmlAnyElement
 	private List<Element> _futureElements;
@@ -48,15 +42,13 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	}
 
 	public ResultValueInfo(String name, String value, String rank,
-			ResultValueGroup resultValueGroup, String typeKey, String stateKey,
-			MetaInfo metaInfo, RichText descr, Date effectiveDate,
-			Date expirationDate,String id) {
+			String typeKey, String stateKey, MetaInfo metaInfo, RichText descr,
+			Date effectiveDate, Date expirationDate, String id) {
 		// TODO once devs make objects mutable
 		this.value = value;
-		this.rank = rank;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
-	
+
 		this.id = id;
 	}
 
@@ -68,11 +60,6 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	@Override
 	public String getValue() {
 		return value;
-	}
-
-	@Override
-	public String getRank() {
-		return rank;
 	}
 
 	@Override
@@ -94,15 +81,6 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	public List<Element> get_futureElements() {
 
 		return _futureElements;
-	}
-
-	public void setResultValueGroupKey(String resultValueGroup) {
-		this.resultValueGroupKey = resultValueGroup;
-	}
-
-	@Override
-	public String getResultValueGroupKey() {
-		return resultValueGroupKey;
 	}
 
 }
