@@ -55,6 +55,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     public AtpEntity(){}
     
     public AtpEntity(Atp atp){
+        try{
         this.setId(atp.getKey());
         this.setName(atp.getName());
         
@@ -70,6 +71,9 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
             for (Attribute att : atp.getAttributes()) {
                 this.getAttributes().add(new AtpAttributeEntity(att));
             }
+        }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
     

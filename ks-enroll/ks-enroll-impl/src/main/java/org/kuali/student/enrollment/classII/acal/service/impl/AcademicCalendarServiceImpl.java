@@ -196,14 +196,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             for (String relatedKey : relatedAtpKeys){
                 for(AtpAtpRelationInfo atpRelInfo : atpRels){
                     if(!relatedKey.equals(atpRelInfo.getRelatedAtpKey())){
-                      //if not exist, creat relations
+                      //if not exist, create relations
                         createAtpAtpRelations(atpKey, relatedKey, context);
                     }
                 }   
             }
 
         } catch (DoesNotExistException e) {
-            //if not exist, creat relations
+            //if not exist, create relations
             for (String relatedKey : relatedAtpKeys){
                 createAtpAtpRelations(atpKey, relatedKey, context);
             }
