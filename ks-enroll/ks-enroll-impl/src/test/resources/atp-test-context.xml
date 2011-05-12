@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+	<import resource="classpath:applicationContext.xml"/> 
+    
+    <bean id="atpServiceToTest" parent="atpServiceOnBus"/>
+    
+    <bean name="dataLoader" class="org.kuali.student.r2.core.classI.atp.service.impl.AtpDataGenerator">
+        <property name="em" ref="entityManager"/>
+    </bean>
+</beans>

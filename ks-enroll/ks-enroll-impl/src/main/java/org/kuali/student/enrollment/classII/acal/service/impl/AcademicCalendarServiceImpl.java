@@ -167,7 +167,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         
         
         AtpInfo atp = AtpInfo.newInstance();
-        //TODO: check key existence, if exist, updateAtp
         atp.setKey(academicCalendarKey);
         atp.setName(academicCalendarInfo.getName());
         atp.setDescr(academicCalendarInfo.getDescr());

@@ -19,8 +19,6 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
 @Entity
@@ -28,11 +26,11 @@ import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<AtpAtpRelationAttributeEntity>{
     @ManyToOne
     @JoinColumn(name="ATP_ID")
-    private AtpEntity atpKey;
+    private AtpEntity atp;
     
     @ManyToOne
     @JoinColumn(name="RELATED_ATP_ID")
-    private AtpEntity relatedAtpKey;
+    private AtpEntity relatedAtp;
     
     @ManyToOne
     @JoinColumn(name="ATP_RELTN_TYPE_ID")
@@ -56,12 +54,9 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
    public AtpAtpRelationEntity(){}
     
     public AtpAtpRelationEntity(AtpAtpRelation atpAtpRelation){
-        this.setAtpKey(atpKey);
-        this.setAtpAtpRelationType(atpAtpRelationType);
-        this.setAtpState(atpState);
-        this.setRelatedAtpKey(relatedAtpKey);
-        this.setEffectiveDate(effectiveDate);
-        this.setExpirationDate(expirationDate);
+        this.setId(atpAtpRelation.getId());
+        this.setEffectiveDate(atpAtpRelation.getEffectiveDate());
+        this.setExpirationDate(atpAtpRelation.getExpirationDate());
         
         this.setAttributes(new ArrayList<AtpAtpRelationAttributeEntity>());
         if (null != atpAtpRelation.getAttributes()) {
@@ -70,21 +65,21 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
             }
         }
     }
-    
-    public AtpEntity getAtpKey() {
-        return atpKey;
+
+    public AtpEntity getAtp() {
+        return atp;
     }
 
-    public void setAtpKey(AtpEntity atpKey) {
-        this.atpKey = atpKey;
+    public void setAtp(AtpEntity atp) {
+        this.atp = atp;
     }
 
-    public AtpEntity getRelatedAtpKey() {
-        return relatedAtpKey;
+    public AtpEntity getRelatedAtp() {
+        return relatedAtp;
     }
 
-    public void setRelatedAtpKey(AtpEntity relatedAtpKey) {
-        this.relatedAtpKey = relatedAtpKey;
+    public void setRelatedAtp(AtpEntity relatedAtp) {
+        this.relatedAtp = relatedAtp;
     }
 
     public AtpAtpRelationTypeEntity getAtpAtpRelationType() {
@@ -132,8 +127,9 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
 
     public AtpAtpRelationInfo toDto() {
         AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.newInstance();
-        aarInfo.setAtpKey(atpKey.getId());
-        aarInfo.setRelatedAtpKey(relatedAtpKey.getId());
+        aarInfo.setId(getId());
+        aarInfo.setAtpKey(atp.getId());
+        aarInfo.setRelatedAtpKey(relatedAtp.getId());
         aarInfo.setEffectiveDate(effectiveDate);
         aarInfo.setExpirationDate(expirationDate);
         aarInfo.setStateKey(atpState.getId());

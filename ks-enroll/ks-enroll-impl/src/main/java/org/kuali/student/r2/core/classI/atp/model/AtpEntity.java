@@ -55,14 +55,15 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     public AtpEntity(){}
     
     public AtpEntity(Atp atp){
+        this.setId(atp.getKey());
         this.setName(atp.getName());
-        this.setStartDate(atp.getStartDate());
-        this.setEndDate(atp.getEndDate());
-        this.setDescr(new AtpRichTextEntity(atp.getDescr()));
         
-        //TODO: atpType
-        
-        //TODO: atpState
+        if (atp.getStartDate() != null)
+            this.setStartDate(atp.getStartDate());
+        if (atp.getEndDate() != null)
+            this.setEndDate(atp.getEndDate());
+        if(atp.getDescr() != null)
+            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
         
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != atp.getAttributes()) {
@@ -134,6 +135,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public AtpInfo toDto() {
         AtpInfo atp = AtpInfo.newInstance();
+        atp.setKey(getId());
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);

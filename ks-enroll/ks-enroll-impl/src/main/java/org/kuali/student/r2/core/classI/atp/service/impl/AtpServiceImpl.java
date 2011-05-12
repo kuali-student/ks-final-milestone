@@ -303,8 +303,14 @@ public class AtpServiceImpl implements AtpService{
             PermissionDeniedException, VersionMismatchException {
 
         AtpEntity atp = atpDao.find(atpKey);
+        
         if( null != atp){
-            atpDao.update(new AtpEntity(atpInfo));
+            AtpEntity modifiedAtp = new AtpEntity(atpInfo);
+            if(atpInfo.getStateKey() != null)
+                modifiedAtp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
+            if(atpInfo.getTypeKey() != null)
+                modifiedAtp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
+            atpDao.merge(modifiedAtp);
         }
         else
             throw new DoesNotExistException(atpKey);
@@ -421,10 +427,10 @@ public class AtpServiceImpl implements AtpService{
             atpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
         }
         if (null != atpAtpRelationInfo.getAtpKey()) {
-            atpRel.setAtpKey(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+            atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
         }
         if(null != atpAtpRelationInfo.getRelatedAtpKey()) {
-            atpRel.setRelatedAtpKey(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+            atpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
         }
                
         atpRelDao.persist(atpRel);
@@ -440,8 +446,18 @@ public class AtpServiceImpl implements AtpService{
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         
         AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
+        
         if( null != atpRel){
-            atpRelDao.update(new AtpAtpRelationEntity(atpAtpRelationInfo));
+            AtpAtpRelationEntity modifiedatpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
+            if(atpAtpRelationInfo.getAtpKey() != null)
+                modifiedatpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+            if(atpAtpRelationInfo.getRelatedAtpKey() != null)
+                modifiedatpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+            if(atpAtpRelationInfo.getTypeKey() != null)
+                modifiedatpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+            if(atpAtpRelationInfo.getStateKey() != null)
+                modifiedatpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+            atpRelDao.merge(modifiedatpRel);
         }
         else
             throw new DoesNotExistException(atpAtpRelationId);

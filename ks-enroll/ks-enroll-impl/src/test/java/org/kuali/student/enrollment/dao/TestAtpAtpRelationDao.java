@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -24,5 +26,12 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
         AtpAtpRelationTypeEntity type = atpRel.getAtpAtpRelationType();
         assertEquals("kuali.atp.atp.relation.includes", type.getName());      
     }
-
+    
+    @Test
+    public void testGetAtpAtpRelationsByAtp()
+    {
+        List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtp("testAtpId1");
+        assertNotNull(rels);
+        assertEquals("testAtpId1", rels.get(0).getAtp().getId());
+    }
 }
