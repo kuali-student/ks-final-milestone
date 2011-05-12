@@ -47,7 +47,7 @@ public interface ResultValue extends Serializable {
 	public Date getExpirationDate();
 	
 	
-	public ResultValueGroup getResultValueGroup();
+	public String getResultValueGroupKey();
 	
 	public List<Element> get_futureElements();
 

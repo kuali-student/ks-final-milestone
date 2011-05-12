@@ -35,7 +35,7 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	private Date expirationDate;
 
 	@XmlElement
-	private ResultValueGroup resultValueGroup;
+	private String resultValueGroupKey;
 
 	@XmlAnyElement
 	private List<Element> _futureElements;
@@ -96,13 +96,13 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 		return _futureElements;
 	}
 
-	public void setResultValueGroup(ResultValueGroup resultValueGroup) {
-		this.resultValueGroup = resultValueGroup;
+	public void setResultValueGroupKey(String resultValueGroup) {
+		this.resultValueGroupKey = resultValueGroup;
 	}
 
 	@Override
-	public ResultValueGroup getResultValueGroup() {
-		return resultValueGroup;
+	public String getResultValueGroupKey() {
+		return resultValueGroupKey;
 	}
 
 }

@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupTypeInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**
  * The Learning Result Catalog Service is a Class I service which gives a set of
@@ -166,8 +167,10 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
+
+
 	/**
-	 * Retrieves information on a specific result group.
+	 * Retrieves information on a specific result group based on key 
 	 * 
 	 * @param resultValueGroupId
 	 *            result component identifier
@@ -181,7 +184,28 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public ResultValueGroupInfo getResultGroup(
+
+	public ResultValueGroupInfo getResultValueGroupByKey(
+			@WebParam(name = "resultGroupKey") String resultGroupKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	/**
+	 * Retrieves information on a specific result group based on identifier 
+	 * 
+	 * @param resultValueGroupId
+	 *            result component identifier
+	 * @return information about a result component
+	 * @throws DoesNotExistException
+	 *             resultComponentId not found
+	 * @throws InvalidParameterException
+	 *             invalid resultComponentId
+	 * @throws MissingParameterException
+	 *             missing resultComponentId
+	 * @throws OperationFailedException
+	 *             unable to complete request
+	 */
+	public ResultValueGroupInfo getResultValueGroupById(
 			@WebParam(name = "resultGroupId") String resultGroupId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
@@ -202,7 +226,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<String> getResultGroupIdsByResultGroupType(
+	public List<String> getResultValueGroupIdsByResultGroupType(
 			@WebParam(name = "resultGroupTypeKey") String resultValueGroupTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
@@ -226,7 +250,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<String> getResultGroupIdsByResultValue(
+	public List<String> getResultValueGroupIdsByResultValue(
 			@WebParam(name = "resultValueId") String resultValueId,
 			@WebParam(name = "resultGroupTypeKey") String resultGroupTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
@@ -255,7 +279,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws PermissionDeniedException
 	 *             authorization failure
 	 */
-	public ResultValueGroupInfo createResultGroup(
+	public ResultValueGroupInfo createResultValueGroup(
 			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey,
 			@WebParam(name = "resultGroupInfo") ResultValueGroupInfo resultValueGroupInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
@@ -286,7 +310,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws VersionMismatchException
 	 *             action was attempted on an out of date version.
 	 */
-	public ResultValueGroupInfo updateResultGroup(
+	public ResultValueGroupInfo updateResultValueGroup(
 			@WebParam(name = "resultValueGroupId") String resultValueGroupId,
 			@WebParam(name = "resultValueGroupInfo") ResultValueGroupInfo resultValueGroupInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -316,5 +340,63 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
+	
+	/**
+	 * 
+	 * @param resultValueKey
+	 * @param resultValueInfo
+	 * @return
+	 * @throws AlreadyExistsException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public ResultValueInfo createResultValue(
+			@WebParam(name = "resultValueGroupKey") String resultValueKey,
+			@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo)
+			throws AlreadyExistsException, DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+	/**
+	 * 
+	 * @param resultValueId
+	 * @param resultValueInfo
+	 * @return
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws VersionMismatchException
+	 */
+	public ResultValueInfo updateResultValue(
+			@WebParam(name = "resultValueId") String resultValueId,
+			@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException;
+
+	/**
+	 * 
+	 * @param resultValueId
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatusInfo deleteResultValue(
+			@WebParam(name = "resultValueId") String resultValueId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+	
 
 }

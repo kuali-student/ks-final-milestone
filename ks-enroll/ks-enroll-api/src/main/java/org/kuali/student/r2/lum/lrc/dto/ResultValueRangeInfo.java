@@ -43,10 +43,11 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	public ResultValueRangeInfo() {
 	}
 
-	public ResultValueRangeInfo(String key, String name, RichText descr, String typeKey, String stateKey, 
-			String resultTypeKey, String id,
+	public ResultValueRangeInfo(String key, String name, RichText descr,
+			String typeKey, String stateKey, String resultTypeKey, String id,
 			String minValue, String maxValue, float increment, String scaleKey,
-			String rank, Date effectiveDate, Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
+			String rank, Date effectiveDate, Date expirationDate, Meta meta,
+			List<? extends Attribute> attributes) {
 		super();
 		this.resultTypeKey = resultTypeKey;
 		this.id = id;
@@ -62,10 +63,12 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(
 			ResultValueRangeInfo resultValueRangeInfo) {
 		return new ResultValueRangeInfo(resultValueRangeInfo.getKey(),
-				resultValueRangeInfo.getName(),resultValueRangeInfo.getDescr(),
-				resultValueRangeInfo.getTypeKey(),resultValueRangeInfo.getStateKey(),
+				resultValueRangeInfo.getName(),
+				resultValueRangeInfo.getDescr(),
+				resultValueRangeInfo.getTypeKey(),
+				resultValueRangeInfo.getStateKey(),
 				resultValueRangeInfo.getResultTypeKey(),
-				resultValueRangeInfo.getId(), 
+				resultValueRangeInfo.getId(),
 				resultValueRangeInfo.getMinValue(),
 				resultValueRangeInfo.getMaxValue(),
 				resultValueRangeInfo.getIncrement(),
@@ -76,8 +79,6 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 				resultValueRangeInfo.getMetaInfo(),
 				resultValueRangeInfo.getAttributes());
 	}
-
-
 
 	@Override
 	public String getMinValue() {
