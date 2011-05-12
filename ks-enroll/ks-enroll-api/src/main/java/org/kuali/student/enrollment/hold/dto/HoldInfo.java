@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "holdCategoryId", "personId", "isWarning", "isOverridable", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "issueIdId", "personId", "isWarning", "isOverridable", "effectiveDate", "releasedDate", "metaInfo", "attributes", "_futureElements"})
 
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private String personId;
 
     @XmlElement
-    private String holdCategoryId;
+    private String issueId;
 
     @XmlElement
     private Boolean isWarning;
@@ -59,7 +59,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	personId = null;
 	isWarning = false;
 	isOverridable = false;
-	holdCategoryId = null;
+	issueId = null;
         effectiveDate = null;
         releasedDate = null;
         _futureElements = null;
@@ -74,7 +74,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         super(hold);
 
 	this.personId = hold.getPersonId();
-	this.holdCategoryId = hold.getHoldCategoryId();
+	this.issueId = hold.getIssueId();
 	this.isWarning = hold.isWarning();
 	this.isOverridable = hold.isOverridable();
 
@@ -94,12 +94,12 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     }
 
     @Override
-    public String getHoldCategoryId() {
-        return holdCategoryId;
+    public String getIssueId() {
+        return issueId;
     }
 
-    public void setHoldCategoryId(String holdCategoryId) {
-        this.holdCategoryId = holdCategoryId;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     @Override

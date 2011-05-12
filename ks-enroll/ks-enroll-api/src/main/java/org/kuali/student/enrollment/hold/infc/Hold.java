@@ -30,11 +30,11 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface Hold extends IdEntity {
 
     /**
-     * Name: Hold Category Id
-     * The kind of Hold.
+     * Name: Issue Id
+     * The Issue Id.
      */
-    public String getHoldCategoryId();
-    public void setHoldCategoryId(String holdCategoryId);
+    public String getIssueId();
+    public void setIssueId(String issueId);
 
     /**
      * Name: Person Id
