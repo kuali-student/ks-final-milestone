@@ -32,9 +32,13 @@ import org.kuali.student.r2.core.classI.atp.dao.AtpDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpRichTextDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpStateDao;
 import org.kuali.student.r2.core.classI.atp.dao.AtpTypeDao;
+import org.kuali.student.r2.core.classI.atp.dao.MilestoneDao;
+import org.kuali.student.r2.core.classI.atp.dao.MilestoneTypeDao;
 import org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity;
+import org.kuali.student.r2.core.classI.atp.model.MilestoneEntity;
+import org.kuali.student.r2.core.classI.atp.model.MilestoneTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -47,6 +51,8 @@ public class AtpServiceImpl implements AtpService{
     private AtpRichTextDao atpRichTextDao;
     private AtpAtpRelationDao atpRelDao;
     private AtpAtpRelationTypeDao atpRelTypeDao;
+    private MilestoneDao milestoneDao;
+    private MilestoneTypeDao milestoneTypeDao;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -95,6 +101,22 @@ public class AtpServiceImpl implements AtpService{
 
     public void setAtpRelTypeDao(AtpAtpRelationTypeDao atpRelTypeDao) {
         this.atpRelTypeDao = atpRelTypeDao;
+    }
+    
+    public MilestoneDao getMilestoneDao() {
+        return milestoneDao;
+    }
+
+    public void setMilestoneDao(MilestoneDao milestoneDao) {
+        this.milestoneDao = milestoneDao;
+    }
+
+    public MilestoneTypeDao getMilestoneTypeDao() {
+        return milestoneTypeDao;
+    }
+
+    public void setMilestoneTypeDao(MilestoneTypeDao milestoneTypeDao) {
+        this.milestoneTypeDao = milestoneTypeDao;
     }
 
     @Override
@@ -218,24 +240,56 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        MilestoneEntity entity = milestoneDao.find(milestoneKey);
+        
+        if(entity != null) {
+            return entity.toDto();
+        }
+        else {
+            throw new DoesNotExistException(milestoneKey);
+        }
+        
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByKeyList(List<String> milestoneKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<MilestoneEntity> milestones = milestoneDao.findByIds(milestoneKeyList);
+        
+        List<MilestoneInfo> result = new ArrayList<MilestoneInfo>(milestones.size());
+        for(MilestoneEntity entity : milestones) {
+            if(entity == null) {
+                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+        
+        return result;
     }
 
     @Override
     public List<String> getMilestoneKeysByType(String milestoneTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        MilestoneTypeEntity type = milestoneTypeDao.find(milestoneTypeKey);
+        
+        if(type == null) {
+            throw new InvalidParameterException(milestoneTypeKey);
+        }
+        
+        List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(milestoneTypeKey);
+        
+        List<String> results = new ArrayList<String>(entities.size());
+        
+        for(MilestoneEntity entity : entities) {
+            results.add(entity.getId());
+        }
+        
+        return results;
     }
 
     @Override
@@ -249,16 +303,38 @@ public class AtpServiceImpl implements AtpService{
     public List<MilestoneInfo> getMilestonesByDates(Date startDate, Date endDate, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<MilestoneEntity> entities = milestoneDao.getByDateRange(startDate, endDate);
+        
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
+        
+        for(MilestoneEntity entity : entities) {
+            results.add(entity.toDto());
+        }
+        
+        return results;
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate,
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        MilestoneTypeEntity type = milestoneTypeDao.find(milestoneTypeKey);
+        
+        if(type == null) {
+            throw new InvalidParameterException(milestoneTypeKey);
+        }
+        
+        List<MilestoneEntity> entities = milestoneDao.getByDateRangeAndType(startDate, endDate, milestoneTypeKey);
+        
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
+        
+        for(MilestoneEntity entity : entities) {
+            results.add(entity.toDto());
+        }
+        
+        return results;
     }
 
     @Override
@@ -347,23 +423,63 @@ public class AtpServiceImpl implements AtpService{
     public MilestoneInfo createMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        if(milestoneDao.find(milestoneKey) != null) {
+            throw new AlreadyExistsException(milestoneKey);
+        }
+        
+        MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
+        
+        if(milestoneInfo.getTypeKey() != null) {
+            entity.setMilestoneType(milestoneTypeDao.find(milestoneInfo.getTypeKey()));
+        }
+        
+        // if the milestone type in the entity is still null at this point, it was either not found or never defined.
+        // in this case, throw a DataValidationErrorException
+        
+        if(milestoneInfo.getStateKey() != null) {
+            entity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
+        }
+        
+        milestoneDao.persist(entity);
+        
+        MilestoneInfo result = entity.toDto();
+        
+        return result;
     }
 
     @Override
     public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
+        if(existingEntity == null) {
+            throw new DoesNotExistException(milestoneKey);
+        }
+        
+        MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
+        
+        milestoneDao.update(updatedEntity);
+        
+        return updatedEntity.toDto();
     }
 
     @Override
     public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        StatusInfo status = StatusInfo.newInstance();
+        status.setSuccess(Boolean.TRUE);
+        
+        MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
+        if(existingEntity != null){
+            milestoneDao.remove(existingEntity);
+        }
+        else {
+            status.setSuccess(Boolean.FALSE);
+        }
+        
+        return status;
     }
 
     @Override
