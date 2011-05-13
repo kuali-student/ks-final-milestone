@@ -45,21 +45,30 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
-    @Ignore
+
     @Test 
     public void testGetAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
-        try{
-           AcademicCalendarInfo acal = acalService.getAcademicCalendar("testAtpId1", callContext);
 
-           assertNotNull(acal);
-           assertEquals("testAtpId1", acal.getKey());
-           assertEquals("testAtp1", acal.getName());
-           assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, acal.getStateKey());
-           assertEquals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, acal.getTypeKey());
-       } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            acal.setKey("testAcalId");
+            acal.setName("testAcal");
+            acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+            acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+            try{
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId", acal, callContext);
+                assertNotNull(created);
+                assertEquals("testAcalId", created.getKey());
+                
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testAcalId", callContext);
+
+                assertNotNull(existed);
+                assertEquals("testAcalId", acal.getKey());
+                assertEquals("testAcal", acal.getName());
+            } catch (Exception ex) {
+                fail("exception from service call :" + ex.getMessage());
+            }
     }
   
     @Test

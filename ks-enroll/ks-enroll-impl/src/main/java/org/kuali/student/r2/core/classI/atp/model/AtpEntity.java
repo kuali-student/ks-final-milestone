@@ -143,10 +143,13 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);
-        atp.setTypeKey(atpType.getId());
-        atp.setStateKey(atpState.getId());
+        if(atpType != null)
+            atp.setTypeKey(atpType.getId());
+        if(atpState != null)
+            atp.setStateKey(atpState.getId());
         atp.setMetaInfo(super.toDTO());
-        atp.setDescr(descr.toDto());
+        if(descr != null)
+            atp.setDescr(descr.toDto());
 
         List<Attribute> atts = new ArrayList<Attribute>();
         for (AtpAttributeEntity att : getAttributes()) {
