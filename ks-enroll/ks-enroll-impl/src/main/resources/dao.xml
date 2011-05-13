@@ -34,5 +34,14 @@
     
     <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationTypeDao">
         <property name="em" ref="entityManager"/>
-    </bean> 
+    </bean>
+    
+    <bean id="milestoneDao" class="org.kuali.student.r2.core.classI.atp.dao.MilestoneDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.MilestoneTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
 </beans>

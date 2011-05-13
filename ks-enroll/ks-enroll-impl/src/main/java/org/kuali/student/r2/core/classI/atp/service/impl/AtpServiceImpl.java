@@ -415,7 +415,7 @@ public class AtpServiceImpl implements AtpService{
     public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
+        
         return null;
     }
 
@@ -476,7 +476,7 @@ public class AtpServiceImpl implements AtpService{
             milestoneDao.remove(existingEntity);
         }
         else {
-            status.setSuccess(Boolean.FALSE);
+            throw new DoesNotExistException(milestoneKey);
         }
         
         return status;
