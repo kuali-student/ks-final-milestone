@@ -73,7 +73,8 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 
     @Override
     public void setStartDate(Date startDate) {
-        this.startDate = new Date(startDate.getTime());
+        if(startDate != null)
+            this.startDate = new Date(startDate.getTime());
     }
 
     @Override
@@ -83,6 +84,7 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 
     @Override
     public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
+        if(endDate != null)
+            this.endDate = new Date(endDate.getTime());
     }
 }
