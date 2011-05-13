@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.classI.hold.mock;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
 public class HoldServiceMockImpl implements HoldService {
 
-	private static Map<String, String> issueRestrictionsMap = new HashMap<String, String>();
+	private static Map<String, List<String>> issueRestrictionsMap = new HashMap<String, List<String>>();
 	private static Map<String, HoldInfo> holdCache = new HashMap<String, HoldInfo>();
+	private static Map<String, IssueInfo> issuesCache = new HashMap<String, IssueInfo>();
+	private static Map<String, RestrictionInfo> restrictionsCache = new HashMap<String, RestrictionInfo>();
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
@@ -162,16 +166,16 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	
+
 		List<IssueInfo> issues = getIssuesByRestriction(restrictionKey, context);
-		List <String> peopleRestricted = new ArrayList<String>(); 
-		for(IssueInfo issue : issues){
-			List<HoldInfo> holds =  getHoldsByIssue(issue.getId(), context);
-			for(HoldInfo hold:holds){
+		List<String> peopleRestricted = new ArrayList<String>();
+		for (IssueInfo issue : issues) {
+			List<HoldInfo> holds = getHoldsByIssue(issue.getId(), context);
+			for (HoldInfo hold : holds) {
 				peopleRestricted.add(hold.getPersonId());
 			}
 		}
-	
+
 		return peopleRestricted;
 	}
 
@@ -180,8 +184,17 @@ public class HoldServiceMockImpl implements HoldService {
 			String personId, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<HoldInfo> holdsForRestriction = new ArrayList<HoldInfo>();
+		List<IssueInfo> issues = getIssuesByRestriction(restrictionKey, context);
+
+		for (IssueInfo issue : issues) {
+			holdsForRestriction.addAll(getHoldsByIssue(issue.getId(), context));
+		}
+		List<HoldInfo> holdsForPerson = getHoldsForPerson(personId, context);
+		holdsForRestriction.retainAll(holdsForPerson);
+		return holdsForRestriction;
+
 	}
 
 	@Override
@@ -190,8 +203,12 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<HoldInfo> holdsAll = getHoldsByRestrictionForPerson(
+				restrictionKey, personId, context);
+		List<HoldInfo> holdsActive = getActiveHoldsForPerson(personId, context);
+		holdsAll.retainAll(holdsActive);
+		return holdsAll;
+
 	}
 
 	@Override
@@ -199,8 +216,8 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		return holdCache.get(holdId);
 	}
 
 	@Override
@@ -208,24 +225,43 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<HoldInfo> holdsToReturn = new ArrayList<HoldInfo>();
+		for (String holdId : holdIdList) {
+			holdsToReturn.add(getHold(holdId, context));
+		}
+		return holdsToReturn;
 	}
 
 	@Override
 	public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<HoldInfo> allHold = new ArrayList<HoldInfo>();
+		List<HoldInfo> holdsToReturn = new ArrayList<HoldInfo>();
+		for (HoldInfo hold : allHold) {
+			if (hold.getIssueId().equals(issueId)) {
+				holdsToReturn.add(hold);
+			}
+		}
+
+		return holdsToReturn;
 	}
 
 	@Override
 	public List<HoldInfo> getHoldsForPerson(String personId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<HoldInfo> allHold = new ArrayList<HoldInfo>();
+		List<HoldInfo> holdsToReturn = new ArrayList<HoldInfo>();
+		for (HoldInfo hold : allHold) {
+			if (hold.getPersonId().equals(personId)) {
+				holdsToReturn.add(hold);
+			}
+		}
+
+		return holdsToReturn;
 	}
 
 	@Override
@@ -233,8 +269,16 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<HoldInfo> holdsForPerson = getHoldsForPerson(personId, context);
+		List<HoldInfo> holdsActive = new ArrayList<HoldInfo>();
+		for (HoldInfo hold : holdsForPerson) {
+			if (hold.getStateKey().equals(
+					HoldServiceConstants.HOLD_ACIVE_STATE_KEY)) {
+				holdsActive.add(hold);
+			}
+		}
+
+		return holdsActive;
 	}
 
 	@Override
@@ -242,8 +286,10 @@ public class HoldServiceMockImpl implements HoldService {
 			String personId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<HoldInfo> holdForIssue = getHoldsByIssue(issueId, context);
+		List<HoldInfo> holdForPerson = getHoldsForPerson(personId, context);
+		holdForIssue.retainAll(holdForPerson);
+		return holdForIssue;
 	}
 
 	@Override
@@ -251,8 +297,16 @@ public class HoldServiceMockImpl implements HoldService {
 			String personId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<HoldInfo> holdsForPersonByIssues = getHoldsByIssueForPerson(
+				issueId, personId, context);
+		List<HoldInfo> holdsActive = new ArrayList<HoldInfo>();
+		for (HoldInfo hold : holdsForPersonByIssues) {
+			if (hold.getStateKey().equals(
+					HoldServiceConstants.HOLD_ACIVE_STATE_KEY)) {
+				holdsActive.add(hold);
+			}
+		}
+		return holdsActive;
 	}
 
 	@Override
@@ -269,8 +323,8 @@ public class HoldServiceMockImpl implements HoldService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		holdCache.put(holdInfo.getId(), holdInfo);
+		return holdInfo;
 	}
 
 	@Override
@@ -279,16 +333,19 @@ public class HoldServiceMockImpl implements HoldService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		holdCache.put(holdId, holdInfo);
+		return holdInfo;
 	}
 
 	@Override
 	public HoldInfo releaseHold(String holdId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		HoldInfo hold = holdCache.get(holdId);
+		hold.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+		hold.setReleasedDate(new Date());
+		return hold;
+
 	}
 
 	@Override
@@ -296,8 +353,8 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		holdCache.remove(holdId);
+		return StatusInfo.newInstance();
 	}
 
 	@Override
@@ -305,8 +362,7 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return issuesCache.get(issueId);
 	}
 
 	@Override
@@ -314,8 +370,12 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<IssueInfo> issueList = new ArrayList<IssueInfo>();
+		for (String issueId : issueIdList) {
+			issueList.add(getIssue(issueId, context));
+		}
+		return issueList;
 	}
 
 	@Override
@@ -323,8 +383,14 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> issueList = new ArrayList<String>();
+
+		for (IssueInfo issue : issuesCache.values()) {
+			if (issue.getTypeKey().equals(issueTypeKey)) {
+				issueList.add(issue.getId());
+			}
+		}
+		return issueList;
 	}
 
 	@Override
@@ -332,8 +398,14 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<IssueInfo> issueList = new ArrayList<IssueInfo>();
+
+		for (IssueInfo issue : issuesCache.values()) {
+			if (issue.getOrganizationId().equals(organizationId)) {
+				issueList.add(issue);
+			}
+		}
+		return issueList;
 	}
 
 	@Override
@@ -341,8 +413,16 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<IssueInfo> issueList = new ArrayList<IssueInfo>();
+
+		for (IssueInfo issue : issuesCache.values()) {
+			if (issueRestrictionsMap.get(issue.getId())
+					.contains(restrictionKey)) {
+				issueList.add(issue);
+			}
+		}
+		return issueList;
+
 	}
 
 	@Override
@@ -350,8 +430,11 @@ public class HoldServiceMockImpl implements HoldService {
 			String issueId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (!issueRestrictionsMap.get(issueId).contains(restrictionKey)) {
+			issueRestrictionsMap.get(issueId).add(restrictionKey);
+		}
+		return StatusInfo.newInstance();
 	}
 
 	@Override
@@ -359,8 +442,11 @@ public class HoldServiceMockImpl implements HoldService {
 			String issueId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (issueRestrictionsMap.get(issueId).contains(restrictionKey)) {
+			issueRestrictionsMap.get(issueId).remove(restrictionKey);
+		}
+		return StatusInfo.newInstance();
 	}
 
 	@Override
@@ -377,8 +463,8 @@ public class HoldServiceMockImpl implements HoldService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		issuesCache.put(issueInfo.getId(), issueInfo);
+		return issueInfo;
 	}
 
 	@Override
@@ -386,9 +472,9 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+			PermissionDeniedException {
+		issuesCache.put(issueId, issueInfo);
+		return issueInfo;
 	}
 
 	@Override
@@ -396,8 +482,8 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		issuesCache.remove(issueId);
+		return StatusInfo.newInstance();
 	}
 
 	@Override
@@ -405,8 +491,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return restrictionsCache.get(restrictionKey);
 	}
 
 	@Override
@@ -415,8 +500,12 @@ public class HoldServiceMockImpl implements HoldService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<RestrictionInfo> restrictInfoList = new ArrayList<RestrictionInfo>();
+		for (String restrictionKey : restrictionKeyList) {
+			restrictInfoList.add(getRestriction(restrictionKey, context));
+		}
+		return restrictInfoList;
 	}
 
 	@Override
@@ -424,8 +513,12 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> restrictionKeys = issueRestrictionsMap.get(issueId);
+		List<RestrictionInfo> restrictionInfos = new ArrayList<RestrictionInfo>();
+		for (String restInfo : restrictionKeys) {
+			restrictionInfos.add(getRestriction(restInfo, context));
+		}
+		return restrictionInfos;
 	}
 
 	@Override
@@ -433,8 +526,15 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> restrictionKeys = new ArrayList<String>();
+		for (RestrictionInfo restInfo : restrictionsCache.values()) {
+			if (restInfo.getTypeKey().equals(restrictionTypeKey)) {
+
+				restrictionKeys.add(restInfo.getKey());
+			}
+		}
+		return restrictionKeys;
+
 	}
 
 	@Override
@@ -453,8 +553,10 @@ public class HoldServiceMockImpl implements HoldService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		restrictionsCache.put(restrictionKey, restrictionInfo);
+
+		return restrictionInfo;
 	}
 
 	@Override
@@ -464,8 +566,9 @@ public class HoldServiceMockImpl implements HoldService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		restrictionsCache.put(restrictionKey, restrictionInfo);
+
+		return restrictionInfo;
 	}
 
 	@Override
@@ -473,8 +576,9 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		restrictionsCache.remove(restrictionKey);
+		return StatusInfo.newInstance();
 	}
 
 }
