@@ -44,7 +44,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator  implemen
             throw new OperationFailedException();
         }
         
-        return super.validateAtp(validationType, atpInfo, context);
+        return this.nextDecorator.validateAtp(validationType, atpInfo, context);
 
     }
 
@@ -58,7 +58,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator  implemen
             throw new OperationFailedException();
         }
         
-        return super.validateMilestone(validationType, milestoneInfo, context);
+        return this.nextDecorator.validateMilestone(validationType, milestoneInfo, context);
     }
     
     
