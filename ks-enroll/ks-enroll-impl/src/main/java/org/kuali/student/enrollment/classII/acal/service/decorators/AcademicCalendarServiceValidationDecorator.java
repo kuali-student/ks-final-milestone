@@ -39,7 +39,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
         }catch(PermissionDeniedException ex){
             throw new OperationFailedException();
         }
-        return super.validateAcademicCalendar(validationType, acalInfo, context);
+        return this.nextDecorator.validateAcademicCalendar(validationType, acalInfo, context);
     }
     
 }
