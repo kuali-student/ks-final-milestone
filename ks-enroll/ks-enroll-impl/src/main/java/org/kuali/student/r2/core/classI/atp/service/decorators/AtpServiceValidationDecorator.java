@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator  implements HoldsValidator{
@@ -46,5 +47,20 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator  implemen
         return super.validateAtp(validationType, atpInfo, context);
 
     }
+
+    @Override
+    public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo, ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        
+        try{
+            this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), milestoneInfo, context);
+        } catch(PermissionDeniedException ex){
+            throw new OperationFailedException();
+        }
+        
+        return super.validateMilestone(validationType, milestoneInfo, context);
+    }
+    
+    
 
 }
