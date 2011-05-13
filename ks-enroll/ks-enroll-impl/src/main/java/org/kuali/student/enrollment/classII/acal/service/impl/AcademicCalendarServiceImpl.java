@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebService;
+
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
@@ -13,6 +15,7 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.classII.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -32,8 +35,11 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
+@WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     private AtpService atpService;
+    private AcademicCalendarAssembler acalAssembler;
     
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -85,8 +91,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         AtpInfo atp = atpService.getAtp(academicCalendarKey, context);
-        //TODO: convert AtpInfo to AcademicCalendarInfo
-        return null;
+
+        return acalAssembler.assemble(atp, context);
     }
 
     @Override
@@ -144,8 +150,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        AtpInfo atp = buildAtpInfo(academicCalendarKey, academicCalendarInfo, context);
-        
+        AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
         try {
                 atpService.getAtp(academicCalendarKey, context);
             try {
@@ -160,67 +165,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         return academicCalendarInfo;
     }
 
-    private AtpInfo buildAtpInfo(String academicCalendarKey,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException{
-        
-        
-        AtpInfo atp = AtpInfo.newInstance();
-        atp.setKey(academicCalendarKey);
-        atp.setName(academicCalendarInfo.getName());
-        atp.setDescr(academicCalendarInfo.getDescr());
-        atp.setStartDate(academicCalendarInfo.getStartDate());
-        atp.setEndDate(academicCalendarInfo.getEndDate());
-        //TODO:pick hard coded from a constant file
-        atp.setTypeKey("kuali.atp.type.AcademicCalendar");
-        atp.setStateKey(academicCalendarInfo.getStateKey());
-        atp.setMetaInfo(academicCalendarInfo.getMetaInfo());
-        Map<String,String> attributes = (Map<String, String>) (null != academicCalendarInfo.getAttributes()? academicCalendarInfo.getAttributes(): new HashMap<String,String>());
-        attributes.put("CredentialProgramType", academicCalendarInfo.getCredentialProgramTypeKey());
-        
-       if(academicCalendarInfo.getCampusCalendarKeys() != null && !academicCalendarInfo.getCampusCalendarKeys().isEmpty()){
-           buildAtpAtpRelations(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
-       }        
-       
-       return atp;
-    }
-    
-    private void buildAtpAtpRelations(String atpKey, List<String> relatedAtpKeys, ContextInfo context) throws AlreadyExistsException,
-    DataValidationErrorException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        
-        try {
-            List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
-            
-            for (String relatedKey : relatedAtpKeys){
-                for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                    if(!relatedKey.equals(atpRelInfo.getRelatedAtpKey())){
-                      //if not exist, create relations
-                        createAtpAtpRelations(atpKey, relatedKey, context);
-                    }
-                }   
-            }
-
-        } catch (DoesNotExistException e) {
-            //if not exist, create relations
-            for (String relatedKey : relatedAtpKeys){
-                createAtpAtpRelations(atpKey, relatedKey, context);
-            }
-    }
-    }
-    
-    private void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
-    DataValidationErrorException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        AtpAtpRelationInfo atpRel = AtpAtpRelationInfo.newInstance();
-        atpRel.setId(UUIDHelper.genStringUUID());
-        atpRel.setAtpKey(atpKey);
-        atpRel.setRelatedAtpKey(relatedAtpKey);
-        atpRel.setTypeKey("kuali.atp.atp.relation.includes");
-        atpService.createAtpAtpRelation(atpRel, context);        
-    }
-    
     @Override
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
@@ -230,12 +174,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         try{
             atpService.getAtp(academicCalendarKey, context);
             AtpInfo atp;
-            try {
-                atp = buildAtpInfo(academicCalendarKey, academicCalendarInfo, context);
+
+            atp = acalAssembler.disassemble(academicCalendarInfo, context);
+
+            if(atp != null)
                 atpService.updateAtp(academicCalendarKey, atp, context);
-            } catch (AlreadyExistsException e) {
-                return null;
-            }           
+                    
         } catch (DoesNotExistException e1) {
             return null;
         }
@@ -735,6 +679,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
+    }
+
+    public AcademicCalendarAssembler getAcalAssembler() {
+        return acalAssembler;
+    }
+
+    public void setAcalAssembler(AcademicCalendarAssembler acalAssembler) {
+        this.acalAssembler = acalAssembler;
     }
 
 }

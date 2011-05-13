@@ -44,6 +44,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
  
      <bean id="acalService" class="org.kuali.student.enrollment.classII.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpService"/>
+    	<property name="acalAssembler" ref="acalAssembler" />
+    </bean>
+       
+    <bean id="acalAssembler" class="org.kuali.student.enrollment.classII.acal.service.assembler.AcademicCalendarAssembler">
+    	<property name="atpService" ref="atpService"/>
     </bean>
        
     <!-- declare impls here -->
