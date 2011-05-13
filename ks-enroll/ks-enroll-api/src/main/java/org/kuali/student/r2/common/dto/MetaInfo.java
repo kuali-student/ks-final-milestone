@@ -63,12 +63,14 @@ public class MetaInfo implements Meta, Serializable {
     }
 
     private MetaInfo(Meta meta) {
-        this.versionInd = meta.getVersionInd();
-        this.createTime = null != meta.getCreateTime() ? new Date(meta.getCreateTime().getTime()) : null;
-        this.createId = meta.getCreateId();
-        this.updateTime = null != meta.getUpdateTime() ? new Date(meta.getUpdateTime().getTime()) : null;
-        this.updateId = meta.getUpdateId();
-        this._futureElements = null;
+        if(meta != null){
+            this.versionInd = meta.getVersionInd();
+            this.createTime = null != meta.getCreateTime() ? new Date(meta.getCreateTime().getTime()) : null;
+            this.createId = meta.getCreateId();
+            this.updateTime = null != meta.getUpdateTime() ? new Date(meta.getUpdateTime().getTime()) : null;
+            this.updateId = meta.getUpdateId();
+            this._futureElements = null;
+        }
     }
 
     @Override
