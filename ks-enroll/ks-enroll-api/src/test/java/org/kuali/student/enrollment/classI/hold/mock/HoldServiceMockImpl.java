@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.classI.hold.mock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
@@ -26,7 +26,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class HoldServiceMockImpl implements HoldService {
-	
+
+	private static Map<String, String> issueRestrictionsMap = new HashMap<String, String>();
 	private static Map<String, HoldInfo> holdCache = new HashMap<String, HoldInfo>();
 
 	@Override
@@ -130,8 +131,30 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		boolean personRestricted = false;
+		List<HoldInfo> holds = getHoldsForPerson(personId, context);
+
+		if (holds != null && holds.size() > 0) {
+			List<String> allIssuesPerPerson = new ArrayList<String>();
+
+			for (HoldInfo hold : holds) {
+				allIssuesPerPerson.add(hold.getIssueId());
+			}
+			List<RestrictionInfo> allRestrictionsPerPerson = new ArrayList<RestrictionInfo>();
+
+			for (String issueId : allIssuesPerPerson) {
+				allRestrictionsPerPerson.addAll(getRestrictionsByIssue(issueId,
+						context));
+			}
+			for (RestrictionInfo resInfo : allRestrictionsPerPerson) {
+				if (resInfo.getKey().equals(restrictionKey)) {
+					personRestricted = true;
+				}
+			}
+		}
+		return personRestricted;
+
 	}
 
 	@Override
@@ -139,8 +162,17 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	
+		List<IssueInfo> issues = getIssuesByRestriction(restrictionKey, context);
+		List <String> peopleRestricted = new ArrayList<String>(); 
+		for(IssueInfo issue : issues){
+			List<HoldInfo> holds =  getHoldsByIssue(issue.getId(), context);
+			for(HoldInfo hold:holds){
+				peopleRestricted.add(hold.getPersonId());
+			}
+		}
+	
+		return peopleRestricted;
 	}
 
 	@Override
@@ -388,11 +420,10 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<RestrictionInfo> getRestrictionsByIssue(
-			String issueId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+	public List<RestrictionInfo> getRestrictionsByIssue(String issueId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -445,7 +476,5 @@ public class HoldServiceMockImpl implements HoldService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-
 
 }
