@@ -51,7 +51,7 @@ public class RichTextInfo implements RichText, Serializable {
         return new RichTextInfo(descr);
     }
     
-    private RichTextInfo() {
+    public RichTextInfo() {
     	plain = null;
     	formatted = null;
     	_futureElements=null;
