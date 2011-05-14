@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.classII.acal.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +12,8 @@ import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -27,7 +25,6 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-//@Ignore
 public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     @Client(value = "org.kuali.student.enrollment.classII.acal.service.impl.AcademicCalendarServiceImpl")
 
@@ -64,8 +61,8 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
                 AcademicCalendarInfo existed = acalService.getAcademicCalendar("testAcalId", callContext);
 
                 assertNotNull(existed);
-                assertEquals("testAcalId", acal.getKey());
-                assertEquals("testAcal", acal.getName());
+                assertEquals("testAcalId", existed.getKey());
+                assertEquals("testAcal", existed.getName());
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
             }
@@ -92,5 +89,61 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
+    }
+    
+    @Ignore
+    @Test 
+    //TODO: fix locking issue
+    public void testUpdateAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            acal.setKey("testNewAcalId");
+            acal.setName("testNewAcal");
+            acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+            acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+            try{
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testNewAcalId", acal, callContext);
+                assertNotNull(created);
+                assertEquals("testNewAcalId", created.getKey());
+                
+                
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testNewAcalId", callContext);
+
+                assertNotNull(existed);
+                
+                existed.setName("testUpdatedAcal");
+                AcademicCalendarInfo updated = acalService.updateAcademicCalendar("testNewAcalId", existed, callContext);
+                assertEquals("testUpdatedAcal", updated.getName());
+            } catch (Exception ex) {
+                fail("exception from service call :" + ex.getMessage());
+            }
+    }
+    
+    
+    @Test 
+    public void testDeleteAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            acal.setKey("testDeletedAcalId");
+            acal.setName("testDeletedAcal");
+            acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+            acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+            try{
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testDeletedAcalId", acal, callContext);
+                assertNotNull(created);
+                assertEquals("testDeletedAcalId", created.getKey());
+
+                StatusInfo ret = acalService.deleteAcademicCalendar("testDeletedAcalId", callContext);
+                assertTrue(ret.isSuccess() == Boolean.TRUE);
+
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testDeletedAcalId", callContext);
+                assertNull(existed);
+            } catch (Exception ex) {
+                fail("exception from service call :" + ex.getMessage());
+            }
     }
 }
