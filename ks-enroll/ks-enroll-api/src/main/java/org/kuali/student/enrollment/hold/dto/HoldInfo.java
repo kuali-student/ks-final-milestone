@@ -62,7 +62,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
-	private HoldInfo() {
+	public HoldInfo() {
 		personId = null;
 		isWarning = false;
 		isOverridable = false;
@@ -105,10 +105,6 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 				.getReleasedDate().getTime()) : null;
 
 		_futureElements = null;
-	}
-
-	public static HoldInfo newInstance() {
-		return new HoldInfo();
 	}
 
 	private static HoldInfo newInstance(String id, String typeKey,
