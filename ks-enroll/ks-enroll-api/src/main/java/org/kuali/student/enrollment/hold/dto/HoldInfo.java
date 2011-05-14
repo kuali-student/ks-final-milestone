@@ -85,28 +85,6 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
 	}
 
-	/**
-	 * Constructs a new HoldInfo from another Hold.
-	 * 
-	 * @param hold
-	 *            the Hold to copy
-	 */
-	public HoldInfo(Hold hold) {
-		super(hold);
-
-		this.personId = hold.getPersonId();
-		this.issueId = hold.getIssueId();
-		this.isWarning = hold.isWarning();
-		this.isOverridable = hold.isOverridable();
-
-		this.effectiveDate = null != hold.getEffectiveDate() ? new Date(hold
-				.getEffectiveDate().getTime()) : null;
-		this.releasedDate = null != hold.getReleasedDate() ? new Date(hold
-				.getReleasedDate().getTime()) : null;
-
-		_futureElements = null;
-	}
-
 	private static HoldInfo newInstance(String id, String typeKey,
 			String stateKey, String name, RichText descr, String issueIdId,
 			String personId, Boolean isWarning, Boolean isOverridable,
