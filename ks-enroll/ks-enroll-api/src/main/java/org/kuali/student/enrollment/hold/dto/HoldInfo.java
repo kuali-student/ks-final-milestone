@@ -77,6 +77,8 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 			Boolean isOverridable, Date effectiveDate, Date releasedDate,
 			Meta metaInfo, List<? extends Attribute> attributes) {
 		
+		// TODO - have to pass params to super IdEntityInfo
+		super();
 		this.personId = personId;
 		this.isWarning = isWarning;
 		this.isOverridable = isOverridable;
