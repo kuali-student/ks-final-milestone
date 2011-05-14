@@ -76,6 +76,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 			RichText descr, String issueId, String personId, Boolean isWarning,
 			Boolean isOverridable, Date effectiveDate, Date releasedDate,
 			Meta metaInfo, List<? extends Attribute> attributes) {
+		
 		this.personId = personId;
 		this.isWarning = isWarning;
 		this.isOverridable = isOverridable;
@@ -85,7 +86,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
 	}
 
-	private static HoldInfo newInstance(String id, String typeKey,
+	public static HoldInfo newInstance(String id, String typeKey,
 			String stateKey, String name, RichText descr, String issueIdId,
 			String personId, Boolean isWarning, Boolean isOverridable,
 			Date effectiveDate, Date releasedDate, MetaInfo metaInfo,
@@ -95,7 +96,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 				releasedDate, metaInfo, attributes);
 	}
 
-	private static HoldInfo createHoldInfoFromHoldInfo(Hold hold) {
+	public static HoldInfo createHoldInfoFromHoldInfo(Hold hold) {
 		return new HoldInfo(hold.getId(), hold.getTypeKey(),
 				hold.getStateKey(), hold.getName(), hold.getDescr(),
 				hold.getIssueId(), hold.getPersonId(), hold.isWarning(),
