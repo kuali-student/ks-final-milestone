@@ -16,211 +16,71 @@
 package org.kuali.student.enrollment.lrr.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-
-
+import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 /**
- * Information about the Learning Result Record Info.
- *
- * @Author KSContractMojo
- * @Author sambit
- * @Since Wed May 04 15:34:13 PDT 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/learningResultRecordInfo+Structure">LearningResultRecordInfo</a>
- *
+ * Information about the Learning Result Record Info. 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LearningResultRecordInfo implements Serializable {
+@XmlType(name = "LearningResultRecordInfo", propOrder = {"id", "typeKey", "stateKey", "lprId", "resultValueGroupId", "resultValueId", "resultSourceIdList", "metaInfo", "attributes", "_futureElements"})
+public class LearningResultRecordInfo extends IdEntityInfo implements LearningResultRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String personId;
-
-    @XmlElement
-    private String luiId;
-
-    @XmlElement
-    private String lprType;
-
-    @XmlAttribute
-    private String resultUsageTypeKey;
-
-    @XmlElement
-    private String resultComponentId;
-
-    @XmlElement
-    private String resultId;
-
-    @XmlElement
-    private String atpKey;
 
     @XmlElement
     private String lprId;
 
     @XmlElement
-    private List<SourceInfo> sourceInfoList;
-
-    @XmlAttribute
-    private String state;
+    private String resultValueGroupId;
 
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    private String resultValueId;
 
+    @XmlElement
+    private List<String> resultSourceIdList;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    @XmlAttribute
-    private String id;
-
-    /**
-     * person Identifier
-     */
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    /**
-     * Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.
-     */
-    public String getLuiId() {
-        return luiId;
-    }
-
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
-
-    /**
-     * Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.
-     */
-    public String getLprType() {
-        return lprType;
-    }
-
-    public void setLprType(String lprType) {
-        this.lprType = lprType;
-    }
-
-    /**
-     * Unique identifier for a result usage type. This is immutable once set.
-     */
-    public String getResultUsageTypeKey() {
-        return resultUsageTypeKey;
-    }
-
-    public void setResultUsageTypeKey(String resultUsageTypeKey) {
-        this.resultUsageTypeKey = resultUsageTypeKey;
-    }
-
-    /**
-     * Unique identifier for a result component.
-     */
-    public String getResultComponentId() {
-        return resultComponentId;
-    }
-
-    public void setResultComponentId(String resultComponentId) {
-        this.resultComponentId = resultComponentId;
-    }
-
-    /**
-     * The page resultId Structure does not exist.
-     */
-    public String getResultId() {
-        return resultId;
-    }
-
-    public void setResultId(String resultId) {
-        this.resultId = resultId;
-    }
-
-    /**
-     * Unique identifier for an Academic Time Period (ATP).
-     */
-    public String getAtpKey() {
-        return atpKey;
-    }
-
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
-
-    /**
-     * Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.
-     */
     public String getLprId() {
         return lprId;
+    }
+
+    public String getResultValueGroupId() {
+        return resultValueGroupId;
+    }
+
+    public String getResultValueId() {
+        return resultValueId;
+    }
+
+    public List<String> getResultSourceIdList() {
+        return resultSourceIdList;
     }
 
     public void setLprId(String lprId) {
         this.lprId = lprId;
     }
 
-    /**
-     * List of Sources.
-     */
-    public List<SourceInfo> getSourceInfoList() {
-        if (sourceInfoList == null) {
-            sourceInfoList = new ArrayList<SourceInfo>(0);
-        }
-        return sourceInfoList;
+    public void setResultValueGroupId(String resultValueGroupId) {
+        this.resultValueGroupId = resultValueGroupId;
     }
 
-    public void setSourceInfoList(List<SourceInfo> sourceInfoList) {
-        this.sourceInfoList = sourceInfoList;
+    public void setResultValueId(String resultValueId) {
+        this.resultValueId = resultValueId;
     }
 
-    /**
-     * The current status of the Learning Result Record. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-
-    /**
-     * Unique identifier for an learning result record. This is optional, due to the identifier being set at the time of creation. Once the result definition has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setResultSourceIdList(List<String> resultSourceIdList) {
+        this.resultSourceIdList = resultSourceIdList;
+    }      
 }
