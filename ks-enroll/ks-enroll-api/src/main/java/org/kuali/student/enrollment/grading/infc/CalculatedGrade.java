@@ -27,6 +27,21 @@ import org.kuali.student.r2.common.infc.HasId;
 
 public interface CalculatedGrade extends HasId, HasAttributesAndMeta {
 
-    
+    /**
+     * Grade scale associated with the grade
+     * 
+     * @name Grade Scale Id
+     * @impl maps to LearningResultRecord.resultValueGroupId in LRR
+     */
+    public String getGradeScaleId();
+
+    /**
+     * Calculated Grade value
+     * 
+     * @name Grade
+     * @impl maps to ResultValue.value in LRC where resultValue.Id = LearningResultRecord.resultValueId in LRR. The
+     *       resultSourceId in the LRR should be sourceId for source used for grade transformation
+     */
+    public String getGrade();    
 
 }
