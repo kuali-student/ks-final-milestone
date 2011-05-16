@@ -88,13 +88,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieve information about a grade roster
      * 
      * @param gradeRosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public GradeRosterInfo getGradeRoster(@WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -104,13 +106,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param graderId
      * @param termKey
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)   throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
  
@@ -119,13 +123,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieves rosters of final grades for a course offering
      * 
      * @param courseOfferingId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterInfo> getFinalGradeRostersForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context)   throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -134,13 +140,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieves rosters of final grade by actvity offerings
      * 
      * @param activityOfferingId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterInfo> getFinalGradeRostersForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context)   throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -149,13 +157,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieves all rosters for an activity offering
      * 
      * @param activityOfferingId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterInfo> getGradeRostersForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context)   throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -165,13 +175,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param activityOfferingIdList
      * @param rosterTypeKey
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws AlreadyExistsException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public GradeRosterInfo buildInterimGradeRosterByType(@WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList, @WebParam(name="rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -180,14 +192,16 @@ public interface GradingService extends DataDictionaryService {
      * Update interim grade roster information
      * 
      * @param gradeRoster
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
-     * @throws DataValidationErrorException
+     * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException
      */
     public GradeRosterInfo updateInterimGradeRoster(@WebParam(name="gradeRoster") GradeRosterInfo gradeRoster,  @WebParam(name = "context") ContextInfo context)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -197,13 +211,15 @@ public interface GradingService extends DataDictionaryService {
      * Delete an interim grade roster
      * 
      * @param gradeRosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteInterimGradeRoster(@WebParam(name="gradeRosterId") String gradeRosterId,   @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -213,14 +229,16 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param gradeRosterId
      * @param stateKey
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
-     * @throws DataValidationErrorException
+     * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException
      */
     public GradeRosterInfo updateFinalGradeRosterState(@WebParam(name="gradeRosterId") String gradeRosterId, @WebParam(name="newStateKey") String stateKey,  @WebParam(name = "context") ContextInfo context)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -230,7 +248,9 @@ public interface GradingService extends DataDictionaryService {
      * Validate a grade roster information
      * 
      * @param gradeRoster
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -244,13 +264,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieve information about a grade roster entry
      * 
      * @param gradeRosterEntryId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public GradeRosterEntryInfo getGradeRosterEntry(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -259,13 +281,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieve a list of grade roster entries based on their ids. The method should fail if there is an error in retrieving any id from the list.
      * 
      * @param gradeRosterEntryIdList
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(@WebParam(name = "gradeRosterEntryIdList") String gradeRosterEntryIdList, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -274,13 +298,15 @@ public interface GradingService extends DataDictionaryService {
      * Retrieve grade roster entries by roster 
      * 
      * @param gradeRosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<GradeRosterEntryInfo> getGradeRosterEntriesByRosterId(@WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -290,13 +316,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param studentId
      * @param rosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ResultValueGroupInfo> getValidGradesForStudentByRoster(@WebParam(name="studentId") String studentId, @WebParam(name="rosterId") String rosterId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -306,13 +334,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param studentId
      * @param courseOfferingId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering (@WebParam (name="studentId") String studentId, @WebParam(name="courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -322,13 +352,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param gradeRosterEntry
      * @param gradeRosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws AlreadyExistsException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public GradeRosterEntryInfo addEntrytoInterimRoster(@WebParam(name="gradeRosterEntry") GradeRosterEntryInfo gradeRosterEntry, @WebParam(name="gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -338,13 +370,15 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param gradeRosterEntryId
      * @param gradeRosterId
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo removeEntryFromInterimRoster(@WebParam(name="gradeRosterEntryId") String gradeRosterEntryId, @WebParam(name="gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
@@ -354,14 +388,16 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param gradeRosterEntryId
      * @param assignedGrade
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
-     * @throws DataValidationErrorException
+     * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException
      */
     public AssignedGradeInfo updateAssignedGrade(@WebParam(name="gradeRosterEntryId") String gradeRosterEntryId, @WebParam(name="assignedGrade") AssignedGradeInfo assignedGrade, @WebParam(name = "context") ContextInfo context)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -372,14 +408,16 @@ public interface GradingService extends DataDictionaryService {
      * 
      * @param gradeRosterEntryId
      * @param assignedGrade
-     * @param context
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return
-     * @throws DataValidationErrorException
+     * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException
      */
     public CreditsEarnedInfo updateCredit(@WebParam(name="gradeRosterEntryId") String gradeRosterEntryId, @WebParam(name="creditsEarned") CreditsEarnedInfo assignedGrade, @WebParam(name = "context") ContextInfo context)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException; 
