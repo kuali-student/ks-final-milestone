@@ -55,15 +55,24 @@ public class ResultValueGroupTypeInfo extends KeyEntityInfo implements
 	public ResultValueGroupTypeInfo() {
 	}
 
-	public ResultValueGroupTypeInfo(String name, String key, RichText descr,
+	private ResultValueGroupTypeInfo(String name, String key, RichText descr,
 			String typeKey, String stateKey, String id,
 			List<? extends Attribute> list, Date effectiveDate,
 			Date expirationDate, Meta metaInfo) {
-		//TODO once devs make objects mutable
+		// TODO once devs make objects mutable
 		super();
 		this.id = id;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
+		
+	}
+
+	public static ResultValueGroupTypeInfo newInstance(String name, String key,
+			RichText descr, String typeKey, String stateKey, String id,
+			List<? extends Attribute> list, Date effectiveDate,
+			Date expirationDate, Meta metaInfo) {
+		return new ResultValueGroupTypeInfo(name, key, descr, typeKey,
+				stateKey, id, list, effectiveDate, expirationDate, metaInfo);
 
 	}
 

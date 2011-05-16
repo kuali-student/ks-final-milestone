@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
@@ -41,10 +42,10 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 
 	}
 
-	public ResultValueInfo(String name, String value, String rank,
-			String typeKey, String stateKey, MetaInfo metaInfo, RichText descr,
-			Date effectiveDate, Date expirationDate, String id) {
-		// TODO once devs make objects mutable
+	private ResultValueInfo(String name, String value, String typeKey,
+			String stateKey, Meta metaInfo, RichText descr, Date effectiveDate,
+			Date expirationDate, String id) {
+		super();
 		this.value = value;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
@@ -52,9 +53,21 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 		this.id = id;
 	}
 
+	public static ResultValueInfo newInstance(String name, String value,
+			String typeKey, String stateKey, Meta metaInfo, RichText descr,
+			Date effectiveDate, Date expirationDate, String id) {
+
+		return new ResultValueInfo(name, value, typeKey, stateKey, metaInfo,
+				descr, effectiveDate, expirationDate, id);
+	}
+
 	public static ResultValueInfo createNewResultValueInfoFromResultValueInfo(
 			ResultValueInfo resultValueInfo) {
-		return new ResultValueInfo();
+		return new ResultValueInfo(resultValueInfo.getName(),
+				resultValueInfo.getValue(), resultValueInfo.getTypeKey(),
+				resultValueInfo.getStateKey(), resultValueInfo.getMetaInfo(),
+				resultValueInfo.getDescr(), resultValueInfo.getEffectiveDate(),
+				resultValueInfo.getExpirationDate(), resultValueInfo.getId());
 	}
 
 	@Override

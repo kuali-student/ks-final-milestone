@@ -43,7 +43,7 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	public ResultValueRangeInfo() {
 	}
 
-	public ResultValueRangeInfo(String key, String name, RichText descr,
+	private ResultValueRangeInfo(String key, String name, RichText descr,
 			String typeKey, String stateKey, String resultTypeKey, String id,
 			String minValue, String maxValue, float increment, String scaleKey,
 			String rank, Date effectiveDate, Date expirationDate, Meta meta,
@@ -58,6 +58,16 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 		this.rank = rank;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
+	}
+
+	public static ResultValueRangeInfo newInstance(String key, String name,
+			RichText descr, String typeKey, String stateKey,
+			String resultTypeKey, String id, String minValue, String maxValue,
+			float increment, String scaleKey, String rank, Date effectiveDate,
+			Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
+		return new ResultValueRangeInfo(key, name, descr, typeKey, stateKey,
+				resultTypeKey, id, minValue, maxValue, increment, scaleKey,
+				rank, effectiveDate, expirationDate, meta, attributes);
 	}
 
 	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(

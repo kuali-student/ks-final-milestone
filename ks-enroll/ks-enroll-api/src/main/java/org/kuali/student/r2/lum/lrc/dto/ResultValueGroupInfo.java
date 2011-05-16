@@ -66,7 +66,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 
 	}
 
-	public ResultValueGroupInfo(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
+	private ResultValueGroupInfo(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
 			ResultValueGroupType type,ResultValueRangeInfo resultValueRangeInfo ) {
 		super();
 		this.resultValues = resultValues;
@@ -76,7 +76,12 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.id = id;
 		this.resultValueRangeInfo = resultValueRangeInfo;
 	}
-
+	
+	public static ResultValueGroupInfo newInstance(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
+			ResultValueGroupType type,ResultValueRangeInfo resultValueRangeInfo ) {
+		return new ResultValueGroupInfo(id, resultValues, effectiveDate, expirationDate, type, resultValueRangeInfo);
+	}
+	
 	public static ResultValueGroupInfo createNewResultValueGroupInfoFromResultValueGroupInfo(
 			ResultValueGroupInfo resultValueGroupInfo) {
 		return new ResultValueGroupInfo(resultValueGroupInfo.getId(),
