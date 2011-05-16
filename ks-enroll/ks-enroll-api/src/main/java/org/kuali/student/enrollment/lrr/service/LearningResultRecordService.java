@@ -22,9 +22,8 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
-import org.kuali.student.enrollment.lrr.dto.SourceInfo;
-import org.kuali.student.enrollment.lrr.dto.SourceTypeInfo;
-
+import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,107 +37,84 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
 /**
- *
- * @Author KSContractMojo
- * @Author sambit
- * @Since Wed May 04 15:34:10 PDT 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/Learning+Result+Record+Service">LearningResultRecordService</>
- *
+ * 
+ * 
+ * The Learning Result Record Service supports the management of results earned through a person's participation in a learning unit instance. 
+ * 
+ * @Version: 1.0 (Dev) DRAFT - NOT READY FOR RELEASE.
+ * @author Kuali Student Team (Kamal)
  */
 @WebService(name = "LearningResultRecordService", targetNamespace = "http://student.kuali.org/wsdl/lrr") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningResultRecordService { 
-    /** 
-     * Retrieves the list of learning result record style source types known by this service
-     * @return list of learning result record style source types
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SourceTypeInfo> getSourceTypes() throws OperationFailedException;
+
 
     /** 
-     * Retrieves information about a particular learning result record style source type
-     * @param sourceTypeKey learning result record style source type identifier
-     * @return learning result record style source type information
-     * @throws DoesNotExistException specified source type not found
-     * @throws InvalidParameterException invalid sourceTypeKey
-     * @throws MissingParameterException sourceTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public SourceTypeInfo getSourceType(@WebParam(name="sourceTypeKey")String sourceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of learning result record style source types allowed for an learning result record
-     * @return list of learning result record style source types
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SourceTypeInfo> getAllowedSourceTypesForLearningResultRecord() throws OperationFailedException;
-
-    /** 
-     * Retrieves an learning result record by its identifier
+     * Retrieves a learning result record by its identifier
+     * 
      * @param learningResultRecordId learning result record identifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return learning result record information
      * @throws DoesNotExistException learning result record not found
      * @throws InvalidParameterException invalid learningResultRecordId
      * @throws MissingParameterException learningResultRecordId not specified
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
 	 */
-    public LearningResultRecordInfo getLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public LearningResultRecordInfo getLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of learning result records for a Person
-     * @param personId person identifier
+     * Retrieves a list of learning result records for a Lui Person Relation
+     * @param lprId Lui person relation identifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return list of learning result record information
      * @throws DoesNotExistException person not found
      * @throws InvalidParameterException invalid personId
      * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LearningResultRecordInfo> getLearningResultRecordsForPerson(@WebParam(name="personId")String personId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLpr(@WebParam(name="lprId")String lprId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
 
     /** 
-     * Retrieves a list of learning result records for a Lui
-     * @param luiId lui identifier
+     * Retrieves a list of learning result records for Lui Person Relation ids
+     * @param lprIdList List of Lui person relation identifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return list of learning result record information
-     * @throws DoesNotExistException lui not found
-     * @throws InvalidParameterException invalid luiId
-     * @throws MissingParameterException luiId not specified
+     * @throws DoesNotExistException person not found
+     * @throws InvalidParameterException invalid personId
+     * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
-	 */
-    public List<LearningResultRecordInfo> getLearningResultRecordsForLui(@WebParam(name="luiId")String luiId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+     */
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprIdList(@WebParam(name="lprIdList")List<String> lprIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of sources of an learning result record.
-     * @param learningResultRecordId learning result record identifier
-     * @return list of source records
-     * @throws DoesNotExistException learning result record not found
-     * @throws InvalidParameterException invalid learningResultRecordId
-     * @throws MissingParameterException learningResultRecordId not specified
+     * Retrieves a list of learning result records by source Id
+     * @param lprIdList List of Lui person relation identifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of learning result record information
+     * @throws DoesNotExistException person not found
+     * @throws InvalidParameterException invalid personId
+     * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
-	 */
-    public List<SourceInfo> getSourcesForLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Validates an learning result record. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning result record (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning result record can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param learningResultRecordInfo learning result record information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, learningResultRecordInfo
-     * @throws MissingParameterException missing validationTypeKey, learningResultRecordInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLearningResultRecord(@WebParam(name="validationType")String validationType, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
+     */
+    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIdList")List<String> lprIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    
     /** 
      * Creates an learning result record.
-     * @param personId identifier of the person the learning result record is for
-     * @param lprType identifier of the type of relationship between the person and learning unit instance
-     * @param luiId identifier of the learning unit instance
-     * @param resultUsageType identifier of the type of usage for the result
-     * @param resultComponentId identifier of the domain of result values the person could have achieved in the learning unit instance for this usage type
-     * @param resultValueId identifier of the result earned
-     * @param sourceInfo the source of this learning result record
      * @param learningResultRecordInfo information about the learning result record
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return information about the newly created learning result record
      * @throws AlreadyExistsException Learning result record already exists
      * @throws DataValidationErrorException One or more values invalid for this operation
@@ -147,12 +123,15 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LearningResultRecordInfo createLearningResultRecord(@WebParam(name="personId")String personId, @WebParam(name="lprType")String lprType, @WebParam(name="luiId")String luiId, @WebParam(name="resultUsageType")String resultUsageType, @WebParam(name="resultComponentId")String resultComponentId, @WebParam(name="resultValueId")String resultValueId, @WebParam(name="sourceInfo")SourceInfo sourceInfo, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LearningResultRecordInfo createLearningResultRecord(@WebParam(name="learningResultRecord")LearningResultRecordInfo learningResultRecord, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates an learning result record
      * @param learningResultRecordId identifier of the learning result record to be updated
      * @param learningResultRecordInfo information about the learningResultRecord to be updated
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return the updated learning result record information
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException learning result record not found
@@ -162,11 +141,14 @@ public interface LearningResultRecordService {
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-    public LearningResultRecordInfo updateLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public LearningResultRecordInfo updateLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
      * Deletes an learning result record
      * @param learningResultRecordId identifier of the learning result record to delete
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return status of the operation (success or failure)
      * @throws DoesNotExistException learning result record not found
      * @throws InvalidParameterException invalid learningResultRecordId
@@ -174,43 +156,136 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public StatusInfo deleteLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /** 
-     * Adds a source to an learning result record. The service is expected to enforce that the Id in the source record agrees with the LearningResultRecordId parameter.
+     * Validates an learning result record. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning result record (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning result record can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
+     * @param validationType identifier of the extent of validation
+     * @param learningResultRecordInfo learning result record information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, learningResultRecordInfo
+     * @throws MissingParameterException missing validationTypeKey, learningResultRecordInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateLearningResultRecord(@WebParam(name="validationType")String validationType, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /** 
+     * Retrieves a result source for a given identifier
+     * 
+     * @param resultSourceId result source id
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return learning result record information
+     * @throws DoesNotExistException result source not found
+     * @throws InvalidParameterException invalid resultSourceId
+     * @throws MissingParameterException resultSourceId not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public ResultSourceInfo getResultSource(@WebParam(name="resultSourceId")String resultSourceId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /** 
+     * Retrieves a list of result sources for a list of ids
+     * 
+     * @param resultSourceIdList result source Id list
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of result sources
+     * @throws DoesNotExistException result source not found
+     * @throws InvalidParameterException invalid resultSourceIdList
+     * @throws MissingParameterException resultSourceIdList not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public List<ResultSourceInfo> getResultSourcesByIdList(@WebParam(name="resultSourceIdList")String resultSourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /** 
+     * Retrieves a list of result sources by type
+     * 
+     * @param resultSourceTypeKey result source type key
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of result sources
+     * @throws DoesNotExistException result source not found
+     * @throws InvalidParameterException invalid resultSourceTypeKey
+     * @throws MissingParameterException resultSourceTypeKey not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public List<ResultSourceInfo> getResultSourcesByType(@WebParam(name="resultSourceTypeKey")String resultSourceTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
+    /** 
+     * Create a new result source 
      * @param learningResultRecordId learning result record identifier
      * @param sourceInfo source information
-     * @return status
-     * @throws DoesNotExistException learning result record not found
-     * @throws InvalidParameterException invalid learningResultRecordId or sourceInfo
-     * @throws MissingParameterException learningResultRecordId or sourceInfo not specified
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @throws AlreadyExistsException the result source being created already exists
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure    
 	 */
-    public StatusInfo addSourceToLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name="sourceInfo")SourceInfo sourceInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public ResultSourceInfo createResultSource(@WebParam(name="resultSourceInfo")ResultSourceInfo sourceInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * removes a source to an learning result record. An Learning Result Record always must have at least one Source therefore the last source cannot be removed.
-     * @param learningResultRecordId learning result record identifier
+     * Updates a result source 
+     * @param resultSourceId source identifier
+     * @param resultSourceInfo source information
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return updated result source information
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException result source not found 
+     * @throws InvalidParameterException invalid resultSourceId or resultSourceInfo
+     * @throws MissingParameterException resultSourceId or resultSourceInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException  The action was attempted on an out of date version
+     */
+    public ResultSourceInfo updateResultSource(@WebParam(name="resultSourceId")String resultSourceId, @WebParam(name="resultSourceInfo")ResultSourceInfo resultSourceInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /** 
+     * Delete a result source. The result source should not be deleteable if it is still being referenced by any LRR
      * @param sourceId source information identifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return status
-     * @throws DoesNotExistException learning result record not found
-     * @throws InvalidParameterException invalid learningResultRecordId or sourceId
-     * @throws MissingParameterException learningResultRecordId or sourceId not specified
+     * @throws DoesNotExistException the result source does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
-     * @throws UnsupportedOperationException Last source may not be removed
-	 */
-    public StatusInfo removeSourceFromLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name="sourceId")String sourceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteResultSource(@WebParam(name="deleteResultSourceId")String resultSourceId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates a source to an learning result record.
-     * @param sourceId source identifier
-     * @param sourceInfo source information
-     * @return status
-     * @throws DoesNotExistException source not found
-     * @throws InvalidParameterException invalid sourceId or sourceInfo
-     * @throws MissingParameterException sourceId or sourceInfo not specified
+     * Validates a result source 
+     * @param validationType identifier of the extent of validation
+     * @param resultSourceInfo result source information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, resultSourceInfo
+     * @throws MissingParameterException missing validationTypeKey, resultSourceInfo
      * @throws OperationFailedException unable to complete request
-	 */
-    public StatusInfo updateSourceOfLearningResultRecord(@WebParam(name="sourceId")String sourceId, @WebParam(name="sourceInfo")SourceInfo sourceInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+     */
+    public List<ValidationResultInfo> validateResultSource(@WebParam(name="validationType")String validationType, @WebParam(name="resultSourceInfo")ResultSourceInfo resultSourceInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
 }
