@@ -195,7 +195,12 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		
 		// Loop through all the activities in this format
 		for (LoDisplayInfo childDisplay : loDisplay.getLoDisplayInfoList()) {
-
+		    
+		    // Set the state of the child LO to match the state of the parent
+		    // LO. This end up propagating the program state to all of the LOs,
+		    // since we set parent LO state to program state earlier in the code
+		    childDisplay.getLoInfo().setState(loDisplay.getLoInfo().getState());
+		    
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentLoRelations.containsKey(childDisplay.getLoInfo().getId()))) {
