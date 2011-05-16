@@ -299,35 +299,6 @@ public class ProgramRequirementsDataModel {
         callback.exec(new ArrayList(storedRules.values()));  //update display widgets
     }
 
-    public static void stripStatementIds(StatementTreeViewInfo tree) {
-        List<StatementTreeViewInfo> statements = tree.getStatements();
-        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
-
-        if ((tree.getId() != null) && (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0)) {
-            tree.setId(null);
-        }
-        tree.setState("Active");
-
-        if ((statements != null) && (statements.size() > 0)) {
-            // retrieve all statements
-            for (StatementTreeViewInfo statement : statements) {
-                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
-            }
-        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
-            // retrieve all req. component LEAFS
-            for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                if ((reqComponent.getId() != null) && (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0)) {
-                    reqComponent.setId(null);
-                }
-
-                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
-                    field.setId(null);
-                }
-
-                reqComponent.setState("Active");
-            }
-        }
-    }
 
     public List<ProgramRequirementInfo> getProgReqInfo(String stmtTypeId) {
         List<ProgramRequirementInfo> rules = new ArrayList<ProgramRequirementInfo>();

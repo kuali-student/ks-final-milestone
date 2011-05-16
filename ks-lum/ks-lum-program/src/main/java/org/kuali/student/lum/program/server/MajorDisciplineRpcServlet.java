@@ -17,6 +17,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
@@ -115,14 +116,25 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         return storedRules;
     }
 
+ 
     public ProgramRequirementInfo createProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
 
+        // If this requirement is using a temporary statement ID set the state to null
         if (programRequirementInfo.getId().indexOf(ProgramRequirementsSummaryView.NEW_PROG_REQ_ID) >= 0) {
             programRequirementInfo.setId(null);
         }
-
-        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Strip the temporary statement IDs and allow permanent IDs to be created when written to the web service
+        StatementUtil.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Update the state of the statement tree to match the state of the requirement
+        // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+       
+        // Call the web service to create the requirement and statement tree in the database
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
+        
+        // Translate the requirement into its natural language equivalent
         setProgReqNL(rule);
 
         return rule;
@@ -133,8 +145,14 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
-        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Strip the temporary statement IDs and allow permanent IDs to be created when written to the web service
+        StatementUtil.stripStatementIds(programRequirementInfo.getStatement());
 
+        // Update the state of the statement tree to match the state of the requirement
+        // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+        
         //TODO temporary fix - see KSLUM 1421
         if (programRequirementInfo.getDescr() == null) {
             programRequirementInfo.setDescr(new RichTextInfo());    

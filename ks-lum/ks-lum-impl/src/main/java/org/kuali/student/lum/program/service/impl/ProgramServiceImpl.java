@@ -4,6 +4,7 @@ import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -193,10 +194,15 @@ public class ProgramServiceImpl implements ProgramService {
 
 			//Clear Ids from the original so it will make a copy and do other processing
 			processCopy(originalMajorDicipline, currentVersion.getId());
-
-			//Disassemble the new
+           
+            // Since we are creating a new version, update the requirements and statement
+			// tree and set the state to Draft
+            List<String> programRequirementIds = originalMajorDicipline.getProgramRequirements();
+            updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT);
+            
+			//Disassemble the new major discipline
 			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
-
+			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
@@ -216,6 +222,79 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 	}
     
+    /**
+     * This method will update the requirement state.
+     * <p>
+     * Note that it uses StatementUtil to update the statement tree.
+     * 
+     * @param majorDisciplineInfo
+     * @param newState
+     * @throws Exception
+     */
+    private void updateRequirementsState(List<String> programRequirementIds, String newState) throws DoesNotExistException,
+        InvalidParameterException, MissingParameterException,
+        OperationFailedException, PermissionDeniedException,  VersionMismatchException, DataValidationErrorException  {
+
+        /*
+         * WARNING: This is an exact copy of the method from ProgramStateChangeServiceImpl.
+         * We had to copy it because we cannot reference classes in the 
+         * org.kuali.student.lum.program.server
+         * 
+         * TODO: find a place to put a shared StatementUtil 
+         */
+         
+        for (String programRequirementId : programRequirementIds) {
+
+            // Get program requirement from the program service
+            ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null);
+
+            // Look in the requirement for the statement tree
+            StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
+
+            // And recursively update the entire tree with the new state
+            updateStatementTreeViewInfoState(newState, statementTree);
+
+            // Update the state of the requirement object
+            programRequirementInfo.setState(newState);
+
+            // The write the requirement back to the program service
+            updateProgramRequirement(programRequirementInfo);
+
+        }
+    }
+    
+    /**
+     * This method will recursively set the state of all statements in the tree.
+     * <p>
+     * WARNING: you must call the statement service in order to update statements.
+     * <p>
+     * 
+     * @param state is the state we should set all statements in the tree to
+     * @param statementTreeViewInfo the tree of statements
+     * @throws Exception
+     */
+    private static void updateStatementTreeViewInfoState(String state, StatementTreeViewInfo statementTreeViewInfo) {
+       /*
+        * WARNING: This is a copy of the method from StatementUtil.  We had to copy it because 
+        * we cannot reference the common.server package from this class.
+        * 
+        * TODO: find a place to put a shared StatementUtil 
+        */
+        
+        // Set the state on the statement tree itself
+        statementTreeViewInfo.setState(state);
+         
+        // Get all the requirements components for this statement
+        List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+        
+        // Loop over requirements and set the state for each requirement
+        for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+            it.next().setState(state);
+        
+        // Loop over each statement and set the state for each statement (recursively calling this method)
+        for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
+            updateStatementTreeViewInfoState(state, (StatementTreeViewInfo)itr.next());
+    }
     
 	/**
 	 * Recurses through the statement tree and clears out ids so the tree can be copied.
