@@ -160,7 +160,11 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
         official.setLongName(progReq.getLongTitle());
         official.setShortName(progReq.getShortTitle());
-        official.setState(!isEmpty(progReq.getState()) ? progReq.getState() : DtoConstants.STATE_DRAFT);
+        
+        // We decided not to do null checks in the disassembler.  Instead we will just 
+        // set state to whatever is passed into the method (I missed this change when working on 1834)      
+        official.setState(progReq.getState());
+        
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
         clu.setOfficialIdentifier(official);
