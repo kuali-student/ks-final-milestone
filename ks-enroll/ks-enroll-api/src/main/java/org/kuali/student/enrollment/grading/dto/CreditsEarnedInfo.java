@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.grading.infc.CreditsEarned;
@@ -34,14 +35,20 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CreditsEarnedInfo", propOrder = {"id", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CreditsEarnedInfo", propOrder = {"id", "creditGroupId", "credit", "metaInfo", "attributes", "_futureElements"})
 public class CreditsEarnedInfo extends HasAttributesAndMetaInfo implements CreditsEarned, Serializable  {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
     private String id;
-            
+
+    @XmlElement 
+    private String creditGroupId;
+    
+    @XmlElement
+    private String credit;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -51,5 +58,21 @@ public class CreditsEarnedInfo extends HasAttributesAndMetaInfo implements Credi
 
     public void setId(String id) {
         this.id = id;
-    }      
+    }
+
+    public String getCreditGroupId() {
+        return creditGroupId;
+    }
+
+    public String getCredit() {
+        return credit;
+    }
+
+    public void setCreditGroupId(String creditGroupId) {
+        this.creditGroupId = creditGroupId;
+    }
+
+    public void setCredit(String credit) {
+        this.credit = credit;
+    }            
 }

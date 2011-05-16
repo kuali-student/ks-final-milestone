@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.grading.infc.AssignedGrade;
@@ -34,12 +35,18 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AssignedGradeInfo", propOrder = {"id", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AssignedGradeInfo", propOrder = {"id", "gradeScaleId", "grade", "metaInfo", "attributes", "_futureElements"})
 public class AssignedGradeInfo extends HasAttributesAndMetaInfo implements AssignedGrade, Serializable  {
 
     @XmlAttribute
     private String id;
         
+    @XmlElement 
+    private String gradeScaleId;
+    
+    @XmlElement
+    private String grade;
+    
     @XmlAnyElement
     private List<Element> _futureElements;  
 
@@ -49,7 +56,25 @@ public class AssignedGradeInfo extends HasAttributesAndMetaInfo implements Assig
         return id;
     }
 
+    public String getGradeScaleId() {
+        return gradeScaleId;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+    
     public void setId(String id) {
         this.id = id;
-    }    
+    }
+    
+    public void setGradeScaleId(String gradeScaleId) {
+        this.gradeScaleId = gradeScaleId;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+    
+    
 }
