@@ -52,6 +52,9 @@
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1" />-->
+        <property name="control">
+        	<bean parent="TextControlDefinition" p:size="100"/>
+        </property>
     </bean>
 
     <bean id="baseKualiStringLong" abstract="true" parent="baseKualiString">
