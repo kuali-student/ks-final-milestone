@@ -101,16 +101,16 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
 
     @Override
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
     }
 
     @Override
     public Date getEndDate() {
-        return new Date(endDate.getTime());
+        return endDate;
     }
 
     @Override
     public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
+        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
     }
 }
