@@ -15,6 +15,7 @@
     <module>ks-enroll-impl</module>
     <module>ks-enroll-api</module>
     <module>ks-enroll-ui</module>
+    <module>ks-enroll-web</module>
   </modules>
   <dependencyManagement>
     <dependencies>
