@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "issueIdId", "personId", "isWarning", "isOverridable",
+		"descr", "issueId", "personId", "isWarning", "isOverridable",
 		"effectiveDate", "releasedDate", "metaInfo", "attributes",
 		"_futureElements" })
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
@@ -89,11 +89,11 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	}
 
 	public static HoldInfo newInstance(String id, String typeKey,
-			String stateKey, String name, RichText descr, String issueIdId,
+			String stateKey, String name, RichText descr, String issueId,
 			String personId, Boolean isWarning, Boolean isOverridable,
 			Date effectiveDate, Date releasedDate, MetaInfo metaInfo,
 			List<AttributeInfo> attributes) {
-		return new HoldInfo(id, typeKey, stateKey, name, descr, issueIdId,
+		return new HoldInfo(id, typeKey, stateKey, name, descr, issueId,
 				personId, isWarning, isOverridable, effectiveDate,
 				releasedDate, metaInfo, attributes);
 	}
