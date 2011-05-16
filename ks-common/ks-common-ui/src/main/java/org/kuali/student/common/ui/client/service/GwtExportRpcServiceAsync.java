@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
@@ -24,6 +24,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface GwtExportRpcServiceAsync {
     
-    public void reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle, AsyncCallback<String> callback);
+    public void reportExport(List<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle, AsyncCallback<String> callback);
     
 }

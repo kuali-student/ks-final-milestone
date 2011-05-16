@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.reporting;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.util.ExportElement;
@@ -23,7 +24,7 @@ public interface ReportExport {
      * This method can be overwritten on a subclass to do specific export to the specific view
      * 
      */    
-    public void doReportExport(ArrayList<ExportElement> exportElements, String format, String reportTitle);
+    public void doReportExport(List<ExportElement> exportElements, String format, String reportTitle);
 
     /**
      * 
@@ -47,6 +48,6 @@ public interface ReportExport {
      * 
      * @return
      */
-    public ArrayList<ExportElement> getExportElementsFromView();
+    public List<ExportElement> getExportElementsFromView();
    
 }

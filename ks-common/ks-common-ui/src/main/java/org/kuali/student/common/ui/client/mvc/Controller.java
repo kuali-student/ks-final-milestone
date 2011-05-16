@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.mvc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -41,9 +42,9 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -558,7 +559,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(ArrayList<ExportElement> exportElements, final String format, final String reportTitle) {        
+    public void doReportExport(List<ExportElement> exportElements, final String format, final String reportTitle) {        
      // Service call...
     	final BlockingTask loadDataTask = new BlockingTask("Generating Export File");
         
@@ -614,7 +615,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
+    public List<ExportElement> getExportElementsFromView() {
         String viewName = null;
         View currentView = this.getCurrentView();
         if (currentView != null) {

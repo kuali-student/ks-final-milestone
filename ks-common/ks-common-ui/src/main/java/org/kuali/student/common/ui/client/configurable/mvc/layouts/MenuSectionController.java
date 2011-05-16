@@ -326,7 +326,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     }
 
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
+    public List<ExportElement> getExportElementsFromView() {
         return super.getExportElementsFromView();
         
     }

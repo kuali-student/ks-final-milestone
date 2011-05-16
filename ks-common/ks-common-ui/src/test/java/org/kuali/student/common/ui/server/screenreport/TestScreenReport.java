@@ -197,6 +197,77 @@ public class TestScreenReport {
         Assert.assertTrue(bytes.length > 0);
 
     }
+    
+    @Test
+    public void testAnalysisReport() {
+
+        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
+        
+        List<ExportElement> list = new ArrayList<ExportElement>();
+        ExportElement element0 = new ExportElement();
+        element0.setFieldValue("Analysis");
+        list.add(element0);
+        
+        ExportElement element1 = new ExportElement();
+        element1.setFieldValue("Analysis 1");
+        list.add(element1);
+        
+        ExportElement element2 = new ExportElement();
+        list.add(element2);
+        
+        
+        ExportElement element3 = new ExportElement();
+        element3.setFieldValue("Analysis 2");
+        
+        List<ExportElement> sublist = new ArrayList<ExportElement>();
+        
+        ExportElement element3a = new ExportElement();
+        
+        List<ExportElement> sublista = new ArrayList<ExportElement>();
+        
+        ExportElement element3b = new ExportElement();
+                
+        List<ExportElement> sublistb = new ArrayList<ExportElement>();
+        
+        ExportElement subelement1 = new ExportElement();
+        subelement1.setFieldValue("Sub Analysis 1");
+        sublistb.add(subelement1);
+        
+        ExportElement subelement2 = new ExportElement();
+        subelement2.setFieldValue("Sub Analysis 2");
+        sublistb.add(subelement2);
+        
+        element3b.setSubset(sublistb);
+        sublista.add(element3b);
+        
+        element3a.setSubset(sublista);
+        sublist.add(element3a);
+        
+        element3.setSubset(sublist);
+        list.add(element3);
+        
+        ExportElement element4 = new ExportElement();
+        element4.setFieldValue("");
+        list.add(element4);
+        
+        ExportElement element5 = new ExportElement();
+        element5.setFieldValue("Analysis 3");
+        list.add(element5);
+        
+        byte[] bytes = processor.createPdf(list, "analysis.template", "Dependency Analysis");
+        Assert.assertNotNull(bytes);
+        printToFile(bytes, "ks-common-ui/target/analysis.pdf");
+        Assert.assertTrue(bytes.length > 0);
+
+    }
+    
+    private void removeEmptyElements(ExportElement parent, List<ExportElement> elements){
+        for (ExportElement element : elements){
+            if (element.isDataEmpty() && element.getSubset() != null && element.getSubset().size() == 1){
+                
+            }
+        }
+    }
 
     private void printToFile(byte[] bytes, String fileName) {
         OutputStream out;

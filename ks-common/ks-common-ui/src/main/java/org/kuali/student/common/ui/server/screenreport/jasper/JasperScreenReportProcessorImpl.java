@@ -23,7 +23,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.common.ui.server.messages.MessageRPCPreloader;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 
 /**
@@ -34,7 +33,7 @@ import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
  */
 public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
 
-    final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
+    final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);
 
     private static final String PROPERTIES_FILE = "jasper.properties";
 
@@ -217,7 +216,7 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
         if (dataMap != null) {
             jprint = JasperFillManager.fillReport(jreport, parameters, new KSCustomDataSource(dataMap.iterator()));
         } else {
-            jprint = JasperFillManager.fillReport(jreport, parameters, new KSCollectionDataSource(dataList));
+            jprint = JasperFillManager.fillReport(jreport, parameters, new KSCollectionDataSource(dataList, null));
 
         }
         return jprint;

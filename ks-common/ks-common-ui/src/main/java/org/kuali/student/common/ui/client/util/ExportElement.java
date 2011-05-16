@@ -56,9 +56,9 @@ public class ExportElement implements Serializable {
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
-//        if (this.fieldValue != null && fieldValue.startsWith("CORE")) {
-//			System.out.println("Stop gou hier");
-//		}
+        if (this.fieldValue != null && this.fieldValue.equals("")) {
+            System.out.println("Stop gou hier");
+        }
     }
 
     public boolean isSub() {
@@ -119,6 +119,13 @@ public class ExportElement implements Serializable {
         return "";
     }
 
+    public boolean isDataEmpty() {
+        if ((this.fieldLabel == null) && (this.fieldValue == null) && (this.fieldValue2 == null)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isEmpty() {
         if ((this.fieldLabel == null) && (this.fieldValue == null) && (this.fieldValue2 == null) && (this.subset == null)) {
             return true;
@@ -126,14 +133,8 @@ public class ExportElement implements Serializable {
         return false;
     }
 
-    public String printLine() {
-        String output = new String();
-//        if (this.getFieldLabel() == null && this.fieldValue != null) {
-//			this.setFieldLabel(this.getFieldValue());
-//		}
-
-        output = this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
-        return output;
+    public String toString() {
+        return this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
     }
 
 }

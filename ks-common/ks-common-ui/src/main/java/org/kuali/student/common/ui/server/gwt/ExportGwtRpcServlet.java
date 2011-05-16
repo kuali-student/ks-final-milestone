@@ -8,7 +8,7 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -36,7 +36,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
     }
 
     @Override
-    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
+    public String reportExport(List<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
         String exportId = null;
         boolean exportBasedOnView = true; // TODO Nina do we want this as a system Property??
         try {
@@ -75,7 +75,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
         return exportOutput;
     }
 
-    private byte[] exportBasedOnView(ArrayList<ExportElement> exportElements, String templateName, String exportFormat, String reportTitle) {
+    private byte[] exportBasedOnView(List<ExportElement> exportElements, String templateName, String exportFormat, String reportTitle) {
         byte[] exportOutput = null;
         if (exportFormat.equals(ExportUtils.PDF)) {
             exportOutput = reportProcessor.createPdf(exportElements, templateName, reportTitle);

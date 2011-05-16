@@ -1,6 +1,6 @@
 package org.kuali.student.common.ui.client.reporting;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.util.ExportElement;
 
@@ -10,7 +10,11 @@ import org.kuali.student.common.ui.client.util.ExportElement;
  * @author Kuali Student Team
  */
 public interface ReportExportWidget {
+    
+    public String getExportFieldValue();
 
-    public ArrayList<ExportElement> getExportElementsWidget(String viewName, String sectionName);
+    public List<ExportElement> getExportElementSubset(ExportElement parent);
+    
+    public boolean isExportElement();
    
 }
