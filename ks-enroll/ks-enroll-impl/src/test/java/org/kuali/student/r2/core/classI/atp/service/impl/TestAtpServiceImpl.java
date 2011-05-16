@@ -1,13 +1,16 @@
 package org.kuali.student.r2.core.classI.atp.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -18,7 +21,9 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -108,6 +113,12 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         } catch (DataValidationErrorException e) {
             e.printStackTrace();
         }
+        
+        // attempt to get
+        AtpInfo retrieved = atpService.getAtp("newId", callContext);
+        
+        assertNotNull(retrieved);
+        assertEquals("newId", retrieved.getKey());
     }
    
     @Ignore
@@ -128,13 +139,17 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         MilestoneInfo milestone = MilestoneInfo.newInstance();
         milestone.setKey("newId");
         milestone.setName("testCreate");
         milestone.setStartDate(new Date());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
+        milestone.setStateKey("kuali.atp.state.Draft");
+        milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        milestone.setDescr(new RichTextInfo());
+        milestone.getDescr().setPlain("Test");
         
         try {
             MilestoneInfo created = atpService.createMilestone("newId", milestone, callContext);
@@ -146,6 +161,10 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             e.printStackTrace();
             fail("Got an AlreadyExistsException when testing create");
         }
+        
+        // try to get the just-created milestone
+        MilestoneInfo found = atpService.getMilestone("newId", callContext);
+        assertNotNull(found);
         
         // ensure we cannot create another of the same id
         MilestoneInfo dupeCreated = null;
@@ -171,6 +190,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         MilestoneInfo updated = atpService.updateMilestone("testId", updateData, callContext);
         
+        assertNotNull(updated);
         assertEquals(updated.getName(), updatedName);
         assertEquals(updated.getKey(), previousId);
         
@@ -217,6 +237,121 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertEquals("testId", milestoneInfo.getName());
         assertEquals("Desc", milestoneInfo.getDescr().getPlain());
         assertEquals("kuali.atp.state.Draft", milestoneInfo.getStateKey());
-        assertEquals("kuali.apt.milestone.RegistrationPeriod", milestoneInfo.getTypeKey());
+        assertEquals("kuali.atp.milestone.AdvanceRegistrationPeriod", milestoneInfo.getTypeKey());
     }
+    
+    @Test
+    public void testGetMilestonesByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> milestoneKeys = new ArrayList<String>();
+        milestoneKeys.addAll(Arrays.asList("testId", "testId2"));
+        
+        List<MilestoneInfo> milestones = atpService.getMilestonesByKeyList(milestoneKeys, callContext);
+        
+        assertNotNull(milestones);
+        assertEquals(milestoneKeys.size(), milestones.size());
+        
+        // check that all the expected ids came back
+        for(MilestoneInfo info : milestones) {
+            milestoneKeys.remove(info.getKey());
+        }
+        
+        assertTrue(milestoneKeys.isEmpty());
+        
+        // now make sure an exception is thrown for any not found keys
+        
+        List<String> fakeKeys = Arrays.asList("testId", "fakeKey1", "fakeKey2");
+        
+        List<MilestoneInfo> shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getMilestonesByKeyList(fakeKeys, callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+    
+    @Test
+    public void testGetMilestonesByDates() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        Calendar cal = Calendar.getInstance();
+        
+        cal.set(Calendar.MONTH, Calendar.JULY);
+        cal.set(Calendar.DATE, 1);
+        cal.set(Calendar.YEAR, 2011);
+        
+        Date startDate = cal.getTime();
+        
+        cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        Date endDate = cal.getTime();
+        
+        List<MilestoneInfo> milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
+        
+        assertNotNull(milestones);
+        assertEquals(2, milestones.size());
+        
+        List<String> expectedIds = new ArrayList<String>();
+        expectedIds.addAll(Arrays.asList("testId", "testId2"));
+        
+        // check that all the expected ids came back
+        for(MilestoneInfo info : milestones) {
+            expectedIds.remove(info.getKey());
+        }
+        
+        assertTrue(expectedIds.isEmpty());
+        
+        cal.set(Calendar.YEAR, 1990);
+        
+        startDate = cal.getTime();
+        endDate = cal.getTime();
+        
+        milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
+        
+        assertTrue(milestones == null || milestones.isEmpty());
+    }
+    
+    @Test
+    public void testGetMilestoneKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String expectedMilestoneType = "kuali.atp.milestone.RegistrationPeriod";
+        
+        List<String> milestoneKeys = atpService.getMilestoneKeysByType(expectedMilestoneType, callContext);
+        
+        assertTrue(milestoneKeys.contains("testId2"));
+        
+        String expectedEmptyMilestoneType = "kuali.atp.milestone.GradesDue";
+        
+        milestoneKeys = atpService.getMilestoneKeysByType(expectedEmptyMilestoneType, callContext);
+        
+        assertTrue(milestoneKeys == null || milestoneKeys.isEmpty());
+        
+        String fakeMilestoneType = "fakeTypeKey";
+        
+        List<String> shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getMilestoneKeysByType(fakeMilestoneType, callContext);
+            fail("Did not get a InvalidParameterException when expected");
+        }
+        catch(InvalidParameterException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+    
+    @Test
+    public void testValidateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        // validating an existing milestone should return an empty list
+        MilestoneInfo existingMilestone = atpService.getMilestone("testId", callContext);
+        
+        List<ValidationResultInfo> existingResults = atpService.validateMilestone("FULL_VALIDATION", existingMilestone, callContext);
+        
+        assertTrue(existingResults.isEmpty());
+        
+        MilestoneInfo invalid = MilestoneInfo.newInstance();
+        
+        List<ValidationResultInfo> invalidResults = atpService.validateMilestone("FULL_VALIDATION", invalid, callContext);
+        
+        assertTrue(!invalidResults.isEmpty());        
+    }
+    
+    
 }

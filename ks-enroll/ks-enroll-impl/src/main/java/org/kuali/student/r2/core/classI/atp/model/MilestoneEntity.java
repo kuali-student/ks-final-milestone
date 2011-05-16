@@ -61,12 +61,15 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     }
 
     public MilestoneEntity(Milestone milestone) {
+        this.setId(milestone.getKey());
         this.name = milestone.getName();
-        this.descr = new AtpRichTextEntity(milestone.getDescr());
+        
         this.startDate = milestone.getStartDate();
         this.endDate = milestone.getEndDate();
         
-        // TODO Type and State
+        if(milestone.getDescr() != null) {
+            this.descr = new AtpRichTextEntity(milestone.getDescr());
+        }
         
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != milestone.getAttributes()) {
@@ -154,8 +157,9 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     public MilestoneInfo toDto() {
         MilestoneInfo info = MilestoneInfo.newInstance();
         
-        // TODO uncomment after builder pattern removed from dto superclasses
+        info.setKey(getId());
         info.setName(getName());
+        info.setDescr(getDescr().toDto());
         info.setTypeKey(getMilestoneType().getId());
         info.setStateKey(getAtpState().getId());
         info.setStartDate(getStartDate());
@@ -168,7 +172,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
             Attribute attInfo = att.toDto();
             atts.add(attInfo);
         }
-        // TODO, same reason as above info.setAttributes(atts);
+        info.setAttributes(atts);
         
         return info;
     }

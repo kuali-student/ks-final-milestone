@@ -17,12 +17,12 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
     
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByDateRange(Date startRange, Date endRange) {
-        return em.createQuery("from MilestoneEntity m where m.startDate between startRange and endRange or m.endDate between startRange and endRange").setParameter("startRange", startRange).setParameter("endRange", endRange).getResultList();
+        return em.createQuery("from MilestoneEntity m where m.startDate between :startRange and :endRange or m.endDate between :startRange and :endRange").setParameter("startRange", startRange).setParameter("endRange", endRange).getResultList();
     }
     
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByDateRangeAndType(Date startRange, Date endRange, String milestoneTypeId) {
-        Query query = em.createQuery("from MilestoneEntity m where (m.startDate between startRange and endRange or m.endDate between startRange and endRange) and (m.milestoneType.id=:mstoneTypeId)");
+        Query query = em.createQuery("from MilestoneEntity m where (m.startDate between :startRange and :endRange or m.endDate between :startRange and :endRange) and (m.milestoneType.id=:mstoneTypeId)");
         query.setParameter("startRange", startRange);
         query.setParameter("endRange", endRange);
         query.setParameter("mstoneTypeId", milestoneTypeId);

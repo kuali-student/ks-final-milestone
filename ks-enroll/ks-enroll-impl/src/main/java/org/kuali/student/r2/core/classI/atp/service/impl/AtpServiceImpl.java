@@ -364,7 +364,8 @@ public class AtpServiceImpl implements AtpService{
         
         AtpEntity existing = atpDao.find(atpKey);
         if( existing != null)
-            atpDao.update(atp);
+            throw new AlreadyExistsException(atpKey);
+            //atpDao.update(atp);
 
         else
             atpDao.persist(atp);
@@ -434,11 +435,12 @@ public class AtpServiceImpl implements AtpService{
             entity.setMilestoneType(milestoneTypeDao.find(milestoneInfo.getTypeKey()));
         }
         
-        // if the milestone type in the entity is still null at this point, it was either not found or never defined.
-        // in this case, throw a DataValidationErrorException
-        
         if(milestoneInfo.getStateKey() != null) {
             entity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
+        }
+        
+        if(milestoneInfo.getDescr() != null) {
+            entity.setDescr(new AtpRichTextEntity(milestoneInfo.getDescr()));
         }
         
         milestoneDao.persist(entity);
@@ -460,7 +462,7 @@ public class AtpServiceImpl implements AtpService{
         
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
         
-        milestoneDao.update(updatedEntity);
+        milestoneDao.merge(updatedEntity);
         
         return updatedEntity.toDto();
     }
