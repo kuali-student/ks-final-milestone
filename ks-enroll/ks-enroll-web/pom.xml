@@ -18,11 +18,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <name>KS Enroll Web</name>
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice</artifactId>
-        <version>2.0.0-m3</version>
-    </parent>
+	<parent>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll</artifactId>
+		<version>1.3.0-SNAPSHOT</version>
+	</parent>
     <artifactId>ks-enroll-web</artifactId>
     <packaging>war</packaging>
 
