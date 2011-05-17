@@ -16,15 +16,15 @@
 package org.kuali.student.r2.lum.lrc.dto;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.lrc.infc.ResultOption;
 
@@ -58,31 +58,31 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 	@XmlAttribute
 	private String id;
 	
+	
+	public static ResultOptionInfo getInstance(String key, String typeKey, String stateKey, String name, RichText descr,
+										        String resultUsageTypeKey, String resultComponentId,
+										        Date effectiveDate, Date expirationDate, String id,
+										        Meta metaInfo, List<? extends Attribute> attributes) {
+        return new ResultOptionInfo(key, typeKey, stateKey, name, descr, resultUsageTypeKey, resultComponentId, effectiveDate, expirationDate, id, metaInfo, attributes);
+    }
 
-	public ResultOptionInfo() {
+	private ResultOptionInfo() {
 
 	}
 
-	public ResultOptionInfo(String name, RichText descr, String typeKey,
-			String stateKey, MetaInfo metaInfo, String resultUsageTypeKey,
-			String resultComponentId, Date effectiveDate, Date expirationDate,
-			String id) {
-		// TODO - after devs create new constructor
-		super();
+	private ResultOptionInfo(String key, String typeKey, String stateKey, String name, RichText descr,
+	                         String resultUsageTypeKey, String resultComponentId,
+	                         Date effectiveDate, Date expirationDate, String id,
+	                         Meta metaInfo, List<? extends Attribute> attributes) {
+		super(name, id, descr, typeKey, stateKey, attributes, metaInfo);
 		this.resultUsageTypeKey = resultUsageTypeKey;
 		this.resultComponentId = resultComponentId;
-		this.effectiveDate = effectiveDate;
-		this.expirationDate = expirationDate;
-		this.id = id;
-	}
+		this.effectiveDate = new Date(effectiveDate.getTime());
+		this.expirationDate = new Date(expirationDate.getTime());
+    }
 
-	public static ResultOptionInfo createNewResultInfoFromResultInfo(
-			ResultOptionInfo resultOptionInfo) {
-		return new ResultOptionInfo();
-	}
-	
 	@Override
-	public String getResultUsageTypeKey() {
+    public String getResultUsageTypeKey() {
 		return resultUsageTypeKey;
 	}
 
@@ -122,6 +122,7 @@ public class ResultOptionInfo extends KeyEntityInfo implements ResultOption {
 		return id;
 	}
 
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}

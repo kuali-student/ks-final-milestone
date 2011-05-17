@@ -27,10 +27,12 @@ public interface DateRange {
      * Get sthe start date of the range.
      */
     public Date getStart();
+    public void setStart(Date start);
 
     /**
      * Name: End
      * Gets the end date of the range.
      */
     public Date getEnd();
+    public void setEnd(Date end);
 }

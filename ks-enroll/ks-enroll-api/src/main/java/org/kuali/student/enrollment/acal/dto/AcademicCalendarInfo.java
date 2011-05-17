@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.acal.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,20 +28,17 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AcademicCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "campusCalendarKeys", "credentialProgramTypeKey", "metaInfo", "attributes", "_futureElements"})
 
-public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalendar, Serializable {
+public class AcademicCalendarInfo extends TermInfo implements AcademicCalendar, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private Date startDate;
-
-    @XmlElement
-    private Date endDate;
 
     @XmlElement
     private List<String> campusCalendarKeys;
@@ -48,24 +46,26 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
     @XmlElement 
     private String credentialProgramTypeKey;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;  
-
-
-    public static AcademicCalendarInfo getInstance(AcademicCalendarInfo academicCalendarInfo) {
-        return new AcademicCalendarInfo(academicCalendarInfo);
-    }
     
     public static AcademicCalendarInfo newInstance() {
         return new AcademicCalendarInfo();
     }
     
+    public static AcademicCalendarInfo getInstance(AcademicCalendarInfo academicCalendarInfo) {
+        return new AcademicCalendarInfo(academicCalendarInfo);
+    }
+    
+    public static AcademicCalendarInfo getInstance(String key, String name, RichText descr,
+                                                    Date startDate, Date endDate,
+                                                    String typeKey, String stateKey,
+                                                    List<String> campusCalendarKeys, String credentialProgramTypeKey,
+                                                    List<? extends Attribute> attributes, Meta metaInfo) {
+        return new AcademicCalendarInfo(key, name, descr, startDate, endDate, typeKey, stateKey, campusCalendarKeys, credentialProgramTypeKey, attributes, metaInfo);
+    }
+    
     private AcademicCalendarInfo() {
-        startDate = null;
-        endDate = null;
         campusCalendarKeys = null;
         credentialProgramTypeKey = null;
-        _futureElements = null;
     }
 
     /**
@@ -78,33 +78,19 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements AcademicCalen
         super(academicCalendar);
         if (null != academicCalendar) {
 	
-	        this.startDate = null != academicCalendar.getStartDate() ? new Date(academicCalendar.getStartDate().getTime()) : null;
-	        this.endDate = null != academicCalendar.getEndDate() ? new Date(academicCalendar.getEndDate().getTime()) : null;
-	        this.campusCalendarKeys = academicCalendar.getCampusCalendarKeys();
+	        this.campusCalendarKeys = null != academicCalendar.getCampusCalendarKeys() ? new ArrayList<String>(academicCalendar.getCampusCalendarKeys()) : null;
 	        this.credentialProgramTypeKey = academicCalendar.getCredentialProgramTypeKey();
         }
-        _futureElements = null;
     }
 
-
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    @Override
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    @Override
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    private AcademicCalendarInfo(String key, String name, RichText descr,
+                                    Date startDate, Date endDate,
+                                    String typeKey, String stateKey,
+                                    List<String> campusCalendarKeys, String credentialProgramTypeKey,
+                                    List<? extends Attribute> attributes, Meta metaInfo) {
+        super(key, name, descr, endDate, endDate, typeKey, stateKey, attributes, metaInfo);
+        this.campusCalendarKeys = new ArrayList<String>(campusCalendarKeys);
+        this.credentialProgramTypeKey = credentialProgramTypeKey;
     }
 
     @Override

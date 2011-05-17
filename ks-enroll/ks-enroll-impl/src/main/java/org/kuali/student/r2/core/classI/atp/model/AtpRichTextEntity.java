@@ -18,9 +18,11 @@ public class AtpRichTextEntity extends RichTextEntity {
         this.setPlain(plain);
     }
     
-    public AtpRichTextEntity(RichText rt){
-        this.setFormatted(rt.getFormatted());
-        this.setPlain(rt.getPlain());
+    public AtpRichTextEntity(RichText rt) {
+        if (null != rt) {
+	        this.setFormatted(rt.getFormatted());
+	        this.setPlain(rt.getPlain());
+        }
     }
     
     public RichText toDto() {

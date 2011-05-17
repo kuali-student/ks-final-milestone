@@ -51,6 +51,7 @@ public interface RegistrationDateGroup {
      * @return the registratiob derivation date group
      */
     public RegistrationDateDerivationGroup getRegistrationDateDerivationGroup();
+    public void setRegistrationDateDerivationGroup(RegistrationDateDerivationGroup rddGroup);
 
     /**
      * Name: Term Key
@@ -59,6 +60,7 @@ public interface RegistrationDateGroup {
      * @return the term key
      */
     public String getTermKey();
+    public void setTermKey(String termKey);
 
     /**
      * Name: Registration Date Range
@@ -67,6 +69,7 @@ public interface RegistrationDateGroup {
      * @return the registration period
      */
     public DateRange getRegistrationDateRange();
+    public void setRegistrationDateRange(DateRange dateRange);
 
     /**
      * Name: Class Date Range
@@ -75,6 +78,7 @@ public interface RegistrationDateGroup {
      * @return the class period
      */
     public DateRange getClassDateRange();
+    public void setClassDateRange(DateRange dateRange);
 
     /**
      * Name: Add Date
@@ -83,6 +87,7 @@ public interface RegistrationDateGroup {
      * @return add date
      */
     public Date getAddDate();
+    public void setAddDate(Date addDate);
 
     /**
      * Name: Drop Date
@@ -91,6 +96,7 @@ public interface RegistrationDateGroup {
      * @return drop date
      */
     public Date getDropDate();
+    public void setDropDate(Date dropDate);
 
     /**
      * Name: Final Exam Date Range
@@ -99,6 +105,7 @@ public interface RegistrationDateGroup {
      * @return the final exam period
      */
     public DateRange getFinalExamDateRange();
+    public void setFinalExamDateRange(DateRange finalExamDateRange);
 
     /**
      * Name: Grading Date Range
@@ -107,4 +114,5 @@ public interface RegistrationDateGroup {
      * @return the grading period
      */
     public DateRange getGradingDateRange();
+    public void setGradingDateRange(DateRange gradingDateRange);
 }

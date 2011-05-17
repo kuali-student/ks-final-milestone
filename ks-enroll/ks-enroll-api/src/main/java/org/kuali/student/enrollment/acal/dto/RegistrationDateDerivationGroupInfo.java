@@ -54,6 +54,28 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
     @XmlAnyElement
     private List<Element> _futureElements;
 
+
+    public static RegistrationDateDerivationGroupInfo getInstance() {
+        return new RegistrationDateDerivationGroupInfo();
+    }
+    
+    public static RegistrationDateDerivationGroupInfo getInstance(RegistrationDateDerivationGroup registrationDateDerivationGroup) {
+        return new RegistrationDateDerivationGroupInfo(registrationDateDerivationGroup);
+    }
+    
+    public static RegistrationDateDerivationGroupInfo getInstance(String registrationStartDateTermKey, String registrationEndDateTermKey,
+                                                                  String classStartDateTermKey, String classEndDateTermKey,
+														          String addDateTermKey, String dropDateTermKey,
+														          String finalExamStartDateTermKey, String finalExamEndDateTermKey,
+														          String gradingStartDateTermKey, String gradingEndDateTermKey) {
+        return new RegistrationDateDerivationGroupInfo(registrationStartDateTermKey, registrationEndDateTermKey,
+                                                       classStartDateTermKey, classEndDateTermKey,
+											           addDateTermKey, dropDateTermKey,
+											           finalExamStartDateTermKey, finalExamEndDateTermKey,
+											           gradingStartDateTermKey, gradingEndDateTermKey);
+        
+    }
+    
     private RegistrationDateDerivationGroupInfo() {
         registrationStartDateTermKey = null;
         registrationEndDateTermKey = null;
@@ -68,13 +90,31 @@ public class RegistrationDateDerivationGroupInfo implements RegistrationDateDeri
         _futureElements = null;
     }
 
+    private RegistrationDateDerivationGroupInfo(String registrationStartDateTermKey, String registrationEndDateTermKey,
+                                                String classStartDateTermKey, String classEndDateTermKey,
+									            String addDateTermKey, String dropDateTermKey,
+									            String finalExamStartDateTermKey, String finalExamEndDateTermKey,
+									            String gradingStartDateTermKey, String gradingEndDateTermKey) {
+        this.registrationStartDateTermKey = registrationStartDateTermKey;
+        this.registrationEndDateTermKey = registrationEndDateTermKey;
+        this.classStartDateTermKey = classStartDateTermKey;
+        this.classEndDateTermKey = classEndDateTermKey;
+        this.addDateTermKey = addDateTermKey;
+        this.dropDateTermKey = dropDateTermKey;
+        this.finalExamStartDateTermKey = finalExamStartDateTermKey;
+        this.finalExamEndDateTermKey = finalExamEndDateTermKey;
+        this.gradingStartDateTermKey = gradingStartDateTermKey;
+        this.gradingEndDateTermKey = gradingEndDateTermKey;
+        _futureElements = null;
+    }
+    
     /**
      * Constructs a new RegistrationDateDerivationGroupInfo from another
      * RegistrationDateDerivationGroup.
      *
      * @param dateDerivationGroup the RegistrationDateDerivationGroup to copy
      */
-    public RegistrationDateDerivationGroupInfo(RegistrationDateDerivationGroup dateDerivationGroup) {
+    private RegistrationDateDerivationGroupInfo(RegistrationDateDerivationGroup dateDerivationGroup) {
         registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
         registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
         classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();

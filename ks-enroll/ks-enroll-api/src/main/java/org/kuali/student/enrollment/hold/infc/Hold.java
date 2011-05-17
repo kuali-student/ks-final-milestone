@@ -49,14 +49,14 @@ public interface Hold extends IdEntity {
      * block.
      */
     public Boolean isWarning();
-    public void setWarning(boolean isWarning);
+    public void setWarning(Boolean isWarning);
     
     /**
      * Name: Is Overridable
      * Indicates whether an exception can override this hold.
      */
     public Boolean isOverridable();
-    public void setOverridable(boolean isOverridable);
+    public void setOverridable(Boolean isOverridable);
 
     /**
      * Name: Effective Date

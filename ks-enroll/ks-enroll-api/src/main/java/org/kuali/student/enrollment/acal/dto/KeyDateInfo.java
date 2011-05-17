@@ -26,6 +26,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.KeyDate;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,7 +56,13 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         return new KeyDateInfo(keyDate);
     }
     
-    private KeyDateInfo() {
+    public static KeyDateInfo getInstance(String key, String name, RichText descr,
+								            Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
+								            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+		return new KeyDateInfo(key, name, descr, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
+	}
+
+    protected KeyDateInfo() {
         isAllDay = false;
         isDateRange = false;
         startDate = null;
@@ -66,7 +75,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
      *
      * @param keyDate the KeyDate to copy
      */
-    private KeyDateInfo(KeyDate keyDate) {
+    protected KeyDateInfo(KeyDate keyDate) {
         super(keyDate);
         this.isAllDay = keyDate.isAllDay();
         this.isDateRange = keyDate.isDateRange();
@@ -75,13 +84,24 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
         _futureElements = null;
     }
 
+    protected KeyDateInfo(String key, String name, RichText descr,
+				            Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
+				            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+        super(key, name, descr, typeKey, stateKey, attributes, meta);
+        this.isAllDay = isAllDay;
+        this.isDateRange = isDateRange;
+        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
+        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
+        _futureElements = null;
+    }
+    
     @Override
     public Boolean isAllDay() {
         return isAllDay;
     }
 
     @Override
-    public void setAllDay(boolean isAllDay) {
+    public void setAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
     }
 
@@ -91,7 +111,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
     }
 
     @Override
-    public void setDateRange(boolean isDateRange) {
+    public void setDateRange(Boolean isDateRange) {
         this.isDateRange = isDateRange;
     }
 

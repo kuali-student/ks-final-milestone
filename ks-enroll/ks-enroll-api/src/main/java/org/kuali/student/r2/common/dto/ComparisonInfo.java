@@ -113,7 +113,7 @@ public class ComparisonInfo implements Comparison, Serializable {
         return this.ignoreCase;
     }
 
-    public void setIgnoreCase(boolean ignoreCase) {
+    public void setIgnoreCase(Boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
     }
 }

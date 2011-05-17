@@ -11,11 +11,13 @@ public interface ResultOption extends Serializable {
 	 * Unique identifier for a result usage type.
 	 */
 	public String getResultUsageTypeKey();
+	public void setResultUsageTypeKey(String resultUsageTypeKey);
 
 	/**
 	 * Unique identifier for a result component.
 	 */
 	public String getResultComponentId();
+	public void setResultComponentId(String resultComponentId);
 
 	/**
 	 * Date and time that this result option became effective. This is a similar
@@ -24,6 +26,7 @@ public interface ResultOption extends Serializable {
 	 * expiration date.
 	 */
 	public Date getEffectiveDate();
+	public void setEffectiveDate(Date effectiveDate);
 
 	/**
 	 * Date and time that this result option expires. This is a similar concept
@@ -33,6 +36,7 @@ public interface ResultOption extends Serializable {
 	 * automatically be considered greater than the effective date.
 	 */
 	public Date getExpirationDate();
+	public void setExpirationDate(Date expirationDate);
 
 	
 	/**
@@ -41,4 +45,5 @@ public interface ResultOption extends Serializable {
 	 * been created, this should be seen as required.
 	 */
 	public String getId();
+	public void setId(String id);
 }

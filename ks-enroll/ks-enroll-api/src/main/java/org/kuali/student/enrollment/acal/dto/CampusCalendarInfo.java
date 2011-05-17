@@ -26,29 +26,37 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.CampusCalendar;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
-public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar, Serializable {
+public class CampusCalendarInfo extends TermInfo implements CampusCalendar, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlElement
-    private Date startDate;
-    @XmlElement
-    private Date endDate;
     @XmlElement
     private String location;
     @XmlAnyElement
     private List<Element> _futureElements;
-
+ 
+    public static CampusCalendarInfo newInstance() {
+        return new CampusCalendarInfo();
+    }
+    
     public static CampusCalendarInfo getInstance(CampusCalendarInfo campusCalendarInfo) {
         return new CampusCalendarInfo(campusCalendarInfo);
     }
 
+    public static CampusCalendarInfo getInstance(String key, String name, RichText descr,
+                                                    String typeKey, String stateKey,
+                                                    Date startDate, Date endDate, String location,
+                                                    List<? extends Attribute> attributes, Meta metaInfo) {
+        return new CampusCalendarInfo(key, name, descr, typeKey, stateKey, startDate, endDate, location, attributes, metaInfo);
+    }
+    
     private CampusCalendarInfo() {
-        startDate = null;
-        endDate = null;
         location = null;
         _futureElements = null;
     }
@@ -59,32 +67,17 @@ public class CampusCalendarInfo extends KeyEntityInfo implements CampusCalendar,
      *
      * @param campusCalendar the Campus Calendar to copy
      */
-    public CampusCalendarInfo(CampusCalendar campusCalendar) {
+    private CampusCalendarInfo(CampusCalendar campusCalendar) {
         super(campusCalendar);
-        this.startDate = null != campusCalendar.getStartDate() ? new Date(campusCalendar.getStartDate().getTime()) : null;
-        this.endDate = null != campusCalendar.getEndDate() ? new Date(campusCalendar.getEndDate().getTime()) : null;
-        this.location = campusCalendar.getLocation();
         _futureElements = null;
     }
 
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    @Override
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    @Override
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    private CampusCalendarInfo(String key, String name, RichText descr,
+                                String typeKey, String stateKey,
+                                Date startDate, Date endDate, String location,
+                                List<? extends Attribute> attributes, Meta metaInfo) {
+        super(key, name, descr, endDate, endDate, typeKey, stateKey, attributes, metaInfo);
+        this.location = location;
     }
 
     @Override

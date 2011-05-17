@@ -43,6 +43,7 @@ public interface Term extends KeyEntity {
      */
     public Date getStartDate();
     public void setStartDate(Date startDate);
+
     /**
      * Name: End Date
      * Date and time the term expires. This does not

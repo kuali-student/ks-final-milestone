@@ -80,7 +80,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
     }
 
     @Override
-    public void setAllDay(boolean isAllDay) {
+    public void setAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
     }
 
@@ -90,7 +90,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
     }
 
     @Override
-    public void setDateRange(boolean isDateRange) {
+    public void setDateRange(Boolean isDateRange) {
         this.isDateRange = isDateRange;
     }
 

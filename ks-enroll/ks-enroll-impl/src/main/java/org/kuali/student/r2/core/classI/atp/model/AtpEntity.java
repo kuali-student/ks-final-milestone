@@ -55,6 +55,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     public AtpEntity(){}
     
     public AtpEntity(Atp atp){
+        super(atp);
         try{
         this.setId(atp.getKey());
         this.setName(atp.getName());

@@ -37,6 +37,7 @@ import org.kuali.student.r2.core.classI.atp.dao.MilestoneTypeDao;
 import org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpEntity;
 import org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity;
+import org.kuali.student.r2.core.classI.atp.model.AtpStateEntity;
 import org.kuali.student.r2.core.classI.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.classI.atp.model.MilestoneTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -363,14 +364,12 @@ public class AtpServiceImpl implements AtpService{
         }
         
         AtpEntity existing = atpDao.find(atpKey);
-        if( existing != null)
-            throw new AlreadyExistsException(atpKey);
-            //atpDao.update(atp);
-
-        else
-            atpDao.persist(atp);
-
-        return atpInfo;
+        if( existing != null) {
+            throw new AlreadyExistsException();
+	    }
+        atpDao.persist(atp);
+        
+        return atpDao.find(atpKey).toDto();
     }
 
     @Override
@@ -388,10 +387,10 @@ public class AtpServiceImpl implements AtpService{
             if(atpInfo.getTypeKey() != null)
                 modifiedAtp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
             atpDao.merge(modifiedAtp);
+	        return atpDao.find(modifiedAtp.getId()).toDto();
         }
         else
             throw new DoesNotExistException(atpKey);
-        return atpInfo;
     }
 
     @Override
@@ -421,6 +420,7 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public MilestoneInfo createMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -451,16 +451,20 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         
         MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
+        
         if(existingEntity == null) {
             throw new DoesNotExistException(milestoneKey);
         }
         
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
+        updatedEntity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
+        updatedEntity.setMilestoneType(milestoneTypeDao.find(milestoneInfo.getTypeKey()));
         
         milestoneDao.merge(updatedEntity);
         
@@ -468,6 +472,7 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = StatusInfo.newInstance();
@@ -665,6 +670,7 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

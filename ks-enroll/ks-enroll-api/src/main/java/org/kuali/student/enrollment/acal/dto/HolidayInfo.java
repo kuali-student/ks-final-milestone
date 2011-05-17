@@ -26,25 +26,18 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Holiday;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isInstructionalDay", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
-public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable {
+public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private Boolean isInstructionalDay;
-    @XmlElement
-    private Boolean isAllDay;
-    @XmlElement
-    private Boolean isDateRange;
-    @XmlElement
-    private Date startDate;
-    @XmlElement
-    private Date endDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
 
 
     public static HolidayInfo newInstance() {
@@ -55,13 +48,14 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
         return new HolidayInfo(holiday);
     }
     
+    public static HolidayInfo getInstance(String key, String name, RichText descr,
+								            Boolean isInstructionalDay, Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
+								            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+        return new HolidayInfo(key, name, descr, isInstructionalDay, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
+    }
+    
     private HolidayInfo() {
         isInstructionalDay = false;
-        isAllDay = false;
-        isDateRange = false;
-        startDate = null;
-        endDate = null;
-        _futureElements = null;
     }
 
     /**
@@ -72,11 +66,14 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     private HolidayInfo(Holiday holiday) {
         super(holiday);
         this.isInstructionalDay = holiday.isInstructionalDay();
-        this.isAllDay = holiday.isAllDay();
-        this.isDateRange = holiday.isDateRange();
-        this.startDate = null != holiday.getStartDate() ? new Date(holiday.getStartDate().getTime()) : null;
-        this.endDate = null != holiday.getEndDate() ? new Date(holiday.getEndDate().getTime()) : null;
-        _futureElements = null;
+    }
+
+    public HolidayInfo(String key, String name, RichText descr,
+                                Boolean isInstructionalDay, Boolean isAllDay, Boolean isDateRange,
+                                Date startDate, Date endDate,
+                                String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+        super(key, name, descr, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
+        this.isInstructionalDay = isInstructionalDay;
     }
 
     @Override
@@ -85,45 +82,7 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     }
 
     @Override
-    public void setInstructionalDay(boolean isInstructionalDay) {
+    public void setInstructionalDay(Boolean isInstructionalDay) {
         this.isInstructionalDay = isInstructionalDay;
-    }
-
-    @Override
-    public Boolean isAllDay() {
-        return isAllDay;
-    }
-
-    @Override
-    public void setAllDay(boolean isAllDay) {
-        this.isAllDay = isAllDay;
-    }
-
-    @Override
-    public Boolean isDateRange() {
-        return isDateRange;
-    }
-
-    @Override
-    public void setDateRange(boolean isDateRange) {
-        this.isDateRange = isDateRange;
-    }
-
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = new Date(startDate.getTime());
-    }
-
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
     }
 }

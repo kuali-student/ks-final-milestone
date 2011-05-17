@@ -13,10 +13,12 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.KeyEntity;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
@@ -39,8 +41,9 @@ public abstract class KeyEntityInfo extends EntityInfo implements KeyEntity, Ser
         }
     }
 
-    protected KeyEntityInfo(String name, RichText descr, String typeKey, String stateKey, Meta meta) {
-        super(name, descr, typeKey, stateKey, meta);
+    protected KeyEntityInfo(String key, String name, RichText descr, String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+        super(name, descr, typeKey, stateKey, attributes, meta);
+        this.key = key;
     }
 
     @Override

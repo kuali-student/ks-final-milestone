@@ -26,6 +26,8 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.HasMeta;
+import org.kuali.student.r2.common.infc.Meta;
 
 @MappedSuperclass
 @Embeddable
@@ -55,7 +57,26 @@ public abstract class MetaEntity extends BaseEntity{
 //	    this.versionInd = versionInd;
 //	}
 		
-	public Date getCreateTime() {
+
+	protected MetaEntity() {
+	    
+	}
+	
+	// TODO - need a BaseEntity(HasMeta) to deal w/ version, id, and other fields
+    public MetaEntity(HasMeta hasMeta) {
+        if (null != hasMeta) {
+            Meta meta = hasMeta.getMetaInfo();
+            if (null != meta) {
+	            this.setCreateTime(meta.getCreateTime());
+	            this.setCreateId(meta.getCreateId());
+	            this.setUpdateTime(meta.getUpdateTime());
+	            this.setUpdateId(meta.getUpdateId());
+	            this.setVersionNumber(null != meta.getVersionInd() ? Long.valueOf(meta.getVersionInd()) : null);
+	        }
+        }
+    }
+
+    public Date getCreateTime() {
 		return createTime;
 	}
 
@@ -117,7 +138,7 @@ public abstract class MetaEntity extends BaseEntity{
 		miInfo.setCreateTime(getCreateTime());
 		miInfo.setUpdateId(getUpdateId());
 		miInfo.setUpdateTime(getUpdateTime());
-		// TODO: what about versionInd?
+		miInfo.setVersionInd(getVersionNumber().toString());
 		return miInfo;
 	}
 }

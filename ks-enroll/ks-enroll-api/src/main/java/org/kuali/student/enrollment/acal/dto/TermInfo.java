@@ -26,6 +26,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,13 +38,13 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private  Date startDate;
+    private Date startDate;
 
     @XmlElement
-    private  Date endDate;
+    private Date endDate;
 
     @XmlAnyElement
-    private  List<Element> _futureElements;
+    private List<Element> _futureElements;
 
     public static TermInfo newInstance() {
         return new TermInfo();
@@ -51,7 +54,16 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         return new TermInfo(term);
     }
 
-    private TermInfo() {
+    public static TermInfo getInstance(String key, String name, RichText descr,
+							            Date startDate, Date endDate,
+							            String typeKey, String stateKey,
+							            List<? extends Attribute> attributes, Meta metaInfo) {
+		return new TermInfo(key, name, descr, startDate, endDate, typeKey, stateKey, attributes, metaInfo);
+	}
+
+
+
+    protected TermInfo() {
         startDate = null;
         endDate = null;
         _futureElements = null;
@@ -63,7 +75,7 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
      *
      * @param term the Term to copy
      */
-    public TermInfo(Term term) {
+    protected TermInfo(Term term) {
         super(term);
 
         this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
@@ -72,6 +84,12 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         _futureElements = null;
     }
 
+    protected TermInfo(String key, String name, RichText descr, Date startDate, Date endDate, String typeKey, String stateKey, List<? extends Attribute> attributes, Meta metaInfo) {
+        super(key, name, descr, typeKey, stateKey, attributes, metaInfo);
+        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
+        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
+        _futureElements = null;
+    }
 
     @Override
     public Date getStartDate() {
@@ -80,16 +98,16 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
 
     @Override
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = new Date(startDate.getTime());
     }
 
     @Override
     public Date getEndDate() {
         return endDate;
     }
-    
+
     @Override
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = new Date(endDate.getTime());
     }
 }

@@ -45,6 +45,10 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
         }
     }
 
+    protected HasAttributesInfo(List<? extends Attribute> attributes) {
+        this.setAttributes(attributes);
+    }
+
     /**
      * @return the attributes
      */

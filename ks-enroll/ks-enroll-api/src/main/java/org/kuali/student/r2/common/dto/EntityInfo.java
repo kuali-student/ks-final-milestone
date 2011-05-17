@@ -13,11 +13,13 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Entity;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
@@ -57,8 +59,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         }
     }
 
-    protected EntityInfo(String name, RichText descr, String typeKey, String stateKey, Meta meta) {
-        super(meta);
+    protected EntityInfo(String name, RichText descr, String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
+        super(attributes, meta);
         this.name = name; 
         this.descr = RichTextInfo.getInstance(descr);
         this.typeKey = typeKey;

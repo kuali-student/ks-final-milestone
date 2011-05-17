@@ -36,5 +36,5 @@ public interface Holiday extends KeyDate {
      * @return true if this is an instructional day, false otherwise
      */
     public Boolean isInstructionalDay();
-    public void setInstructionalDay(boolean instructionalDay);
+    public void setInstructionalDay(Boolean instructionalDay);
 }

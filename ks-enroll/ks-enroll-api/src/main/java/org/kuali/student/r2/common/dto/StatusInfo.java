@@ -71,7 +71,7 @@ public class StatusInfo implements Status, Serializable {
 		return success;
 	}
 
-    public void setSuccess(boolean success) {
+    public void setSuccess(Boolean success) {
         this.success = success;
     }
 

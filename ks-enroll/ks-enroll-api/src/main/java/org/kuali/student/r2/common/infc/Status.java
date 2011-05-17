@@ -37,7 +37,7 @@ public interface Status {
      * Indicates the success or failure of the operation
      */
     public Boolean isSuccess();
-    public void setSuccess(boolean success);
+    public void setSuccess(Boolean success);
 
     /**
      * Name: Message

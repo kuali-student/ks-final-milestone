@@ -8,10 +8,12 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.Meta;
 
@@ -33,12 +35,13 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo impleme
         }
     }
 
-    protected HasAttributesAndMetaInfo(Meta meta) {
+    protected HasAttributesAndMetaInfo(List<? extends Attribute> attributes, Meta meta) {
+        super(attributes);
         this.metaInfo = null != meta ? MetaInfo.getInstance(meta) : null;
     }
 
     @Override
-    public Meta getMetaInfo() {
+    public MetaInfo getMetaInfo() {
         return metaInfo;
     }
     

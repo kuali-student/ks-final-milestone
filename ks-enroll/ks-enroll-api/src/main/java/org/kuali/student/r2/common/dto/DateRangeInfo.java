@@ -34,14 +34,22 @@ import org.w3c.dom.Element;
 public class DateRangeInfo implements DateRange, Serializable {
 	
 	@XmlElement
-	private final Date start;
+	private Date start;
 	
 	@XmlElement
-        private final Date end;
+	private Date end;
 	
     @XmlAnyElement
-    private final List<Element> _futureElements;    
+    private List<Element> _futureElements;    
 	
+    public static DateRangeInfo newInstance() {
+        return new DateRangeInfo();
+    }
+
+    public static DateRangeInfo getInstance(DateRange dateRange) {
+        return new DateRangeInfo(dateRange);
+    }
+    
 	private DateRangeInfo() {
             start = null;
             end = null;
@@ -62,11 +70,19 @@ public class DateRangeInfo implements DateRange, Serializable {
         return start;
     }
 
+    public void setStart(Date start) {
+        this.start = new Date(start.getTime());
+    }
+
     /**
      * @return the end date
      */
     @Override
     public Date getEnd() {
         return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = new Date(end.getTime());
     }
 }

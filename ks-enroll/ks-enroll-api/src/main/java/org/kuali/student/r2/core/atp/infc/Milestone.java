@@ -40,7 +40,7 @@ public interface Milestone extends KeyDate {
      * @return true if this is an all-day event, false otherwise
      */
     public Boolean isAllDay();
-    public void setAllDay(boolean isAllDay);
+    public void setAllDay(Boolean isAllDay);
 
     /**
      * Name: Is Date Range
@@ -50,7 +50,7 @@ public interface Milestone extends KeyDate {
      *         false if the start end end date are the same
      */
     public Boolean isDateRange();
-    public void setDateRange(boolean isDateRange);
+    public void setDateRange(Boolean isDateRange);
 
     /**
      * Name: Start Date
