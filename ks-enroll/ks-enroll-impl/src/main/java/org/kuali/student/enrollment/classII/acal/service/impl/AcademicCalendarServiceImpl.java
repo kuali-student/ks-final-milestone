@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.classII.acal.service.assembler.AcademicCalendarAssembler;
+import org.kuali.student.enrollment.classII.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -40,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     private AtpService atpService;
     private AcademicCalendarAssembler acalAssembler;
+    private TermAssembler termAssembler;
     
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -152,12 +154,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
         AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
         try {
-                atpService.getAtp(academicCalendarKey, context);
-            try {
-                atpService.updateAtp(academicCalendarKey, atp, context);
-            } catch (VersionMismatchException e) {
+            AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
+            if(existing == null)
                 atpService.createAtp(academicCalendarKey, atp, context);
-            }
         } catch (DoesNotExistException e1) {
             atpService.createAtp(academicCalendarKey, atp, context);
         }
@@ -368,8 +367,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     @Override
     public TermInfo getTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpInfo atp = atpService.getAtp(termKey, context);
+
+        return termAssembler.assemble(atp, context);
     }
 
     @Override
@@ -421,8 +421,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public TermInfo createTerm(String termKey, TermInfo termInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpInfo atp = termAssembler.disassemble(termInfo, context);
+        try {
+                AtpInfo existing = atpService.getAtp(termKey, context);
+                if(existing == null)
+                    atpService.createAtp(termKey, atp, context);
+        } catch (DoesNotExistException e1) {
+            atpService.createAtp(termKey, atp, context);
+        }
+        return termInfo;
     }
 
     @Override
@@ -687,6 +694,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
     public void setAcalAssembler(AcademicCalendarAssembler acalAssembler) {
         this.acalAssembler = acalAssembler;
+    }
+
+    public TermAssembler getTermAssembler() {
+        return termAssembler;
+    }
+
+    public void setTermAssembler(TermAssembler termAssembler) {
+        this.termAssembler = termAssembler;
     }
 
 }

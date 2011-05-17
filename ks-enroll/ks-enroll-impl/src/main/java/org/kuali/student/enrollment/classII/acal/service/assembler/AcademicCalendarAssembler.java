@@ -46,6 +46,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
             acal.setTypeKey(atp.getTypeKey());
             acal.setStateKey(atp.getStateKey());
             acal.setMetaInfo(atp.getMetaInfo());
+            acal.setAttributes(atp.getAttributes());
             
             List<AttributeInfo> attributes = atp.getAttributes();
             if(attributes != null && !attributes.isEmpty()){
@@ -86,27 +87,31 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     }
     
     @Override
-    public AtpInfo disassemble(AcademicCalendarInfo academicCalendarInfo, ContextInfo context) {
+    public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) {
         AtpInfo atp = AtpInfo.newInstance();
-        atp.setKey(academicCalendarInfo.getKey());
-        atp.setName(academicCalendarInfo.getName());
-        atp.setDescr(academicCalendarInfo.getDescr());
-        atp.setStartDate(academicCalendarInfo.getStartDate());
-        atp.setEndDate(academicCalendarInfo.getEndDate());
+        atp.setKey(acal.getKey());
+        atp.setName(acal.getName());
+        atp.setDescr(acal.getDescr());
+        atp.setStartDate(acal.getStartDate());
+        atp.setEndDate(acal.getEndDate());
         atp.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        atp.setStateKey(academicCalendarInfo.getStateKey());
-        atp.setMetaInfo(academicCalendarInfo.getMetaInfo());
+        atp.setStateKey(acal.getStateKey());
+        atp.setMetaInfo(acal.getMetaInfo());
 
-        List<AttributeInfo> attributes = (null != academicCalendarInfo.getAttributes()? academicCalendarInfo.getAttributes(): new ArrayList<AttributeInfo>());
-        AttributeInfo cpt = AttributeInfo.newInstance();
-        cpt.setKey("CredentialProgramType");
-        cpt.setValue(academicCalendarInfo.getCredentialProgramTypeKey());
-        attributes.add(cpt);
+        List<AttributeInfo> attributes = (null != acal.getAttributes()? acal.getAttributes(): new ArrayList<AttributeInfo>());
         
-        if(academicCalendarInfo.getCampusCalendarKeys() != null && !academicCalendarInfo.getCampusCalendarKeys().isEmpty()){
+        if(acal.getCredentialProgramTypeKey() != null){
+            AttributeInfo cpt = AttributeInfo.newInstance();
+            cpt.setKey("CredentialProgramType");
+            cpt.setValue(acal.getCredentialProgramTypeKey());
+            attributes.add(cpt);
+        }
+        atp.setAttributes(attributes);
+        
+        if(acal.getCampusCalendarKeys() != null && !acal.getCampusCalendarKeys().isEmpty()){
             try{
                 //TODO: should state pass along to relations?
-                disassembleAtpAtpRelations(academicCalendarInfo.getKey(), academicCalendarInfo.getCampusCalendarKeys(), academicCalendarInfo.getStateKey(), context);
+                disassembleAtpAtpRelations(acal.getKey(), acal.getCampusCalendarKeys(), acal.getStateKey(), context);
             }catch (Exception e){
                 return null;
             }

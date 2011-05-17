@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -145,5 +146,28 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
             }
+    }
+    
+    @Test 
+    public void testCreateAndGetTerm() throws DoesNotExistException,
+    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TermInfo term = TermInfo.newInstance();
+        term.setKey("testTermId2");
+        term.setName("testTerm2");
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        try{
+            TermInfo created = acalService.createTerm("testTermId2", term, callContext);
+            assertNotNull(created);
+            assertEquals("testTermId2", created.getKey());
+            
+            TermInfo existed = acalService.getTerm("testTermId2", callContext);
+
+            assertNotNull(existed);
+            assertEquals("testTermId2", existed.getKey());
+            assertEquals("testTerm2", existed.getName());
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }       
     }
 }
