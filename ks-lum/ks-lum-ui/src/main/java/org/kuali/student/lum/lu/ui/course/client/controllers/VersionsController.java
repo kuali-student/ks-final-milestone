@@ -165,14 +165,13 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	        			view.showWarningMessage(true);
 	        		}
 	        		updateState(cluModel1);
-	 	            callback.onModelReady(cluModel1);
-	 	            lastId1 = courseId;
 
 	 	            reqDataModel1.retrieveStatementTypes(cluModel1.<String>get("id"), new Callback<Boolean>() {
 	                    @Override
 	                    public void exec(Boolean result) {
 	                        if (result) {
 	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	        	 	            callback.onModelReady(cluModel1);
 	                        }
 	                    }
 	                }); 
@@ -187,14 +186,13 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	        		else{
 	        			cluModel2.setModelName("Version " + cluModel2.get("versionInfo/sequenceNumber"));
 	        		}
-	 	            callback.onModelReady(cluModel2);
-	 	            lastId2 = courseId;
 
 	 	            reqDataModel2.retrieveStatementTypes(cluModel2.<String>get("id"), new Callback<Boolean>() {
 	                    @Override
 	                    public void exec(Boolean result) {
 	                        if (result) {
 	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	        	 	            callback.onModelReady(cluModel2);
 	                        }
 	                    }
 	                });
