@@ -154,6 +154,7 @@ public class LuServiceImpl implements LuService {
 	private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
 	private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
 	private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
+	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -2948,6 +2949,58 @@ public class LuServiceImpl implements LuService {
         }
 	}
 
+	private SearchResult doSearchProposalsByCourseCode(String courseCode) throws MissingParameterException{
+		if(courseCode==null||courseCode.isEmpty()){
+			return new SearchResult();
+		}
+		//First do a search of courses with said code
+		SearchRequest sr = new SearchRequest("lu.search.mostCurrent.union");
+		sr.addParam("lu.queryParam.luOptionalCode", courseCode);
+		sr.addParam("lu.queryParam.luOptionalType","kuali.lu.type.CreditCourse");
+		SearchResult results = search(sr);
+		Map<String,String> cluIdToCodeMap = new HashMap<String,String>();
+		for(SearchResultRow row:results.getRows()){
+			String cluId = null;
+			String code = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("lu.resultColumn.cluId".equals(cell.getKey())){
+					cluId = cell.getValue();
+				}else if("lu.resultColumn.luOptionalCode".equals(cell.getKey())){
+					code = cell.getValue();
+				}
+			}
+			//Create a mapping of Clu Id to code to dereference later
+			if(code!=null&&cluId!=null){
+				cluIdToCodeMap.put(cluId, code);
+			}
+		}
+		
+		//Do a search for proposals that refer to the clu ids we found
+		sr = new SearchRequest("proposal.search.proposalsForReferenceIds");
+		sr.addParam("proposal.queryParam.proposalOptionalReferenceIds", new ArrayList<String>(cluIdToCodeMap.keySet()));
+		results = searchDispatcher.dispatchSearch(sr);
+		for(SearchResultRow row:results.getRows()){
+			String cluId = null;
+			SearchResultCell proposalNameCell = null;
+			
+			for(SearchResultCell cell:row.getCells()){
+				if("proposal.resultColumn.proposalOptionalName".equals(cell.getKey())){
+					proposalNameCell = cell;
+					cell.setKey("lu.resultColumn.proposalOptionalName");
+				}else if("proposal.resultColumn.proposalOptionalReferenceId".equals(cell.getKey())){
+					cluId = cell.getValue();
+					cell.setKey("lu.resultColumn.proposalOptionalReferenceId");
+				}else if("proposal.resultColumn.proposalId".equals(cell.getKey())){
+					cell.setKey("lu.resultColumn.proposalId");
+				}
+			}
+			//update the name of the proposal to reflect the course number
+			proposalNameCell.setValue(cluIdToCodeMap.get(cluId)+" ("+proposalNameCell.getValue()+")");
+		}
+		
+		return results;
+	}
+	
 	@Override
 	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -2985,6 +3038,15 @@ public class LuServiceImpl implements LuService {
 			}
         }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())){
         	return doBrowseProgramSearch();
+        }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
+        	String courseCode = null;
+    		for(SearchParam param:searchRequest.getParams()){
+    			if("lu.queryParam.luOptionalCode".equals(param.getKey())){
+    				courseCode = (String)param.getValue();
+    				break;
+    			}
+    		}
+        	return doSearchProposalsByCourseCode(courseCode);
         }
         return searchManager.search(searchRequest, luDao);
 	}

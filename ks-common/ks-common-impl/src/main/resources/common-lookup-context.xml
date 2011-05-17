@@ -1474,6 +1474,26 @@
 		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
 	</bean>		
 	
+	<bean id="kuali.common.lookup.basic.proposedCoursesByCode" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.basic.proposedCoursesByCode" />
+		<property name="name" value="Course Proposals by Course Code" />
+		<property name="searchTypeId" value="lu.search.proposalsByCourseCode" />
+		<property name="desc" value="Search for course Proposals" />
+		<property name="searchParamIdKey" value="lu.resultColumn.proposalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Course Code" />
+					<property name="desc" value="Course Code" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.proposalId" />
+	</bean>	
+	
 	<bean id="kuali.common.lookup.basic.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.basic.approvedCourses" />
 		<property name="name" value="Approved Courses" />

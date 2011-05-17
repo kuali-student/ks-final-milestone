@@ -26,6 +26,38 @@
 
     <import resource="proposal-dictionary-config.xml" />
 
+    <search:searchType id="proposal.search.proposalsForReferenceIds" parent="proposal.search.proposalsForReferenceIds-parent"/>
+    <search:searchType id="proposal.search.proposalsForReferenceIds-parent" abstract="true">
+        <search:name>Proposal search by course codes</search:name>
+        <search:desc>Returns all proposals that contain the course codes</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="proposal.result.proposalsForReferenceIds" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="proposal.criteria.proposalsForReferenceIds"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
+    <search:searchResultTypeInfo id="proposal.result.proposalsForReferenceIds" parent="proposal.result.proposalsForReferenceIds-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.proposalsForReferenceIds-parent"  abstract="true">
+        <search:name>Course Proposal Result</search:name>
+        <search:desc>List of course proposals for a given course code</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalId" />
+            <ref bean="proposal.resultColumn.proposalOptionalName" />
+            <ref bean="proposal.resultColumn.proposalOptionalReferenceId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalsForReferenceIds" parent="proposal.criteria.proposalsForReferenceIds-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalsForReferenceIds-parent"  abstract="true">
+        <search:name>ProposalAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.proposalOptionalReferenceIds"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
     <search:searchType id="proposal.search.generic" parent="proposal.search.generic-parent"/>
     <search:searchType id="proposal.search.generic-parent"  abstract="true">
         <search:name>Proposal search for clu proposals</search:name>
@@ -68,6 +100,12 @@
         <ref bean="field.proposalInfo.name.fd" />
     </search:queryParam>
 
+    <search:queryParam id="proposal.queryParam.proposalOptionalReferenceIds" parent="proposal.queryParam.proposalOptionalReferenceIds-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalReferenceIds-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+
     <search:searchResultTypeInfo id="proposal.result.generic" parent="proposal.result.generic-parent"/>
 	<search:searchResultTypeInfo id="proposal.result.generic-parent"  abstract="true">
         <search:name>CourseProposalResult</search:name>
@@ -90,6 +128,13 @@
 	<search:resultColumn id="proposal.resultColumn.proposalOptionalName-parent" abstract="true" >
         <search:name>Proposal Name</search:name>
         <search:desc>Name of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalReferenceId" parent="proposal.resultColumn.proposalOptionalReferenceId-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalReferenceId-parent" abstract="true" >
+        <search:name>Proposal Reference Id</search:name>
+        <search:desc>Id of the reference object</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     

@@ -218,7 +218,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							startProposalButton.setEnabled(false);
 						}
 					}
-	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"proposedCoursesByTitle", "approvedCourses"});
+	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"proposedCoursesByTitle", "proposedCoursesByCode"});
 	           
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", "Start a blank proposal");
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy an approved course");

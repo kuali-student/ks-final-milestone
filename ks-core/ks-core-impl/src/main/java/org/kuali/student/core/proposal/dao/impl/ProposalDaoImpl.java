@@ -127,4 +127,12 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         return objectReference;
     }
 
+	@Override
+	public List<Proposal> getProposalsByRefernceIds(List<String> referenceIds) {
+		Query query = em.createNamedQuery("Proposal.getProposalsByRefernceIds");
+		query.setParameter("referenceIds", referenceIds);
+		List<Proposal> proposals = query.getResultList();
+		return proposals;
+	}
+
 }

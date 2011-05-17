@@ -239,6 +239,7 @@
                 <ref bean="atpClient"/>
                 <ref bean="statementServiceClient"/>
                 <ref bean="subjectCodeClient"/>
+                <ref bean="proposalClient"/>
             </list>
         </property>
     </bean>

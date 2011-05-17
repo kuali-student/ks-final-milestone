@@ -101,6 +101,59 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
 	</search:crossSearchType>
 	
+	<!-- lu.search.proposalsByCourseCode -->
+	<search:searchType id="lu.search.proposalsByCourseCode">
+        <search:name>Proposal search by course codes</search:name>
+        <search:desc>Returns all proposals that contain the course codes</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.proposalsForReferenceIds" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.proposalsForReferenceIds"/>
+        </search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.proposalsForReferenceIds" parent="lu.criteria.proposalsForReferenceIds-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.proposalsForReferenceIds-parent" abstract="true">
+		<search:name>Proposal search by course codes Criteria</search:name>
+		<search:desc>Proposal search by course codes Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalCode"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchResultTypeInfo id="lu.result.proposalsForReferenceIds" parent="lu.result.proposalsForReferenceIds-parent"/>
+	<search:searchResultTypeInfo id="lu.result.proposalsForReferenceIds-parent" abstract="true">
+		<search:name>Browse Program Results</search:name>
+		<search:desc>View of Program Clus</search:desc>
+		<search:resultColumns>
+            <ref bean="lu.resultColumn.proposalId" />
+            <ref bean="lu.resultColumn.proposalOptionalName" />
+            <ref bean="lu.resultColumn.proposalOptionalReferenceId" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="lu.resultColumn.proposalId" parent="lu.resultColumn.proposalId-parent"/>
+	<search:resultColumn id="lu.resultColumn.proposalId-parent"  abstract="true">
+        <search:name>Proposal Identifier</search:name>
+        <search:desc>Identifier of a Proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="lu.resultColumn.proposalOptionalName" parent="lu.resultColumn.proposalOptionalName-parent"/>
+	<search:resultColumn id="lu.resultColumn.proposalOptionalName-parent" abstract="true" >
+        <search:name>Proposal Name</search:name>
+        <search:desc>Name of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="lu.resultColumn.proposalOptionalReferenceId" parent="lu.resultColumn.proposalOptionalReferenceId-parent"/>
+	<search:resultColumn id="lu.resultColumn.proposalOptionalReferenceId-parent" abstract="true" >
+        <search:name>Proposal Reference Id</search:name>
+        <search:desc>Id of the reference object</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
 	<!-- Browse Program Search -->
 	<search:searchType id="lu.search.browseProgram">
 		<search:name>Browse Program</search:name>

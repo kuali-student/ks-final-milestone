@@ -33,8 +33,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchManager;
@@ -45,6 +47,7 @@ import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -399,10 +402,37 @@ public class ProposalServiceImpl implements ProposalService {
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-		return searchManager.search(searchRequest, proposalDao);
+		if("proposal.search.proposalsForReferenceIds".equals(searchRequest.getSearchKey())){
+			return doSearchProposalsForReferenceIds(searchRequest);
+		}else{
+			return searchManager.search(searchRequest, proposalDao);
+		}
 	}
 
-    /**
+    private SearchResult doSearchProposalsForReferenceIds(
+			SearchRequest searchRequest) {
+
+    	List<String> referenceIds = null;
+    	for(SearchParam param: searchRequest.getParams()){
+    		if("proposal.queryParam.proposalOptionalReferenceIds".equals(param.getKey())){
+    			referenceIds = (List<String>) param.getValue();
+    		}
+    	}
+    	List<Proposal> proposals = proposalDao.getProposalsByRefernceIds(referenceIds);
+    	SearchResult result = new SearchResult();
+    	for(Proposal proposal:proposals){
+    		for(ProposalReference reference:proposal.getProposalReference()){
+	    		SearchResultRow row = new SearchResultRow();
+	    		row.addCell("proposal.resultColumn.proposalId", proposal.getId());
+	    		row.addCell("proposal.resultColumn.proposalOptionalName", proposal.getName());
+	    		row.addCell("proposal.resultColumn.proposalOptionalReferenceId", reference.getObjectReferenceId());
+	    		result.getRows().add(row);
+    		}
+    	}
+		return result;
+	}
+
+	/**
      * @return the validatorFactory
      */
     public ValidatorFactory getValidatorFactory() {
