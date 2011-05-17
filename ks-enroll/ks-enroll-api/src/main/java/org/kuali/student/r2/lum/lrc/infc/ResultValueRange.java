@@ -3,6 +3,12 @@ package org.kuali.student.r2.lum.lrc.infc;
 import java.io.Serializable;
 import java.util.Date;
 
+
+/**
+ * 
+ * @author sambit
+ *
+ */
 public interface ResultValueRange extends Serializable{
 	
 
@@ -28,15 +34,8 @@ public interface ResultValueRange extends Serializable{
 	 * 
 	 */
 	public float getIncrement();
-
-	public String getScaleKey();
 	
-	/**
-	 * Rank string Rank of the result value range within the scale. Standards
-	 * around uniqueness and meaning of value are described in the information
-	 * about the scale.
-	 */
-	public String getRank();
+	
 	
 	/**
 	 * Effective Date dateTime Date and time that this result value range became

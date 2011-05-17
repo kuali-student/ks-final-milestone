@@ -13,8 +13,8 @@ import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
-@XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
-		"resultTypeKey", "minValue", "maxValue", "increment", "scaleKey",
+@XmlType(name = "ResultValueRangeInfo", propOrder = { "key", "typeKey",
+		"stateKey", "resultTypeKey", "minValue", "maxValue", "increment",
 		"rank", "metaInfo", "effectiveDate", "expirationDate", "attributes" })
 public class ResultValueRangeInfo extends KeyEntityInfo implements
 		ResultValueRange {
@@ -31,10 +31,7 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	private String maxValue;
 	@XmlAttribute
 	private float increment;
-	@XmlAttribute
-	private String scaleKey;
-	@XmlAttribute
-	private String rank;
+
 	@XmlElement
 	private Date effectiveDate;
 	@XmlElement
@@ -45,8 +42,8 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 
 	private ResultValueRangeInfo(String key, String name, RichText descr,
 			String typeKey, String stateKey, String resultTypeKey, String id,
-			String minValue, String maxValue, float increment, String scaleKey,
-			String rank, Date effectiveDate, Date expirationDate, Meta meta,
+			String minValue, String maxValue, float increment,
+			Date effectiveDate, Date expirationDate, Meta meta,
 			List<? extends Attribute> attributes) {
 		super();
 		this.resultTypeKey = resultTypeKey;
@@ -54,8 +51,6 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 		this.increment = increment;
-		this.scaleKey = scaleKey;
-		this.rank = rank;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
 	}
@@ -63,15 +58,16 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	public static ResultValueRangeInfo newInstance(String key, String name,
 			RichText descr, String typeKey, String stateKey,
 			String resultTypeKey, String id, String minValue, String maxValue,
-			float increment, String scaleKey, String rank, Date effectiveDate,
-			Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
+			float increment, Date effectiveDate, Date expirationDate,
+			Meta meta, List<? extends Attribute> attributes) {
 		return new ResultValueRangeInfo(key, name, descr, typeKey, stateKey,
-				resultTypeKey, id, minValue, maxValue, increment, scaleKey,
-				rank, effectiveDate, expirationDate, meta, attributes);
+				resultTypeKey, id, minValue, maxValue, increment,
+				effectiveDate, expirationDate, meta, attributes);
 	}
 
 	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(
 			ResultValueRangeInfo resultValueRangeInfo) {
+
 		return new ResultValueRangeInfo(resultValueRangeInfo.getKey(),
 				resultValueRangeInfo.getName(),
 				resultValueRangeInfo.getDescr(),
@@ -82,8 +78,6 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 				resultValueRangeInfo.getMinValue(),
 				resultValueRangeInfo.getMaxValue(),
 				resultValueRangeInfo.getIncrement(),
-				resultValueRangeInfo.getScaleKey(),
-				resultValueRangeInfo.getRank(),
 				resultValueRangeInfo.getEffectiveDate(),
 				resultValueRangeInfo.getExpirationDate(),
 				resultValueRangeInfo.getMetaInfo(),
@@ -115,24 +109,6 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 
 	public void setIncrement(float increment) {
 		this.increment = increment;
-	}
-
-	@Override
-	public String getScaleKey() {
-		return scaleKey;
-	}
-
-	public void setScaleKey(String scaleKey) {
-		this.scaleKey = scaleKey;
-	}
-
-	@Override
-	public String getRank() {
-		return rank;
-	}
-
-	public void setRank(String rank) {
-		this.rank = rank;
 	}
 
 	@Override

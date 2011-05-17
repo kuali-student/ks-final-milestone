@@ -3,6 +3,7 @@ package org.kuali.student.r2.lum.lrc.infc;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 
@@ -30,10 +31,7 @@ public interface ResultValueGroup extends Serializable {
 	 */
 	public Date getExpirationDate();
 
-	/**
-	 * Unique identifier for a result component type.
-	 */
-	public ResultValueGroupType getType();
+	
 
 	/**
 	 * Unique identifier for a result component. This is optional, due to the
@@ -46,5 +44,7 @@ public interface ResultValueGroup extends Serializable {
 	 * 
 	 * @return
 	 */
-	public ResultValueRangeInfo getResultValueRangeInfo();
+	public String getResultValueRangeInfo();
+	
+	public Map<String, String> getResultRankings() ;
 }

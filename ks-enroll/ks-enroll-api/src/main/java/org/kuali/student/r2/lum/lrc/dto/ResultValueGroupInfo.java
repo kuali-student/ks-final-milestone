@@ -18,16 +18,14 @@ package org.kuali.student.r2.lum.lrc.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
-import org.kuali.student.r2.lum.lrc.infc.ResultValueGroupType;
 
 /**
  * Detailed information about a result component.
@@ -36,10 +34,12 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueGroupType;
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 
-@XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "resultValues", "type",
-		"effectiveDate", "expirationDate", "id","resultValueRangeInfo", "metaInfo", "attributes" })
-public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGroup {
+@XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey",
+		"stateKey", "name", "descr", "resultValues", "effectiveDate",
+		"expirationDate", "id", "resultValueRangeInfo", "metaInfo",
+		"attributes" })
+public class ResultValueGroupInfo extends KeyEntityInfo implements
+		ResultValueGroup {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,46 +52,46 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 	@XmlElement
 	private Date expirationDate;
 
-	@XmlAttribute
-	private ResultValueGroupType type;
+	private Map<String, String> resultRankings;
 
 	@XmlAttribute
 	private String id;
 
 	@XmlElement
-	private ResultValueRangeInfo resultValueRangeInfo; 
+	private String resultValueRangeInfoKey;
 
-	
 	public ResultValueGroupInfo() {
 
 	}
 
-	private ResultValueGroupInfo(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
-			ResultValueGroupType type,ResultValueRangeInfo resultValueRangeInfo ) {
+	private ResultValueGroupInfo(String id, List<String> resultValues,
+			Date effectiveDate, Date expirationDate, String type,
+			String resultValueRangeInfoKey) {
 		super();
 		this.resultValues = resultValues;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
-		this.type = type;
+
 		this.id = id;
-		this.resultValueRangeInfo = resultValueRangeInfo;
+		this.resultValueRangeInfoKey = resultValueRangeInfoKey;
 	}
-	
-	public static ResultValueGroupInfo newInstance(String id, List<String> resultValues, Date effectiveDate, Date expirationDate,
-			ResultValueGroupType type,ResultValueRangeInfo resultValueRangeInfo ) {
-		return new ResultValueGroupInfo(id, resultValues, effectiveDate, expirationDate, type, resultValueRangeInfo);
+
+	public static ResultValueGroupInfo newInstance(String id,
+			List<String> resultValues, String type, Date effectiveDate,
+			Date expirationDate, String resultValueRangeInfoKey) {
+		return new ResultValueGroupInfo(id, resultValues, effectiveDate,
+				expirationDate, type, resultValueRangeInfoKey);
 	}
-	
+
 	public static ResultValueGroupInfo createNewResultValueGroupInfoFromResultValueGroupInfo(
 			ResultValueGroupInfo resultValueGroupInfo) {
 		return new ResultValueGroupInfo(resultValueGroupInfo.getId(),
 				resultValueGroupInfo.getResultValues(),
 				resultValueGroupInfo.getEffectiveDate(),
 				resultValueGroupInfo.getExpirationDate(),
-				resultValueGroupInfo.getType(),
+				resultValueGroupInfo.getTypeKey(),
 				resultValueGroupInfo.getResultValueRangeInfo());
 	}
-
 
 	/**
 	 * List of result values
@@ -102,11 +102,10 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		}
 		return resultValues;
 	}
-	
+
 	public void setResultValues(List<String> resultValues) {
 		this.resultValues = resultValues;
 	}
-
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -116,7 +115,6 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.effectiveDate = effectiveDate;
 	}
 
-
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -125,16 +123,6 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 		this.expirationDate = expirationDate;
 	}
 
-
-	public ResultValueGroupType getType() {
-		return type;
-	}
-
-	public void setType(ResultValueGroupType type) {
-		this.type = type;
-	}
-
-
 	public String getId() {
 		return id;
 	}
@@ -142,14 +130,22 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements ResultValueGr
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public ResultValueRangeInfo getResultValueRangeInfo() {
-		return resultValueRangeInfo;
+
+	public String getResultValueRangeInfo() {
+		return resultValueRangeInfoKey;
 	}
 
-	public void setResultValueRangeInfo(ResultValueRangeInfo resultValueRangeInfo) {
-		this.resultValueRangeInfo = resultValueRangeInfo;
+	public void setResultValueRangeInfo(
+			String resultValueRangeInfo) {
+		this.resultValueRangeInfoKey = resultValueRangeInfo;
 	}
 
+	public Map<String, String> getResultRankings() {
+		return resultRankings;
+	}
+
+	public void setResultRankings(Map<String, String> valueRankPair) {
+		this.resultRankings = valueRankPair;
+	}
 
 }
