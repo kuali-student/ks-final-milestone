@@ -35,13 +35,13 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private final Date startDate;
+    private  Date startDate;
 
     @XmlElement
-    private final Date endDate;
+    private  Date endDate;
 
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private  List<Element> _futureElements;
 
     public static TermInfo newInstance() {
         return new TermInfo();
@@ -78,9 +78,18 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         return startDate;
     }
 
+    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     @Override
     public Date getEndDate() {
         return endDate;
+    }
+    
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

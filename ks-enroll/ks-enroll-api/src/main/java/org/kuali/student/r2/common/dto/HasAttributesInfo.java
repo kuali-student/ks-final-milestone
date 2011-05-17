@@ -55,10 +55,12 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 
     @Override
     public void setAttributes(List<? extends Attribute> attributes) {
-        this.attributes = new ArrayList<AttributeInfo>();
-        for (Attribute att : attributes) {
-            AttributeInfo attInfo = AttributeInfo.getInstance(att);
-            this.attributes.add(attInfo);
+        if(attributes != null && !attributes.isEmpty()){
+            this.attributes = new ArrayList<AttributeInfo>();
+            for (Attribute att : attributes) {
+                AttributeInfo attInfo = AttributeInfo.getInstance(att);
+                this.attributes.add(attInfo);
+            }
         }
     }
 }
