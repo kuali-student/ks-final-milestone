@@ -464,7 +464,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     @Override
                     public void exec(Boolean result) {
                        if(result){
-                          getCourseComparisonModel(callback, workCompleteCallback, "");
+                          getCourseComparisonModelAndReqs(callback, workCompleteCallback);
                        }
                     }
                 });
@@ -474,7 +474,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     @SuppressWarnings("unchecked")
-	private void getCourseComparisonModel(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback, final String method){
+	private void getCourseComparisonModelAndReqs(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
 	
@@ -487,6 +487,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
                 @Override
                 public void onSuccess(Data result) {
+                	// ??? why result would be null ever?
                     if (result != null) {
                         comparisonModel.setRoot(result);
                         reqDataModelComp.retrieveStatementTypes(comparisonModel.<String>get("id"), new Callback<Boolean>() {
@@ -494,33 +495,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
                             public void exec(Boolean result) {
                                 if (result) {
                                     KSBlockingProgressIndicator.removeTask(loadDataTask);
-                                }
+                                 }
                             }
                         });
-                    }
-                    proposalModelRequestCallback.onModelReady(cluProposalModel);
-                    workCompleteCallback.exec(true);
-                    if (method.equals("createNew"))
-                    	reqDataModel.retrieveStatementTypes(comparisonModel.<String>get("id"), new Callback<Boolean>() {
-                    		@Override
-                    		public void exec(Boolean result) {
-                    			if (result) {
-                    				//getCourseComparisonModel(proposalModelRequestCallback, workCompleteCallback);
-                    				KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    			}
-                    		}
-                    	});
-                    else
-                    	reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
-                    		@Override
-                    		public void exec(Boolean result) {
-                    			if (result) {
-                    				//getCourseComparisonModel(proposalModelRequestCallback, workCompleteCallback);
-                    				KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    			}
-                    		}
-                    	});
-                }
+                    }                    
+                  	reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                   		@Override
+                   		public void exec(Boolean result) {
+                   			if (result) {
+                   				//getCourseComparisonModelAndReqs(proposalModelRequestCallback, workCompleteCallback);
+                   				KSBlockingProgressIndicator.removeTask(loadDataTask);
+                                proposalModelRequestCallback.onModelReady(cluProposalModel);
+                                workCompleteCallback.exec(true);
+                  			}
+                   		}
+                   	});
+               }
             });
         } else {
             proposalModelRequestCallback.onModelReady(cluProposalModel);
@@ -565,7 +555,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
 		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        		+ "/SUMMARY");
-		        getCourseComparisonModel(callback, workCompleteCallback, "createNew");
+		        getCourseComparisonModelAndReqs(callback, workCompleteCallback);
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
 		        // create a duplicate course proposal. 
