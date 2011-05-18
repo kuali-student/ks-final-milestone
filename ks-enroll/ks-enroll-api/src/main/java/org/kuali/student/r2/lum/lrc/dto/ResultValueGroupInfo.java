@@ -36,7 +36,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
 @XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey",
 		"stateKey", "name", "descr", "resultValues", "effectiveDate",
-		"expirationDate", "id", "resultValueRangeInfo", "metaInfo",
+		"expirationDate", "id", "resultValueRangeInfoKey", "metaInfo",
 		"attributes" })
 public class ResultValueGroupInfo extends KeyEntityInfo implements
 		ResultValueGroup {
@@ -71,7 +71,6 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 		this.resultValues = resultValues;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
-
 		this.id = id;
 		this.resultValueRangeInfoKey = resultValueRangeInfoKey;
 	}
@@ -93,9 +92,6 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 				resultValueGroupInfo.getResultValueRangeInfo());
 	}
 
-	/**
-	 * List of result values
-	 */
 	public List<String> getResultValues() {
 		if (resultValues == null) {
 			resultValues = new ArrayList<String>(0);

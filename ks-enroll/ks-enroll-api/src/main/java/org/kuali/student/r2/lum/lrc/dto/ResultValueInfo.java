@@ -16,9 +16,9 @@ import org.w3c.dom.Element;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
-@XmlType(name = "ResultValueInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "effectiveDate", "expirationDate", "value",
-		"metaInfo", "attributes", "_futureElements" })
+@XmlType(name = "ResultValueInfo", propOrder = { "id", "key", "typeKey",
+		"stateKey", "name", "descr", "effectiveDate", "expirationDate",
+		"value", "metaInfo", "attributes", "_futureElements" })
 public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +37,26 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 
 	@XmlAttribute
 	private String id;
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public void set_futureElements(List<Element> _futureElements) {
+		this._futureElements = _futureElements;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public ResultValueInfo() {
 
@@ -90,7 +110,6 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 		return id;
 	}
 
-	@Override
 	public List<Element> get_futureElements() {
 
 		return _futureElements;

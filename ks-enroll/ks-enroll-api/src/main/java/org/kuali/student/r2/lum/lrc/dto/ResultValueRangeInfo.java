@@ -13,9 +13,9 @@ import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
-@XmlType(name = "ResultValueRangeInfo", propOrder = { "key", "typeKey",
+@XmlType(name = "ResultValueRangeInfo", propOrder = { "key", "id", "typeKey",
 		"stateKey", "resultTypeKey", "minValue", "maxValue", "increment",
-		"rank", "metaInfo", "effectiveDate", "expirationDate", "attributes" })
+		"metaInfo", "effectiveDate", "expirationDate", "attributes" })
 public class ResultValueRangeInfo extends KeyEntityInfo implements
 		ResultValueRange {
 
