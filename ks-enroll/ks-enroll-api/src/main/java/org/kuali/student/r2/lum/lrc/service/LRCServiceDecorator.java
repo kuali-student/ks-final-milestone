@@ -129,8 +129,7 @@ public class LRCServiceDecorator implements LRCService {
 			org.kuali.student.common.exceptions.MissingParameterException,
 			org.kuali.student.common.exceptions.OperationFailedException,
 			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return getNextDecorator().getAllResultValueGroupTypes( context);
 	}
 
 	@Override
@@ -141,8 +140,7 @@ public class LRCServiceDecorator implements LRCService {
 			org.kuali.student.common.exceptions.MissingParameterException,
 			org.kuali.student.common.exceptions.OperationFailedException,
 			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return getNextDecorator().getResultValueGroupType(resultValueGroupTypeKey,context);
 	}
 
 	@Override
@@ -153,8 +151,7 @@ public class LRCServiceDecorator implements LRCService {
 			org.kuali.student.common.exceptions.MissingParameterException,
 			org.kuali.student.common.exceptions.OperationFailedException,
 			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return getNextDecorator().getResultValueGroup(resultValueGroupKey,context);
 	}
 
 	@Override

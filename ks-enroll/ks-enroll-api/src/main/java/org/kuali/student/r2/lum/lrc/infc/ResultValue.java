@@ -12,6 +12,11 @@ import org.w3c.dom.Element;
 
 public interface ResultValue extends Serializable {
 
+	
+	/**
+	 * The unique identifier for this result value in the database
+	 * @return
+	 */
 	public String getId();
 	
 	/**
@@ -39,11 +44,6 @@ public interface ResultValue extends Serializable {
 	 */
 	public Date getExpirationDate();
 	
-	
-	public List<Element> get_futureElements();
 
 	
-
-
-
 }

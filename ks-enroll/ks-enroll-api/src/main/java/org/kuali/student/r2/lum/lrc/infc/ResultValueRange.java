@@ -61,8 +61,7 @@ public interface ResultValueRange extends Serializable{
 	public String getResultTypeKey();
 	
 	/**
-	 * The page string Structure does not exist. This will in most cases be
-	 * manually generated as part of setup. E.g. standardPercentageGrade.0-100
+
 	 */
 	public String getId();
 
