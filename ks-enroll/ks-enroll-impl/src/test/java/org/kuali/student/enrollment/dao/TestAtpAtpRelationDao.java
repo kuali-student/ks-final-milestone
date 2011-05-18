@@ -9,13 +9,13 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationDao;
-import org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity;
-import org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationTypeEntity;
+import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
+import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationTypeEntity;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationDao", testSqlFile = "classpath:ks-atp.sql")
+    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao", testSqlFile = "classpath:ks-atp.sql")
     AtpAtpRelationDao dao;
     
     @Test 

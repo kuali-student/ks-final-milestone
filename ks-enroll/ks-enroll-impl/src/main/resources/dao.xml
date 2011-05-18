@@ -4,43 +4,43 @@
 
     <import resource="classpath:services-commons.xml"/>
 
-    <bean id="lprDao" class="org.kuali.student.enrollment.classI.lpr.dao.LprDao">
+    <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.classI.lpr.dao.LprTypeDao"/>
+    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao"/>
 
-    <bean id="lprStateDao" class="org.kuali.student.enrollment.classI.lpr.dao.LprStateDao"/>
+    <bean id="lprStateDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprStateDao"/>
 
-    <bean id="atpDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpDao">
+    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpTypeDao">
+    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="atpStateDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpStateDao">
+    <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpRichTextDao">
+    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-   <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationDao">
+   <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.AtpAtpRelationTypeDao">
+    <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="milestoneDao" class="org.kuali.student.r2.core.classI.atp.dao.MilestoneDao">
+    <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.classI.atp.dao.MilestoneTypeDao">
+    <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

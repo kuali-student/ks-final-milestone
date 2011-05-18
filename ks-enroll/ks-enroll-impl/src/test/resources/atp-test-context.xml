@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     
     <bean id="atpServiceToTest" parent="atpServiceOnBus"/>
     
-    <bean name="dataLoader" class="org.kuali.student.r2.core.classI.atp.service.impl.AtpDataGenerator">
+    <bean name="dataLoader" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpDataGenerator">
         <property name="em" ref="entityManager"/>
     </bean>
 </beans>

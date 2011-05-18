@@ -13,7 +13,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
        <property name="nextDecorator" ref="academicCalendarServiceImpl"/>
     </bean>
     
-    <bean name="dataLoader" class="org.kuali.student.enrollment.classI.lpr.service.utilities.DataLoader">
+    <bean name="dataLoader" class="org.kuali.student.enrollment.class1.lpr.service.utilities.DataLoader">
         <property name="em" ref="entityManager"/>
     </bean>
 </beans>

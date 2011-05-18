@@ -10,21 +10,21 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationStateEntity</class>
-        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationTypeEntity</class>
-        <class>org.kuali.student.enrollment.classI.lpr.model.LuiPersonRelationAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationStateEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
         
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpStateEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpTypeEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpAttributeEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpRichTextEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationAttributeEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.AtpAtpRelationTypeEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.MilestoneEntity</class>
-        <class>org.kuali.student.r2.core.classI.atp.model.MilestoneTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpStateEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

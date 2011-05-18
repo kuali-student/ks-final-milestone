@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
     <import resource="classpath:dao.xml"/>
    <!-- Infrastructure code which handles invocation for all service impls -->
-  <bean id = "layeringAspects" class="org.kuali.student.enrollment.classI.lpr.service.aspect.ServiceAspects">
+  <bean id = "layeringAspects" class="org.kuali.student.enrollment.class1.lpr.service.aspect.ServiceAspects">
     <property name="includeThrowableClassList">
       <list>
        <ref bean="kualiInvalidParamException"/>
@@ -23,15 +23,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="acalServiceOnBus" parent="acalServiceValidation"/>
 
     <!-- declare beans here -->
-    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.classI.lpr.service.impl.LuiPersonRelationServiceImpl">
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao"/>
     </bean>
-    <bean id="luiService" class="org.kuali.student.enrollment.classI.lui.service.impl.LuiServiceImpl"/>
+    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl"/>
 
  
-    <bean id="lprUtility" class="org.kuali.student.enrollment.classI.lpr.service.util.ConcreteLPRUtility"/>
+    <bean id="lprUtility" class="org.kuali.student.enrollment.class1.lpr.service.util.ConcreteLPRUtility"/>
     
-    <bean id="atpService" class="org.kuali.student.r2.core.classI.atp.service.impl.AtpServiceImpl">
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     	<property name="atpDao" ref="atpDao"/>
     	<property name="atpTypeDao" ref="atpTypeDao"/>
     	<property name="atpStateDao" ref="atpStateDao"/>
@@ -42,17 +42,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
     </bean>
  
-     <bean id="acalService" class="org.kuali.student.enrollment.classII.acal.service.impl.AcademicCalendarServiceImpl">
+     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
     </bean>
        
-    <bean id="acalAssembler" class="org.kuali.student.enrollment.classII.acal.service.assembler.AcademicCalendarAssembler">
+    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpService"/>
     </bean>
       
-	<bean  id="termAssembler" class="org.kuali.student.enrollment.classII.acal.service.assembler.TermAssembler">
+	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
 	</bean>
     <!-- declare impls here -->
     <!--  declare all service exceptions here or in KS core -->
@@ -64,31 +64,31 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="permissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl"/>
      
      <!--  decorators  --> 
-    <bean id="lprServiceValidation" class="org.kuali.student.enrollment.classI.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+    <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
         <property name="nextDecorator" ref="lprPersistenceService"/>
     </bean> 
 
-    <bean id="lprServiceAuthorization" class="org.kuali.student.enrollment.classI.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
+    <bean id="lprServiceAuthorization" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
       <property name="nextDecorator" ref="lprServiceValidation"/>
       <property name="permissionService" ref="permissionService"/>
     </bean>
 
 
-    <bean id="luiServiceAuthorization" class="org.kuali.student.enrollment.classI.lui.service.decorators.LuiServiceAuthorizationDecorator">
+    <bean id="luiServiceAuthorization" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="luiService"/>
         <property name="permissionService" ref="permissionService"/>
     </bean> 
 
-    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.classI.lui.service.decorators.LuiServiceValidationDecorator">
+    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
       <property name="nextDecorator" ref="luiServiceAuthorization"/>
 
     </bean>
     
-    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.classI.atp.service.decorators.AtpServiceValidationDecorator">
+    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
       <property name="nextDecorator" ref="atpService"/>
     </bean>
     
-    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.classII.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
+    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
       <property name="nextDecorator" ref="acalService"/>
     </bean>
     <!-- end of decorators -->
