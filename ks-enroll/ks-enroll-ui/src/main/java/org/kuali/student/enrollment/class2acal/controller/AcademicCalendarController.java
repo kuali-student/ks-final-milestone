@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.kuali.student.enrollment.acal.controller;
+package org.kuali.student.enrollment.class2acal.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.kuali.student.enrollment.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 
 
 @Controller
