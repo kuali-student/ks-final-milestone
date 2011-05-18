@@ -3,8 +3,6 @@ package org.kuali.student.lum.lu.ui.main.client.configuration;
 import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalInlineFlowPanel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -13,18 +11,19 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CopyCourseSearchPanel extends Composite {
 	Callback<Boolean> validationCallback;
 	private String currentSelection = null;
 	private HTML validationErrorLabel = null;
-	private VerticalFlowPanel validationPanel = null;
+	private VerticalPanel validationPanel = null;
 	private KSPicker[] pickers = null;
 	
 	protected CopyCourseSearchPanel(Metadata searchMetadata, final Callback<Boolean> validationCallback, String label, String invalidErrorLabel, String[] dropDownLabels, String[] searchIds) {
@@ -35,23 +34,25 @@ public class CopyCourseSearchPanel extends Composite {
 		
 		this.validationCallback = validationCallback;
 		
-        final VerticalFlowPanel copyCourseSearchPanel = new VerticalFlowPanel();
+        final VerticalPanel copyCourseSearchPanel = new VerticalPanel();
 
         
         Label copyToCourseLabel = new Label(label);
 
+        copyToCourseLabel.addStyleName("bold");
+        
         validationErrorLabel = new HTML("<UL><LI>"+invalidErrorLabel+"</LI></UL>");
         validationErrorLabel.addStyleName("ks-form-module-validation-errors");
         validationErrorLabel.addStyleName("ks-form-module-validation-inline");
 
         validationErrorLabel.setVisible(false);
         
-        validationPanel = new VerticalFlowPanel();
+        validationPanel = new VerticalPanel();
         
         copyCourseSearchPanel.add(copyToCourseLabel);
         copyCourseSearchPanel.add(validationPanel);
         
-        VerticalFlowPanel inputPanel = new VerticalFlowPanel();
+        HorizontalPanel inputPanel = new HorizontalPanel();
         inputPanel.addStyleName("ks-form-module-elements");
         inputPanel.addStyleName("ks-form-module-single-line-margin");
         final ListBox courseSelectionMethodDropdown = new ListBox();
@@ -95,7 +96,7 @@ public class CopyCourseSearchPanel extends Composite {
         
         final SimplePanel coursePickerHolder = new SimplePanel();
         coursePickerHolder.setWidget(pickers[0]);
-        
+        coursePickerHolder.addStyleName("KS-indented");
         inputPanel.add(coursePickerHolder);
         
         validationPanel.add(inputPanel);
@@ -113,6 +114,7 @@ public class CopyCourseSearchPanel extends Composite {
 			}
         });
 
+        copyCourseSearchPanel.addStyleName("KS-indented");
         initWidget(copyCourseSearchPanel);
 	}
 	

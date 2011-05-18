@@ -13,6 +13,8 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -30,6 +32,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -191,13 +194,27 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 			@Override
 			public void onClick(ClickEvent event) {
 	            
-	            final KSLightBox dialog = new KSLightBox("Propose New Credit Course");
+				//Create a dialog for course selection
+	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
 	            VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            
-	            final KSButton startProposalButton = new KSButton("Start Proposal");
+	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
 	            dialog.addButton(startProposalButton);
-	            layout.add(new KSLabel("How would you like to start the proposal?"));
+	            
+	            HorizontalPanel titlePanel = new HorizontalPanel();
+	            KSLabel titleLabel = new KSLabel(getMessage("createCourseSubTitle"));
+	            titleLabel.addStyleName("bold");
+	            AbbrButton helpButton = new AbbrButton(AbbrButtonType.HELP);
+	            helpButton.setHoverHTML(getMessage("createCourseSubTitle-help"));
+	            titlePanel.add(titleLabel);
+	            titlePanel.add(helpButton);
+	            
+	            layout.add(titlePanel);
+	            
+	            KSLabel instructionText = new KSLabel(getMessage("createCourseSubTitle-instruct"));
+	 
+	            layout.add(instructionText);
 	            
 	            final CopyCourseSearchPanel copyCourseSearchPanel = new CopyCourseSearchPanel(searchMetadata, new Callback<Boolean>(){
 					public void exec(Boolean result) {
@@ -207,7 +224,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							startProposalButton.setEnabled(false);
 						}
 					}
-	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Copurse Code", "Select by Course Title"}, new String[]{"approvedCourses", "approvedCoursesByTitle"});
+	            }, getMessage("courseToCopy"), getMessage("courseInvalidValue"), new String[]{getMessage("selectByCourseCode"), getMessage("selectByCourseTitle")}, new String[]{"approvedCourses", "approvedCoursesByTitle"});
 	            
 
 	            final CopyCourseSearchPanel copyProposalSearchPanel = new CopyCourseSearchPanel(searchMetadata, new Callback<Boolean>(){
@@ -218,15 +235,21 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							startProposalButton.setEnabled(false);
 						}
 					}
-	            }, "CopyCourseToProposal", "Invalid", new String[]{"Select by Proposal Title", "Select by Proposed Course"}, new String[]{"proposedCoursesByTitle", "proposedCoursesByCode"});
+	            }, getMessage("proposalToCopy"), getMessage("proposalInvalidValue"), new String[]{getMessage("selectByProposalTitle"), getMessage("selectByProposedCourse")}, new String[]{"proposedCoursesByTitle", "proposedCoursesByCode"});
 	           
-	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", "Start a blank proposal");
-	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy an approved course");
-	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", "Copy a proposed course");
+	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("startBlankProposal"));
+	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyApprovedCourse"));
+	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyProposedCourse"));
+	            final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
 						if(event.getValue()){
+							if ("admin".equals(Application.getApplicationContext().getUserId())){
+				            	adminOptionCheckbox.setVisible(true);
+				            	adminOptionCheckbox.setEnabled(true);
+				            	adminOptionCheckbox.setValue(false);
+				            }
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(false);
 							startProposalButton.setEnabled(true);
@@ -240,6 +263,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(true);
 							copyProposalSearchPanel.setVisible(false);
+							adminOptionCheckbox.setEnabled(false);
+							adminOptionCheckbox.setValue(true);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -252,6 +277,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(true);
+							adminOptionCheckbox.setEnabled(false);
+							adminOptionCheckbox.setValue(true);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -260,7 +287,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            });
 	            
 	            //FIXME: This should check permissions for admin functionality rather than just admin user
-	            final KSCheckBox adminOptionCheckbox = new KSCheckBox("Use curriculum review process for the course");
 	            if ("admin".equals(Application.getApplicationContext().getUserId())){
 	            	adminOptionCheckbox.setValue(false);
 	            	adminOptionCheckbox.setVisible(true);
@@ -274,6 +300,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            layout.add(copyCourseSearchPanel);
 	            layout.add(radioOptionCopyProposal);
 	            layout.add(copyProposalSearchPanel);
+	            layout.add(new KSLabel(""));
 	            layout.add(adminOptionCheckbox);
 	            
 	            startProposalButton.addClickHandler(new ClickHandler(){

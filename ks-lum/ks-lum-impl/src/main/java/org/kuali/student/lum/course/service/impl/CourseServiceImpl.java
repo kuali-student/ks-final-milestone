@@ -372,11 +372,11 @@ public class CourseServiceImpl implements CourseService {
 		try {
 	        BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
 
-	        //Integrate changes into the original course. (should this just be just the id?)
-			courseAssembler.assemble(newVersionClu, originalCourse, true);
-
 			//Clear Ids from the original course
 			CourseServiceUtils.resetIds(originalCourse);
+	        
+	        //Integrate changes into the original course. (should this just be just the id?)
+			courseAssembler.assemble(newVersionClu, originalCourse, true);
 
 			//Disassemble the new course
 			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);

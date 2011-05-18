@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.CurrencyAmountInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
@@ -26,11 +27,17 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
+import org.kuali.student.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
@@ -120,6 +127,36 @@ public class CopyCourseServiceImpl {
 			for(ActivityInfo activity:format.getActivities()){
 				activity.setId(null);
 			}
+		}
+		//Clear result component ids
+		for(ResultComponentInfo result:course.getCreditOptions()){
+			result.setId(null);
+		}
+		//Clear cross listing ids
+		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
+			crossListing.setId(null);
+		}
+		//Clear Expenditures
+		for(AffiliatedOrgInfo orgInfo:course.getExpenditure().getAffiliatedOrgs()){
+			orgInfo.setId(null);
+		}
+		//Clear Fees
+		for(CourseFeeInfo fee:course.getFees()){
+			fee.setId(null);
+			for(CurrencyAmountInfo feeAmount:fee.getFeeAmounts()){
+				feeAmount.setId(null);
+			}
+		}
+		//Clear revenue
+		for(CourseRevenueInfo revenue:course.getRevenues()){
+			revenue.setId(null);
+			for(AffiliatedOrgInfo orgInfo:revenue.getAffiliatedOrgs()){
+				orgInfo.setId(null);
+			}
+		}
+		//Clear variation ids
+		for(CourseVariationInfo variation:course.getVariations()){
+			variation.setId(null);
 		}
 	}
 

@@ -391,3 +391,7 @@ position:relative;
 	font-weight: bold;
 	font-size:10pt;
 }
+
+.KS-indented{
+	margin-left:40px;
+}
