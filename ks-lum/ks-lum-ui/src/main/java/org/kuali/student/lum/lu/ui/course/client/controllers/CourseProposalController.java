@@ -488,23 +488,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 @Override
                 public void onSuccess(Data result) {
                 	// ??? why result would be null ever?
-                    if (result != null) {
+                    if (result != null) 
                         comparisonModel.setRoot(result);
-                        reqDataModelComp.retrieveStatementTypes(comparisonModel.<String>get("id"), new Callback<Boolean>() {
-                            @Override
-                            public void exec(Boolean result) {
-                                if (result) {
-                                    KSBlockingProgressIndicator.removeTask(loadDataTask);
-                                 }
-                            }
-                        });
-                    }                    
-                  	reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+
+                    reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
                    		@Override
                    		public void exec(Boolean result) {
                    			if (result) {
-                   				//getCourseComparisonModelAndReqs(proposalModelRequestCallback, workCompleteCallback);
                    				KSBlockingProgressIndicator.removeTask(loadDataTask);
+                                reqDataModelComp.retrieveStatementTypes(comparisonModel.<String>get("id"), new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        if (result) {
+                                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+                                         }
+                                    }
+                                });
                                 proposalModelRequestCallback.onModelReady(cluProposalModel);
                                 workCompleteCallback.exec(true);
                   			}
