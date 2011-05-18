@@ -42,11 +42,11 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     @Column(name = "END_DT")
     private Date endDate;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MILESTONE_TYPE_ID")
     private MilestoneTypeEntity milestoneType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MILESTONE_STATE_ID")
     private AtpStateEntity atpState;
     

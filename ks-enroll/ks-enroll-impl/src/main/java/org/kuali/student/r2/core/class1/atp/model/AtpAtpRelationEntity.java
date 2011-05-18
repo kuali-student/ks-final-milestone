@@ -44,7 +44,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
