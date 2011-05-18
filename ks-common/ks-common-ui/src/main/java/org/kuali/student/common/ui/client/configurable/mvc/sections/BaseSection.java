@@ -679,4 +679,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public void setRequired(AbbrPanel required){
 		layout.setRequired(required);
 	}
+	
+	public void setSectionId(String id){
+		((Widget)layout).getElement().setId(id);		
+	}
+
 }

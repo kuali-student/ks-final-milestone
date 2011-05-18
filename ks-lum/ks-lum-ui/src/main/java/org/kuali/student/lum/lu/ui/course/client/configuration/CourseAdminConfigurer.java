@@ -33,13 +33,8 @@ public class CourseAdminConfigurer extends CourseConfigurer{
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
     	if (modelDefinition.getMetadata().isCanEdit()) {
-            String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
-            layout.addMenu(sections);            
-            layout.addMenuItem(sections, generateCourseAdminSection());
+            layout.addView(generateCourseAdminView((CourseAdminController)layout));
             ArrayList<Enum<?>> excludedSections = new ArrayList<Enum<?>>();
-            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedSections);
-            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, ((CourseAdminController)layout).getApproveButton(), excludedSections);
-            layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, ((CourseAdminController)layout).getApproveAndActivateButton(), excludedSections);            
     	}
     }
 
@@ -48,26 +43,47 @@ public class CourseAdminConfigurer extends CourseConfigurer{
 	 * 
 	 * @return view 
 	 */
-    protected View generateCourseAdminSection() {
-        VerticalSectionView section = 
+    protected View generateCourseAdminView(final CourseAdminController layout) {
+        VerticalSectionView view = 
         	new VerticalSectionView(CourseSections.COURSE_INFO, getLabel(LUUIConstants.INFORMATION_LABEL_KEY), COURSE_PROPOSAL_MODEL, false);
-        section.addStyleName(LUUIConstants.STYLE_SECTION);
+        view.addStyleName(LUUIConstants.STYLE_SECTION);
 
-                
-        section.addSection(generateCourseInfoSection(initSection(LUUIConstants.INFORMATION_LABEL_KEY)));
-        section.addSection(generateGovernanceSection(initSection(LUUIConstants.GOVERNANCE_LABEL_KEY)));
-        section.addSection(generateCourseLogisticsSection(initSection(LUUIConstants.LOGISTICS_LABEL_KEY)));
-        
-        //Add learning objective section
+        // Create course admin sections
+        Section courseSection = generateCourseInfoSection(initSection(LUUIConstants.INFORMATION_LABEL_KEY)); 
+        Section governanceSection = generateGovernanceSection(initSection(LUUIConstants.GOVERNANCE_LABEL_KEY));
+        Section logisticsSection = generateCourseLogisticsSection(initSection(LUUIConstants.LOGISTICS_LABEL_KEY));
         Section loSection = initSection(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        loSection.addSection(generateLearningObjectivesNestedSection());        
-        section.addSection(loSection);
+        loSection.addSection(generateLearningObjectivesNestedSection());
+        Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
+        Section financialSection = generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY));
         
-        section.addSection(generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
-        section.addSection(generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY)));
-                
+        //Add course admin sections to view
+        view.addSection(courseSection);
+        view.addSection(governanceSection);
+        view.addSection(logisticsSection);        
+        view.addSection(loSection);        
+        view.addSection(activeDatesSection);
+        view.addSection(financialSection);
+        
+        //Add menu items for sections
+        String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
+        layout.addMenu(sections);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.INFORMATION_LABEL_KEY), LUUIConstants.INFORMATION_LABEL_KEY, courseSection);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.GOVERNANCE_LABEL_KEY), LUUIConstants.GOVERNANCE_LABEL_KEY, governanceSection);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.LOGISTICS_LABEL_KEY), LUUIConstants.LOGISTICS_LABEL_KEY, logisticsSection);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.LEARNING_OBJECTIVE_LABEL_KEY), LUUIConstants.LEARNING_OBJECTIVE_LABEL_KEY, loSection);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY), LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection);
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection);
+        
+        //Add buttons to top and bottom of view
+        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveButton());
+        layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());            
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveButton());
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());            
 
-        return section;
+        return view;
 	}
     
     protected Section initSection(String labelKey){

@@ -793,6 +793,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
     	Application.getApplicationContext().clearCrossConstraintMap(null);
     	Application.getApplicationContext().clearPathToFieldMapping(null);
+    	Application.getApplicationContext().clearValidationWarnings();
     	Application.getApplicationContext().setParentPath("");
     	   	
     	intializeView(onReadyCallback);

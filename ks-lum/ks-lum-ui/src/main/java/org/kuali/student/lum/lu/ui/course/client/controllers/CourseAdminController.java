@@ -4,6 +4,8 @@ import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -11,6 +13,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
@@ -21,6 +24,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfig
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 
 /**
  * Controller for create/modify admin screens
@@ -29,12 +33,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
  *
  */
 public class CourseAdminController extends CourseProposalController{
-
+	
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
 	 */
 	@Override
 	protected void initializeController() {
+   		
 		super.cfg = GWT.create(CourseAdminConfigurer.class);
 		super.proposalPath = cfg.getProposalPath();
    		super.workflowUtil = new WorkflowUtilities(CourseAdminController.this ,proposalPath);
@@ -42,7 +47,9 @@ public class CourseAdminController extends CourseProposalController{
    		cfg.setState(DtoConstants.STATE_DRAFT.toUpperCase());
    		cfg.setNextState(DtoConstants.STATE_APPROVED.toUpperCase());
    		super.setDefaultModelId(cfg.getModelId());
-   		registerModelsAndHandlers();
+   		super.registerModelsAndHandlers();
+   		super.addStyleName("ks-course-admin");
+   		//this.removeMenu();  	   		   		
     }
 	
 	/**
@@ -52,7 +59,7 @@ public class CourseAdminController extends CourseProposalController{
 	public KSButton getSaveButton(){
 		return new KSButton("Save", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
             public void onClick(ClickEvent event) {
-            	handleButtonClick(DtoConstants.STATE_DRAFT);
+            	handleButtonClick(DtoConstants.STATE_DRAFT);            	
             }
         });		
 	}
@@ -118,6 +125,34 @@ public class CourseAdminController extends CourseProposalController{
     	super.setName(title);
     	WindowTitleUtils.setContextTitle(title);
 		super.currentTitle = title;
+    }
+    
+    public void addMenuItemSection(String parentMenu, final String sectionName, final String sectionId, final Section section) {    	
+        KSMenuItemData parentItem = null;
+        for (int i = 0; i < topLevelMenuItems.size(); i++) {
+            if (topLevelMenuItems.get(i).getLabel().equals(parentMenu)) {
+                parentItem = topLevelMenuItems.get(i);
+                break;
+            }
+        }
+
+        KSMenuItemData item = new KSMenuItemData(sectionName);
+    	((BaseSection)section).setSectionId(sectionId);
+    	item.setClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {		
+				//FIXME: This doesn't scroll to exactly the position stuff
+				DOM.getElementById(sectionId).scrollIntoView();
+			}    		
+    	});
+
+
+        if (parentItem != null) {
+            parentItem.addSubItem(item);
+        } else {
+            topLevelMenuItems.add(item);
+        }
+
+        menu.refresh();
     }
     
 }

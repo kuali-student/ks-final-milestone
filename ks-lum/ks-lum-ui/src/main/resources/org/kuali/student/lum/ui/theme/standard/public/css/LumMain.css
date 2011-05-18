@@ -690,3 +690,15 @@ a.KS-Program-Rule-ObjectView-Button{
 	display: block;
 	margin: 10px;
 }
+
+
+.ks-course-admin .ks-menu-layout-menu {
+}
+
+.ks-course-admin .ks-menu-layout-leftColumn{
+	position: absolute;
+}
+
+.ks-course-admin .ks-menu-layout-rightColumn{
+	margin-left: 180px;
+}
