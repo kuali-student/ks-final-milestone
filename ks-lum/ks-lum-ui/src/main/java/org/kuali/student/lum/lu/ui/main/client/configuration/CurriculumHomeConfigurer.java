@@ -200,13 +200,22 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            layout.addStyleName("ks-form-module-fields");
 	            
 	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
+	            
 	            dialog.addButton(startProposalButton);
+	            Anchor cancelLink = new Anchor("Cancel");
+	            cancelLink.addClickHandler(new ClickHandler(){
+					public void onClick(ClickEvent event) {
+						dialog.hide();
+					}
+	            });
+	            dialog.addButton(cancelLink);
 	            
 	            HorizontalPanel titlePanel = new HorizontalPanel();
 	            KSLabel titleLabel = new KSLabel(getMessage("createCourseSubTitle"));
 	            titleLabel.addStyleName("bold");
 	            AbbrButton helpButton = new AbbrButton(AbbrButtonType.HELP);
 	            helpButton.setHoverHTML(getMessage("createCourseSubTitle-help"));
+	            helpButton.getHoverPopup().getElement().getStyle().setZIndex(999999);
 	            titlePanel.add(titleLabel);
 	            titlePanel.add(helpButton);
 	            
