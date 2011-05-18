@@ -46,7 +46,7 @@ public interface ResultValueGroup extends Serializable {
 	 * 
 	 * @return
 	 */
-	public String getResultValueRangeInfo();
+	public String getResultValueRangeKey();
 
 	/**
 	 * contains the possible discrete results in this group with their rankings,

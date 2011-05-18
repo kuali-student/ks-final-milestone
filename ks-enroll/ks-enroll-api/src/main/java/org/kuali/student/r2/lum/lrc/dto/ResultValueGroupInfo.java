@@ -36,7 +36,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
 @XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey",
 		"stateKey", "name", "descr", "resultValues", "effectiveDate",
-		"expirationDate", "id", "resultValueRangeInfoKey", "metaInfo",
+		"expirationDate", "id", "resultValueRangeKey", "metaInfo",
 		"attributes" })
 public class ResultValueGroupInfo extends KeyEntityInfo implements
 		ResultValueGroup {
@@ -58,7 +58,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 	private String id;
 
 	@XmlElement
-	private String resultValueRangeInfoKey;
+	private String resultValueRangeKey;
 
 	public ResultValueGroupInfo() {
 
@@ -66,20 +66,20 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 
 	private ResultValueGroupInfo(String id, List<String> resultValues,
 			Date effectiveDate, Date expirationDate, String type,
-			String resultValueRangeInfoKey) {
+			String resultValueRangeKey) {
 		super();
 		this.resultValues = resultValues;
 		this.effectiveDate = effectiveDate;
 		this.expirationDate = expirationDate;
 		this.id = id;
-		this.resultValueRangeInfoKey = resultValueRangeInfoKey;
+		this.resultValueRangeKey = resultValueRangeKey;
 	}
 
 	public static ResultValueGroupInfo newInstance(String id,
 			List<String> resultValues, String type, Date effectiveDate,
-			Date expirationDate, String resultValueRangeInfoKey) {
+			Date expirationDate, String resultValueRangeKey) {
 		return new ResultValueGroupInfo(id, resultValues, effectiveDate,
-				expirationDate, type, resultValueRangeInfoKey);
+				expirationDate, type, resultValueRangeKey);
 	}
 
 	public static ResultValueGroupInfo createNewResultValueGroupInfoFromResultValueGroupInfo(
@@ -89,7 +89,7 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 				resultValueGroupInfo.getEffectiveDate(),
 				resultValueGroupInfo.getExpirationDate(),
 				resultValueGroupInfo.getTypeKey(),
-				resultValueGroupInfo.getResultValueRangeInfo());
+				resultValueGroupInfo.getResultValueRangeKey());
 	}
 
 	public List<String> getResultValues() {
@@ -127,13 +127,13 @@ public class ResultValueGroupInfo extends KeyEntityInfo implements
 		this.id = id;
 	}
 
-	public String getResultValueRangeInfo() {
-		return resultValueRangeInfoKey;
+	public String getResultValueRangeKey() {
+		return resultValueRangeKey;
 	}
 
-	public void setResultValueRangeInfo(
-			String resultValueRangeInfo) {
-		this.resultValueRangeInfoKey = resultValueRangeInfo;
+	public void setResultValueRangeKey(
+			String resultValueRangeKey) {
+		this.resultValueRangeKey = resultValueRangeKey;
 	}
 
 	public Map<String, String> getResultRankings() {
