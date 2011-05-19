@@ -45,7 +45,7 @@
                 <!-- <ref bean="academicCalendarInfo.campusCalendarKey"/> -->
                 <ref bean="academicCalendarInfo.credentialProgramTypeKey"/>
                 <ref bean="academicCalendarInfo.attributes"/>
-                <ref bean="academicCalendarInfo.metaInfo"/>
+                <!-- <ref bean="academicCalendarInfo.metaInfo"/> -->
             </list>
         </property>
     </bean>
@@ -103,9 +103,10 @@
         <property name="name" value="attributes"/>
         <!--<property name="maxOccurs" value="999999999"/>-->
     </bean>
-
+<!-- 
     <bean id="academicCalendarInfo.metaInfo" parent="academicCalendarInfo.metaInfo-parent"/>
     <bean id="academicCalendarInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
         <property name="name" value="metaInfo"/>
     </bean>
+-->
 </beans>
