@@ -38,14 +38,73 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+			
+				<value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
+				<value>classpath:AcademicCalendarView.xml</value>
+				
 			</list>
 		</property>
 		<property name="packagePrefixes">
 			<list>
 				<value>org.kuali.rice.student.</value>
+				<value>org.kuali.student.enrollment.acal.</value>				
 			</list>
 		</property>
 	</bean>
+
+<!-- KNS POC configuration starts -->
+<!-- 
+    <bean id="courseUpdateModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KNS-POC"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryPackages">
+            <list>
+ 
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdate.xml</value>
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdateMaintenanceDocument.xml</value> 
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseTransient.xml</value> 
+              <value>classpath:org/kuali/rice/student/uif/CourseUpdateLookup.xml</value> 
+              
+              <value>classpath:AcademicCalendarView.xml</value> 
+
+              
+               <value>classpath:org/kuali/rice/student/datadictionary/CourseInfoDto.xml</value>
+
+           </list>
+        </property>
+ 
+        <property name="databaseRepositoryFilePaths">
+            <list>
+				<value>ojb-course.xml</value>
+            </list>
+        </property>
+
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.rice.student</value>
+                <value>org.kuali.rice.student.bo</value>
+                <value>org.kuali.student.enrollment.acal</value>
+                <value>org.kuali.student.enrollment.classII.acal</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="courseUpdateModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="courseUpdateModuleConfiguration" />
+    </bean>
+  
+ 
+    <bean id="courseTransientLookupHelperService" class="org.kuali.rice.student.lookup.CourseTransientLookupableHelperServiceImpl" scope="prototype"/>
+    <bean id="courseTransientLookupable" class = "org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+    		<ref bean="courseTransientLookupHelperService"/>
+    	</property>
+    </bean>
+  -->
+<!-- KNS POC configuration ends -->
+
+
+
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService"
