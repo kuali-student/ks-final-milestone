@@ -125,7 +125,13 @@
 		<filter-name>UserLoginFilter</filter-name>
 		<servlet-name>edoclite</servlet-name>
 	</filter-mapping>
-    
+
+	<!-- add by bonnie -->   
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>krad</servlet-name>
+    </filter-mapping> 
+   
     <filter-mapping>
         <filter-name>UserPreferencesFilter</filter-name>
        <servlet-name>edoclite</servlet-name>
@@ -164,7 +170,15 @@
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+	
+	<!-- added by bonnie -->
+    <servlet>
+       <servlet-name>krad</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <load-on-startup>3</load-on-startup>
+    </servlet>
 
+    
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
     <servlet>
@@ -295,6 +309,13 @@
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
+
+	<!--  added by bonnie -->	
+	<servlet-mapping>
+      <servlet-name>krad</servlet-name>
+      <url-pattern>/spring/*</url-pattern>
+    </servlet-mapping> 	
+    
 
 	<session-config>
 		<session-timeout>60</session-timeout>
