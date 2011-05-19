@@ -109,7 +109,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author Kuali Student Team
  */
-public class CourseConfigurer extends AbstractCourseConfigurer {
+public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
@@ -1091,7 +1091,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
-        return CourseConfigurer.CourseSections.class;
+        return CourseProposalConfigurer.CourseSections.class;
     }
 
 

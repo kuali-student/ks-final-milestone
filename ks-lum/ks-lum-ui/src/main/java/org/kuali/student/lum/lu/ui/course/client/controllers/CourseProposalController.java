@@ -80,8 +80,8 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -114,7 +114,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
 	protected final DataModel comparisonModel = new DataModel("Original Course");
 
-	CourseConfigurer cfg;
+	CourseProposalConfigurer cfg;
 	
 	private WorkQueue modelRequestQueue;
 
@@ -165,7 +165,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     protected void initializeController() {
-    	cfg = GWT.create(CourseConfigurer.class);
+    	cfg = GWT.create(CourseProposalConfigurer.class);
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);

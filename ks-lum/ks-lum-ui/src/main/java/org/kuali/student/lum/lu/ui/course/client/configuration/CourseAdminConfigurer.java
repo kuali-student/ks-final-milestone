@@ -17,7 +17,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalContr
  * @author Will
  *
  */
-public class CourseAdminConfigurer extends CourseConfigurer{
+public class CourseAdminConfigurer extends CourseProposalConfigurer{
 
     /**
      * Sets up all the views, sections, and views of the CourseAdminController.  This should be called

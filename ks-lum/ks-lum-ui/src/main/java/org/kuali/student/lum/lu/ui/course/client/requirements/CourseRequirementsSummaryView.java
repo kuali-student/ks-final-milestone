@@ -28,7 +28,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
@@ -362,7 +362,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     });                    
                 } else {
                     if(! ((CourseProposalController)parentController.getController()).isNew()){
-                        (parentController.getController()).showView(CourseConfigurer.CourseSections.SUMMARY);
+                        (parentController.getController()).showView(CourseProposalConfigurer.CourseSections.SUMMARY);
                     }
                     else{
                         Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());

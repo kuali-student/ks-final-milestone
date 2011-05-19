@@ -51,7 +51,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -118,8 +118,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
     
     private void initialize() {
-        super.setDefaultModelId(CourseConfigurer.COURSE_PROPOSAL_MODEL);
-        super.registerModel(CourseConfigurer.COURSE_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL);
+        super.registerModel(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -273,7 +273,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 callback.onModelReady(ref);
             }
         }else if (modelType == Data.class){
-            requestModel(CourseConfigurer.COURSE_PROPOSAL_MODEL, callback);
+            requestModel(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL, callback);
         } else {
             super.requestModel(modelType, callback);
         }
