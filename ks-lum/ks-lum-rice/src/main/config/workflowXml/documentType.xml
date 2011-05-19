@@ -224,7 +224,102 @@
         </role>
       </routeNodes>
     </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.create.admin</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Admin Proposal</description>
+      <label>Credit Course Admin Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.modify.admin</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Modify Credit Course Admin Proposal</description>
+      <label>Modify Credit Course Admin Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
 <!-- END CREDIT COURSE DOCUMENTS -->
+<!-- Program Documents -->
+    <documentType>
+      <name>kuali.proposal.type.majorDicipline.create</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Create Major Discipline Proposal</description>
+      <label>Create Major Discipline Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <role name="Department Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.majorDicipline.modify</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Modify Major Discipline Proposal</description>
+      <label>Modify Major Discipline Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <role name="Department Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+        </role>
+      </routeNodes>
+    </documentType>
   </documentTypes>
 </data>
 
