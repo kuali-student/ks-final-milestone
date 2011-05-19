@@ -1,13 +1,12 @@
 package org.kuali.student.r2.lum.lrc.infc;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
-public interface ResultValueGroup extends Serializable {
+
+public interface ResultValueGroup extends KeyEntity {
 
 	/**
 	 * List of result values contained within the group. Examples are grades
@@ -41,20 +40,19 @@ public interface ResultValueGroup extends Serializable {
 	public String getId();
 
 	/**
-	 * The key of the range contained within this result value group. This is
+	 * The  range contained within this result value group. This is
 	 * optional and might not be present for some Result Value Groups
 	 * 
 	 * @return
 	 */
-	public String getResultValueRangeKey();
+	public ResultValueRange getResultValueRange();
 
 	/**
-	 * contains the possible discrete results in this group with their rankings,
+	 * Contains the list of possible discrete results in this group with their rankings,
 	 * the values in this group would be the ultimate set of results possible.
-	 * The key of the map is the result value, either from the ResultValue Range
-	 * or discrete results
+	 *
 	 * 
 	 * @return
 	 */
-	public Map<String, String> getResultRankings();
+	public List<? extends ResultRankingPair> getResultRankingPairs();
 }

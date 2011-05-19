@@ -11,6 +11,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -122,136 +123,7 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public List<String> getAllResultValueGroupTypes(
-			ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		return getNextDecorator().getAllResultValueGroupTypes( context);
-	}
-
-	@Override
-	public String getResultValueGroupType(
-			String resultValueGroupTypeKey, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		return getNextDecorator().getResultValueGroupType(resultValueGroupTypeKey,context);
-	}
-
-	@Override
-	public ResultValueGroupInfo getResultValueGroup(String resultValueGroupKey,
-			ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		return getNextDecorator().getResultValueGroup(resultValueGroupKey,context);
-	}
-
-	@Override
-	public List<ResultValueGroupInfo> getResultValueGroupList(
-			List<String> resultValueGroupKeyList, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ResultValueGroupInfo> getResultValueGroupByResultValue(
-			String resultValueKey, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getResultValueKeysByResultType(String resultTypeKey,
-			ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultValueGroupInfo getResultValueGroupByKey(String resultGroupKey,
-			ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultValueGroupInfo getResultValueGroupById(String resultGroupId,
-			ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getResultValueGroupIdsByResultGroupType(
-			String resultValueGroupTypeKey, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getResultValueGroupIdsByResultValue(
-			String resultValueId, String resultGroupTypeKey, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getResultValueRangesForResultValueGroupById(
-			String resultValueGroupId, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getResultValueRangesForResultValueGroup(
+	public ResultValueGroupInfo getResultValueGroupByKey(
 			String resultValueGroupKey, ContextInfo context)
 			throws org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
@@ -263,8 +135,44 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public List<String> getAllResultValueRanges(
-			ContextInfo context)
+	public List<ResultValueGroupInfo> getResultValueGroupListByResultGroupKeyList(
+			List<String> resultValueGroupKeyList, ContextInfo context)
+			throws org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException,
+			org.kuali.student.common.exceptions.PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ResultValueGroupInfo> getResultValueGroupsByResultValue(
+			String resultValueKey, ContextInfo context)
+			throws org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException,
+			org.kuali.student.common.exceptions.PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getResultValueByResultType(
+			ResultValueInfo resulValueType, ContextInfo context)
+			throws org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException,
+			org.kuali.student.common.exceptions.PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ResultValueGroupInfo> getResultValueGroupsByType(
+			String resultValueGroupType, ContextInfo context)
 			throws org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
 			org.kuali.student.common.exceptions.MissingParameterException,
@@ -290,7 +198,7 @@ public class LRCServiceDecorator implements LRCService {
 
 	@Override
 	public ResultValueGroupInfo updateResultValueGroup(
-			String resultValueGroupId,
+			String resultValueGroupKey,
 			ResultValueGroupInfo resultValueGroupInfo, ContextInfo context)
 			throws DataValidationErrorException,
 			org.kuali.student.common.exceptions.DoesNotExistException,
@@ -304,7 +212,7 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public StatusInfo deleteResultValueGroup(String resultValueGroupId,
+	public StatusInfo deleteResultValueGroup(String resultValueGroupKey,
 			ContextInfo context)
 			throws org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
@@ -316,8 +224,8 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public List<ResultValueInfo> getResultValuesForResultValueGroupById(
-			String resultValueGroupId, ContextInfo context)
+	public List<ResultValueInfo> getResultValuesIdList(
+			List<String> resultValueGroupId, ContextInfo context)
 			throws org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
 			org.kuali.student.common.exceptions.MissingParameterException,
@@ -338,9 +246,9 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public ResultValueInfo createResultValue(String resultValueKey,
-			ResultValueInfo resultValueInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
+	public ResultValueInfo createResultValue(ResultValueInfo resultValueInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException,
 			org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
 			org.kuali.student.common.exceptions.MissingParameterException,
@@ -377,57 +285,30 @@ public class LRCServiceDecorator implements LRCService {
 	}
 
 	@Override
-	public List<ResultValueRangeInfo> getAllResultValueRangesByRangeType(
-			String resultValueRangeTypeKey, ContextInfo context)
-			throws org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultValueInfo createResultValueRange(String resultValueRangeKey,
-			ResultValueRangeInfo resultValueRangeInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultValueGroupInfo updateResultValueRange(
-			String resultValueRangeInfoId,
-			ResultValueRangeInfo resultValueRangeInfo, ContextInfo context)
-			throws DataValidationErrorException,
-			org.kuali.student.common.exceptions.DoesNotExistException,
-			org.kuali.student.common.exceptions.InvalidParameterException,
-			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException,
-			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatusInfo deleteResultValueRange(String resultValueRangeInfoId,
+	public List<ValidationResultInfo> validateResultValue(
+			String validationType, ResultValueInfo resultValueInfo,
 			ContextInfo context)
 			throws org.kuali.student.common.exceptions.DoesNotExistException,
 			org.kuali.student.common.exceptions.InvalidParameterException,
 			org.kuali.student.common.exceptions.MissingParameterException,
-			org.kuali.student.common.exceptions.OperationFailedException,
-			org.kuali.student.common.exceptions.PermissionDeniedException {
+			org.kuali.student.common.exceptions.OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public List<ValidationResultInfo> validateResultGroup(
+			String validationType, ResultValueGroupInfo resultValueGroupInfo,
+			ContextInfo context)
+			throws org.kuali.student.common.exceptions.DoesNotExistException,
+			org.kuali.student.common.exceptions.InvalidParameterException,
+			org.kuali.student.common.exceptions.MissingParameterException,
+			org.kuali.student.common.exceptions.OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 
 }

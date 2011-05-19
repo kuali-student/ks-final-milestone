@@ -3,6 +3,7 @@ package org.kuali.student.r2.lum.lrc.infc;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.kuali.student.r2.common.infc.Entity;
 import org.kuali.student.r2.common.infc.KeyEntity;
 
 
@@ -11,7 +12,7 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @author sambit
  *
  */
-public interface ResultValueRange extends KeyEntity{
+public interface ResultValueRange extends Entity{
 	
 
 	/**
@@ -20,7 +21,7 @@ public interface ResultValueRange extends KeyEntity{
 	 * etc.) Should the data resultTypeKey of values (min/max) be numbers and
 	 * not Strings in the value range?
 	 */
-	public String getMinValue();
+	public Float getMinValue();
 	
 	
 	/**
@@ -28,14 +29,14 @@ public interface ResultValueRange extends KeyEntity{
 	 * corresponds with the short coded form of the result(ex. "3.0", "100.0"
 	 * etc.). Upper end can be left empty to indicate unbounded upper end.
 	 */
-	public String getMaxValue();
+	public Float getMaxValue();
 	
 	/**
 	 * Increment number Legal increments in the result values. This has to be a
 	 * decimal e.g 0.5)
 	 * 
 	 */
-	public float getIncrement();
+	public Float getIncrement();
 	
 	
 	
@@ -56,15 +57,5 @@ public interface ResultValueRange extends KeyEntity{
 	 */
 	public Date getExpirationDate();
 
-	/**
-	 * 	
-	 * @return
-	 */
-	public String getResultTypeKey();
-	
-	/**
-
-	 */
-	public String getId();
 
 }

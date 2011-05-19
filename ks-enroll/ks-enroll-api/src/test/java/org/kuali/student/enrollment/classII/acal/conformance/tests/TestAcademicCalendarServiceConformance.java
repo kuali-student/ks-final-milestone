@@ -56,6 +56,8 @@ public class TestAcademicCalendarServiceConformance {
 		academicCalendarInfo.setStartDate(new Date() );
 		academicCalendarInfo.setName("First AC");
 		
+		AcademicCalendarInfo newAC = new AcademicCalendarInfo(academicCalendarInfo) ;
+		
 		AcademicCalendarInfo createdAC  = getService().createAcademicCalendar("test1AC", academicCalendarInfo, TestHelper.getContext1());
 		assertNotNull(createdAC);
 		assertNotNull(createdAC.getKey());

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.common.infc.Entity;
 import org.kuali.student.r2.common.infc.KeyEntity;
 import org.w3c.dom.Element;
 
@@ -11,7 +12,7 @@ import org.w3c.dom.Element;
  * @author sambit
  */
 
-public interface ResultValue extends KeyEntity {
+public interface ResultValue extends Entity {
 
 	
 	/**

@@ -33,8 +33,10 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
@@ -57,40 +59,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LRCService extends DataDictionaryService, TypeService,
 		StateService {
-	/**
-	 * Retrieves information on all result types.
-	 * 
-	 * @return list of result type information
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 */
-	public List<String> getAllResultValueGroupTypes(
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;;
-
-	/**
-	 * Retrieves information on a specific result type.
-	 * 
-	 * @param resultValueGroupTypeKey
-	 *            identifier for the results type
-	 * @return information about a results type
-	 * @throws DoesNotExistException
-	 *             resultValueGroupTypeKey not found
-	 * @throws InvalidParameterException
-	 *             invalid resultValueGroupTypeKey
-	 * @throws MissingParameterException
-	 *             missing resultValueGroupTypeKey
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 */
-	public String getResultValueGroupType(
-			@WebParam(name = "resultTypeKey") String resultValueGroupTypeKey,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;;
 
 	/**
 	 * Retrieves existing result group by an identifier.
@@ -107,12 +75,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public ResultValueGroupInfo getResultValueGroup(
+	public ResultValueGroupInfo getResultValueGroupByKey(
 			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;;
+			PermissionDeniedException;
 
 	/**
 	 * Retrieves a list of existing results by a list of identifiers.
@@ -129,12 +97,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<ResultValueGroupInfo> getResultValueGroupList(
+	public List<ResultValueGroupInfo> getResultValueGroupListByResultGroupKeyList(
 			@WebParam(name = "resultValueGroupKeyList") List<String> resultValueGroupKeyList,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;;
+			PermissionDeniedException;
 
 	/**
 	 * Retrieves a list of existing result value groups that a result value is
@@ -152,7 +120,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<ResultValueGroupInfo> getResultValueGroupByResultValue(
+	public List<ResultValueGroupInfo> getResultValueGroupsByResultValue(
 			@WebParam(name = "resultValueKey") String resultValueKey,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -175,53 +143,8 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<String> getResultValueKeysByResultType(
-			@WebParam(name = "resultTypeKey") String resultTypeKey,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-
-	/**
-	 * Retrieves information on a specific result group based on key
-	 * 
-	 * @param resultValueGroupId
-	 *            result component identifier
-	 * @return information about a result component
-	 * @throws DoesNotExistException
-	 *             resultComponentId not found
-	 * @throws InvalidParameterException
-	 *             invalid resultComponentId
-	 * @throws MissingParameterException
-	 *             missing resultComponentId
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 */
-
-	public ResultValueGroupInfo getResultValueGroupByKey(
-			@WebParam(name = "resultGroupKey") String resultGroupKey,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-
-	/**
-	 * Retrieves information on a specific result group based on identifier
-	 * 
-	 * @param resultValueGroupId
-	 *            result component identifier
-	 * @return information about a result component
-	 * @throws DoesNotExistException
-	 *             resultComponentId not found
-	 * @throws InvalidParameterException
-	 *             invalid resultComponentId
-	 * @throws MissingParameterException
-	 *             missing resultComponentId
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 */
-	public ResultValueGroupInfo getResultValueGroupById(
-			@WebParam(name = "resultGroupId") String resultGroupId,
+	public List<String> getResultValueByResultType(
+			@WebParam(name = "resultTypeKey") ResultValueInfo resulValueType,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -243,40 +166,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<String> getResultValueGroupIdsByResultGroupType(
-			@WebParam(name = "resultGroupTypeKey") String resultValueGroupTypeKey,
+	public List<ResultValueGroupInfo> getResultValueGroupsByType(
+			@WebParam(name = "resultGroupType") String resultValueGroupType,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
-
-	/**
-	 * Retrieves a list of result group identifiers for a specified result. The
-	 * result group type is specified as well to provide an indication of the id
-	 * space.
-	 * 
-	 * @param resultValueId
-	 *            identifier for the result value
-	 * @param resultComponentTypeKey
-	 *            identifier for the result group type
-	 * @return list of result group identifiers
-	 * @throws DoesNotExistException
-	 *             resultValueId, resultGroupTypeKey not found
-	 * @throws InvalidParameterException
-	 *             invalid resultValueId, resultGroupTypeKey
-	 * @throws MissingParameterException
-	 *             missing resultValueId, resultGroupTypeKey
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 */
-	public List<String> getResultValueGroupIdsByResultValue(
-			@WebParam(name = "resultValueId") String resultValueId,
-			@WebParam(name = "resultGroupTypeKey") String resultGroupTypeKey,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-
 
 	/**
 	 * Creates a new result group.
@@ -334,7 +229,7 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 *             action was attempted on an out of date version.
 	 */
 	public ResultValueGroupInfo updateResultValueGroup(
-			@WebParam(name = "resultValueGroupId") String resultValueGroupId,
+			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey,
 			@WebParam(name = "resultValueGroupInfo") ResultValueGroupInfo resultValueGroupInfo,
 			@WebParam(name = "context") ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -342,8 +237,6 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException;
 
-	
-	
 	/**
 	 * Deletes an existing result group.
 	 * 
@@ -362,163 +255,12 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 *             authorization failure
 	 */
 	public StatusInfo deleteResultValueGroup(
-			@WebParam(name = "resultValueGroupId") String resultValueGroupId,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-
-	
-	/**
-	 * Gets all the result value ranges for a result value group.
-	 * 
-	 * 
-	 * @return ResultValueGroupTypeInfo which are tied to a particular
-	 *         ResultValuegroup
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-
-	public List<String> getResultValueRangesForResultValueGroupById(
-			@WebParam(name = "resultValueGroupId") String resultValueGroupId,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-
-	/**
-	 * Gets all the result value ranges for a result value group.
-	 * 
-	 * 
-	 * @return ResultValueGroupTypeInfo which are tied to a particular
-	 *         ResultValuegroup
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-
-	public List<String> getResultValueRangesForResultValueGroup(
 			@WebParam(name = "resultValueGroupKey") String resultValueGroupKey,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
 
-	/**
-	 * Gets all result value ranges.
-	 * 
-	 * 
-	 * @return ResultValueGroupTypeInfo which are tied to a particular
-	 *         ResultValuegroup
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-
-	public List<String> getAllResultValueRanges(
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-	/**
-	 * Gets all result value ranges.
-	 * 
-	 * 
-	 * @return ResultValueGroupTypeInfo which are tied to a particular
-	 *         ResultValuegroup
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-
-	public List<ResultValueRangeInfo> getAllResultValueRangesByRangeType(
-			@WebParam(name = "resultValueRangeType") String resultValueRangeTypeKey,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-	
-	/**
-	 * 
-	 * @param resultValueKey
-	 * @param resultValueInfo
-	 * @return
-	 * @throws AlreadyExistsException
-	 * @throws DataValidationErrorException
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-	public ResultValueInfo createResultValueRange(
-			@WebParam(name = "resultValueRangeKey") String resultValueRangeKey,
-			@WebParam(name = "resultValueRangeInfo") ResultValueRangeInfo resultValueRangeInfo,
-			@WebParam(name = "context") ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-	
-	
-	/**
-	 * Updates an existing result range.
-	 * 
-	 * @param resultGroupId
-	 *            identifier of the result Group to update
-	 * @param resultGroupInfo
-	 *            updated information about the result group
-	 * @return updated result group information
-	 * @throws DataValidationErrorException
-	 *             one or more values invalid for this operation
-	 * @throws DoesNotExistException
-	 *             resultGroupId not found
-	 * @throws InvalidParameterException
-	 *             invalid resultGroupId, resultGroupInfo
-	 * @throws MissingParameterException
-	 *             missing resultGroupId, resultGroupInfo
-	 * @throws OperationFailedException
-	 *             unable to complete request
-	 * @throws PermissionDeniedException
-	 *             authorization failure
-	 * @throws VersionMismatchException
-	 *             action was attempted on an out of date version.
-	 */
-	public ResultValueGroupInfo updateResultValueRange(
-			@WebParam(name = "resultValueRangeId") String resultValueRangeInfoId,
-			@WebParam(name = "resultValueGroupInfo") ResultValueRangeInfo resultValueRangeInfo,
-			@WebParam(name = "context") ContextInfo context)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException;
-
-	
-	/**
-	 * 
-	 * @param resultValueRangeInfoId
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-	public StatusInfo deleteResultValueRange(
-			@WebParam(name = "resultValueId") String resultValueRangeInfoId,
-			@WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
 	/**
 	 * Retrieves a list of result value objects for a specified result value
 	 * group id.
@@ -537,15 +279,15 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<ResultValueInfo> getResultValuesForResultValueGroupById(
-			@WebParam(name = "resultValueGroupId") String resultValueGroupId,
+	public List<ResultValueInfo> getResultValuesIdList(
+			@WebParam(name = "resultValueGroupId") List<String> resultValueGroupId,
 			@WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
 	/**
 	 * Retrieves a list of result value objects for a specified result value
-	 * group key.
+	 * group key. It is sorted by the rank is the result values inside the group
 	 * 
 	 * @param resultValueId
 	 *            identifier for the result value
@@ -581,7 +323,6 @@ public interface LRCService extends DataDictionaryService, TypeService,
 	 * @throws PermissionDeniedException
 	 */
 	public ResultValueInfo createResultValue(
-			@WebParam(name = "resultValueGroupKey") String resultValueKey,
 			@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
 			@WebParam(name = "context") ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
@@ -627,5 +368,39 @@ public interface LRCService extends DataDictionaryService, TypeService,
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
+	/**
+	 * 
+	 * @param validationType
+	 * @param resultValueInfo
+	 * @param context
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 */
+	public List<ValidationResultInfo> validateResultValue(
+			@WebParam(name = "validationType") String validationType,
+			@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo,
+			@WebParam(name = "context") ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+	/**
+	 * 
+	 * @param validationType
+	 * @param resultValueGroupInfo
+	 * @param context
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 */
+	public List<ValidationResultInfo> validateResultGroup(
+			@WebParam(name = "validationType") String validationType,
+			@WebParam(name = "resultGroupInfo") ResultValueGroupInfo resultValueGroupInfo,
+			@WebParam(name = "context") ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
 
 }

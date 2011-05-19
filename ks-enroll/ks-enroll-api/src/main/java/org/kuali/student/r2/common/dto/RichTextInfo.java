@@ -28,58 +28,56 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RichTextInfo", propOrder = {"plain", "formatted", "_futureElements"})
+@XmlType(name = "RichTextInfo", propOrder = { "plain", "formatted",
+		"_futureElements" })
 public class RichTextInfo implements RichText, Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String plain;
+	@XmlElement
+	private String plain;
 
-    @XmlElement
-    private String formatted;
-    
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+	@XmlElement
+	private String formatted;
 
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    
-    public RichTextInfo() {
-    	plain = null;
-    	formatted = null;
-    	_futureElements=null;
-    }
-    
-    public RichTextInfo(RichText richText) {
-       
-	    	this.plain = richText.getPlain();
-	    	this.formatted = richText.getFormatted();
-	    	this._futureElements=null;
-    	
-    }
-    
-    @Override
-    public String getPlain() {
-        return plain;
-    }
+	public RichTextInfo() {
+		plain = null;
+		formatted = null;
+		_futureElements = null;
+	}
 
-    
-    public void setPlain(String plain) {
-        this.plain = plain;
-    }
+	public RichTextInfo(RichText richText) {
+		if (null != richText) {
+			this.plain = richText.getPlain();
+			this.formatted = richText.getFormatted();
+			this._futureElements = null;
+		}
 
-    @Override
-    public String getFormatted() {
-        return formatted;
-    }
+	}
 
-    
-    public void setFormatted(String formatted) {
-        this.formatted = formatted;
-    }
+	@Override
+	public String getPlain() {
+		return plain;
+	}
 
-    @Override
-    public String toString() {
-    	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
-    }
+	public void setPlain(String plain) {
+		this.plain = plain;
+	}
+
+	@Override
+	public String getFormatted() {
+		return formatted;
+	}
+
+	public void setFormatted(String formatted) {
+		this.formatted = formatted;
+	}
+
+	@Override
+	public String toString() {
+		return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
+	}
 }

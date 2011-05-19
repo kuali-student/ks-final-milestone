@@ -77,8 +77,8 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements
 			this.campusCalendarKeys = null != acal.getCampusCalendarKeys() ? new ArrayList<String>(
 					acal.getCampusCalendarKeys()) : null;
 			this.credentialProgramTypeKey = acal.getCredentialProgramTypeKey();
-			this.setStartDate(acal.getStartDate());
-			this.setEndDate(acal.getEndDate());
+			this.setStartDate(new Date( acal.getStartDate().getTime()));
+			this.setEndDate(new Date( acal.getEndDate().getTime()));
 		}
 	}
 

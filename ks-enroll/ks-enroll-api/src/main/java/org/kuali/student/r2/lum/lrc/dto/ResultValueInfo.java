@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.Meta;
@@ -17,10 +18,10 @@ import org.w3c.dom.Element;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
-@XmlType(name = "ResultValueInfo", propOrder = { "id", "key", "typeKey",
+@XmlType(name = "ResultValueInfo", propOrder = { "id",  "typeKey",
 		"stateKey", "name", "descr", "effectiveDate", "expirationDate",
 		"value", "metaInfo", "attributes", "_futureElements" })
-public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
+public class ResultValueInfo extends EntityInfo implements ResultValue,
 		Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,7 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
 	@XmlAttribute
 	private String id;
 
-	@XmlAttribute
+	@XmlElement
 	private String value;
 
 	@XmlElement
@@ -55,8 +56,8 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
 	public ResultValueInfo(ResultValue resultValueInfo) {
 		super(resultValueInfo);
 		this.value = resultValueInfo.getValue();
-		this.effectiveDate = resultValueInfo.getEffectiveDate();
-		this.expirationDate = resultValueInfo.getExpirationDate();
+		this.effectiveDate = new Date( resultValueInfo.getEffectiveDate().getTime());
+		this.expirationDate = new Date (resultValueInfo.getExpirationDate().getTime());
 		this.id = resultValueInfo.getId();
 	}
 
