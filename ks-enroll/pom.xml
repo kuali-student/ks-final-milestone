@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
@@ -11,12 +10,28 @@
   <packaging>pom</packaging>
   <name>KS Enroll</name>
   <description>KS Enrollment</description>
-  <modules>
-    <module>ks-enroll-impl</module>
-    <module>ks-enroll-api</module>
-    <module>ks-enroll-ui</module>
-    <module>ks-enroll-web</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>ks-enroll-impl</module>
+        <module>ks-enroll-api</module>
+        <module>ks-enroll-ui</module>
+        <module>ks-enroll-web</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-all-wars</id>
+      <modules>
+        <module>ks-enroll-impl</module>
+        <module>ks-enroll-api</module>
+        <module>ks-enroll-ui</module>
+      </modules>
+    </profile>
+  </profiles>
   <dependencyManagement>
     <dependencies>
       <dependency>
