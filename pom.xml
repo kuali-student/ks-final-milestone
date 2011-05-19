@@ -9,8 +9,7 @@
   express or implied. See the License for the specific language governing
   permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
@@ -152,6 +151,7 @@
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.1</tomcat.plugin.version>
+    <jetty.plugin.version>8.0.0.M2</jetty.plugin.version>
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
@@ -231,6 +231,13 @@
             <draftCompile>${ks.gwt.compile.draftCompile}</draftCompile>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.mortbay.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${jetty.plugin.version}</version>
+        </plugin>
+
       </plugins>
     </pluginManagement>
     <plugins>
