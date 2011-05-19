@@ -18,6 +18,7 @@
 
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
+	<mainChannel:ksR2Applications/>
 </td>
 <td class="content" valign="top">
     <mainChannel:ksMaintenance />
