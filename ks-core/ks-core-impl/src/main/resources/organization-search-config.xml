@@ -759,19 +759,19 @@
 				</entry>
 				
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds">
-					<value>SELECT DISTINCT rel.org.id, rel.org.shortName, rel.org.longName, rel.org.type.id FROM OrgOrgRelation rel </value>
+					<value>SELECT DISTINCT rel.org.id, rel.org.shortName, rel.org.longName, rel.org.type.id FROM OrgOrgRelation rel, OrgOrgRelation rel2 </value>
 				</entry>
 				<entry key="org.queryParam.optionalOrgTypeList">
 					<value>rel.org.type.id IN (:org_queryParam_optionalOrgTypeList)</value>
 				</entry>
 				<entry key="org.queryParam.relatedOrgIds">
-					<value>rel.relatedOrg.id IN (:org_queryParam_relatedOrgIds)</value>
+					<value>(rel.relatedOrg.id IN (:org_queryParam_relatedOrgIds) OR (rel.relatedOrg.id NOT IN (:org_queryParam_relatedOrgIds) AND rel2.relatedOrg.id IN (:org_queryParam_relatedOrgIds) AND rel.relatedOrg.id = rel2.org.id))</value>
 				</entry>
 				<entry key="org.queryParam.relOrgOptionalId">
 					<value>rel.org.id = :org_queryParam_relOrgOptionalId</value>
 				</entry>
 				<entry key="org.queryParam.optionalRelationType">
-					<value>rel.type.id = :org_queryParam_optionalRelationType</value>
+					<value>rel.type.id = :org_queryParam_optionalRelationType AND rel2.type.id = :org_queryParam_optionalRelationType</value>
 				</entry>
 
 				
