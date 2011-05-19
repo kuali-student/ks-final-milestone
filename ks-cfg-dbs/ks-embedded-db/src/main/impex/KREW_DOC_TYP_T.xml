@@ -273,6 +273,30 @@
         DOC_TYP_VER_NBR="0" LBL="Milestone Type"
         OBJ_ID="C812DAB2-26F9-F5FB-A1A3-929F378DD852" PARNT_ID="3009"
         RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3019"
+        DOC_TYP_NM="kuali.proposal.type.majorDicipline.modify"
+        DOC_TYP_VER_NBR="0" LBL="Modify Major Discipline Proposal"
+        OBJ_ID="F6B67252-1C62-BA21-1006-32B2C65E07D0" PARNT_ID="3009"
+        POST_PRCSR="org.kuali.student.lum.workflow.ProgramPostProcessorBase"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3020"
+        DOC_TYP_NM="kuali.proposal.type.majorDicipline.create"
+        DOC_TYP_VER_NBR="0" LBL="Create Major Discipline Proposal"
+        OBJ_ID="6E427321-481C-127A-7465-0D61C9CE73A5" PARNT_ID="3009"
+        POST_PRCSR="org.kuali.student.lum.workflow.ProgramPostProcessorBase"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3021"
+        DOC_TYP_NM="kuali.proposal.type.course.modify.admin"
+        DOC_TYP_VER_NBR="0" LBL="Modify Credit Course Admin Proposal"
+        OBJ_ID="E0ABCB1A-1D54-57FB-A61C-5D0527122F07" PARNT_ID="3009"
+        POST_PRCSR="org.kuali.student.lum.workflow.CoursePostProcessorBase"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3022"
+        DOC_TYP_NM="kuali.proposal.type.course.create.admin"
+        DOC_TYP_VER_NBR="0" LBL="Credit Course Admin Proposal"
+        OBJ_ID="138E4E7C-4F4C-5A36-A48F-690011431D40" PARNT_ID="3009"
+        POST_PRCSR="org.kuali.student.lum.workflow.CoursePostProcessorBase"
+        RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3028"
         DOC_TYP_NM="SubjectCodeTypeMaintenanceDocument"
         DOC_TYP_VER_NBR="0" LBL="Subject Code Type"
