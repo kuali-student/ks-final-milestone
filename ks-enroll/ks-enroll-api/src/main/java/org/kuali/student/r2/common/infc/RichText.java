@@ -33,7 +33,7 @@ public interface RichText {
      * @author nwright
      */
     public String getPlain();
-    public void setPlain(String plain);
+    
 
     /**
      * Name: Formatted Text
@@ -44,6 +44,6 @@ public interface RichText {
      * or Wiki?
      */
     public String getFormatted();
-    public void setFormatted(String formatted);
+    
 }
 

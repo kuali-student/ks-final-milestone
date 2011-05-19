@@ -63,7 +63,7 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        TypeInfo typeInfo = TypeInfo.newInstance();
+        TypeInfo typeInfo = new TypeInfo();
         typeInfo.setKey(typeKey);
         typeInfo.setName(typeKey);
         return typeInfo;
@@ -226,7 +226,7 @@ public class AtpServiceMockImpl implements AtpService {
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
 
-            if (milestone.isDateRange()) {
+            if (milestone.getIsDateRange()) {
                 if ((startDate.before(milestone.getStartDate()) || startDate.equals(milestone.getStartDate())) && (endDate.after(milestone.getEndDate()) || endDate.equals(milestone.getEndDate()))) {
                     milestoneList.add(milestone);
                 }
@@ -296,7 +296,7 @@ public class AtpServiceMockImpl implements AtpService {
 
         MockHelper helper = new MockHelper();
         AtpInfo atp = new AtpInfo(atpInfo);
-        atp.setMetaInfo(helper.createMeta(context));
+        atp.setMeta(helper.createMeta(context));
         this.atpCache.put(atpKey, atp);
         return atp;
     }
@@ -307,15 +307,15 @@ public class AtpServiceMockImpl implements AtpService {
         if (existing == null) {
             throw new DoesNotExistException(atpKey);
         }
-        if (!atpInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
-            throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
+        if (!atpInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
+            throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         AtpInfo atp = new AtpInfo(atpInfo);
-        atp.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        atp.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpInfo.getAttributes()) {
-            atts.add(AttributeInfo.getInstance(att));
+            atts.add(new AttributeInfo(att));
         }
         atp.setAttributes(atts);
         this.atpCache.put(atpKey, atp);
@@ -328,7 +328,7 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpCache.remove(atpKey) == null) {
             throw new DoesNotExistException(atpKey);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -347,7 +347,7 @@ public class AtpServiceMockImpl implements AtpService {
 
         MockHelper helper = new MockHelper();
         MilestoneInfo mInfo = MilestoneInfo.getInstance(milestoneInfo);
-        mInfo.setMetaInfo(helper.createMeta(context));
+        mInfo.setMeta(helper.createMeta(context));
         this.milestoneCache.put(milestoneKey, mInfo);
         return mInfo;
     }
@@ -358,11 +358,11 @@ public class AtpServiceMockImpl implements AtpService {
         if (existing == null) {
             throw new DoesNotExistException(milestoneKey);
         }
-        if (!milestoneInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
-            throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
+        if (!milestoneInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
+            throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         MilestoneInfo mInfo = MilestoneInfo.getInstance(milestoneInfo);
-        mInfo.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        mInfo.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
         this.milestoneCache.put(milestoneKey, mInfo);
 
         return mInfo;
@@ -376,7 +376,7 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.milestoneCache.remove(milestoneKey) == null) {
             throw new DoesNotExistException(milestoneKey);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -443,7 +443,7 @@ public class AtpServiceMockImpl implements AtpService {
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MockHelper helper = new MockHelper();
         AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.getInstance(atpAtpRelationInfo);
-        aarInfo.setMetaInfo(helper.createMeta(context));
+        aarInfo.setMeta(helper.createMeta(context));
         aarInfo.setId(UUIDHelper.genStringUUID());
         this.atpAtpRltnCache.put(aarInfo.getId(), aarInfo);
         return aarInfo;
@@ -455,15 +455,15 @@ public class AtpServiceMockImpl implements AtpService {
         if (existing == null) {
             throw new DoesNotExistException(atpAtpRelationId);
         }
-        if (!atpAtpRelationInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
-            throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
+        if (!atpAtpRelationInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
+            throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         AtpAtpRelationInfo aari = AtpAtpRelationInfo.getInstance(atpAtpRelationInfo);
-        aari.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        aari.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpAtpRelationInfo.getAttributes()) {
-            atts.add(AttributeInfo.getInstance(att));
+            atts.add(new AttributeInfo(att));
         }
         aari.setAttributes(atts);
         this.atpAtpRltnCache.put(atpAtpRelationId, aari);
@@ -476,7 +476,7 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpAtpRltnCache.remove(atpAtpRelationId) == null) {
             throw new DoesNotExistException(atpAtpRelationId);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status =new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -537,7 +537,7 @@ public class AtpServiceMockImpl implements AtpService {
 
         MockHelper helper = new MockHelper();
         AtpMilestoneRelationInfo amrInfo = AtpMilestoneRelationInfo.getInstance(atpMilestoneRelationInfo);
-        amrInfo.setMetaInfo(helper.createMeta(context));
+        amrInfo.setMeta(helper.createMeta(context));
         this.atpMilestoneRltnCache.put(amrInfo.getId(), amrInfo);
         return amrInfo;
     }
@@ -548,15 +548,15 @@ public class AtpServiceMockImpl implements AtpService {
         if (existing == null) {
             throw new DoesNotExistException(atpMilestoneRelationId);
         }
-        if (!atpMilestoneRelationInfo.getMetaInfo().getVersionInd().equals(existing.getMetaInfo().getVersionInd())) {
-            throw new VersionMismatchException("Updated by " + existing.getMetaInfo().getUpdateId() + " on " + existing.getMetaInfo().getUpdateId() + " with version of " + existing.getMetaInfo().getVersionInd());
+        if (!atpMilestoneRelationInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
+            throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         AtpMilestoneRelationInfo amri = new AtpMilestoneRelationInfo(atpMilestoneRelationInfo);
-        amri.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
+        amri.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
         // update attributes in order to be different than that in luiPersonRelationInfo
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AttributeInfo att : atpMilestoneRelationInfo.getAttributes()) {
-            atts.add(AttributeInfo.getInstance(att));
+            atts.add(new AttributeInfo(att));
         }
         amri.setAttributes(atts);
         this.atpMilestoneRltnCache.put(atpMilestoneRelationId, amri);
@@ -571,7 +571,7 @@ public class AtpServiceMockImpl implements AtpService {
         if (this.atpMilestoneRltnCache.remove(atpMilestoneRelationId) == null) {
             throw new DoesNotExistException(atpMilestoneRelationId);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }

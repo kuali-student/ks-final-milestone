@@ -48,7 +48,7 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
         return new AtpInfo(atp);
     }
     
-    private AtpInfo() {
+    public AtpInfo() {
         startDate = null;
         endDate = null;
         _futureElements = null;

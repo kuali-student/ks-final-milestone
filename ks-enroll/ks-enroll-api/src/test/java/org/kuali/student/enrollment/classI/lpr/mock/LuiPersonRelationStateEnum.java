@@ -115,7 +115,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         return this.expirationDate;
     }
 
-    @Override
+    
     public void setAttributes(List<? extends Attribute> attributes) {
         this.attributes = attributes;
     }
@@ -147,13 +147,13 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         this.key = key;
     }
 
-    @Override
+    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = new Date(effectiveDate.getTime());
         
     }
 
-    @Override
+    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = new Date(expirationDate.getTime());
     }

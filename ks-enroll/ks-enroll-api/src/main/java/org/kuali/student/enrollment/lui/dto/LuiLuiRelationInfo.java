@@ -52,11 +52,10 @@ public class LuiLuiRelationInfo extends IdEntityInfo
     @XmlAnyElement
     private List<Element> _futureElements;    
 
-    public static LuiLuiRelationInfo getInstance(LuiLuiRelationInfo luiLuiRelationInfo) {
-        return new LuiLuiRelationInfo(luiLuiRelationInfo);
-    }
+   
 
-    private LuiLuiRelationInfo() {
+    public LuiLuiRelationInfo() {
+    	super();
     	luiId = null;
     	relatedLuiId = null;
     	effectiveDate = null;
@@ -64,7 +63,7 @@ public class LuiLuiRelationInfo extends IdEntityInfo
     	_futureElements = null;
     }
     
-    private LuiLuiRelationInfo(LuiLuiRelation llr) {
+    public LuiLuiRelationInfo(LuiLuiRelation llr) {
     	super(llr);
     	this.luiId = llr.getLuiId();
     	this.relatedLuiId = llr.getRelatedLuiId();
@@ -78,7 +77,7 @@ public class LuiLuiRelationInfo extends IdEntityInfo
         return luiId;
     }
 
-    @Override
+    
     public void setLuiId(String luiId) {
         this.luiId = luiId;
     }
@@ -88,7 +87,7 @@ public class LuiLuiRelationInfo extends IdEntityInfo
         return relatedLuiId;
     }
 
-    @Override
+    
     public void setRelatedLuiId(String relatedLuiId) {
         this.relatedLuiId = relatedLuiId;
     }
@@ -98,7 +97,7 @@ public class LuiLuiRelationInfo extends IdEntityInfo
         return effectiveDate;
     }
 
-    @Override
+    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = new Date(effectiveDate.getTime());
     }
@@ -108,7 +107,7 @@ public class LuiLuiRelationInfo extends IdEntityInfo
         return expirationDate;
     }
 
-    @Override
+    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate =new Date(expirationDate.getTime());
     }

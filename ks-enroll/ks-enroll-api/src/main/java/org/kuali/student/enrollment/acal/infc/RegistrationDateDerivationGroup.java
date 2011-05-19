@@ -45,7 +45,6 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getRegistrationStartDateTermKey();
-    public void setRegistrationStartDateTermKey(String registrationStartDateTermKey);
 
     /**
      * Name: Registration End Date Term Key
@@ -56,7 +55,6 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getRegistrationEndDateTermKey();
-    public void setRegistrationEndDateTermKey(String registrationEndDateTermKey);
 
     /**
      * Name: Class Start Date Term Key
@@ -67,7 +65,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getClassStartDateTermKey();
-    public void setClassStartDateTermKey(String classStarteDateTermKey);
+
 
     /**
      * Name: Class End Date Term Key
@@ -78,8 +76,6 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getClassEndDateTermKey();
-    public void setClassEndDateTermKey(String classEndDateTermKey);
-
     /**
      * Name: Add Date Term Key
      * Gets the key of the Term from which the add date is derived. If
@@ -88,7 +84,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getAddDateTermKey();
-    public void setAddDateTermKey(String addDateTermKey);
+ 
 
     /**
      * Name: Drop Date Term Key
@@ -98,8 +94,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getDropDateTermKey();
-    public void setDropDateTermKey(String dropDateTermKey);
-
+ 
     /**
      * Name: Final Exam Start Date Term Key
      * Gets the key of the Term from which the start of the final exam
@@ -109,8 +104,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getFinalExamStartDateTermKey();
-    public void setFinalExamStartDateTermKey(String finalExamStartDateTermKey);
-
+ 
     /**
      * Name: Final Exam End Date Term Key
      * Gets the key of the Term from which the end of the final exam
@@ -120,8 +114,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getFinalExamEndDateTermKey();
-    public void setFinalExamEndDateTermKey(String finalExamEndDateTermKey);
-
+ 
     /**
      * Name: Grading Start Date Term Key
      * Gets the key of the Term from which the start of the grading
@@ -131,8 +124,7 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getGradingStartDateTermKey();
-    public void setGradingStartDateTermKey(String gradingStartDateTermKey);
-
+ 
     /**
      * Name: Grading End Date Term Key
      * Gets the key of the Term from which the end of the grading
@@ -142,5 +134,5 @@ public interface RegistrationDateDerivationGroup {
      * @return a term key
      */
     public String getGradingEndDateTermKey();
-    public void setGradingEndDateTermKey(String gradingEndDateTermKey);
+ 
 }

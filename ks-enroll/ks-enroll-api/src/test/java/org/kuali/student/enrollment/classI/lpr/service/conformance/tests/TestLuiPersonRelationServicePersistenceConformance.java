@@ -73,14 +73,15 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 	@After
 	public void tearDown() {
 	}
+
 	private LuiPersonRelationService service = null;
 
 	public LuiPersonRelationService getService() {
 		if (service == null) {
-			ApplicationContext appContext =
-                new ClassPathXmlApplicationContext(new String[]{ "classpath:ks-mock-lpr-service-configuration.xml"});
-			service = (LuiPersonRelationService) appContext.getBean("mockLprPersistenceService");
-            System.out.println ("Running LuiPersonRelationServicePersistence Conformance Test on " + service.getClass().getName());
+			ApplicationContext appContext = new ClassPathXmlApplicationContext(
+					new String[] { "classpath:ks-mock-lpr-service-configuration.xml" });
+			service = (LuiPersonRelationService) appContext
+					.getBean("mockLprPersistenceService");
 		}
 		return service;
 	}
@@ -88,8 +89,6 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 	public void setService(LuiPersonRelationService service) {
 		this.service = service;
 	}
-
-	
 
 	private Date parseDate(String str) {
 		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -115,11 +114,13 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		luiIdList.add("luiId3");
 		String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
 		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
-		LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
-		lprInfo.setEffectiveDate(parseDate("2010-01-01"));		
+		LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+		lprInfo.setEffectiveDate(parseDate("2010-01-01"));
 		ContextInfo context = TestHelper.getContext1();
 
-		List<String> lprIds = getService().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationType, lprInfo, context);
+		List<String> lprIds = getService().createBulkRelationshipsForPerson(
+				personId, luiIdList, relationState, luiPersonRelationType,
+				lprInfo, context);
 		assertEquals(3, lprIds.size());
 		Set<String> unique = new HashSet<String>(lprIds.size());
 		for (String lprId : lprIds) {
@@ -134,48 +135,51 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 	 */
 	@Test
 	public void testLuiPersonRelationLifeCycle() throws Exception {
-		System.out.println("testLuiPersonRelationLifeCycle");
 		String personId = "personId.1";
 		String luiId = "luiId.1";
 		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
 
-		LuiPersonRelationInfo orig = (LuiPersonRelationInfo) LuiPersonRelationInfo.newInstance();
-        orig.setPersonId(personId);
-        orig.setTypeKey(luiPersonRelationType);
-        orig.setLuiId(luiId);
-        orig.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
-        orig.setEffectiveDate(parseDate("2010-01-01"));
-		Attribute attInfo = AttributeInfo.newInstance();
-		ArrayList<Attribute> attInfos = new ArrayList<Attribute>();
+		LuiPersonRelationInfo orig = new LuiPersonRelationInfo();
+		orig.setPersonId(personId);
+		orig.setTypeKey(luiPersonRelationType);
+		orig.setLuiId(luiId);
+		orig.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
+		orig.setEffectiveDate(parseDate("2010-01-01"));
+		AttributeInfo attInfo = new AttributeInfo();
+		List<AttributeInfo> attInfos = new ArrayList<AttributeInfo>();
 		attInfo.setKey("dynamic.attribute.key.1");
-        attInfo.setValue("dynamic attribute value 1");
+		attInfo.setValue("dynamic attribute value 1");
 		attInfos.add(attInfo);
-		attInfo = AttributeInfo.newInstance();
-        attInfo.setKey("dynamic.attribute.key.2");
-        attInfo.setValue("dynamic attribute value 2a");
+		attInfo = new AttributeInfo();
+		attInfo.setKey("dynamic.attribute.key.2");
+		attInfo.setValue("dynamic attribute value 2a");
 		attInfos.add(attInfo);
-		attInfo = AttributeInfo.newInstance();
-        attInfo.setKey("dynamic.attribute.key.2");
-        attInfo.setValue("dynamic attribute value 2b");
+		attInfo = new AttributeInfo();
+		attInfo.setKey("dynamic.attribute.key.2");
+		attInfo.setValue("dynamic attribute value 2b");
 		attInfos.add(attInfo);
 		orig.setAttributes(attInfos);
 		ContextInfo context = TestHelper.getContext1();
 		Date beforeCreate = new Date();
-        String lprId = null;
-        try {
-		 lprId = getService().createLuiPersonRelation(personId, luiId, luiPersonRelationType, orig, context);
-        } catch (DataValidationErrorException ex) {
-            System.out.println (ex.getValidationResults().size() + " validation errors found");
-          for (ValidationResult vri : ex.getValidationResults()) {
-              System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
-          }
-          throw ex;
-        }
+		String lprId = null;
+		try {
+			lprId = getService().createLuiPersonRelation(personId, luiId,
+					luiPersonRelationType, orig, context);
+		} catch (DataValidationErrorException ex) {
+			System.out.println(ex.getValidationResults().size()
+					+ " validation errors found");
+			for (ValidationResult vri : ex.getValidationResults()) {
+				System.out.println(vri.getElement() + " " + vri.getLevel()
+						+ " " + vri.getMessage());
+			}
+			throw ex;
+		}
 		Date afterCreate = new Date();
 		assertNotNull(lprId);
 
 		// fetch
-		LuiPersonRelationInfo fetched = getService().fetchLuiPersonRelation(lprId, context);
+		LuiPersonRelationInfo fetched = getService().fetchLuiPersonRelation(
+				lprId, context);
 		assertNotSame(orig, fetched);
 		assertEquals(lprId, fetched.getId());
 		assertEquals(personId, fetched.getPersonId());
@@ -184,57 +188,60 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertEquals(orig.getStateKey(), fetched.getStateKey());
 		assertEquals(orig.getEffectiveDate(), fetched.getEffectiveDate());
 		assertEquals(orig.getExpirationDate(), fetched.getExpirationDate());
-		assertEquals(orig.getAttributes().size(), fetched.getAttributes().size());
+		assertEquals(orig.getAttributes().size(), fetched.getAttributes()
+				.size());
 		assertNotSame(orig.getAttributes(), fetched.getAttributes());
 
 		for (Attribute origDa : orig.getAttributes()) {
-			AttributeInfo fetchedDa = findMatching(origDa, fetched.getAttributes());
+			AttributeInfo fetchedDa = findMatching(origDa,
+					fetched.getAttributes());
 			assertNotNull(fetchedDa);
 			assertNotSame(origDa, fetchedDa);
 			assertEquals(origDa.getKey(), fetchedDa.getKey());
 			assertEquals(origDa.getValue(), fetchedDa.getValue());
 		}
-		assertNotNull(fetched.getMetaInfo());
-		assertEquals(context.getPrincipalId(), fetched.getMetaInfo().getCreateId());
-		assertEquals(context.getPrincipalId(), fetched.getMetaInfo().getUpdateId());
-		assertNotNull(fetched.getMetaInfo().getCreateTime());
-		assertNotNull(fetched.getMetaInfo().getUpdateTime());
-		assertNotNull(fetched.getMetaInfo().getVersionInd());
-		if (fetched.getMetaInfo().getCreateTime().before(beforeCreate)) {
+		assertNotNull(fetched.getMeta());
+		assertEquals(context.getPrincipalId(), fetched.getMeta().getCreateId());
+		assertEquals(context.getPrincipalId(), fetched.getMeta().getUpdateId());
+		assertNotNull(fetched.getMeta().getCreateTime());
+		assertNotNull(fetched.getMeta().getUpdateTime());
+		assertNotNull(fetched.getMeta().getVersionInd());
+		if (fetched.getMeta().getCreateTime().before(beforeCreate)) {
 			fail("Create time before call to create");
 		}
-		if (fetched.getMetaInfo().getUpdateTime().before(beforeCreate)) {
+		if (fetched.getMeta().getUpdateTime().before(beforeCreate)) {
 			fail("Update time before call to create");
 		}
-		if (fetched.getMetaInfo().getCreateTime().after(afterCreate)) {
+		if (fetched.getMeta().getCreateTime().after(afterCreate)) {
 			fail("Create time after call to create");
 		}
-		if (fetched.getMetaInfo().getUpdateTime().after(afterCreate)) {
+		if (fetched.getMeta().getUpdateTime().after(afterCreate)) {
 			fail("Update time after call to create");
 		}
 
 		// update method
-		LuiPersonRelation lpr = LuiPersonRelationInfo.getInstance(fetched);
+		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo(fetched);
 		lpr.setPersonId("personId.2");
 		lpr.setLuiId("luiId.2");
 		lpr.setStateKey(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY);
 		lpr.setEffectiveDate(parseDate("2010-01-01"));
 		lpr.setExpirationDate(parseDate("2010-02-01"));
-		attInfo = AttributeInfo.newInstance();
+		attInfo = new AttributeInfo();
 		attInfo.setKey("dynamic.attribute.key.3");
 		attInfo.setValue("dynamic.attribute.value.3");
-		attInfos = new ArrayList<Attribute>(lpr.getAttributes());
+		attInfos = new ArrayList<AttributeInfo>(lpr.getAttributes());
 		attInfos.add(attInfo);
-		AttributeInfo attInfo2 = AttributeInfo.getInstance(attInfos.get(1));
+		AttributeInfo attInfo2 = new AttributeInfo(attInfos.get(1));
 		attInfo2.setValue("dynamic.attribute.value.2C");
 		attInfos.set(1, attInfo2);
 		attInfos.remove(0);
-		LuiPersonRelationInfo lpri = LuiPersonRelationInfo.getInstance(lpr);
+		LuiPersonRelationInfo lpri = new LuiPersonRelationInfo(lpr);
 		lpri.setAttributes(attInfos);
 		context = TestHelper.getContext2();
 
 		Date beforeUpdate = new Date();
-		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(lpri.getId(), lpri, context);
+		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(
+				lpri.getId(), lpri, context);
 		Date afterUpdate = new Date();
 		assertNotSame(lpri, updated);
 		assertEquals(lpri.getId(), updated.getId());
@@ -247,32 +254,38 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertEquals(lpri.getStateKey(), updated.getStateKey());
 		assertEquals(lpri.getEffectiveDate(), updated.getEffectiveDate());
 		assertEquals(lpri.getExpirationDate(), updated.getExpirationDate());
-		assertEquals(lpri.getAttributes().size(), updated.getAttributes().size());
+		assertEquals(lpri.getAttributes().size(), updated.getAttributes()
+				.size());
 		assertNotSame(lpri.getAttributes(), updated.getAttributes());
 
 		for (AttributeInfo lpriDa : lpri.getAttributes()) {
-			AttributeInfo updateDa = findMatching(lpriDa, updated.getAttributes());
+			AttributeInfo updateDa = findMatching(lpriDa,
+					updated.getAttributes());
 			assertNotNull(updateDa);
 			assertNotSame(lpriDa, updateDa);
 			assertEquals(lpriDa.getKey(), updateDa.getKey());
 			assertEquals(lpriDa.getValue(), updateDa.getValue());
 		}
-		assertNotNull(updated.getMetaInfo());
-		assertEquals(context.getPrincipalId(), updated.getMetaInfo().getUpdateId());
-		assertEquals(lpri.getMetaInfo().getCreateId(), updated.getMetaInfo().getCreateId());
-		assertEquals(lpri.getMetaInfo().getCreateTime(), updated.getMetaInfo().getCreateTime());
-		if (updated.getMetaInfo().getUpdateTime().before(beforeUpdate)) {
+		assertNotNull(updated.getMeta());
+		assertEquals(context.getPrincipalId(), updated.getMeta().getUpdateId());
+		assertEquals(lpri.getMeta().getCreateId(), updated.getMeta()
+				.getCreateId());
+		assertEquals(lpri.getMeta().getCreateTime(), updated.getMeta()
+				.getCreateTime());
+		if (updated.getMeta().getUpdateTime().before(beforeUpdate)) {
 			fail("Update time before call to create");
 		}
-		if (updated.getMetaInfo().getUpdateTime().after(afterUpdate)) {
+		if (updated.getMeta().getUpdateTime().after(afterUpdate)) {
 			fail("Update time after call to create");
 		}
-		assertNotNull(updated.getMetaInfo().getVersionInd());
-		if (updated.getMetaInfo().getVersionInd().equals(fetched.getMetaInfo().getVersionInd())) {
+		assertNotNull(updated.getMeta().getVersionInd());
+		if (updated.getMeta().getVersionInd()
+				.equals(fetched.getMeta().getVersionInd())) {
 			fail("The version ind was not changed by the update");
 		}
 
-		StatusInfo status = getService().deleteLuiPersonRelation(lprId, context);
+		StatusInfo status = getService()
+				.deleteLuiPersonRelation(lprId, context);
 		assertEquals(Boolean.TRUE, status.isSuccess());
 
 		// fetch
@@ -288,8 +301,10 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 
 	}
 
-	private AttributeInfo findMatching(Attribute search, List<? extends AttributeInfo> list) {
-		// TODO: when AttributeInfo gets it's own ID do the find by ID instead of values
+	private AttributeInfo findMatching(Attribute search,
+			List<? extends AttributeInfo> list) {
+		// TODO: when AttributeInfo gets it's own ID do the find by ID instead
+		// of values
 		for (AttributeInfo da : list) {
 			if (search.getKey().equals(da.getKey())) {
 				if (search.getValue().equals(da.getValue())) {

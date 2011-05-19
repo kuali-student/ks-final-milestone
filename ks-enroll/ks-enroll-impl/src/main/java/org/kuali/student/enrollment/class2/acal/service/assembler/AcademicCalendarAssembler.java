@@ -37,7 +37,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     @Override
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) {
         if(atp != null){
-            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            AcademicCalendarInfo acal = new AcademicCalendarInfo();
             acal.setKey(atp.getKey());
             acal.setName(atp.getName());
             acal.setDescr(atp.getDescr());
@@ -45,7 +45,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
             acal.setEndDate(atp.getEndDate());
             acal.setTypeKey(atp.getTypeKey());
             acal.setStateKey(atp.getStateKey());
-            acal.setMetaInfo(atp.getMetaInfo());
+            acal.setMeta(atp.getMeta());
             acal.setAttributes(atp.getAttributes());
             
             List<AttributeInfo> attributes = atp.getAttributes();
@@ -88,7 +88,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     
     @Override
     public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) {
-        AtpInfo atp = AtpInfo.newInstance();
+        AtpInfo atp = new AtpInfo();
         atp.setKey(acal.getKey());
         atp.setName(acal.getName());
         atp.setDescr(acal.getDescr());
@@ -96,12 +96,12 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         atp.setEndDate(acal.getEndDate());
         atp.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         atp.setStateKey(acal.getStateKey());
-        atp.setMetaInfo(acal.getMetaInfo());
+        atp.setMeta(acal.getMeta());
 
         List<AttributeInfo> attributes = (null != acal.getAttributes()? acal.getAttributes(): new ArrayList<AttributeInfo>());
         
         if(acal.getCredentialProgramTypeKey() != null){
-            AttributeInfo cpt = AttributeInfo.newInstance();
+            AttributeInfo cpt = new AttributeInfo();
             cpt.setKey("CredentialProgramType");
             cpt.setValue(acal.getCredentialProgramTypeKey());
             attributes.add(cpt);

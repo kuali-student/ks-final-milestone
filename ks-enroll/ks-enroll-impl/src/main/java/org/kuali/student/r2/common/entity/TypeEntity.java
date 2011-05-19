@@ -42,7 +42,7 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 	 * @see org.kuali.student.r2.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
-	public void setAttributes(List<T> attributes) {
+	public void setAttributes(List<T> attributes) { 
 		this.attributes = attributes;
 	}
 
@@ -57,16 +57,16 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 	}
 
 	public TypeInfo toDto() {
-		TypeInfo typeInfo = TypeInfo.newInstance();
+		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setName(this.getName());
 		typeInfo.setKey(this.getId());
 		// TODO: what about RefObjId?
 		typeInfo.setDescr(this.getDescr());
 		typeInfo.setEffectiveDate(this.getEffectiveDate());
 		typeInfo.setExpirationDate(this.getExpirationDate());
-		typeInfo.setAttributes(new ArrayList<Attribute>());
+		typeInfo.setAttributes(new ArrayList<AttributeInfo>());
 		// TODO - refactor this into a central place; probably Igor's Converter
-		List<Attribute> atts = new ArrayList<Attribute>();
+		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
 		for (BaseAttributeEntity att : this.getAttributes()) {
 			atts.add(att.toDto());
 		}

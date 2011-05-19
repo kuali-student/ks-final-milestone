@@ -13,94 +13,81 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Entity;
-import org.kuali.student.r2.common.infc.Meta;
+
 import org.kuali.student.r2.common.infc.RichText;
 
 @SuppressWarnings("serial")
 @XmlTransient
-public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Entity, Serializable {
+public abstract class EntityInfo extends HasAttributesAndMetaInfo implements
+		Entity, Serializable {
 
-    @XmlElement
-    private String name;
+	@XmlElement
+	private String name;
 
-    @XmlElement
-    private RichTextInfo descr;
+	@XmlElement
+	private RichTextInfo descr;
 
-    @XmlAttribute
-    private String typeKey;
+	@XmlAttribute
+	private String typeKey;
 
-    @XmlAttribute
-    private String stateKey;
+	@XmlAttribute
+	private String stateKey;
 
+	public EntityInfo() {
+		super();
+		name = null;
+		descr = null;
+		typeKey = null;
+		stateKey = null;
+	}
 
-    protected EntityInfo() {
-        super ();
-        name = null;
-        descr = null;
-        typeKey = null;
-        stateKey = null;
-    }
+	public EntityInfo(Entity entity) {
+		super(entity);
+		this.name = entity.getName();
+		this.descr = new RichTextInfo( entity.getDescr());
+		this.typeKey = entity.getTypeKey();
+		this.stateKey = entity.getStateKey();
+	}
 
-    protected EntityInfo(Entity entity) {
-        super(entity);
-        if (null != entity) {
-	        this.name = entity.getName();
-	        this.descr = RichTextInfo.getInstance(entity.getDescr());
-	        this.typeKey = entity.getTypeKey();
-	        this.stateKey = entity.getStateKey();
-        }
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    protected EntityInfo(String name, RichText descr, String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
-        super(attributes, meta);
-        this.name = name; 
-        this.descr = RichTextInfo.getInstance(descr);
-        this.typeKey = typeKey;
-        this.stateKey = stateKey;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public RichText getDescr() {
+		return descr;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setDescr(RichText descr) {
+		this.descr = new RichTextInfo(descr);
+	}
 
-    @Override
-    public RichText getDescr() {
-        return descr;
-    }
+	@Override
+	public String getTypeKey() {
+		return typeKey;
+	}
 
-   
-    public void setDescr(RichText descr) {
-        this.descr = RichTextInfo.getInstance(descr);
-    }
+	public void setTypeKey(String typeKey) {
+		this.typeKey = typeKey;
+	}
 
-    @Override
-    public String getTypeKey() {
-        return typeKey;
-    }
+	@Override
+	public String getStateKey() {
+		return stateKey;
+	}
 
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
-    }
-
-    @Override
-    public String getStateKey() {
-        return stateKey;
-    }
-
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
-    }
+	public void setStateKey(String stateKey) {
+		this.stateKey = stateKey;
+	}
 }

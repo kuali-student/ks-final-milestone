@@ -25,8 +25,8 @@ public class AtpRichTextEntity extends RichTextEntity {
         }
     }
     
-    public RichText toDto() {
-        RichTextInfo rti = RichTextInfo.newInstance();
+    public RichTextInfo toDto() {
+        RichTextInfo rti = new RichTextInfo();
         rti.setPlain(getPlain());
         rti.setFormatted(getFormatted());
         return rti;

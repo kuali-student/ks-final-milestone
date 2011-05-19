@@ -22,49 +22,40 @@ import org.kuali.student.r2.common.infc.HasAttributes;
 @XmlTransient
 public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 
-    @XmlElement
-    private List<AttributeInfo> attributes;
+	@XmlElement
+	private List<AttributeInfo> attributes;
 
-    protected HasAttributesInfo() {
-        attributes = null;
-    }
-    
-    protected HasAttributesInfo(HasAttributes hasAtts) {
-        if (null != hasAtts) {
-	        attributes = new ArrayList<AttributeInfo>();
-	
-	        if (null != hasAtts.getAttributes()) {
-		        for (Attribute att : hasAtts.getAttributes()) {
-			        AttributeInfo attributeInfo = AttributeInfo.newInstance();
-		            attributeInfo.setKey(att.getKey());
-		            attributeInfo.setValue(att.getValue());
-		            attributeInfo.setId(att.getId());
-		            attributes.add(attributeInfo);
-		        }
-	        }
-        }
-    }
+	public HasAttributesInfo() {
+		attributes = null;
+	}
 
-    protected HasAttributesInfo(List<? extends Attribute> attributes) {
-        this.setAttributes(attributes);
-    }
+	public HasAttributesInfo(HasAttributes hasAtts) {
+		if (null != hasAtts) {
+			attributes = new ArrayList<AttributeInfo>();
 
-    /**
-     * @return the attributes
-     */
-    @Override
-    public List<AttributeInfo> getAttributes() {
-        return attributes;
-    }
+			if (null != hasAtts.getAttributes()) {
+				for (Attribute att : hasAtts.getAttributes()) {
+					AttributeInfo attributeInfo = new AttributeInfo();
+					attributeInfo.setKey(att.getKey());
+					attributeInfo.setValue(att.getValue());
+					attributeInfo.setId(att.getId());
+					attributes.add(attributeInfo);
+				}
+			}
+		}
+	}
 
-    @Override
-    public void setAttributes(List<? extends Attribute> attributes) {
-        if(attributes != null && !attributes.isEmpty()){
-            this.attributes = new ArrayList<AttributeInfo>();
-            for (Attribute att : attributes) {
-                AttributeInfo attInfo = AttributeInfo.getInstance(att);
-                this.attributes.add(attInfo);
-            }
-        }
-    }
+	/**
+	 * @return the attributes
+	 */
+	@Override
+	public List<AttributeInfo> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<AttributeInfo> attributes) {
+
+		this.attributes = attributes;
+
+	}
 }

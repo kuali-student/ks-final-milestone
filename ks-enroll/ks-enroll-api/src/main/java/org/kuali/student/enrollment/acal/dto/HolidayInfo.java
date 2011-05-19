@@ -39,23 +39,10 @@ public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
     @XmlElement
     private Boolean isInstructionalDay;
 
-
-    public static HolidayInfo newInstance() {
-        return new HolidayInfo();
-    }
     
-    public static HolidayInfo getInstance(Holiday holiday) {
-        return new HolidayInfo(holiday);
-    }
-    
-    public static HolidayInfo getInstance(String key, String name, RichText descr,
-								            Boolean isInstructionalDay, Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
-								            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
-        return new HolidayInfo(key, name, descr, isInstructionalDay, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
-    }
-    
-    private HolidayInfo() {
-        isInstructionalDay = false;
+    public HolidayInfo() {
+    	super();
+    	isInstructionalDay = Boolean.valueOf(false) ;
     }
 
     /**
@@ -63,26 +50,19 @@ public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
      *
      * @param holiday the Holiday to copy
      */
-    private HolidayInfo(Holiday holiday) {
+    public HolidayInfo(Holiday holiday) {
         super(holiday);
-        this.isInstructionalDay = holiday.isInstructionalDay();
+        this.isInstructionalDay = holiday.getIsInstructionalDay();
     }
 
-    public HolidayInfo(String key, String name, RichText descr,
-                                Boolean isInstructionalDay, Boolean isAllDay, Boolean isDateRange,
-                                Date startDate, Date endDate,
-                                String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
-        super(key, name, descr, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
-        this.isInstructionalDay = isInstructionalDay;
-    }
-
+    
     @Override
-    public Boolean isInstructionalDay() {
+    public Boolean getIsInstructionalDay() {
         return isInstructionalDay;
     }
 
-    @Override
-    public void setInstructionalDay(Boolean isInstructionalDay) {
-        this.isInstructionalDay = isInstructionalDay;
+    
+    public void setInstructionalDay(Boolean instructionalDay) {
+        this.isInstructionalDay = instructionalDay;
     }
 }

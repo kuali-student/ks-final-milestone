@@ -32,61 +32,72 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CampusCalendarInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "location", "metaInfo", "attributes", "_futureElements"})
-public class CampusCalendarInfo extends TermInfo implements CampusCalendar, Serializable {
+@XmlType(name = "CampusCalendarInfo", propOrder = { "key", "typeKey",
+		"stateKey", "name", "descr", "startDate", "endDate", "location",
+		"metaInfo", "attributes", "_futureElements" })
+public class CampusCalendarInfo extends KeyEntityInfo implements
+		CampusCalendar, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private String location;
-    @XmlAnyElement
-    private List<Element> _futureElements;
- 
-    public static CampusCalendarInfo newInstance() {
-        return new CampusCalendarInfo();
-    }
-    
-    public static CampusCalendarInfo getInstance(CampusCalendarInfo campusCalendarInfo) {
-        return new CampusCalendarInfo(campusCalendarInfo);
-    }
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private String location;
+	@XmlElement
+	private Date startDate;
+	@XmlElement
+	private Date endDate;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public static CampusCalendarInfo getInstance(String key, String name, RichText descr,
-                                                    String typeKey, String stateKey,
-                                                    Date startDate, Date endDate, String location,
-                                                    List<? extends Attribute> attributes, Meta metaInfo) {
-        return new CampusCalendarInfo(key, name, descr, typeKey, stateKey, startDate, endDate, location, attributes, metaInfo);
-    }
-    
-    private CampusCalendarInfo() {
-        location = null;
-        _futureElements = null;
-    }
+	public static CampusCalendarInfo newInstance() {
+		return new CampusCalendarInfo();
+	}
 
-    /**
-     * Constructs a new CampusCalendarInfo from another
-     * CampusCalendar.
-     *
-     * @param campusCalendar the Campus Calendar to copy
-     */
-    private CampusCalendarInfo(CampusCalendar campusCalendar) {
-        super(campusCalendar);
-        _futureElements = null;
-    }
+	public CampusCalendarInfo() {
+		location = null;
+		_futureElements = null;
+		setStartDate(null);
+		setEndDate(null);
+	}
 
-    private CampusCalendarInfo(String key, String name, RichText descr,
-                                String typeKey, String stateKey,
-                                Date startDate, Date endDate, String location,
-                                List<? extends Attribute> attributes, Meta metaInfo) {
-        super(key, name, descr, endDate, endDate, typeKey, stateKey, attributes, metaInfo);
-        this.location = location;
-    }
+	/**
+	 * Constructs a new CampusCalendarInfo from another CampusCalendar.
+	 * 
+	 * @param campusCalendar
+	 *            the Campus Calendar to copy
+	 */
+	public CampusCalendarInfo(CampusCalendar campusCalendar) {
+		super(campusCalendar);
+		this.location = campusCalendar.getLocation();
+		this.startDate = campusCalendar.getStartDate();
+		this.endDate = campusCalendar.getEndDate();
+		_futureElements = null;
+	}
 
-    @Override
-    public String getLocation() {
-        return location;
-    }
+	@Override
+	public String getLocation() {
+		return location;
+	}
 
-    @Override
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Override
+	public Date getEndDate() {
+
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 }

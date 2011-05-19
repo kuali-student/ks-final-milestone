@@ -51,7 +51,7 @@ public class TypeTypeRelationInfo extends KeyEntityInfo implements TypeTypeRelat
     @XmlAnyElement
     private List<Element> _futureElements;    
 	
-	private TypeTypeRelationInfo() {
+    public TypeTypeRelationInfo() {
 		effectiveDate = null;
 		expirationDate = null;
 		ownerTypeKey = null;
@@ -60,7 +60,7 @@ public class TypeTypeRelationInfo extends KeyEntityInfo implements TypeTypeRelat
 		_futureElements = null;
 	}
 		
-	private TypeTypeRelationInfo(TypeTypeRelation builder) {
+	public TypeTypeRelationInfo(TypeTypeRelation builder) {
 		super(builder);
     	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;

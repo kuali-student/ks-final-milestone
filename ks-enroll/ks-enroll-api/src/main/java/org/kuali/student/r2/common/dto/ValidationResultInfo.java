@@ -40,14 +40,14 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return new ValidationResultInfo();
     }
     
-    private ValidationResultInfo() {
+    public ValidationResultInfo() {
         this.level = null;
         this.message = null;
         this.invalidData = null;
         this._futureElements = null;
     }
 
-    private ValidationResultInfo(ValidationResult builder) {
+    public ValidationResultInfo(ValidationResult builder) {
         this.level = builder.getLevel();
         this.element = builder.getElement();
         this.message = builder.getMessage();
@@ -57,27 +57,27 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
 
 
     @Override
-    public Boolean isOk() {
+    public Boolean getOk() {
         return getLevel() == ErrorLevel.OK.getLevel();
     }
 
     @Override
-    public Boolean isWarn() {
+    public Boolean getWarn() {
         return getLevel() == ErrorLevel.WARN.getLevel();
     }
 
-    @Override
+    
     public void setWarn(String message) {
         this.level = ErrorLevel.WARN.getLevel();
         this.message = message;
     }
     
     @Override
-    public Boolean isError() {
+    public Boolean getError() {
         return getLevel() == ErrorLevel.ERROR.getLevel();
     }
 
-    @Override
+    
     public void setError(String message) {
         this.level = ErrorLevel.ERROR.getLevel();
         this.message = message;
@@ -93,7 +93,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return message;
     }
 
-    @Override
+    
     public void setMessage(String message) {
         this.message = message;
     }
@@ -103,7 +103,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return element;
     }
 
-    @Override
+    
     public void setElement(String element) {
         this.element = element;
     }
@@ -113,7 +113,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return level;
     }
 
-    @Override
+    
     public void setLevel(int level) {
         this.level = level;
     }
@@ -123,8 +123,10 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return invalidData;
     }
 
-    @Override
+    
     public void setInvalidData(Object invalidData) {
         this.invalidData = invalidData;
     }
+
+	
 }

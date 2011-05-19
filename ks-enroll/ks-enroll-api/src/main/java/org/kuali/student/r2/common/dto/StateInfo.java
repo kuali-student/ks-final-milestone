@@ -103,7 +103,7 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return effectiveDate;
     }
 
-    @Override
+    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = new Date(effectiveDate.getTime());
     }
@@ -113,7 +113,7 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return expirationDate;
     }
 
-    @Override
+    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = new Date(expirationDate.getTime());
     }

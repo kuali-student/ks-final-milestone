@@ -77,7 +77,7 @@ public class ComparisonInfo implements Comparison, Serializable {
         {
             this.values = Collections.unmodifiableList(bldr.getValues());
         }
-        this.ignoreCase = bldr.isIgnoreCase();
+        this.ignoreCase = bldr.getIgnoreCase();
         this._futureElements = null;
     }
 
@@ -109,7 +109,7 @@ public class ComparisonInfo implements Comparison, Serializable {
     }
 
     @Override
-    public Boolean isIgnoreCase() {
+    public Boolean getIgnoreCase() {
         return this.ignoreCase;
     }
 

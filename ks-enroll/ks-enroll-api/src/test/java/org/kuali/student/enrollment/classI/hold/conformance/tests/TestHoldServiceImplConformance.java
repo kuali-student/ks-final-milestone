@@ -56,7 +56,7 @@ public class TestHoldServiceImplConformance {
 
 	public HoldService getService() {
 
-		return service;
+		return service; 
 	}
 
 	public void setService(HoldService service) {
@@ -67,12 +67,13 @@ public class TestHoldServiceImplConformance {
 	@Test
 	public void testCreateHold() throws Exception {
 
-		HoldInfo holdInfo = HoldInfo.newInstance("1221",
-				HoldServiceConstants.STUDENT_HOLD_TYPE_KEY,
-				HoldServiceConstants.HOLD_RELEASED_STATE_KEY,
-				"Library Hold for Student 1", new RichTextInfo(), "21212",
-				"1111", new Boolean(false), new Boolean(false), new Date(),
-				new Date(), null, null);
+		HoldInfo holdInfo = new HoldInfo();
+		holdInfo.setId("1221");
+		holdInfo.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
+		holdInfo.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+		holdInfo.setName(	"Library Hold for Student 1");
+		holdInfo.setDescr(new RichTextInfo());
+
 		HoldInfo info = service.createHold(holdInfo, null);
 		assertNotNull(info);
 		assertEquals(holdInfo, info);
@@ -83,12 +84,14 @@ public class TestHoldServiceImplConformance {
 	@Test
 	public void testDeleteHold() throws Exception {
 
-		HoldInfo holdInfo = HoldInfo.newInstance("1221",
-				HoldServiceConstants.STUDENT_HOLD_TYPE_KEY,
-				HoldServiceConstants.HOLD_RELEASED_STATE_KEY,
-				"Library Hold for Student 1", new RichTextInfo(), "21212",
-				"1111", new Boolean(false), new Boolean(false), new Date(),
-				new Date(), null, null);
+		HoldInfo holdInfo = new HoldInfo();
+		holdInfo.setId("1221");
+		holdInfo.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
+		holdInfo.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+		holdInfo.setName(	"Library Hold for Student 1");
+		holdInfo.setDescr(new RichTextInfo());
+
+
 		HoldInfo info = service.createHold(holdInfo, null);
 		assertNotNull(info);
 		assertEquals(holdInfo, info);

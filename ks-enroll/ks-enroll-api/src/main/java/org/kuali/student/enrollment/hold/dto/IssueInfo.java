@@ -39,7 +39,7 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
     @XmlAnyElement
     private final List<Element> _futureElements;
 
-    private IssueInfo() {
+    public IssueInfo() {
 	organizationId = null;
         _futureElements = null;
     }
@@ -60,7 +60,7 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
         return organizationId;
     }
 
-    @Override
+    
     public void setOrganizationId(String orgId) {
         this.organizationId = orgId;
     }

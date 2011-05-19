@@ -8,4 +8,6 @@ package org.kuali.student.r2.common.infc;
  */
 
 public interface HasAttributesAndMeta extends HasAttributes, HasMeta {
+	
+	
 }

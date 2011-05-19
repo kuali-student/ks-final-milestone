@@ -61,7 +61,7 @@ public class TestLuiPersonRelationServiceImpl {
 
     public void setLprService(LuiPersonRelationService lprService) {
         this.lprService = lprService;
-    }
+    } 
 
     @Before
     public void setUp() {
@@ -101,7 +101,7 @@ public class TestLuiPersonRelationServiceImpl {
             List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId,
                     new ArrayList<String>(),
                     "", "",
-                    LuiPersonRelationInfo.newInstance(),
+                    new LuiPersonRelationInfo(),
                     callContext);
             assertNotNull(createResults);
             assertEquals(1, createResults.size());
@@ -115,7 +115,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testCreateBulkRelationshipsForPersonExceptions() {
         try {
-            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "", LuiPersonRelationInfo.newInstance(), callContext);
+            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "",new  LuiPersonRelationInfo(), callContext);
 
         } catch (Throwable ex) {
             // ex.printStackTrace();

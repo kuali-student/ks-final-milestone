@@ -42,15 +42,7 @@ public class DateRangeInfo implements DateRange, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;    
 	
-    public static DateRangeInfo newInstance() {
-        return new DateRangeInfo();
-    }
-
-    public static DateRangeInfo getInstance(DateRange dateRange) {
-        return new DateRangeInfo(dateRange);
-    }
-    
-	private DateRangeInfo() {
+	public DateRangeInfo() {
             start = null;
             end = null;
 		_futureElements = null;

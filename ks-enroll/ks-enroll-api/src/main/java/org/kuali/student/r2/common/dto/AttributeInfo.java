@@ -37,22 +37,15 @@ public final class AttributeInfo implements Attribute, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public static AttributeInfo newInstance() {
-        return new AttributeInfo();
-    }
-
-    public static AttributeInfo getInstance(Attribute att) {
-        return new AttributeInfo(att);
-    }
     
-    private AttributeInfo() {
+    public AttributeInfo() {
         this.id = null;
         this.key = null;
         this.value = null;
         this._futureElements = null;
     }
 
-    private AttributeInfo(Attribute attribute) {
+    public AttributeInfo(Attribute attribute) {
         this.id = attribute.getId();
         this.key = attribute.getKey();
         this.value = attribute.getValue();
@@ -64,7 +57,6 @@ public final class AttributeInfo implements Attribute, Serializable {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -74,7 +66,7 @@ public final class AttributeInfo implements Attribute, Serializable {
         return key;
     }
 
-    @Override
+    
     public void setKey(String key) {
         this.key = key;
     }
@@ -84,7 +76,7 @@ public final class AttributeInfo implements Attribute, Serializable {
         return value;
     }
 
-    @Override
+    
     public void setValue(String value) {
         this.value = value;
     }

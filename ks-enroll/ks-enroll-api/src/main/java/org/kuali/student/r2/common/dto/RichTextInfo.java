@@ -43,13 +43,6 @@ public class RichTextInfo implements RichText, Serializable {
     private List<Element> _futureElements;    
 
 
-    public static RichTextInfo newInstance() {
-        return new RichTextInfo();
-    }
-
-    public static RichTextInfo getInstance(RichText descr) {
-        return new RichTextInfo(descr);
-    }
     
     public RichTextInfo() {
     	plain = null;
@@ -57,12 +50,12 @@ public class RichTextInfo implements RichText, Serializable {
     	_futureElements=null;
     }
     
-    private RichTextInfo(RichText richText) {
-        if (null != richText) {
+    public RichTextInfo(RichText richText) {
+       
 	    	this.plain = richText.getPlain();
 	    	this.formatted = richText.getFormatted();
 	    	this._futureElements=null;
-    	}
+    	
     }
     
     @Override
@@ -70,7 +63,7 @@ public class RichTextInfo implements RichText, Serializable {
         return plain;
     }
 
-    @Override
+    
     public void setPlain(String plain) {
         this.plain = plain;
     }
@@ -80,7 +73,7 @@ public class RichTextInfo implements RichText, Serializable {
         return formatted;
     }
 
-    @Override
+    
     public void setFormatted(String formatted) {
         this.formatted = formatted;
     }

@@ -65,7 +65,7 @@ public abstract class MetaEntity extends BaseEntity{
 	// TODO - need a BaseEntity(HasMeta) to deal w/ version, id, and other fields
     public MetaEntity(HasMeta hasMeta) {
         if (null != hasMeta) {
-            Meta meta = hasMeta.getMetaInfo();
+            Meta meta = hasMeta.getMeta();
             if (null != meta) {
 	            this.setCreateTime(meta.getCreateTime());
 	            this.setCreateId(meta.getCreateId());

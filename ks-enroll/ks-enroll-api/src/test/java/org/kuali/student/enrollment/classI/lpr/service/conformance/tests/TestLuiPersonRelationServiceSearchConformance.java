@@ -56,7 +56,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-
+ 
     @Before
     public void setUp() {
     }
@@ -109,7 +109,7 @@ public class TestLuiPersonRelationServiceSearchConformance {
         luiIdList.add("luiId6");
         String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
         String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
-        LuiPersonRelationInfo lpr = LuiPersonRelationInfo.newInstance();
+        LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
         lpr.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
         getService().createBulkRelationshipsForPerson(personId,
@@ -130,11 +130,11 @@ public class TestLuiPersonRelationServiceSearchConformance {
         ContextInfo context = getContext1();
         CriteriaInfo criteria = null;
         ComparisonInfo comparison = null;
-        List<Comparison> comparisons = null;
+        List<ComparisonInfo> comparisons = null;
         List<String> lprIds = null;
 
-        criteria = CriteriaInfo.newIntance();
-        comparisons = new ArrayList<Comparison>();
+        criteria = new CriteriaInfo();
+        comparisons = new ArrayList<ComparisonInfo>();
         criteria.setComparisons(comparisons);
         lprIds = getService().searchForLuiPersonRelationIds(criteria, context);
         assertEquals(ALL_COUNT, lprIds.size());

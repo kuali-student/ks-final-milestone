@@ -84,7 +84,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     public void testAtpCrud()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
         // test create
-        AtpInfo atpInfo = AtpInfo.newInstance();
+        AtpInfo atpInfo = new AtpInfo();
         atpInfo.setKey("newId");
         atpInfo.setName("newId");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
@@ -203,8 +203,10 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         milestone.setAllDay(true);
         milestone.setStateKey("kuali.atp.state.Draft");
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
-        milestone.setDescr(new RichTextInfo());
-        milestone.getDescr().setPlain("Test");
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("Test");
+        milestone.setDescr(descr);
+       
         
         try {
             MilestoneInfo created = atpService.createMilestone("newId", milestone, callContext);
@@ -243,8 +245,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         milestone.setAllDay(true);
         milestone.setStateKey("kuali.atp.state.Draft");
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
-        milestone.setDescr(new RichTextInfo());
-        milestone.getDescr().setPlain("Test");
+       
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("Test");
+        milestone.setDescr(descr);
+       
         
         try {
             MilestoneInfo created = atpService.createMilestone("newId2", milestone, callContext);

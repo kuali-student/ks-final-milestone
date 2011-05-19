@@ -38,5 +38,5 @@ public interface HasId extends HasPrimaryKey {
      * </ul>
      */
     public String getId();
-    public void setId(String id);
+   
 }

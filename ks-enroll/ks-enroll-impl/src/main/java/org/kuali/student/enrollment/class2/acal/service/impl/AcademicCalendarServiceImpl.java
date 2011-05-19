@@ -190,7 +190,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
          AtpInfo atp =  atpService.getAtp(academicCalendarKey, context);

@@ -1,5 +1,6 @@
 package org.kuali.student.r2.lum.lrc.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 		"stateKey", "resultTypeKey", "minValue", "maxValue", "increment",
 		"metaInfo", "effectiveDate", "expirationDate", "attributes" })
 public class ResultValueRangeInfo extends KeyEntityInfo implements
-		ResultValueRange {
+		ResultValueRange, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,50 +41,19 @@ public class ResultValueRangeInfo extends KeyEntityInfo implements
 	public ResultValueRangeInfo() {
 	}
 
-	private ResultValueRangeInfo(String key, String name, RichText descr,
-			String typeKey, String stateKey, String resultTypeKey, String id,
-			String minValue, String maxValue, float increment,
-			Date effectiveDate, Date expirationDate, Meta meta,
-			List<? extends Attribute> attributes) {
+	public ResultValueRangeInfo(ResultValueRangeInfo resultValueRangeInfo) {
 		super();
-		this.resultTypeKey = resultTypeKey;
-		this.id = id;
-		this.minValue = minValue;
-		this.maxValue = maxValue;
-		this.increment = increment;
-		this.effectiveDate = effectiveDate;
-		this.expirationDate = expirationDate;
+		this.resultTypeKey = resultValueRangeInfo.getResultTypeKey();
+		this.id = resultValueRangeInfo.getId();
+		this.minValue = resultValueRangeInfo.getMinValue();
+		this.maxValue = resultValueRangeInfo.getMaxValue();
+		this.increment = resultValueRangeInfo.getIncrement();
+		this.effectiveDate = resultValueRangeInfo.getEffectiveDate();
+		this.expirationDate = resultValueRangeInfo.getExpirationDate();
 	}
 
-	public static ResultValueRangeInfo newInstance(String key, String name,
-			RichText descr, String typeKey, String stateKey,
-			String resultTypeKey, String id, String minValue, String maxValue,
-			float increment, Date effectiveDate, Date expirationDate,
-			Meta meta, List<? extends Attribute> attributes) {
-		return new ResultValueRangeInfo(key, name, descr, typeKey, stateKey,
-				resultTypeKey, id, minValue, maxValue, increment,
-				effectiveDate, expirationDate, meta, attributes);
-	}
 
-	public ResultValueRangeInfo createNewResultValueRangeInfoFromResultValueRangeInfo(
-			ResultValueRangeInfo resultValueRangeInfo) {
-
-		return new ResultValueRangeInfo(resultValueRangeInfo.getKey(),
-				resultValueRangeInfo.getName(),
-				resultValueRangeInfo.getDescr(),
-				resultValueRangeInfo.getTypeKey(),
-				resultValueRangeInfo.getStateKey(),
-				resultValueRangeInfo.getResultTypeKey(),
-				resultValueRangeInfo.getId(),
-				resultValueRangeInfo.getMinValue(),
-				resultValueRangeInfo.getMaxValue(),
-				resultValueRangeInfo.getIncrement(),
-				resultValueRangeInfo.getEffectiveDate(),
-				resultValueRangeInfo.getExpirationDate(),
-				resultValueRangeInfo.getMetaInfo(),
-				resultValueRangeInfo.getAttributes());
-	}
-
+	
 	@Override
 	public String getMinValue() {
 		return minValue;

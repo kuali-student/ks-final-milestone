@@ -46,21 +46,14 @@ public class StatusInfo implements Status, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;	
 
-    public static StatusInfo newInstance() {
-        return new StatusInfo();
-    }
-	
-    public static StatusInfo getInstance(Status status) {
-        return new StatusInfo(status);
-    }
-	
-	private StatusInfo() {
-		success = true;
+  
+    public StatusInfo() {
+		success = Boolean.valueOf(true);
 		message = "";
 		_futureElements = null;
 	}
 	
-	private StatusInfo(Status builder) {
+    public StatusInfo(Status builder) {
 		this.success = new Boolean(builder.isSuccess().booleanValue());
 		this.message = builder.getMessage();
 		this._futureElements = null;

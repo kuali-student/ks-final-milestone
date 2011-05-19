@@ -29,8 +29,7 @@ public interface HasEffectiveDates {
      * expirationDate specified.
      */
     public Date getEffectiveDate();
-    public void setEffectiveDate(Date effectiveDate);
-
+    
     /**
      * Name: Expiration Date
      * 
@@ -38,5 +37,5 @@ public interface HasEffectiveDates {
      * equal to the effectiveDate specified.
      */
     public Date getExpirationDate();
-    public void setExpirationDate(Date expirationDate);
+    
 }

@@ -55,16 +55,8 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;    
 	
-
-    public static TypeInfo newInstance() {
-        return new TypeInfo();
-    }
     
-    public static TypeInfo getInstance(TypeInfo typeInfo) {
-        return new TypeInfo(typeInfo);
-    }
-    
-	private TypeInfo() {
+	public TypeInfo() {
 		key = null;
 		name = null;
 		descr = null;
@@ -100,7 +92,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return name;
     }
 
-	@Override
+	
     public void setName(String name) {
         this.name = name;
     }
@@ -110,7 +102,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return descr;
     }
 
-	@Override
+	
     public void setDescr(String descr) {
         this.descr = descr;
     }
@@ -120,7 +112,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return effectiveDate;
     }
 
-	@Override
+	
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
@@ -130,7 +122,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return expirationDate;
     }
     
-	@Override
+	
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
@@ -140,7 +132,7 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return refObjectURI;
     }
 
-	@Override
+	
     public void setRefObjectURI(String refObjectURI) {
         this.refObjectURI = refObjectURI;
     }

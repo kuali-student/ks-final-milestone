@@ -31,7 +31,7 @@ public interface LuiLuiRelation
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getLuiId();
-    public void setLuiId(String luiId);
+    
 
     /**
      * Name: Related Lui Id
@@ -39,6 +39,6 @@ public interface LuiLuiRelation
      * Unique identifier for a Learning Unit Instance (LUI).
      */
     public String getRelatedLuiId();
-    public void setRelatedLuiId(String relatedLuiId);
+    
 }
 

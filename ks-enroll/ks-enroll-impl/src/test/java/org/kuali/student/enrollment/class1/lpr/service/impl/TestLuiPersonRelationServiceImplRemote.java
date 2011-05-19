@@ -80,7 +80,7 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 
 	@Test
 	public void testCreateLuiPersonRelation() {
-		LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
+		LuiPersonRelationInfo lprInfo =new  LuiPersonRelationInfo();
 		lprInfo.setLuiId(LUIID2);
 		lprInfo.setPersonId(PERSONID2);
 		lprInfo.setTypeKey("kuali.lpr.type.registrant");
@@ -103,7 +103,7 @@ public class TestLuiPersonRelationServiceImplRemote extends AbstractServiceTest 
 	@Test
 	public void testCreateBulkRelationshipsForPerson() {
 		try {
-			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", LuiPersonRelationInfo.newInstance(), callContext);
+			List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId, new ArrayList<String>(), "", "", new LuiPersonRelationInfo(), callContext);
 			assertNotNull(createResults);
 			assertEquals(1, createResults.size());
 		} catch (Exception ex) {

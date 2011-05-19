@@ -101,7 +101,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		if (luiPersonRelationInfo.getId() != null) {
 			throw new ReadOnlyException("Id is not allowed to be supplied on a create");
 		}
-		if (luiPersonRelationInfo.getMetaInfo() != null) {
+		if (luiPersonRelationInfo.getMeta() != null) {
 			throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
 		}
 		if (!vris.isEmpty()) {
@@ -128,12 +128,12 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getTypeKey(), luiPersonRelationInfo.getTypeKey());
-		checkReadOnly("createId", orig.getMetaInfo().getCreateId(), luiPersonRelationInfo.getMetaInfo().getCreateId());
-		checkReadOnly("createTime", orig.getMetaInfo().getCreateTime(), luiPersonRelationInfo.getMetaInfo().getCreateTime());
+		checkReadOnly("createId", orig.getMeta().getCreateId(), luiPersonRelationInfo.getMeta().getCreateId());
+		checkReadOnly("createTime", orig.getMeta().getCreateTime(), luiPersonRelationInfo.getMeta().getCreateTime());
 		
-		if (orig.getMetaInfo().getVersionInd().equals(luiPersonRelationInfo.getMetaInfo().getVersionInd())) {
-			checkReadOnly("updateId", orig.getMetaInfo().getUpdateId(), luiPersonRelationInfo.getMetaInfo().getUpdateId());
-			checkReadOnly("updateTime", orig.getMetaInfo().getUpdateTime(), luiPersonRelationInfo.getMetaInfo().getUpdateTime());
+		if (orig.getMeta().getVersionInd().equals(luiPersonRelationInfo.getMeta().getVersionInd())) {
+			checkReadOnly("updateId", orig.getMeta().getUpdateId(), luiPersonRelationInfo.getMeta().getUpdateId());
+			checkReadOnly("updateTime", orig.getMeta().getUpdateTime(), luiPersonRelationInfo.getMeta().getUpdateTime());
 		}
 
 		if (!vris.isEmpty()) {

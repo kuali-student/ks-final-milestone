@@ -39,8 +39,8 @@ public interface Milestone extends KeyDate {
      *
      * @return true if this is an all-day event, false otherwise
      */
-    public Boolean isAllDay();
-    public void setAllDay(Boolean isAllDay);
+    public Boolean getIsAllDay();
+   
 
     /**
      * Name: Is Date Range
@@ -49,9 +49,8 @@ public interface Milestone extends KeyDate {
      * @return true if the end date is different than the start date,
      *         false if the start end end date are the same
      */
-    public Boolean isDateRange();
-    public void setDateRange(Boolean isDateRange);
-
+    public Boolean getIsDateRange();
+   
     /**
      * Name: Start Date
      * The start date and time of the milestone.
@@ -59,8 +58,7 @@ public interface Milestone extends KeyDate {
      * @return the milestone start date 
      */
     public Date getStartDate();
-    public void setStartDate(Date starDate);
-
+   
     /**
      * Name: End Date 
      * The end date and time of the milestone. The end
@@ -69,5 +67,5 @@ public interface Milestone extends KeyDate {
      * @return the milestone end date
      */
     public Date getEndDate();
-    public void setEndDate(Date endDate);
+   
 }

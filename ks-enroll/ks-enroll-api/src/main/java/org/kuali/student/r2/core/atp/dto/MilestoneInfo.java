@@ -52,7 +52,8 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
         return new MilestoneInfo(ms);
     }
 
-    private MilestoneInfo() {
+    public MilestoneInfo() {
+    	super();
         isAllDay = false;
         isDateRange = false;
         startDate = null;
@@ -65,31 +66,31 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
      *
      * @param milestone the Milestone to copy
      */
-    private MilestoneInfo(Milestone milestone) {
+    public MilestoneInfo(Milestone milestone) {
         super(milestone);
-        this.isAllDay = milestone.isAllDay();
-        this.isDateRange = milestone.isDateRange();
+        this.isAllDay = milestone.getIsAllDay();
+        this.isDateRange = milestone.getIsDateRange();
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
         _futureElements = null;
     }
 
     @Override
-    public Boolean isAllDay() {
+    public Boolean getIsAllDay() {
         return isAllDay;
     }
 
-    @Override
+    
     public void setAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
     }
 
     @Override
-    public Boolean isDateRange() {
+    public Boolean getIsDateRange() {
         return isDateRange;
     }
 
-    @Override
+    
     public void setDateRange(Boolean isDateRange) {
         this.isDateRange = isDateRange;
     }
@@ -99,7 +100,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
         return startDate;
     }
 
-    @Override
+    
     public void setStartDate(Date startDate) {
         this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
     }
@@ -109,7 +110,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializa
         return endDate;
     }
 
-    @Override
+    
     public void setEndDate(Date endDate) {
         this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
     }

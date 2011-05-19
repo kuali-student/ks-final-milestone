@@ -124,7 +124,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     public void testValidate() throws Exception {
         System.out.println("validate");
         DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
-        LuiPersonRelationInfo lpri = LuiPersonRelationInfo.newInstance();
+        LuiPersonRelationInfo lpri = new LuiPersonRelationInfo();
         lpri.setPersonId("personId.1");
         lpri.setLuiId("luiId.1");
         lpri.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);

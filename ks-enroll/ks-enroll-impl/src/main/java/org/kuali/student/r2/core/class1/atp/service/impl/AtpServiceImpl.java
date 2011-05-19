@@ -398,7 +398,7 @@ public class AtpServiceImpl implements AtpService{
     public StatusInfo deleteAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
         AtpEntity atp = atpDao.find(atpKey);
@@ -475,7 +475,7 @@ public class AtpServiceImpl implements AtpService{
     @Transactional
     public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status =new  StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
         MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
@@ -592,7 +592,7 @@ public class AtpServiceImpl implements AtpService{
     public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
         AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);

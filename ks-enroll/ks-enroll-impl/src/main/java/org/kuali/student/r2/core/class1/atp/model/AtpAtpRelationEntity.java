@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -134,11 +135,11 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         aarInfo.setExpirationDate(expirationDate);
         aarInfo.setStateKey(atpState.getId());
         aarInfo.setTypeKey(atpAtpRelationType.getId());
-        aarInfo.setMetaInfo(super.toDTO());
+        aarInfo.setMeta(super.toDTO());
         
-        List<Attribute> atts = new ArrayList<Attribute>();
+        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AtpAtpRelationAttributeEntity att : getAttributes()) {
-            Attribute attInfo = att.toDto();
+        	AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
         aarInfo.setAttributes(atts);

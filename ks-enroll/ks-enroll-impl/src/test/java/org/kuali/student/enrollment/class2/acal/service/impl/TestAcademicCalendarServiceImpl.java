@@ -39,7 +39,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
         principalId = "123";
         appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
         
-        acalService = (AcademicCalendarService) appContext.getBean("acalService");
+        acalService = (AcademicCalendarService) appContext.getBean("acalService"); 
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
@@ -48,7 +48,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     public void testGetAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            AcademicCalendarInfo acal = new AcademicCalendarInfo();
             acal.setKey("testAcalId");
             acal.setName("testAcal");
             acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
@@ -73,7 +73,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     public void testCreateAcademicCalendar() throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-        AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
         acal.setKey("testAcalId1");
         acal.setName("testAcal1");
         acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
@@ -98,7 +98,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     public void testUpdateAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            AcademicCalendarInfo acal =  new AcademicCalendarInfo();
             acal.setKey("testNewAcalId");
             acal.setName("testNewAcal");
             acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
@@ -127,7 +127,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     public void testDeleteAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-            AcademicCalendarInfo acal = AcademicCalendarInfo.newInstance();
+            AcademicCalendarInfo acal =  new AcademicCalendarInfo();
             acal.setKey("testDeletedAcalId");
             acal.setName("testDeletedAcal");
             acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
@@ -151,7 +151,7 @@ public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
     @Test 
     public void testCreateAndGetTerm() throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        TermInfo term = TermInfo.newInstance();
+        TermInfo term = new TermInfo();
         term.setKey("testTermId2");
         term.setName("testTerm2");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);

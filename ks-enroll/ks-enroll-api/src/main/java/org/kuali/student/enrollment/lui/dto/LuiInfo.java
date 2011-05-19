@@ -60,9 +60,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     @XmlAnyElement
     private List<Element> _futureElements;    
 
-    public static LuiInfo getInstance(LuiInfo luiInfo) {
-        return new LuiInfo(luiInfo);
-    }
+   
     
     private LuiInfo() {
         super ();
@@ -75,7 +73,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     	_futureElements = null;
     }
     
-    private LuiInfo(Lui lui) {
+    public LuiInfo(Lui lui) {
 		super(lui);
 		this.luiCode = lui.getLuiCode();
 		this.cluId = lui.getCluId();
@@ -118,7 +116,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         return maxSeats;
     }
 
-    @Override
+    
     public void setMaxSeats(int maxSeats) {
         this.maxSeats = maxSeats;
     }

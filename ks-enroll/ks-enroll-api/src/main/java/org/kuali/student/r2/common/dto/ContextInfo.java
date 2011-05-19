@@ -70,7 +70,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return ctx;
     }
     
-    private ContextInfo() {
+    public ContextInfo() {
         principalId = null;
         localeLanguage = null;
         localeVariant = null;
@@ -80,7 +80,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         _futureElements = null;
     }
 
-    private ContextInfo(Context context) {
+    public ContextInfo(Context context) {
         super(context);
         this.principalId = context.getPrincipalId();
         this.localeLanguage = context.getLocaleLanguage();
@@ -96,7 +96,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return principalId;
     }
 
-    @Override
+    
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -106,7 +106,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeLanguage;
     }
 
-    @Override
+    
     public void setLocaleLanguage(String localeLanguage) {
         this.localeLanguage = localeLanguage;
     }
@@ -116,7 +116,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeVariant;
     }
 
-    @Override
+    
     public void setLocaleVariant(String localeVariant) {
         this.localeVariant = localeVariant;
     }
@@ -126,7 +126,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeRegion;
     }
 
-    @Override
+    
     public void setLocaleRegion(String localeRegion) {
         this.localeRegion = localeRegion;
     }
@@ -136,7 +136,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeScript;
     }
 
-    @Override
+    
     public void setLocaleScript(String localeScript) {
         this.localeScript = localeScript;
     }
@@ -146,7 +146,7 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return timeZone;
     }
 
-    @Override
+    
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }

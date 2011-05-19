@@ -299,10 +299,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		AcademicCalendarInfo acInfo = AcademicCalendarInfo.getInstance(academicCalendarInfo);
-		MockHelper helper = new MockHelper();
+		
+		
+		AcademicCalendarInfo acInfo = new AcademicCalendarInfo();
 		acInfo.setKey(academicCalendarKey);
-		acInfo.setMetaInfo(helper.createMeta(context));
+		MockHelper helper = new MockHelper();
+		acInfo.setMeta(helper.createMeta(context));
+		
+		
 		this.acCache.put(acInfo.getKey(), acInfo);
 		return acInfo;
 	}
@@ -329,17 +333,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		if (existingAC == null) {
 			throw new DoesNotExistException(academicCalendarKey);
 		}
-		if (!academicCalendarInfo.getMetaInfo().getVersionInd()
-				.equals(existingAC.getMetaInfo().getVersionInd())) {
+		if (!academicCalendarInfo.getMeta().getVersionInd()
+				.equals(existingAC.getMeta().getVersionInd())) {
 			throw new VersionMismatchException("Updated by "
-					+ existingAC.getMetaInfo().getUpdateId() + " on "
-					+ existingAC.getMetaInfo().getUpdateId()
+					+ existingAC.getMeta().getUpdateId() + " on "
+					+ existingAC.getMeta().getUpdateId()
 					+ " with version of "
-					+ existingAC.getMetaInfo().getVersionInd());
+					+ existingAC.getMeta().getVersionInd());
 		}
 		MockHelper helper = new MockHelper();
-		AcademicCalendarInfo acInfo = AcademicCalendarInfo.getInstance(academicCalendarInfo);
-		acInfo.setMetaInfo(helper.updateMeta(existingAC.getMetaInfo(),
+		AcademicCalendarInfo acInfo = new AcademicCalendarInfo(academicCalendarInfo);
+		acInfo.setMeta(helper.updateMeta(existingAC.getMeta(),
 				context));
 		this.acCache.put(academicCalendarKey, acInfo);
 		// mirroring what was done before immutable DTO's; why returning copy of
@@ -361,7 +365,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		StatusInfo status = StatusInfo.newInstance();
+		StatusInfo status = new StatusInfo();
 		if (acCache.containsKey(academicCalendarKey)) {
 			acCache.remove(academicCalendarKey);
 			status.setSuccess(Boolean.TRUE);
@@ -390,7 +394,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			AcademicCalendarInfo dupCalendar = this.acCache
 					.get(academicCalendarKey);
 
-			AcademicCalendarInfo acInfo = AcademicCalendarInfo.getInstance(dupCalendar);
+			AcademicCalendarInfo acInfo = new AcademicCalendarInfo(dupCalendar);
 			acInfo.setEndDate(null);
 			acInfo.setStartDate(null);
 			acInfo.setKey(newAcademicCalendarKey);
@@ -547,7 +551,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		CampusCalendarInfo ccInfo = CampusCalendarInfo.getInstance(campusCalendarInfo);
+		CampusCalendarInfo ccInfo =new  CampusCalendarInfo(campusCalendarInfo);
 		ccInfo.setKey(campusCalendarKey);
 		ccCache.put(campusCalendarKey, ccInfo);
 		return ccInfo;
@@ -569,7 +573,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 
-		CampusCalendarInfo ccInfo = CampusCalendarInfo.getInstance(campusCalendarInfo);
+		CampusCalendarInfo ccInfo =new  CampusCalendarInfo(campusCalendarInfo);
 		ccInfo.setKey(campusCalendarKey);
 		ccCache.remove(campusCalendarKey);
 		ccCache.put(campusCalendarKey, ccInfo);
@@ -593,7 +597,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		StatusInfo statusInfo = StatusInfo.newInstance();
+		StatusInfo statusInfo = new StatusInfo();
 		CampusCalendarInfo ccInfo = ccCache.remove(campusCalendarKey);
 		statusInfo.setSuccess(ccInfo == null);
 
@@ -800,7 +804,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		atpMRInfo.setMilestoneKey(keyDateKey);
 		AtpMilestoneRelationInfo atpMilestoneInfo = this.atpService.createAtpMilestoneRelation(atpMRInfo, context);
 		// convert atpMilestoneInfo to KeyDateInfo
-		KeyDateInfo kdInfo = KeyDateInfo.newInstance();
+		KeyDateInfo kdInfo = new KeyDateInfo();
 		kdInfo.setKey(atpMilestoneInfo.getMilestoneKey());
 		return kdInfo;
 		
@@ -818,7 +822,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		MilestoneInfo keyDate = MilestoneInfo.newInstance();
 		keyDate.setKey(keyDate.getKey());
 		keyDate.setName(keyDate.getName());
-		keyDate.setDateRange(keyDateInfo.isDateRange()); 
+		keyDate.setDateRange(keyDateInfo.getIsDateRange()); 
 		this.atpService.updateMilestone(keyDateKey, keyDate, context);
 		return keyDateInfo;
 	}
@@ -879,10 +883,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		
 		MilestoneInfo mInfoNew =  this.atpService.createMilestone(holidayKey, mInfo, context);
 		
-		HolidayInfo hInfo = HolidayInfo.newInstance();
+		HolidayInfo hInfo = new HolidayInfo();
 		hInfo.setAttributes(mInfoNew.getAttributes());
 		hInfo.setDescr(mInfoNew.getDescr());
-		hInfo.setDateRange(mInfo.isDateRange());
+		hInfo.setIsDateRange(mInfo.getIsDateRange());
 		hInfo.setKey(mInfo.getKey());
 		
 		return  hInfo;
@@ -901,11 +905,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			
 			
 			MilestoneInfo returnMInfo = this.atpService.updateMilestone(holidayKey, mInfo, context);
-			HolidayInfo hInfo = HolidayInfo.newInstance(); 
+			HolidayInfo hInfo = new HolidayInfo(); 
 			hInfo.setAttributes(returnMInfo.getAttributes());
 			hInfo.setName(returnMInfo.getName());
 			hInfo.setDescr (returnMInfo.getDescr());
-			hInfo.setAllDay(returnMInfo.isAllDay());
+			hInfo.setIsAllDay(returnMInfo.getIsAllDay());
 			hInfo.setKey (returnMInfo.getKey());
 			return hInfo;
 	}
@@ -1075,7 +1079,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		TermInfo newTermInfo = TermInfo.getInstance(termInfo);
+		TermInfo newTermInfo = new TermInfo(termInfo);
 		newTermInfo.setKey(termKey);
 		termsCache.put(termKey, newTermInfo);
 		return newTermInfo;
@@ -1089,7 +1093,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
 
-		TermInfo tInfo = TermInfo.getInstance(termInfo);
+		TermInfo tInfo =new TermInfo(termInfo);
 		tInfo.setKey(termKey);
 		termsCache.remove(termKey);
 		termsCache.put(termKey, tInfo);
@@ -1103,7 +1107,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			PermissionDeniedException {
 		termsCache.remove(termKey);
 
-		StatusInfo status = StatusInfo.newInstance();
+		StatusInfo status = new StatusInfo();
 		status.setSuccess(true);
 		return status;
 	}
@@ -1117,7 +1121,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		atpAtpRelation.setAtpKey(termKey);
 		atpAtpRelation.setAtpKey(academicCalendarKey);
 		AtpAtpRelationInfo atpAtpInfo =  this.atpService.createAtpAtpRelation(atpAtpRelation, context);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -1134,7 +1138,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			}
 		}
 		
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -1147,7 +1151,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		aarInfo.setRelatedAtpKey(includedTermKey);
 		aarInfo.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
 		this.atpService.createAtpAtpRelation(aarInfo, context);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -1165,7 +1169,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		}
 		
 		this.atpService.deleteAtpAtpRelation(atpAtpRelationId, context);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -1253,7 +1257,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException {
 
 		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
-		TypeInfo typeInfo = TypeInfo.newInstance();
+		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
 		types.add(typeInfo);
 		return types;
@@ -1276,7 +1280,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException {
 
 		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
-		TypeInfo typeInfo = TypeInfo.newInstance();
+		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setKey(AcademicCalendarServiceConstants.CAMPUS_CALENDAR_TYPE_KEY);
 		types.add(typeInfo);
 		return types;
@@ -1296,10 +1300,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException {
 		
 		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
-		TypeInfo typeInfo1 = TypeInfo.newInstance();
+		TypeInfo typeInfo1 = new TypeInfo();
 		typeInfo1.setKey(AtpServiceConstants.SEASON_TERM_1_TYPE_KEY );
 		types.add(typeInfo1);
-		TypeInfo typeInfo2 = TypeInfo.newInstance();
+		TypeInfo typeInfo2 = new TypeInfo();
 		typeInfo2.setKey(AtpServiceConstants.SEASON_TERM_2_TYPE_KEY );
 		types.add(typeInfo2);
 		return types;
@@ -1359,7 +1363,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		MilestoneInfo mInfo = MilestoneInfo.newInstance();
 		mInfo.setAttributes(holidayInfo.getAttributes());
 		mInfo.setName(holidayInfo.getName());
-		mInfo.setDateRange(holidayInfo.isDateRange() );
+		mInfo.setDateRange(holidayInfo.getIsDateRange() );
 		mInfo.setDescr(holidayInfo.getDescr());
 		mInfo.setKey(holidayInfo.getKey());
 		

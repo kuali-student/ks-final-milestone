@@ -155,7 +155,7 @@ public class CriteriaMatcherInMemory<T> {
         Object parsedValue = this.getParsedValues().get(i);
         CriteriaValidatorParser.Operator op = this.getParsedOperators().get(i);
         Object dataValue = this.extractValue(i, comparison.getFieldKey(), infoObject);
-        if (comparison.isIgnoreCase()) {
+        if (comparison.getIgnoreCase()) {
             if (dataValue instanceof String) {
                 dataValue = ((String) dataValue).toLowerCase();
             }

@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -37,7 +38,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) 
 	@JoinColumn(name = "RELATION_TYPE_ID")
     private LuiPersonRelationTypeEntity personRelationType;
 
@@ -133,7 +134,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     }
     
     public LuiPersonRelationInfo toDto() {
-    	LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.newInstance();
+    	LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
     	lprInfo.setId(getId());
     	lprInfo.setLuiId(luiId);
     	lprInfo.setPersonId(personId);
@@ -141,10 +142,10 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     	lprInfo.setExpirationDate(expirationDate);
     	lprInfo.setTypeKey(personRelationType.getId());
     	lprInfo.setStateKey(personRelationState.getId());
-    	lprInfo.setMetaInfo(super.toDTO());
-    	List<Attribute> atts = new ArrayList<Attribute>();
+    	lprInfo.setMeta(super.toDTO());
+    	List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
     	for (LuiPersonRelationAttributeEntity att : getAttributes()) {
-    		Attribute attInfo = att.toDto();
+    		AttributeInfo attInfo = att.toDto();
     		atts.add(attInfo);
     	}
 		lprInfo.setAttributes(atts);

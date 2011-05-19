@@ -3,13 +3,15 @@ package org.kuali.student.r2.lum.lrc.infc;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.kuali.student.r2.common.infc.KeyEntity;
+
 
 /**
  * 
  * @author sambit
  *
  */
-public interface ResultValueRange extends Serializable{
+public interface ResultValueRange extends KeyEntity{
 	
 
 	/**

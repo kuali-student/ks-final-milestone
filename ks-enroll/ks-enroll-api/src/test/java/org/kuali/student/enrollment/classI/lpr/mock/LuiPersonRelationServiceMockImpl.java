@@ -56,502 +56,459 @@ import org.kuali.student.test.utilities.MockHelper;
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationService, HoldsLprService, HoldsLuiService {
+public class LuiPersonRelationServiceMockImpl implements
+		LuiPersonRelationService, HoldsLprService, HoldsLuiService {
 
-    private LuiService luiService;
+	private LuiService luiService;
 
-    @Override
-    public LuiService getLuiService() {
-        return luiService;
-    }
+	@Override
+	public LuiService getLuiService() {
+		return luiService;
+	}
 
-    @Override
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
-    
-    private Map<String, LuiPersonRelationInfo> lprCache = new HashMap<String, LuiPersonRelationInfo>();
+	@Override
+	public void setLuiService(LuiService luiService) {
+		this.luiService = luiService;
+	}
 
-    @Override
-    public List<String> createBulkRelationshipsForPerson(String personId,
-            List<String> luiIdList,
-            String relationState,
-            String luiPersonRelationType,
-            LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        List<String> lprIds = new ArrayList<String>(luiIdList.size());
-        for (String luiId : luiIdList) {
-            LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
-            lprInfo.setLuiId(luiId);
+	private Map<String, LuiPersonRelationInfo> lprCache = new HashMap<String, LuiPersonRelationInfo>();
 
-            String lprId = this.createLuiPersonRelation(personId,
-                    luiId,
-                    luiPersonRelationType,
-                    lprInfo,
-                    context);
-            lprIds.add(lprId);
-        }
-        return lprIds;
-    }
+	@Override
+	public List<String> createBulkRelationshipsForPerson(String personId,
+			List<String> luiIdList, String relationState,
+			String luiPersonRelationType,
+			LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+			throws AlreadyExistsException, DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> lprIds = new ArrayList<String>(luiIdList.size());
+		for (String luiId : luiIdList) {
+			LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo(luiPersonRelationInfo);
+			lprInfo.setLuiId(luiId);
 
-    @Override
-    public String createLuiPersonRelation(String personId, String luiId,
-            String luiPersonRelationType,
-            LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context) throws
-            AlreadyExistsException,
-            DoesNotExistException,
-            DisabledIdentifierException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        MockHelper helper = new MockHelper();
-        LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
-        lprInfo.setId(UUID.randomUUID().toString());
-        lprInfo.setPersonId(personId);
-        lprInfo.setLuiId(luiId);
-        lprInfo.setTypeKey(luiPersonRelationType);
-        lprInfo.setMetaInfo(helper.createMeta(context));
-        this.lprCache.put(lprInfo.getId(), lprInfo);
-        return lprInfo.getId();
-    }
+			String lprId = this.createLuiPersonRelation(personId, luiId,
+					luiPersonRelationType, lprInfo, context);
+			lprIds.add(lprId);
+		}
+		return lprIds;
+	}
 
-    @Override
-    public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId, ContextInfo context) throws
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        if (this.lprCache.remove(luiPersonRelationId) == null) {
-            throw new DoesNotExistException(luiPersonRelationId);
-        }
-        StatusInfo status = StatusInfo.newInstance();
-        status.setSuccess(Boolean.TRUE);
-        return status;
-    }
+	@Override
+	public String createLuiPersonRelation(String personId, String luiId,
+			String luiPersonRelationType,
+			LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+			throws AlreadyExistsException, DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		MockHelper helper = new MockHelper();
+		LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo(luiPersonRelationInfo);
+		lprInfo.setId(UUID.randomUUID().toString());
+		lprInfo.setPersonId(personId);
+		lprInfo.setLuiId(luiId);
+		lprInfo.setTypeKey(luiPersonRelationType);
+		lprInfo.setMeta(helper.createMeta(context));
+		this.lprCache.put(lprInfo.getId(), lprInfo);
+		return lprInfo.getId();
+	}
 
-    @Override
-    public LuiPersonRelationInfo fetchLuiPersonRelation(String luiPersonRelationId,
-            ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        LuiPersonRelationInfo bean = this.lprCache.get(
-                luiPersonRelationId);
-        if (bean == null) {
-            throw new DoesNotExistException(luiPersonRelationId);
-        }
-        return bean;
-    }
+	@Override
+	public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		if (this.lprCache.remove(luiPersonRelationId) == null) {
+			throw new DoesNotExistException(luiPersonRelationId);
+		}
+		StatusInfo status = new StatusInfo();
+		status.setSuccess(Boolean.TRUE);
+		return status;
+	}
 
-    @Override
-    public List<String> findAllValidLuisForPerson(String personId,
-            String luiPersonRelationType,
-            String relationState,
-            String atpId,
-            ContextInfo context) throws
-            DoesNotExistException,
-            DisabledIdentifierException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        List<String> luiIds = new ArrayList();
-        for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
-            if (!personId.equals(lpr.getPersonId())) {
-                continue;
-            }
-            if (!luiPersonRelationType.equals(lpr.getTypeKey())) {
-                continue;
-            }
-            if (!relationState.equals(lpr.getStateKey())) {
-                continue;
-            }
-            LuiInfo lui = luiService.getLui(lpr.getLuiId(), context);
-            if (!atpId.equals(lui.getAtpKey())) {
-                continue;
-            }
-            luiIds.add(lpr.getLuiId());
-        }
-        return luiIds;
-    }
+	@Override
+	public LuiPersonRelationInfo fetchLuiPersonRelation(
+			String luiPersonRelationId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		LuiPersonRelationInfo bean = this.lprCache.get(luiPersonRelationId);
+		if (bean == null) {
+			throw new DoesNotExistException(luiPersonRelationId);
+		}
+		return bean;
+	}
 
-//    @Override
-//    public List<String> findAllValidPeopleForLui(String luiId,
-//                                                 String luiPersonRelationType,
-//                                                 String relationState,
-//                                                 ContextInfo context) throws
-//            DoesNotExistException,
-//            DisabledIdentifierException,
-//            InvalidParameterException,
-//            MissingParameterException,
-//            OperationFailedException,
-//            PermissionDeniedException {
-//        List<String> personIds = new ArrayList();
-//        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-//            if (!luiId.equals(bean.getLuiId())) {
-//                continue;
-//            }
-//            if (!luiPersonRelationType.equals(bean.getType())) {
-//                continue;
-//            }
-//            if (!relationState.equals(bean.getState())) {
-//                continue;
-//            }
-//            LuiInfo lui = luiService.getLui(bean.getLuiId(), context);
-//            personIds.add(bean.getPersonId());
-//        }
-//        return personIds;
-//    }
+	@Override
+	public List<String> findAllValidLuisForPerson(String personId,
+			String luiPersonRelationType, String relationState, String atpId,
+			ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> luiIds = new ArrayList();
+		for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
+			if (!personId.equals(lpr.getPersonId())) {
+				continue;
+			}
+			if (!luiPersonRelationType.equals(lpr.getTypeKey())) {
+				continue;
+			}
+			if (!relationState.equals(lpr.getStateKey())) {
+				continue;
+			}
+			LuiInfo lui = luiService.getLui(lpr.getLuiId(), context);
+			if (!atpId.equals(lui.getAtpKey())) {
+				continue;
+			}
+			luiIds.add(lpr.getLuiId());
+		}
+		return luiIds;
+	}
 
-    
-    @Override
-    public List<StateInfo> getStatesByProcess(
-            String processKey,
-            ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // check type is valid
-        this.getLuiPersonRelationTypeEnum(processKey);
-        if (isInstructorType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentCourseType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentProgramType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        throw new IllegalArgumentException(processKey);
-    }
+	@Override
+	public List<StateInfo> getStatesByProcess(String processKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// check type is valid
+		this.getLuiPersonRelationTypeEnum(processKey);
+		if (isInstructorType(processKey)) {
+			List<StateInfo> states = new ArrayList<StateInfo>(
+					LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+			for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+				states.add(StateInfo.getInstance(state));
+			}
+			return states;
+		}
+		if (processKey
+				.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+			List<StateInfo> states = new ArrayList<StateInfo>(
+					LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+			for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+				states.add(StateInfo.getInstance(state));
+			}
+			return states;
+		}
+		if (isStudentCourseType(processKey)) {
+			List<StateInfo> states = new ArrayList<StateInfo>(
+					LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
+			for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+				states.add(StateInfo.getInstance(state));
+			}
+			return states;
+		}
+		if (isStudentProgramType(processKey)) {
+			List<StateInfo> states = new ArrayList<StateInfo>(
+					LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
+			for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+				states.add(StateInfo.getInstance(state));
+			}
+			return states;
+		}
+		throw new IllegalArgumentException(processKey);
+	}
 
-    private boolean isInstructorType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean isInstructorType(String typeKey) {
+		for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
+			if (type.getKey().equals(typeKey)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    private boolean isStudentCourseType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean isStudentCourseType(String typeKey) {
+		for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
+			if (type.getKey().equals(typeKey)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    private boolean isStudentProgramType(String typeKey) {
-        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
-            return true;
-        }
-        return false;
-    }
+	private boolean isStudentProgramType(String typeKey) {
+		if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
+			return true;
+		}
+		return false;
+	}
 
-    @Override
-    public List<String> findLuiIdsRelatedToPerson(String personId,
-            String luiPersonRelationType,
-            String relationState,
-            ContextInfo context) throws
-            DoesNotExistException,
-            DisabledIdentifierException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        List<String> luiIds = new ArrayList();
-        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-            if (!personId.equals(bean.getPersonId())) {
-                continue;
-            }
-            if (!luiPersonRelationType.equals(bean.getTypeKey())) {
-                continue;
-            }
-            if (!relationState.equals(bean.getStateKey())) {
-                continue;
-            }
+	@Override
+	public List<String> findLuiIdsRelatedToPerson(String personId,
+			String luiPersonRelationType, String relationState,
+			ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> luiIds = new ArrayList();
+		for (LuiPersonRelationInfo bean : this.lprCache.values()) {
+			if (!personId.equals(bean.getPersonId())) {
+				continue;
+			}
+			if (!luiPersonRelationType.equals(bean.getTypeKey())) {
+				continue;
+			}
+			if (!relationState.equals(bean.getStateKey())) {
+				continue;
+			}
 
-            luiIds.add(bean.getLuiId());
-        }
-        return luiIds;
-    }
+			luiIds.add(bean.getLuiId());
+		}
+		return luiIds;
+	}
 
-    @Override
-    public List<String> findLuiPersonRelationIds(String personId, String luiId,
-            ContextInfo context) throws
-            DoesNotExistException,
-            DisabledIdentifierException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-            if (!personId.equals(bean.getPersonId())) {
-                continue;
-            }
-            if (!luiId.equals(bean.getLuiId())) {
-                continue;
-            }
-            lprIds.add(bean.getId());
-        }
-        return lprIds;
-    }
+	@Override
+	public List<String> findLuiPersonRelationIds(String personId, String luiId,
+			ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> lprIds = new ArrayList();
+		for (LuiPersonRelationInfo bean : this.lprCache.values()) {
+			if (!personId.equals(bean.getPersonId())) {
+				continue;
+			}
+			if (!luiId.equals(bean.getLuiId())) {
+				continue;
+			}
+			lprIds.add(bean.getId());
+		}
+		return lprIds;
+	}
 
-    @Override
-    public List<String> findLuiPersonRelationIdsForLui(String luiId,
-            ContextInfo context) throws
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-            if (!luiId.equals(bean.getLuiId())) {
-                continue;
-            }
-            lprIds.add(bean.getId());
-        }
-        return lprIds;
-    }
+	@Override
+	public List<String> findLuiPersonRelationIdsForLui(String luiId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		List<String> lprIds = new ArrayList();
+		for (LuiPersonRelationInfo bean : this.lprCache.values()) {
+			if (!luiId.equals(bean.getLuiId())) {
+				continue;
+			}
+			lprIds.add(bean.getId());
+		}
+		return lprIds;
+	}
 
-    @Override
-    public List<String> findLuiPersonRelationIdsForPerson(String personId,
-            ContextInfo context)
-            throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<String> lprIds = new ArrayList();
-        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-            if (!personId.equals(bean.getPersonId())) {
-                continue;
-            }
-            lprIds.add(bean.getId());
-        }
-        return lprIds;
-    }
+	@Override
+	public List<String> findLuiPersonRelationIdsForPerson(String personId,
+			ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> lprIds = new ArrayList();
+		for (LuiPersonRelationInfo bean : this.lprCache.values()) {
+			if (!personId.equals(bean.getPersonId())) {
+				continue;
+			}
+			lprIds.add(bean.getId());
+		}
+		return lprIds;
+	}
 
-    // TODO: Add this method to the service interface
-    private LuiPersonRelationTypeEnum getLuiPersonRelationTypeEnum(String typeKey)
-            throws DoesNotExistException {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.values()) {
-            if (type.getKey().equals(typeKey)) {
-                return type;
-            }
-        }
-        throw new DoesNotExistException(typeKey);
-    }
+	// TODO: Add this method to the service interface
+	private LuiPersonRelationTypeEnum getLuiPersonRelationTypeEnum(
+			String typeKey) throws DoesNotExistException {
+		for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum
+				.values()) {
+			if (type.getKey().equals(typeKey)) {
+				return type;
+			}
+		}
+		throw new DoesNotExistException(typeKey);
+	}
 
-//    @Override
-//    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(
-//            String personId,
-//            String luiId,
-//            String relationState,
-//            ContextInfo context)
-//            throws DoesNotExistException, DisabledIdentifierException,
-//            InvalidParameterException, MissingParameterException,
-//            OperationFailedException, PermissionDeniedException {
-//        // TODO: reevaluate if this method is needed -- I can see no use case for it
-//        Map<String, LuiPersonRelationTypeInfo> types = new HashMap();
-//        for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
-//            if (!lpr.getPersonId().equals(personId)) {
-//                continue;
-//            }
-//            if (!lpr.getLuiId().equals(luiId)) {
-//                continue;
-//            }
-//            if (!lpr.getState().equals(relationState)) {
-//                continue;
-//            }
-//            LuiPersonRelationTypeInfo type = this.getLuiPersonRelationType(lpr.getType());
-//            types.put(type.getKey(), type);
-//        }
-//        return new ArrayList(types.values());
-//    }
-    @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId,
-            String luiId,
-            ContextInfo context)
-            throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprs = new ArrayList();
-        for (LuiPersonRelationInfo bean : this.lprCache.values()) {
-            if (!personId.equals(bean.getPersonId())) {
-                continue;
-            }
-            if (!luiId.equals(bean.getLuiId())) {
-                continue;
-            }
-            lprs.add(bean);
-        }
-        return lprs;
-    }
+	// @Override
+	// public List<LuiPersonRelationTypeInfo>
+	// findLuiPersonRelationTypesForLuiPersonRelation(
+	// String personId,
+	// String luiId,
+	// String relationState,
+	// ContextInfo context)
+	// throws DoesNotExistException, DisabledIdentifierException,
+	// InvalidParameterException, MissingParameterException,
+	// OperationFailedException, PermissionDeniedException {
+	// // TODO: reevaluate if this method is needed -- I can see no use case for
+	// it
+	// Map<String, LuiPersonRelationTypeInfo> types = new HashMap();
+	// for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
+	// if (!lpr.getPersonId().equals(personId)) {
+	// continue;
+	// }
+	// if (!lpr.getLuiId().equals(luiId)) {
+	// continue;
+	// }
+	// if (!lpr.getState().equals(relationState)) {
+	// continue;
+	// }
+	// LuiPersonRelationTypeInfo type =
+	// this.getLuiPersonRelationType(lpr.getType());
+	// types.put(type.getKey(), type);
+	// }
+	// return new ArrayList(types.values());
+	// }
+	@Override
+	public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId,
+			String luiId, ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<LuiPersonRelationInfo> lprs = new ArrayList();
+		for (LuiPersonRelationInfo bean : this.lprCache.values()) {
+			if (!personId.equals(bean.getPersonId())) {
+				continue;
+			}
+			if (!luiId.equals(bean.getLuiId())) {
+				continue;
+			}
+			lprs.add(bean);
+		}
+		return lprs;
+	}
 
-    @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(
-            List<String> luiPersonRelationIdList,
-            ContextInfo context)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprs = new ArrayList();
-        for (String id : luiPersonRelationIdList) {
-            LuiPersonRelationInfo bean = this.fetchLuiPersonRelation(id, context);
-            lprs.add(bean);
-        }
-        return lprs;
-    }
+	@Override
+	public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(
+			List<String> luiPersonRelationIdList, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<LuiPersonRelationInfo> lprs = new ArrayList();
+		for (String id : luiPersonRelationIdList) {
+			LuiPersonRelationInfo bean = this.fetchLuiPersonRelation(id,
+					context);
+			lprs.add(bean);
+		}
+		return lprs;
+	}
 
-    @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId,
-            ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        List<String> ids = this.findLuiPersonRelationIdsForLui(luiId, context);
-        return this.findLuiPersonRelationsByIdList(ids, context);
-    }
+	@Override
+	public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(
+			String luiId, ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		List<String> ids = this.findLuiPersonRelationIdsForLui(luiId, context);
+		return this.findLuiPersonRelationsByIdList(ids, context);
+	}
 
-    @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(
-            String personId,
-            ContextInfo context)
-            throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<String> ids = this.findLuiPersonRelationIdsForPerson(personId, context);
-        return this.findLuiPersonRelationsByIdList(ids, context);
-    }
+	@Override
+	public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(
+			String personId, ContextInfo context) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<String> ids = this.findLuiPersonRelationIdsForPerson(personId,
+				context);
+		return this.findLuiPersonRelationsByIdList(ids, context);
+	}
 
-    @Override
-    public LuiPersonRelationInfo updateLuiPersonRelation(String luiPersonRelationId,
-            LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            ReadOnlyException,
-            OperationFailedException,
-            PermissionDeniedException,
-            VersionMismatchException {
-        LuiPersonRelationInfo existing = this.lprCache.get(
-                luiPersonRelationId);
-        if (existing == null) {
-            throw new DoesNotExistException(luiPersonRelationId);
-        }
-        if (!luiPersonRelationInfo.getMetaInfo().getVersionInd().equals(
-                existing.getMetaInfo().getVersionInd())) {
-            throw new VersionMismatchException(
-                    "Updated by " + existing.getMetaInfo().getUpdateId() + " on "
-                    + existing.getMetaInfo().getUpdateId() + " with version of "
-                    + existing.getMetaInfo().getVersionInd());
-        }
-        LuiPersonRelationInfo lprInfo = LuiPersonRelationInfo.getInstance(luiPersonRelationInfo);
-        lprInfo.setMetaInfo(new MockHelper().updateMeta(existing.getMetaInfo(), context));
-        // update attributes in order to be different than that in luiPersonRelationInfo
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeInfo att : luiPersonRelationInfo.getAttributes()) {
-            atts.add(AttributeInfo.getInstance(att));
-        }
-        lprInfo.setAttributes(atts);
-        this.lprCache.put(luiPersonRelationId, lprInfo);
-        return lprInfo;
-    }
+	@Override
+	public LuiPersonRelationInfo updateLuiPersonRelation(
+			String luiPersonRelationId,
+			LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, ReadOnlyException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		LuiPersonRelationInfo existing = this.lprCache.get(luiPersonRelationId);
+		if (existing == null) {
+			throw new DoesNotExistException(luiPersonRelationId);
+		}
+		if (!luiPersonRelationInfo.getMeta().getVersionInd()
+				.equals(existing.getMeta().getVersionInd())) {
+			throw new VersionMismatchException("Updated by "
+					+ existing.getMeta().getUpdateId() + " on "
+					+ existing.getMeta().getUpdateId()
+					+ " with version of "
+					+ existing.getMeta().getVersionInd());
+		}
+		LuiPersonRelationInfo lprInfo =new  LuiPersonRelationInfo(luiPersonRelationInfo);
+		lprInfo.setMeta(new MockHelper().updateMeta(existing.getMeta(),
+				context));
+		// update attributes in order to be different than that in
+		// luiPersonRelationInfo
+		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+		for (AttributeInfo att : luiPersonRelationInfo.getAttributes()) {
+			atts.add(new AttributeInfo(att));
+		}
+		lprInfo.setAttributes(atts);
+		this.lprCache.put(luiPersonRelationId, lprInfo);
+		return lprInfo;
+	}
 
-    @Override
-    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
+	@Override
+	public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
 
-        // get the dictionary entry for the LPR object
-        String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
-        DictionaryEntry dictionaryEntry;
-        try {
-            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
-        } catch (DoesNotExistException ex) {
-           throw new OperationFailedException (dictionaryEntryKey + " is not in the dictionary", ex);
-        }
+		// get the dictionary entry for the LPR object
+		String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
+		DictionaryEntry dictionaryEntry;
+		try {
+			dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey,
+					context);
+		} catch (DoesNotExistException ex) {
+			throw new OperationFailedException(dictionaryEntryKey
+					+ " is not in the dictionary", ex);
+		}
 
-        // validate the criteria
-        CriteriaValidatorParser validator = new CriteriaValidatorParser();
-        validator.setCriteria(criteria);
-        validator.setDictionaryEntry(dictionaryEntry);
-        validator.validate();
+		// validate the criteria
+		CriteriaValidatorParser validator = new CriteriaValidatorParser();
+		validator.setCriteria(criteria);
+		validator.setDictionaryEntry(dictionaryEntry);
+		validator.validate();
 
-        // now do the in memory matching
-        CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
-        matcher.setDictionaryEntry(dictionaryEntry);
-        matcher.setCriteria(criteria);
-        matcher.setParsedOperators(validator.getParsedOperators());
-        matcher.setParsedValues(validator.getParsedValues());
-        Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
-        List<LuiPersonRelationInfo> selected = matcher.findMatching(allValues);
-        List<String> selectedIds = new ArrayList<String>();
-        for (LuiPersonRelationInfo info : selected) {
-            selectedIds.add(info.getId());
-        }
-        return selectedIds;
-    }
-    
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		// now do the in memory matching
+		CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
+		matcher.setDictionaryEntry(dictionaryEntry);
+		matcher.setCriteria(criteria);
+		matcher.setParsedOperators(validator.getParsedOperators());
+		matcher.setParsedValues(validator.getParsedValues());
+		Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
+		List<LuiPersonRelationInfo> selected = matcher.findMatching(allValues);
+		List<String> selectedIds = new ArrayList<String>();
+		for (LuiPersonRelationInfo info : selected) {
+			selectedIds.add(info.getId());
+		}
+		return selectedIds;
+	}
 
-        if (isInstructorType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
-            }
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentCourseType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentProgramType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey)) return (StateInfo.getInstance(state));
-            }
-        }
-        
-        throw new DoesNotExistException("Requested state does not exist!");
-    }
+	@Override
+	public StateInfo getState(String processKey, String stateKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+
+		if (isInstructorType(processKey)) {
+			for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+				if (state.getKey().equals(stateKey))
+					return (StateInfo.getInstance(state));
+			}
+		}
+		if (processKey
+				.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+			for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+				if (state.getKey().equals(stateKey))
+					return (StateInfo.getInstance(state));
+			}
+		}
+		if (isStudentCourseType(processKey)) {
+			for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+				if (state.getKey().equals(stateKey))
+					return (StateInfo.getInstance(state));
+			}
+		}
+		if (isStudentProgramType(processKey)) {
+			for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+				if (state.getKey().equals(stateKey))
+					return (StateInfo.getInstance(state));
+			}
+		}
+
+		throw new DoesNotExistException("Requested state does not exist!");
+	}
 
 	@Override
 	public LuiPersonRelationService getLprService() {
@@ -562,7 +519,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 	@Override
 	public void setLprService(LuiPersonRelationService lprService) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -677,4 +634,3 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 		return null;
 	}
 }
-

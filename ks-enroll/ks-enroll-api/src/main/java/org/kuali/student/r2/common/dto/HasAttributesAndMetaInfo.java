@@ -8,45 +8,40 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.Meta;
 
 @SuppressWarnings("serial")
 @XmlTransient
-public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo implements HasAttributesAndMeta, Serializable {
+public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
+		implements HasAttributesAndMeta, Serializable {
 
-    @XmlElement
-    private MetaInfo metaInfo;
+	@XmlElement
+	private MetaInfo meta;
 
-    protected HasAttributesAndMetaInfo() {
-        metaInfo = null;
-    }
+	public HasAttributesAndMetaInfo() {
+		meta = null;
+	}
 
-    protected HasAttributesAndMetaInfo(HasAttributesAndMeta hasAttsAndMeta) {
-        super(hasAttsAndMeta);
-        if (null != hasAttsAndMeta) {
-	        this.metaInfo = null != hasAttsAndMeta.getMetaInfo() ? MetaInfo.getInstance(hasAttsAndMeta.getMetaInfo()) : null;
-        }
-    }
+	public HasAttributesAndMetaInfo(HasAttributesAndMeta hasAttsAndMeta) {
+		super(hasAttsAndMeta);
 
-    protected HasAttributesAndMetaInfo(List<? extends Attribute> attributes, Meta meta) {
-        super(attributes);
-        this.metaInfo = null != meta ? MetaInfo.getInstance(meta) : null;
-    }
+		if (null != hasAttsAndMeta) {
+			this.meta = null != hasAttsAndMeta.getMeta() ? MetaInfo
+					.getInstance(hasAttsAndMeta.getMeta()) : null;
+		}
+	}
 
-    @Override
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-    
-    @Override
-    public void setMetaInfo(Meta metaInfo) {
-        this.metaInfo = MetaInfo.getInstance(metaInfo);
-    }
+	@Override
+	public Meta getMeta() {
+		return this.meta;
+	}
+
+	public void setMeta(Meta metaInfo) {
+		this.meta = MetaInfo.getInstance(metaInfo);
+	}
 }

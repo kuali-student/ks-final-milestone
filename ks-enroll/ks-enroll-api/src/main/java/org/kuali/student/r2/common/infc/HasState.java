@@ -31,5 +31,5 @@ public interface HasState  {
      */
 
     public String getStateKey();
-    public void setStateKey(String stateKey);
+    
 }

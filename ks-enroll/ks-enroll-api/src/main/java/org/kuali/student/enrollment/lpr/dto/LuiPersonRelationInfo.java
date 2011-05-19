@@ -41,21 +41,13 @@ public class LuiPersonRelationInfo extends RelationshipInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public static LuiPersonRelationInfo newInstance() {
-        return new LuiPersonRelationInfo();
-    }
-    
-    public static LuiPersonRelationInfo getInstance(LuiPersonRelation lpr) {
-        return new LuiPersonRelationInfo(lpr);
-    }
-    
-    private LuiPersonRelationInfo() {
+    public LuiPersonRelationInfo() {
         luiId = null;
         personId = null;
         _futureElements = null;
     }
 
-    private LuiPersonRelationInfo(LuiPersonRelation lpr) {
+    public LuiPersonRelationInfo(LuiPersonRelation lpr) {
         super(lpr);
         this.luiId = lpr.getLuiId();
         this.personId = lpr.getPersonId();

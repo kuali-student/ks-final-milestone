@@ -47,7 +47,7 @@ public interface ValidationResult {
      * TODO: decide if this is a key that then gets resolved into a real localized message using the message service or the final localized message itself
      */
     public String getMessage();
-    public void setMessage(String message);
+  
 
     /**
      * Name: Element
@@ -59,7 +59,7 @@ public interface ValidationResult {
      * TODO: find out how repeating substructures are handled in this notation, with [n] occurrence brackets?
      */
     public String getElement();
-    public void setElement(String element);
+   
 
     /**
      * Name: Level
@@ -71,7 +71,7 @@ public interface ValidationResult {
      * 2=ERROR
      */
     public Integer getLevel();
-    public void setLevel(int level);
+ 
 
     /**
      * Name: Invalid Data
@@ -81,23 +81,23 @@ public interface ValidationResult {
      * Note: Since this is an "Object" it should be flagged as transient and os not remoted through the web servce
      */
     public Object getInvalidData();
-    public void setInvalidData(Object invalidData);
+
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
      */
-    public Boolean isOk();
+    public Boolean getOk();
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
      */
-    public Boolean isWarn();
-    public void setWarn(String message);
+    public Boolean getWarn();
+
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
      */
-    public Boolean isError();
-    public void setError(String message);
+    public Boolean getError();
+
 }
 

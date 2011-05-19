@@ -73,12 +73,12 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        LuiInfo lInfo = LuiInfo.getInstance(luiInfo);
+        LuiInfo lInfo = new LuiInfo(luiInfo);
         MockHelper helper = new MockHelper();
         lInfo.setId(UUID.randomUUID().toString());
         lInfo.setCluId(cluId);
         lInfo.setAtpKey(atpKey);
-        lInfo.setMetaInfo(helper.createMeta(context));
+        lInfo.setMeta(helper.createMeta(context));
         this.luiCache.put(lInfo.getId(), lInfo);
         return lInfo;
     }
@@ -98,12 +98,12 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
             OperationFailedException,
             PermissionDeniedException {
         MockHelper helper = new MockHelper();
-        LuiLuiRelationInfo llrInfo = LuiLuiRelationInfo.getInstance(luiLuiRelationInfo);
+        LuiLuiRelationInfo llrInfo = new LuiLuiRelationInfo(luiLuiRelationInfo);
         llrInfo.setId(UUID.randomUUID().toString());
         llrInfo.setLuiId(luiId);
         llrInfo.setRelatedLuiId(relatedLuiId);
         llrInfo.setTypeKey(luLuRelationType);
-        llrInfo.setMetaInfo(helper.createMeta(context));
+        llrInfo.setMeta(helper.createMeta(context));
         this.llrCache.put(llrInfo.getId(), llrInfo);
         return llrInfo;
     }
@@ -113,7 +113,7 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
         if (this.luiCache.remove(luiId) == null) {
             throw new DoesNotExistException(luiId);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -123,7 +123,7 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
         if (this.luiCache.remove(luiLuiRelationId) == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        StatusInfo status = StatusInfo.newInstance();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
@@ -284,16 +284,16 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
         if (existing == null) {
             throw new DoesNotExistException(luiId);
         }
-        if (!luiInfo.getMetaInfo().getVersionInd().equals(
-                existing.getMetaInfo().getVersionInd())) {
+        if (!luiInfo.getMeta().getVersionInd().equals(
+                existing.getMeta().getVersionInd())) {
             throw new VersionMismatchException(
-                    "Updated by " + existing.getMetaInfo().getUpdateId() + " on "
-                    + existing.getMetaInfo().getUpdateId() + " with version of "
-                    + existing.getMetaInfo().getVersionInd());
+                    "Updated by " + existing.getMeta().getUpdateId() + " on "
+                    + existing.getMeta().getUpdateId() + " with version of "
+                    + existing.getMeta().getVersionInd());
         }
         MockHelper helper = new MockHelper();
-        LuiInfo lInfo = LuiInfo.getInstance(luiInfo);
-        lInfo.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        LuiInfo lInfo = new LuiInfo(luiInfo);
+        lInfo.setMeta(helper.updateMeta(existing.getMeta(), context));
         this.luiCache.put(luiId, lInfo);
         // mirroring what was done before immutable DTO's; why returning copy of copy?
         return lInfo;
@@ -305,16 +305,16 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
         if (existing == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        if (!luiLuiRelationInfo.getMetaInfo().getVersionInd().equals(
-                existing.getMetaInfo().getVersionInd())) {
+        if (!luiLuiRelationInfo.getMeta().getVersionInd().equals(
+                existing.getMeta().getVersionInd())) {
             throw new VersionMismatchException(
-                    "Updated by " + existing.getMetaInfo().getUpdateId() + " on "
-                    + existing.getMetaInfo().getUpdateId() + " with version of "
-                    + existing.getMetaInfo().getVersionInd());
+                    "Updated by " + existing.getMeta().getUpdateId() + " on "
+                    + existing.getMeta().getUpdateId() + " with version of "
+                    + existing.getMeta().getVersionInd());
         }
         MockHelper helper = new MockHelper();
-        LuiLuiRelationInfo llrInfo = LuiLuiRelationInfo.getInstance(luiLuiRelationInfo);
-        llrInfo.setMetaInfo(helper.updateMeta(existing.getMetaInfo(), context));
+        LuiLuiRelationInfo llrInfo = new LuiLuiRelationInfo(luiLuiRelationInfo);
+        llrInfo.setMeta(helper.updateMeta(existing.getMeta(), context));
         this.llrCache.put(luiLuiRelationId, llrInfo);
         return llrInfo;
 
@@ -329,7 +329,7 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
             OperationFailedException,
             PermissionDeniedException {
         LuiInfo existing = this.getLui(luiId, context);
-        LuiInfo luiInfo = LuiInfo.getInstance(existing);
+        LuiInfo luiInfo = new LuiInfo(existing);
         luiInfo.setStateKey(luState);
         try {
             return this.updateLui(luiId, luiInfo, context);

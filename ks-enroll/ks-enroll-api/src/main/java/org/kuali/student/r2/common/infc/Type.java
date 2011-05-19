@@ -28,7 +28,7 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
      * Friendly name of the Type
      */
     public String getName();
-    public void setName(String name);
+    
 
     /**
      * Name: Description
@@ -36,7 +36,6 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
      * Narrative description of the type
      */
     public String getDescr();        
-    public void setDescr(String descr);
         
     /**
      * Name: Reference Object URI
@@ -50,5 +49,5 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
      * </ol>
      */
     public String getRefObjectURI();
-    public void setRefObjectURI(String refObjectURI);
+    
 }

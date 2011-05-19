@@ -354,7 +354,7 @@ public class HoldServiceMockImpl implements HoldService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		holdCache.remove(holdId);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -434,7 +434,7 @@ public class HoldServiceMockImpl implements HoldService {
 		if (!issueRestrictionsMap.get(issueId).contains(restrictionKey)) {
 			issueRestrictionsMap.get(issueId).add(restrictionKey);
 		}
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -446,7 +446,7 @@ public class HoldServiceMockImpl implements HoldService {
 		if (issueRestrictionsMap.get(issueId).contains(restrictionKey)) {
 			issueRestrictionsMap.get(issueId).remove(restrictionKey);
 		}
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -483,7 +483,7 @@ public class HoldServiceMockImpl implements HoldService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		issuesCache.remove(issueId);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 	@Override
@@ -578,7 +578,7 @@ public class HoldServiceMockImpl implements HoldService {
 			OperationFailedException, PermissionDeniedException {
 
 		restrictionsCache.remove(restrictionKey);
-		return StatusInfo.newInstance();
+		return new StatusInfo();
 	}
 
 }

@@ -53,7 +53,7 @@ public class MetaInfo implements Meta, Serializable {
         return new MetaInfo(metaInfo);
     }
     
-    private MetaInfo() {
+    public MetaInfo() {
         versionInd = null;
         createTime = null;
         createId = null;
@@ -62,7 +62,7 @@ public class MetaInfo implements Meta, Serializable {
         _futureElements = null;
     }
 
-    private MetaInfo(Meta meta) {
+    public MetaInfo(Meta meta) {
         if(meta != null){
             this.versionInd = meta.getVersionInd();
             this.createTime = null != meta.getCreateTime() ? new Date(meta.getCreateTime().getTime()) : null;

@@ -1,5 +1,6 @@
 package org.kuali.student.r2.lum.lrc.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +20,13 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 @XmlType(name = "ResultValueInfo", propOrder = { "id", "key", "typeKey",
 		"stateKey", "name", "descr", "effectiveDate", "expirationDate",
 		"value", "metaInfo", "attributes", "_futureElements" })
-public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
+public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
+		Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@XmlAttribute
+	private String id;
 
 	@XmlAttribute
 	private String value;
@@ -35,59 +40,24 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
-	@XmlAttribute
-	private String id;
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	public void set_futureElements(List<Element> _futureElements) {
-		this._futureElements = _futureElements;
-	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
 
 	public ResultValueInfo() {
-
-	}
-
-	private ResultValueInfo(String name, String value, String typeKey,
-			String stateKey, Meta metaInfo, RichText descr, Date effectiveDate,
-			Date expirationDate, String id) {
 		super();
-		this.value = value;
-		this.effectiveDate = effectiveDate;
-		this.expirationDate = expirationDate;
-
-		this.id = id;
+		id = null;
+		value = null;
+		effectiveDate = null;
+		expirationDate = null;
 	}
 
-	public static ResultValueInfo newInstance(String name, String value,
-			String typeKey, String stateKey, Meta metaInfo, RichText descr,
-			Date effectiveDate, Date expirationDate, String id) {
-
-		return new ResultValueInfo(name, value, typeKey, stateKey, metaInfo,
-				descr, effectiveDate, expirationDate, id);
-	}
-
-	public static ResultValueInfo createNewResultValueInfoFromResultValueInfo(
-			ResultValueInfo resultValueInfo) {
-		return new ResultValueInfo(resultValueInfo.getName(),
-				resultValueInfo.getValue(), resultValueInfo.getTypeKey(),
-				resultValueInfo.getStateKey(), resultValueInfo.getMetaInfo(),
-				resultValueInfo.getDescr(), resultValueInfo.getEffectiveDate(),
-				resultValueInfo.getExpirationDate(), resultValueInfo.getId());
+	public ResultValueInfo(ResultValue resultValueInfo) {
+		super(resultValueInfo);
+		this.value = resultValueInfo.getValue();
+		this.effectiveDate = resultValueInfo.getEffectiveDate();
+		this.expirationDate = resultValueInfo.getExpirationDate();
+		this.id = resultValueInfo.getId();
 	}
 
 	@Override
@@ -115,4 +85,19 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue {
 		return _futureElements;
 	}
 
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public void set_futureElements(List<Element> _futureElements) {
+		this._futureElements = _futureElements;
+	}
 }

@@ -30,28 +30,26 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * human readable form (e.g. ENGL 100 section 123).
      */
     public String getLuiCode();
-    public void setLuiCode(String luiCode);
+  
 
     /**
      * Name: Clu Id
      * Unique identifier for the Canonical Learning Unit (CLU) of which this is an instance.
      */
     public String getCluId();
-    public void setCluId(String cluId);
-
+ 
     /**
      * Name: ATP Key
      * Unique identifier for the Academic Time Period (ATP) for which this instance is offered.
      */
     public String getAtpKey();
-    public void setAtpKey(String atpKey);
-
+ 
     /**
      * Name: Maximum Seats
      * Maximum number of "seats" that the LUI will hold for registration.
      */
     public Integer getMaxSeats();
-    public void setMaxSeats(int maxSeats);
+ 
 
 }
 

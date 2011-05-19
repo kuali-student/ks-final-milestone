@@ -36,7 +36,6 @@ public interface Entity
      */
 
     public String getName();
-    public void setName(String name);
 
 
     /**
@@ -47,5 +46,4 @@ public interface Entity
      */
 
     public RichText getDescr();
-    public void setDescr(RichText richText);
 }

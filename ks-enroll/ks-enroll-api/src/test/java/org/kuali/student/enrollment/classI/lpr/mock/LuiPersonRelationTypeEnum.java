@@ -121,32 +121,32 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
         
     }
 
-    @Override
+    
     public void setAttributes(List<? extends Attribute> attributes) {
         this.attributes = new ArrayList<Attribute>(attributes);
     }
 
-    @Override
+    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = new Date(effectiveDate.getTime());
     }
 
-    @Override
+    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = new Date(expirationDate.getTime());
     }
 
-    @Override
+    
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
+    
     public void setDescr(String descr) {
         this.descr = descr;
     }
 
-    @Override
+    
     public void setRefObjectURI(String refObjectURI) {
     }
 }

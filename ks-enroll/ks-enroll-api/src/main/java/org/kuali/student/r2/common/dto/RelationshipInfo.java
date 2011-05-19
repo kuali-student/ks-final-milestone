@@ -41,7 +41,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     @XmlElement
     private Date expirationDate;
 
-    protected RelationshipInfo() {
+    public RelationshipInfo() {
         id = null;
         typeKey = null;
         stateKey = null;
@@ -49,13 +49,13 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         expirationDate = null;
     }
 
-    protected RelationshipInfo(Relationship relationship) {
+    public RelationshipInfo(Relationship relationship) {
         super(relationship);
         this.id = relationship.getId();
         this.typeKey = relationship.getTypeKey();
         this.stateKey = relationship.getStateKey();        
-        this.effectiveDate = null != relationship.getEffectiveDate() ? new Date(relationship.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != relationship.getExpirationDate() ? new Date(relationship.getExpirationDate().getTime()) : null;
+        this.effectiveDate = relationship.getEffectiveDate();
+        this.expirationDate = relationship.getExpirationDate();
     }
 
     
@@ -64,7 +64,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return id;
     }
 
-    @Override
+
     public void setId(String id) {
         this.id = id;
     }
@@ -74,7 +74,6 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return typeKey;
     }
 
-    @Override
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
     }
@@ -84,7 +83,6 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return stateKey;
     }
     
-    @Override
     public void setStateKey(String stateKey) {
         this.stateKey = stateKey;
     }
@@ -94,7 +92,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return effectiveDate;
     }
 
-    @Override
+    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
@@ -104,7 +102,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return expirationDate;
     }
 
-    @Override
+    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }

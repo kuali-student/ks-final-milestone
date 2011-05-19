@@ -41,6 +41,6 @@ public interface HasMeta {
      *
      */
 
-    public Meta getMetaInfo();
-    public void setMetaInfo(Meta meta);
+    public Meta getMeta();
+   
 }

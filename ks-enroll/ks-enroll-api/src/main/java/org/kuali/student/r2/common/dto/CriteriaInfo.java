@@ -33,69 +33,63 @@ import org.w3c.dom.Element;
 
 /**
  * Query to return some information regarding LUI to person relationships.
- *
+ * 
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Tue Mar 01 15:54:06 PST 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure">LuiPersonRelationCriteria</a>
+ * @See <a href=
+ *      "https://wiki.kuali.org/display/KULSTU/luiPersonRelationCriteria+Structure"
+ *      >LuiPersonRelationCriteria</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CriteriaInfo", propOrder = {"comparisons", "maxResults", "_futureElements"})
+@XmlType(name = "CriteriaInfo", propOrder = { "comparisons", "maxResults",
+		"_futureElements" })
 public class CriteriaInfo implements Criteria, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @XmlElementWrapper(name="comparisons")
-    @XmlElement(name="comparison")
-    private List<ComparisonInfo> comparisons;
-    @XmlElement
-    private Integer maxResults;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	private static final long serialVersionUID = 1L;
 
-    public static CriteriaInfo newIntance() {
-        return new CriteriaInfo();
-    }
-    
-    private CriteriaInfo() {
-        comparisons = null;
-        maxResults = null;
-        _futureElements = null;
-    }
+	@XmlElementWrapper(name = "comparisons")
+	@XmlElement(name = "comparison")
+	private List<ComparisonInfo> comparisons;
+	@XmlElement
+	private Integer maxResults;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    @Override
-    public List<ComparisonInfo> getComparisons() {
-        return this.comparisons;
-    }
+	public CriteriaInfo() {
+		comparisons = null;
+		maxResults = null;
+		_futureElements = null;
+	}
 
-    public void setComparisons(List<? extends Comparison> comparisons) {
-        this.comparisons = new ArrayList<ComparisonInfo>();
-        for (Comparison comparison : comparisons) {
-            this.comparisons.add(ComparisonInfo.getInstance(comparison));
-        }
-    }
+	public CriteriaInfo(Criteria builder) {
+		if (builder.getComparisons() == null) {
+			this.comparisons = null;
+		} else {
+			this.comparisons = new ArrayList<ComparisonInfo>();
+			Collections.copy(comparisons, comparisons);
+		}
+		this.maxResults = builder.getMaxResults();
+		this._futureElements = null;
+	}
 
-    @Override
-    public Integer getMaxResults() {
-        return this.maxResults;
-    }
+	@Override
+	public List<? extends Comparison> getComparisons() {
+		return this.comparisons;
+	}
 
-    @Override
-    public void setMaxResults(int maxResults) {
-        this.maxResults = maxResults;
-    }
+	public void setComparisons(List<ComparisonInfo> comparisons) {
+		this.comparisons = new ArrayList<ComparisonInfo>();
+		Collections.copy(comparisons, comparisons);
+	}
 
-    private CriteriaInfo(Criteria builder) {
-        if (builder.getComparisons() == null) {
-            this.comparisons = null;
-        } else {
-            List<ComparisonInfo> list = new ArrayList(builder.getComparisons().size());
-            for (Comparison infc : builder.getComparisons()) {
-                list.add(ComparisonInfo.getInstance(infc));
-            }
-            this.comparisons = Collections.unmodifiableList(list);
-        }
-        this.maxResults = builder.getMaxResults();
-        this._futureElements = null;
-    }
+	@Override
+	public Integer getMaxResults() {
+		return this.maxResults;
+	}
+
+	public void setMaxResults(Integer maxResults) {
+		this.maxResults = maxResults;
+	}
+
 }

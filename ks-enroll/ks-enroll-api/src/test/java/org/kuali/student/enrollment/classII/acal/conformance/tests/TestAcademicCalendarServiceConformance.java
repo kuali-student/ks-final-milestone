@@ -49,11 +49,11 @@ public class TestAcademicCalendarServiceConformance {
 	public void testCreateAcademicCalendar() throws Exception {
 	
 		
-		AcademicCalendarInfo academicCalendarInfo =  AcademicCalendarInfo.newInstance();
+		AcademicCalendarInfo academicCalendarInfo = new AcademicCalendarInfo();
 		
 
-		academicCalendarInfo.setEndDate(new Date(2010,12,01 )) ;
-		academicCalendarInfo.setStartDate(new Date(2010,01,01 ) );
+		academicCalendarInfo.setEndDate(new Date()) ;
+		academicCalendarInfo.setStartDate(new Date() );
 		academicCalendarInfo.setName("First AC");
 		
 		AcademicCalendarInfo createdAC  = getService().createAcademicCalendar("test1AC", academicCalendarInfo, TestHelper.getContext1());

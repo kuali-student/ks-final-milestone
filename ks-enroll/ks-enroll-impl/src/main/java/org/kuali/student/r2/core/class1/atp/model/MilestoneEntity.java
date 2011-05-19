@@ -65,8 +65,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
         this.setId(milestone.getKey());
-        this.setAllDay(milestone.isAllDay());
-        this.setDateRange(milestone.isDateRange());
+        this.setAllDay(milestone.getIsAllDay());
+        this.setDateRange(milestone.getIsDateRange());
         this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
         AtpStateEntity state = new AtpStateEntity();
         state.setId(milestone.getStateKey());
@@ -173,7 +173,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         info.setEndDate(getEndDate());
         info.setAllDay(isAllDay());
         info.setDateRange(isDateRange());
-        info.setMetaInfo(super.toDTO());
+        info.setMeta(super.toDTO());
         info.setDescr(getDescr().toDto());
         
         List<Attribute> atts = new ArrayList<Attribute>();

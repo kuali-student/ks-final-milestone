@@ -31,7 +31,7 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
         id = null;
     }
 
-    protected IdEntityInfo(IdEntity builder) {
+    public IdEntityInfo(IdEntity builder) {
         super(builder);
         this.id = builder.getId();
     }
@@ -41,7 +41,7 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
         return id;
     }
     
-    @Override
+
     public void setId(String id) {
         this.id = id;
     }

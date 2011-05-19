@@ -32,106 +32,86 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "KeyDateInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
+		"metaInfo", "attributes", "_futureElements" })
 public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private Boolean isAllDay;
-    @XmlElement
-    private Boolean isDateRange;
-    @XmlElement
-    private Date startDate;
-    @XmlElement
-    private Date endDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private Boolean isAllDay;
+	@XmlElement
+	private Boolean isDateRange;
+	@XmlElement
+	private Date startDate;
+	@XmlElement
+	private Date endDate;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-
-    public static KeyDateInfo newInstance() {
-        return new KeyDateInfo();
-    }
-    
-    public static KeyDateInfo getInstance(KeyDate keyDate) {
-        return new KeyDateInfo(keyDate);
-    }
-    
-    public static KeyDateInfo getInstance(String key, String name, RichText descr,
-								            Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
-								            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
-		return new KeyDateInfo(key, name, descr, isAllDay, isDateRange, startDate, endDate, typeKey, stateKey, attributes, meta);
+	public KeyDateInfo() {
+		super();
+		isAllDay = Boolean.valueOf(false) ;
+		isDateRange = Boolean.valueOf(false) ;
+		startDate = null;
+		endDate = null;
+		_futureElements = null;
 	}
 
-    protected KeyDateInfo() {
-        isAllDay = false;
-        isDateRange = false;
-        startDate = null;
-        endDate = null;
-        _futureElements = null;
-    }
+	/**
+	 * Constructs a new KeyDateInfo from another KeyDate.
+	 * 
+	 * @param keyDate
+	 *            the KeyDate to copy
+	 */
+	public KeyDateInfo(KeyDate keyDate) {
+		super(keyDate);
+		this.isAllDay = keyDate.getIsAllDay();
+		this.isDateRange = keyDate.getIsDateRange();
+		this.startDate = null != keyDate.getStartDate() ? new Date(keyDate
+				.getStartDate().getTime()) : null;
+		this.endDate = null != keyDate.getEndDate() ? new Date(keyDate
+				.getEndDate().getTime()) : null;
+		_futureElements = null;
+	}
 
-    /**
-     * Constructs a new KeyDateInfo from another KeyDate.
-     *
-     * @param keyDate the KeyDate to copy
-     */
-    protected KeyDateInfo(KeyDate keyDate) {
-        super(keyDate);
-        this.isAllDay = keyDate.isAllDay();
-        this.isDateRange = keyDate.isDateRange();
-        this.startDate = null != keyDate.getStartDate() ? new Date(keyDate.getStartDate().getTime()) : null;
-        this.endDate = null != keyDate.getEndDate() ? new Date(keyDate.getEndDate().getTime()) : null;
-        _futureElements = null;
-    }
+	@Override
+	public Boolean getIsAllDay() {
+		return isAllDay;
+	}
 
-    protected KeyDateInfo(String key, String name, RichText descr,
-				            Boolean isAllDay, Boolean isDateRange, Date startDate, Date endDate, 
-				            String typeKey, String stateKey, List<? extends Attribute> attributes, Meta meta) {
-        super(key, name, descr, typeKey, stateKey, attributes, meta);
-        this.isAllDay = isAllDay;
-        this.isDateRange = isDateRange;
-        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
-        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
-        _futureElements = null;
-    }
-    
-    @Override
-    public Boolean isAllDay() {
-        return isAllDay;
-    }
 
-    @Override
-    public void setAllDay(Boolean isAllDay) {
-        this.isAllDay = isAllDay;
-    }
+	public void setIsAllDay(Boolean isAllDay) {
+		this.isAllDay = isAllDay;
+	}
 
-    @Override
-    public Boolean isDateRange() {
-        return isDateRange;
-    }
+	@Override
+	public Boolean getIsDateRange() {
+		return isDateRange;
+	}
 
-    @Override
-    public void setDateRange(Boolean isDateRange) {
-        this.isDateRange = isDateRange;
-    }
 
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
+	public void setIsDateRange(Boolean isDateRange) {
+		this.isDateRange = isDateRange;
+	}
 
-    @Override
-    public void setStartDate(Date startDate) {
-        this.startDate = new Date(startDate.getTime());
-    }
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
 
-    @Override
-    public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
-    }
+	public void setStartDate(Date startDate) {
+		this.startDate = new Date(startDate.getTime());
+	}
+
+	@Override
+	public Date getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(Date endDate) {
+		this.endDate = new Date(endDate.getTime());
+	}
 }

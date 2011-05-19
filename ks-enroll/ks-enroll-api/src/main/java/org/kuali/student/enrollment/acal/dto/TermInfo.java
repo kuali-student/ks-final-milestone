@@ -46,24 +46,8 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public static TermInfo newInstance() {
-        return new TermInfo();
-    }
 
-    public static TermInfo getInstance(Term term) {
-        return new TermInfo(term);
-    }
-
-    public static TermInfo getInstance(String key, String name, RichText descr,
-							            Date startDate, Date endDate,
-							            String typeKey, String stateKey,
-							            List<? extends Attribute> attributes, Meta metaInfo) {
-		return new TermInfo(key, name, descr, startDate, endDate, typeKey, stateKey, attributes, metaInfo);
-	}
-
-
-
-    protected TermInfo() {
+    public TermInfo() {
         startDate = null;
         endDate = null;
         _futureElements = null;
@@ -75,7 +59,7 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
      *
      * @param term the Term to copy
      */
-    protected TermInfo(Term term) {
+    public TermInfo(Term term) {
         super(term);
 
         this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
@@ -84,19 +68,13 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         _futureElements = null;
     }
 
-    protected TermInfo(String key, String name, RichText descr, Date startDate, Date endDate, String typeKey, String stateKey, List<? extends Attribute> attributes, Meta metaInfo) {
-        super(key, name, descr, typeKey, stateKey, attributes, metaInfo);
-        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
-        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
-        _futureElements = null;
-    }
-
+    
     @Override
     public Date getStartDate() {
         return startDate;
     }
 
-    @Override
+
     public void setStartDate(Date startDate) {
         this.startDate = new Date(startDate.getTime());
     }
@@ -106,7 +84,7 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         return endDate;
     }
 
-    @Override
+
     public void setEndDate(Date endDate) {
         this.endDate = new Date(endDate.getTime());
     }
