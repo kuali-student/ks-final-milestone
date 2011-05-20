@@ -37,7 +37,7 @@ limitations under the License.
           </list>         
       </property>
      
-      <property name="formClass" value="org.kuali.student.enrollment.acal.form.AcademicCalendarForm" />
+      <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm" />
       <property name="defaultBindingObjectPath" value="AcademicCalendarInfo" />
 <!--       <property name="additionalCssFiles" ref="ks-css" /> -->
         
