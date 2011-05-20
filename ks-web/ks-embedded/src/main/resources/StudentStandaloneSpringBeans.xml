@@ -41,6 +41,7 @@
 			
 				<value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
 				<value>classpath:AcademicCalendarView.xml</value>
+				<value>classpath:AcademicCalendarLookupView.xml</value>
 				
 			</list>
 		</property>
