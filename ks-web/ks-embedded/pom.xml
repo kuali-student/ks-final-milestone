@@ -77,6 +77,13 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
     </dependency>
+    <!-- added by bonnie  -->
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
@@ -142,6 +149,23 @@
       <artifactId>ks-sts</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- add ks-enroll here -->
+    <dependency>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll-api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll-impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+    <dependency>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll-ui</artifactId>
+		<version>${project.version}</version>
+	</dependency>
 
     <!--  Sources for GWT Compile -->
     <dependency>
