@@ -464,7 +464,9 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     public List<String> getAtpAtpRelationIdsByType(@WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves all ATP Relationships by ATP.
+     * Retrieves all ATP Relationships by ATP. Any relationship to the
+     * given ATP is retrieved independent of which side of the
+     * relationship the ATP resides.
      *
      * @param atpKey  a unique key of an ATP
      * @param context Context information containing the principalId
