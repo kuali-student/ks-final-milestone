@@ -126,11 +126,12 @@
 		<servlet-name>edoclite</servlet-name>
 	</filter-mapping>
 
-	<!-- add by bonnie -->   
+	<!-- added by bonnie   -->  
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>krad</servlet-name>
     </filter-mapping> 
+
    
     <filter-mapping>
         <filter-name>UserPreferencesFilter</filter-name>
@@ -148,6 +149,11 @@
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
+	
+	<!-- added by bonnie -- Krad needs this -->
+	<listener>
+       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
+    </listener>
 
 	<servlet>
 		<servlet-name>action</servlet-name>
