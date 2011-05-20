@@ -1394,6 +1394,10 @@
         MSG_ID="cluCourseFeesTitle" MSG_VALUE="Course Fees"
         OBJ_ID="413d576d-78e6-4b39-aeda-b23eb852b5b9" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="9ec9ee4d-2c5e-4368-8555-4c991671234a" LOCALE="en"
+        MSG_ID="modifyCourseNoVersion" MSG_VALUE="Modify this Version"
+        OBJ_ID="SYSGUID()" VER_NBR="2"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="9f070e44-5c84-42ba-a871-6676c3e77e5a" LOCALE="en"
         MSG_ID="cluJustificationOfFees"
         MSG_VALUE="Justification of Fees"
@@ -1404,15 +1408,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A3A772C136974D59E040C60AF05B58CC" LOCALE="en"
+        ID="A3BC9DC873F9F086E040C60AF05B17D3" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A3A772C136984D59E040C60AF05B58CC" VER_NBR="1"/>
+        OBJ_ID="A3BC9DC873FAF086E040C60AF05B17D3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A3A772C136994D59E040C60AF05B58CC" LOCALE="en"
+        ID="A3BC9DC873FBF086E040C60AF05B17D3" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A3A772C1369A4D59E040C60AF05B58CC" VER_NBR="1"/>
+        OBJ_ID="A3BC9DC873FCF086E040C60AF05B17D3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
@@ -1430,9 +1434,17 @@
         MSG_ID="reqDeactivate" MSG_VALUE="Require for Deactivate"
         OBJ_ID="F542A382-FF7F-7F17-B97A-A52E203BDF65" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="a08126d2-d4a2-4ff3-8720-800df5af2588" LOCALE="en"
+        MSG_ID="modifyCourseSubTitle"
+        MSG_VALUE="What kind of modification?" OBJ_ID="SYSGUID()" VER_NBR="2"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="a0b85000-bc44-4c1c-8f8c-22e1af2f1070" LOCALE="en"
         MSG_ID="cluMaxCredits" MSG_VALUE="Maximum Credits"
         OBJ_ID="58b92430-ef72-49fc-b4d4-6ddc6353b6d1" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="a0e2eb3b-ea48-42a1-bf1a-f1910d9f06e9" LOCALE="en"
+        MSG_ID="modifyCourseWithVersion"
+        MSG_VALUE="Modify with a new version" OBJ_ID="SYSGUID()" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="a23401c4-5674-499f-bf3f-95085a2a03ab" LOCALE="es"
         MSG_ID="cluCourseRequisites" MSG_VALUE="Requisitos del curso"
