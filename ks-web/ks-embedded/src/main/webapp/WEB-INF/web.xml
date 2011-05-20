@@ -149,12 +149,12 @@
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
 	
-	<!-- added by bonnie -- Krad needs this -->
+	<!-- added by bonnie,  Krad needs this -->
 	<listener>
        <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
-    </listener>
-
-	<servlet>
+    </listener>	
+    
+    <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
         <init-param>
@@ -317,7 +317,7 @@
 	<!--  added by bonnie -->	
 	<servlet-mapping>
       <servlet-name>krad</servlet-name>
-      <url-pattern>/spring/*</url-pattern>
+      <url-pattern>/kr/spring/*</url-pattern>
     </servlet-mapping> 	
     
 
