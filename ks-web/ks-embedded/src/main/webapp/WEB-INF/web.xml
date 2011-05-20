@@ -100,6 +100,12 @@
        <servlet-name>notification</servlet-name>
     </filter-mapping>
     
+    <!-- added by bonnie   -->  
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>krad</servlet-name>
+    </filter-mapping> 
+    
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
@@ -126,13 +132,6 @@
 		<servlet-name>edoclite</servlet-name>
 	</filter-mapping>
 
-	<!-- added by bonnie   -->  
-    <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>krad</servlet-name>
-    </filter-mapping> 
-
-   
     <filter-mapping>
         <filter-name>UserPreferencesFilter</filter-name>
        <servlet-name>edoclite</servlet-name>
@@ -175,16 +174,8 @@
 			<param-value>3</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
-	</servlet>
-	
-	<!-- added by bonnie -->
-    <servlet>
-       <servlet-name>krad</servlet-name>
-       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-       <load-on-startup>3</load-on-startup>
-    </servlet>
-
-    
+	</servlet>	
+   
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
     <servlet>
@@ -265,6 +256,13 @@
 		<servlet-name>edoclite</servlet-name>
 		<servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
 	</servlet>
+	
+	<!-- added by bonnie -->
+    <servlet>
+       <servlet-name>krad</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <load-on-startup>3</load-on-startup>
+    </servlet>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
