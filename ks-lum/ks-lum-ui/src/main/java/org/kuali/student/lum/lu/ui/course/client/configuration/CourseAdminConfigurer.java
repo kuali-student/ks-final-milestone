@@ -76,12 +76,14 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection);
         
         //Add buttons to top and bottom of view
-        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());
         layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveButton());
-        layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());            
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getCancelButton());
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveButton());
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getApproveAndActivateButton());            
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());        
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, ((CourseAdminController)layout).getCancelButton());    
 
         return view;
 	}

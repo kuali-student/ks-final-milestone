@@ -57,14 +57,13 @@ public class CourseAdminController extends CourseProposalController{
 	 */
 	@Override
 	public KSButton getSaveButton(){
-		return new KSButton("Save", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+		return new KSButton("Save", new ClickHandler(){
             public void onClick(ClickEvent event) {
             	handleButtonClick(DtoConstants.STATE_DRAFT);            	
             }
         });		
 	}
-	
-	
+		
 	public KSButton getApproveButton(){
 		return new KSButton("Approve", new ClickHandler(){
             public void onClick(ClickEvent event) {       
@@ -81,6 +80,17 @@ public class CourseAdminController extends CourseProposalController{
         });		
 	}
 
+	public KSButton getCancelButton(){
+		KSButton button = new KSButton("Cancel", new ClickHandler(){
+            public void onClick(ClickEvent event) {       
+            	
+            }
+        });
+	
+		button.setEnabled(false);
+		return button;
+    }
+	
 	/**
 	 * This processes the save, approve, or approve and activate button clicks
 	 * 
@@ -120,13 +130,26 @@ public class CourseAdminController extends CourseProposalController{
      */
 	@Override
 	protected void setHeaderTitle(){
-    	String title = "New Course (Admin Proposal)";
-    	super.setContentTitle(title);
-    	super.setName(title);
+    	String title;
+    	if (cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+    		title = getProposalTitle();
+    	}
+    	else{
+    		title = "New Course (Admin Proposal)";
+    	}
+    	this.setContentTitle(title);
+    	this.setName(title);
     	WindowTitleUtils.setContextTitle(title);
-		super.currentTitle = title;
+		currentTitle = title;
     }
     
+	private String getProposalTitle(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
+		sb.append(" (Admin Proposal)");
+		return sb.toString();
+	}
+	
     public void addMenuItemSection(String parentMenu, final String sectionName, final String sectionId, final Section section) {    	
         KSMenuItemData parentItem = null;
         for (int i = 0; i < topLevelMenuItems.size(); i++) {

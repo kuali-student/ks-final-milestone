@@ -17,13 +17,17 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -31,8 +35,13 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseWorkflowActionList extends StylishDropDown {
@@ -45,7 +54,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	private KSMenuItemData copyCourseActionItem;
 	
 	private final KSLightBox activateDialog = new KSLightBox();
-    private VerticalSection activateSection = new VerticalSection();
+	private VerticalSection activateSection = new VerticalSection();
     
     private boolean isCurrentVersion;
     private boolean isInitialized = false;
@@ -83,23 +92,35 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	    	this.isCurrentVersion = CourseWorkflowActionList.isCurrentVersion(model);
 	    	
 	    	// TODO: use messages
-	    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
-	
-				@Override
-				public void onClick(ClickEvent event) {
-			    	if(viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty()){
-						viewContext.setId((String)model.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID));
-						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-			            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
-			        }
 
-					HistoryManager.navigate(modifyPath, viewContext);
-				}
-			});
+	    	// FIXME: This should check permissions for admin functionality rather than just check if admin user
+            if ("admin".equals(Application.getApplicationContext().getUserId())){
+		    	//Admin users have the option to make modifications to the course administratively or via the
+            	//curriculum review process. Clicking on the "Modify Course" item will present the user with
+            	//a modify dialog to allow them to choose the method of modification.
+            	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
+		
+					@Override
+					public void onClick(ClickEvent event) {
+				    	buildModifyDialog(viewContext, modifyPath, model);
+					}
+				});
+            } else {
+            	//Non-admin users are only allowed to make modifications via proposal curriculum review process.
+            	//Clicking the "Modify Course" item will simply navigate user directly to modify course proposal screen.
+		    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
+		    		
+					@Override
+					public void onClick(ClickEvent event) {
+						doModifyActionItem(viewContext, modifyPath, model);
+					}
+				});            	
+            }
+            
 	    	copyCourseActionItem = new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
-			    	if(viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty()){
+			    	if(hasCourseId(viewContext)){
 			    		viewContext.setId((String)model.get(CreditCourseConstants.ID));
 						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 						viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
@@ -133,7 +154,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		this.isInitialized = true;
     }
     
-    private void showStateDialog(String newState) {
+    private void doModifyActionItem(ViewContext viewContext, String modifyPath, DataModel model){
+    	if(hasCourseId(viewContext)){
+			viewContext.setId(getCourseVersionIndId(model));
+			viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+        }
+
+		HistoryManager.navigate(modifyPath, viewContext);
+    }
+    
+	private void showStateDialog(String newState) {
     	if (newState.equals(DtoConstants.STATE_RETIRED)) {
     		// TODO: create Retire dialog
     	} else if (newState.equals(DtoConstants.STATE_ACTIVE)) {     		
@@ -145,17 +176,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	}
     	
     }
-    
-    public static boolean isCurrentVersion(DataModel cluModel) {
-    	Date curVerStartDt = cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_START);		
-    	Date curVerEndDt = cluModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_END);
-    	if (curVerStartDt != null && curVerEndDt == null) 
-    		return true;
-    	else
-    		return false;
-    	
-    }
-    
+        
     private String getInstructions(String newState) {
     	
     	if (isCurrentVersion)
@@ -198,6 +219,85 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	    activateDialog.setWidget(panel);
     }
     
+    private void buildModifyDialog(final ViewContext viewContext, final String modifyPath, final DataModel model){
+    	final KSLightBox modifyDialog = new KSLightBox();
+    	
+    	//Create a dialog for course selection
+    	modifyDialog.setTitle((getMessage("modifyCourse")));
+
+        VerticalPanel layout = new VerticalPanel();
+        layout.addStyleName("ks-form-module-fields");
+                
+        final KSButton continueButton = new KSButton(getMessage("continue"));
+        
+        modifyDialog.addButton(continueButton);
+        Anchor cancelLink = new Anchor("Cancel");
+        cancelLink.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				modifyDialog.hide();
+			}
+        });
+        modifyDialog.addButton(cancelLink);
+        
+        HorizontalPanel titlePanel = new HorizontalPanel();
+        KSLabel titleLabel = new KSLabel(getMessage("modifyCourseSubTitle"));
+        titleLabel.addStyleName("bold");
+        titlePanel.add(titleLabel);
+        
+        layout.add(titlePanel);
+        
+        final KSRadioButton radioOptionModifyNoVersion = new KSRadioButton("modifyCreditCourseButtonGroup", getMessage("modifyCourseNoVersion"));
+        final KSRadioButton radioOptionModifyWithVersion = new KSRadioButton("modifyCreditCourseButtonGroup", getMessage("modifyCourseWithVersion"));
+        final KSCheckBox curriculumReviewOption = new KSCheckBox(getMessage("useCurriculumReview"));
+        
+        radioOptionModifyNoVersion.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if(event.getValue()){
+	            	curriculumReviewOption.setEnabled(false);
+	            	curriculumReviewOption.setValue(false);
+				}
+			}
+        });
+        radioOptionModifyNoVersion.setValue(true);
+    	curriculumReviewOption.setEnabled(false);
+        
+        radioOptionModifyWithVersion.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if(event.getValue()){
+	            	curriculumReviewOption.setEnabled(true);
+				}
+			}
+        });
+        
+        
+        layout.add(radioOptionModifyNoVersion);
+        layout.add(radioOptionModifyWithVersion);
+        layout.add(curriculumReviewOption);
+        
+        continueButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				if (radioOptionModifyNoVersion.getValue()){
+					Window.alert("Function not yet implemented");
+				} else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
+					doModifyActionItem(viewContext, modifyPath, model);
+				} else if (radioOptionModifyWithVersion.getValue()){
+			    	if(hasCourseId(viewContext)){
+						viewContext.setId(getCourseVersionIndId(model));
+						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+			            //FIXME: This needs to use a new workflow document type for admin modify with version
+						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+			        }
+
+			    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+				}	
+		    	modifyDialog.hide();
+			}        	
+        });
+        modifyDialog.setWidget(layout);
+        modifyDialog.show();
+    }
+        
     // TODO: add Retire and Inactivate Dialogs
     
     
@@ -268,4 +368,38 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	return msg;
     }
 
+    /**
+     * Check to see if the course being displayed is the current version of the course
+     * 
+     * @param courseModel
+     * @return true if the course is the current version
+     */
+    public static boolean isCurrentVersion(DataModel courseModel) {
+    	Date curVerStartDt = courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_START);		
+    	Date curVerEndDt = courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_END);
+    	if (curVerStartDt != null && curVerEndDt == null) 
+    		return true;
+    	else
+    		return false;
+    	
+    }
+
+    /** 
+     * This checks the ViewContext passed in to determine if it contains a non-empty courseId
+     * 
+     * @return  true if view context contains non-empty courseId, false otherwise
+     */
+    private boolean hasCourseId(ViewContext viewContext){
+    	return viewContext != null && viewContext.getId() != null && !viewContext.getId().isEmpty();
+    }
+
+    /**
+     * Retrieves the version independent from the course data model
+     * 
+     * @param courseModel
+     * @return version independent id of course
+     */
+    private String getCourseVersionIndId(DataModel courseModel){
+    	return (String)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID);    	
+    }
 }
