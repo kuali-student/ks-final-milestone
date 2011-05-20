@@ -15,14 +15,17 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+
+import java.util.Date;
 
 
 public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
+
+    private Date startDate;
 
     public AcademicCalendarForm() {
         super();
@@ -36,4 +39,11 @@ public class AcademicCalendarForm extends UifFormBase {
         this.academicCalendarInfo = academicCalendarInfo;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 }
