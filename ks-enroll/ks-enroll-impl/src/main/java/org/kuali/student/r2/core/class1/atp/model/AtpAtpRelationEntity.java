@@ -48,7 +48,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     @ManyToOne
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
-
+ 
     @OneToMany(cascade = CascadeType.ALL)
     private List<AtpAtpRelationAttributeEntity> attributes;
 
@@ -127,7 +127,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     }
 
     public AtpAtpRelationInfo toDto() {
-        AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.newInstance();
+        AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
         aarInfo.setId(getId());
         aarInfo.setAtpKey(atp.getId());
         aarInfo.setRelatedAtpKey(relatedAtp.getId());

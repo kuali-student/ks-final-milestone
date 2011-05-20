@@ -31,84 +31,82 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiLuiRelationInfo", propOrder = {"id","typeKey","stateKey", "name", "descr", "luiId", "relatedLuiId", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
-public class LuiLuiRelationInfo extends IdEntityInfo
-  implements Serializable, LuiLuiRelation {
+@XmlType(name = "LuiLuiRelationInfo", propOrder = { "id", "typeKey",
+		"stateKey", "name", "descr", "luiId", "relatedLuiId", "effectiveDate",
+		"expirationDate", "meta", "attributes", "_futureElements" })
+public class LuiLuiRelationInfo extends IdEntityInfo implements Serializable,
+		LuiLuiRelation {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String luiId;
+	@XmlElement
+	private String luiId;
 
-    @XmlElement
-    private String relatedLuiId;
+	@XmlElement
+	private String relatedLuiId;
 
-    @XmlElement
-    private Date effectiveDate;
+	@XmlElement
+	private Date effectiveDate;
 
-    @XmlElement
-    private Date expirationDate;
+	@XmlElement
+	private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-   
+	public LuiLuiRelationInfo() {
+		super();
+		luiId = null;
+		relatedLuiId = null;
+		effectiveDate = null;
+		expirationDate = null;
+		_futureElements = null;
+	}
 
-    public LuiLuiRelationInfo() {
-    	super();
-    	luiId = null;
-    	relatedLuiId = null;
-    	effectiveDate = null;
-    	expirationDate = null;
-    	_futureElements = null;
-    }
-    
-    public LuiLuiRelationInfo(LuiLuiRelation llr) {
-    	super(llr);
-    	this.luiId = llr.getLuiId();
-    	this.relatedLuiId = llr.getRelatedLuiId();
-    	this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != llr.getExpirationDate() ? new Date(llr.getExpirationDate().getTime()) : null;
-    	this._futureElements = null;
-    }
+	public LuiLuiRelationInfo(LuiLuiRelation llr) {
+		super(llr);
+		this.luiId = llr.getLuiId();
+		this.relatedLuiId = llr.getRelatedLuiId();
+		this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr
+				.getEffectiveDate().getTime()) : null;
+		this.expirationDate = null != llr.getExpirationDate() ? new Date(llr
+				.getExpirationDate().getTime()) : null;
+		this._futureElements = null;
+	}
 
-    @Override
-    public String getLuiId() {
-        return luiId;
-    }
+	@Override
+	public String getLuiId() {
+		return luiId;
+	}
 
-    
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
+	public void setLuiId(String luiId) {
+		this.luiId = luiId;
+	}
 
-    @Override
-    public String getRelatedLuiId() {
-        return relatedLuiId;
-    }
+	@Override
+	public String getRelatedLuiId() {
+		return relatedLuiId;
+	}
 
-    
-    public void setRelatedLuiId(String relatedLuiId) {
-        this.relatedLuiId = relatedLuiId;
-    }
+	public void setRelatedLuiId(String relatedLuiId) {
+		this.relatedLuiId = relatedLuiId;
+	}
 
-    @Override
-     public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	@Override
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = new Date(effectiveDate.getTime());
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = new Date(effectiveDate.getTime());
+	}
 
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	@Override
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate =new Date(expirationDate.getTime());
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = new Date(expirationDate.getTime());
+	}
 }

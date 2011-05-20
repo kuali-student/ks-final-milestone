@@ -25,10 +25,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.acal.infc.RegistrationDateDerivationGroup;
 import org.kuali.student.enrollment.acal.infc.RegistrationDateGroup;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.infc.DateRange;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

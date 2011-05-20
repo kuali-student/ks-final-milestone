@@ -38,7 +38,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
 @XmlType(name = "ResultValueGroupInfo", propOrder = { "key", "typeKey",
 		"stateKey", "name", "descr", "resultValues", "effectiveDate","resultRankingPairs",
-		"expirationDate", "id", "resultValueRange", "metaInfo", "attributes" })
+		"expirationDate", "id", "resultValueRange", "meta", "attributes" })
 public class ResultValueGroupInfo extends KeyEntityInfo implements
 		ResultValueGroup {
 

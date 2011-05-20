@@ -28,40 +28,43 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IssueInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "organizationId", "metaInfo", "attributes", "_futureElements"})
-
+@XmlType(name = "IssueInfo", propOrder = { "id", "typeKey", "stateKey", "name",
+		"descr", "organizationId", "meta", "attributes", "_futureElements" })
 public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String organizationId;
+	@XmlElement
+	private String organizationId;
 
-    @XmlAnyElement
-    private final List<Element> _futureElements;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public IssueInfo() {
-	organizationId = null;
-        _futureElements = null;
-    }
+	public IssueInfo() {
+		super();
+		organizationId = null;
+		_futureElements = null;
+	}
 
-    /**
-     * Constructs a new IssueInfo from another Issue.
-     *
-     * @param issue the Issue to copy
-     */
-    public IssueInfo(Issue issue) {
-        super(issue);
-	this.organizationId = issue.getOrganizationId();
-        _futureElements = null;
-    }
+	/**
+	 * Constructs a new IssueInfo from another Issue.
+	 * 
+	 * @param issue
+	 *            the Issue to copy
+	 */
+	public IssueInfo(Issue issue) {
+		super(issue);
+		if (null != issue) {
+			this.organizationId = issue.getOrganizationId();
+			_futureElements = null;
+		}
+	}
 
-    @Override
-    public String getOrganizationId() {
-        return organizationId;
-    }
+	@Override
+	public String getOrganizationId() {
+		return organizationId;
+	}
 
-    
-    public void setOrganizationId(String orgId) {
-        this.organizationId = orgId;
-    }
+	public void setOrganizationId(String orgId) {
+		this.organizationId = orgId;
+	}
 }

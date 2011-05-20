@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CampusCalendarInfo", propOrder = { "key", "typeKey",
 		"stateKey", "name", "descr", "startDate", "endDate", "location",
-		"metaInfo", "attributes", "_futureElements" })
+		"meta", "attributes", "_futureElements" })
 public class CampusCalendarInfo extends KeyEntityInfo implements
 		CampusCalendar, Serializable {
 
@@ -67,10 +67,12 @@ public class CampusCalendarInfo extends KeyEntityInfo implements
 	 */
 	public CampusCalendarInfo(CampusCalendar campusCalendar) {
 		super(campusCalendar);
-		this.location = campusCalendar.getLocation();
-		this.startDate = campusCalendar.getStartDate();
-		this.endDate = campusCalendar.getEndDate();
-		_futureElements = null;
+		if (null != campusCalendar) {
+			this.location = campusCalendar.getLocation();
+			this.startDate = new Date (campusCalendar.getStartDate().getTime());
+			this.endDate = new Date(campusCalendar.getEndDate().getTime());
+			_futureElements = null;
+		}
 	}
 
 	@Override

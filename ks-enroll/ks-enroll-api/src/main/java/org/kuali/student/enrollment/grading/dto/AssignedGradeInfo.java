@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AssignedGradeInfo", propOrder = {"id", "gradeScaleId", "grade", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AssignedGradeInfo", propOrder = {"id", "gradeScaleId", "grade", "meta", "attributes", "_futureElements"})
 public class AssignedGradeInfo extends HasAttributesAndMetaInfo implements AssignedGrade, Serializable  {
 
     @XmlAttribute

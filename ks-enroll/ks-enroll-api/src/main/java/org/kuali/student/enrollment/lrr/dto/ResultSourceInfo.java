@@ -28,35 +28,37 @@ import org.kuali.student.enrollment.lrr.infc.ResultSource;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResultSourceInfo", propOrder = {"id", "typeKey", "descr", "articulationId", "resultTransformationId", "metaInfo", "attributes", "_futureElements"})
-public class ResultSourceInfo extends IdEntityInfo implements ResultSource, Serializable {
+@XmlType(name = "ResultSourceInfo", propOrder = { "id", "typeKey", "descr",
+		"articulationId", "resultTransformationId", "meta", "attributes",
+		"_futureElements" })
+public class ResultSourceInfo extends IdEntityInfo implements ResultSource,
+		Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @XmlElement
-    private String articulationId;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String resultTransformationId;
+	@XmlElement
+	private String articulationId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	@XmlElement
+	private String resultTransformationId;
 
-    public String getArticulationId() {
-        return articulationId;
-    }
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public String getResultTransformationId() {
-        return resultTransformationId;
-    }
+	public String getArticulationId() {
+		return articulationId;
+	}
 
-    public void setArticulationId(String articulationId) {
-        this.articulationId = articulationId;
-    }
+	public String getResultTransformationId() {
+		return resultTransformationId;
+	}
 
-    public void setResultTransformationId(String resultTransformationId) {
-        this.resultTransformationId = resultTransformationId;
-    }   
+	public void setArticulationId(String articulationId) {
+		this.articulationId = articulationId;
+	}
+
+	public void setResultTransformationId(String resultTransformationId) {
+		this.resultTransformationId = resultTransformationId;
+	}
 }

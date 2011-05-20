@@ -45,8 +45,8 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
             acal.setEndDate(atp.getEndDate());
             acal.setTypeKey(atp.getTypeKey());
             acal.setStateKey(atp.getStateKey());
-            acal.setMeta(atp.getMeta());
-            acal.setAttributes(atp.getAttributes());
+            acal.setMeta(atp.getMeta()); 
+            acal.setAttributes(atp.getAttributes()); 
             
             List<AttributeInfo> attributes = atp.getAttributes();
             if(attributes != null && !attributes.isEmpty()){
@@ -154,7 +154,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     private void createAtpAtpRelations(String atpKey, String relatedAtpKey, String state, ContextInfo context) throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-        AtpAtpRelationInfo atpRel = AtpAtpRelationInfo.newInstance();
+        AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpKey(atpKey);
         atpRel.setRelatedAtpKey(relatedAtpKey);
@@ -168,7 +168,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     OperationFailedException, PermissionDeniedException {
         AtpAtpRelationInfo atpRel;
         try {
-            atpRel = AtpAtpRelationInfo.getInstance(atpService.getAtpAtpRelation(atpAtpRelationId, context));
+            atpRel = new AtpAtpRelationInfo(atpService.getAtpAtpRelation(atpAtpRelationId, context));
             atpRel.setStateKey(state);
             try {
                 atpService.updateAtpAtpRelation(atpAtpRelationId, atpRel, context);

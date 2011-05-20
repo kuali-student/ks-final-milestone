@@ -17,7 +17,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
 @XmlType(name = "ResultValueRangeInfo", propOrder = { "key", "typeKey",
 		"stateKey", "resultTypeKey", "minValue", "maxValue", "increment",
-		"metaInfo", "effectiveDate", "expirationDate", "attributes" })
+		"meta", "effectiveDate", "expirationDate", "attributes" })
 public class ResultValueRangeInfo extends EntityInfo implements
 		ResultValueRange, Serializable {
 

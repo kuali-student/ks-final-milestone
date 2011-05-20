@@ -163,7 +163,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     }
     
     public MilestoneInfo toDto() {
-        MilestoneInfo info = MilestoneInfo.newInstance();
+        MilestoneInfo info = new MilestoneInfo();
         
         info.setKey(getId());
         info.setName(getName());

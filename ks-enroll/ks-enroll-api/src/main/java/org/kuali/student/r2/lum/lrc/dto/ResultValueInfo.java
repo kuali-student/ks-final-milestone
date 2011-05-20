@@ -20,7 +20,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueGroup;
 
 @XmlType(name = "ResultValueInfo", propOrder = { "id",  "typeKey",
 		"stateKey", "name", "descr", "effectiveDate", "expirationDate",
-		"value", "metaInfo", "attributes", "_futureElements" })
+		"value", "meta", "attributes", "_futureElements" })
 public class ResultValueInfo extends EntityInfo implements ResultValue,
 		Serializable {
 

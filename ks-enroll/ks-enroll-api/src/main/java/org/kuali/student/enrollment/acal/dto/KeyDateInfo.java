@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "KeyDateInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
-		"metaInfo", "attributes", "_futureElements" })
+		"meta", "attributes", "_futureElements" })
 public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -51,8 +51,8 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 
 	public KeyDateInfo() {
 		super();
-		isAllDay = Boolean.valueOf(false) ;
-		isDateRange = Boolean.valueOf(false) ;
+		isAllDay = Boolean.valueOf(false);
+		isDateRange = Boolean.valueOf(false);
 		startDate = null;
 		endDate = null;
 		_futureElements = null;
@@ -66,20 +66,21 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 	 */
 	public KeyDateInfo(KeyDate keyDate) {
 		super(keyDate);
-		this.isAllDay = keyDate.getIsAllDay();
-		this.isDateRange = keyDate.getIsDateRange();
-		this.startDate = null != keyDate.getStartDate() ? new Date(keyDate
-				.getStartDate().getTime()) : null;
-		this.endDate = null != keyDate.getEndDate() ? new Date(keyDate
-				.getEndDate().getTime()) : null;
-		_futureElements = null;
+		if (null != keyDate) {
+			this.isAllDay = keyDate.getIsAllDay();
+			this.isDateRange = keyDate.getIsDateRange();
+			this.startDate = null != keyDate.getStartDate() ? new Date(keyDate
+					.getStartDate().getTime()) : null;
+			this.endDate = null != keyDate.getEndDate() ? new Date(keyDate
+					.getEndDate().getTime()) : null;
+			_futureElements = null;
+		}
 	}
 
 	@Override
 	public Boolean getIsAllDay() {
 		return isAllDay;
 	}
-
 
 	public void setIsAllDay(Boolean isAllDay) {
 		this.isAllDay = isAllDay;
@@ -90,7 +91,6 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 		return isDateRange;
 	}
 
-
 	public void setIsDateRange(Boolean isDateRange) {
 		this.isDateRange = isDateRange;
 	}
@@ -100,7 +100,6 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 		return startDate;
 	}
 
-
 	public void setStartDate(Date startDate) {
 		this.startDate = new Date(startDate.getTime());
 	}
@@ -109,7 +108,6 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 	public Date getEndDate() {
 		return endDate;
 	}
-
 
 	public void setEndDate(Date endDate) {
 		this.endDate = new Date(endDate.getTime());

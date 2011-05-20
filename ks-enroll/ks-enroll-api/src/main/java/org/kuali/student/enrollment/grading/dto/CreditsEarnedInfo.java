@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CreditsEarnedInfo", propOrder = {"id", "creditGroupId", "credit", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "CreditsEarnedInfo", propOrder = {"id", "creditGroupId", "credit", "meta", "attributes", "_futureElements"})
 public class CreditsEarnedInfo extends HasAttributesAndMetaInfo implements CreditsEarned, Serializable  {
 
     private static final long serialVersionUID = 1L;

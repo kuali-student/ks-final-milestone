@@ -32,37 +32,40 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HolidayInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isInstructionalDay", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "HolidayInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "isInstructionalDay", "isAllDay", "isDateRange",
+		"startDate", "endDate", "metaInfo", "attributes", "_futureElements" })
 public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private Boolean isInstructionalDay;
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private Boolean isInstructionalDay;
 
-    
-    public HolidayInfo() {
-    	super();
-    	isInstructionalDay = Boolean.valueOf(false) ;
-    }
+	public HolidayInfo() {
+		super();
+		isInstructionalDay = Boolean.valueOf(false);
+	}
 
-    /**
-     * Constructs a new HolidayInfo from another Holiday.
-     *
-     * @param holiday the Holiday to copy
-     */
-    public HolidayInfo(Holiday holiday) {
-        super(holiday);
-        this.isInstructionalDay = holiday.getIsInstructionalDay();
-    }
+	/**
+	 * Constructs a new HolidayInfo from another Holiday.
+	 * 
+	 * @param holiday
+	 *            the Holiday to copy
+	 */
+	public HolidayInfo(Holiday holiday) {
+		super(holiday);
+		if (null != holiday) {
+			this.isInstructionalDay = new Boolean(
+					holiday.getIsInstructionalDay());
+		}
+	}
 
-    
-    @Override
-    public Boolean getIsInstructionalDay() {
-        return isInstructionalDay;
-    }
+	@Override
+	public Boolean getIsInstructionalDay() {
+		return isInstructionalDay;
+	}
 
-    
-    public void setInstructionalDay(Boolean instructionalDay) {
-        this.isInstructionalDay = instructionalDay;
-    }
+	public void setInstructionalDay(Boolean instructionalDay) {
+		this.isInstructionalDay = instructionalDay;
+	}
 }

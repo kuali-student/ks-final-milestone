@@ -29,61 +29,59 @@ import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "milestoneKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
-public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMilestoneRelation, Serializable {
+@XmlType(name = "AtpMilestoneRelationInfo", propOrder = { "id", "typeKey",
+		"stateKey", "atpKey", "milestoneKey", "effectiveDate",
+		"expirationDate", "meta", "attributes", "_futureElements" })
+public class AtpMilestoneRelationInfo extends RelationshipInfo implements
+		AtpMilestoneRelation, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private String atpKey;
-    @XmlElement
-    private String milestoneKey;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private String atpKey;
+	@XmlElement
+	private String milestoneKey;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public static AtpMilestoneRelationInfo newInstance() {
-        return new AtpMilestoneRelationInfo();
-    }
+	public AtpMilestoneRelationInfo() {
+		atpKey = null;
+		milestoneKey = null;
+		_futureElements = null;
+	}
 
-    public static AtpMilestoneRelationInfo getInstance(AtpMilestoneRelation amRelation) {
-        return new AtpMilestoneRelationInfo(amRelation);
-    }
+	/**
+	 * Constructs a new AtpMilestoneRelationInfo from another
+	 * AtpMilestoneRelation.
+	 * 
+	 * @param amr
+	 *            the AtpMilestoneRelation to copy
+	 */
+	public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
+		super(amr);
+		if (null != amr) {
+			this.atpKey = amr.getAtpKey();
+			this.milestoneKey = amr.getMilestoneKey();
+			_futureElements = null;
+		}
+	}
 
-    private AtpMilestoneRelationInfo() {
-        atpKey = null;
-        milestoneKey = null;
-        _futureElements = null;
-    }
+	@Override
+	public String getAtpKey() {
+		return atpKey;
+	}
 
-    /**
-     * Constructs a new AtpMilestoneRelationInfo from another
-     * AtpMilestoneRelation.
-     *
-     * @param amr the AtpMilestoneRelation to copy
-     */
-    public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
-        super(amr);
-        this.atpKey = amr.getAtpKey();
-        this.milestoneKey = amr.getMilestoneKey();
-        _futureElements = null;
-    }
+	@Override
+	public void setAtpKey(String atpKey) {
+		this.atpKey = atpKey;
+	}
 
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
+	@Override
+	public String getMilestoneKey() {
+		return milestoneKey;
+	}
 
-    @Override
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
-
-    @Override
-    public String getMilestoneKey() {
-        return milestoneKey;
-    }
-
-    @Override
-    public void setMilestoneKey(String milestoneKey) {
-        this.milestoneKey = milestoneKey;
-    }
+	@Override
+	public void setMilestoneKey(String milestoneKey) {
+		this.milestoneKey = milestoneKey;
+	}
 }

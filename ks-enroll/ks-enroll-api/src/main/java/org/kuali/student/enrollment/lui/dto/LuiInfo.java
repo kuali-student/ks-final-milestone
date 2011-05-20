@@ -30,112 +30,110 @@ import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
-
-
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
+@XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
+		"descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate",
+		"expirationDate", "meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
- 
-    @XmlElement
-    private String luiCode;
 
-    @XmlElement
-    private String cluId;
+	@XmlElement
+	private String luiCode;
 
-    @XmlElement
-    private String atpKey;
+	@XmlElement
+	private String cluId;
 
-    @XmlElement
-    private Integer maxSeats;
+	@XmlElement
+	private String atpKey;
 
-    @XmlElement
-    private Date effectiveDate;
+	@XmlElement
+	private Integer maxSeats;
 
-    @XmlElement
-    private Date expirationDate;
+	@XmlElement
+	private Date effectiveDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+	@XmlElement
+	private Date expirationDate;
 
-   
-    
-    private LuiInfo() {
-        super ();
-    	luiCode = null;
-    	cluId = null;
-    	atpKey = null;
-    	maxSeats = null;
-    	effectiveDate = null;
-    	expirationDate = null;
-    	_futureElements = null;
-    }
-    
-    public LuiInfo(Lui lui) {
+	@XmlAnyElement
+	private List<Element> _futureElements;
+
+	private LuiInfo() {
+		super();
+		luiCode = null;
+		cluId = null;
+		atpKey = null;
+		maxSeats = null;
+		effectiveDate = null;
+		expirationDate = null;
+		_futureElements = null;
+	}
+
+	public LuiInfo(Lui lui) {
 		super(lui);
 		this.luiCode = lui.getLuiCode();
 		this.cluId = lui.getCluId();
 		this.atpKey = lui.getAtpKey();
-		this.maxSeats =lui.getMaxSeats();
-    	this.effectiveDate = null != lui.getEffectiveDate()? new Date(lui.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != lui.getExpirationDate()? new Date(lui.getExpirationDate().getTime()) : null;
+		this.maxSeats = lui.getMaxSeats();
+		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui
+				.getEffectiveDate().getTime()) : null;
+		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui
+				.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
 	}
 
-    @Override
-    public String getLuiCode() {
-        return luiCode;
-    }
+	@Override
+	public String getLuiCode() {
+		return luiCode;
+	}
 
-    public void setLuiCode(String luiCode) {
-        this.luiCode = luiCode;
-    }
+	public void setLuiCode(String luiCode) {
+		this.luiCode = luiCode;
+	}
 
-    @Override
-    public String getCluId() {
-        return cluId;
-    }
+	@Override
+	public String getCluId() {
+		return cluId;
+	}
 
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
+	public void setCluId(String cluId) {
+		this.cluId = cluId;
+	}
 
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
+	@Override
+	public String getAtpKey() {
+		return atpKey;
+	}
 
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
+	public void setAtpKey(String atpKey) {
+		this.atpKey = atpKey;
+	}
 
-    @Override
-    public Integer getMaxSeats() {
-        return maxSeats;
-    }
+	@Override
+	public Integer getMaxSeats() {
+		return maxSeats;
+	}
 
-    
-    public void setMaxSeats(int maxSeats) {
-        this.maxSeats = maxSeats;
-    }
+	public void setMaxSeats(int maxSeats) {
+		this.maxSeats = maxSeats;
+	}
 
-    @Override
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	@Override
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = new Date(effectiveDate.getTime());
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = new Date(effectiveDate.getTime());
+	}
 
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	@Override
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = new Date(expirationDate.getTime());
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = new Date(expirationDate.getTime());
+	}
 }

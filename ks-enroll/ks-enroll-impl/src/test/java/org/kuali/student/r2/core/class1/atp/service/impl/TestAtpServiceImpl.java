@@ -63,7 +63,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
-    
+     
     @Test
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
 								    MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -195,7 +195,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     
     @Test
     public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        MilestoneInfo milestone = MilestoneInfo.newInstance();
+        MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId");
         milestone.setName("testCreate");
         milestone.setStartDate(new Date());
@@ -237,7 +237,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     
     @Test
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
-        MilestoneInfo milestone = MilestoneInfo.newInstance();
+        MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId2");
         milestone.setName("testCreate");
         milestone.setStartDate(new Date());
@@ -436,7 +436,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         assertTrue(existingResults.isEmpty());
         
-        MilestoneInfo invalid = MilestoneInfo.newInstance();
+        MilestoneInfo invalid = new MilestoneInfo();
         
         List<ValidationResultInfo> invalidResults = atpService.validateMilestone("FULL_VALIDATION", invalid, callContext);
         

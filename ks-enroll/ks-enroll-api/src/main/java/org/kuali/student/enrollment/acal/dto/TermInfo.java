@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "meta", "attributes", "_futureElements"})
 
 public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     private static final long serialVersionUID = 1L;

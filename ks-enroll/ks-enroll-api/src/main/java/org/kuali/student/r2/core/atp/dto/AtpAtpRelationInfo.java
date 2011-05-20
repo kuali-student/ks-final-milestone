@@ -29,61 +29,58 @@ import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpAtpRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "relatedAtpKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
-public class AtpAtpRelationInfo extends RelationshipInfo implements AtpAtpRelation, Serializable {
+@XmlType(name = "AtpAtpRelationInfo", propOrder = { "id", "typeKey",
+		"stateKey", "atpKey", "relatedAtpKey", "effectiveDate",
+		"expirationDate", "metaInfo", "attributes", "_futureElements" })
+public class AtpAtpRelationInfo extends RelationshipInfo implements
+		AtpAtpRelation, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private String atpKey;
-    @XmlElement
-    private String relatedAtpKey;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private String atpKey;
+	@XmlElement
+	private String relatedAtpKey;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public static AtpAtpRelationInfo newInstance() {
-        return new AtpAtpRelationInfo();
-    }
+	public AtpAtpRelationInfo() {
+		atpKey = null;
+		relatedAtpKey = null;
+		_futureElements = null;
+	}
 
-    public static AtpAtpRelationInfo getInstance(AtpAtpRelation atpAtpRelation) {
-        return new AtpAtpRelationInfo(atpAtpRelation);
-    }
+	/**
+	 * Constructs a new AtpAtpRelationInfo from another AtpAtpRelation.
+	 * 
+	 * @param atpr
+	 *            the AtpAtpRelation to copy
+	 */
+	public AtpAtpRelationInfo(AtpAtpRelation atpr) {
+		super(atpr);
+		if (null != atpr) {
+			this.atpKey = atpr.getAtpKey();
+			this.relatedAtpKey = atpr.getRelatedAtpKey();
+			_futureElements = null;
+		}
+	}
 
-    private AtpAtpRelationInfo() {
-        atpKey = null;
-        relatedAtpKey = null;
-        _futureElements = null;
-    }
+	@Override
+	public String getAtpKey() {
+		return atpKey;
+	}
 
-    /**
-     * Constructs a new AtpAtpRelationInfo from another
-     * AtpAtpRelation.
-     *
-     * @param atpr the AtpAtpRelation to copy
-     */
-    private AtpAtpRelationInfo(AtpAtpRelation atpr) {
-        super(atpr);
-        this.atpKey = atpr.getAtpKey();
-        this.relatedAtpKey = atpr.getRelatedAtpKey();
-        _futureElements = null;
-    }
+	@Override
+	public void setAtpKey(String atpKey) {
+		this.atpKey = atpKey;
+	}
 
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
+	@Override
+	public String getRelatedAtpKey() {
+		return relatedAtpKey;
+	}
 
-    @Override
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
-
-    @Override
-    public String getRelatedAtpKey() {
-        return relatedAtpKey;
-    }
-
-    @Override
-    public void setRelatedAtpKey(String relatedAtpKey) {
-        this.relatedAtpKey = relatedAtpKey;
-    }
+	@Override
+	public void setRelatedAtpKey(String relatedAtpKey) {
+		this.relatedAtpKey = relatedAtpKey;
+	}
 }

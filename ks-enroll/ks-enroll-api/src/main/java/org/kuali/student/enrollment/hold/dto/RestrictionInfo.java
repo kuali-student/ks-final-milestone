@@ -27,25 +27,27 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RestrictionInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "RestrictionInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "meta", "attributes", "_futureElements" })
+public class RestrictionInfo extends KeyEntityInfo implements Restriction,
+		Serializable {
+	private static final long serialVersionUID = 1L;
 
-public class RestrictionInfo extends KeyEntityInfo implements Restriction, Serializable {
-    private static final long serialVersionUID = 1L;
+	@XmlAnyElement
+	private final List<Element> _futureElements;
 
-    @XmlAnyElement
-    private final List<Element> _futureElements;
+	private RestrictionInfo() {
+		_futureElements = null;
+	}
 
-    private RestrictionInfo() {
-        _futureElements = null;
-    }
-
-    /**
-     * Constructs a new RestrictionInfo from another Restriction.
-     *
-     * @param restriction the Restriction to copy
-     */
-    public RestrictionInfo(Restriction restriction) {
-        super(restriction);
-        _futureElements = null;
-    }
+	/**
+	 * Constructs a new RestrictionInfo from another Restriction.
+	 * 
+	 * @param restriction
+	 *            the Restriction to copy
+	 */
+	public RestrictionInfo(Restriction restriction) {
+		super(restriction);
+		_futureElements = null;
+	}
 }

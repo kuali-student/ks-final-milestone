@@ -39,45 +39,41 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.test.utilities.MockHelper;
 
-
 /**
  * Academic Calendar Service Mock Implementation
- *
- * This service implementation class is a mock which could be used for 
- * testing the service functionalities when the real implementation 
- * is not ready.
  * 
- * It contains many of the CRUD impl using local HashMap cache. Any test case 
- * should first populate all these caches with data and do the Spring configuration
- * so that the AtpService and dataDictionaryValidator are tied to the respective 
- * mock implementations with consistent data
+ * This service implementation class is a mock which could be used for testing
+ * the service functionalities when the real implementation is not ready.
  * 
- *  The suggestion on how to implement each of these methods/operations are 
- *  documented in the javadoc for each method (wherever applicable)
- *  
- *  
+ * It contains many of the CRUD impl using local HashMap cache. Any test case
+ * should first populate all these caches with data and do the Spring
+ * configuration so that the AtpService and dataDictionaryValidator are tied to
+ * the respective mock implementations with consistent data
+ * 
+ * The suggestion on how to implement each of these methods/operations are
+ * documented in the javadoc for each method (wherever applicable)
+ * 
+ * 
  * Version: 1.0 (Dev)
- *
+ * 
  * @Author sambit
  * @Since Sun Apr 12 14:22:34 EDT 2011
  */
 
-
 public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
 
-	/** Mock caches, these are just convenient caches which act like databases
-	* for the mocks, please note that all of this might not map directly to
-	* tables, for example holidaysCache might be just a Milestone table in the DB
-	**/
-	
+	/**
+	 * Mock caches, these are just convenient caches which act like databases
+	 * for the mocks, please note that all of this might not map directly to
+	 * tables, for example holidaysCache might be just a Milestone table in the
+	 * DB
+	 **/
+
 	private static Map<String, AcademicCalendarInfo> acCache = new HashMap<String, AcademicCalendarInfo>();
 	private static Map<String, CampusCalendarInfo> ccCache = new HashMap<String, CampusCalendarInfo>();
 	private static Map<String, TermInfo> termsCache = new HashMap<String, TermInfo>();
 	private static Map<String, KeyDateInfo> keyDateCache = new HashMap<String, KeyDateInfo>();
-	private static Map<String, RegistrationDateGroupInfo> registrationDateGroupInfoCache =  new HashMap<String, RegistrationDateGroupInfo>();
-	
-	
-
+	private static Map<String, RegistrationDateGroupInfo> registrationDateGroupInfoCache = new HashMap<String, RegistrationDateGroupInfo>();
 
 	private AtpService atpService;
 
@@ -240,12 +236,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 	/**
 	 * Simplified mock impl of getAcademicCalendarsByCredentialProgramType().
-	 * For the real impl: 
-	 * 1. Get ATPs for the particular year 
-	 * 2. filter ATPs of AC type 
-	 * 3. Get the ACInfo object by getting id of each ATP and calling
-	 * getAcademicCalendar() 
-	 * 4. Filter the ACs of the particular
+	 * For the real impl: 1. Get ATPs for the particular year 2. filter ATPs of
+	 * AC type 3. Get the ACInfo object by getting id of each ATP and calling
+	 * getAcademicCalendar() 4. Filter the ACs of the particular
 	 * credentialProgramTypeKey
 	 */
 	@Override
@@ -268,9 +261,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	/**
 	 * Real impl should:
 	 * 
-	 * 1. Use Validation decorator 
-	 * 2. implement the logic for this method in the decor
-	 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 * 
 	 */
 	@Override
@@ -280,7 +272,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		
+
 		return validationResult;
 	}
 
@@ -299,14 +291,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
-		
+
 		AcademicCalendarInfo acInfo = new AcademicCalendarInfo();
 		acInfo.setKey(academicCalendarKey);
 		MockHelper helper = new MockHelper();
 		acInfo.setMeta(helper.createMeta(context));
-		
-		
+
 		this.acCache.put(acInfo.getKey(), acInfo);
 		return acInfo;
 	}
@@ -337,14 +327,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 				.equals(existingAC.getMeta().getVersionInd())) {
 			throw new VersionMismatchException("Updated by "
 					+ existingAC.getMeta().getUpdateId() + " on "
-					+ existingAC.getMeta().getUpdateId()
-					+ " with version of "
+					+ existingAC.getMeta().getUpdateId() + " with version of "
 					+ existingAC.getMeta().getVersionInd());
 		}
 		MockHelper helper = new MockHelper();
-		AcademicCalendarInfo acInfo = new AcademicCalendarInfo(academicCalendarInfo);
-		acInfo.setMeta(helper.updateMeta(existingAC.getMeta(),
-				context));
+		AcademicCalendarInfo acInfo = new AcademicCalendarInfo(
+				academicCalendarInfo);
+		acInfo.setMeta(helper.updateMeta(existingAC.getMeta(), context));
 		this.acCache.put(academicCalendarKey, acInfo);
 		// mirroring what was done before immutable DTO's; why returning copy of
 		// copy?
@@ -352,10 +341,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	/**
-	 * A simplified mock impl 
+	 * A simplified mock impl
 	 * 
-	 * For real impl: 1. Get the Atp by using the acKey
-	 * and calling getAcademicCalendar() 2. Delete the Atp first by invoking
+	 * For real impl: 1. Get the Atp by using the acKey and calling
+	 * getAcademicCalendar() 2. Delete the Atp first by invoking
 	 * AtpService.deleteAtp() 3. Delete any AtpAtpRelation for CampusCalendar,
 	 * terms, CredentialProgram etc in the AcademicCalendar
 	 * 
@@ -417,7 +406,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		for (AcademicCalendarInfo info : this.acCache.values()) {
 
 			if (info.getKey().equals(academicCalendarKey)) {
-				
+
 			}
 		}
 		return null;
@@ -429,7 +418,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		String processKey = null;
-		return this.atpService.getState(processKey, campusCalendarStateKey, context);
+		return this.atpService.getState(processKey, campusCalendarStateKey,
+				context);
 	}
 
 	@Override
@@ -455,11 +445,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		CampusCalendarInfo campusCalendar = ccCache.get(campusCalendarKey);
 		return campusCalendar;
 	}
+
 	/**
 	 * Simplified mock impl.
 	 * 
-	 * For real impl:
-	 * 1. get the ATP for each key in campusCalendarKeyList  from Atp Service by calling AtpService.getAtp()  
+	 * For real impl: 1. get the ATP for each key in campusCalendarKeyList from
+	 * Atp Service by calling AtpService.getAtp()
 	 */
 	@Override
 	public List<CampusCalendarInfo> getCampusCalendarsByKeyList(
@@ -470,17 +461,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 		List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
 		for (CampusCalendarInfo info : this.ccCache.values()) {
-			if (campusCalendarKeyList.contains(info.getKey() )) {
+			if (campusCalendarKeyList.contains(info.getKey())) {
 				campusCalendars.add(info);
 			}
 		}
 		return campusCalendars;
 	}
+
 	/**
 	 * Simplified mock impl.
 	 * 
-	 * For real impl:
-	 * 1. get the ATP for each key in campusCalendarKeyList  from Atp Service by calling AtpService.getAtp()  
+	 * For real impl: 1. get the ATP for each key in campusCalendarKeyList from
+	 * Atp Service by calling AtpService.getAtp()
 	 */
 	@Override
 	public List<String> getCampusCalendarKeysByType(
@@ -497,12 +489,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 		return campusCalendarKeys;
 	}
+
 	/**
 	 * Simplified mock
 	 * 
-	 * For real impl: 
-	 * 1. get the campus calendars by calling AtpService.getAtpByDate() 
-	 * 2. Convert to CampusCalendarInfo object
+	 * For real impl: 1. get the campus calendars by calling
+	 * AtpService.getAtpByDate() 2. Convert to CampusCalendarInfo object
 	 */
 	@Override
 	public List<CampusCalendarInfo> getCampusCalendarsByYear(Integer year,
@@ -519,11 +511,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
 		return campusCalendars;
 	}
-	
+
 	/**
-	 *	1. Use Validation decorator 
-	 * 2. implement the logic for this method in the decor
-	 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 */
 	@Override
 	public List<ValidationResultInfo> validateCampusCalendar(
@@ -532,17 +523,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-	
+
 		return validationResult;
 	}
-	
+
 	/**
 	 * Simplified mock Impl of createCampusCalendar()
 	 * 
-	 *  For real Impl : 
-	 *  
-	 * Impl: 1. Transform and create ATPInfo out of the CampusCalendarInfo
-	 * 		 2. Go through the AtpService.createAtp() to create an Atp for the AcademicCalendar
+	 * For real Impl :
+	 * 
+	 * Impl: 1. Transform and create ATPInfo out of the CampusCalendarInfo 2. Go
+	 * through the AtpService.createAtp() to create an Atp for the
+	 * AcademicCalendar
 	 * 
 	 */
 	@Override
@@ -551,18 +543,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		CampusCalendarInfo ccInfo =new  CampusCalendarInfo(campusCalendarInfo);
+		CampusCalendarInfo ccInfo = new CampusCalendarInfo(campusCalendarInfo);
 		ccInfo.setKey(campusCalendarKey);
 		ccCache.put(campusCalendarKey, ccInfo);
 		return ccInfo;
 	}
-	
+
 	/**
-	 * A simplified Impl of updateCampusCalendar() 
+	 * A simplified Impl of updateCampusCalendar()
 	 * 
-	 * Then for impl: 1. Transform and create ATPInfo out of the CampusCalendarInfo
-	 * 2. Invoke the AtpService.updateAtp() to update an Atp for the
-	 * AcademicCalendar
+	 * Then for impl: 1. Transform and create ATPInfo out of the
+	 * CampusCalendarInfo 2. Invoke the AtpService.updateAtp() to update an Atp
+	 * for the AcademicCalendar
 	 * 
 	 */
 	@Override
@@ -573,24 +565,24 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 
-		CampusCalendarInfo ccInfo =new  CampusCalendarInfo(campusCalendarInfo);
+		CampusCalendarInfo ccInfo = new CampusCalendarInfo(campusCalendarInfo);
 		ccInfo.setKey(campusCalendarKey);
 		ccCache.remove(campusCalendarKey);
 		ccCache.put(campusCalendarKey, ccInfo);
 		return ccInfo;
 	}
-	
+
 	/**
-	 * A simplified Impl of deleteCampusCalendar() 
+	 * A simplified Impl of deleteCampusCalendar()
 	 * 
-	 *  for real impl: 
+	 * for real impl:
 	 * 
-	 * 1. lookup, the AtpInfo by the campusCalendarKey
-	 * 2. Go through the AtpService.deleteAtp() to delete the campus calendar
-	 * 3. Make sure all AtpAtpRelationInfo is deleted as well when
-	 *  the campus calendar is related to other AcademicCalendar Info
-	 * 4. Delete all AtpMilestone relations to delete CampusCalendar-KeyDate relation 
-	 *  
+	 * 1. lookup, the AtpInfo by the campusCalendarKey 2. Go through the
+	 * AtpService.deleteAtp() to delete the campus calendar 3. Make sure all
+	 * AtpAtpRelationInfo is deleted as well when the campus calendar is related
+	 * to other AcademicCalendar Info 4. Delete all AtpMilestone relations to
+	 * delete CampusCalendar-KeyDate relation
+	 * 
 	 */
 	@Override
 	public StatusInfo deleteCampusCalendar(String campusCalendarKey,
@@ -604,28 +596,25 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return statusInfo;
 
 	}
-	
-	
+
 	/**
-	 * A simplified Impl of deleteCampusCalendar() 
-	 *  for real impl: 
+	 * A simplified Impl of deleteCampusCalendar() for real impl:
 	 * 
-	 * 1. lookup, the AtpInfo by the campusCalendarKey
-	 * 2. Go through the AtpService.deleteAtp() to delete the campus calendar
-	 * 3. Make sure all AtpAtpRelationInfo is deleted as well when
-	 *  the campus calendar is related to other AcademicCalendar Info
-	 * 4. Delete all AtpMilestone relations to delete CampusCalendar-KeyDate relation 
+	 * 1. lookup, the AtpInfo by the campusCalendarKey 2. Go through the
+	 * AtpService.deleteAtp() to delete the campus calendar 3. Make sure all
+	 * AtpAtpRelationInfo is deleted as well when the campus calendar is related
+	 * to other AcademicCalendar Info 4. Delete all AtpMilestone relations to
+	 * delete CampusCalendar-KeyDate relation
 	 */
 	@Override
 	public StateInfo getTermState(String termStateKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		
+
 		String termProcessKey = null;
 		return this.atpService.getState(termProcessKey, termStateKey, context);
 	}
 
-	
 	/**
 	 * 
 	 */
@@ -636,9 +625,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		String termProcessKey = null;
 		return this.atpService.getStatesByProcess(termProcessKey, context);
 	}
-	
-	
-	
+
 	/**
 	 * For real impl - call AtpSerive.getAtp () then convert to TermInfo
 	 */
@@ -650,10 +637,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		return termsCache.get(termKey);
 
 	}
-	
+
 	/**
-	 * For real impl - for each key in the list 
-	 * call getTerm() 
+	 * For real impl - for each key in the list call getTerm()
 	 */
 	@Override
 	public List<TermInfo> getTermsByKeyList(List<String> termKeyList,
@@ -668,6 +654,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		}
 		return matchingTerms;
 	}
+
 	/**
 	 * 
 	 */
@@ -723,10 +710,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	 * 
 	 * Real impl:
 	 * 
-	 * 1. Academic Calendars contain campusCalendar (Get AcademicCalendar from ATPService and then find the linked campus calendar)
-	 * 2.CampusCalendar contains key dates (Get key dates from campus calendar by calling getMilestonesByAtp())
+	 * 1. Academic Calendars contain campusCalendar (Get AcademicCalendar from
+	 * ATPService and then find the linked campus calendar) 2.CampusCalendar
+	 * contains key dates (Get key dates from campus calendar by calling
+	 * getMilestonesByAtp())
 	 * 
-	 *  
+	 * 
 	 */
 	@Override
 	public List<KeyDateInfo> getKeyDatesForAcademicCalendar(
@@ -734,32 +723,34 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
+
 		AcademicCalendarInfo acInfo = this.acCache.get(academicCalendarKey);
-		
-		List<MilestoneInfo> milestoneInfoDates =  this.atpService.getMilestonesByAtp(academicCalendarKey, context);
-		//map milestone to keydateinfo
-		List <KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
-		
+
+		List<MilestoneInfo> milestoneInfoDates = this.atpService
+				.getMilestonesByAtp(academicCalendarKey, context);
+		// map milestone to keydateinfo
+		List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
+
 		return keyDates;
-		 
-		
+
 	}
+
 	/**
-	 * 1. 
+	 * 1.
 	 */
 	@Override
 	public List<KeyDateInfo> getKeyDatesForTerm(String termKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		List<MilestoneInfo> termMilestones  = this.atpService.getMilestonesByAtp(termKey, context);
-		//convert milstones to keydates
+		List<MilestoneInfo> termMilestones = this.atpService
+				.getMilestonesByAtp(termKey, context);
+		// convert milstones to keydates
 		List<KeyDateInfo> keyDatesForTerm = new ArrayList<KeyDateInfo>();
-		
-		
+
 		return keyDatesForTerm;
 	}
+
 	/**
 	 * 
 	 */
@@ -768,18 +759,20 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
-		List <KeyDateInfo> initialKeyDates = getKeyDatesForTerm(termKey, context);
-		List<TermInfo> allTermsForTerm = getIncludedTermsInTerm(termKey, context);
-		for(TermInfo subTerm : allTermsForTerm){
-			initialKeyDates.addAll(getKeyDatesForTerm(subTerm.getKey(), context));
+
+		List<KeyDateInfo> initialKeyDates = getKeyDatesForTerm(termKey, context);
+		List<TermInfo> allTermsForTerm = getIncludedTermsInTerm(termKey,
+				context);
+		for (TermInfo subTerm : allTermsForTerm) {
+			initialKeyDates
+					.addAll(getKeyDatesForTerm(subTerm.getKey(), context));
 		}
 		return initialKeyDates;
 	}
+
 	/**
-	 * 	   1. Use Validation decorator 
-		 * 2. implement the logic for this method in the decor
-		 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 */
 	@Override
 	public List<ValidationResultInfo> validateKeyDate(String validationType,
@@ -788,7 +781,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException {
 
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		
+
 		return validationResult;
 	}
 
@@ -798,17 +791,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
-		AtpMilestoneRelationInfo atpMRInfo = AtpMilestoneRelationInfo.newInstance();
+
+		AtpMilestoneRelationInfo atpMRInfo = new AtpMilestoneRelationInfo();
 		atpMRInfo.setAtpKey(termKey);
 		atpMRInfo.setMilestoneKey(keyDateKey);
-		AtpMilestoneRelationInfo atpMilestoneInfo = this.atpService.createAtpMilestoneRelation(atpMRInfo, context);
+		AtpMilestoneRelationInfo atpMilestoneInfo = this.atpService
+				.createAtpMilestoneRelation(atpMRInfo, context);
 		// convert atpMilestoneInfo to KeyDateInfo
 		KeyDateInfo kdInfo = new KeyDateInfo();
 		kdInfo.setKey(atpMilestoneInfo.getMilestoneKey());
 		return kdInfo;
-		
-		
+
 	}
 
 	@Override
@@ -818,11 +811,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		
-		MilestoneInfo keyDate = MilestoneInfo.newInstance();
+
+		MilestoneInfo keyDate = new MilestoneInfo();
 		keyDate.setKey(keyDate.getKey());
 		keyDate.setName(keyDate.getName());
-		keyDate.setDateRange(keyDateInfo.getIsDateRange()); 
+		keyDate.setDateRange(keyDateInfo.getIsDateRange());
 		this.atpService.updateMilestone(keyDateKey, keyDate, context);
 		return keyDateInfo;
 	}
@@ -833,7 +826,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		return this.atpService.deleteMilestone(keyDateKey, context);
-		
+
 	}
 
 	@Override
@@ -850,11 +843,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		List<HolidayInfo> holidays = new ArrayList<HolidayInfo>();
 		return holidays;
 	}
+
 	/**
 	 * 
-	 * 1. Use Validation decorator 
-	 * 2. implement the logic for this method in the decor
-	 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 */
 	@Override
 	public List<ValidationResultInfo> validateHoliday(String validationType,
@@ -862,7 +855,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
-		
+
 		return validationResult;
 	}
 
@@ -873,24 +866,25 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-		AtpMilestoneRelationInfo amrInfo = AtpMilestoneRelationInfo.newInstance();
+		AtpMilestoneRelationInfo amrInfo = new AtpMilestoneRelationInfo();
 		amrInfo.setMilestoneKey(holidayKey);
 		amrInfo.setAtpKey(campusCalendarKey);
-		
+
 		this.atpService.createAtpMilestoneRelation(amrInfo, context);
-		
+
 		MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
-		
-		MilestoneInfo mInfoNew =  this.atpService.createMilestone(holidayKey, mInfo, context);
-		
+
+		MilestoneInfo mInfoNew = this.atpService.createMilestone(holidayKey,
+				mInfo, context);
+
 		HolidayInfo hInfo = new HolidayInfo();
 		hInfo.setAttributes(mInfoNew.getAttributes());
 		hInfo.setDescr(mInfoNew.getDescr());
 		hInfo.setIsDateRange(mInfo.getIsDateRange());
 		hInfo.setKey(mInfo.getKey());
-		
-		return  hInfo;
-		
+
+		return hInfo;
+
 	}
 
 	@Override
@@ -901,17 +895,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
 
-			MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
-			
-			
-			MilestoneInfo returnMInfo = this.atpService.updateMilestone(holidayKey, mInfo, context);
-			HolidayInfo hInfo = new HolidayInfo(); 
-			hInfo.setAttributes(returnMInfo.getAttributes());
-			hInfo.setName(returnMInfo.getName());
-			hInfo.setDescr (returnMInfo.getDescr());
-			hInfo.setIsAllDay(returnMInfo.getIsAllDay());
-			hInfo.setKey (returnMInfo.getKey());
-			return hInfo;
+		MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
+
+		MilestoneInfo returnMInfo = this.atpService.updateMilestone(holidayKey,
+				mInfo, context);
+		HolidayInfo hInfo = new HolidayInfo();
+		hInfo.setAttributes(returnMInfo.getAttributes());
+		hInfo.setName(returnMInfo.getName());
+		hInfo.setDescr(returnMInfo.getDescr());
+		hInfo.setIsAllDay(returnMInfo.getIsAllDay());
+		hInfo.setKey(returnMInfo.getKey());
+		return hInfo;
 	}
 
 	@Override
@@ -919,7 +913,6 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-
 
 		List<AtpMilestoneRelationInfo> atpMilestoneRelations = this.atpService
 				.getAtpMilestoneRelationsByMilestone(holidayKey, context);
@@ -929,7 +922,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 					atpMilestoneRelation.getId(), context);
 		}
 
-		return  this.atpService.deleteMilestone(holidayKey, context);
+		return this.atpService.deleteMilestone(holidayKey, context);
 	}
 
 	@Override
@@ -1023,17 +1016,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public List<TermInfo> getIncludedTermsInTerm(String termKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+	public List<TermInfo> getIncludedTermsInTerm(String termKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 
 		TermInfo termInfo = termsCache.get(termKey);
 		List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
 		List<TypeTypeRelationInfo> typesRelations = this.atpService
 				.getTypeRelationsByOwnerType(termInfo.getTypeKey(),
 						"kuali.relationtype.contains", context);
-	
+
 		for (TypeTypeRelationInfo typeRelation : typesRelations) {
 
 			String relatedTypeKey = typeRelation.getRelatedTypeKey();
@@ -1056,11 +1049,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * 
-	 * 1. Use Validation decorator 
-	 * 2. implement the logic for this method in the decor
-	 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 */
 	@Override
 	public List<ValidationResultInfo> validateTerm(String validationType,
@@ -1093,7 +1086,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
 
-		TermInfo tInfo =new TermInfo(termInfo);
+		TermInfo tInfo = new TermInfo(termInfo);
 		tInfo.setKey(termKey);
 		termsCache.remove(termKey);
 		termsCache.put(termKey, tInfo);
@@ -1116,11 +1109,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public StatusInfo addTermToAcademicCalendar(String academicCalendarKey,
 			String termKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-		AtpAtpRelationInfo atpAtpRelation = AtpAtpRelationInfo.newInstance();
+			OperationFailedException, PermissionDeniedException,
+			AlreadyExistsException {
+		AtpAtpRelationInfo atpAtpRelation = new AtpAtpRelationInfo();
 		atpAtpRelation.setAtpKey(termKey);
 		atpAtpRelation.setAtpKey(academicCalendarKey);
-		AtpAtpRelationInfo atpAtpInfo =  this.atpService.createAtpAtpRelation(atpAtpRelation, context);
+		AtpAtpRelationInfo atpAtpInfo = this.atpService.createAtpAtpRelation(
+				atpAtpRelation, context);
 		return new StatusInfo();
 	}
 
@@ -1130,14 +1125,16 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
-		List<AtpAtpRelationInfo> atpRelInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
-		for(AtpAtpRelationInfo atpRelInfo : atpRelInfos){
-			if(atpRelInfo.getRelatedAtpKey().equals(termKey)){ 
-				this.atpService.deleteAtpAtpRelation(atpRelInfo.getId(), context);
+
+		List<AtpAtpRelationInfo> atpRelInfos = this.atpService
+				.getAtpAtpRelationsByAtp(academicCalendarKey, context);
+		for (AtpAtpRelationInfo atpRelInfo : atpRelInfos) {
+			if (atpRelInfo.getRelatedAtpKey().equals(termKey)) {
+				this.atpService.deleteAtpAtpRelation(atpRelInfo.getId(),
+						context);
 			}
 		}
-		
+
 		return new StatusInfo();
 	}
 
@@ -1145,8 +1142,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public StatusInfo addTermToTerm(String termKey, String includedTermKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-		AtpAtpRelationInfo aarInfo = AtpAtpRelationInfo.newInstance();
+			OperationFailedException, PermissionDeniedException,
+			AlreadyExistsException {
+		AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
 		aarInfo.setAtpKey(termKey);
 		aarInfo.setRelatedAtpKey(includedTermKey);
 		aarInfo.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
@@ -1155,19 +1153,21 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	}
 
 	@Override
-	public StatusInfo removeTermFromTerm(String termKey, String includedTermKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		
-		List<AtpAtpRelationInfo> atpAtpRelations = this.atpService.getAtpAtpRelationsByAtp(termKey, context);
+	public StatusInfo removeTermFromTerm(String termKey,
+			String includedTermKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+
+		List<AtpAtpRelationInfo> atpAtpRelations = this.atpService
+				.getAtpAtpRelationsByAtp(termKey, context);
 		String atpAtpRelationId = null;
-		for(AtpAtpRelationInfo atpRelationInfo : atpAtpRelations){
-			if(atpRelationInfo.getRelatedAtpKey().equals(includedTermKey)){
-				atpAtpRelationId= atpRelationInfo.getId();
+		for (AtpAtpRelationInfo atpRelationInfo : atpAtpRelations) {
+			if (atpRelationInfo.getRelatedAtpKey().equals(includedTermKey)) {
+				atpAtpRelationId = atpRelationInfo.getId();
 			}
 		}
-		
+
 		this.atpService.deleteAtpAtpRelation(atpAtpRelationId, context);
 		return new StatusInfo();
 	}
@@ -1179,10 +1179,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			OperationFailedException, PermissionDeniedException {
 		return this.registrationDateGroupInfoCache.get(termKey);
 	}
+
 	/**
-	 * 1. Use Validation decorator 
-	 * 2. implement the logic for this method in the decor
-	 * 3. let this method  be just a pass-through 
+	 * 1. Use Validation decorator 2. implement the logic for this method in the
+	 * decor 3. let this method be just a pass-through
 	 */
 	@Override
 	public List<ValidationResultInfo> validateRegistrationDateGroup(
@@ -1204,17 +1204,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		 this.registrationDateGroupInfoCache.remove(termKey);
-		 this.registrationDateGroupInfoCache.put(termKey, registrationDateGroupInfo);
-		 return registrationDateGroupInfo;
+		this.registrationDateGroupInfoCache.remove(termKey);
+		this.registrationDateGroupInfoCache.put(termKey,
+				registrationDateGroupInfo);
+		return registrationDateGroupInfo;
 	}
-	/** 
-	 * This is a simplified mock Impl
-	 * For a real impl:
-	 * 1.Lookup the AtAtpRelationInfo table and find related atpKey for 
-	 * all the AtpAtpRelationInfo with atpKey equals academicCalendarKey
-	 * 2. Call getTerm() for the list of related keys
-	 *  
+
+	/**
+	 * This is a simplified mock Impl For a real impl: 1.Lookup the
+	 * AtAtpRelationInfo table and find related atpKey for all the
+	 * AtpAtpRelationInfo with atpKey equals academicCalendarKey 2. Call
+	 * getTerm() for the list of related keys
+	 * 
 	 * 
 	 */
 	@Override
@@ -1224,19 +1225,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		
 		List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
-		
-		List <AtpAtpRelationInfo > termACRelationInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
-		
+
+		List<AtpAtpRelationInfo> termACRelationInfos = this.atpService
+				.getAtpAtpRelationsByAtp(academicCalendarKey, context);
+
 		for (AtpAtpRelationInfo termACRelationInfo : termACRelationInfos) {
 
-			String relatedTypeKey =termACRelationInfo.getAtpKey();
+			String relatedTypeKey = termACRelationInfo.getAtpKey();
 			TermInfo termInfo = termsCache.get(relatedTypeKey);
 			termsToReturn.add(termInfo);
 		}
 
-		
 		return termsToReturn;
 
 	}
@@ -1256,7 +1256,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+		List<TypeInfo> types = new ArrayList<TypeInfo>();
 		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
 		types.add(typeInfo);
@@ -1279,7 +1279,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+		List<TypeInfo> types = new ArrayList<TypeInfo>();
 		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setKey(AcademicCalendarServiceConstants.CAMPUS_CALENDAR_TYPE_KEY);
 		types.add(typeInfo);
@@ -1298,13 +1298,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	public List<TypeInfo> getTermTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		
-		List<TypeInfo> types = new ArrayList<TypeInfo>(); 
+
+		List<TypeInfo> types = new ArrayList<TypeInfo>();
 		TypeInfo typeInfo1 = new TypeInfo();
-		typeInfo1.setKey(AtpServiceConstants.SEASON_TERM_1_TYPE_KEY );
+		typeInfo1.setKey(AtpServiceConstants.SEASON_TERM_1_TYPE_KEY);
 		types.add(typeInfo1);
 		TypeInfo typeInfo2 = new TypeInfo();
-		typeInfo2.setKey(AtpServiceConstants.SEASON_TERM_2_TYPE_KEY );
+		typeInfo2.setKey(AtpServiceConstants.SEASON_TERM_2_TYPE_KEY);
 		types.add(typeInfo2);
 		return types;
 	}
@@ -1314,7 +1314,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			String academicCalendarTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		
+
 		return getTermTypes(context);
 	}
 
@@ -1323,7 +1323,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		
+
 		return getTermTypes(context);
 	}
 
@@ -1332,7 +1332,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-		return	this.atpService.getType(keyDateTypeKey, context);
+		return this.atpService.getType(keyDateTypeKey, context);
 	}
 
 	@Override
@@ -1340,14 +1340,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.atpService.getAllowedTypesForType(termTypeKey, AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+		return this.atpService.getAllowedTypesForType(termTypeKey,
+				AtpServiceConstants.REF_OBJECT_URI_ATP, context);
 	}
 
 	@Override
 	public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return	this.atpService.getType(holidayTypeKey, context);
+		return this.atpService.getType(holidayTypeKey, context);
 	}
 
 	@Override
@@ -1358,15 +1359,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	private MilestoneInfo createMilestoneFromHoliday(HolidayInfo holidayInfo){
-		MilestoneInfo mInfo = MilestoneInfo.newInstance();
+
+	private MilestoneInfo createMilestoneFromHoliday(HolidayInfo holidayInfo) {
+		MilestoneInfo mInfo = new MilestoneInfo();
 		mInfo.setAttributes(holidayInfo.getAttributes());
 		mInfo.setName(holidayInfo.getName());
-		mInfo.setDateRange(holidayInfo.getIsDateRange() );
+		mInfo.setDateRange(holidayInfo.getIsDateRange());
 		mInfo.setDescr(holidayInfo.getDescr());
 		mInfo.setKey(holidayInfo.getKey());
-		
+
 		return mInfo;
 	}
 }

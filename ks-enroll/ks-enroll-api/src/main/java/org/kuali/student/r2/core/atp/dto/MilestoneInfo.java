@@ -29,89 +29,86 @@ import org.kuali.student.r2.core.atp.infc.Milestone;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isAllDay", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
-public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializable {
+@XmlType(name = "MilestoneInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
+		"metaInfo", "attributes", "_futureElements" })
+public class MilestoneInfo extends KeyEntityInfo implements Milestone,
+		Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @XmlElement
-    private Boolean isAllDay;
-    @XmlElement
-    private Boolean isDateRange;
-    @XmlElement
-    private Date startDate;
-    @XmlElement
-    private Date endDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private Boolean isAllDay;
+	@XmlElement
+	private Boolean isDateRange;
+	@XmlElement
+	private Date startDate;
+	@XmlElement
+	private Date endDate;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    public static MilestoneInfo newInstance() {
-        return new MilestoneInfo();
-    }
+	public MilestoneInfo() {
+		super();
+		isAllDay = false;
+		isDateRange = false;
+		startDate = null;
+		endDate = null; 
+		_futureElements = null;
+	}
 
-    public static MilestoneInfo getInstance(Milestone ms) {
-        return new MilestoneInfo(ms);
-    }
+	/**
+	 * Constructs a new MilestoneInfo from another Milestone.
+	 * 
+	 * @param milestone
+	 *            the Milestone to copy
+	 */
+	public MilestoneInfo(Milestone milestone) {
+		super(milestone);
+		if (null != milestone) {
+			this.isAllDay = new Boolean(milestone.getIsAllDay());
+			this.isDateRange = new Boolean(milestone.getIsDateRange());
+			this.startDate = null != milestone.getStartDate() ? new Date(
+					milestone.getStartDate().getTime()) : null;
+			this.endDate = null != milestone.getEndDate() ? new Date(milestone
+					.getEndDate().getTime()) : null;
+			_futureElements = null;
+		}
+	}
 
-    public MilestoneInfo() {
-    	super();
-        isAllDay = false;
-        isDateRange = false;
-        startDate = null;
-        endDate = null;
-        _futureElements = null;
-    }
+	@Override
+	public Boolean getIsAllDay() {
+		return isAllDay;
+	}
 
-    /**
-     * Constructs a new MilestoneInfo from another Milestone.
-     *
-     * @param milestone the Milestone to copy
-     */
-    public MilestoneInfo(Milestone milestone) {
-        super(milestone);
-        this.isAllDay = milestone.getIsAllDay();
-        this.isDateRange = milestone.getIsDateRange();
-        this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
-        this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
-        _futureElements = null;
-    }
+	public void setAllDay(Boolean isAllDay) {
+		this.isAllDay = isAllDay;
+	}
 
-    @Override
-    public Boolean getIsAllDay() {
-        return isAllDay;
-    }
+	@Override
+	public Boolean getIsDateRange() {
+		return isDateRange;
+	}
 
-    
-    public void setAllDay(Boolean isAllDay) {
-        this.isAllDay = isAllDay;
-    }
+	public void setDateRange(Boolean isDateRange) {
+		this.isDateRange = isDateRange;
+	}
 
-    @Override
-    public Boolean getIsDateRange() {
-        return isDateRange;
-    }
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    
-    public void setDateRange(Boolean isDateRange) {
-        this.isDateRange = isDateRange;
-    }
+	public void setStartDate(Date startDate) {
+		this.startDate = null != startDate ? new Date(startDate.getTime())
+				: null;
+	}
 
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
+	@Override
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    
-    public void setStartDate(Date startDate) {
-        this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
-    }
-
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    
-    public void setEndDate(Date endDate) {
-        this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
+	}
 }
