@@ -47,7 +47,7 @@
 		<property name="packagePrefixes">
 			<list>
 				<value>org.kuali.rice.student.</value>
-				<value>org.kuali.student.enrollment.acal.</value>				
+				<value>org.kuali.student.enrollment.</value>				
 			</list>
 		</property>
 	</bean>
