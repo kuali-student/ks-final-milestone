@@ -1,0 +1,133 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+
+<import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- HoldInfo-->
+<bean id="holdInfo-parent" abstract="true" parent="dataObjectEntry">
+<property name="name" value="holdInfo"/>
+<property name="objectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+<property name="objectLabel" value="Hold"/>
+<property name="objectDescription" value=""/>
+<property name="titleAttribute" value="name"/>
+<property name="primaryKeys">
+<list>
+<value>id</value>
+</list>
+</property>
+<property name="attributes">
+<list>
+<ref bean="holdInfo.id"/>
+<ref bean="holdInfo.typeKey"/>
+<ref bean="holdInfo.stateKey"/>
+<ref bean="holdInfo.name"/>
+<ref bean="holdInfo.descr"/>
+<ref bean="holdInfo.effectiveDate"/>
+<ref bean="holdInfo.isOverridable"/>
+<ref bean="holdInfo.isWarning"/>
+<ref bean="holdInfo.issueId"/>
+<ref bean="holdInfo.overridable"/>
+<ref bean="holdInfo.personId"/>
+<ref bean="holdInfo.releasedDate"/>
+<ref bean="holdInfo.warning"/>
+<ref bean="holdInfo.attributes"/>
+<ref bean="holdInfo.meta"/>
+</list>
+</property>
+</bean>
+<bean id="holdInfo" parent="holdInfo-parent"/>
+
+<bean id="holdInfo.id-parent" abstract="true" parent="baseKualiId">
+<property name="name" value="id"/>
+</bean>
+<bean id="holdInfo.id" parent="holdInfo.id-parent"/>
+
+<bean id="holdInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+<property name="name" value="typeKey"/>
+</bean>
+<bean id="holdInfo.typeKey" parent="holdInfo.typeKey-parent"/>
+
+<bean id="holdInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+<property name="name" value="stateKey"/>
+</bean>
+<bean id="holdInfo.stateKey" parent="holdInfo.stateKey-parent"/>
+
+<bean id="holdInfo.name-parent" abstract="true" parent="baseKualiName">
+<property name="name" value="name"/>
+</bean>
+<bean id="holdInfo.name" parent="holdInfo.name-parent"/>
+
+<bean id="holdInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+<property name="name" value="descr"/>
+</bean>
+<bean id="holdInfo.descr" parent="holdInfo.descr-parent"/>
+
+<bean id="holdInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+<property name="name" value="effectiveDate"/>
+</bean>
+<bean id="holdInfo.effectiveDate" parent="holdInfo.effectiveDate-parent"/>
+
+<bean id="holdInfo.isOverridable-parent" abstract="true" parent="baseKualiBoolean">
+<property name="name" value="isOverridable"/>
+</bean>
+<bean id="holdInfo.isOverridable" parent="holdInfo.isOverridable-parent"/>
+
+<bean id="holdInfo.isWarning-parent" abstract="true" parent="baseKualiBoolean">
+<property name="name" value="isWarning"/>
+</bean>
+<bean id="holdInfo.isWarning" parent="holdInfo.isWarning-parent"/>
+
+<bean id="holdInfo.issueId-parent" abstract="true" parent="baseKualiString">
+<property name="name" value="issueId"/>
+</bean>
+<bean id="holdInfo.issueId" parent="holdInfo.issueId-parent"/>
+
+<bean id="holdInfo.overridable-parent" abstract="true" parent="baseKualiBoolean">
+<property name="name" value="overridable"/>
+</bean>
+<bean id="holdInfo.overridable" parent="holdInfo.overridable-parent"/>
+
+<bean id="holdInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
+<property name="name" value="personId"/>
+</bean>
+<bean id="holdInfo.personId" parent="holdInfo.personId-parent"/>
+
+<bean id="holdInfo.releasedDate-parent" abstract="true" parent="baseKualiDateTime">
+<property name="name" value="releasedDate"/>
+</bean>
+<bean id="holdInfo.releasedDate" parent="holdInfo.releasedDate-parent"/>
+
+<bean id="holdInfo.warning-parent" abstract="true" parent="baseKualiBoolean">
+<property name="name" value="warning"/>
+</bean>
+<bean id="holdInfo.warning" parent="holdInfo.warning-parent"/>
+
+<bean id="holdInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+<property name="name" value="attributes"/>
+<!--<property name="maxOccurs" value="999999999"/>-->
+</bean>
+<bean id="holdInfo.attributes" parent="holdInfo.attributes-parent"/>
+
+<bean id="holdInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+<property name="name" value="meta"/>
+</bean>
+<bean id="holdInfo.meta" parent="holdInfo.meta-parent"/>
+</beans>

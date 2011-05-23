@@ -25,6 +25,9 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -47,6 +50,10 @@ public class TestServiceDictionaries {
         inputFiles.add(getXmlFile(KeyDateInfo.class));
         // LPR
         inputFiles.add(getXmlFile(LuiPersonRelationInfo.class));
+        // Hold
+        inputFiles.add(getXmlFile(HoldInfo.class));
+        inputFiles.add(getXmlFile(IssueInfo.class)); 
+        inputFiles.add(getXmlFile(RestrictionInfo.class));
         // ATP
         inputFiles.add(getXmlFile(AtpInfo.class));
         inputFiles.add(getXmlFile(MilestoneInfo.class));

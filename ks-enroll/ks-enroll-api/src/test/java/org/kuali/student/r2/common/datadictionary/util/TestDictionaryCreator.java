@@ -29,6 +29,9 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -81,41 +84,49 @@ public class TestDictionaryCreator {
     @Test
     public void testExecute() {
         System.out.println("execute");
-        try{
-        new DictionaryCreator().execute(LuiPersonRelationInfo.class);
-        new DictionaryCreator().execute(LuiInfo.class);
-        new DictionaryCreator().execute(LuiLuiRelationInfo.class);
-        new DictionaryCreator().execute(AtpInfo.class);
-        new DictionaryCreator().execute(MilestoneInfo.class);
-        new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
-        new DictionaryCreator().execute(AtpAtpRelationInfo.class);
-        new DictionaryCreator().execute(AcademicCalendarInfo.class);
-        new DictionaryCreator().execute(CampusCalendarInfo.class);
-        new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
-        new DictionaryCreator().execute(HolidayInfo.class);
-        new DictionaryCreator().execute(KeyDateInfo.class);
-        new DictionaryCreator().execute(TermInfo.class);
-        // r2 common
-        new DictionaryCreator().execute(AttributeInfo.class);
-        new DictionaryCreator().execute(ComparisonInfo.class);
-        new DictionaryCreator().execute(ContextInfo.class);
-        new DictionaryCreator().execute(CriteriaInfo.class);
-        new DictionaryCreator().execute(MetaInfo.class);
-        new DictionaryCreator().execute(RichTextInfo.class);
-        new DictionaryCreator().execute(SearchParamInfo.class);
-        new DictionaryCreator().execute(StateInfo.class);
-        new DictionaryCreator().execute(StatusInfo.class);
-        new DictionaryCreator().execute(TimeAmountInfo.class);
-        new DictionaryCreator().execute(TypeInfo.class);
-        new DictionaryCreator().execute(TypeTypeRelationInfo.class);
-        new DictionaryCreator().execute(ValidationResultInfo.class);
-        // r1 common
-        new DictionaryCreator().execute(AmountInfo.class);               
-             
-        }catch(Exception ex){
-        	fail(ex.getMessage());
+        try {
+            // lui
+            new DictionaryCreator().execute(LuiPersonRelationInfo.class);
+            new DictionaryCreator().execute(LuiInfo.class);
+            new DictionaryCreator().execute(LuiLuiRelationInfo.class);
+            // atp
+            new DictionaryCreator().execute(AtpInfo.class);
+            new DictionaryCreator().execute(MilestoneInfo.class);
+            new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
+            new DictionaryCreator().execute(AtpAtpRelationInfo.class);
+            // acal
+            new DictionaryCreator().execute(AcademicCalendarInfo.class);
+            new DictionaryCreator().execute(CampusCalendarInfo.class);
+            new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
+            new DictionaryCreator().execute(HolidayInfo.class);
+            new DictionaryCreator().execute(KeyDateInfo.class);
+            new DictionaryCreator().execute(TermInfo.class);
+            // hold
+            new DictionaryCreator().execute(HoldInfo.class);
+            new DictionaryCreator().execute(IssueInfo.class);
+            new DictionaryCreator().execute(RestrictionInfo.class);
+
+            // r2 common
+            new DictionaryCreator().execute(AttributeInfo.class);
+            new DictionaryCreator().execute(ComparisonInfo.class);
+            new DictionaryCreator().execute(ContextInfo.class);
+            new DictionaryCreator().execute(CriteriaInfo.class);
+            new DictionaryCreator().execute(MetaInfo.class);
+            new DictionaryCreator().execute(RichTextInfo.class);
+            new DictionaryCreator().execute(SearchParamInfo.class);
+            new DictionaryCreator().execute(StateInfo.class);
+            new DictionaryCreator().execute(StatusInfo.class);
+            new DictionaryCreator().execute(TimeAmountInfo.class);
+            new DictionaryCreator().execute(TypeInfo.class);
+            new DictionaryCreator().execute(TypeTypeRelationInfo.class);
+            new DictionaryCreator().execute(ValidationResultInfo.class);
+            // r1 common
+            new DictionaryCreator().execute(AmountInfo.class);
+
+        } catch (Exception ex) {
+            fail(ex.getMessage());
         }
-              
+
 
 
 
