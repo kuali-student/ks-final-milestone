@@ -47,7 +47,15 @@ public class HoldServiceConstants {
     public static final String INTERNATIONAL_STUDENT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.international.students";
     public static final String DISCIPLINE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.discipline";
     public static final String ACADEMIC_PROGRESS_ISSUE_TYPE_KEY = "kuali.hold.issue.type.academic.progress";
-    public static final String RESIDENCE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residencE";
+    public static final String RESIDENCE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residence";
+    public static final String UNPAID_FEES_ISSUE_TYPE_KEY = "kuali.hold.issue.type.unpaid.fee";
+    public static final String FINANCIAL_AID_ISSUE_TYPE_KEY = "kuali.hold.issue.type.financial.aid";
+    public static final String UNRETURNED_EQUIPMENT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.unreturned.equipment";
+    public static final String ADMISSIONSS_ISSUE_TYPE_KEY = "kuali.hold.issue.type.admissions";
+    public static final String IDENTITY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.identity";
+    public static final String PRIOR_TRANSCRIPT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.prior.transcript";
+    public static final String INCOMPLETE_BIO_ISSUE_TYPE_KEY = "kuali.hold.issue.type.incomplete.bio";
+    public static final String RESIDENCY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residency";
     /**
      * RESTRICTION TYPES
      */
@@ -59,6 +67,10 @@ public class HoldServiceConstants {
     public static final String ADD_CHARGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.charges";
     public static final String LIBRARY_PRIVILEGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.library.privileges";
     public static final String DORM_ACCESS_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.dorm.access";
+    public static final String UPDATE_PROGRAM_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.update.program";
+    public static final String ACCESS_GRADES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.access.grades";
+    public static final String BURSAR_REFUND_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.bursar.refund";
+    public static final String VERIFICATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.verification";
     /**
      * STATES FOR holds
      */
