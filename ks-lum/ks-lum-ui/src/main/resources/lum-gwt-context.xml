@@ -283,6 +283,15 @@
 	    <property name="courseDataService" ref="CourseDataService"/>
 	    <property name="luService" ref="luClient"/>
 	    <property name="proposalService" ref="proposalClient"/>
+	    <property name="ignoreProperties">
+		    <list>
+		    	<value>transcriptTitle</value>
+		    	<value>unitsContentOwner</value>
+		    	<value>unitsDeployment</value>
+		    	<value>revenues</value>
+		    	<value>expenditure</value>
+			</list>
+	    </property>
     </bean>
     
     <bean id="CourseDataService"

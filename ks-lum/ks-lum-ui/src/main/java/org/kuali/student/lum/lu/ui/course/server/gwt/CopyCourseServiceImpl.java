@@ -56,6 +56,8 @@ public class CopyCourseServiceImpl {
 	private String defaultDocumentType="kuali.proposal.type.course.create";
 	private String defaultState=DtoConstants.STATE_DRAFT;
 	
+	private List<String> ignoreProperties;
+	
 	public DataSaveResult createCopyCourse(String originalCluId) throws Exception {
 		//Copy the course and use the data service to return
 		CourseInfo copiedCourse = copyCourse(originalCluId);
@@ -77,9 +79,6 @@ public class CopyCourseServiceImpl {
 	}
 	
 	private CourseInfo copyCourse(String originalCluId) throws Exception{
-		//Define the properties that will not be copied over
-		String[] ignoreProperties = new String[]{"transcriptTitle","unitsContentOwner","unitsDeployment","revenues","expenditure"};
-		
 		//Copy the course
 		return copyCourse(originalCluId, null, defaultState, ignoreProperties, statementService, luService, courseService);
 	}
@@ -235,7 +234,7 @@ public class CopyCourseServiceImpl {
 		}
 	}
 	
-	private CourseInfo copyCourse(String originalCluId, String newCluId, String newState, String[] ignoreProperties, StatementService statementService, LuService luService, CourseService courseService) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
+	private CourseInfo copyCourse(String originalCluId, String newCluId, String newState, List<String> ignoreProperties, StatementService statementService, LuService luService, CourseService courseService) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
 		CourseInfo originalCourse = courseService.getCourse(originalCluId);
 		resetIds(originalCourse);
 		originalCourse.setCourseTitle("Copy of "+originalCourse.getCourseTitle());
@@ -294,6 +293,10 @@ public class CopyCourseServiceImpl {
 
 	public void setDefaultState(String defaultState) {
 		this.defaultState = defaultState;
+	}
+
+	public void setIgnoreProperties(List<String> ignoreProperties) {
+		this.ignoreProperties = ignoreProperties;
 	}
 	
 }
