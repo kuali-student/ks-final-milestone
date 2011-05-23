@@ -715,7 +715,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner"/>
+ 		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner">
+  				<property name="errorLevel" value="ERROR" /> 
+		  	</bean>
+	 	 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -728,7 +732,7 @@
  <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent">
  </bean>
  
-	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsContentOwner" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -742,7 +746,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -756,7 +760,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -770,7 +774,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources" parent="kuali.lu.lookup.majorDisciplineInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -829,7 +833,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.unitsContentOwner" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsContentOwner" parent="kuali.lu.lookup.programVariationInfo.units-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -843,7 +847,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.unitsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.units-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -857,7 +861,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.unitsDeployment" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsDeployment" parent="kuali.lu.lookup.programVariationInfo.units-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -871,7 +875,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialResources" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialResources" parent="kuali.lu.lookup.programVariationInfo.units-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -885,7 +889,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialControl" parent="kuali.lu.lookup.programVariationInfo.units-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.unitsFinancialControl" parent="kuali.lu.lookup.programVariationInfo.units-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -903,7 +907,7 @@
 
  <bean id="kuali.lu.lookup.programVariationInfo.units-parent" parent="kuali.common.lookup.admin.departments.suggest"
  class="org.kuali.student.common.dictionary.dto.LookupConstraint">
-	<property name="errorLevel" value="WARN"/>
+	<property name="errorLevel" value="WARN"/> 
 	<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 	<property name="params">
 		<list>
@@ -924,7 +928,7 @@
  </bean>
 
 
-	<bean id="kuali.lu.lookup.programVariationInfo.divisionsContentOwner" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsContentOwner" parent="kuali.lu.lookup.programVariationInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -938,7 +942,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight" parent="kuali.lu.lookup.programVariationInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -952,7 +956,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.lu.lookup.programVariationInfo.divisionsDeployment" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
+	<bean id="kuali.lu.lookup.programVariationInfo.divisionsDeployment" parent="kuali.lu.lookup.programVariationInfo.divisions-parent"> 
 		<property name="params">
 			<list merge="true">
 				<bean parent="param">    <!-- suggest box entry definition -->
@@ -965,7 +969,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
+	</bean> 
 	<bean id="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources" parent="kuali.lu.lookup.programVariationInfo.divisions-parent">
 		<property name="params">
 			<list merge="true">
@@ -997,7 +1001,7 @@
 
  <bean id="kuali.lu.lookup.programVariationInfo.divisions-parent" parent="kuali.common.lookup.admin.departments.suggest" 
  class="org.kuali.student.common.dictionary.dto.LookupConstraint">
- 	<property name="errorLevel" value="WARN"/>
+ 	<property name="errorLevel" value="WARN"/> 
 	<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 	<property name="params">
 		<list>
@@ -1036,7 +1040,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.majorDisciplineInfo.divisionsStudentOversight">
+  				<property name="errorLevel" value="ERROR" /> 
+		  	</bean>
+	 	 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1071,7 +1079,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.majorDisciplineInfo.divisionsDeployment">
+  				<property name="errorLevel" value="ERROR" /> 
+		  	</bean>
+	 	 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1106,7 +1118,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialResources">
+  				<property name="errorLevel" value="ERROR" /> 
+		  	</bean>
+	 	 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1140,7 +1156,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.majorDisciplineInfo.divisionsFinancialControl">
+  				<property name="errorLevel" value="ERROR" /> 
+		  	</bean>
+	 	 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1449,7 +1469,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsContentOwner"/>
+ 		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.divisionsContentOwner">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1483,7 +1507,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsDeployment"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.divisionsDeployment">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1517,7 +1545,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialControl"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.divisionsFinancialControl">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1552,7 +1584,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.divisionsFinancialResources">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1587,7 +1623,11 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
-         <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight"/>
+		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.divisionsStudentOversight">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
          <property name="minOccurs" value="1" />
         </bean>
        </property>
@@ -1859,7 +1899,11 @@
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseStringRepeating">
          <property name="minOccurs" value="1" />
-         <property name="lookupDefinition" ref="kuali.common.lookup.programVariation.degree.types"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.common.lookup.programVariation.degree.types">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
         </bean>
        </property>
       </bean>
@@ -1877,7 +1921,7 @@
 	<property name="desc" value="Search for program degree types"/>
 	<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
 	<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id"/>
-	<property name="errorLevel" value="WARN"/>
+	<property name="errorLevel" value="WARN"/> 
 	<property name="params">
       <list>
           <bean parent="param">
@@ -2096,7 +2140,11 @@
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseKualiOrgIdRepeating">
          <property name="minOccurs" value="1" />
-  		 <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsContentOwner"/>
+  		 <property name="lookupDefinition">
+			<bean parent="kuali.lu.lookup.programVariationInfo.unitsContentOwner">
+  				<property name="errorLevel" value="ERROR" /> 
+			</bean>
+		 </property>
         </bean>
        </property>
       </bean>
@@ -2131,7 +2179,11 @@
 							<!--Copy all the properties from above adding minOccurs = 1 -->
 							<bean parent="baseKualiOrgIdRepeating">
 								<property name="minOccurs" value="1" />
-								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsDeployment"/>
+  		 						<property name="lookupDefinition">
+									<bean parent="kuali.lu.lookup.programVariationInfo.unitsDeployment">
+  										<property name="errorLevel" value="ERROR" /> 
+									</bean>
+		 						</property>								
 							</bean>
 						</property>
 					</bean>
@@ -2166,7 +2218,11 @@
 							<!--Copy all the properties from above adding minOccurs = 1 -->
 							<bean parent="baseKualiOrgIdRepeating">
 								<property name="minOccurs" value="1" />
-								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialControl"/>
+								<property name="lookupDefinition">
+									<bean parent="kuali.lu.lookup.programVariationInfo.unitsFinancialControl">
+  										<property name="errorLevel" value="ERROR" /> 
+			  						</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
@@ -2201,7 +2257,11 @@
 							<!--Copy all the properties from above adding minOccurs = 1 -->
 							<bean parent="baseKualiOrgIdRepeating">
 								<property name="minOccurs" value="1" />
-								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsFinancialResources"/>
+								<property name="lookupDefinition">
+									<bean parent="kuali.lu.lookup.programVariationInfo.unitsFinancialResources">
+  										<property name="errorLevel" value="ERROR" /> 
+			  						</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
@@ -2217,8 +2277,8 @@
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
   <property name="defaultValuePath" value="/unitsStudentOversight"/>
-  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsStudentOversight"/>
-	<property name="caseConstraint">
+  <property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsStudentOversight" />
+  <property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
 			<property name="fieldPath" value="state" />
@@ -2237,7 +2297,11 @@
 							<!--Copy all the properties from above adding minOccurs = 1 -->
 							<bean parent="baseKualiOrgIdRepeating">
 								<property name="minOccurs" value="1" />
-								<property name="lookupDefinition" ref="kuali.lu.lookup.programVariationInfo.unitsStudentOversight"/>
+								<property name="lookupDefinition">
+									<bean parent="kuali.lu.lookup.programVariationInfo.unitsStudentOversight">
+  										<property name="errorLevel" value="ERROR" /> 
+			  						</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
