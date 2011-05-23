@@ -6445,28 +6445,28 @@
     <sequence name="KREN_RECIP_S" nextval="1000"/>
     <sequence name="KREN_RVWER_S" nextval="1000"/>
     <sequence name="KREN_SNDR_S" nextval="1000"/>
-    <sequence name="KREW_ACTN_ITM_S" nextval="10226"/>
-    <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1269"/>
-    <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
-    <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3023"/>
+    <sequence name="KREW_ACTN_ITM_S" nextval="10300"/>
+    <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1373"/>
+    <sequence name="KREW_ACTN_RQST_S" nextval="2444"/>
+    <sequence name="KREW_ACTN_TKN_S" nextval="2367"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3075"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
-    <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
+    <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2013"/>
     <sequence name="KREW_EDL_FLD_DMP_S" nextval="5000"/>
     <sequence name="KREW_EDL_S" nextval="2020"/>
     <sequence name="KREW_HLP_S" nextval="100"/>
-    <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
+    <sequence name="KREW_OUT_BOX_ITM_S" nextval="10048"/>
     <sequence name="KREW_RIA_DOCTYPE_MAP_ID_S" nextval="1000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2621"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="2964"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2993"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="3146"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>
-    <sequence name="KREW_SRCH_ATTR_S" nextval="2060"/>
+    <sequence name="KREW_SRCH_ATTR_S" nextval="2154"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10008"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10012"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
@@ -6490,7 +6490,7 @@
     <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10002"/>
     <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1000"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
@@ -6506,7 +6506,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
-    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
-    <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
+    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1163"/>
+    <sequence name="KRSB_MSG_QUE_S" nextval="2668"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="1279"/>
 </database>
