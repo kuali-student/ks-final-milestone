@@ -106,7 +106,7 @@ public interface LearningResultRecordService {
      * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIdList")List<String> lprIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIdList")List<String> sourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     
     /** 
@@ -205,7 +205,7 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure 
      */
-    public List<ResultSourceInfo> getResultSourcesByIdList(@WebParam(name="resultSourceIdList")String resultSourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultSourceInfo> getResultSourcesByIdList(@WebParam(name="resultSourceIdList")List <String> resultSourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /** 
      * Retrieves a list of result sources by type
