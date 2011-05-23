@@ -59,7 +59,7 @@ limitations under the License.
    -->
    <bean id="AcademicCalendarView-AcalInfo" parent="GroupGridLayout">
       <property name="title" value="Academic Calendar"/> 
-     <!-- <property name="items">
+      <property name="items">
         <list>
           <bean parent="AttributeField_Form" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
             <property name="control">
@@ -72,7 +72,7 @@ limitations under the License.
             </property>
           </bean>
         </list>
-      </property>       -->
+      </property>
    </bean>
 
 <!-- 
