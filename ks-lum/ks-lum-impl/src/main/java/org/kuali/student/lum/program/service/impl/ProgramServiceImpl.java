@@ -1,7 +1,5 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,8 +7,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
@@ -50,6 +48,7 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
@@ -302,6 +301,7 @@ public class ProgramServiceImpl implements ProgramService {
 	 * 
 	 * @param statementTreeView
 	 * @throws OperationFailedException
+	 * @see CourseServiceUtils (This is duplicate code because of the weird dependencies cause by program being in its own module)
 	 */
 	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
 		if(statementTreeView!=null){
@@ -317,6 +317,11 @@ public class ProgramServiceImpl implements ProgramService {
 						try {
 							CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 							cluSet.setId(null);
+							//Clear clu ids if membership info exists, they will be re-added based on membership info 
+							if (cluSet.getMembershipQuery() != null){
+								cluSet.getCluIds().clear();
+								cluSet.getCluSetIds().clear();
+							}
 							cluSet = luService.createCluSet(cluSet.getType(), cluSet);
 							field.setValue(cluSet.getId());
 						} catch (Exception e) {
@@ -743,10 +748,6 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		try {
 			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
-			StatementTreeViewInfo statement = progReqInfo.getStatement();
-//			if (nlUsageTypeKey != null && language != null) {
-//				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
-//			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
