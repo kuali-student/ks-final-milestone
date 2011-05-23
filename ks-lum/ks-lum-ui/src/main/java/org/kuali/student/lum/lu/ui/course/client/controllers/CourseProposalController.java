@@ -79,6 +79,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavCont
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
@@ -126,11 +127,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
 	private static final String MODIFY_TYPE = "kuali.proposal.type.course.modify";
-	public static final String CREATE_TYPE = "kuali.proposal.type.course.create";
 	public static final String INITIAL_SAVE_VERSION = "1";
     private static final String MSG_GROUP = "course";
 	
-	protected String currentDocType = CREATE_TYPE;
+	protected String currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	protected String proposalPath = "";
 	protected String currentTitle;
 

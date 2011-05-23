@@ -27,6 +27,7 @@ import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.LUConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -88,7 +89,7 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return "kuali.proposal.type.course.create";
+		return LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	}
 
 	@Override

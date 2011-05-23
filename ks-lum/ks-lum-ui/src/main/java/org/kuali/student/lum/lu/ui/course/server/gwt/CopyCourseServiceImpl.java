@@ -37,6 +37,7 @@ import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -53,7 +54,7 @@ public class CopyCourseServiceImpl {
 	private StatementService statementService;
 	private ProposalService proposalService;
 	
-	private String defaultDocumentType="kuali.proposal.type.course.create";
+	private String defaultDocumentType=LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	private String defaultState=DtoConstants.STATE_DRAFT;
 	
 	private List<String> ignoreProperties;
