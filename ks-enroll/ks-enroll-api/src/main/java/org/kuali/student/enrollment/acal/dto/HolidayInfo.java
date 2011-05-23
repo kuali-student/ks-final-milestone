@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HolidayInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "isInstructionalDay", "isAllDay", "isDateRange",
-		"startDate", "endDate", "metaInfo", "attributes", "_futureElements" })
+		"startDate", "endDate", "meta", "attributes", "_futureElements" })
 public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
 
 	private static final long serialVersionUID = 1L;
