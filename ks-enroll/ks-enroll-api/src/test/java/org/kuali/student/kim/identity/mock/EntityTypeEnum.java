@@ -15,13 +15,15 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum EntityTypeEnum {
 
-    PERSON("PERSON", "Person", true, "01"),
-    SYSTEM("SYSTEM", "System", true, "02");
+    PERSON(KimIdentityServiceConstants.PERSON_ENTITY_TYPE_KEY, "Person", true, "01"),
+    SYSTEM(KimIdentityServiceConstants.SYSTEM_ENTITY_TYPE_KEY, "System", true, "02");
     private String code;
     private String name;
     private boolean active;

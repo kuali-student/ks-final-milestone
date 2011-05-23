@@ -15,12 +15,14 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum ExternalIdentifierTypeEnum {
 
-    TAX("TAX", "Tax Id", true, "01");
+    TAX(KimIdentityServiceConstants.TAX_ID_TYPE_KEY, "Tax Id", true, "01");
     private String code;
     private String name;
     private boolean active;

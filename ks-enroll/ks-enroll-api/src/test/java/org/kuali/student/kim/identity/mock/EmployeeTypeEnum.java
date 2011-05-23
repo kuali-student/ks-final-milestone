@@ -15,14 +15,16 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum EmployeeTypeEnum {
 
-    PROFESSIONAL("P", "Professional", true, "1"),
-    NON_PROFESSINAL("N", "Non-Professinoal", true, "2"),
-    OTHER("O", "Other", true, "99");
+    PROFESSIONAL(KimIdentityServiceConstants.PROFESSIONAL_EMPLOYEE_TYPE_TYPE_KEY, "Professional", true, "1"),
+    NON_PROFESSINAL(KimIdentityServiceConstants.NON_PROFESSIONAL_EMPLOYEE_TYPE_TYPE_KEY, "Non-Professinoal", true, "2"),
+    OTHER(KimIdentityServiceConstants.OTHER_EMPLOYEE_TYPE_TYPE_KEY, "Other", true, "99");
     private String code;
     private String name;
     private boolean active;

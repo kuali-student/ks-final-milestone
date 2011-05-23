@@ -15,18 +15,20 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum EmployeeStatusEnum {
 
-    ACTIVE("A", "Active", true, "1"),
-    DECEASED("D", "Deceased", true, "99"),
-    LEAVE("L", "On Non-Pay Leave", true, "4"),
-    NOT_PROCESSED("N", "Status Not Yet Processed", true, "3"),
-    PROCESSING("P", "Processing", true, "2"),
-    RETIRED("R", "Retired", true, "10"),
-    TERMINATED("T", "Terminated", true, "97");
+    ACTIVE(KimIdentityServiceConstants.ACTIVE_EMPLOYEE_STATUS_TYPE_KEY, "Active", true, "1"),
+    DECEASED(KimIdentityServiceConstants.DECEASED_EMPLOYEE_STATUS_TYPE_KEY, "Deceased", true, "99"),
+    LEAVE(KimIdentityServiceConstants.ON_NON_PAY_LEAVE_EMPLOYEE_STATUS_TYPE_KEY, "On Non-Pay Leave", true, "4"),
+    NOT_PROCESSED (KimIdentityServiceConstants.STATUS_NOT_YET_PROCESSED_EMPLOYEE_STATUS_TYPE_KEY, "Status Not Yet Processed", true, "3"),
+    PROCESSING(KimIdentityServiceConstants.PROCESSING_EMPLOYEE_STATUS_TYPE_KEY, "Processing", true, "2"),
+    RETIRED(KimIdentityServiceConstants.RETIRED_EMPLOYEE_STATUS_TYPE_KEY, "Retired", true, "10"),
+    TERMINATED(KimIdentityServiceConstants.TERMINATED_EMPLOYEE_STATUS_TYPE_KEY, "Terminated", true, "97");
     private String code;
     private String name;
     private boolean active;

@@ -15,14 +15,16 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum EmailTypeEnum {
 
-    HOME("HM", "Home", true, "b"),
-    WORK("WRK", "Work", true, "a"),
-    OTHER("OTH", "Other", true, "c");
+    HOME(KimIdentityServiceConstants.HOME_EMAIL_ADDRESS_TYPE_KEY, "Home", true, "b"),
+    WORK (KimIdentityServiceConstants.WORK_EMAIL_ADDRESS_TYPE_KEY, "Work", true, "a"),
+    OTHER(KimIdentityServiceConstants.OTHER_EMAIL_ADDRESS_TYPE_KEY, "Other", true, "c");
     private String code;
     private String name;
     private boolean active;
