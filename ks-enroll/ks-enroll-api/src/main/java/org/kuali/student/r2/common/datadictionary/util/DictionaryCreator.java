@@ -203,7 +203,7 @@ public class DictionaryCreator {
             if (lowerName.equals("attributes")) {
                 return "80" + name;
             }
-            if (lowerName.equals("metainfo")) {
+            if (lowerName.equals("meta")) {
                 return "90" + name;
             }
             if (lowerName.equals("startdate")) {

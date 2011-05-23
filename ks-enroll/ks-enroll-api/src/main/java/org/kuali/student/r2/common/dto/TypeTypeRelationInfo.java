@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "ownerTypeKey", "relatedTypeKey", "rank", "attributes", "metaInfo", "_futureElements"})
+@XmlType(name = "TypeTypeRelationInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "effectiveDate", "expirationDate", "ownerTypeKey", "relatedTypeKey", "rank", "attributes", "meta", "_futureElements"})
 public class TypeTypeRelationInfo extends KeyEntityInfo implements TypeTypeRelation, Serializable {
 	
   	@XmlElement

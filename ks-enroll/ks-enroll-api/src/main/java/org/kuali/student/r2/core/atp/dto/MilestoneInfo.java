@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
-		"metaInfo", "attributes", "_futureElements" })
+		"meta", "attributes", "_futureElements" })
 public class MilestoneInfo extends KeyEntityInfo implements Milestone,
 		Serializable {
 

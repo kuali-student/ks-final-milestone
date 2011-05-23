@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpAtpRelationInfo", propOrder = { "id", "typeKey",
 		"stateKey", "atpKey", "relatedAtpKey", "effectiveDate",
-		"expirationDate", "metaInfo", "attributes", "_futureElements" })
+		"expirationDate", "meta", "attributes", "_futureElements" })
 public class AtpAtpRelationInfo extends RelationshipInfo implements
 		AtpAtpRelation, Serializable {
 
