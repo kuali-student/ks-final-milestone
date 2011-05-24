@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,10 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.entity.RichTextEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
@@ -56,7 +54,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     @Column(name="IS_DATE_RANGE")
     private boolean isDateRange;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AtpAttributeEntity> attributes;
 
     public MilestoneEntity() {
@@ -176,12 +174,15 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         info.setMeta(super.toDTO());
         info.setDescr(getDescr().toDto());
         
-        List<Attribute> atts = new ArrayList<Attribute>();
-        for (AtpAttributeEntity att : getAttributes()) {
-            Attribute attInfo = att.toDto();
-            atts.add(attInfo);
+        if(getAttributes() != null) {
+            List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
+            for (AtpAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                atts.add(attInfo);
+            }
+            
+            info.setAttributes(atts);
         }
-        // TODO, same reason as above info.setAttributes(atts);
         
         return info;
     }

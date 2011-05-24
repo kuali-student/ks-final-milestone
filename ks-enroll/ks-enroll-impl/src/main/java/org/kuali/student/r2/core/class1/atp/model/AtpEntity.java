@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -48,7 +47,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AtpAttributeEntity> attributes;
   
     
