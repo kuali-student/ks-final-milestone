@@ -4,8 +4,9 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="persistentUnit"/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="Acal"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml"/>
     </bean>
 
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
