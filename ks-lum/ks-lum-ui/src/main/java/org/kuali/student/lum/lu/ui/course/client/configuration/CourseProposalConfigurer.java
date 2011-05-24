@@ -473,7 +473,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         title.setStyleName("cluProposalTitleSection");
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
         //addField(description, COURSE + "/" + DESCRIPTION, null);
-        addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY));
+        addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY));
         addField(description, "proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         return description;
     }
@@ -1126,135 +1126,136 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     public CourseSummaryConfigurer getSummaryConfigurer() {
         return summaryConfigurer;
     }
-}
 
+    public static class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
+        protected String key;
+        HasDataValueBinding hasDataValueBinding = HasDataValueBinding.INSTANCE;
 
-class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
-    protected String key;
-    HasDataValueBinding hasDataValueBinding = HasDataValueBinding.INSTANCE;
-
-    public KeyListModelWigetBinding(String key) {
-        this.key = key;
-    }
-
-    @Override
-    public void setModelValue(HasDataValue widget, DataModel model, String path) {
-        // convert from the structure path/0/<id> into path/0/<key>/<id>
-        hasDataValueBinding.setModelValue(widget, model, path);
-
-        QueryPath qPath = QueryPath.parse(path);
-        Value value = ((KSSelectedList) widget).getValueWithTranslations();
-
-        Data idsData = null;
-        Data idsDataStruct = null;
-
-        if (value != null) {
-            idsData = value.get();
+        public KeyListModelWigetBinding(String key) {
+            this.key = key;
         }
-        if (idsData != null) {
-            for (Data.Property p : idsData) {
-                if (!"_runtimeData".equals(p.getKey())) {
-                    String id = p.getValue();
-                    // old translation path path/_runtimeData/0/id-translation
-                    QueryPath translationPath = new QueryPath();
-                    translationPath.add(new Data.StringKey(qPath.toString()));
-                    translationPath.add(new Data.StringKey("_runtimeData"));
-                    translationPath.add(new Data.IntegerKey((Integer) p.getKey()));
-                    translationPath.add(new Data.StringKey("id-translation"));
 
-                    Data idItem = new Data();
-                    String translation = model.get(translationPath.toString());
-                    Data idItemRuntime = new Data();
-                    Data idItemTranslation = new Data();
-                    idsDataStruct = (idsDataStruct == null) ? new Data() : idsDataStruct;
-                    idItem.set(this.key, id);
-                    // new translation path/0/_runtimeData/<key>/id-translation
-                    idItemTranslation.set("id-translation", translation);
-                    idItemRuntime.set(this.key, idItemTranslation);
-                    idItem.set("_runtimeData", idItemRuntime);
-                    idsDataStruct.add(idItem);
-                }
+        @Override
+        public void setModelValue(HasDataValue widget, DataModel model, String path) {
+            // convert from the structure path/0/<id> into path/0/<key>/<id>
+            hasDataValueBinding.setModelValue(widget, model, path);
+
+            QueryPath qPath = QueryPath.parse(path);
+            Value value = ((KSSelectedList) widget).getValueWithTranslations();
+
+            Data idsData = null;
+            Data idsDataStruct = null;
+
+            if (value != null) {
+                idsData = value.get();
             }
-        }
-
-        model.set(qPath, idsDataStruct);
-    }
-
-    @Override
-    public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
-        DataModel middleManModel = new DataModel();
-        if (model != null && model.getRoot() != null) {
-            middleManModel = new DataModel(model.getDefinition(), model.getRoot().copy());
-        }
-        // convert from the structure path/0/<key>/<id> into path/0/<id>
-        QueryPath qPath = QueryPath.parse(path);
-        Object value = null;
-        Data idsData = null;
-        Data newIdsData = null;
-        Data newIdsRuntimeData = null;
-
-        if (middleManModel != null) {
-            value = middleManModel.get(qPath);
-        }
-
-        if (value != null) {
-            idsData = (Data) value;
             if (idsData != null) {
                 for (Data.Property p : idsData) {
                     if (!"_runtimeData".equals(p.getKey())) {
-                        Data idItem = p.getValue();
-                        String id = idItem.get(key);
-                        Data runtimeData = idItem.get("_runtimeData");
-                        // KSLAB-1790 - sometime runtimeData isn't there; no idea why
-                        Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
-                        newIdsData = (newIdsData == null) ? new Data() : newIdsData;
-                        newIdsData.add(id);
-                        newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;
-                        newIdsRuntimeData.add(translationData);
+                        String id = p.getValue();
+                        // old translation path path/_runtimeData/0/id-translation
+                        QueryPath translationPath = new QueryPath();
+                        translationPath.add(new Data.StringKey(qPath.toString()));
+                        translationPath.add(new Data.StringKey("_runtimeData"));
+                        translationPath.add(new Data.IntegerKey((Integer) p.getKey()));
+                        translationPath.add(new Data.StringKey("id-translation"));
+
+                        Data idItem = new Data();
+                        String translation = model.get(translationPath.toString());
+                        Data idItemRuntime = new Data();
+                        Data idItemTranslation = new Data();
+                        idsDataStruct = (idsDataStruct == null) ? new Data() : idsDataStruct;
+                        idItem.set(this.key, id);
+                        // new translation path/0/_runtimeData/<key>/id-translation
+                        idItemTranslation.set("id-translation", translation);
+                        idItemRuntime.set(this.key, idItemTranslation);
+                        idItem.set("_runtimeData", idItemRuntime);
+                        idsDataStruct.add(idItem);
                     }
                 }
             }
+
+            model.set(qPath, idsDataStruct);
         }
-        if (newIdsData != null) {
-            newIdsData.set("_runtimeData", newIdsRuntimeData);
-            middleManModel.set(qPath, newIdsData);
-            hasDataValueBinding.setWidgetValue(widget, middleManModel, path);
+
+        @Override
+        public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
+            DataModel middleManModel = new DataModel();
+            if (model != null && model.getRoot() != null) {
+                middleManModel = new DataModel(model.getDefinition(), model.getRoot().copy());
+            }
+            // convert from the structure path/0/<key>/<id> into path/0/<id>
+            QueryPath qPath = QueryPath.parse(path);
+            Object value = null;
+            Data idsData = null;
+            Data newIdsData = null;
+            Data newIdsRuntimeData = null;
+
+            if (middleManModel != null) {
+                value = middleManModel.get(qPath);
+            }
+
+            if (value != null) {
+                idsData = (Data) value;
+                if (idsData != null) {
+                    for (Data.Property p : idsData) {
+                        if (!"_runtimeData".equals(p.getKey())) {
+                            Data idItem = p.getValue();
+                            String id = idItem.get(key);
+                            Data runtimeData = idItem.get("_runtimeData");
+                            // KSLAB-1790 - sometime runtimeData isn't there; no idea why
+                            Data translationData = null != runtimeData ? ((Data) runtimeData.get(key)) : new Data();
+                            newIdsData = (newIdsData == null) ? new Data() : newIdsData;
+                            newIdsData.add(id);
+                            newIdsRuntimeData = (newIdsRuntimeData == null) ? new Data() : newIdsRuntimeData;
+                            newIdsRuntimeData.add(translationData);
+                        }
+                    }
+                }
+            }
+            if (newIdsData != null) {
+                newIdsData.set("_runtimeData", newIdsRuntimeData);
+                middleManModel.set(qPath, newIdsData);
+                hasDataValueBinding.setWidgetValue(widget, middleManModel, path);
+            }
+        }
+    }
+
+
+    public static class MultiplicityFieldConfig {
+        protected String fieldKey;
+        protected String labelKey;
+        boolean nextLine;
+        
+        public MultiplicityFieldConfig() {
+        }
+        public MultiplicityFieldConfig(String fieldKey, String labelKey,
+                Widget fieldWidget, ModelWidgetBinding<?> modelWidgetBinding, boolean nextLine) {
+            setFieldKey(fieldKey);
+            setLabelKey(labelKey);
+            setNextLine(nextLine);
+        }
+        public String getFieldKey() {
+            return fieldKey;
+        }
+        public void setFieldKey(String fieldKey) {
+            this.fieldKey = fieldKey;
+        }
+        public String getLabelKey() {
+            return labelKey;
+        }
+        public void setLabelKey(String labelKey) {
+            this.labelKey = labelKey;
+        }
+        public boolean isNextLine() {
+            return nextLine;
+        }
+        public void setNextLine(boolean nextLine) {
+            this.nextLine = nextLine;
         }
     }
 }
 
 
-class MultiplicityFieldConfig {
-    protected String fieldKey;
-    protected String labelKey;
-    boolean nextLine;
-    
-    public MultiplicityFieldConfig() {
-    }
-    public MultiplicityFieldConfig(String fieldKey, String labelKey,
-            Widget fieldWidget, ModelWidgetBinding<?> modelWidgetBinding, boolean nextLine) {
-        setFieldKey(fieldKey);
-        setLabelKey(labelKey);
-        setNextLine(nextLine);
-    }
-    public String getFieldKey() {
-        return fieldKey;
-    }
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
-    public String getLabelKey() {
-        return labelKey;
-    }
-    public void setLabelKey(String labelKey) {
-        this.labelKey = labelKey;
-    }
-    public boolean isNextLine() {
-        return nextLine;
-    }
-    public void setNextLine(boolean nextLine) {
-        this.nextLine = nextLine;
-    }
-}
 
 

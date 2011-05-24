@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.lu.ui.browseprogram.client.controllers.BrowseProgramController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
@@ -59,6 +60,7 @@ public class CurriculumHomeController extends LayoutController {
 
     private CourseProposalController courseProposalController;
     private CourseAdminController courseAdminController;
+    private CourseAdminWithoutVersionController courseAdminWithoutVersionController;
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
@@ -109,6 +111,14 @@ public class CurriculumHomeController extends LayoutController {
                     @Override
                     public void onSuccess() {
                         callback.exec(getCourseAdminController());
+                    }
+                });
+                break;
+            case COURSE_ADMIN_NO_VERSION:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(getCourseAdminWithoutVersionController());
                     }
                 });
                 break;
@@ -304,6 +314,11 @@ public class CurriculumHomeController extends LayoutController {
     private CourseAdminController getCourseAdminController() {
         courseAdminController = new CourseAdminController();
         return courseAdminController;
+    }
+    
+    private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
+        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
+        return courseAdminWithoutVersionController;
     }
 
     private LayoutController getViewCourseController() {

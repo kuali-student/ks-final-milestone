@@ -15,13 +15,11 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.program.client.ProgramConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})

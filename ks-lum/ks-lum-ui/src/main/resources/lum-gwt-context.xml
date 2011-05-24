@@ -407,8 +407,7 @@
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
-                <!-- Order of filters is important -->
-                <ref bean="authzFilter"/>
+                <!-- <ref bean="authzFilter"/> -->
                 <ref bean="idTranslatorFilter"/>
             </list>
         </property>

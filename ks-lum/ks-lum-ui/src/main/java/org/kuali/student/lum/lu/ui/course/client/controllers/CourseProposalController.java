@@ -54,6 +54,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
@@ -109,8 +110,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class CourseProposalController extends MenuEditableSectionController implements RequiresAuthorization, WorkflowEnhancedNavController, HasRequirements {
 
 	//RPC Services
-	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
-	CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);
+	protected CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+	protected CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);
 	//Models
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
 	protected final DataModel comparisonModel = new DataModel("Original Course");
@@ -126,7 +127,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
-	private static final String MODIFY_TYPE = "kuali.proposal.type.course.modify";
 	public static final String INITIAL_SAVE_VERSION = "1";
     private static final String MSG_GROUP = "course";
 	
@@ -253,10 +253,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private void populateModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
             getCluProposalFromWorkflowId(callback, workCompleteCallback);
-        } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
+        } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.OBJECT_ID){
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-        	if("kuali.proposal.type.course.modify".equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
+        	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
         		createModifyCluProposalModel("versionComment", callback, workCompleteCallback);
         	}else{
         		createCopyCourseModel(getViewContext().getId(), callback, workCompleteCallback);
@@ -268,7 +268,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         }
     }
 
-    private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
+    protected void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
         	String id = cluProposalModel.get(cfg.getProposalPath()+"/id");
         	if(id != null){
@@ -310,14 +310,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    			idAttributes.put(IdAttributes.ID_TYPE, idType);
 		    		}
 		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
-		    			currentDocType = MODIFY_TYPE;
+		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
 		    		}
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
 		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());
 		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
 		    		
 		    		//Get metadata and complete initializing the screen
-		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+		    		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
 						@Override
                         public void handleTimeout(Throwable caught) {
 		                	initializeFailed(); 
@@ -446,7 +446,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     private void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
-    	cluProposalRpcServiceAsync.getData(id, new KSAsyncCallback<Data>(){
+    	getCourseProposalRpcService().getData(id, new KSAsyncCallback<Data>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -533,7 +533,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Data data = new Data();
         
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("type"), MODIFY_TYPE);
+        proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
         data.set(new Data.StringKey("proposal"), proposalData);
         
         Data versionData = new Data();
@@ -708,7 +708,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         };
         try {
-            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
+        	getCourseProposalRpcService().saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
                 @Override
                 public void handleFailure(Throwable caught) {
                    saveFailedCallback.exec(caught);
@@ -1023,7 +1023,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
     public KSButton getSaveButton(){
-    	if(currentDocType != MODIFY_TYPE){
+    	if(currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY){
 	        return new KSButton("Save and Continue", new ClickHandler(){
 	                    public void onClick(ClickEvent event) {
 	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));
@@ -1133,5 +1133,18 @@ public class CourseProposalController extends MenuEditableSectionController impl
     		msg = courseMessageKey;
     	}
     	return msg;
+    }
+
+    /**
+     * This method exists to allow the save/get implementations defined in this CourseProposalController
+     * in this controller to be reused in the CourseAdminWithoutVersion controller. This is in an attempt
+     * prevent duplication of a large chunk of code in the CourseAdminWithoutVersion controller. Rather than
+     * have a save wrapped with proposal information, the  CourseAdminWithoutVersion will override this method
+     * and return the standard course rpc service which does not use filters for proposal data. 
+     * 
+     * @return the course rpc service to use
+     */
+    protected  BaseDataOrchestrationRpcServiceAsync getCourseProposalRpcService(){
+    	return cluProposalRpcServiceAsync;
     }
 }

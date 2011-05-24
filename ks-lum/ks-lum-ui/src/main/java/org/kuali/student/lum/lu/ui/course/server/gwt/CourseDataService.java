@@ -59,7 +59,7 @@ public class CourseDataService extends AbstractDataService {
 		//Set derived course fields before saving/updating
 		courseInfo = calculateCourseDerivedFields(courseInfo);
 		
-		if(properties!=null&&"kuali.proposal.type.course.modify".equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+		if(properties!=null&&LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
 				courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());

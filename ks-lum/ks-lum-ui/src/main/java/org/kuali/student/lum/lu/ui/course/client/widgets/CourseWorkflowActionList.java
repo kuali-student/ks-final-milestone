@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -47,7 +48,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseWorkflowActionList extends StylishDropDown {
     private static final String MSG_GROUP = "course";
     
-	private KSMenuItemData modifyCourseActionItem;
+	private static final BlockingTask processingTask = new BlockingTask("Processing State Change....");
+	private static final CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);    
+
+    private KSMenuItemData modifyCourseActionItem;
 	private KSMenuItemData activateCourseActionItem;
 	private KSMenuItemData inactivateCourseActionItem;
 	private KSMenuItemData retireCourseActionItem;
@@ -59,12 +63,9 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private boolean isCurrentVersion;
     private boolean isInitialized = false;
     private String courseId;
+       
     
-    private final BlockingTask processingTask = new BlockingTask("Processing State Change....");
-    
-    CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
-    
-    // storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
+    // Storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
     private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     
     public CourseWorkflowActionList(String label) {
@@ -158,7 +159,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	if(hasCourseId(viewContext)){
 			viewContext.setId(getCourseVersionIndId(model));
 			viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
         }
 
 		HistoryManager.navigate(modifyPath, viewContext);
@@ -177,14 +178,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     }
         
-    private String getInstructions(String newState) {
-    	
-    	if (isCurrentVersion)
+    private String getInstructions(String newState) {    	
+    	if (isCurrentVersion){
     		// TODO: message
     		return "Activating this course makes it viewable and available for scheduling.";
-    	else 
+    	} else { 
     		// TODO: message
     		return "Activate this course makes it viewable and available for scheduling. The previous version will be inactivated, and available for reference in the version history.";
+    	}
     }
     
     private void buildActivateDialog(final Callback<String> stateChangeCallback){
@@ -203,7 +204,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
                 //activateSection.updateModel(cluModel);
                 //set previous active to superseded
                 //set this version to active
-                setCourseState(DtoConstants.STATE_ACTIVE, stateChangeCallback);
+                setCourseState(courseId, DtoConstants.STATE_ACTIVE, stateChangeCallback);
                 activateDialog.hide();                
             }
 	    });
@@ -278,7 +279,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (radioOptionModifyNoVersion.getValue()){
-					Window.alert("Function not yet implemented");
+					Application.navigate(AppLocations.Locations.COURSE_ADMIN_NO_VERSION.getLocation(), viewContext);
 				} else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
 					doModifyActionItem(viewContext, modifyPath, model);
 				} else if (radioOptionModifyWithVersion.getValue()){
@@ -286,7 +287,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 						viewContext.setId(getCourseVersionIndId(model));
 						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 			            //FIXME: This needs to use a new workflow document type for admin modify with version
-						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
+						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
 			        }
 
 			    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
@@ -300,36 +301,41 @@ public class CourseWorkflowActionList extends StylishDropDown {
         
     // TODO: add Retire and Inactivate Dialogs
     
-    
-    // This depends heavily on updateCourseActionItems().  Changes there will 
-    // affect assumptions made here
-    private void setCourseState(final String newState, final Callback<String> stateChangeCallback) {
+	/**
+	 * Use this method to call the {@link CourseRpcServiceAsync#changeState(String, String, com.google.gwt.user.client.rpc.AsyncCallback)
+	 * method, which will handle all related change state operations required for the course depending on the state being set.  
+	 *  
+	 * @param courseId
+	 * @param newState
+	 * @param stateChangeCallback The callback to execute to indicate if the state change call was successful.
+	 */
+    public static void setCourseState(final String courseId, final String newState, final Callback<String> stateChangeCallback) {
     	KSBlockingProgressIndicator.addTask(processingTask);
     	
-    	rpcServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
+    	courseServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
     		
     		@Override
  	        public void handleFailure(Throwable caught) {
  	            Window.alert("Error Updating State: "+caught.getMessage());
  	            KSBlockingProgressIndicator.removeTask(processingTask);
- 	            // defer to controller to notify
- 	            //KSNotifier.add(new KSNotification("Course Activation Failed.", false, 5000));
  	            stateChangeCallback.exec(null);
  	        }
  	
  	        @Override
  	        public void onSuccess(StatusInfo result) { 	        	
  	        	KSBlockingProgressIndicator.removeTask(processingTask);
- 	        	// defer to controller to notify
- 	            //KSNotifier.add(new KSNotification("Course Activated.", false, 5000));
  	        	stateChangeCallback.exec(newState);
  	        }
     	});
     	
     }
     
-    // This depends heavily on setCourseState().  Changes here will 
-    // affect assumptions made there
+    
+	/**
+	 *  This depends heavily on {@link CourseStateUtil#setCourseState(String, String, Callback)}. 
+	 *  Changes here will affect assumptions made there.
+ 	 *
+	 */
     public void updateCourseActionItems(DataModel cluModel) {
     	String cluState = cluModel.get("state");
     	courseId = cluModel.get(CreditCourseConstants.ID);

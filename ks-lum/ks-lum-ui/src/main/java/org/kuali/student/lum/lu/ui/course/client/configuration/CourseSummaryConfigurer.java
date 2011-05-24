@@ -61,6 +61,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourse
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.KeyListModelWigetBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
