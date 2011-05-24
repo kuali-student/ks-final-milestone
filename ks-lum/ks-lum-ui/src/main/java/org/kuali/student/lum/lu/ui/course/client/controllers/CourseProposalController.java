@@ -123,7 +123,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     protected WorkflowUtilities workflowUtil;
 
 	private boolean initialized = false;
-	private boolean isNew = false;
+	protected boolean isNew = false;
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
@@ -519,7 +519,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     @SuppressWarnings("unchecked")
-    private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    protected void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluProposalModel.setRoot(new Data());
         isNew = true;
         setHeaderTitle();

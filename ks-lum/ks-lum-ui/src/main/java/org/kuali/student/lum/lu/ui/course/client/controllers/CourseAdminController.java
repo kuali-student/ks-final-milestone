@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -10,6 +11,7 @@ import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -17,6 +19,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 
@@ -48,9 +51,24 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
+   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
    		//this.removeMenu();  	   		   		
     }
-	
+    @SuppressWarnings("unchecked")
+    protected void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+        Data data = new Data();
+    	cluProposalModel.setRoot(data);
+        
+        Data proposalData = new Data();
+        proposalData.set(new Data.StringKey("type"), currentDocType);
+        data.set(new Data.StringKey("proposal"), proposalData);
+        
+        isNew = true;
+        setHeaderTitle();
+        setLastUpdated();
+        callback.onModelReady(cluProposalModel);
+        workCompleteCallback.exec(true);
+    }
 	/**
 	 * Override the getSaveButton to provide a new set of buttons for the admin screens
 	 */
