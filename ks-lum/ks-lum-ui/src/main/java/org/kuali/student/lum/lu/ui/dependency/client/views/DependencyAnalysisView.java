@@ -139,7 +139,7 @@ public class DependencyAnalysisView extends ViewComposite{
 	protected void init(){		
 		this.header = new KSDocumentHeader();
 		
-        header.setTitle("Dependency Analysis");
+        header.setTitle("Dependency Analysis");        
 
         //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
@@ -170,6 +170,8 @@ public class DependencyAnalysisView extends ViewComposite{
 	                updateDependencyResults();
                 }
                 ((DependencyAnalysisController) DependencyAnalysisView.this.getController()).showExport(isExportButtonActive());
+                header.showPrint(true);
+                header.setPrintContent(depResultPanel); // we only want to print the results panel
 			}
 			
 		});

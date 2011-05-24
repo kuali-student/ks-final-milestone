@@ -41,6 +41,8 @@ public class KSDocumentHeader extends Composite {
 
     @UiField
     Image exportImage;
+    
+    private Widget printContent = null;  // Widget to be printed. 
 
     private boolean hasSeparator = true;
 
@@ -56,14 +58,40 @@ public class KSDocumentHeader extends Composite {
         setupPrint();
         setupExportPrint();
     }
+    
+    /**
+     * returns the widget that will be printed
+     * 
+     * @return
+     */
+    public Widget getPrintContent(){
+    	return this.printContent;
+    }
+    
+    
+    /**
+     * Takes a widget to be printed. This is useful when you want to 
+     * print only a certain section of a page
+     * 
+     * @param pContent
+     */
+    public void setPrintContent(Widget pContent){
+    	this.printContent = pContent;
+    }
 
     private void setupPrint() {
+    	
+    	// Default to the old way of printing the entire page
+    	if(this.printContent == null){
+    		this.setPrintContent(ApplicationPanel.get().getWidget(0));
+    	}
+    	
         printImage.setVisible(false);
         printImage.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                PrintUtils.print(ApplicationPanel.get().getWidget(0));
+                PrintUtils.print(getPrintContent());
             }
         });
     }
