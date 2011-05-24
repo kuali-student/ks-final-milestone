@@ -44,4 +44,12 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
+    <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
 </beans>

@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 
@@ -41,7 +42,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator  implemen
         try{
             this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), atpInfo, context);
         }catch(PermissionDeniedException ex){
-            throw new OperationFailedException();
+            throw new OperationFailedException("Validation of Atp failed due to Permission denied exception", ex);
         }
         
         return this.nextDecorator.validateAtp(validationType, atpInfo, context);
@@ -55,10 +56,21 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator  implemen
         try{
             this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), milestoneInfo, context);
         } catch(PermissionDeniedException ex){
-            throw new OperationFailedException();
+            throw new OperationFailedException("Validation of Milestone failed due to Permission denied exception", ex);
         }
         
         return this.nextDecorator.validateMilestone(validationType, milestoneInfo, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateAtpMilestoneRelation(String validationType, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        try{
+            this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), atpMilestoneRelationInfo, context);
+        } catch(PermissionDeniedException ex){
+            throw new OperationFailedException("Validation of AtpMilestoneRelation failed due to Permission denied exception", ex);
+        }
+        
+        return this.nextDecorator.validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
     }
     
     

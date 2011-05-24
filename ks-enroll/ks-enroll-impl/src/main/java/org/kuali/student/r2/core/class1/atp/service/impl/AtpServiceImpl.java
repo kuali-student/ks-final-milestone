@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
+import org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao;
+import org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpStateDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
@@ -36,8 +39,9 @@ import org.kuali.student.r2.core.class1.atp.dao.MilestoneDao;
 import org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpStateEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +58,8 @@ public class AtpServiceImpl implements AtpService{
     private AtpAtpRelationTypeDao atpRelTypeDao;
     private MilestoneDao milestoneDao;
     private MilestoneTypeDao milestoneTypeDao;
+    private AtpMilestoneRelationDao atpMilestoneRelationDao;
+    private AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -118,6 +124,22 @@ public class AtpServiceImpl implements AtpService{
 
     public void setMilestoneTypeDao(MilestoneTypeDao milestoneTypeDao) {
         this.milestoneTypeDao = milestoneTypeDao;
+    }
+
+    public AtpMilestoneRelationDao getAtpMilestoneRelationDao() {
+        return atpMilestoneRelationDao;
+    }
+
+    public void setAtpMilestoneRelationDao(AtpMilestoneRelationDao atpMilestoneRelationDao) {
+        this.atpMilestoneRelationDao = atpMilestoneRelationDao;
+    }
+
+    public AtpMilestoneRelationTypeDao getAtpMilestoneRelationTypeDao() {
+        return atpMilestoneRelationTypeDao;
+    }
+
+    public void setAtpMilestoneRelationTypeDao(AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao) {
+        this.atpMilestoneRelationTypeDao = atpMilestoneRelationTypeDao;
     }
 
     @Override
@@ -259,6 +281,10 @@ public class AtpServiceImpl implements AtpService{
         
         List<MilestoneEntity> milestones = milestoneDao.findByIds(milestoneKeyList);
         
+        if(milestones == null) {
+            throw new DoesNotExistException();
+        }
+        
         List<MilestoneInfo> result = new ArrayList<MilestoneInfo>(milestones.size());
         for(MilestoneEntity entity : milestones) {
             if(entity == null) {
@@ -284,6 +310,10 @@ public class AtpServiceImpl implements AtpService{
         
         List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(milestoneTypeKey);
         
+        if(entities == null) {
+            return Collections.emptyList();
+        }
+        
         List<String> results = new ArrayList<String>(entities.size());
         
         for(MilestoneEntity entity : entities) {
@@ -296,8 +326,26 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public List<MilestoneInfo> getMilestonesByAtp(String atpKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpEntity atp = atpDao.find(atpKey);
+        
+        if(atp == null) {
+            throw new InvalidParameterException(atpKey);
+        }
+        
+        List<MilestoneEntity> entities = milestoneDao.getByAtp(atpKey);
+        
+        if(entities == null) {
+            return Collections.emptyList();
+        }
+        
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
+        
+        for(MilestoneEntity entity : entities) {
+            results.add(entity.toDto());
+        }
+        
+        return results;
     }
 
     @Override
@@ -306,6 +354,10 @@ public class AtpServiceImpl implements AtpService{
             PermissionDeniedException {
         
         List<MilestoneEntity> entities = milestoneDao.getByDateRange(startDate, endDate);
+        
+        if(entities == null) {
+            return Collections.emptyList();
+        }
         
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
         
@@ -328,6 +380,10 @@ public class AtpServiceImpl implements AtpService{
         }
         
         List<MilestoneEntity> entities = milestoneDao.getByDateRangeAndType(startDate, endDate, milestoneTypeKey);
+        
+        if(entities == null) {
+            return Collections.emptyList();
+        }
         
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
         
@@ -608,40 +664,94 @@ public class AtpServiceImpl implements AtpService{
     public AtpMilestoneRelationInfo getAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpMilestoneRelationEntity entity = atpMilestoneRelationDao.find(atpMilestoneRelationId);
+        
+        if(entity != null) {
+            return entity.toDto();
+        }
+        else {
+            throw new DoesNotExistException(atpMilestoneRelationId);
+        }
     }
 
     @Override
     public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByIdList(List<String> atpMilestoneRelationIdList,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<AtpMilestoneRelationEntity> relations = atpMilestoneRelationDao.findByIds(atpMilestoneRelationIdList);
+        
+        List<AtpMilestoneRelationInfo> result = new ArrayList<AtpMilestoneRelationInfo>(relations.size());
+        for(AtpMilestoneRelationEntity entity : relations) {
+            if(entity == null) {
+                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+        
+        return result;
     }
 
     @Override
     public List<String> getAtpMilestoneRelationIdsByType(String atpMilestoneRelationTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpMilestoneRelationTypeEntity type = atpMilestoneRelationTypeDao.find(atpMilestoneRelationTypeKey);
+        
+        if(type == null) {
+            throw new InvalidParameterException(atpMilestoneRelationTypeKey);
+        }
+        
+        List<AtpMilestoneRelationEntity> entities = atpMilestoneRelationDao.getByTypeId(atpMilestoneRelationTypeKey);
+        
+        List<String> results = new ArrayList<String>(entities.size());
+        
+        for(AtpMilestoneRelationEntity entity : entities) {
+            results.add(entity.getId());
+        }
+        
+        return results;
     }
 
     @Override
     public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByAtp(String atpKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpEntity atp = atpDao.find(atpKey);
+        
+        if(atp == null) {
+            throw new DoesNotExistException(atpKey);
+        }
+        
+        List<AtpMilestoneRelationEntity> relations = atpMilestoneRelationDao.getByAtpId(atpKey);
+        
+        List<AtpMilestoneRelationInfo> result = new ArrayList<AtpMilestoneRelationInfo>(relations.size());
+        for(AtpMilestoneRelationEntity entity : relations) {
+            result.add(entity.toDto());
+        }
+        
+        return result;
     }
 
     @Override
     public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByMilestone(String milestoneKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        MilestoneEntity milestone = milestoneDao.find(milestoneKey);
+        
+        if(milestone == null) {
+            throw new DoesNotExistException(milestoneKey);
+        }
+        
+        List<AtpMilestoneRelationEntity> relations = atpMilestoneRelationDao.getByMilestoneId(milestoneKey);
+        
+        List<AtpMilestoneRelationInfo> result = new ArrayList<AtpMilestoneRelationInfo>(relations.size());
+        for(AtpMilestoneRelationEntity entity : relations) {
+            result.add(entity.toDto());
+        }
+        
+        return result;
     }
 
     @Override
@@ -656,8 +766,30 @@ public class AtpServiceImpl implements AtpService{
     public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpMilestoneRelationEntity atpMilestoneRel = atpMilestoneRelationDao.find(atpMilestoneRelationInfo.getId());
+        
+        if(atpMilestoneRel != null) {
+            throw new AlreadyExistsException(atpMilestoneRelationInfo.getId());
+        }
+        
+        AtpMilestoneRelationEntity createdRel = new AtpMilestoneRelationEntity(atpMilestoneRelationInfo);
+        if(atpMilestoneRelationInfo.getAtpKey() != null) {
+            createdRel.setAtp(atpDao.find(atpMilestoneRelationInfo.getAtpKey()));
+        }
+        if(atpMilestoneRelationInfo.getMilestoneKey() != null) {
+            createdRel.setMilestone(milestoneDao.find(atpMilestoneRelationInfo.getMilestoneKey()));
+        }
+        if(atpMilestoneRelationInfo.getTypeKey() != null) {
+            createdRel.setAtpMilestoneRelationType(atpMilestoneRelationTypeDao.find(atpMilestoneRelationInfo.getTypeKey()));
+        }
+        if(atpMilestoneRelationInfo.getStateKey() != null) {
+            createdRel.setAtpState(atpStateDao.find(atpMilestoneRelationInfo.getStateKey()));
+        }
+        
+        atpMilestoneRelationDao.persist(createdRel);
+        
+        return createdRel.toDto();
     }
 
     @Override
@@ -665,8 +797,30 @@ public class AtpServiceImpl implements AtpService{
             AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        AtpMilestoneRelationEntity atpMilestoneRel = atpMilestoneRelationDao.find(atpMilestoneRelationId);
+        
+        if(atpMilestoneRel == null) {
+            throw new DoesNotExistException(atpMilestoneRelationId);
+        }
+        
+        AtpMilestoneRelationEntity modifiedRel = new AtpMilestoneRelationEntity(atpMilestoneRelationInfo);
+        if(atpMilestoneRelationInfo.getAtpKey() != null) {
+            modifiedRel.setAtp(atpDao.find(atpMilestoneRelationInfo.getAtpKey()));
+        }
+        if(atpMilestoneRelationInfo.getMilestoneKey() != null) {
+            modifiedRel.setMilestone(milestoneDao.find(atpMilestoneRelationInfo.getMilestoneKey()));
+        }
+        if(atpMilestoneRelationInfo.getTypeKey() != null) {
+            modifiedRel.setAtpMilestoneRelationType(atpMilestoneRelationTypeDao.find(atpMilestoneRelationInfo.getTypeKey()));
+        }
+        if(atpMilestoneRelationInfo.getStateKey() != null) {
+            modifiedRel.setAtpState(atpStateDao.find(atpMilestoneRelationInfo.getStateKey()));
+        }
+        
+        atpMilestoneRelationDao.merge(modifiedRel);
+        
+        return modifiedRel.toDto();
     }
 
     @Override
@@ -674,8 +828,18 @@ public class AtpServiceImpl implements AtpService{
     public StatusInfo deleteAtpMilestoneRelation(String atpMilestoneRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        
+        AtpMilestoneRelationEntity existingEntity = atpMilestoneRelationDao.find(atpMilestoneRelationId);
+        if(existingEntity != null){
+            atpMilestoneRelationDao.remove(existingEntity);
+        }
+        else {
+            throw new DoesNotExistException(atpMilestoneRelationId);
+        }
+        
+        return status;
     }
 
 }
