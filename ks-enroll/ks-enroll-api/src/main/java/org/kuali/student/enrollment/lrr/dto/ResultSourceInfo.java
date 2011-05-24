@@ -35,30 +35,42 @@ import org.w3c.dom.Element;
 public class ResultSourceInfo extends IdEntityInfo implements ResultSource,
 		Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    
+    @XmlElement
+    private String articulationId;
 
-	@XmlElement
-	private String articulationId;
+    @XmlElement
+    private String resultTransformationId;
 
-	@XmlElement
-	private String resultTransformationId;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+    public ResultSourceInfo() {
+        
+    }
+    
+    public ResultSourceInfo(ResultSource resultSource) {
+        super(resultSource);
+        
+        this.articulationId = resultSource.getArticulationId();
+        this.resultTransformationId = resultSource.getResultTransformationId();
+    }
+    
+    
+    public String getArticulationId() {
+        return articulationId;
+    }
 
-	public String getArticulationId() {
-		return articulationId;
-	}
+    public String getResultTransformationId() {
+        return resultTransformationId;
+    }
 
-	public String getResultTransformationId() {
-		return resultTransformationId;
-	}
+    public void setArticulationId(String articulationId) {
+        this.articulationId = articulationId;
+    }
 
-	public void setArticulationId(String articulationId) {
-		this.articulationId = articulationId;
-	}
-
-	public void setResultTransformationId(String resultTransformationId) {
-		this.resultTransformationId = resultTransformationId;
-	}
+    public void setResultTransformationId(String resultTransformationId) {
+        this.resultTransformationId = resultTransformationId;
+    }   
 }

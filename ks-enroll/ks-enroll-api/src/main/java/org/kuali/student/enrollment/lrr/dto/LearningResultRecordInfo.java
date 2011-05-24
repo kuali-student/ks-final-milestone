@@ -16,6 +16,8 @@
 package org.kuali.student.enrollment.lrr.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,7 +31,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 /**
- * Information about the Learning Result Record Info.
+ * Information about the Learning Result Record Info. 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LearningResultRecordInfo", propOrder = { "id", "typeKey",
@@ -38,52 +40,78 @@ import org.w3c.dom.Element;
 public class LearningResultRecordInfo extends IdEntityInfo implements
 		LearningResultRecord, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private String lprId;
+    @XmlElement
+    private String lprId;
 
-	@XmlElement
-	private String resultValueGroupId;
+    @XmlElement
+    private String resultValueGroupId;
 
-	@XmlElement
-	private String resultValueId;
+    @XmlElement
+    private String resultValueId;
 
-	@XmlElement
-	private List<String> resultSourceIdList;
+    @XmlElement
+    private List<String> resultSourceIdList;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	public String getLprId() {
-		return lprId;
-	}
+    public LearningResultRecordInfo() {
 
-	public String getResultValueGroupId() {
-		return resultValueGroupId;
-	}
+    }
 
-	public String getResultValueId() {
-		return resultValueId;
-	}
+    /**
+     * 
+     * This constructs a copy from LearningResultRecord infc
+     * 
+     * @param lrr
+     */
+    public LearningResultRecordInfo(LearningResultRecord lrr) {
+        super(lrr);
+        
+        this.lprId = lrr.getLprId();
+        this.resultValueGroupId = lrr.getResultValueGroupId();
+        this.resultValueId = lrr.getResultValueId();
+        
+        resultSourceIdList = new ArrayList<String>();
+        
+        Collections.copy(resultSourceIdList, lrr.getResultSourceIdList());       
+        
+    }
+    
+    public String getLprId() {
+        return lprId;
+    }
 
-	public List<String> getResultSourceIdList() {
-		return resultSourceIdList;
-	}
+    public String getResultValueGroupId() {
+        return resultValueGroupId;
+    }
 
-	public void setLprId(String lprId) {
-		this.lprId = lprId;
-	}
+    public String getResultValueId() {
+        return resultValueId;
+    }
 
-	public void setResultValueGroupId(String resultValueGroupId) {
-		this.resultValueGroupId = resultValueGroupId;
-	}
+    public List<String> getResultSourceIdList() {
+        if(null == resultSourceIdList) {
+            resultSourceIdList = new ArrayList<String>(0);
+        }
+        return resultSourceIdList;
+    }
 
-	public void setResultValueId(String resultValueId) {
-		this.resultValueId = resultValueId;
-	}
+    public void setLprId(String lprId) {
+        this.lprId = lprId;
+    }
 
-	public void setResultSourceIdList(List<String> resultSourceIdList) {
-		this.resultSourceIdList = resultSourceIdList;
-	}
+    public void setResultValueGroupId(String resultValueGroupId) {
+        this.resultValueGroupId = resultValueGroupId;
+    }
+
+    public void setResultValueId(String resultValueId) {
+        this.resultValueId = resultValueId;
+    }
+
+    public void setResultSourceIdList(List<String> resultSourceIdList) {
+        this.resultSourceIdList = resultSourceIdList;
+    }      
 }
