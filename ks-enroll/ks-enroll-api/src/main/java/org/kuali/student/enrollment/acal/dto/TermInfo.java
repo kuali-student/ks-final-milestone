@@ -71,21 +71,23 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     
     @Override
     public Date getStartDate() {
-        return startDate;
+    	return startDate != null ? new Date(startDate.getTime()) : null;
     }
 
 
     public void setStartDate(Date startDate) {
-        this.startDate = new Date(startDate.getTime());
+    	if (startDate != null)
+			this.startDate = new Date(startDate.getTime());
     }
 
     @Override
     public Date getEndDate() {
-        return endDate;
+    	return endDate != null ? new Date(endDate.getTime()) : null;
     }
 
 
     public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
+		if (endDate != null)
+			this.endDate = new Date(endDate.getTime());
     }
 }
