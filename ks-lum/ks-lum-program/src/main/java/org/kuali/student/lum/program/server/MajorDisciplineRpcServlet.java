@@ -70,7 +70,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     		result.setValue(data);
     		return result;
  	    } catch(Exception e){
- 	        e.printStackTrace(); // needed or exception will be swallowed
+ 	    	LOG.error("Error Updating Major Dicipline State", e); 	        
  	        throw e;
  	    }
 	         
