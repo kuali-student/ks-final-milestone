@@ -219,6 +219,7 @@
 
  <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
   <property name="name" value="level" />
+  <!-- WJG: This requiredness constraint doesn't make sense if the system defaults a value when value not provided. 
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -236,7 +237,6 @@
         </list>
        </property>
        <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluIdentifierInfo.level-parent">
          <property name="minOccurs" value="1" />
         </bean>
@@ -246,6 +246,7 @@
     </property>
    </bean>
   </property>
+  -->
  </bean>
  <bean id="courseInfo.level" parent="courseInfo.level-parent" />
 
