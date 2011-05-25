@@ -22,6 +22,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,7 +30,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 
 /**
- * Controller for create/modify admin screens
+ * Controller for create/modify course with proposal wrapper admin screens. This controller uses a different
+ * configurer for admin screens and attempts to reuse as much of the validation, save & retreive logic coded
+ * in the CourseProposalController.  Also it reuses the menu from CourseProposalController and adds click
+ * handlers to button menu to navigate user b/w sections of the same view.
  * 
  * @author Will
  *
@@ -54,6 +58,7 @@ public class CourseAdminController extends CourseProposalController{
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
    		//this.removeMenu();  	   		   		
     }
+	
     @SuppressWarnings("unchecked")
     protected void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         Data data = new Data();
@@ -69,6 +74,7 @@ public class CourseAdminController extends CourseProposalController{
         callback.onModelReady(cluProposalModel);
         workCompleteCallback.exec(true);
     }
+    
 	/**
 	 * Override the getSaveButton to provide a new set of buttons for the admin screens
 	 */
@@ -100,7 +106,8 @@ public class CourseAdminController extends CourseProposalController{
 	public KSButton getCancelButton(){
 		KSButton button = new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {       
-            	
+            	//TODO: The implement functionality needs to be implemented. This should cancel the proposal
+            	//if the proposal has been saved.
             }
         });
 	
@@ -109,36 +116,65 @@ public class CourseAdminController extends CourseProposalController{
     }
 	
 	/**
-	 * This processes the save, approve, or approve and activate button clicks
+	 * This processes the save, approve, or approve and activate button clicks. The action is determined
+	 * by the value of the state parameter.
 	 * 
-	 * @param state The state to set on the course when saving course data.
+	 * @param state The state to set on the course when saving course data. DRAFT=Save, APPROVED=Approve, and
+	 * ACTIVE=Approve & Activate
 	 */
 	protected void handleButtonClick(final String state){
     	cluProposalModel.set(QueryPath.parse(CreditCourseConstants.STATE), state);
     	final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
+    	
     	if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
-	    	saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+        	// For "Approve" and "Approve & Activate" actions, automatically blanket approve the admin proposal so it 
+        	// enters final state. This is accomplished by first saving the course (via saveActionEvent) and then by 
+        	// executing the the blanket approve call upon a successful save. When user clicks either of these buttons 
+        	// and blanket approve is successful, they are navigated to the view course screen.
+
+    		saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 				@Override
 				public void onActionComplete(ActionEvent actionEvent) {
 					if (saveActionEvent.isSaveSuccessful()){
 						workflowUtil.blanketApprove(new Callback<Boolean>(){
 							@Override
 							public void exec(Boolean result) {
-				                ViewContext viewContext = new ViewContext();
+						    	// FIXME:  Even though workflow rpc call to blanket approve is successful, the
+								// asynchronous nature of workflow is causing timing issues here. Need to investigate
+						    	// making blanket approve workflow more synchronous to avoid the timing issues.
+								// NOTE: One solution is to not allow an activate here, and force user to activate from view
+								// screen, the down side being user now requires two clicks.
+								
+								final ViewContext viewContext = new ViewContext();
 				                viewContext.setId((String)cluProposalModel.get(CreditCourseConstants.ID));
-				                viewContext.setIdType(IdType.OBJECT_ID);							
-								Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
+				                viewContext.setIdType(IdType.OBJECT_ID);															
 								if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state)){
-									KSNotifier.show("Course approved.");
-								} else {
-									KSNotifier.show("Course approved and activated.");
+									KSNotifier.show("Course approved. It may take a minute or two for course status to be updated. Refresh to see latest status.");
+									Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
+								} else if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
+									//For "Approve and Activate", call change state rpc method to properly activate the course
+									CourseWorkflowActionList.setCourseState(viewContext.getId(), DtoConstants.STATE_ACTIVE, new Callback<String>(){
+										@Override
+										public void exec(String result) {
+											if (result == null){
+												KSNotifier.show("Course approved, but activation failed.");
+											} else {
+												KSNotifier.show("Course approved and activated. It may take a minute or two for course status to be updated. Refresh to see latest status.");									
+											}
+											Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
+										}
+									});							
 								}
+								
 							}
 						});
 					}      
 				}
 	    	});
+    	} else {
+    		
     	}
+    	
         CourseAdminController.this.fireApplicationEvent(saveActionEvent);		
 	}
 	
@@ -167,6 +203,15 @@ public class CourseAdminController extends CourseProposalController{
 		return sb.toString();
 	}
 	
+	/**
+	 * This is a special method for CourseAdminController, which adds a menu item to the navigation menu and navigates
+	 * a user to a section within the view rather than a different view.
+	 * 
+	 * @param parentMenu
+	 * @param sectionName
+	 * @param sectionId
+	 * @param section
+	 */
     public void addMenuItemSection(String parentMenu, final String sectionName, final String sectionId, final Section section) {    	
         KSMenuItemData parentItem = null;
         for (int i = 0; i < topLevelMenuItems.size(); i++) {
@@ -184,7 +229,6 @@ public class CourseAdminController extends CourseProposalController{
 				DOM.getElementById(sectionId).scrollIntoView();
 			}    		
     	});
-
 
         if (parentItem != null) {
             parentItem.addSubItem(item);
