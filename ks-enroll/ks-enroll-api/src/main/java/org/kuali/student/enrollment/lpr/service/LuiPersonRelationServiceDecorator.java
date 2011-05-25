@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.lpr.service;
 import java.util.List;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
@@ -343,6 +345,78 @@ public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRela
 		return nextDecorator.findLuiPersonRelationIdsForPerson(personId,context);
 		
 	}
+
+    @Override
+    public LuiPersonRelationRosterInfo updateLuiPersonRelationRoster(String luiPersonRelationRosterId,
+            LuiPersonRelationRosterInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException,
+            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return nextDecorator.updateLuiPersonRelationRoster(luiPersonRelationRosterId, luiPersonRelationInfo, context);
+    }
+
+    @Override
+    public String createLuiPersonRelationRoster(LuiPersonRelationRosterInfo luiPersonRelationRosterInfo,
+            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.createLuiPersonRelationRoster(luiPersonRelationRosterInfo, context);
+    }
+
+    @Override
+    public StatusInfo deleteLuiPersonRelationRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteLuiPersonRelationRoster(luiPersonRelationRosterId, context);
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getAllLuiPersonRelationsFromRoster(String luiPersonRelationRosterId,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getAllLuiPersonRelationsFromRoster(luiPersonRelationRosterId, context);
+    }
+
+    @Override
+    public List<LuiInfo> getAssociatedLuisFromRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getAssociatedLuisFromRoster(luiPersonRelationRosterId, context);
+    }
+
+    @Override
+    public List<LuiInfo> getLprRosterById(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getLprRosterById(luiPersonRelationRosterId, context);
+    }
+
+    @Override
+    public StatusInfo addLprToLPRRoster(String luiPersonRelationRosterId, LuiPersonRelationInfo luiPersonRelationInfo,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.addLprToLPRRoster(luiPersonRelationRosterId, luiPersonRelationInfo, context);
+    }
+
+    @Override
+    public StatusInfo addLprsToLPRRoster(String luiPersonRelationRosterId, List<String> luiPersonRelations,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.addLprsToLPRRoster(luiPersonRelationRosterId, luiPersonRelations, context);
+    }
+
+    @Override
+    public StatusInfo removeLPRsFromLPRRoster(String luiPersonRelationRosterId, List<String> luiPersonRelations,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.removeLPRsFromLPRRoster(luiPersonRelationRosterId, luiPersonRelations, context);
+    }
+
+    @Override
+    public StatusInfo removeAllLPRsFromLPRRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.removeAllLPRsFromLPRRoster(luiPersonRelationRosterId, context);
+    }
 
 }
 

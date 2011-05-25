@@ -18,7 +18,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-
+/**
+ * 
+ * This is a description of what this class does - sambit don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team (sambit)
+ *
+ */
 @SuppressWarnings("serial")
 @XmlTransient
 public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Serializable {

@@ -18,7 +18,9 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 import java.util.List;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
@@ -185,4 +187,76 @@ public class LuiPersonRelationServiceUnimplemented implements
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new OperationFailedException("Not implemented -- probable configuration error.");    }
+
+    @Override
+    public LuiPersonRelationRosterInfo updateLuiPersonRelationRoster(String luiPersonRelationRosterId,
+            LuiPersonRelationRosterInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException,
+            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");   
+    }
+
+    @Override
+    public String createLuiPersonRelationRoster(LuiPersonRelationRosterInfo luiPersonRelationRosterInfo,
+            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");   
+    }
+
+    @Override
+    public StatusInfo deleteLuiPersonRelationRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getAllLuiPersonRelationsFromRoster(String luiPersonRelationRosterId,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public List<LuiInfo> getAssociatedLuisFromRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public List<LuiInfo> getLprRosterById(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public StatusInfo addLprToLPRRoster(String luiPersonRelationRosterId, LuiPersonRelationInfo luiPersonRelationInfo,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public StatusInfo addLprsToLPRRoster(String luiPersonRelationRosterId, List<String> luiPersonRelations,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public StatusInfo removeLPRsFromLPRRoster(String luiPersonRelationRosterId, List<String> luiPersonRelations,
+            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
+
+    @Override
+    public StatusInfo removeAllLPRsFromLPRRoster(String luiPersonRelationRosterId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Not implemented -- probable configuration error.");
+    }
 }
