@@ -68,11 +68,10 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 	public KSButton getCancelButton(){
 		KSButton button = new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {       
-            	
+            	Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
             }
         });
 	
-		button.setEnabled(false);
 		return button;
     }
 	
