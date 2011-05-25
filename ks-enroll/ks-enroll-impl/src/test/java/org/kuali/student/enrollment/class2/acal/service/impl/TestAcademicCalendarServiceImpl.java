@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -23,27 +24,38 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class TestAcademicCalendarServiceImpl extends AbstractServiceTest{
-    @Client(value = "org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl")
-
-    public AcademicCalendarService acalService;
-    public ApplicationContext appContext;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+public class TestAcademicCalendarServiceImpl{
+    
+    private AcademicCalendarService acalService;
+    
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
   
+    @Autowired
+	public void setAcalService(AcademicCalendarService acalService) {
+		this.acalService = acalService;
+	}
+	
     @Before
     public void setUp() {
-        principalId = "123";
-        appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
-        
-        acalService = (AcademicCalendarService) appContext.getBean("acalService"); 
+        principalId = "123";    
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
 
+	@Test
+    public void testAcademicCalendarServiceSetup() {
+    	assertNotNull(acalService);
+    }
+	
     @Test 
     public void testGetAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
