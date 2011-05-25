@@ -425,7 +425,7 @@
         OBJ_ID="4103B731-F8FE-C0B0-90A4-22F8F80B0ADC" PARNT_ID="2680"
         PREV_DOC_TYP_VER_NBR="3057" RTE_VER_NBR="2" VER_NBR="2"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
-        DOC_HDLR_URL="${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"
+        DOC_HDLR_URL="${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber"
         DOC_TYP_DESC="Kuali Student Credit Course Parent Document"
         DOC_TYP_ID="3067" DOC_TYP_NM="CluCreditCourseParentDocument"
         DOC_TYP_VER_NBR="3"
