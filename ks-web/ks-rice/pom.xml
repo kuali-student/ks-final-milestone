@@ -45,6 +45,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
+          <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>          
           <dependentWarExcludes>WEB-INF/lib/**</dependentWarExcludes>
         </configuration>
       </plugin>
