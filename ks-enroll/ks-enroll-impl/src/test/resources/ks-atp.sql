@@ -53,7 +53,7 @@ INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE
 INSERT INTO KSEN_ATPMSTONE_RELTN_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) values ('kuali.atp.milestone.relation.owns', 'Owns', 'Indicates the ATP owns the specified milestone', 0)
 
 // AtpMilestoneRelationEntity
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atpatprelation.state.Active', 'testAtpId1', 'testId1', 'kuali.atp.milestone.relation.owns')
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atpatprelation.state.Active', 'testAtpId1', 'testId', 'kuali.atp.milestone.relation.owns')
 INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atpatprelation.state.Active', 'testAtpId2', 'testId2', 'kuali.atp.milestone.relation.owns')
 
 
