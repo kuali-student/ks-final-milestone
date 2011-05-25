@@ -763,6 +763,7 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -793,6 +794,7 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
+    @Transactional
     public AtpMilestoneRelationInfo updateAtpMilestoneRelation(String atpMilestoneRelationId,
             AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,

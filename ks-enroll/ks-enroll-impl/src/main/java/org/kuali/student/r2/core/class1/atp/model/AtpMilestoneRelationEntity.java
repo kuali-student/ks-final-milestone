@@ -71,6 +71,7 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     }
     
     public AtpMilestoneRelationEntity(AtpMilestoneRelation relation) {
+        super(relation);
         this.setId(relation.getId());
         this.setEffectiveDate(relation.getEffectiveDate());
         this.setExpirationDate(relation.getExpirationDate());

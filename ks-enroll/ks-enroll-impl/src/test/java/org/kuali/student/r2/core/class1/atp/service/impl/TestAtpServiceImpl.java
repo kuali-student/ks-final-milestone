@@ -48,7 +48,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao"), 
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao"),
-    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneDao")} )
+    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneDao"),
+    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
+    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao")} )
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestAtpServiceImpl extends AbstractServiceTest{
     @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl")
@@ -306,7 +308,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         // ensure the delete prevents future gets
         MilestoneInfo shouldBeNull = null;
         try {
-            atpService.getMilestone("testDeleteId", callContext);
+            shouldBeNull = atpService.getMilestone("testDeleteId", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -449,10 +451,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpMilestoneRelationInfo relation = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
-        assertEquals(relation.getMilestoneKey(), "testId1");
+        assertEquals(relation.getMilestoneKey(), "testId");
         assertEquals(relation.getAtpKey(), "testAtpId1");
         assertEquals(relation.getTypeKey(), "kuali.atp.milestone.relation.owns");
         assertEquals(relation.getStateKey(), "kuali.atpatprelation.state.Active");
@@ -468,7 +469,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelationsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> idList = new ArrayList<String>();
         idList.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2"));
@@ -499,7 +499,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelationsByAtp() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpMilestoneRelationInfo> results = atpService.getAtpMilestoneRelationsByAtp("testAtpId1", callContext);
         
@@ -507,8 +506,8 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertEquals(results.size(), 1);
         
         AtpMilestoneRelationInfo rel = results.get(0);
-        assertEquals(rel.getAtpKey(), "testAtpId");
-        assertEquals(rel.getMilestoneKey(), "testId1");
+        assertEquals(rel.getAtpKey(), "testAtpId1");
+        assertEquals(rel.getMilestoneKey(), "testId");
         assertEquals(rel.getTypeKey(), "kuali.atp.milestone.relation.owns");
         
         List<AtpMilestoneRelationInfo> fakeRelations = null;
@@ -522,7 +521,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelationsByMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpMilestoneRelationInfo> results = atpService.getAtpMilestoneRelationsByMilestone("testId2", callContext);
         
@@ -545,7 +543,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelationIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = atpService.getAtpMilestoneRelationIdsByType("kuali.atp.milestone.relation.owns", callContext);
         
@@ -573,24 +570,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     
     @Test
     @Ignore
-    public void testCreateAtpMilestoneRelation() {
-        
-    }
-    
-    @Test
-    @Ignore
-    public void testUpdateAtpMilestoneRelation() {
-        
-    }
-    
-    @Test
-    @Ignore
-    public void testDeleteAtpMilestoneRelation() {
-        
-    }
-    
-    @Test
-    @Ignore
     public void testValidateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpMilestoneRelationInfo relation = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
         
@@ -608,15 +587,14 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
     public void testGetMilestonesByAtp() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<MilestoneInfo> milestones = atpService.getMilestonesByAtp("testAtpId", callContext);
+        List<MilestoneInfo> milestones = atpService.getMilestonesByAtp("testAtpId1", callContext);
         
         assertNotNull(milestones);
         assertEquals(1, milestones.size());
         
         List<String> expectedIds = new ArrayList<String>();
-        expectedIds.add("ATPMSTONEREL-1");
+        expectedIds.add("testId");
         
         // check that all the expected ids came back
         for(MilestoneInfo info : milestones) {
@@ -636,4 +614,102 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         }
         
     }
+    
+    @Test
+    public void testCreateAtpMilestoneRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        AtpMilestoneRelationInfo rel = new AtpMilestoneRelationInfo();
+        
+        rel.setAtpKey("testAtpId1");
+        rel.setMilestoneKey("testId");
+        rel.setEffectiveDate(new Date());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2100);
+        rel.setExpirationDate(cal.getTime());
+        
+        rel.setId("newRelId");
+        rel.setStateKey("kuali.atpatprelation.state.Active");
+        rel.setTypeKey("kuali.atp.milestone.relation.owns");
+        
+        AtpMilestoneRelationInfo created = atpService.createAtpMilestoneRelation(rel, callContext);
+        
+        assertNotNull(created);
+        
+        // attempt to get the newly-created relation
+        AtpMilestoneRelationInfo retrieved = atpService.getAtpMilestoneRelation("newRelId", callContext);
+        
+        assertEquals(retrieved.getId(), "newRelId");
+        assertEquals(retrieved.getTypeKey(), "kuali.atp.milestone.relation.owns");
+        assertEquals(retrieved.getStateKey(), "kuali.atpatprelation.state.Active");
+        
+        AtpMilestoneRelationInfo shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.createAtpMilestoneRelation(rel, callContext);
+            fail("Did not get a AlreadyExistsException when expected");
+        }
+        catch(AlreadyExistsException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+    
+    @Test
+    public void testUpdateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
+        AtpMilestoneRelationInfo retrieved = atpService.getAtpMilestoneRelation("newRelId", callContext);
+        
+        assertNotNull(retrieved);
+        
+        retrieved.setMilestoneKey("testId2");
+        retrieved.setEffectiveDate(new Date());
+        retrieved.setStateKey("kuali.atp.state.Draft");
+        
+        AtpMilestoneRelationInfo updated = atpService.updateAtpMilestoneRelation("newRelId", retrieved, callContext);
+        
+        
+        assertNotNull(updated);
+        assertEquals(updated.getId(), retrieved.getId());
+        
+        // check that further retrieves have updated info
+        AtpMilestoneRelationInfo freshRetrieved = atpService.getAtpMilestoneRelation("newRelId", callContext);
+        
+        assertNotNull(freshRetrieved);
+        assertEquals(freshRetrieved.getMilestoneKey(), "testId2");
+        assertEquals(freshRetrieved.getStateKey(), "kuali.atp.state.Draft");
+        
+        // check for expected DoesNotExistException
+        AtpMilestoneRelationInfo fakeUpdated = null;
+        try {
+            fakeUpdated = atpService.updateAtpMilestoneRelation("fakeKey", new AtpMilestoneRelationInfo(), callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeUpdated);
+        }
+    }
+    
+    @Test
+    public void testDeleteAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StatusInfo status = atpService.deleteAtpMilestoneRelation("newRelId", callContext);
+        
+        assertTrue(status.isSuccess());
+        
+        StatusInfo noStatus = null;
+        try {
+            noStatus = atpService.deleteMilestone("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(noStatus);
+        }
+        
+        // ensure the delete prevents future gets
+        AtpMilestoneRelationInfo shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getAtpMilestoneRelation("newRelId", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+    
 }
