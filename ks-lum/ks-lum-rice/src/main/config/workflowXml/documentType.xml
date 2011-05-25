@@ -65,7 +65,7 @@
       <parent>KualiStudentDocument</parent>
       <description>Kuali Student Credit Course Parent Document</description>
       <label>Kuali Student Credit Course Parent Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber</docHandler>
       <active>true</active>
       <attributes>
         <attribute>
