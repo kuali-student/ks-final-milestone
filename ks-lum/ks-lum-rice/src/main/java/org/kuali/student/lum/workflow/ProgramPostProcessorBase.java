@@ -11,8 +11,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.lum.program.server.MajorDisciplineStateChangeServiceImpl;
-import org.kuali.student.lum.program.server.StateChangeService;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
