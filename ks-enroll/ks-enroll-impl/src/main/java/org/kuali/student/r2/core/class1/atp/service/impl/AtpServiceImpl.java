@@ -44,6 +44,7 @@ import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -228,7 +229,10 @@ public class AtpServiceImpl implements AtpService{
     public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpKey);
-        return null != atp ? atp.toDto() : null;
+        if (null == atp) {
+	        throw new DoesNotExistException("Atp with key = " + atpKey + "not found.");
+        }
+        return atp.toDto();
     }
 
     @Override
@@ -265,13 +269,10 @@ public class AtpServiceImpl implements AtpService{
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MilestoneEntity entity = milestoneDao.find(milestoneKey);
         
-        if(entity != null) {
-            return entity.toDto();
+        if(entity == null) {
+	        throw new DoesNotExistException("Milestone with key = " + milestoneKey + "not found.");
         }
-        else {
-            throw new DoesNotExistException(milestoneKey);
-        }
-        
+		return entity.toDto();
     }
 
     @Override
@@ -442,7 +443,20 @@ public class AtpServiceImpl implements AtpService{
                 modifiedAtp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
             if(atpInfo.getTypeKey() != null)
                 modifiedAtp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
-            atpDao.merge(modifiedAtp);
+            
+//            if (atpInfo.getDescr() != null && (atpInfo.getDescr().getPlain() != null || atpInfo.getDescr().getFormatted() != null)) {
+//                if (atp.getDescr() == null) {
+//                    atp.setDescr(new AtpRichTextEntity());
+//                }
+//                BeanUtils.copyProperties(atpInfo.getDescr(), atp.getDescr());
+//            } else if (atp.getDescr() != null) {
+//                atpRichTextDao.remove(atp.getDescr());
+//                atp.setDescr(null);//TODO is the is the best method of doing this? what if the user passes in a new made up id, does that mean we have orphaned richtexts?
+//            }
+//
+//            atpRichTextDao.update(modifiedAtp.getDescr());
+            
+            atpDao.update(modifiedAtp);
 	        return atpDao.find(modifiedAtp.getId()).toDto();
         }
         else
@@ -450,20 +464,36 @@ public class AtpServiceImpl implements AtpService{
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional
     public StatusInfo deleteAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
-        AtpEntity atp = atpDao.find(atpKey);
-        if( null != atp){
-            atpDao.remove(atp);
+        try {
+	        AtpEntity atp = atpDao.find(atpKey);
+	        if( null != atp){
+	            // remove orphaned AtpAtpRelationEntity's
+	            List<AtpAtpRelationInfo> existingRelations = getAtpAtpRelationsByAtp(atp.getId(), context);
+	            for (AtpAtpRelationInfo aarInfo : existingRelations) {
+	                AtpAtpRelationEntity entity = atpRelDao.find(aarInfo.getId());
+	                atpRelDao.remove(entity);
+	            }
+	            // remove orphaned AtpRichTextEntity's
+//	            List<AtpEntity> atpEntities = atpRichTextDao.getAtpEntitiesUsingAtpRichText(atp.getDescr().getId());
+//	            if (null != atpEntities && atpEntities.size() == 1 && atpEntities.get(0).getDescr().getId().equals(atp.getDescr().getId())) {
+//	                atpRichTextDao.remove(atp.getDescr());
+//	            }
+	            atpDao.remove(atp);
+	        }
+	        else {
+	            throw new DoesNotExistException();
+	        }
+        } catch (Exception e) {
+            throw new OperationFailedException(e.getMessage());
         }
-        else
-            status.setSuccess(Boolean.FALSE);
-        
+	        
         return status;
     }
 

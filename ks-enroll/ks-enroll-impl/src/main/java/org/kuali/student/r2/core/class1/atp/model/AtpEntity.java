@@ -28,6 +28,8 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    // FIXME - (cascade = CascadeType.ALL) results in
+    // "DELETE on table 'KSEN_RICH_TEXT_T' caused a violation of foreign key constraint 'FK996BC8066C2F628C' for key (RICHTEXT-101).  The statement has been rolled back."
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;
     
@@ -39,11 +41,11 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @Column(name = "END_DT")
     private Date endDate;
     
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name = "ATP_TYPE_ID")
     private AtpTypeEntity atpType;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
