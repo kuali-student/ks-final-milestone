@@ -370,6 +370,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 IdableSuggestion theSuggestion = new IdableSuggestion();
                 theSuggestion.setReplacementString(results.get(0).getDisplayKey());
                 theSuggestion.setId(results.get(0).getReturnKey());
+                theSuggestion.setAttrMap(results.get(0).getResultRow().getColumnValues());
 				((KSSuggestBox) basicWidget).setValue(theSuggestion);
 			}
 		}
