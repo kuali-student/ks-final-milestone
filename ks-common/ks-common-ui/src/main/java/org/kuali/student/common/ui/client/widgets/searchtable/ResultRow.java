@@ -44,4 +44,7 @@ public class ResultRow implements IsSerializable, Idable{
         columnValues.put(columnKey, value);        
     }
 
+    public Map<String, String> getColumnValues() {
+    	return columnValues;
+    }
 }
