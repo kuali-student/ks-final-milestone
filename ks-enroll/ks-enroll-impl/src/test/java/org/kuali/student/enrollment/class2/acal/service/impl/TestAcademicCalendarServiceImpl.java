@@ -9,13 +9,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -25,16 +24,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+//@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
 public class TestAcademicCalendarServiceImpl{
     
     private AcademicCalendarService acalService;
+    private AcademicCalendarService acalServiceValidation;
     
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
@@ -44,7 +43,12 @@ public class TestAcademicCalendarServiceImpl{
 		this.acalService = acalService;
 	}
 	
-    @Before
+    @Autowired
+	public void setAcalServiceValidation(AcademicCalendarService acalServiceValidation) {
+		this.acalServiceValidation = acalServiceValidation;
+	}
+
+	@Before
     public void setUp() {
         principalId = "123";    
         callContext = ContextInfo.getInstance(callContext);
@@ -81,6 +85,30 @@ public class TestAcademicCalendarServiceImpl{
             }
     }
   
+    @Test 
+    public void testValidateAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException {
+    	AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setKey("testAcalId1");
+        acal.setName("testAcal1");
+        acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+        List<String> ccKeys = new ArrayList<String>();
+        ccKeys.add("testAtpId2");
+        acal.setCampusCalendarKeys(ccKeys);
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        
+        try{
+        	List<ValidationResultInfo> vri= acalServiceValidation.validateAcademicCalendar("FULL_VALIDATION", acal, callContext);
+        	assertNotNull(vri);
+        }catch (OperationFailedException ex){
+        	//dictionary not ready, this is expected
+        } catch (Exception ex) {
+            //fail("exception from service call :" + ex.getMessage());
+        	//TODO: test exception aspect & get dictionary ready, this is expected
+        } 
+    }
+    
     @Test
     public void testCreateAcademicCalendar() throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -160,6 +188,26 @@ public class TestAcademicCalendarServiceImpl{
             }
     }
     
+	@Test 
+    public void testValidateTerm()throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException {
+       TermInfo term = new TermInfo();
+        term.setKey("testTermId");
+        term.setName("testTerm");
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        
+        try{
+        	List<ValidationResultInfo> vri= acalServiceValidation.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", term, callContext);
+        	assertNotNull(vri);
+        }catch (OperationFailedException ex){
+        	//dictionary not ready, this is expected
+        } catch (Exception ex) {
+            //fail("exception from service call :" + ex.getMessage());
+        	//TODO: test exception aspect & get dictionary ready, this is expected
+        } 
+	}
+	
     @Test 
     public void testCreateAndGetTerm() throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

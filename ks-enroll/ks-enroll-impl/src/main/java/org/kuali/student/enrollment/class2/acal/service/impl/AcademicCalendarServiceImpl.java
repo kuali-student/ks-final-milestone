@@ -33,7 +33,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
+//@WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     private AtpService atpService;
