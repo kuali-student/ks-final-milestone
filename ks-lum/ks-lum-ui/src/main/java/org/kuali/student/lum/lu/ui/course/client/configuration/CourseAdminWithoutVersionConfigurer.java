@@ -13,7 +13,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutV
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 /**
- * This is the screen configuration and layout for the create/modify admin screens
+ * This is the screen configuration and layout for the modify without version admin screens
  * 
  * @author Will
  *

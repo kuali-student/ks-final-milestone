@@ -279,6 +279,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (radioOptionModifyNoVersion.getValue()){
+					viewContext.setId(courseId);
+					viewContext.setIdType(IdType.OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_ADMIN_NO_VERSION.getLocation(), viewContext);
 				} else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
 					doModifyActionItem(viewContext, modifyPath, model);

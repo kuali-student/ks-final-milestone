@@ -1,5 +1,8 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
@@ -39,6 +42,8 @@ import com.google.gwt.user.client.DOM;
  *
  */
 public class CourseAdminController extends CourseProposalController{
+	
+	List<KSButton> cancelButtons = new ArrayList<KSButton>();
 	
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
@@ -104,15 +109,29 @@ public class CourseAdminController extends CourseProposalController{
 	}
 
 	public KSButton getCancelButton(){
-		KSButton button = new KSButton("Cancel", new ClickHandler(){
-            public void onClick(ClickEvent event) {       
-            	//TODO: The implement functionality needs to be implemented. This should cancel the proposal
-            	//if the proposal has been saved.
+		KSButton cancelButton = new KSButton("Cancel Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+            	//Cancel the proposal and navigate the user back to curriculum home if cancel was successful.
+            	workflowUtil.cancel(new Callback<Boolean>(){
+					@Override
+					public void exec(Boolean result) {
+						if (result){
+							Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());							
+						}						
+					}
+            		
+            	});
             }
         });
 	
-		button.setEnabled(false);
-		return button;
+		if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN.equals(currentDocType)){
+			//For new admin proposal, disable the cancel button intially since proposal doesn't exist
+			//until they click save.
+			cancelButton.setEnabled(false);
+		}
+	
+		cancelButtons.add(cancelButton);
+		return cancelButton;
     }
 	
 	/**
@@ -172,7 +191,15 @@ public class CourseAdminController extends CourseProposalController{
 				}
 	    	});
     	} else {
-    		
+    		//For a save event all this does is enable the cancel button to allow user to cancel the proposal.
+    		saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+				@Override
+				public void onActionComplete(ActionEvent action) {
+					for (KSButton cancelButton:cancelButtons){
+						cancelButton.setEnabled(true);
+					}					
+				}    			
+    		});
     	}
     	
         CourseAdminController.this.fireApplicationEvent(saveActionEvent);		

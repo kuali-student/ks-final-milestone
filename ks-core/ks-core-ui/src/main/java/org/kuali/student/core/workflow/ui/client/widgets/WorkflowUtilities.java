@@ -734,7 +734,9 @@ public class WorkflowUtilities{
     }
 
     /**
-     * Call this method to blanked approve 
+     * Call this method to blanked approve the workflow document associated with dataModel
+     * 
+     * 
      * @param onSuccessCallback
      */
     public void blanketApprove(final Callback<Boolean> onSuccessCallback){
@@ -754,6 +756,18 @@ public class WorkflowUtilities{
             }
         });    	
     }
+
+    /**
+     * Call this method to cancel the workflow document associated with dataModel. User will be presented 
+     * with a confirmation dialog to confirm the cancellation of the proposal.
+     * 
+     * @param onSuccessCallback
+     */
+    public void cancel(final Callback<Boolean> onSuccessCallback){
+    	ConfirmationDialog confirmCancelDialog = getConfirmationCancelProposalDialog(onSuccessCallback);
+    	confirmCancelDialog.show();
+    }
+
     
     protected KSDropDown setUpReturnToPreviousDropDown(String workflowId) {
 //        nodeNameList.clear();
@@ -907,51 +921,57 @@ public class WorkflowUtilities{
 
     private KSMenuItemData getCancelWorkflowItem() {
         KSMenuItemData wfCancelWorkflowItem;
-        final KSRichEditor rationaleEditor = new KSRichEditor();
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
             public void onClick(ClickEvent event) {	
-            	final ConfirmationDialog confirmationCancelProposal =
-                    new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
-                 
-            	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
-            	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
-                confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
-                   
-            	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
-            		@Override
-            		public void onClick(ClickEvent event) {
-            			addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
-            			workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
-            				@Override
-                            public void handleFailure(Throwable caught) {
-            					confirmationCancelProposal.hide();
-            					Window.alert("Error Cancelling Proposal");
-            				}
-            				public void onSuccess(Boolean result) {
-            					confirmationCancelProposal.hide();
-            					if (result) {
-            						updateWorkflow(dataModel);
-            						if (submitCallback != null) {
-            							submitCallback.exec(true);
-            						}
-            						// Notify the user that the document was canceled
-            						KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
-            					} else {
-            						Window.alert("Error Cancelling Proposal");
-            					}
-            				}
-            			});
-            		
-            		}
-
-                });
+            	ConfirmationDialog confirmationCancelProposal = getConfirmationCancelProposalDialog(null);
             	confirmationCancelProposal.show();
             }
         });
         return wfCancelWorkflowItem;
     }
 
-	private void setWorkflowStatus(String statusCd){
+    protected ConfirmationDialog getConfirmationCancelProposalDialog (final Callback<Boolean> onSuccessCallback){
+    	final ConfirmationDialog confirmationCancelProposal = new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
+        
+    	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
+    	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
+        confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
+           
+    	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
+    		@Override
+    		public void onClick(ClickEvent event) {
+    			workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+    				@Override
+                    public void handleFailure(Throwable caught) {
+    					confirmationCancelProposal.hide();
+    					Window.alert("Error Cancelling Proposal");
+    				}
+    				public void onSuccess(Boolean result) {
+    					confirmationCancelProposal.hide();
+    					if (result) {
+    						updateWorkflow(dataModel);
+    						if (submitCallback != null) {
+    							submitCallback.exec(true);
+    						}
+    						if (onSuccessCallback != null){
+    							onSuccessCallback.exec(true);
+    						}
+    						// Notify the user that the document was canceled
+    						KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
+    					} else {
+    						Window.alert("Error Cancelling Proposal");
+    					}
+    				}
+    			});
+    		
+    		}
+
+        });  
+    	
+    	return confirmationCancelProposal;
+    }
+    
+    private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
 			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_SAVED_LABEL_KEY);
