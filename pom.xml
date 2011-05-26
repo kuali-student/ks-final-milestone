@@ -151,7 +151,18 @@
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.1</tomcat.plugin.version>
-    <jetty.plugin.version>8.0.0.M2</jetty.plugin.version>
+   <!--  <jetty.plugin.version>8.0.0.M2</jetty.plugin.version> -->
+
+   <!-- added by bonnie -->        
+        <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
+        <jotm.version>2.1.9</jotm.version>
+        <jsp-2.1-glassfish.version>2.1.v20100127</jsp-2.1-glassfish.version>
+        <jsp-api.version>2.1</jsp-api.version>
+        <jsr311-api.version>1.1.1</jsr311-api.version>
+        <jstl.version>1.2</jstl.version>
+        <jta.version>1.1</jta.version>
+        <jdom.version>1.1</jdom.version>
+   <!-- end -->
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
@@ -207,7 +218,19 @@
             <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
           </configuration>
         </plugin>
-
+        
+        <!--  added by bonnie -->
+        <plugin>
+          <groupId>org.mortbay.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${jetty.plugin.version}</version>
+          <configuration>
+            <server>${project.artifactId}</server>
+            <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+          </configuration>
+        </plugin>
+		<!--  ends-->
+		
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
@@ -230,12 +253,6 @@
             <soyc>${ks.gwt.compile.soyc}</soyc>
             <draftCompile>${ks.gwt.compile.draftCompile}</draftCompile>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
-          <version>${jetty.plugin.version}</version>
         </plugin>
 
       </plugins>
