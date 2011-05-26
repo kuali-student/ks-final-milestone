@@ -1,0 +1,103 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- CampusCalendarInfo-->
+    <bean id="campusCalendarInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="campusCalendarInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.CampusCalendarInfo"/>
+        <property name="objectLabel" value="Campus Calendar"/>
+        <property name="objectDescription" value=""/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>key</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="campusCalendarInfo.key"/>
+                <ref bean="campusCalendarInfo.typeKey"/>
+                <ref bean="campusCalendarInfo.stateKey"/>
+                <ref bean="campusCalendarInfo.name"/>
+                <ref bean="campusCalendarInfo.descr"/>
+                <ref bean="campusCalendarInfo.startDate"/>
+                <ref bean="campusCalendarInfo.endDate"/>
+                <ref bean="campusCalendarInfo.location"/>
+                <ref bean="campusCalendarInfo.attributes"/>
+                <ref bean="campusCalendarInfo.meta"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="campusCalendarInfo" parent="campusCalendarInfo-parent"/>
+
+    <bean id="campusCalendarInfo.key-parent" abstract="true" parent="baseKualiKey">
+        <property name="name" value="key"/>
+    </bean>
+    <bean id="campusCalendarInfo.key" parent="campusCalendarInfo.key-parent"/>
+
+    <bean id="campusCalendarInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="campusCalendarInfo.typeKey" parent="campusCalendarInfo.typeKey-parent"/>
+
+    <bean id="campusCalendarInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="campusCalendarInfo.stateKey" parent="campusCalendarInfo.stateKey-parent"/>
+
+    <bean id="campusCalendarInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="campusCalendarInfo.name" parent="campusCalendarInfo.name-parent"/>
+
+    <bean id="campusCalendarInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="campusCalendarInfo.descr" parent="campusCalendarInfo.descr-parent"/>
+
+    <bean id="campusCalendarInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="startDate"/>
+    </bean>
+    <bean id="campusCalendarInfo.startDate" parent="campusCalendarInfo.startDate-parent"/>
+
+    <bean id="campusCalendarInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="endDate"/>
+    </bean>
+    <bean id="campusCalendarInfo.endDate" parent="campusCalendarInfo.endDate-parent"/>
+
+    <bean id="campusCalendarInfo.location-parent" abstract="true" parent="baseKualiStringx">
+        <property name="name" value="location"/>
+    </bean>
+    <bean id="campusCalendarInfo.location" parent="campusCalendarInfo.location-parent"/>
+
+    <bean id="campusCalendarInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="campusCalendarInfo.attributes" parent="campusCalendarInfo.attributes-parent"/>
+
+    <bean id="campusCalendarInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="campusCalendarInfo.meta" parent="campusCalendarInfo.meta-parent"/>
+</beans>

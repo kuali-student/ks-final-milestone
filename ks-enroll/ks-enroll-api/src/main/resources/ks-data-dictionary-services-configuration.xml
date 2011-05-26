@@ -16,6 +16,11 @@
         <property name="serviceNamespaceSuffix" value="atp" />
         <property name="dictionaryLocations" ref="atpServiceDictionaryLocations" />
     </bean>
+    <!-- ACAL Service-->
+    <bean id="dataDictionaryServiceForAcal" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="acal" />
+        <property name="dictionaryLocations" ref="acalServiceDictionaryLocations" />
+    </bean>    
     <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="shouldNotMatter" />

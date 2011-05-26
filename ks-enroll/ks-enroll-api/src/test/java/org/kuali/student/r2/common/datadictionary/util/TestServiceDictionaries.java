@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
@@ -44,6 +45,7 @@ public class TestServiceDictionaries {
         List<String> inputFiles = new ArrayList<String>();
         // Academic Calendar
         inputFiles.add(getXmlFile(AcademicCalendarInfo.class));
+        inputFiles.add(getXmlFile(CampusCalendarInfo.class));        
         inputFiles.add(getXmlFile(TermInfo.class));
         inputFiles.add(getXmlFile(RegistrationDateGroupInfo.class));
         inputFiles.add(getXmlFile(HolidayInfo.class));

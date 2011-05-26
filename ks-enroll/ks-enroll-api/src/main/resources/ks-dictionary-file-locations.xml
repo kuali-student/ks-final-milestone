@@ -34,6 +34,37 @@
             </list>
         </constructor-arg>
     </bean>
+    <!--Academic Calendar Service-->
+    <bean id="academicCalendarInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AcademicCalendarInfo-dictionary.xml" />
+    </bean>
+    <bean id="campusCalendarInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CampusCalendarInfo-dictionary.xml" />
+    </bean>    
+    <bean id="termInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TermInfo-dictionary.xml" />
+    </bean>
+    <bean id="holidayInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HolidayInfo-dictionary.xml" />
+    </bean>
+    <bean id="registrationDateGroupInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RegistrationDateGroupInfo-dictionary.xml" />
+    </bean> 
+    <bean id="keyDateInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-KeyDateInfo-dictionary.xml" />
+    </bean>      
+    <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="acalInfoDictionaryLocation" />
+                <bean parent="campusCalendarInfoDictionaryLocation" />                
+                <bean parent="termInfoDictionaryLocation" />
+                <bean parent="holidayInfoDictionaryLocation" />
+                <bean parent="registrationDateGroupInfoDictionaryLocation" />
+                <bean parent="keyDateInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
 
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
@@ -45,6 +76,12 @@
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
+                <bean parent="academicCalendarInfoDictionaryLocation" />
+                <bean parent="campusCalendarInfoDictionaryLocation" />                  
+                <bean parent="termInfoDictionaryLocation" />
+                <bean parent="holidayInfoDictionaryLocation" />
+                <bean parent="registrationDateGroupInfoDictionaryLocation" />
+                <bean parent="keyDateInfoDictionaryLocation" />                
             </list>
         </constructor-arg>
     </bean>
