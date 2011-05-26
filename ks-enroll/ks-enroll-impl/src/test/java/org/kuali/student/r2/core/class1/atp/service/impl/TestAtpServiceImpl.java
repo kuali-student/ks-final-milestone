@@ -68,17 +68,22 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     @Test
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
 								    MissingParameterException, OperationFailedException, PermissionDeniedException {
-        try{
+		try{
 			AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
 			assertNotNull(atpInfo);
 			assertEquals("testAtpId1", atpInfo.getKey());
 			assertEquals("testAtp1", atpInfo.getName());
 			assertEquals("Desc", atpInfo.getDescr().getPlain());
 			assertEquals("kuali.atp.state.Draft", atpInfo.getStateKey());
-           assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
-       } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-       }
+			assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
+			try {
+			    atpService.getAtp("totallyBogusAtpId999", callContext);
+			    fail("AtpService did not throw DoesNotExistException on getAtp() of nonexistent ATP");
+			}
+			catch (DoesNotExistException dnee) {}
+		} catch (Exception ex) {
+			fail("exception from service call :" + ex.getMessage());
+		}
     }
     
     @Test 
