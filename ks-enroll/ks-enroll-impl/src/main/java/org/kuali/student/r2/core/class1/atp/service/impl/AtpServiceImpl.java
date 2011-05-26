@@ -228,7 +228,10 @@ public class AtpServiceImpl implements AtpService{
     public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpKey);
-        return null != atp ? atp.toDto() : null;
+        if (null == atp) {
+            throw new DoesNotExistException(atpKey);
+        }
+        return atp.toDto();
     }
 
     @Override
