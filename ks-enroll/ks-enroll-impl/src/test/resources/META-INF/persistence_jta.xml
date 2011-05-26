@@ -6,7 +6,7 @@
 	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
     <!-- JPA test "unit" -->
-    <persistence-unit name="persistentUnit" transaction-type="JTA">
+    <persistence-unit name="Acal" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>

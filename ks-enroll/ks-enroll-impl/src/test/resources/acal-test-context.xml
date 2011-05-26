@@ -20,10 +20,9 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-	<import resource="classpath:applicationContext.xml"/> 
-	
+	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	    <!--  Preloaded data -->
-    <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
@@ -59,4 +58,115 @@
             value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
     </bean>
     
+    <bean id="dataSource"
+        class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
+        destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="uniqueResourceName" value="dataSource" />
+        <property name="xaDataSourceClassName"
+            value="${jdbc.xaDataSourceClassName}" />
+        <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+    </bean>
+
+    <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
+        <property name="databasePlatform"
+            value="${jpa.databasePlatform}" />
+        <property name="showSql" value="${jpa.showSql}" />
+        <property name="generateDdl" value="${jpa.generateDdl}" />
+    </bean>
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="defaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
+        <property name="jpaVendorAdapter" ref="vendorAdapter" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+            <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
+    </bean>
+    
+   <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
+        <property name="persistenceUnitName" value="Acal"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
+    </bean>
+
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    
+        <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+    	<property name="atpDao" ref="atpDao"/>
+    	<property name="atpTypeDao" ref="atpTypeDao"/>
+    	<property name="atpStateDao" ref="atpStateDao"/>
+    	<property name="atpRichTextDao" ref="atpRichTextDao"/>
+    	<property name="atpRelDao" ref="atpAtpRelationDao"/>
+    	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/>
+    	<property name="milestoneDao" ref="milestoneDao"/>
+    	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
+    </bean>
+ 
+     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    	<property name="atpService" ref="atpService"/>
+    	<property name="acalAssembler" ref="acalAssembler" />
+    	<property name="termAssembler" ref="termAssembler"/>
+    </bean>
+       
+    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+    	<property name="atpService" ref="atpService"/>
+    </bean>
+      
+	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
+	</bean>
+	
+	    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+      <property name="nextDecorator" ref="atpService"/>
+    </bean>
+    
+    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
+      <property name="nextDecorator" ref="acalService"/>
+      <property name="validator" ref="acalServiceDecorator"/>
+    </bean>
+    
+    <bean id="acalServiceDecorator" parent="validator" />
+        
+        <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+   <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+      	   
 </beans>
