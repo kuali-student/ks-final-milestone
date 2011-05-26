@@ -51,19 +51,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao")} )
-@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
+@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestAtpServiceImpl extends AbstractServiceTest{
     @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl")
     
     public AtpService atpService;
-    public ApplicationContext appContext;
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
     
     @Before
     public void setUp() {
-        principalId = "123";
-        appContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
@@ -85,12 +82,15 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test 
+    @Ignore
     public void testAtpCrud()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
         // test create
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setKey("newId");
         atpInfo.setName("newId");
+        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
@@ -99,9 +99,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             assertNotNull(created);
             assertEquals("newId", created.getKey());
         } catch (AlreadyExistsException e) {
-            e.printStackTrace();
+            fail(e.getMessage());
         } catch (DataValidationErrorException e) {
-            e.printStackTrace();
+            fail(e.getMessage());
         }
         
         // test read
@@ -133,15 +133,16 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         try{
 	        atpService.deleteAtp("testAtpId2", callContext);
-	        AtpInfo deleted = atpService.getAtp("testAtpId1", callContext);
-	        assertEquals(deleted, null);
+	        try {
+		        AtpInfo deleted = atpService.getAtp("testAtpId2", callContext);
+		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
+	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e){
-            e.printStackTrace();
+            fail(e.getMessage());
         }
     }
     
     @Test
-    //TODO: fix locking issue
     public void testUpdateAtp()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
         AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
@@ -160,37 +161,44 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     public void testCreateAtp()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException{
         AtpInfo atpInfo = AtpInfo.newInstance();
-        atpInfo.setKey("newId");
-        atpInfo.setName("newId");
+        atpInfo.setKey("newId2");
+        atpInfo.setName("newId2");
+        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         try {
-            AtpInfo created = atpService.createAtp("newId", atpInfo, callContext);
+            AtpInfo created = atpService.createAtp("newId2", atpInfo, callContext);
             assertNotNull(created);
-            assertEquals("newId", created.getKey());
-        } catch (AlreadyExistsException e) {
-            e.printStackTrace();
-        } catch (DataValidationErrorException e) {
-            e.printStackTrace();
+            assertEquals("newId2", created.getKey());
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
         
         // attempt to get
-        AtpInfo retrieved = atpService.getAtp("newId", callContext);
+        AtpInfo retrieved = atpService.getAtp("newId2", callContext);
         
         assertNotNull(retrieved);
-        assertEquals("newId", retrieved.getKey());
+        assertEquals("newId2", retrieved.getKey());
     }
    
     @Test
+    @Ignore
     public void testDeleteAtp() throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         AtpInfo atpInfo = atpService.getAtp("testAtpId2", callContext);
         assertNotNull(atpInfo);
         assertEquals("testAtpId2", atpInfo.getKey());
         
+        try{
         atpService.deleteAtp("testAtpId2", callContext);
-        AtpInfo deleted = atpService.getAtp("testAtpId1", callContext);
-        assertEquals(deleted, null);
+	        try {
+		        AtpInfo deleted = atpService.getAtp("testAtpId2", callContext);
+		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
+	        } catch (DoesNotExistException dnee) {}
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
     
     @Test
@@ -215,8 +223,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             assertEquals("testCreate", created.getName());
         }
         catch(AlreadyExistsException e) {
-            e.printStackTrace();
-            fail("Got an AlreadyExistsException when testing create");
+            fail(e.getMessage());
         }
         
         // try to get the just-created milestone
@@ -229,12 +236,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             dupeCreated = atpService.createMilestone("newId", milestone, callContext);
             fail("Did not get an AlreadyExistsException when expected");
         }
-        catch(AlreadyExistsException e) {
-            assertNull(dupeCreated);
+        catch(AlreadyExistsException e) {}
         }
         
-    }
-    
     @Test
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
         MilestoneInfo milestone = new MilestoneInfo();
@@ -258,8 +262,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             assertEquals("testCreate", created.getName());
         }
         catch(AlreadyExistsException e) {
-            e.printStackTrace();
-            fail("Got an AlreadyExistsException when testing create");
+            fail(e.getMessage());
         }
         
         MilestoneInfo updateData = atpService.getMilestone("newId2", callContext);
@@ -285,12 +288,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.updateMilestone("fakeKey", updated, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {
-            assertNull(shouldBeNull);
+        catch(DoesNotExistException e) {}
         }
-    }
     
     @Test
+    @Ignore
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         StatusInfo status = atpService.deleteMilestone("testDeleteId", callContext);
         
@@ -301,9 +303,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             noStatus = atpService.deleteMilestone("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {
-            assertNull(noStatus);
-        }
+        catch(DoesNotExistException e) {}
         
         // ensure the delete prevents future gets
         MilestoneInfo shouldBeNull = null;
@@ -311,10 +311,8 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestone("testDeleteId", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {
-            assertNull(shouldBeNull);
+        catch(DoesNotExistException e) {}
         }
-    }
     
     @Test
     public void testGetMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -362,9 +360,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestonesByKeyList(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {
-            assertNull(shouldBeNull);
-        }
+        catch(DoesNotExistException e) {}
     }
     
     @Test
@@ -427,9 +423,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestoneKeysByType(fakeMilestoneType, callContext);
             fail("Did not get a InvalidParameterException when expected");
         }
-        catch(InvalidParameterException e) {
-            assertNull(shouldBeNull);
-        }
+        catch(InvalidParameterException e) {}
     }
     
     @Test

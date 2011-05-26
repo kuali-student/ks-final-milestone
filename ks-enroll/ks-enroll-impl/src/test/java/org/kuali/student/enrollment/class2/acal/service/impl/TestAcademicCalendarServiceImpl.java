@@ -1,6 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
+@Ignore
 public class TestAcademicCalendarServiceImpl{
     
     private AcademicCalendarService acalService;

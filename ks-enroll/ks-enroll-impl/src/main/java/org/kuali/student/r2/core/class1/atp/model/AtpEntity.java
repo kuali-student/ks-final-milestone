@@ -39,11 +39,11 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @Column(name = "END_DT")
     private Date endDate;
     
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name = "ATP_TYPE_ID")
     private AtpTypeEntity atpType;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 

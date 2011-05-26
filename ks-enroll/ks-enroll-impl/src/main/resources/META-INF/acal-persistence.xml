@@ -7,7 +7,7 @@
 	version="1.0">
 
 	<!-- JPA test "unit" -->
-	<persistence-unit name="Acal" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="Acal" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
@@ -26,6 +26,9 @@
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationTypeEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>
