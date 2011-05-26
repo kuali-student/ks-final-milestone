@@ -91,10 +91,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     
     <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
       <property name="nextDecorator" ref="acalService"/>
-      <property name="validator" ref="acalServiceDecorator"/>
+      <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal">
+      <property name="validator" ref="validator"/>
     </bean>
     
-    <bean id="acalServiceDecorator" parent="validator" />
+
     <!-- end of decorators -->
     
     
