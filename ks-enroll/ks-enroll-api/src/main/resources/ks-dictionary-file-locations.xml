@@ -35,7 +35,7 @@
         </constructor-arg>
     </bean>
     <!--Academic Calendar Service-->
-    <bean id="academicCalendarInfoDictionaryLocation" class="java.lang.String">
+    <bean id="acalInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-AcademicCalendarInfo-dictionary.xml" />
     </bean>
     <bean id="campusCalendarInfoDictionaryLocation" class="java.lang.String">
@@ -76,7 +76,7 @@
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
-                <bean parent="academicCalendarInfoDictionaryLocation" />
+                <bean parent="acalInfoDictionaryLocation" />
                 <bean parent="campusCalendarInfoDictionaryLocation" />                  
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />

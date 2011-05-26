@@ -85,7 +85,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="campusCalendarInfo.endDate" parent="campusCalendarInfo.endDate-parent"/>
 
-    <bean id="campusCalendarInfo.location-parent" abstract="true" parent="baseKualiStringx">
+    <bean id="campusCalendarInfo.location-parent" abstract="true" parent="baseKualiString">
         <property name="name" value="location"/>
     </bean>
     <bean id="campusCalendarInfo.location" parent="campusCalendarInfo.location-parent"/>
