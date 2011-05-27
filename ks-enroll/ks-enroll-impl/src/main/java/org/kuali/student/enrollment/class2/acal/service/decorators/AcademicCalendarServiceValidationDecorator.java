@@ -68,10 +68,14 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
             AcademicCalendarInfo acalInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         try{
-            this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), acalInfo, context);
+        	List<ValidationResultInfo> errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), acalInfo, context);
+        	 if ( ! errors.isEmpty ())   {
+    		    return errors;
+		     }
         }catch(PermissionDeniedException ex){
             throw new OperationFailedException();
         }
+        
         return this.nextDecorator.validateAcademicCalendar(validationType, acalInfo, context);
     }
     
