@@ -45,7 +45,13 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <configuration>
+        <configuration>        
+           <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>9090</port>
+              <maxIdleTime>60000</maxIdleTime>
+            </connector>
+           </connectors>
            <webAppConfig>
               <contextPath>/ks-embedded-dev</contextPath>
            </webAppConfig>
