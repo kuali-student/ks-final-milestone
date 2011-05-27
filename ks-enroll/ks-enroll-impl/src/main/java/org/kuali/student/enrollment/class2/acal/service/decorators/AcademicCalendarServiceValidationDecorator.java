@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -69,23 +70,12 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
             throws OperationFailedException, MissingParameterException, PermissionDeniedException {
         return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
-
-    
     
     @Override
     public List<ValidationResultInfo> validateAcademicCalendar(String validationType,
-            AcademicCalendarInfo acalInfo, ContextInfo context) throws DoesNotExistException,
+            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        try{
-        	List<ValidationResultInfo> errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), acalInfo, context);
-        	 if ( ! errors.isEmpty ())   {
-    		    return errors;
-		     }
-        }catch(PermissionDeniedException ex){
-            throw new OperationFailedException();
-        }
-        
-        return this.nextDecorator.validateAcademicCalendar(validationType, acalInfo, context);
+    	return validate(validationType, academicCalendarInfo, context);
     }
     
     @Override
@@ -93,30 +83,30 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
             TermInfo termInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        try{
-            this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), termInfo, context);
-        }catch(PermissionDeniedException ex){
-            throw new OperationFailedException();
-        }
-        return this.nextDecorator.validateTerm(validationType,termInfo, context);
+    	return validate(validationType, termInfo, context);
     }
 
+    private void validateAcademicCalendar( AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+    InvalidParameterException, MissingParameterException{
+	  try
+	  {
+	   List<ValidationResultInfo> errors = this.validateAcademicCalendar(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), academicCalendarInfo, context);
+	   if ( ! errors.isEmpty ())   {
+	    throw new DataValidationErrorException ("Errors", errors);
+	   }
+	  }
+	  catch (DoesNotExistException ex)
+	  {
+	   throw new OperationFailedException("erorr trying to validate", ex);
+	  }   	
+    }
     
  @Override
  public AcademicCalendarInfo createAcademicCalendar (String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
  {
-  try
-  {
-   List<ValidationResultInfo> errors = this.validateAcademicCalendar (DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), academicCalendarInfo, context);
-   if ( ! errors.isEmpty ())   {
-    throw new DataValidationErrorException ("Errors", errors);
-   }
-  }
-  catch (DoesNotExistException ex)
-  {
-   throw new OperationFailedException("erorr trying to validate", ex);
-  }
-  return nextDecorator.createAcademicCalendar (academicCalendarKey, academicCalendarInfo, context);
+	 validateAcademicCalendar(academicCalendarInfo, context);
+	 
+	 return nextDecorator.createAcademicCalendar (academicCalendarKey, academicCalendarInfo, context);
  }
     
  @Override
@@ -127,17 +117,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
  InvalidParameterException, MissingParameterException,
  OperationFailedException, PermissionDeniedException,
  VersionMismatchException {
-	  try
-	  {
-	   List<ValidationResultInfo> errors = this.validateAcademicCalendar (DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), academicCalendarInfo, context);
-	   if ( ! errors.isEmpty ())   {
-	    throw new DataValidationErrorException ("Errors", errors);
-	   }
-	  }
-	  catch (DoesNotExistException ex)
-	  {
-	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	validateAcademicCalendar(academicCalendarInfo, context);
 	  
  	return this.nextDecorator.updateAcademicCalendar(academicCalendarKey,academicCalendarInfo, context);
  }
@@ -148,18 +128,14 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
          ContextInfo context) throws DoesNotExistException,
          InvalidParameterException, MissingParameterException,
          OperationFailedException {
- 	return this.nextDecorator.validateCampusCalendar(validationType, campusCalendarInfo, context);
+	 return validate(validationType, campusCalendarInfo, context);
  }
 
- @Override
- public CampusCalendarInfo createCampusCalendar(String campusCalendarKey,
-         CampusCalendarInfo campusCalendarInfo, ContextInfo context)
- throws AlreadyExistsException, DataValidationErrorException,
- InvalidParameterException, MissingParameterException,
- OperationFailedException, PermissionDeniedException {
+ private void validateCampusCalendar(CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+ InvalidParameterException, MissingParameterException{
 	 try
 	  {
-	   List<ValidationResultInfo> errors = this.validateCampusCalendar (DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), campusCalendarInfo, context);
+	   List<ValidationResultInfo> errors = this.validateCampusCalendar(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), campusCalendarInfo, context);
 	   if ( ! errors.isEmpty ())   {
 	    throw new DataValidationErrorException ("Errors", errors);
 	   }
@@ -167,7 +143,16 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	  catch (DoesNotExistException ex)
 	  {
 	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	  }	 
+ }
+ 
+ @Override
+ public CampusCalendarInfo createCampusCalendar(String campusCalendarKey,
+         CampusCalendarInfo campusCalendarInfo, ContextInfo context)
+ throws AlreadyExistsException, DataValidationErrorException,
+ InvalidParameterException, MissingParameterException,
+ OperationFailedException, PermissionDeniedException {
+	 validateCampusCalendar(campusCalendarInfo, context);
 	  
  	return this.nextDecorator.createCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
  }
@@ -179,27 +164,13 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
  InvalidParameterException, MissingParameterException,
  OperationFailedException, PermissionDeniedException,
  VersionMismatchException {
-	 try
-	  {
-	   List<ValidationResultInfo> errors = this.validateCampusCalendar (DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), campusCalendarInfo, context);
-	   if ( ! errors.isEmpty ())   {
-	    throw new DataValidationErrorException ("Errors", errors);
-	   }
-	  }
-	  catch (DoesNotExistException ex)
-	  {
-	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	 validateCampusCalendar(campusCalendarInfo, context);
 	  
  	return this.nextDecorator.updateCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
  }
-
- @Override
- public TermInfo createTerm(String termKey, TermInfo termInfo,
-         ContextInfo context) throws AlreadyExistsException,
-         DataValidationErrorException, InvalidParameterException,
-         MissingParameterException, OperationFailedException,
-         PermissionDeniedException {
+ 
+ private void validateTerm(TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+ InvalidParameterException, MissingParameterException{
 	 try
 	  {
 	   List<ValidationResultInfo> errors = this.validateTerm(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), termInfo, context);
@@ -210,8 +181,17 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	  catch (DoesNotExistException ex)
 	  {
 	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
-	  
+	  }	 
+ }
+ 
+ @Override
+ public TermInfo createTerm(String termKey, TermInfo termInfo,
+         ContextInfo context) throws AlreadyExistsException,
+         DataValidationErrorException, InvalidParameterException,
+         MissingParameterException, OperationFailedException,
+         PermissionDeniedException {
+	validateTerm(termInfo, context);
+	
  	return this.nextDecorator.createTerm(termKey,termInfo, context);
  }
 
@@ -221,19 +201,9 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
          DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException,
          PermissionDeniedException, VersionMismatchException {
-	 try
-	  {
-	   List<ValidationResultInfo> errors = this.validateTerm(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), termInfo, context);
-	   if ( ! errors.isEmpty ())   {
-	    throw new DataValidationErrorException ("Errors", errors);
-	   }
-	  }
-	  catch (DoesNotExistException ex)
-	  {
-	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	 	validateTerm(termInfo, context);
 	  
- 	return this.nextDecorator.updateTerm(termKey,termInfo, context);
+ 		return this.nextDecorator.updateTerm(termKey,termInfo, context);
  }
 
  @Override
@@ -242,15 +212,11 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException {
 	 
- 	return this.nextDecorator.validateKeyDate(validationType,keyDateInfo , context);
+	 	return validate(validationType, keyDateInfo, context);
  }
 
- @Override
- public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey,
-         KeyDateInfo keyDateInfo, ContextInfo context)
- throws AlreadyExistsException, DataValidationErrorException,
- InvalidParameterException, MissingParameterException,
- OperationFailedException, PermissionDeniedException {
+ private void validateKeyDate(KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+ InvalidParameterException, MissingParameterException{
 	 try
 	  {
 	   List<ValidationResultInfo> errors = this.validateKeyDate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), keyDateInfo, context);
@@ -261,7 +227,16 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	  catch (DoesNotExistException ex)
 	  {
 	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	  }	 
+ }
+ 
+ @Override
+ public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey,
+         KeyDateInfo keyDateInfo, ContextInfo context)
+ throws AlreadyExistsException, DataValidationErrorException,
+ InvalidParameterException, MissingParameterException,
+ OperationFailedException, PermissionDeniedException {
+	validateKeyDate(keyDateInfo, context);
 	  
  	return this.nextDecorator.createKeyDateForTerm(termKey,keyDateKey, keyDateInfo , context);
  }
@@ -273,17 +248,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
  InvalidParameterException, MissingParameterException,
  OperationFailedException, PermissionDeniedException,
  VersionMismatchException {
-	 try
-	  {
-	   List<ValidationResultInfo> errors = this.validateKeyDate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), keyDateInfo, context);
-	   if ( ! errors.isEmpty ())   {
-	    throw new DataValidationErrorException ("Errors", errors);
-	   }
-	  }
-	  catch (DoesNotExistException ex)
-	  {
-	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	validateKeyDate(keyDateInfo, context);
 	  
  	return this.nextDecorator.updateKeyDate(keyDateKey, keyDateInfo , context);
  }
@@ -293,7 +258,8 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
          HolidayInfo holidayInfo, ContextInfo context)
          throws DoesNotExistException, InvalidParameterException,
          MissingParameterException, OperationFailedException {
- 	return this.nextDecorator.validateHoliday(validationType,holidayInfo,  context);
+	 
+	 return validate(validationType, holidayInfo, context);
  }
 
  @Override
@@ -302,6 +268,13 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
  throws AlreadyExistsException, DataValidationErrorException,
  InvalidParameterException, MissingParameterException,
  OperationFailedException, PermissionDeniedException {
+	validateHoliday(holidayInfo,context);
+	  
+   	return this.nextDecorator.createHolidayForCampusCalendar(campusCalendarKey,holidayKey,holidayInfo,  context);
+ }
+
+ private void validateHoliday(HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+ InvalidParameterException, MissingParameterException{
 	 try
 	  {
 	   List<ValidationResultInfo> errors = this.validateHoliday(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), holidayInfo, context);
@@ -312,11 +285,9 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	  catch (DoesNotExistException ex)
 	  {
 	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
-	  
-   	return this.nextDecorator.createHolidayForCampusCalendar(campusCalendarKey,holidayKey,holidayInfo,  context);
+	  }	 
  }
-
+ 
  @Override
  public HolidayInfo updateHoliday(String holidayKey,
          HolidayInfo holidayInfo, ContextInfo context)
@@ -324,17 +295,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
  InvalidParameterException, MissingParameterException,
  OperationFailedException, PermissionDeniedException,
  VersionMismatchException {	 
-	 try
-	  {
-	   List<ValidationResultInfo> errors = this.validateHoliday(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), holidayInfo, context);
-	   if ( ! errors.isEmpty ())   {
-	    throw new DataValidationErrorException ("Errors", errors);
-	   }
-	  }
-	  catch (DoesNotExistException ex)
-	  {
-	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	validateHoliday(holidayInfo,context);
 	  
  	return this.nextDecorator.updateHoliday(holidayKey,holidayInfo,  context);
  }
@@ -346,17 +307,12 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
          ContextInfo context) throws DoesNotExistException,
          InvalidParameterException, MissingParameterException,
          OperationFailedException {
- 	return this.nextDecorator.validateRegistrationDateGroup(validationType,registrationDateGroupInfo, context);
+	 return validate(validationType, registrationDateGroupInfo, context);
  }
 
- @Override
- public RegistrationDateGroupInfo updateRegistrationDateGroup(
-         String termKey,
-         RegistrationDateGroupInfo registrationDateGroupInfo,
-         ContextInfo context) throws DataValidationErrorException,
-         DoesNotExistException, InvalidParameterException,
-         MissingParameterException, OperationFailedException,
-         PermissionDeniedException, VersionMismatchException {
+ private void validateRegistrationDateGroup(RegistrationDateGroupInfo registrationDateGroupInfo,
+         ContextInfo context) throws DataValidationErrorException, OperationFailedException, 
+         InvalidParameterException, MissingParameterException{
 	 try
 	  {
 	   List<ValidationResultInfo> errors = this.validateRegistrationDateGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString (), registrationDateGroupInfo, context);
@@ -367,9 +323,30 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	  catch (DoesNotExistException ex)
 	  {
 	   throw new OperationFailedException("erorr trying to validate", ex);
-	  }
+	  }	 
+ }
+ 
+ @Override
+ public RegistrationDateGroupInfo updateRegistrationDateGroup(
+         String termKey,
+         RegistrationDateGroupInfo registrationDateGroupInfo,
+         ContextInfo context) throws DataValidationErrorException,
+         DoesNotExistException, InvalidParameterException,
+         MissingParameterException, OperationFailedException,
+         PermissionDeniedException, VersionMismatchException {
+	validateRegistrationDateGroup(registrationDateGroupInfo, context);
 	  
  	return this.nextDecorator.updateRegistrationDateGroup(termKey,registrationDateGroupInfo, context);
  }
 
+ private List<ValidationResultInfo> validate(String validationType, Object info, ContextInfo context)
+ throws OperationFailedException, MissingParameterException, InvalidParameterException{
+ 	List<ValidationResultInfo> errors;
+    try{
+    	errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
+    }catch(PermissionDeniedException ex){
+        throw new OperationFailedException();
+    }
+    return errors;
+ }
 }
