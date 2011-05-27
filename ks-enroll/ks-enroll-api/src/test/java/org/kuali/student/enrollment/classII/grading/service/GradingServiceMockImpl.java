@@ -291,7 +291,7 @@ public class GradingServiceMockImpl implements GradingService {
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.gete(gradeRosterEntryId);
+        GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.get(gradeRosterEntryId);
         geInfo.setAssignedGrade(assignedGrade);
         return assignedGrade;
     }
