@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lu.service;
+package org.kuali.student.r2.lum.lu.service;
 
 import java.util.Date;
 import java.util.List;

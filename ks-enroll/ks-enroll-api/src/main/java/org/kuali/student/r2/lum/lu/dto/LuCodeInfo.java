@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lu.dto;
+package org.kuali.student.r2.lum.lu.dto;
 
 import java.io.Serializable;
 
