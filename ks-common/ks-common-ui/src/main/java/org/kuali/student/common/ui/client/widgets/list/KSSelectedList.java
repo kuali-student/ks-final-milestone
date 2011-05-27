@@ -385,15 +385,23 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     public void setValue(Value value) {
         clear();
         if (value != null) {
-            Data data = ((DataValue) value).get();
-            Iterator<Property> iter = data.realPropertyIterator();
-            while (iter.hasNext()) {
-                Property p = iter.next();
-                String v = (String) p.getValue();
-                //FIXME: do we need to do a search? is this method ever going to be called?
-                KSItemLabel item = createItem(v, "Display: " + v, hasDetails);
-                addItem(item);
-            }
+        	try{
+	            Data data = ((DataValue) value).get();
+	            Iterator<Property> iter = data.realPropertyIterator();
+	            while (iter.hasNext()) {
+	                Property p = iter.next();
+	                String v = (String) p.getValue();
+	                //FIXME: do we need to do a search? is this method ever going to be called?
+	                KSItemLabel item = createItem(v, "Display: " + v, hasDetails);
+	                addItem(item);
+	            }
+        	}catch(ClassCastException cce){
+        		String errorMsg = 	"ClassCastException in KSSelectedList.java::setValue \n " +
+        							"Trying to cast Value from: " + value.getClass().getName() + "\n " +
+        							"TO DataValue.java. \n Value was of type " + value.getType().getName();
+        		
+        		throw new ClassCastException(errorMsg);
+        	}
         }
     }
 
