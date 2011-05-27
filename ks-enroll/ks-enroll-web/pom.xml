@@ -56,12 +56,14 @@
 			<groupId>org.kuali.student.enroll</groupId>
 			<artifactId>ks-enroll-ui</artifactId>
 			<version>${project.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.enroll</groupId>
 			<artifactId>ks-enroll-impl</artifactId>
 			<version>${project.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
