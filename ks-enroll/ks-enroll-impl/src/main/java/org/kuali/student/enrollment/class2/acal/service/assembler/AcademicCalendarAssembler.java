@@ -58,6 +58,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
                 }
             }
 
+            //TODO:wire atpatpRelationAssembler
             //process atpatprelation
             assembleAtpAtpRelations(atp.getKey(), acal, context);
             return acal;
@@ -110,7 +111,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         
         if(acal.getCampusCalendarKeys() != null && !acal.getCampusCalendarKeys().isEmpty()){
             try{
-                //TODO: should state pass along to relations?
+            	   //TODO:wire atpatpRelationAssembler
                 disassembleAtpAtpRelations(acal.getKey(), acal.getCampusCalendarKeys(), acal.getStateKey(), context);
             }catch (Exception e){
                 return null;
