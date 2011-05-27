@@ -52,7 +52,7 @@ public class KSErrorDialog {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
                 GWT.log(e.getMessage(), e);
-                Window.alert("Uncaught exception was thrown:"+getStackTrace(e));
+                Window.alert("Uncaught exception was thrown:"+getStackTrace(e)+"\nMessage:"+e.getMessage());
             	KSErrorDialog.show(e);
             }
         });
