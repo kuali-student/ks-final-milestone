@@ -300,8 +300,10 @@ public class GradingServiceMockImpl implements GradingService {
     public CreditsEarnedInfo updateCredit(String gradeRosterEntryId, CreditsEarnedInfo assignedGrade,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
+       
+        GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.get(gradeRosterEntryId);
+        geInfo.setCreditsEarned(assignedGrade);
+        return assignedGrade;
     }
 
 }
