@@ -119,7 +119,7 @@ public class TestAcademicCalendarServiceImpl{
         
         try{
         	List<ValidationResultInfo> vri= acalServiceValidation.validateAcademicCalendar("FULL_VALIDATION", acal, callContext);
-        	assertNotNull(vri);
+        	assertNull(vri);
         }catch (OperationFailedException ex){
         	//dictionary not ready, this is expected
         } catch (Exception ex) {
@@ -219,7 +219,7 @@ public class TestAcademicCalendarServiceImpl{
         
         try{
         	List<ValidationResultInfo> vri= acalServiceValidation.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", term, callContext);
-        	assertNotNull(vri);
+        	assertNull(vri);
         }catch (OperationFailedException ex){
         	//dictionary not ready, this is expected
         } catch (Exception ex) {
