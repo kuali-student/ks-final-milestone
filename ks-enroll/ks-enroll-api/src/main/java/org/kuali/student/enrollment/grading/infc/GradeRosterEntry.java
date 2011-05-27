@@ -33,15 +33,14 @@ public interface GradeRosterEntry extends HasId, HasPrimaryKey, HasAttributesAnd
 
     public String getStudentId();
     
-    public String getActivityOfferingId();
-        
     /**
-     * Name: Grade Roster Id
-     * Id of the grade roster to which this roster entry belongs
+     * 
+     * This method ...
      * 
      * @return
      */
-    public String getGradeRosterId();
+    public String getActivityOfferingId();
+        
     
     /**
      * Name: Assigned Grade

@@ -25,13 +25,13 @@ import org.w3c.dom.Element;
 public class LuiPersonRelationRosterInfo extends IdEntityInfo implements LuiPersonRelationRoster {
 
     private static final long serialVersionUID = 1L;
-    
+
     @XmlElement
     private List<String> associatedLuiIds;
 
     @XmlElement
     private List<String> lprIds;
-    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -41,8 +41,10 @@ public class LuiPersonRelationRosterInfo extends IdEntityInfo implements LuiPers
     }
 
     public LuiPersonRelationRosterInfo(LuiPersonRelationRoster lprRoster) {
-        this.associatedLuiIds = new ArrayList<String>(lprRoster.getAssociatedLuiIds());
-        this.lprIds = new ArrayList<String>(lprRoster.getLprIds());
+        if (lprRoster != null) {
+            this.associatedLuiIds = new ArrayList<String>(lprRoster.getAssociatedLuiIds());
+            this.lprIds = new ArrayList<String>(lprRoster.getLprIds());
+        }
     }
 
     @Override

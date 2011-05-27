@@ -291,7 +291,7 @@ public interface GradingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(@WebParam(name = "gradeRosterEntryIdList") String gradeRosterEntryIdList, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(@WebParam(name = "gradeRosterEntryIdList") List<String> gradeRosterEntryIdList, @WebParam(name = "context") ContextInfo context)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /**
      * 
