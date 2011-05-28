@@ -37,17 +37,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //@Ignore
 public class TestAcademicCalendarServiceImpl{
     
-    private AcademicCalendarService acalService;
     private AcademicCalendarService acalServiceValidation;
     
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
   
-    @Autowired
-	public void setAcalService(AcademicCalendarService acalService) {
-		this.acalService = acalService;
-	}
-	
     @Autowired
 	public void setAcalServiceValidation(AcademicCalendarService acalServiceValidation) {
 		this.acalServiceValidation = acalServiceValidation;
@@ -62,7 +56,6 @@ public class TestAcademicCalendarServiceImpl{
 
 	@Test
     public void testAcademicCalendarServiceSetup() {
-    	assertNotNull(acalService);
     	assertNotNull(acalServiceValidation);
     }
 
@@ -70,7 +63,7 @@ public class TestAcademicCalendarServiceImpl{
 	@Test 
     public void testGetAcademicCalendarFromDerby()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
-		AcademicCalendarInfo acal = acalService.getAcademicCalendar("testAtpId1",callContext);
+		AcademicCalendarInfo acal = acalServiceValidation.getAcademicCalendar("testAtpId1",callContext);
 		assertNotNull(acal);
 		assertEquals("testAtpId1", acal.getKey());
 		assertEquals("testAtp1", acal.getName());
@@ -90,11 +83,11 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testAcalId", created.getKey());
                 
-                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testAcalId", callContext);
+                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
 
                 assertNotNull(existed);
                 assertEquals("testAcalId", existed.getKey());
@@ -144,7 +137,7 @@ public class TestAcademicCalendarServiceImpl{
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try{
-            AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId1", acal, callContext);
+            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId1", acal, callContext);
             assertNotNull(created);
             assertEquals("testAcalId1", created.getKey());
         } catch (Exception ex) {
@@ -165,17 +158,17 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalService.createAcademicCalendar("testNewAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testNewAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testNewAcalId", created.getKey());
                 
                 
-                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testNewAcalId", callContext);
+                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testNewAcalId", callContext);
 
                 assertNotNull(existed);
                 
                 existed.setName("testUpdatedAcal");
-                AcademicCalendarInfo updated = acalService.updateAcademicCalendar("testNewAcalId", existed, callContext);
+                AcademicCalendarInfo updated = acalServiceValidation.updateAcademicCalendar("testNewAcalId", existed, callContext);
                 assertEquals("testUpdatedAcal", updated.getName());
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
@@ -194,14 +187,14 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalService.createAcademicCalendar("testDeletedAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testDeletedAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testDeletedAcalId", created.getKey());
 
-                StatusInfo ret = acalService.deleteAcademicCalendar("testDeletedAcalId", callContext);
+                StatusInfo ret = acalServiceValidation.deleteAcademicCalendar("testDeletedAcalId", callContext);
                 assertTrue(ret.isSuccess() == Boolean.TRUE);
 
-                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testDeletedAcalId", callContext);
+                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testDeletedAcalId", callContext);
                 assertNull(existed);
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
@@ -237,11 +230,11 @@ public class TestAcademicCalendarServiceImpl{
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         try{
-            TermInfo created = acalService.createTerm("testTermId2", term, callContext);
+            TermInfo created = acalServiceValidation.createTerm("testTermId2", term, callContext);
             assertNotNull(created);
             assertEquals("testTermId2", created.getKey());
             
-            TermInfo existed = acalService.getTerm("testTermId2", callContext);
+            TermInfo existed = acalServiceValidation.getTerm("testTermId2", callContext);
 
             assertNotNull(existed);
             assertEquals("testTermId2", existed.getKey());
