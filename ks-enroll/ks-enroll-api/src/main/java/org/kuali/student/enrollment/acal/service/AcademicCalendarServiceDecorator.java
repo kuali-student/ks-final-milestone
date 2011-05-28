@@ -85,7 +85,7 @@ AcademicCalendarService {
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	return this.getAcademicCalendar(academicCalendarKey, context);
+    	return this.nextDecorator.getAcademicCalendar(academicCalendarKey, context);
     }
 
     @Override
