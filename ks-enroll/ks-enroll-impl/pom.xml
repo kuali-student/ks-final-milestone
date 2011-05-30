@@ -64,6 +64,13 @@
 					<version>2.7.7</version>
 					<scope>test</scope>
 			</dependency>
+			<!-- Add to be able to use LuDao on LuService as per discussion with Kamal -->
+			<dependency>
+      			<groupId>org.kuali.student.lum</groupId>
+      			<artifactId>ks-lum-impl</artifactId>
+      			<version>${project.version}</version>
+    		</dependency>
+			
 	<!--
 			<dependency>
 					<groupId>org.kuali.rice</groupId>
