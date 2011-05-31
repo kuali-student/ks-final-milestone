@@ -467,6 +467,8 @@ public class AtpServiceImpl implements AtpService{
         else
             status.setSuccess(Boolean.FALSE);
         
+        // TODO Handle removal of orphan RichTextEntities
+        
         return status;
     }
 
@@ -544,6 +546,8 @@ public class AtpServiceImpl implements AtpService{
         else {
             throw new DoesNotExistException(milestoneKey);
         }
+        
+        // TODO Handle removal of orphan RichTextEntities
         
         return status;
     }
