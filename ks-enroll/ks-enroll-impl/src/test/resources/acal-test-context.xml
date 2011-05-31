@@ -127,6 +127,7 @@
 	
 	    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
       <property name="nextDecorator" ref="atpService"/>
+      <property name="validator" ref="validator"
     </bean>
     
     <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
