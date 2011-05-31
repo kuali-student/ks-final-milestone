@@ -28,7 +28,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;
     

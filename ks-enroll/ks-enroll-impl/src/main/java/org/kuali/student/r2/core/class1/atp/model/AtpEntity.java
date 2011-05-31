@@ -27,7 +27,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;
     
