@@ -68,7 +68,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
 			assertNotNull(atpInfo);
 			assertEquals("testAtpId1", atpInfo.getKey());
 			assertEquals("testAtp1", atpInfo.getName());
-			assertEquals("Desc", atpInfo.getDescr().getPlain());
+			assertEquals("Desc 101", atpInfo.getDescr().getPlain());
 			assertEquals("kuali.atp.state.Draft", atpInfo.getStateKey());
 			assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
 			try {
@@ -108,7 +108,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
 		assertNotNull(fetched);
 		assertEquals("testAtpId1", fetched.getKey());
 		assertEquals("testAtp1", fetched.getName());
-		assertEquals("Desc", fetched.getDescr().getPlain());
+		assertEquals("Desc 101", fetched.getDescr().getPlain());
 		assertEquals("kuali.atp.state.Draft", fetched.getStateKey());
 		assertEquals("kuali.atp.type.AcademicCalendar", fetched.getTypeKey());
          
@@ -326,7 +326,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertNotNull(milestoneInfo);
         assertEquals("testId", milestoneInfo.getKey());
         assertEquals("testId", milestoneInfo.getName());
-        assertEquals("Desc", milestoneInfo.getDescr().getPlain());
+        assertEquals("Desc 105", milestoneInfo.getDescr().getPlain());
         assertEquals("kuali.atp.state.Draft", milestoneInfo.getStateKey());
         assertEquals("kuali.atp.milestone.AdvanceRegistrationPeriod", milestoneInfo.getTypeKey());
         
@@ -534,7 +534,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         List<String> results = atpService.getAtpMilestoneRelationIdsByType("kuali.atp.milestone.relation.owns", callContext);
         
         assertNotNull(results);
-        assertEquals(results.size(), 2);
+        assertEquals(2, results.size());
         
         Collection<String> listToCheck = new ArrayList<String>();
         listToCheck.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2"));

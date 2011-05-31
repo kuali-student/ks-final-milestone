@@ -22,7 +22,7 @@ public class TestAtpDao extends AbstractTransactionalDaoTest {
         AtpEntity atp = dao.find("testAtpId1");
         assertNotNull(atp);
         assertEquals("testAtp1", atp.getName());         
-        assertEquals("Desc", atp.getDescr().getPlain());   
+        assertEquals("Desc 101", atp.getDescr().getPlain());   
     }
     
     @Test

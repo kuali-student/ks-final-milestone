@@ -152,8 +152,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
         try {
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
-            if(existing == null)
+            if(existing == null) {
                 atpService.createAtp(academicCalendarKey, atp, context);
+            }
         } catch (DoesNotExistException e1) {
             atpService.createAtp(academicCalendarKey, atp, context);
         }
