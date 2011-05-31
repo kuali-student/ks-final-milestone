@@ -246,12 +246,14 @@ public class CoreEditController extends CoreController {
                 Application.getApplicationContext().addValidationWarnings(validationResults);
 
                 if (ValidatorClientUtils.hasErrors(validationResults)) {
-
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
-                        msg.append(vri.getMessage());
+                    	if(!msg.toString().contains(vri.getMessage()))
+                    		msg.append(vri.getMessage() + " ");
                     }
+                    if (msg.length() > 0)
+                    	KSNotifier.add(new KSNotification(msg.toString(), false, true, 5000));
                     okCallback.exec(false);
                 } else {
                     refreshModelAndView(result);
