@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**
@@ -297,5 +298,21 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      */
     public List<ValidationResultInfo> validateResultValue(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
+
+    /**
+     * Retrieves result scale by an identifier.
+     * 
+     * @param resultScaleId identifiers for result scale to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return details of the result scale for the id
+     * @throws DoesNotExistException  resultComponentId not found
+     * @throws InvalidParameterException invalid resultComponentId
+     * @throws MissingParameterException invalid resultComponentId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleId") String resultScaleId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+        
 }

@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 public class LRCServiceDecorator implements LRCService {
@@ -185,5 +186,10 @@ public class LRCServiceDecorator implements LRCService {
     @Override
     public List<ValidationResultInfo> validateResultComponent(String validationType, ResultComponentInfo resultComponentInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().validateResultComponent(validationType, resultComponentInfo, context);
+    }
+
+    @Override
+    public ResultScaleInfo getResultScale(String resultScaleId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+        return getNextDecorator().getResultScale(resultScaleId, context);
     }
 }
