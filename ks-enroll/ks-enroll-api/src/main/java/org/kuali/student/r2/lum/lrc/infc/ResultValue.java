@@ -18,12 +18,14 @@ package org.kuali.student.r2.lum.lrc.infc;
 import java.util.Date;
 
 import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * @author sambit
  */
 
-public interface ResultValue extends Entity {
+public interface ResultValue extends HasAttributesAndMeta {
 
 	
 	/**
@@ -31,6 +33,25 @@ public interface ResultValue extends Entity {
 	 * @name Result Value Identifier
 	 */
 	public String getId();
+	
+    /**
+     * Name: Name
+     * A display name for this entity.
+     *  
+     * @return the entity name
+     */
+
+    public String getName();
+
+
+    /**
+     * Name: Description
+     * A description of the entity.
+     *
+     * @return the entity description
+     */
+
+    public RichText getDescr();
 	
 	/**
 	 * Result Value string Value of the result. Typically corresponds with the

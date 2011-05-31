@@ -24,18 +24,25 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.EntityInfo;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 import org.w3c.dom.Element;
 
-@XmlType(name = "ResultValueInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "scaleKey", "rank", "effectiveDate", "expirationDate", "value", "meta", "attributes", "_futureElements"})
-public class ResultValueInfo extends EntityInfo implements ResultValue, Serializable {
+@XmlType(name = "ResultValueInfo", propOrder = {"id", "name", "descr", "scaleKey", "rank", "effectiveDate", "expirationDate", "value", "meta", "attributes", "_futureElements"})
+public class ResultValueInfo extends HasAttributesAndMetaInfo implements ResultValue, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
     private String id;
 
+    @XmlElement
+    private String name;
+    
+    @XmlElement
+    private RichTextInfo descr;
+    
     @XmlElement
     private String value;
 
@@ -61,6 +68,8 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
     public ResultValueInfo() {
         super();
         id = null;
+        name = null;
+        descr = null;        
         value = null;
         scaleKey = null;
         rank = null;
@@ -71,6 +80,8 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
     public ResultValueInfo(ResultValue resultValueInfo) {
         super(resultValueInfo);
         if (null != resultValueInfo) {
+            this.name = resultValueInfo.getName();
+            this.descr = new RichTextInfo( resultValueInfo.getDescr());            
             this.value = resultValueInfo.getValue();
             this.scaleKey = resultValueInfo.getScaleKey();
             this.rank = (null != resultValueInfo.getRank()) ? resultValueInfo.getRank().floatValue() : null;
@@ -110,6 +121,16 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
         return id;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
     public List<Element> get_futureElements() {
 
         return _futureElements;
@@ -119,6 +140,14 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
         this.value = value;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+    
     public void setScaleKey(String scaleKey) {
         this.scaleKey = scaleKey;
     }
