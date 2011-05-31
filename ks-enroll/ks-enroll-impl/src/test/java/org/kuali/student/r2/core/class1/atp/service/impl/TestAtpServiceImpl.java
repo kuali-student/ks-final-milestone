@@ -21,11 +21,9 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,8 +36,6 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Daos( { @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpDao", testSqlFile = "classpath:ks-atp.sql"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao"),
@@ -241,8 +237,10 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             dupeCreated = atpService.createMilestone("newId", milestone, callContext);
             fail("Did not get an AlreadyExistsException when expected");
         }
-        catch(AlreadyExistsException e) {}
+        catch(AlreadyExistsException e) {
+            assertNull(dupeCreated);
         }
+    }
         
     @Test
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
@@ -293,11 +291,12 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.updateMilestone("fakeKey", updated, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {}
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
         }
+    }
     
     @Test
-    @Ignore
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         StatusInfo status = atpService.deleteMilestone("testDeleteId", callContext);
         
@@ -308,7 +307,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             noStatus = atpService.deleteMilestone("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {}
+        catch(DoesNotExistException e) {
+            assertNull(noStatus);
+        }
         
         // ensure the delete prevents future gets
         MilestoneInfo shouldBeNull = null;
@@ -316,8 +317,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestone("testDeleteId", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {}
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
         }
+        
+    }
     
     @Test
     public void testGetMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -365,7 +369,10 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestonesByKeyList(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
-        catch(DoesNotExistException e) {}
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+        
     }
     
     @Test
@@ -428,25 +435,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             shouldBeNull = atpService.getMilestoneKeysByType(fakeMilestoneType, callContext);
             fail("Did not get a InvalidParameterException when expected");
         }
-        catch(InvalidParameterException e) {}
-    }
-    
-    @Test
-    @Ignore
-    public void testValidateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        // validating an existing milestone should return an empty list
-        MilestoneInfo existingMilestone = atpService.getMilestone("testId", callContext);
-        
-        List<ValidationResultInfo> existingResults = atpService.validateMilestone("FULL_VALIDATION", existingMilestone, callContext);
-        
-        assertTrue(existingResults == null || existingResults.isEmpty());
-        
-        MilestoneInfo invalid = new MilestoneInfo();
-        
-        List<ValidationResultInfo> invalidResults = atpService.validateMilestone("FULL_VALIDATION", invalid, callContext);
-        
-        assertTrue(!invalidResults.isEmpty());        
+        catch(InvalidParameterException e) {
+            assertNull(shouldBeNull);
+        }
     }
     
     @Test
@@ -568,24 +559,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test
-    @Ignore
-    public void testValidateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AtpMilestoneRelationInfo relation = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
-        
-        assertNotNull(relation);
-        
-        List<ValidationResultInfo> existingResults = atpService.validateAtpMilestoneRelation(ValidationType.FULL_VALIDATION.toString(), relation, callContext);
-        
-        assertTrue(existingResults == null || existingResults.isEmpty());
-        
-        AtpMilestoneRelationInfo invalid = new AtpMilestoneRelationInfo();
-        
-        List<ValidationResultInfo> invalidResults = atpService.validateAtpMilestoneRelation("FULL_VALIDATION", invalid, callContext);
-        
-        assertTrue(!invalidResults.isEmpty());
-    }
-    
-    @Test
     public void testGetMilestonesByAtp() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestones = atpService.getMilestonesByAtp("testAtpId1", callContext);
         
@@ -609,7 +582,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
             fail("Did not get a InvalidParameterException when expected");
         }
         catch(InvalidParameterException e) {
-            assertTrue(fakeMilestones == null);
+            assertNull(fakeMilestones);
         }
         
     }
