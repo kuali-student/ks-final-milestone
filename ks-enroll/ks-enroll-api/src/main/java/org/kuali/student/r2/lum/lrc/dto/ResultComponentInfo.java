@@ -15,95 +15,74 @@
  */
 package org.kuali.student.r2.lum.lrc.dto;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 import org.w3c.dom.Element;
 
-@XmlType(name = "ResultValueRangeInfo", propOrder = { "id", "minValue", "maxValue", "increment",
-		"effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
-public class ResultValueRangeInfo extends HasAttributesAndMetaInfo implements
-		ResultValueRange, Serializable {
+/**
+ * Detailed information about a result component.
+ * 
+ * @Author sambit
+ * @Since Tue Apr 21 13:47:47 PDT 2009
+ */
+
+@XmlType(name = "ResultComponentInfo", propOrder = { "id", "typeKey",
+		"stateKey", "name", "descr", "resultValueIds", "resultValueRange", "effectiveDate",
+		"expirationDate", "meta", "attributes", "_futureElements" })
+public class ResultComponentInfo extends IdEntityInfo implements
+		ResultComponent {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlAttribute
-	private String id;
-	
 	@XmlElement
-	private Float minValue;
+	private List<String> resultValueIds;
 
-	@XmlElement
-	private Float maxValue;
-	
-	@XmlElement
-	private Float increment;
+    @XmlElement
+    private ResultValueRangeInfo resultValueRange;
 
 	@XmlElement
 	private Date effectiveDate;
-	
+
 	@XmlElement
 	private Date expirationDate;
 
     @XmlAnyElement
     private List<Element> _futureElements;
-	
-	public ResultValueRangeInfo() {
+
+	public ResultComponentInfo() {
+
 	}
 
-	public ResultValueRangeInfo(ResultValueRange resultValueRangeInfo) {
-		super(resultValueRangeInfo);
-		if (null != resultValueRangeInfo) {
-			this.minValue = resultValueRangeInfo.getMinValue();
-			this.maxValue = resultValueRangeInfo.getMaxValue();
-			this.increment = resultValueRangeInfo.getIncrement();
-			this.effectiveDate = new Date( resultValueRangeInfo.getEffectiveDate().getTime());
-			this.expirationDate = new Date (resultValueRangeInfo.getExpirationDate( ).getTime());
+	public ResultComponentInfo(ResultComponent resultValueGroupInfo) {
+		super(resultValueGroupInfo);
+		if (null != resultValueGroupInfo) {
+			this.resultValueIds = new ArrayList<String>(
+					resultValueGroupInfo.getResultValueIds());
+            this.resultValueRange = new ResultValueRangeInfo(resultValueGroupInfo.getResultValueRange());
+			this.effectiveDate = new Date(resultValueGroupInfo.getEffectiveDate().getTime());
+			this.expirationDate = new Date(resultValueGroupInfo.getExpirationDate().getTime());
+ 		}
+	}
+
+	@Override
+	public List<String> getResultValueIds() {
+		if (resultValueIds == null) {
+			resultValueIds = new ArrayList<String>(0);
 		}
+		return resultValueIds;
 	}
 
-	@Override
-	public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-	public Float getMinValue() {
-		return minValue;
-	}
-
-	public void setMinValue(Float minValue) {
-		this.minValue = minValue;
-	}
-
-	@Override
-	public Float getMaxValue() {
-		return maxValue;
-	}
-
-	public void setMaxValue(Float maxValue) {
-		this.maxValue = maxValue;
-	}
-
-	@Override
-	public Float getIncrement() {
-		return increment;
-	}
-
-	public void setIncrement(Float increment) {
-		this.increment = increment;
+	public void setResultValueIds(List<String> resultValueIds) {
+		this.resultValueIds = resultValueIds;
 	}
 
 	@Override
@@ -124,11 +103,20 @@ public class ResultValueRangeInfo extends HasAttributesAndMetaInfo implements
 		this.expirationDate = expirationDate;
 	}
 
+	public void setResultValueRange(ResultValueRangeInfo resultValueRange) {
+		this.resultValueRange = resultValueRange;
+	}
+
+	@Override
+	public ResultValueRange getResultValueRange() {
+		return resultValueRange;
+	}
+
     public List<Element> get_futureElements() {
         return _futureElements;
     }
 
     public void set_futureElements(List<Element> _futureElements) {
         this._futureElements = _futureElements;
-    }	
+    }
 }

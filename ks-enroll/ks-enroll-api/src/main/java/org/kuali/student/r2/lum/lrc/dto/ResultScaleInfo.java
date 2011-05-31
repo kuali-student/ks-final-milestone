@@ -24,26 +24,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.EntityInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValue;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultScale;
 import org.w3c.dom.Element;
 
-@XmlType(name = "ResultValueInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "scaleKey", "rank", "effectiveDate", "expirationDate", "value", "meta", "attributes", "_futureElements"})
-public class ResultValueInfo extends EntityInfo implements ResultValue, Serializable {
+@XmlType(name = "ResultScaleInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+public class ResultScaleInfo extends HasAttributesAndMetaInfo implements ResultScale, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
-    private String id;
+    private String key;
 
     @XmlElement
-    private String value;
+    private String name;
 
     @XmlElement
-    private String scaleKey;
-
-    @XmlElement
-    private Float rank;
+    private RichTextInfo descr;
 
     @XmlElement
     private Date effectiveDate;
@@ -54,77 +52,65 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public ResultValueInfo() {
+    public ResultScaleInfo() {
         super();
-        id = null;
-        value = null;
-        scaleKey = null;
-        rank = null;
+        key = null;
+        name = null;
+        descr = null;
         effectiveDate = null;
         expirationDate = null;
     }
 
-    public ResultValueInfo(ResultValue resultValueInfo) {
-        super(resultValueInfo);
-        if (null != resultValueInfo) {
-            this.value = resultValueInfo.getValue();
-            this.scaleKey = resultValueInfo.getScaleKey();
-            this.rank = (null != resultValueInfo.getRank()) ? resultValueInfo.getRank().floatValue() : null;
-            this.effectiveDate = new Date(resultValueInfo.getEffectiveDate().getTime());
-            this.expirationDate = new Date(resultValueInfo.getExpirationDate().getTime());
-            this.id = resultValueInfo.getId();
+    public ResultScaleInfo(ResultScale resultScale) {
+        super(resultScale);
+        if (null != resultScale) {
+            this.key = resultScale.getKey();
+            this.name = resultScale.getName();
+            this.descr = new RichTextInfo(resultScale.getDescr());
+            this.effectiveDate = new Date(resultScale.getEffectiveDate().getTime());
+            this.expirationDate = new Date(resultScale.getExpirationDate().getTime());
         }
     }
 
     @Override
-    public String getValue() {
-        return value;
+    public String getKey() {
+        return key;
     }
 
-    @Override
-    public String getScaleKey() {
-        return scaleKey;
+    @Override    
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public Float getRank() {
-        return rank;
+    @Override    
+    public RichTextInfo getDescr() {
+        return descr;
     }
 
-    @Override
+    @Override    
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    @Override
+    @Override    
     public Date getExpirationDate() {
         return expirationDate;
     }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
+    
     public List<Element> get_futureElements() {
-
         return _futureElements;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setScaleKey(String scaleKey) {
-        this.scaleKey = scaleKey;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setRank(Float rank) {
-        this.rank = rank;
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
@@ -137,5 +123,5 @@ public class ResultValueInfo extends EntityInfo implements ResultValue, Serializ
 
     public void set_futureElements(List<Element> _futureElements) {
         this._futureElements = _futureElements;
-    }
+    }    
 }

@@ -17,44 +17,51 @@ package org.kuali.student.r2.lum.lrc.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * @author sambit
  */
 
-public interface ResultValue extends Entity {
-
-	
-	/**
-	 * The unique identifier for this result value in the database
-	 * @name Result Value Identifier
-	 */
-	public String getId();
-	
-	/**
-	 * Result Value string Value of the result. Typically corresponds with the
-	 * short coded form of the result(ex. "A", "4.0", "97.0", "B.S" etc.)
-	 * scaleKey Scale Identifier scaleKey
-	 * @name Result value
-	 */
-	public String getValue();
+public interface ResultScale extends HasAttributesAndMeta {
+	   
+    /**
+     * Name: Key
+     *
+     * Unique key to this object. Unlike an Id this key can be explicitly set by the
+     * application and is intended to be "somewhat" readable by a human.
+     *
+     * A Key:<ul>
+     * <li>A Key is used when the actual value is important
+     * <li>A Key value might be kuali.org.School
+     * <li>A Key on occasion may be used or seen by an end user.
+     * <li>Keys are assumed to have the same values in different KS implementations
+     * <li>Key values are defined in configuration
+     * <li>Key values have significance in that they are referenced in Configuration
+     * <li>Key values are expected to be occasionally used in application code
+     * </ul>
+     */
+    public String getKey();
     
-	/**
-	 * Identifier of the scale for this result value. Can be null if no scale associated 
-	 * with the resultValue
-	 * 
-	 * @name Scale Key
-	 */
-    public String getScaleKey();
+    /**
+     * Name: Name
+     * A display name for this entity.
+     *  
+     * @return the entity name
+     */
+
+    public String getName();
+
 
     /**
-     * Rank of the result value within the scale. Standards around uniqueness and meaning 
-     * of value are described in the information about the scale.
-     * 
-     * @name Rank
+     * Name: Description
+     * A description of the entity.
+     *
+     * @return the entity description
      */
-    public Float getRank();      
+
+    public RichText getDescr();
     
 	/**
 	 * Effective Date dateTime Date and time that this result value became

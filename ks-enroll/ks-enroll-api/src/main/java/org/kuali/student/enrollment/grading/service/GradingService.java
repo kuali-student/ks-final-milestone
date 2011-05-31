@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE.
@@ -326,7 +326,7 @@ public interface GradingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValueGroupInfo> getValidGradesForStudentByRoster(@WebParam(name="studentId") String studentId, @WebParam(name="rosterId") String rosterId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultComponentInfo> getValidGradesForStudentByRoster(@WebParam(name="studentId") String studentId, @WebParam(name="rosterId") String rosterId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /**
      * 

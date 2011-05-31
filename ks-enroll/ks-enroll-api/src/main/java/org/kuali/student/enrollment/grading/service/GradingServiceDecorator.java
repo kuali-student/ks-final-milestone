@@ -6,7 +6,6 @@ import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
 import org.kuali.student.enrollment.grading.dto.CreditsEarnedInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -20,7 +19,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
 public abstract class GradingServiceDecorator implements GradingService {
 
@@ -147,7 +146,7 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public List<ResultValueGroupInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
+    public List<ResultComponentInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getValidGradesForStudentByRoster(studentId, rosterId, context);
