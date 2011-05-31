@@ -399,7 +399,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         		String errorMsg = 	"ClassCastException in KSSelectedList.java::setValue \n " +
         							"Trying to cast Value from: " + value.getClass().getName() + "\n " +
         							"TO DataValue.java. \n Value was of type " + value.getType().getName() + "\n " +
-        							"Value=["+ value.toString() +"]";
+        							"Value=["+ value.get().toString() +"]";
         		
         		throw new ClassCastException(errorMsg);
         	}
