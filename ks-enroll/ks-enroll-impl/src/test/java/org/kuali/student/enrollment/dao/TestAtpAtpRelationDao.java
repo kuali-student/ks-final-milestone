@@ -34,10 +34,14 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     	//id is atp
         List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtp("testAtpId1");
         assertNotNull(rels);
-        assertTrue(rels.size() == 2);
+        assertEquals(4, rels.size());
         for(AtpAtpRelationEntity rel : rels){
         	assertEquals("testAtpId1", rel.getAtp().getId());
         }
+        // testAtpId2 is relatedAtp's ID
+        rels = dao.getAtpAtpRelationsByAtp("testAtpId2");
+        assertNotNull(rels);
+        assertEquals(1, rels.size());
     }
     
     @Test
