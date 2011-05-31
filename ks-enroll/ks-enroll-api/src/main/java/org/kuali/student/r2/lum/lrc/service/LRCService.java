@@ -143,7 +143,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws PermissionDeniedException    authorization failure
      * @throws VersionMismatchException   action was attempted on an out of date version.
      */
-    public ResultComponentInfo updateResultComponent(@WebParam(name = "resultComponentId") String resultComponentKey, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public ResultComponentInfo updateResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Deletes an existing result component.
@@ -162,20 +162,11 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     public StatusInfo deleteResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an academic calendar. Depending on the value of
+     * Validates a result component. Depending on the value of
      * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the academic calendar and a record
-     * is found for that identifier, the validation checks if the
-     * academic calendar can be shifted to the new values. If a
-     * record cannot be found for the identifier, it is assumed that
-     * the record does not exist and as such, the checks performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object. This is a
-     * slightly different pattern from the standard validation as the
-     * caller provides the identifier in the create statement instead
-     * of the server assigning an identifier.
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this object. 
+     * 
      * @param validationType Identifier of the extent of validation
      * @param resultComponentInfo Result component to be validated
      * @param context Context information containing the principalId
@@ -271,7 +262,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     public StatusInfo deleteResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an academic calendar. Depending on the value of
+     * Validates a  Result Value. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained subobjects
      * or expanded to perform all tests related to this object. If an
@@ -313,6 +304,22 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleId") String resultScaleId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-        
+    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     
+    /**
+     * 
+     * Retrieves result values by result scale key.
+     * 
+     * @param resultScaleKey
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of result values for the scale
+     * @throws DoesNotExistException resultScaleKey is not found
+     * @throws InvalidParameterException invalid resultScaleKey
+     * @throws MissingParameterException null resultScaleKey
+     * @throws OperationFailedException 
+     * @throws PermissionDeniedException
+     */
+    public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
