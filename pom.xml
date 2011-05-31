@@ -160,6 +160,7 @@
     <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
+    <ks.gwt.compile.force>false</ks.gwt.compile.force>
     <ks.java2ws.phase>none</ks.java2ws.phase>
     <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
   </properties>
@@ -223,6 +224,7 @@
             <style>${ks.gwt.compile.style}</style>
             <soyc>${ks.gwt.compile.soyc}</soyc>
             <draftCompile>${ks.gwt.compile.draftCompile}</draftCompile>
+            <force>${ks.gwt.compile.force}</force>
           </configuration>
         </plugin>
       </plugins>
