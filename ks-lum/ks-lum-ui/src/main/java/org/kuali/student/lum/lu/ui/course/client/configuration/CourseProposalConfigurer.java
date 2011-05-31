@@ -164,7 +164,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
-            layout.addMenuItem(sections, generateCourseRequisitesSection(layout));
+            layout.addMenuItem(sections, generateCourseRequisitesSection(layout,true));
 
             //Administrative
             layout.addMenuItem(sections, (SectionView)generateActiveDatesSection(initSectionView(CourseSections.ACTIVE_DATES, LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
@@ -244,8 +244,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         layout.getStartPopup().setMaxHeight(600);
     }
 
-    protected View generateCourseRequisitesSection(Controller layout) {
-        return new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false);
+    protected View generateCourseRequisitesSection(Controller layout, boolean showSaveButtons) {
+        return new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, showSaveButtons);
     }
 
     protected Section generateActiveDatesSection(Section section) {

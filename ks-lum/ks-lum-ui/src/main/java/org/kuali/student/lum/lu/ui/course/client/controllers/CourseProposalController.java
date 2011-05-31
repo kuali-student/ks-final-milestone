@@ -520,7 +520,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     protected void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        cluProposalModel.setRoot(new Data());
+        Data data = new Data();
+    	cluProposalModel.setRoot(data);
+        
+        //TODO - get rid of this code if The changes to proposal WF filter create the proposal object for you
+        Data proposalData = new Data();
+        proposalData.set(new Data.StringKey("type"), currentDocType);
+        data.set(new Data.StringKey("proposal"), proposalData);
+        
         isNew = true;
         setHeaderTitle();
         setLastUpdated();

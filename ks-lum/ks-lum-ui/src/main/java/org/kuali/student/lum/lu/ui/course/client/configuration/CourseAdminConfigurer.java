@@ -54,10 +54,12 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
         Section financialSection = generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY));
         
+        
         //Add course admin sections to view
         view.addSection(courseSection);
         view.addSection(governanceSection);
-        view.addSection(logisticsSection);        
+        view.addSection(logisticsSection);
+        view.addView(generateCourseRequisitesSection(layout,false));//Test if requisites are added correctly
         view.addSection(loSection);        
         view.addSection(activeDatesSection);
         view.addSection(financialSection);

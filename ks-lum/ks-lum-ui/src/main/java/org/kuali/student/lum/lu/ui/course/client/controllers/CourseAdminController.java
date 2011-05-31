@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -14,7 +13,6 @@ import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -62,22 +60,6 @@ public class CourseAdminController extends CourseProposalController{
    		super.addStyleName("ks-course-admin");
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
    		//this.removeMenu();  	   		   		
-    }
-	
-    @SuppressWarnings("unchecked")
-    protected void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        Data data = new Data();
-    	cluProposalModel.setRoot(data);
-        
-        Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("type"), currentDocType);
-        data.set(new Data.StringKey("proposal"), proposalData);
-        
-        isNew = true;
-        setHeaderTitle();
-        setLastUpdated();
-        callback.onModelReady(cluProposalModel);
-        workCompleteCallback.exec(true);
     }
     
 	/**

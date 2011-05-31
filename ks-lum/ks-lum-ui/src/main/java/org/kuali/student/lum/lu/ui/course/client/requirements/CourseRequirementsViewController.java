@@ -20,7 +20,7 @@ public class CourseRequirementsViewController extends BasicLayout {
 
     private CourseRequirementsSummaryView preview;
 
-    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
+    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly, boolean showSaveButtons) {
 		super(CourseRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
@@ -40,7 +40,7 @@ public class CourseRequirementsViewController extends BasicLayout {
 
         //no name for the view so that breadcrumbs do not extra link
         preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), COURSE_PROPOSAL_MODEL,
-                                                new CourseRequirementsDataModel(this), isReadOnly);
+                                                new CourseRequirementsDataModel(this), isReadOnly, showSaveButtons);
         super.addView(preview);
 
         if (!isReadOnly) {

@@ -219,6 +219,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						CourseJointInfo jointInfo = courseJointAssembler
 								.assemble(cluRel, null, false);
 						course.getJoints().add(jointInfo);
+//					This code might work for joint issue, but it would cause problems with states
+//						//Swap the ids if this relation was created by the other clu. might need to ignore drafts (and not delete the ignored drafts)
+//						if(cluRel.getRelatedCluId().equals(clu.getId())){
+//							String swapedId = cluRel.getCluId();
+//							cluRel.setCluId(cluRel.getRelatedCluId());
+//							cluRel.setRelatedCluId(swapedId);
+//						}
+//						CourseJointInfo jointInfo = courseJointAssembler
+//								.assemble(cluRel, null, false);
+//						if(jointInfo != null){
+//							course.getJoints().add(jointInfo);
+//						}
 					}
 				}
 			} catch (DoesNotExistException e) {

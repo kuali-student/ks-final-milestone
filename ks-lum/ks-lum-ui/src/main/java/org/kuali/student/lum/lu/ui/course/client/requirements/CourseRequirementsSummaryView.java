@@ -53,6 +53,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     private CourseRequirementsViewController parentController;
     private CourseRequirementsDataModel rules;
     private boolean isReadOnly;
+    private boolean showSaveButtons;
     private static int tempProgReqInfoID = 9999;
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";    
@@ -60,14 +61,14 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     private Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
 
     public CourseRequirementsSummaryView(final CourseRequirementsViewController parentController, Enum<?> viewEnum, String name,
-                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly) {
+                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly, boolean showSaveButtons) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         rules = rulesData;
         rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
-
-        if (!isReadOnly) {
+        this.showSaveButtons = showSaveButtons;
+        if (!isReadOnly && showSaveButtons) {
             setupSaveCancelButtons();
         }
     }
@@ -195,7 +196,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         }
 
         //save and cancel buttons
-        if (!isReadOnly) {
+        if (!isReadOnly && showSaveButtons) {
             layout.add(actionCancelButtons);
         }
 
