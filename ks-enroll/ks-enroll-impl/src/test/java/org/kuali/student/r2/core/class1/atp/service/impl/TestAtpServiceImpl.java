@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -83,7 +82,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
     
     @Test 
-    @Ignore
     public void testAtpCrud()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
         // test create
@@ -128,14 +126,14 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertEquals(atpNameOrig + "updated", updated.getName());
         
         // test delete
-        atpInfo = atpService.getAtp("testAtpId2", callContext);
+        atpInfo = atpService.getAtp("testDeleteAtpId1", callContext);
         assertNotNull(atpInfo);
-        assertEquals("testAtpId2", atpInfo.getKey());
+        assertEquals("testDeleteAtpId1", atpInfo.getKey());
         
         try{
-	        atpService.deleteAtp("testAtpId2", callContext);
+	        atpService.deleteAtp("testDeleteAtpId1", callContext);
 	        try {
-		        AtpInfo deleted = atpService.getAtp("testAtpId2", callContext);
+		        AtpInfo deleted = atpService.getAtp("testDeleteAtpId1", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e){
@@ -184,17 +182,16 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
     }
    
     @Test
-    @Ignore
     public void testDeleteAtp() throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        AtpInfo atpInfo = atpService.getAtp("testAtpId2", callContext);
+        AtpInfo atpInfo = atpService.getAtp("testDeleteAtpId2", callContext);
         assertNotNull(atpInfo);
-        assertEquals("testAtpId2", atpInfo.getKey());
+        assertEquals("testDeleteAtpId2", atpInfo.getKey());
         
         try{
-        atpService.deleteAtp("testAtpId2", callContext);
+	        atpService.deleteAtp("testDeleteAtpId2", callContext);
 	        try {
-		        AtpInfo deleted = atpService.getAtp("testAtpId2", callContext);
+		        AtpInfo deleted = atpService.getAtp("testDeleteAtpId2", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e) {

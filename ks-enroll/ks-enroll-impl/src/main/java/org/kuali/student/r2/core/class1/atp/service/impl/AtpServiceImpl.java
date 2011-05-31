@@ -462,6 +462,19 @@ public class AtpServiceImpl implements AtpService{
         
         AtpEntity atp = atpDao.find(atpKey);
         if( null != atp){
+            List<AtpAtpRelationEntity> aarEntities = atpRelDao.getAtpAtpRelationsByAtp(atpKey);
+            if (null != aarEntities) {
+                for (AtpAtpRelationEntity aarEntity : aarEntities) {
+	                atpRelDao.remove(aarEntity);
+                }
+            }
+            List<AtpMilestoneRelationEntity> amrEntities = atpMilestoneRelationDao.getByAtpId(atpKey);
+            if (null != amrEntities) {
+                for (AtpMilestoneRelationEntity amrEntity : amrEntities) {
+	                atpMilestoneRelationDao.remove(amrEntity);
+                }
+            }
+            
             atpDao.remove(atp);
         }
         else
