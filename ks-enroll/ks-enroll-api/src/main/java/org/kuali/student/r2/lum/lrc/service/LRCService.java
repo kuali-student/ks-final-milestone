@@ -1,9 +1,15 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
- * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the License.
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable
+ * law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License
+ * for the specific language governing permissions and limitations
+ * under the License.
  */
 
 package org.kuali.student.r2.lum.lrc.service;
@@ -14,8 +20,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -33,13 +39,15 @@ import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**
- * The Learning Result Catalog Service is a Class I service which gives a set of operations to manage a learning result. A
- * learning result can be of various types e.g grades, credits etc. This service has basic CRUD operations to touch various
- * concepts that exist to model learning results e.g Result Value, Result Value Group, and Result Value Range.
+ * The Learning Result Catalog Service is a Class I service which
+ * gives a set of operations to manage a learning result. A learning
+ * result can be of various types e.g grades, credits etc. This
+ * service has basic CRUD operations to touch various concepts that
+ * exist to model learning results e.g Result Value, Result Value
+ * Group, and Result Value Range.
  * 
  * @Author sambit
  * @Since Tue May 10 14:09:46 PDT 2011
- * @See <a href= "https://test.kuali.org/confluence/display/KULSTU/Learning+Result+Catalog+Service" >LrcService</>
  */
 @WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -94,7 +102,8 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     public List<ResultComponentInfo> getResultComponentsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of result group identifiers for a specified result component type.
+     * Retrieves a list of result group identifiers for a specified
+     * result component type.
      * 
      * @param resultValueGroupTypeKey   identifier for the result group type
      * @param context Context information containing the principalId
@@ -107,12 +116,12 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure     
      */
-    public List<ResultComponentInfo> getResultComponentsByType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getResultComponentIdsByType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new result Component.
      * 
-     * @param resultComponentInfo   information about the result component being created
+     * @param resultComponentInfo information about the result component being created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
@@ -180,6 +189,22 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      */
     public List<ValidationResultInfo> validateResultComponent(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
+    /**
+     * Retrieves result value by its id.
+     * 
+     * @param resultValueId  identifier for the result
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation      
+     * @return details about a result value
+     * @throws DoesNotExistException   the resultValueId is not found
+     * @throws InvalidParameterException   invalid resultValueId
+     * @throws MissingParameterException  missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Retrieves a list of result value objects for a list of identifiers. 
      * 

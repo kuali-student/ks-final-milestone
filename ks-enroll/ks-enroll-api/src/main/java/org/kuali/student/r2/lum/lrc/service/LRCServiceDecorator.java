@@ -2,18 +2,21 @@ package org.kuali.student.r2.lum.lrc.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -104,93 +107,100 @@ public abstract class LRCServiceDecorator implements LRCService {
     @Override
     public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultComponent(resultComponentId, context);
     }
 
     @Override
     public List<ResultComponentInfo> getResultComponentsByIdList(List<String> resultComponentIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultComponentsByIdList(resultComponentIdList, context);
     }
 
     @Override
     public List<ResultComponentInfo> getResultComponentsByResultValue(String resultValueId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultComponentsByResultValue(resultValueId, context);
     }
 
     @Override
-    public List<ResultComponentInfo> getResultComponentsByType(String resultComponentTypeKey, ContextInfo context)
+    public List<String> getResultComponentIdsByType(String resultComponentTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
-        return getNextDecorator().getResultComponentsByType(resultComponentTypeKey, context);
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultComponentIdsByType(resultComponentTypeKey, context);
     }
 
     @Override
     public ResultComponentInfo createResultComponent(ResultComponentInfo resultComponentInfo, ContextInfo context)
-            throws org.kuali.student.r2.common.exceptions.AlreadyExistsException,
-            org.kuali.student.r2.common.exceptions.DataValidationErrorException, InvalidParameterException,
+            throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException {
+            PermissionDeniedException {
         return getNextDecorator().createResultComponent(resultComponentInfo, context);
     }
 
     @Override
     public ResultComponentInfo updateResultComponent(String resultComponentKey,
             ResultComponentInfo resultComponentInfo, ContextInfo context)
-            throws org.kuali.student.r2.common.exceptions.DataValidationErrorException, DoesNotExistException,
+            throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException,
-            org.kuali.student.r2.common.exceptions.VersionMismatchException {
+            PermissionDeniedException,
+            VersionMismatchException {
         return getNextDecorator().updateResultComponent(resultComponentKey, resultComponentInfo, context);
     }
 
     @Override
     public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteResultComponent(resultComponentId, context);
+    }
+
+    @Override
+    public ResultValueInfo getResultValue(String resultValueId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getResultValue(resultValueId, context);
     }
 
     @Override
     public List<ResultValueInfo> getResultValuesByIdList(List<String> resultValueIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesByIdList(resultValueIdList, context);
     }
 
     @Override
     public List<ResultValueInfo> getResultValuesForResultComponent(String resultComponentId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesForResultComponent(resultComponentId, context);
     }
 
     @Override
     public ResultValueInfo createResultValue(ResultValueInfo resultValueInfo, ContextInfo context)
-            throws org.kuali.student.r2.common.exceptions.AlreadyExistsException,
-            org.kuali.student.r2.common.exceptions.DataValidationErrorException, DoesNotExistException,
+            throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException {
+            PermissionDeniedException {
         return getNextDecorator().createResultValue(resultValueInfo, context);
     }
 
     @Override
     public ResultValueInfo updateResultValue(String resultValueId, ResultValueInfo resultValueInfo, ContextInfo context)
-            throws org.kuali.student.r2.common.exceptions.DataValidationErrorException, DoesNotExistException,
+            throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException,
-            org.kuali.student.r2.common.exceptions.VersionMismatchException {
+            PermissionDeniedException,
+            VersionMismatchException {
         return getNextDecorator().updateResultValue(resultValueId, resultValueInfo, context);
     }
 
     @Override
     public StatusInfo deleteResultValue(String resultValueId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException {
+            PermissionDeniedException {
         return getNextDecorator().deleteResultValue(resultValueId, context);
     }
 
@@ -211,14 +221,14 @@ public abstract class LRCServiceDecorator implements LRCService {
     @Override
     public ResultScaleInfo getResultScale(String resultScaleId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
-            org.kuali.student.common.exceptions.PermissionDeniedException {
+            PermissionDeniedException {
         return getNextDecorator().getResultScale(resultScaleId, context);
     }
 
     @Override
     public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException {
+		   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesForScale(resultScaleKey, context);
     }
 }
