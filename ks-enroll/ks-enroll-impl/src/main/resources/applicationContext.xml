@@ -50,13 +50,16 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
     </bean>
-       
+
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpService"/>
+    	<property name = "relAssembler" ref="relAssembler" />
     </bean>
       
-	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
-	</bean>
+	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+	
+	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler"></bean>
+	       
     <!-- declare impls here -->
     <!--  declare all service exceptions here or in KS core -->
     <bean id="kualiInvalidParamException" class="org.kuali.student.r2.common.exceptions.InvalidParameterException" />
