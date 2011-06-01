@@ -27,11 +27,11 @@ import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
 public class GradingServiceMockImpl implements GradingService {
 
-    private static Map<String, GradeRosterInfo> gradeRostersCache = new HashMap<String, GradeRosterInfo>();
+    public static Map<String, GradeRosterInfo> gradeRostersCache = new HashMap<String, GradeRosterInfo>();
 
-    private static Map<String, GradeRosterEntryInfo> gradeRosterEntriesCache = new HashMap<String, GradeRosterEntryInfo>();
+    public static Map<String, GradeRosterEntryInfo> gradeRosterEntriesCache = new HashMap<String, GradeRosterEntryInfo>();
 
-    private static Map<String, List<String>> termCourseOfferingsCache = new HashMap<String, List<String>>();
+    public static Map<String, List<String>> termCourseOfferingsCache = new HashMap<String, List<String>>();
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -144,7 +144,7 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(List<String> activityOfferingIdList, String rosterTypeKey,
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList, String rosterTypeKey,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 

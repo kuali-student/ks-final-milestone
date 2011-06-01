@@ -185,7 +185,7 @@ public interface GradingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public GradeRosterInfo buildInterimGradeRosterByType(@WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList, @WebParam(name="rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public GradeRosterInfo buildInterimGradeRosterByType(@WebParam(name = "activityOfferingIdList") String  courseOfferingId , @WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList, @WebParam(name="rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * 

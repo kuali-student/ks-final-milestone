@@ -90,10 +90,10 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(List<String> activityOfferingIdList, String rosterTypeKey,
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList, String rosterTypeKey,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().buildInterimGradeRosterByType(activityOfferingIdList, rosterTypeKey, context);
+        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIdList, rosterTypeKey, context);
     }
 
     @Override
