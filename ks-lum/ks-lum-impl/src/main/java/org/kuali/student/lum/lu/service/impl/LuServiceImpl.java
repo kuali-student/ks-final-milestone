@@ -3508,7 +3508,7 @@ public class LuServiceImpl implements LuService {
 		}
 		
 		//Get any joints here and add them into the results
-		List<Clu> joints = luDao.getClusByRelation(cluId,"kuali.lu.relation.type.co-located");
+		List<Clu> joints = luDao.getClusByRelationSt(cluId, "kuali.lu.relation.type.co-located", "Active");
 		if(joints!=null){
 			for(Clu clu:joints){
 				
