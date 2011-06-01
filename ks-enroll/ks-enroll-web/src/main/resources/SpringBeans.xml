@@ -24,7 +24,7 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/sample-app-config.xml</value>
+				<value>classpath:META-INF/ks-enroll-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -40,6 +40,6 @@
 	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 	
-	<import resource="classpath:SampleAppModuleBeans.xml"/>
+	<import resource="classpath:SpringModuleBeans.xml"/>
 	 
 </beans>
