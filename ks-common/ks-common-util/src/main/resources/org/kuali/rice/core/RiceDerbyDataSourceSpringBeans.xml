@@ -18,7 +18,7 @@
 
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-
+<!--  uncomment this and comment the rest to switch to bitronix 
     <bean id="riceDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="riceDataSource" />
@@ -57,9 +57,9 @@
 
 <alias name="jtaTransactionManager" alias="jtaUserTransaction"/>
 <alias name="jtaTransactionManager" alias="jotm"/>
+-->
 
-
-    <!-- bean id="riceDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+    <bean id="riceDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${datasource.driver.name}" />
         <property name="url" value="${datasource.url}" />
@@ -81,6 +81,6 @@
         <property name="username" value="${datasource.username}" />
         <property name="password" value="${datasource.password}" />
         <property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}"/>
-    </bean -->
+    </bean>
 
 </beans>

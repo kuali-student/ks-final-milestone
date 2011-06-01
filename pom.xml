@@ -130,7 +130,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.3.1-BX</kuali.rice.version>
+    <kuali.rice.version>1.0.3.2-m2</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -933,7 +933,8 @@
             <artifactId>core</artifactId>
           </exclusion>
           
-		  <!-- JOTM -->        
+		  <!-- JOTM - uncomment out to switch to Bitronix -->        
+	      <!-- 
 	      <exclusion>                                 
 	        <groupId>xapool</groupId>                 
 	        <artifactId>xapool</artifactId>           
@@ -942,7 +943,8 @@
 	        <groupId>jotm</groupId>                   
 	        <artifactId>jotm</artifactId>             
 	      </exclusion>
-	      
+	       -->
+	       
 	      <!-- itext -->
 	      <exclusion>
             <groupId>itext</groupId>

@@ -16,7 +16,8 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="ksAdminDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
+<!--  uncomment and comment the following datasource to switch to Bitronix -->
+    <!--  bean id="ksAdminDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="coreDataSource" />
     <property name="maxPoolSize" value="${ks.core.datasource.pool.maxSize}" />
@@ -30,10 +31,10 @@
             <prop key="password">${ks.core.datasource.password}</prop>
         </props>
     </property>
-    </bean>
+    </bean -->
 
 	<!-- needed datasource for KS admin service data for rice admin screens -->
-<!-- 
+ 
 	<bean id="ksAdminDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jtaTransactionManager" />
 		<property name="driverClassName" value="${ks.core.datasource.driver.name}" />
@@ -45,7 +46,6 @@
 		<property name="username" value="${ks.core.datasource.username}" />
 		<property name="password" value="${ks.core.datasource.password}" />
 	</bean>
--->
 
 	<bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">

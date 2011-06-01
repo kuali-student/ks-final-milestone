@@ -52,7 +52,7 @@
     <param name="rice.ksb.message.jpa.PersistenceUnitName">${rice.ksb.message.jpa.PersistenceUnitName.${db.vendor}}</param>
     <param name="rice.ksb.message.jpa.GenerateDdl">false</param>
 	
-	<param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param>    
+	<param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>    
     <!-- can't validate because of bad clob vs varchar in rice annotations -->
     <!-- 
     <param name="rice.ksb.registry.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>

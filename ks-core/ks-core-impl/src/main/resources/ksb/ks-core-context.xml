@@ -49,7 +49,8 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="coreDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
+<!-- uncomment and comment out other datasource to switch to bitronix -->
+    <!-- bean id="coreDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="coreDataSource" />
     <property name="maxPoolSize" value="${ks.core.datasource.maxSize}" />
@@ -63,10 +64,9 @@
             <prop key="password">${ks.core.datasource.password}</prop>
         </props>
     </property>
-    </bean>
+    </bean -->
 
 	<!-- Default Datasource -->
-<!--
 	<bean id="coreDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="userTransaction" />
         <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
@@ -78,7 +78,6 @@
         <property name="username" value="${ks.core.datasource.username}" />
         <property name="password" value="${ks.core.datasource.password}" />
 	</bean>
--->
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="coreDefaultEntityManagerFactory" abstract="true"
