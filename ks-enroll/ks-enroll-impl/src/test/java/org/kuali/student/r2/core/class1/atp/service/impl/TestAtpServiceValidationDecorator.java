@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -115,4 +116,21 @@ public class TestAtpServiceValidationDecorator {
         assertTrue(!invalidResults.isEmpty());        
     }
     
+    @Test
+    public void testValidateAtp()throws DoesNotExistException, InvalidParameterException, MissingParameterException,OperationFailedException {
+        AtpInfo atpInfo = new AtpInfo();
+        atpInfo.setKey("newId");
+        atpInfo.setName("newId");
+        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setStartDate(Calendar.getInstance().getTime());
+        atpInfo.setEndDate(Calendar.getInstance().getTime());
+        try{
+        	List<ValidationResultInfo> vri= atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
+        	assertTrue(vri.isEmpty());
+        } catch (Exception ex) {
+            //fail("exception from service call :" + ex.getMessage());
+        	//TODO: test exception aspect
+        } 
+    }
 }
