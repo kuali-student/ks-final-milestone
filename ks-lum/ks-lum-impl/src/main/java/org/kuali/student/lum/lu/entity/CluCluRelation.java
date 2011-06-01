@@ -41,7 +41,9 @@ import org.kuali.student.common.entity.MetaEntity;
 	@NamedQuery(name="CluCluRelation.getCluIdsByRelatedCluId", query = "SELECT rel.clu.id FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name="CluCluRelation.getRelationTypeByCluId", query="SELECT distinct rel.luLuRelationType.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.relatedClu.id = :relatedCluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedClusByCluId", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
-	@NamedQuery(name="CluCluRelation.getClusByRelatedCluId", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId")
+	@NamedQuery(name="CluCluRelation.getClusByRelatedCluId", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name="CluCluRelation.getRelatedClusByCluIdSt", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId AND rel.state = :luState"),
+	@NamedQuery(name="CluCluRelation.getClusByRelatedCluIdSt", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId AND rel.state = :luState")
 })
 public class CluCluRelation extends MetaEntity implements
 		AttributeOwner<CluCluRelationAttribute> {
