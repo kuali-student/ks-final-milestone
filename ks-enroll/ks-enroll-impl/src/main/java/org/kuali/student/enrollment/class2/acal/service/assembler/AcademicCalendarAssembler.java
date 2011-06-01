@@ -25,7 +25,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 
 public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarInfo, AtpInfo> {
     private AtpService atpService;
- 
+    private AtpAtpRelationAssembler relAssembler;
+    
     public AtpService getAtpService() {
         return atpService;
     }
@@ -33,8 +34,17 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
+
     
-    @Override
+    public AtpAtpRelationAssembler getRelAssembler() {
+		return relAssembler;
+	}
+
+	public void setRelAssembler(AtpAtpRelationAssembler relAssembler) {
+		this.relAssembler = relAssembler;
+	}
+
+	@Override
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) {
         if(atp != null){
             AcademicCalendarInfo acal = new AcademicCalendarInfo();
@@ -58,35 +68,15 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
                 }
             }
 
-            //TODO:wire atpatpRelationAssembler
-            //process atpatprelation
-            assembleAtpAtpRelations(atp.getKey(), acal, context);
+            //process atpatprelation-CampusCalendar
+            acal.setCampusCalendarKeys(relAssembler.assemble(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
+
             return acal;
         }
         else
             return null;
     }
 
-    private List<String> assembleAtpAtpRelations(String atpKey, AcademicCalendarInfo acal, ContextInfo context){
-        List<String> ccKeys = new ArrayList<String>();
-        List<AtpAtpRelationInfo> atpRels;
-        try {
-            atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
-            
-            if(atpRels != null && !atpRels.isEmpty()){                  
-                for(AtpAtpRelationInfo atpRel : atpRels){
-                    if(atpRel.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)){
-                        ccKeys.add(atpRel.getRelatedAtpKey());
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        
-        return ccKeys;
-    }
-    
     @Override
     public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) {
         AtpInfo atp = new AtpInfo();
@@ -111,8 +101,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         
         if(acal.getCampusCalendarKeys() != null && !acal.getCampusCalendarKeys().isEmpty()){
             try{
-            	   //TODO:wire atpatpRelationAssembler
-                disassembleAtpAtpRelations(acal.getKey(), acal.getCampusCalendarKeys(), acal.getStateKey(), context);
+            	relAssembler.disassemble(acal.getKey(), acal.getCampusCalendarKeys(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context);
             }catch (Exception e){
                 return null;
             }
@@ -121,65 +110,4 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         return atp;   
     }
 
-    private void disassembleAtpAtpRelations(String atpKey, List<String> relatedAtpKeys, String state, ContextInfo context) throws AlreadyExistsException,
-    DataValidationErrorException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        
-        try {
-            List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
-            Map<String, String> currentRelIds = new HashMap<String, String>();
-            
-            if(atpRels != null && !atpRels.isEmpty()){
-                for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                    if(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY.equals(atpRelInfo.getTypeKey())){
-                        currentRelIds.put(atpRelInfo.getRelatedAtpKey(), atpRelInfo.getId());
-                    }
-                }
-            }
-            
-            for (String relatedKey : relatedAtpKeys){
-                if (!currentRelIds.containsKey(relatedKey))
-                    createAtpAtpRelations(atpKey, relatedKey, state, context);
-                else
-                    updateAtpAtpRelations(currentRelIds.get(relatedKey), state, context);
-            }
-
-        } catch (DoesNotExistException e) {
-            //if not exist, create relations
-            for (String relatedKey : relatedAtpKeys){
-                createAtpAtpRelations(atpKey, relatedKey, state, context);
-            }
-    }
-    }
- 
-    private void createAtpAtpRelations(String atpKey, String relatedAtpKey, String state, ContextInfo context) throws AlreadyExistsException,
-    DataValidationErrorException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
-        atpRel.setId(UUIDHelper.genStringUUID());
-        atpRel.setAtpKey(atpKey);
-        atpRel.setRelatedAtpKey(relatedAtpKey);
-        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
-        atpRel.setStateKey(state);
-        atpService.createAtpAtpRelation(atpRel, context);        
-    }
-    
-    private void updateAtpAtpRelations(String atpAtpRelationId, String state, ContextInfo context) throws AlreadyExistsException,
-    DataValidationErrorException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        AtpAtpRelationInfo atpRel;
-        try {
-            atpRel = new AtpAtpRelationInfo(atpService.getAtpAtpRelation(atpAtpRelationId, context));
-            atpRel.setStateKey(state);
-            try {
-                atpService.updateAtpAtpRelation(atpAtpRelationId, atpRel, context);
-            } catch (DoesNotExistException e) {
-                e.printStackTrace();
-            } catch (VersionMismatchException e) {
-                e.printStackTrace();
-            }   
-        } catch (DoesNotExistException e1) {
-            e1.printStackTrace();
-        }
-    }
-}
+ }

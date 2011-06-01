@@ -76,25 +76,25 @@ public class TestAcademicCalendarServiceImpl{
     @Test 
     public void testGetAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
-            AcademicCalendarInfo acal = new AcademicCalendarInfo();
-            acal.setKey("testAcalId");
-            acal.setName("testAcal");
-            acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
-            acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-            acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-            try{
-                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
-                assertNotNull(created);
-                assertEquals("testAcalId", created.getKey());
-                
-                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setKey("testAcalId");
+        acal.setName("testAcal");
+        acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        try{
+            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
+            assertNotNull(created);
+            assertEquals("testAcalId", created.getKey());
+            
+            AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
 
-                assertNotNull(existed);
-                assertEquals("testAcalId", existed.getKey());
-                assertEquals("testAcal", existed.getName());
-            } catch (Exception ex) {
-                fail("exception from service call :" + ex.getMessage());
-            }
+            assertNotNull(existed);
+            assertEquals("testAcalId", existed.getKey());
+            assertEquals("testAcal", existed.getName());
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
     }
   
     @Test 

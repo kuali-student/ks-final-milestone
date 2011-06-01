@@ -101,7 +101,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-        <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+   <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     	<property name="atpDao" ref="atpDao"/>
     	<property name="atpTypeDao" ref="atpTypeDao"/>
     	<property name="atpStateDao" ref="atpStateDao"/>
@@ -120,12 +120,13 @@
        
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpService"/>
+    	<property name = "relAssembler" ref="relAssembler" />
     </bean>
       
-	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
-	</bean>
+	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler"></bean>
 	
-	    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+	<bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
       <property name="nextDecorator" ref="atpService"/>
       <property name="validator" ref="validator"/>
     </bean>
