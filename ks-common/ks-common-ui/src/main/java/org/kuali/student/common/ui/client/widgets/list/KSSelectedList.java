@@ -386,15 +386,16 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         clear();
         if (value != null) {
         	try{
-	            Data data = ((DataValue) value).get();
-	            Iterator<Property> iter = data.realPropertyIterator();
-	            while (iter.hasNext()) {
-	                Property p = iter.next();
-	                String v = (String) p.getValue();
-	                //FIXME: do we need to do a search? is this method ever going to be called?
-	                KSItemLabel item = createItem(v, "Display: " + v, hasDetails);
-	                addItem(item);
-	            }
+        		if(value instanceof DataValue){
+		            Data data = ((DataValue) value).get();
+		            Iterator<Property> iter = data.realPropertyIterator();
+		            while (iter.hasNext()) {
+		                Property p = iter.next();
+		                setSingleValue(p.getValue());
+		            }
+        		}else{
+        			setSingleValue(value.get());
+        		}
         	}catch(ClassCastException cce){
         		String errorMsg = 	"ClassCastException in KSSelectedList.java::setValue \n " +
         							"Trying to cast Value from: " + value.getClass().getName() + "\n " +
@@ -410,7 +411,17 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         }
     }
 
-    @Override
+    private void setSingleValue(Object pVal) {
+        String v = null;
+        if(pVal != null){
+        	v = pVal.toString();
+        }
+        //FIXME: do we need to do a search? is this method ever going to be called?
+        KSItemLabel item = createItem(v, "Display: " + v, hasDetails);
+        addItem(item);
+	}
+
+	@Override
     public void addFocusLostCallback(Callback<Boolean> callback) {
         if (picker != null)
             picker.addFocusLostCallback(callback);
