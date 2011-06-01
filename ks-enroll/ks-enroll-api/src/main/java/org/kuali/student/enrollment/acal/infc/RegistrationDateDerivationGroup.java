@@ -17,21 +17,21 @@ package org.kuali.student.enrollment.acal.infc;
 
 
 /**
- * This structure specifies how (and if) the dates in the RegistrationDateGroup
- * are derived.
+ * This structure specifies how (and if) the dates in the
+ * RegistrationDateGroup are derived.
  *
- * This is a Work in Progress as it currently is only intended to handle the derivation
- * of dates of nested terms that start or end on the same exact boundary days as the
- * containing term.
+ * This is a Work in Progress as it currently is only intended to
+ * handle the derivation of dates of nested terms that start or end on
+ * the same exact boundary days as the containing term.
  *
- * For example: the start date of classes for the Fall term is the same for courses
- * that run the entire term as it is for courses that run for only the first half of the term.
- * This tells us that the derivation of that classes start date in the half-sememster should be
- * the same as the classes start date  in the overall semester.
+ * For example: the start date of classes for the Fall term is the
+ * same for courses that run the entire term as it is for courses that
+ * run for only the first half of the term.  This tells us that the
+ * derivation of that classes start date in the half-sememster should
+ * be the same as the classes start date in the overall semester.
  * 
- *
- * @Author tom
- * @Since Tue Apr 23 14:22:34 EDT 2011
+ * @author tom
+ * @since Tue Apr 23 14:22:34 EDT 2011
  */ 
 
 public interface RegistrationDateDerivationGroup {

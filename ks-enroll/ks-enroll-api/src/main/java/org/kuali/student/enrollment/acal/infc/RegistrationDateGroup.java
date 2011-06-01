@@ -37,8 +37,8 @@ import org.kuali.student.r2.common.infc.DateRange;
  * returns the starting date of the range in a KeyDate of type
  * kuali.apt.milestone.RegistrationPeriod for the associated term.
  *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
+ * @author tom
+ * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 public interface RegistrationDateGroup {

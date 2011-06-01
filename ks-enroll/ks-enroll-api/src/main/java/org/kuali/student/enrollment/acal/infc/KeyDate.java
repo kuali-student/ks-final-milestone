@@ -24,8 +24,8 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * Information about a key date. A key date may represent a single
  * point in time or a range depending on the value of isDateRange().
  *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
+ * @author tom
+ * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 public interface KeyDate extends KeyEntity {

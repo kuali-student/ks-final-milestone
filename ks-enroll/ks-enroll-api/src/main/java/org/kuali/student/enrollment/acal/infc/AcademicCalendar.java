@@ -25,8 +25,8 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 /**
  * Information about an Academic Calendar.
  *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
+ * @author tom
+ * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
 public interface AcademicCalendar extends KeyEntity {

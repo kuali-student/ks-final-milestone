@@ -22,18 +22,12 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -42,6 +36,15 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 
 /**
@@ -67,8 +70,8 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
  *
  * Version: 1.0 (Dev)
  *
- * @Author tom
- * @Since Sun Apr 10 14:22:34 EDT 2011
+ * @author tom
+ * @since Sun Apr 10 14:22:34 EDT 2011
  */
 
 @WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
@@ -945,7 +948,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
-     * @param campusCalendatTypeKey
+     * @param campusCalendarTypeKey
      * @return a list of valid key date Types
      * @throws DoesNotExistException termTypeKey not found
      * @throws InvalidParameterException invalid key or context
@@ -1224,7 +1227,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
-     * @param campusCalendatTypeKey
+     * @param campusCalendarTypeKey
      * @return a list of valid holiday Types
      * @throws DoesNotExistException campusCalendarTypeKey not found
      * @throws InvalidParameterException invalid key or context
@@ -1400,7 +1403,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * Term or updates them if they already exist.
      *
      * @param termKey key of Term
-     * @param registrationDateGroup the registration date group
+     * @param registrationDateGroupInfo the registration date group
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
