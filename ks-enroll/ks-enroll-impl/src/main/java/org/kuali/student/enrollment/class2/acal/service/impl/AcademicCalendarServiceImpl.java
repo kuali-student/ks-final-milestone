@@ -198,14 +198,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             
            if(atp != null){
                //delete atp/acal
-               atpService.deleteAtp(academicCalendarKey, context);
-               
-               //delete atpatpRelation
-               List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
-               
-               for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                       atpService.deleteAtpAtpRelation(atpRelInfo.getId(), context);
-               }              
+               atpService.deleteAtp(academicCalendarKey, context);         
            }
         
         return status;
