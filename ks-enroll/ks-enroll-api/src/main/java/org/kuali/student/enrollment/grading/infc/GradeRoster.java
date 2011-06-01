@@ -47,4 +47,12 @@ public interface GradeRoster extends IdEntity {
      */
     public String getCourseOfferingId();
 
+    /**
+     * This method returns a list of activity offering ids associated with this
+     * roster.
+     * 
+     * @return
+     */
+    public List<String> getActivityOfferingIds();
+
 }

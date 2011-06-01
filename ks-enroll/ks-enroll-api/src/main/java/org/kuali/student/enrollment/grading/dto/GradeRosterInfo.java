@@ -26,8 +26,8 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeRosterInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "GradeRosterInfo", propOrder = {"gradeRosterEntryIds", "graderIds", "activityOfferingIds",
+        "courseOfferingId", "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class GradeRosterInfo extends IdEntityInfo implements GradeRoster, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,9 @@ public class GradeRosterInfo extends IdEntityInfo implements GradeRoster, Serial
     private List<String> gradeRosterEntryIds;
 
     private List<String> graderIds;
-    
+
+    private List<String> activityOfferingIds;
+
     private String courseOfferingId;
 
     @XmlAnyElement
@@ -49,8 +51,7 @@ public class GradeRosterInfo extends IdEntityInfo implements GradeRoster, Serial
     public void setGraderIds(List<String> graderIds) {
         this.graderIds = graderIds;
     }
-    
-    
+
     public void setGradeRosterEntryIds(List<String> graderRosterEntryIds) {
         this.gradeRosterEntryIds = graderRosterEntryIds;
     }
@@ -68,7 +69,12 @@ public class GradeRosterInfo extends IdEntityInfo implements GradeRoster, Serial
         return courseOfferingId;
     }
 
+    public void setActivityOfferingIds(List<String> activityOfferings) {
+        this.activityOfferingIds = activityOfferings;
+    }
 
-
+    public List<String> getActivityOfferingIds() {
+        return activityOfferingIds;
+    }
 
 }
