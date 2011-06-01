@@ -248,19 +248,24 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
-	public List<Clu> getClusByRelationSt(String cluId, String luLuRelationTypeId, String luState) {
+	public List<Clu> getClusByRelationSt(String cluId, String luLuRelationTypeId, List<String> luStateList) {
 		Query query = em.createNamedQuery("CluCluRelation.getRelatedClusByCluIdSt");
 		query.setParameter("cluId", cluId);
 		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
-		query.setParameter("luState", luState);
+		query.setParameter("luStateList", luStateList);
 		@SuppressWarnings("unchecked")
 		List<Clu> resultList = query.getResultList();
 		
 		query = em.createNamedQuery("CluCluRelation.getClusByRelatedCluIdSt");
 		query.setParameter("relatedCluId", cluId);
 		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
-		query.setParameter("luState", luState);
-		resultList.addAll(query.getResultList());
+		query.setParameter("luStateList", luStateList);		
+		List<Clu> resultListRel = query.getResultList();
+		if(resultListRel != null)
+			for(Clu clu:resultListRel) {
+				if (!resultList.contains(clu))
+					resultList.add(clu);
+			}
 		
 		return resultList;
 	}
