@@ -21,8 +21,8 @@ import org.kuali.student.r2.common.infc.IdEntity;
 /**
  * Information about an Issue.
  *
- * @Author tom
- * @Since Sun May 1 14:22:34 EDT 2011
+ * @author tom
+ * @since Sun May 1 14:22:34 EDT 2011
  */ 
 
 public interface Issue extends IdEntity {

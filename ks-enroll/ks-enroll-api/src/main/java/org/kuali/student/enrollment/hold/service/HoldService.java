@@ -68,8 +68,8 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
  * Person instead of blocking the action. A Person may not be
  * restricted but have active warning Holds.
  *
- * @Author tom
- * @Since Sun May 1 14:22:34 EDT 2011
+ * @author tom
+ * @since Sun May 1 14:22:34 EDT 2011
  */
 
 @WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
@@ -283,7 +283,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * validation as the caller provides the identifier in the create
      * statement instead of the server assigning an identifier.
      *
-     * @param validationType Identifier of the extent of validation
+     * @param validationTypeKey Identifier of the extent of validation
      * @param holdInfo the hold information to be tested.
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -305,7 +305,8 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                operation
      * @return the details of the Hold just created
      * @throws AlreadyExistsException the Hold being created already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DataValidationErrorException One or more values invalid for 
+     *         this operation
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -380,7 +381,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws DoesNotExistException issueId not found
      * @throws InvalidParameterException invalid issueId
      * @throws MissingParameterException missing issueId
-     * @Throws OperationFailedException unable to complete request
+     * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public IssueInfo getIssue(@WebParam(name = "issueId") String issueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -497,7 +498,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * the create statement instead of the server assigning an
      * identifier.
      *
-     * @param validationType Identifier of the extent of validation
+     * @param validationTypeKey Identifier of the extent of validation
      * @param issueInfo the issue information to be tested.
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -577,7 +578,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws DoesNotExistException restrictionKey not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
-     * @Throws OperationFailedException unable to complete request
+     * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public RestrictionInfo getRestriction(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -647,7 +648,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * the create statement instead of the server assigning an
      * identifier.
      *
-     * @param validationType Identifier of the extent of validation
+     * @param validationTypeKey Identifier of the extent of validation
      * @param restrictionInfo the restriction information to be tested.
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
