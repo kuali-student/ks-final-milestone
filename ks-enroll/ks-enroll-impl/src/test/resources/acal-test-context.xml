@@ -85,7 +85,7 @@
             <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
-   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
+   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="Acal"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
@@ -96,8 +96,8 @@
         <property name="persistenceUnitName" value="Acal"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
     </bean>-->
-
-    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+   
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
@@ -120,7 +120,7 @@
        
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpService"/>
-    	<property name = "relAssembler" ref="relAssembler" />
+    	<property name="relAssembler" ref="relAssembler" />
     </bean>
       
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>

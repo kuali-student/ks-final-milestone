@@ -53,7 +53,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpService"/>
-    	<property name = "relAssembler" ref="relAssembler" />
+    	<property name="relAssembler" ref="relAssembler" />
     </bean>
       
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
