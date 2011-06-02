@@ -89,14 +89,15 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         atp.setStateKey(acal.getStateKey());
         atp.setMeta(acal.getMeta());
 
-        List<AttributeInfo> attributes = (null != acal.getAttributes()? acal.getAttributes(): new ArrayList<AttributeInfo>());
+        List<AttributeInfo> attributes = (null != acal.getAttributes() ? acal.getAttributes() : new ArrayList<AttributeInfo>());
         
-        if(acal.getCredentialProgramTypeKey() != null){
+        if (acal.getCredentialProgramTypeKey() != null) {
             AttributeInfo cpt = new AttributeInfo();
             cpt.setKey("CredentialProgramType");
             cpt.setValue(acal.getCredentialProgramTypeKey());
             attributes.add(cpt);
         }
+        
         atp.setAttributes(attributes);
         
         if(acal.getCampusCalendarKeys() != null && !acal.getCampusCalendarKeys().isEmpty()){

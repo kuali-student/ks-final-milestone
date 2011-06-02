@@ -34,7 +34,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
-//@Ignore
 public class TestAcademicCalendarServiceImpl{
     
     private AcademicCalendarService acalServiceValidation;
@@ -59,7 +58,6 @@ public class TestAcademicCalendarServiceImpl{
     	assertNotNull(acalServiceValidation);
     }
 
-	@Ignore
 	@Test 
     public void testGetAcademicCalendarFromDerby()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -67,34 +65,33 @@ public class TestAcademicCalendarServiceImpl{
 		assertNotNull(acal);
 		assertEquals("testAtpId1", acal.getKey());
 		assertEquals("testAtp1", acal.getName());
-		assertEquals("Desc", acal.getDescr().getPlain());
+		assertEquals("Desc 101", acal.getDescr().getPlain());
 		assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, acal.getStateKey());
 		assertEquals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, acal.getTypeKey());
 	}
 
-	@Ignore
     @Test 
     public void testGetAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setKey("testAcalId");
-        acal.setName("testAcal");
-        acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
-        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        try{
-            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
-            assertNotNull(created);
-            assertEquals("testAcalId", created.getKey());
-            
-            AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
+            AcademicCalendarInfo acal = new AcademicCalendarInfo();
+            acal.setKey("testAcalId");
+            acal.setName("testAcal");
+            acal.setCredentialProgramTypeKey("credentialProgramTypeKey");
+            acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+            try{
+                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
+                assertNotNull(created);
+                assertEquals("testAcalId", created.getKey());
+                
+                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
 
-            assertNotNull(existed);
-            assertEquals("testAcalId", existed.getKey());
-            assertEquals("testAcal", existed.getName());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+                assertNotNull(existed);
+                assertEquals("testAcalId", existed.getKey());
+                assertEquals("testAcal", existed.getName());
+            } catch (Exception ex) {
+                fail("exception from service call :" + ex.getMessage());
+            }
     }
   
     @Test 

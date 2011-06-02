@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import org.kuali.rice.core.xml.dto.AttributeSet;
 import org.kuali.rice.kim.bo.Role;
@@ -476,6 +478,33 @@ public class RoleServiceMockImpl implements
     public void assignPrincipalToRole(String principalId, String namespaceCode,
             String roleName, AttributeSet qualifications)
             throws UnsupportedOperationException {
+        KimRoleInfo roleInfo = null;
+        for (KimRoleInfo role : this.roleCache.values()) {
+            if (namespaceCode.equals(role.getNamespaceCode())) {
+                roleInfo = role;
+                break;
+            }
+            if (null == roleInfo) {
+                roleInfo = new KimRoleInfo();
+                roleInfo.setNamespaceCode(namespaceCode);
+                roleInfo.setActive(true);
+                roleInfo.setRoleId(UUID.randomUUID().toString());
+                this.roleCache.put(roleInfo.getRoleId(), roleInfo);
+            }
+            RoleMembershipInfo roleMembershipInfo = null;
+            if (roleName.equals(roleInfo.getRoleName())) {
+                for (RoleMembershipInfo rmInfo : roleMembershipCache.values()) {
+                    if (rmInfo.getRoleId().equals(roleInfo.getRoleId())) {
+                        roleMembershipInfo = rmInfo;
+                    }
+                }
+            }
+            if (null == roleMembershipInfo) {
+                // roleMembershipInfo = new RoleMembershipInfo(roleInfo.getRoleId(), roleMemberId, memberId, memberTypeCode, qualifier)
+            }
+            
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -340,6 +340,5 @@ public class PermissionServiceMockImpl implements PermissionService,
             AttributeSet permissionDetails) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
 

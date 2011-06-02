@@ -96,20 +96,20 @@
         <property name="persistenceUnitName" value="Acal"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
     </bean>-->
-   
+
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-   <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
-    	<property name="atpDao" ref="atpDao"/>
-    	<property name="atpTypeDao" ref="atpTypeDao"/>
-    	<property name="atpStateDao" ref="atpStateDao"/>
-    	<property name="atpRichTextDao" ref="atpRichTextDao"/>
-    	<property name="atpRelDao" ref="atpAtpRelationDao"/>
-    	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/>
-    	<property name="milestoneDao" ref="milestoneDao"/>
-    	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+	  	<property name="atpDao" ref="atpDao"/>
+	  	<property name="atpTypeDao" ref="atpTypeDao"/>
+	  	<property name="atpStateDao" ref="atpStateDao"/>
+	  	<property name="atpRichTextDao" ref="atpRichTextDao"/>
+	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
+	  	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/>
+	  	<property name="milestoneDao" ref="milestoneDao"/>
+	  	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
     </bean>
  
      <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
@@ -126,7 +126,16 @@
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler"></bean>
 	
-	<bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+    <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+	
+    <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
+      <property name="nextDecorator" ref="atpServiceValidation"/>
+      <property name="permissionService" ref="permissionService" />
+    </bean>
+    
+	
+    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
       <property name="nextDecorator" ref="atpService"/>
       <property name="validator" ref="validator"/>
     </bean>
@@ -177,4 +186,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
       	   
+	<tx:annotation-driven transaction-manager="JtaTxManager"
+		order="1000" />
+		
 </beans>
