@@ -75,6 +75,9 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);
                         viewContext.setIdType(IdType.OBJECT_ID);
+                        if(variationData.get("id")!=null){
+                        	viewContext.setAttribute(ProgramConstants.VARIATION_ID, variationData.get("id").toString());
+                        }
                         HistoryManager.navigate(url, viewContext);
                     }
                 });

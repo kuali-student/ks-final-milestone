@@ -231,7 +231,17 @@ public class CurriculumHomeController extends LayoutController {
 //                GWT.runAsync(new RunAsyncGetView() {
 //                    @Override
 //                    public void onSuccess() {
-                        callback.exec(majorManager.getVariationEditController());
+            	if(majorManager.getProgramModel()!=null && majorManager.getProgramModel().getDefinition()!=null){	
+                    callback.exec(majorManager.getVariationEditController());
+            	}else{
+            		//If the variation edit is refreshed, bring the user to the program screen first
+                	Application.getApplicationContext().setParentPath("");//Reset the parent path when navigating back
+                    if (ProgramRegistry.isCreateNew()) {
+                        ProgramRegistry.setCreateNew(false);
+                        majorManager = new MajorManager();
+                    }
+                    callback.exec(majorManager.getProgramEditController());
+            	}
 //                    }
 //                });
                 break;
