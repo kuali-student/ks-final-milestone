@@ -19,6 +19,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -68,6 +69,35 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
 			joint.setRelationId(cluRel.getId());
 
+		} catch (Exception e) {
+			throw new AssemblyException("Error getting related clus", e);
+		} 
+		
+		return joint;
+	}
+
+	public CourseJointInfo assemble(CluCluRelationInfo cluRel, String cluId, CourseJointInfo jointInfo, boolean shallowBuild) throws AssemblyException {
+		if(null == cluRel) {
+			return null;
+		}
+		
+		CourseJointInfo joint = (jointInfo != null) ? jointInfo : new CourseJointInfo();
+
+		CluInfo clu;
+		try {
+			clu = luService.getClu(cluId);
+			
+			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
+				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
+				joint.setCourseId(clu.getId());
+				joint.setType(clu.getType());//FIXME is this ever used?
+				joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
+				joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+				joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
+				joint.setRelationId(cluRel.getId());
+			} else	
+				return null;
+			
 		} catch (Exception e) {
 			throw new AssemblyException("Error getting related clus", e);
 		} 
