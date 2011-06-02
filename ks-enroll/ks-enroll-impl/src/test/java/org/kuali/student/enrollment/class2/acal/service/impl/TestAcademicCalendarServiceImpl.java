@@ -118,7 +118,6 @@ public class TestAcademicCalendarServiceImpl{
         } 
     }
     
-    @Ignore
     @Test
     public void testCreateAcademicCalendar() throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,

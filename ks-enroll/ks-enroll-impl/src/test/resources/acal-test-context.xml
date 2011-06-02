@@ -124,7 +124,9 @@
     </bean>
       
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
-	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler"></bean>
+	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler">
+    	<property name="atpService" ref="atpService"/>
+	</bean>
 	
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
