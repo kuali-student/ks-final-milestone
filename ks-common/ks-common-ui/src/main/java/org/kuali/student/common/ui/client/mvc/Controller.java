@@ -120,7 +120,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		        }
 		        beginShowView(view, viewType, onReadyCallback);
 				
-			}});
+			}},null);
     }
     
     private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
@@ -380,6 +380,18 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 
     /**
      * Returns the view associated with the specified enum value. See showView(V viewType) above for a full description
+     * defaults to the abstract get view method unless overridden
+     * @param <V>
+     * @param viewType
+     * @param callback
+     * @param tokenMap optionally passed in token map if you need tokens from the history manager
+     */
+    protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback, Map<String, String> tokenMap){
+    	getView(viewType, callback);
+    }
+
+    /**
+     * Returns the view associated with the specified enum value. See showView(V viewType) above for a full description
      * 
      * @param <V>
      * @param viewType
@@ -512,7 +524,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		                    	currentView.onHistoryEvent(nextHistoryStack);
 		                    }
 						}
-					});
+					},tokenMap);
     
                 }
             }

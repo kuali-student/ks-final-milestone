@@ -1,13 +1,18 @@
 package org.kuali.student.lum.lu.ui.main.client.controllers;
 
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.browseprogram.client.controllers.BrowseProgramController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
@@ -18,12 +23,12 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.dependency.client.controllers.DependencyAnalysisController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
@@ -91,7 +96,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     @Override
-    public <V extends Enum<?>> void getView(V viewType, final Callback<View> callback) {
+    public <V extends Enum<?>> void getView(V viewType, final Callback<View> callback, Map<String, String> tokenMap) {
         //this is done so the views can have delayed loading
 
         switch ((LUMViews) viewType) {
@@ -99,202 +104,216 @@ public class CurriculumHomeController extends LayoutController {
                 callback.exec(home);
                 break;
             case COURSE_PROPOSAL:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getCourseProposalController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case COURSE_ADMIN:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getCourseAdminController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case COURSE_ADMIN_NO_VERSION:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getCourseAdminWithoutVersionController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case VIEW_COURSE:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getViewCourseController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case PROGRAM_VIEW:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             majorManager = new MajorManager();
                         }
                         callback.exec(majorManager.getProgramViewController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case PROGRAM_EDIT:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                     	Application.getApplicationContext().setParentPath("");//Reset the parent path when navigating back
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             majorManager = new MajorManager();
                         }
                         callback.exec(majorManager.getProgramEditController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case PROGRAM_SPEC_EDIT:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             majorManager = new MajorManager();
                         }
                         callback.exec(majorManager.getProgramSpecEditController());
-                    }
-                });
+//                    }
+//                });
                 break;                
             case PROGRAM_CREATE:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         majorManager = new MajorManager();
                         callback.exec(majorManager.getProgramEditController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case PROGRAM_VERSIONS:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(majorManager.getProgramVersionsController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case CLU_SETS:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getCluSetsController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case COURSE_CATALOG:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getBrowseCatalogController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case VARIATION_VIEW:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
+            	//Check if key data has been initialized (the program was loaded before the variation)
+            	if(majorManager.getProgramModel()!=null && majorManager.getProgramModel().getDefinition()!=null){	
                         callback.exec(majorManager.getVariationViewController());
-                    }
-                });
+            	}else{
+            		//If it has not yet been initialized, we need to pull some context information and 
+            		//navigate to the program view which will initialize program information and then load the variation view.
+            		//This is similar to the getFindMajorsWidget() in the CurriculumHomeConfigurer
+            		ViewContext viewContext = new ViewContext();
+                    viewContext.setId(tokenMap.get("docId"));
+                    viewContext.setAttribute(ProgramConstants.VARIATION_ID, tokenMap.get(ProgramConstants.VARIATION_ID));
+                    viewContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.VARIATION_TYPE_KEY);
+                    viewContext.setIdType(IdType.OBJECT_ID);
+                    ProgramRegistry.setCreateNew(true);
+                    Application.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
+            	}
+//                    }
+//                });
                 break;
             case VARIATION_EDIT:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(majorManager.getVariationEditController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case CORE_PROGRAM_VIEW:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             coreManager = new CoreManager();
                         }
                         callback.exec(coreManager.getViewController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case CORE_PROGRAM_EDIT:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(coreManager.getEditController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case CORE_PROGRAM_VERSIONS:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(coreManager.getProgramVersionsController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case BACC_PROGRAM_VIEW:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);
                             credentialManager = new CredentialManager();
                         }
                         callback.exec(credentialManager.getBaccViewController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case BACC_PROGRAM_EDIT:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(credentialManager.getBaccEditController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case BACC_PROGRAM_VERSIONS:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(credentialManager.getProgramVersionsController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case LO_CATEGORIES:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getCategoryManagementController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case DEPENDENCY_ANALYSIS:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getDependencyAnalysisController());
-                    }
-                });
+//                    }
+//                });
                 break;
             case BROWSE_PROGRAM:
-                GWT.runAsync(new RunAsyncGetView() {
-                    @Override
-                    public void onSuccess() {
+//                GWT.runAsync(new RunAsyncGetView() {
+//                    @Override
+//                    public void onSuccess() {
                         callback.exec(getBrowseProgramController());
-                    }
-                });
+//                    }
+//                });
                 break;
             default:
                 callback.exec(home);

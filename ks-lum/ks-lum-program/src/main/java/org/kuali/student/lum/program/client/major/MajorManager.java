@@ -139,4 +139,8 @@ public class MajorManager {
         }
         return majorViewController;
     }
+
+	public DataModel getProgramModel() {
+		return programModel;
+	}
 }

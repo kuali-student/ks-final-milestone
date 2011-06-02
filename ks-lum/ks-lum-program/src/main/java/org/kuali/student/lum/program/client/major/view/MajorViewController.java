@@ -72,9 +72,12 @@ public class MajorViewController extends MajorController {
                     if (type.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
                         showVariationView();
                     } else {
+                    	//Take out the vairationId if it exists for cleaner navigation
+                    	context.getAttributes().remove(ProgramConstants.VARIATION_ID);
                         showView(ProgramSections.VIEW_ALL);
                     }
                 } else {
+                	context.getAttributes().remove(ProgramConstants.VARIATION_ID);
                     showView(ProgramSections.VIEW_ALL);
                 }
             }
@@ -102,7 +105,6 @@ public class MajorViewController extends MajorController {
     private void showVariationView() {
         String variationId = context.getAttributes().get(ProgramConstants.VARIATION_ID);
         if (variationId != null) {
-            context.getAttributes().remove(ProgramConstants.VARIATION_ID);
             final Data variationMap = getDataProperty(ProgramConstants.VARIATIONS);
             if (variationMap != null) {
                 int row = 0;

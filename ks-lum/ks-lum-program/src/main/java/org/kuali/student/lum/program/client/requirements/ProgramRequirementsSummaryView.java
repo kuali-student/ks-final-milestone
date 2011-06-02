@@ -124,12 +124,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
+    	//Added blocking progress indicator while requirements are loaded.
+    	final BlockingTask ruleBlockingTask = new BlockingTask("Retrieving requirements");
+    	KSBlockingProgressIndicator.addTask(ruleBlockingTask);
         rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 if (result) {
                     displayRules();
                 }
+                KSBlockingProgressIndicator.removeTask(ruleBlockingTask);
                 onReadyCallback.exec(result);
             }
         });
@@ -187,6 +191,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void displayRules() {
+
         remove(layout);
         layout.clear();
 
