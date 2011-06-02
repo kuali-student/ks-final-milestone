@@ -17,6 +17,14 @@
 	display: table-cell;
 }
 
+@if user.agent ie6 ie7 {  
+	.KS-Horizontal-Data-Cell{
+		/*This is an IE hack for inline block format*/
+		zoom: 1; /*activates HasFormat*/
+		display: inline;
+	}
+}
+
 .KS-Horizontal-Block-Flow{
 	/*Firefox and others*/
 	display: inline-block;
