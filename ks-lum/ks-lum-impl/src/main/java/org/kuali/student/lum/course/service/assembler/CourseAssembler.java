@@ -31,6 +31,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -210,27 +211,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			try {
 				// Use the luService to find Joints, then convert and add to the
 				// course
-				List<CluCluRelationInfo> cluClus = luService
-						.getCluCluRelationsByClu(clu.getId());
+				List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(clu.getId());
 				
 				for (CluCluRelationInfo cluRel : cluClus) {
-					if (cluRel.getType().equals(
-							CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
-						CourseJointInfo jointInfo = courseJointAssembler
-								.assemble(cluRel, null, false);
+					if (cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
+						CourseJointInfo jointInfo = null;
+						if(cluRel.getCluId().equals(clu.getId()))
+							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
+						else
+							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
 						course.getJoints().add(jointInfo);
-//					This code might work for joint issue, but it would cause problems with states
-//						//Swap the ids if this relation was created by the other clu. might need to ignore drafts (and not delete the ignored drafts)
-//						if(cluRel.getRelatedCluId().equals(clu.getId())){
-//							String swapedId = cluRel.getCluId();
-//							cluRel.setCluId(cluRel.getRelatedCluId());
-//							cluRel.setRelatedCluId(swapedId);
-//						}
-//						CourseJointInfo jointInfo = courseJointAssembler
-//								.assemble(cluRel, null, false);
-//						if(jointInfo != null){
-//							course.getJoints().add(jointInfo);
-//						}
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1119,12 +1109,20 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> jointRelationships = luService
-						.getCluCluRelationsByClu(course.getId());
+				List<CluCluRelationInfo> jointRelationships = luService.getCluCluRelationsByClu(course.getId());
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
-					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
-							.equals(jointRelation.getType())) {
-						currentJointIds.put(jointRelation.getId(),jointRelation);
+					if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getType())) {
+						if(jointRelation.getCluId().equals(course.getId())) {
+							CluInfo clu = luService.getClu(jointRelation.getRelatedCluId());
+							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
+								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
+								currentJointIds.put(jointRelation.getId(),jointRelation);
+						} else {						
+							CluInfo clu = luService.getClu(jointRelation.getCluId());
+							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
+								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
+								currentJointIds.put(jointRelation.getId(),jointRelation);							
+						}	
 					}
 				}
 			} catch (DoesNotExistException e) {
